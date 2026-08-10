@@ -258,7 +258,8 @@ namespace Forma
                 if (EffectiveUIFont != null)
                 {
                     var title = GetTabTitle(i);
-                    context.Text(EffectiveUIFont, title, new Vector2(textX, rect.Y + Math.Max(2, (rect.Height - TextMetrics.LineHeight(EffectiveUIFont)) / 2)), state.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
+                    var layout = TextMetrics.Layout(EffectiveUIFont, title);
+                    context.Text(layout, new Vector2(textX, GetTabTitleY(layout, rect)), state.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
                 }
                 if (state.ButtonIcon != null) context.SpriteBatch.Draw(state.ButtonIcon, GetTabButtonRectangle(i), Color.White);
             }
@@ -269,6 +270,20 @@ namespace Forma
                 var menu = GetThemeIcon(hovered ? "menu_highlight" : "menu");
                 if (menu.HasValue) context.Icon(menu.Value, new Vector2(button.Center.X - menu.Value.LogicalSize.X / 2, button.Center.Y - menu.Value.LogicalSize.Y / 2), Color.White);
             }
+        }
+        internal static float GetTabTitleY(TextLayout layout, Rectangle header)
+        {
+            if (layout == null) throw new ArgumentNullException(nameof(layout));
+            if (layout.VisibleGlyphs.Count == 0)
+                return header.Y + Math.Max(2, (header.Height - layout.Size.Y) / 2);
+            var top = float.MaxValue;
+            var bottom = float.MinValue;
+            foreach (var glyph in layout.VisibleGlyphs)
+            {
+                top = Math.Min(top, glyph.Bounds.Top);
+                bottom = Math.Max(bottom, glyph.Bounds.Bottom);
+            }
+            return header.Y + header.Height / 2f - (top + bottom) / 2f;
         }
         private TabPageState GetState(int tab)
         {

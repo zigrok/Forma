@@ -4355,6 +4355,19 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void TabContainer_CentersVisibleTitleGlyphsWithinHeader()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var layout = TextMetrics.Layout(new DynamicUIFont(face, 24), "General");
+            var header = new Rectangle(0, 10, 200, 39);
+            var titleY = TabContainer.GetTabTitleY(layout, header);
+            var visibleTop = layout.VisibleGlyphs.Min(glyph => glyph.Bounds.Top) + titleY;
+            var visibleBottom = layout.VisibleGlyphs.Max(glyph => glyph.Bounds.Bottom) + titleY;
+
+            Assert.That(visibleTop - header.Top, Is.EqualTo(header.Bottom - visibleBottom).Within(.001f));
+        }
+
+        [Test]
         public void TabContainer_PreservesChildNamesAsTabTitles()
         {
             var tabs = new TabContainer();

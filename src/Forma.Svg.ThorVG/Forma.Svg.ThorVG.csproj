@@ -19,11 +19,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+                      AdditionalProperties="FormaRuntime=$(FormaRuntime);MonoGameProjectPath=$(MonoGameProjectPath)"
+                      Condition="'$(FormaRuntime)' == 'MonoGame'" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+                      AdditionalProperties="FormaRuntime=$(FormaRuntime);FnaProjectPath=$(FnaProjectPath)"
+                      Condition="'$(FormaRuntime)' == 'FNA'" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(FormaThorvgStaticLink)' != 'true' and Exists('$(ThorvgNativeRoot)/osx-arm64/output/libforma_thorvg.dylib')">
+  <ItemGroup Condition="'$(FormaThorvgStaticLink)' != 'true' and $([MSBuild]::IsOSPlatform('OSX')) and ('$(RuntimeIdentifier)' == '' or '$(RuntimeIdentifier)' == 'osx-arm64') and Exists('$(ThorvgNativeRoot)/osx-arm64/output/libforma_thorvg.dylib')">
     <None Include="$(ThorvgNativeRoot)/osx-arm64/output/libforma_thorvg.dylib"
           Link="libforma_thorvg.dylib"
           CopyToOutputDirectory="PreserveNewest"
@@ -31,7 +36,7 @@
           PackagePath="runtimes/osx-arm64/native/" />
   </ItemGroup>
 
-          <ItemGroup Condition="'$(FormaThorvgStaticLink)' != 'true' and Exists('$(ThorvgNativeRoot)/linux-x64/output/libforma_thorvg.so')">
+          <ItemGroup Condition="'$(FormaThorvgStaticLink)' != 'true' and $([MSBuild]::IsOSPlatform('Linux')) and ('$(RuntimeIdentifier)' == '' or '$(RuntimeIdentifier)' == 'linux-x64') and Exists('$(ThorvgNativeRoot)/linux-x64/output/libforma_thorvg.so')">
             <None Include="$(ThorvgNativeRoot)/linux-x64/output/libforma_thorvg.so"
             Link="libforma_thorvg.so"
             CopyToOutputDirectory="PreserveNewest"
