@@ -1188,7 +1188,7 @@ namespace Forma
         }
     }
 
-    internal static class TextMetrics
+    public static class TextMetrics
     {
         private static readonly TextLayoutEngine LayoutEngine = new TextLayoutEngine();
 

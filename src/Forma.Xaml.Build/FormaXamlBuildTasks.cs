@@ -1945,6 +1945,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
         {
             "Microsoft.Xna.Framework.Color" => "ParseColor",
             "Microsoft.Xna.Framework.Vector2" => "ParseVector2",
+            "Forma.Brush" => "ParseBrush",
             "Forma.Thickness" => "ParseThickness",
             _ => null,
         };

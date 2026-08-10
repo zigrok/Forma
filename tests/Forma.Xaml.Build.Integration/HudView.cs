@@ -213,7 +213,9 @@ internal static class Program
         if (dynamicTarget?.Value.Name != "Dynamic")
             throw new InvalidOperationException("Compiled dynamic resource did not resolve its initial value.");
         var styleTarget = scope?.Find<ResourceTarget>("StyleTarget");
-        if (styleTarget?.TooltipText != "Styled" || styleTarget.Margins != new Thickness(1, 2, 3, 4) || styleTarget.Value.Name != "Static")
+        if (styleTarget?.TooltipText != "Styled" || styleTarget.Margins != new Thickness(1, 2, 3, 4) ||
+            styleTarget.Background is not SolidColorBrush { Color: var background } || background != new Color(22, 70, 92) ||
+            styleTarget.Value.Name != "Static")
             throw new InvalidOperationException("Compiled selector style did not apply its typed setter.");
         styleTarget.Classes.Remove("styled");
         if (styleTarget.TooltipText != "Underlying" || styleTarget.Margins != new Thickness(0) || styleTarget.Value.Name != "Underlying")
@@ -371,6 +373,7 @@ public sealed class ResourceTarget : Control
         add { _stopRequested += value; StopRequestedSubscriberCount++; }
         remove { _stopRequested -= value; StopRequestedSubscriberCount--; }
     }
+    public Brush? Background { get; set; }
     public ResourceValue Value { get; set; } = new ResourceValue { Name = "Underlying" };
     public void RaiseStopRequested() => _stopRequested?.Invoke(this, EventArgs.Empty);
 }

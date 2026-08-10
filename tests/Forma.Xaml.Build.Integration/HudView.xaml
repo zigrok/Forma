@@ -14,6 +14,7 @@
                 <Setter Property="TooltipText" Value="Styled" />
                 <Setter Property="Margins" Value="1,2,3,4" />
                 <Setter Property="Opacity" Value="0.4" />
+                <Setter Property="Background" Value="#FF16465C" />
                 <Setter Property="Value" Value="{StaticResource StaticValue}" />
                 <Style.Transitions>
                     <FloatTransition

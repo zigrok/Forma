@@ -145,6 +145,7 @@ namespace Forma
 
         public bool AllowReselect { get; set; }
         public bool AllowRightMouseSelect { get; set; }
+        public bool ActivateOnSingleClick { get; set; }
         public bool IsTextSearchEnabled { get; set; } = true;
         public bool WrapNavigation { get; set; } = true;
         public TimeSpan IncrementalSearchTimeout { get; set; } = TimeSpan.FromSeconds(1);
@@ -413,7 +414,7 @@ namespace Forma
         internal override void PointerReleased(Point point, bool isInside)
         {
             var index = GetIndexAtPosition(point);
-            if (isInside && _doubleClickPending && index >= 0 && index == _lastClickIndex) Activate(index);
+            if (isInside && index >= 0 && index == _lastClickIndex && (ActivateOnSingleClick || _doubleClickPending)) Activate(index);
             _doubleClickPending = false;
         }
 

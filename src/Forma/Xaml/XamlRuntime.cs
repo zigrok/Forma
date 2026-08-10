@@ -515,6 +515,7 @@ namespace Forma.Xaml
 
         private static Control FindControlByOrdinal(Control control, int ordinal, ref int current)
         {
+            if (control.IsXamlInfrastructure) return null;
             if (current++ == ordinal) return control;
             foreach (var child in control.Children)
             {

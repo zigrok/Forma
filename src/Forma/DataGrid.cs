@@ -694,6 +694,8 @@ namespace Forma
         {
             _horizontalScrollBar = new HScrollBar { Visible = false, ZIndex = 2 };
             _verticalScrollBar = new VScrollBar { Visible = false, ZIndex = 2 };
+            _horizontalScrollBar.IsXamlInfrastructure = true;
+            _verticalScrollBar.IsXamlInfrastructure = true;
             _horizontalScrollBar.ValueChanged += (_, value) => ScrollOffset = new Vector2(value, ScrollOffset.Y);
             _verticalScrollBar.ValueChanged += (_, value) => ScrollOffset = new Vector2(ScrollOffset.X, value);
             base.AddChild(_horizontalScrollBar);

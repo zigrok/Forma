@@ -90,6 +90,23 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void FindControlByOrdinal_SkipsScrollContainerInfrastructure()
+        {
+            var root = new Container();
+            var scroll = new ScrollContainer();
+            var content = new VBoxContainer();
+            var label = new Label();
+            content.AddChild(label);
+            scroll.AddChild(content);
+            root.AddChild(scroll);
+
+            Assert.That(NameScope.FindControlByOrdinal(root, 0), Is.SameAs(root));
+            Assert.That(NameScope.FindControlByOrdinal(root, 1), Is.SameAs(scroll));
+            Assert.That(NameScope.FindControlByOrdinal(root, 2), Is.SameAs(content));
+            Assert.That(NameScope.FindControlByOrdinal(root, 3), Is.SameAs(label));
+        }
+
+        [Test]
         public void FormaXamlLoader_UsesExplicitTypedRegistration()
         {
             FormaXamlLoader.Register<RegisteredView>(

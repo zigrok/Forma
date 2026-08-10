@@ -124,6 +124,27 @@ namespace Forma
             _state = _state.WithOpacity(_state.Opacity * opacity);
         }
 
+        /// <summary>Measures one unwrapped text run using the same layout engine as retained controls.</summary>
+        public Vector2 MeasureText(UIFont font, string text)
+        {
+            if (font == null) throw new ArgumentNullException(nameof(font));
+            return TextMetrics.Measure(font, text ?? string.Empty);
+        }
+
+        /// <summary>Draws one unwrapped text run through the active retained text backend.</summary>
+        public void DrawText(UIFont font, string text, Vector2 position, Color color)
+        {
+            if (font == null) throw new ArgumentNullException(nameof(font));
+            _renderer.Text(font, text ?? string.Empty, position, color);
+        }
+
+        /// <summary>Draws a bitmap or atlas region into a transformed logical rectangle.</summary>
+        public void DrawImage(Texture2D source, Rectangle? sourceRectangle, Rectangle bounds, Matrix transform, Color tint, ImageSamplingMode samplingMode = ImageSamplingMode.Linear)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            DrawImageCore(source, sourceRectangle, bounds, transform, tint, samplingMode);
+        }
+
         private void Draw(DrawingMesh mesh, Func<Vector2, Color> colorAt)
         {
             if (_state.Clip != null) mesh = DrawingPathClipper.Clip(mesh, _state.Clip);
@@ -156,7 +177,7 @@ namespace Forma
             });
         }
 
-        internal void DrawImage(Texture2D source, Rectangle? sourceRectangle, Rectangle bounds, Matrix transform, Color tint, ImageSamplingMode samplingMode = ImageSamplingMode.Linear)
+        private void DrawImageCore(Texture2D source, Rectangle? sourceRectangle, Rectangle bounds, Matrix transform, Color tint, ImageSamplingMode samplingMode = ImageSamplingMode.Linear)
         {
             if (source == null || bounds.Width <= 0 || bounds.Height <= 0) return;
             var path = new DrawingPath().MoveTo(Vector2.Zero).LineTo(new Vector2(bounds.Width, 0)).LineTo(new Vector2(bounds.Width, bounds.Height)).LineTo(new Vector2(0, bounds.Height)).Close();

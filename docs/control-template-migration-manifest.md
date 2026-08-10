@@ -58,7 +58,7 @@ coverage. `Signal Run all` means HUD, settings, and result XAML plus `GameScreen
 | --- | --- | --- | --- | --- | --- |
 | `Control` | `Control.cs` | Foundation root | Geometry, layout participation, input, resources, classes, inherited values, children | Remains template-free universal root; add visual/inheritance trees and compositing surface. `F` | Catalog auto; base for Signal Run all |
 | `Panel` | `Controls.cs` | Drawing primitive | Bounds fill/border; background and border colors | Compatibility primitive; migrate composition to `Border`. `F` | Catalog auto/custom |
-| `Label` | `Controls.cs` | Drawing primitive | Text/font/color, wrapping, clipping, alignment, bidi/language, padding | Migrate/alias to `TextBlock`; no template. `F` | Catalog shell, animation, binding, dynamic-size, icon, style; Signal Run all |
+| `Label` | `Label.cs` | Drawing primitive | Text/font/color, wrapping, clipping, alignment, bidi/language, padding | Migrate/alias to `TextBlock`; no template. `F` | Catalog shell, animation, binding, dynamic-size, icon, style; Signal Run all |
 | `ColorRect` | `VisualControls.cs` | Drawing primitive | Solid color fill | Compatibility alias over `RectangleShape`/`Border`. `F` | Catalog shell, animation, style |
 | `TextureRect` | `VisualControls.cs` | Drawing primitive | Bitmap source, stretch/tile/flip, tint | Migrate to `Image`; template-free. `F` | Catalog auto/custom |
 | `NinePatchRect` | `VisualControls.cs` | Drawing primitive | Nine-slice margins, edge/center policy, tint | Migrate to `NineSliceImage`; template-free. `F` | Catalog auto/custom |
@@ -86,18 +86,18 @@ No existing concrete public type is a general presenter. `ContentPresenter`, `It
 
 | Type | Source | Template | Behavior/style surface to preserve | Gate | Application ownership |
 | --- | --- | --- | --- | --- | --- |
-| `BaseButton` | `Controls.cs` | `BTN` | Action mode, toggle/group, shortcut, text/icon alignment | `B` | Catalog auto/custom |
-| `Button` | `Controls.cs` | `BTN` | Base button behavior and arbitrary content compatibility | `B` | Catalog shell/stories; Signal Run all |
-| `CheckBox` | `Controls.cs` | `CHECK` | Toggle state and indicator semantics | `B` | Catalog shell, animation, binding; Signal Run settings |
-| `CheckButton` | `Controls.cs` | `CHECK` variant | CheckBox behavior with alternate packaged chrome | `B` | Catalog auto |
+| `BaseButton` | `Buttons.cs` | `BTN` | Action mode, toggle/group, shortcut, text/icon alignment | `B` | Catalog auto/custom |
+| `Button` | `Buttons.cs` | `BTN` | Base button behavior and arbitrary content compatibility | `B` | Catalog shell/stories; Signal Run all |
+| `CheckBox` | `Buttons.cs` | `CHECK` | Toggle state and indicator semantics | `B` | Catalog shell, animation, binding; Signal Run settings |
+| `CheckButton` | `Buttons.cs` | `CHECK` variant | CheckBox behavior with alternate packaged chrome | `B` | Catalog auto |
 | `LinkButton` | `SelectionControls.cs` | `BTN` variant | URI activation and text interaction | `B` | Catalog auto |
 | `TextureButton` | `SelectionControls.cs` | `BTN` variant | State textures and alpha hit testing | `B` | Catalog auto/custom |
 | `ColorPresetButton` | `FoldableControls.cs` | `BTN` swatch | Preset color and swatch activation | `C/B` | Catalog auto/custom |
 | `ColorPickerButton` | `ColorControls.cs` | `BTN` swatch/popup | Color value, popup lifecycle, edit/accept behavior | `C/B` | Catalog shell/auto/custom |
-| `Slider` | `Controls.cs` | `RANGE` | Value, orientation, pointer/key changes, grabber state | `R` | Catalog auto/custom |
-| `HSlider` | `Controls.cs` | `RANGE` horizontal | Slider semantics with fixed orientation | `R` | Catalog binding/dynamic-size; Signal Run settings |
-| `VSlider` | `Controls.cs` | `RANGE` vertical | Slider semantics with fixed orientation | `R` | Catalog auto |
-| `ProgressBar` | `Controls.cs` | `RANGE` progress | Fill ratio, percentage text, range semantics | `R` | Catalog binding/auto/custom |
+| `Slider` | `Slider.cs` | `RANGE` | Value, orientation, pointer/key changes, grabber state | `R` | Catalog auto/custom |
+| `HSlider` | `Slider.cs` | `RANGE` horizontal | Slider semantics with fixed orientation | `R` | Catalog binding/dynamic-size; Signal Run settings |
+| `VSlider` | `Slider.cs` | `RANGE` vertical | Slider semantics with fixed orientation | `R` | Catalog auto |
+| `ProgressBar` | `ProgressBar.cs` | `RANGE` progress | Fill ratio, percentage text, range semantics | `R` | Catalog binding/auto/custom |
 | `TextureProgressBar` | `SelectionControls.cs` | `RANGE` texture | Texture layers, radial/nine-slice geometry | `R` | Catalog auto/custom |
 | `ScrollBar` | `SelectionControls.cs` | `RANGE` scrollbar | Paging, thumb drag, wheel, smooth/drag-node scrolling | `R` | Catalog auto/custom |
 | `HScrollBar` | `SelectionControls.cs` | `RANGE` horizontal scrollbar | ScrollBar semantics with fixed orientation | `R` | Catalog auto |
@@ -105,16 +105,16 @@ No existing concrete public type is a general presenter. `ContentPresenter`, `It
 | `SplitContainer` | `VisualControls.cs` | `SPLIT` | Two-child layout, offset, collapse, drag, RTL | `B/F` | Catalog auto/custom |
 | `HSplitContainer` | `VisualControls.cs` | `SPLIT` horizontal | Split semantics with fixed orientation | `B/F` | Catalog auto |
 | `VSplitContainer` | `VisualControls.cs` | `SPLIT` vertical | Split semantics with fixed orientation | `B/F` | Catalog auto |
-| `LineEdit` | `AdvancedControls.cs` | `EDITOR` line | Editing, selection, IME, clipboard, history, secret text | `E` | Catalog shell/binding/dynamic-size; Signal Run settings |
-| `TextEdit` | `AdvancedControls.cs` | `EDITOR` text | Multiline editing, wrapping, gutters and scrolling | `E` | Catalog auto/custom |
+| `LineEdit` | `LineEdit.cs` | `EDITOR` line | Editing, selection, IME, clipboard, history, secret text | `E` | Catalog shell/binding/dynamic-size; Signal Run settings |
+| `TextEdit` | `TextEdit.cs` | `EDITOR` text | Multiline editing, wrapping, gutters and scrolling | `E` | Catalog auto/custom |
 | `CodeEdit` | `GraphAndCodeControls.cs` | `EDITOR` code | Folding, completion, gutters, minimap, code navigation | `E` | Catalog auto/custom |
-| `SpinBox` | `AdvancedControls.cs` | `EDITOR` numeric | Numeric parsing, prefix/suffix, repeat and drag adjustment | `E/R` | Catalog auto/custom |
-| `OptionButton` | `AdvancedControls.cs` | `CHOICE` popup | Item identity, popup selection, shortcuts, longest-fit | `B/L` | Catalog shell, dynamic-size, icon; custom |
+| `SpinBox` | `SpinBox.cs` | `EDITOR` numeric | Numeric parsing, prefix/suffix, repeat and drag adjustment | `E/R` | Catalog auto/custom |
+| `OptionButton` | `OptionButton.cs` | `CHOICE` popup | Item identity, popup selection, shortcuts, longest-fit | `B/L` | Catalog shell, dynamic-size, icon; custom |
 | `TabBar` | `SelectionControls.cs` | `CHOICE` tabs | Selection, disabled/hidden tabs, overflow, reorder | `B/L` | Catalog auto/custom |
-| `TabContainer` | `AdvancedControls.cs` | `CHOICE` pages | Selected logical page projection and tab policy | `B/L` | Catalog auto/custom |
-| `ScrollContainer` | `AdvancedControls.cs` | `SCROLL` | Viewport policy, wheel/touch/focus-follow, hints, RTL | `R/V` | Catalog shell, icon inventory, custom |
-| `Popup` | `AdvancedControls.cs` | `POPUP` | Modal focus, outside click, Escape, focus restoration | `M` | Catalog auto/custom |
-| `PopupPanel` | `AdvancedControls.cs` | `POPUP` panel | Popup behavior with panel chrome | `M` | Catalog auto |
+| `TabContainer` | `TabContainer.cs` | `CHOICE` pages | Selected logical page projection and tab policy | `B/L` | Catalog auto/custom |
+| `ScrollContainer` | `ScrollContainer.cs` | `SCROLL` | Viewport policy, wheel/touch/focus-follow, hints, RTL | `R/V` | Catalog shell, icon inventory, custom |
+| `Popup` | `Popup.cs` | `POPUP` | Modal focus, outside click, Escape, focus restoration | `M` | Catalog auto/custom |
+| `PopupPanel` | `Popup.cs` | `POPUP` panel | Popup behavior with panel chrome | `M` | Catalog auto |
 | `PopupMenu` | `MenusAndDialogs.cs` | `POPUP` menu | Item state, search, shortcuts, submenus, tooltips | `M/L` | Catalog auto/custom |
 | `MenuButton` | `MenusAndDialogs.cs` | `BTN` menu | Button behavior plus popup menu ownership | `M/B` | Catalog auto/custom |
 | `MenuBar` | `MenusAndDialogs.cs` | `POPUP` menu bar | Sibling switching, shortcuts, horizontal menu layout | `M` | Catalog auto/custom |
@@ -145,8 +145,8 @@ release; implementation types can then become internal.
 
 | Type | Source | Specialized responsibility | Owner/disposition | Gate | Application ownership |
 | --- | --- | --- | --- | --- | --- |
-| `DynamicGlyphAtlasView` | `Controls.cs` | Diagnostic atlas-page rendering | Move behind diagnostics model/package; not general vocabulary | `F` | Catalog auto/custom dynamic-text diagnostics |
-| `SpinBoxLineEdit` | `AdvancedControls.cs` | Route Up/Down while retaining line editing | `SpinBox.PART_Editor`; change `SpinBox.LineEdit` return type to `LineEdit` | `E` | No standalone story; owner custom story |
+| `DynamicGlyphAtlasView` | `DynamicGlyphAtlasView.cs` | Diagnostic atlas-page rendering | Move behind diagnostics model/package; not general vocabulary | `F` | Catalog auto/custom dynamic-text diagnostics |
+| `SpinBoxLineEdit` | `SpinBox.cs` | Route Up/Down while retaining line editing | `SpinBox.PART_Editor`; change `SpinBox.LineEdit` return type to `LineEdit` | `E` | No standalone story; owner custom story |
 | `GraphEditMinimap` | `GraphOverlays.cs` | Graph/minimap transforms, draw, pan/resize | `GraphEdit.PART_Minimap`; replace public `GraphEdit.Minimap` type | `G` | Catalog auto through owner/custom |
 | `GraphEditFilter` | `GraphOverlays.cs` | Consume graph-canvas press/release gestures | Internal input part/interface for `GraphEdit` | `G` | Catalog auto through owner/custom |
 | `SplitContainerDragger` | `GraphOverlays.cs` | Forward split-offset drag | Internal `ISplitDragger` for `SplitContainer` | `B` | Catalog auto through owner/custom |

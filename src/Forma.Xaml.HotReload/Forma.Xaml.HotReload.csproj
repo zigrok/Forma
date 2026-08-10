@@ -14,8 +14,20 @@
     <PackageReference Include="$(FnaPackageId)" Version="$(FnaVersion)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' == ''" />
     <ProjectReference Include="$(MonoGameProjectPath)" Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' != ''" />
     <ProjectReference Include="$(FnaProjectPath)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' != ''" />
-    <ProjectReference Include="../Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
-    <ProjectReference Include="../Forma.Xaml.Compiler/Forma.Xaml.Compiler.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" PrivateAssets="All" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+                      AdditionalProperties="FormaRuntime=$(FormaRuntime);MonoGameProjectPath=$(MonoGameProjectPath)"
+                      Condition="'$(FormaRuntime)' == 'MonoGame'" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+                      AdditionalProperties="FormaRuntime=$(FormaRuntime);FnaProjectPath=$(FnaProjectPath)"
+                      Condition="'$(FormaRuntime)' == 'FNA'" />
+    <ProjectReference Include="../Forma.Xaml.Compiler/Forma.Xaml.Compiler.csproj"
+                      AdditionalProperties="FormaRuntime=$(FormaRuntime);MonoGameProjectPath=$(MonoGameProjectPath)"
+                      Condition="'$(FormaRuntime)' == 'MonoGame'"
+                      PrivateAssets="All" />
+    <ProjectReference Include="../Forma.Xaml.Compiler/Forma.Xaml.Compiler.csproj"
+                      AdditionalProperties="FormaRuntime=$(FormaRuntime);FnaProjectPath=$(FnaProjectPath)"
+                      Condition="'$(FormaRuntime)' == 'FNA'"
+                      PrivateAssets="All" />
     <PackageReference Include="Mono.Cecil" Version="0.11.6" />
   </ItemGroup>
 

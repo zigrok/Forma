@@ -20,7 +20,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+              AdditionalProperties="FormaRuntime=$(FormaRuntime);MonoGameProjectPath=$(MonoGameProjectPath)"
+              Condition="'$(FormaRuntime)' == 'MonoGame'" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+              AdditionalProperties="FormaRuntime=$(FormaRuntime);FnaProjectPath=$(FnaProjectPath)"
+              Condition="'$(FormaRuntime)' == 'FNA'" />
     <Compile Include="../Forma/DynamicFont.cs" Link="DynamicFont.cs" />
     <Compile Include="../Forma/DynamicTextNativeBackend.cs" Link="DynamicTextNativeBackend.cs" />
     <Compile Include="$(FormaDynamicTextBackendSource)" Link="PlatformDynamicTextBackend.cs" Condition="'$(FormaDynamicTextBackend)' == 'External' and '$(FormaDynamicTextBackendSource)' != ''" />

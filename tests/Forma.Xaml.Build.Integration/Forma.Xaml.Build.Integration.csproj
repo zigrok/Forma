@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="$(MonoGamePackageId)" Version="$(MonoGameVersion)" Condition="'$(FormaRuntime)' == 'MonoGame'" />
-    <PackageReference Include="$(FnaPackageId)" Version="$(FnaVersion)" Condition="'$(FormaRuntime)' == 'FNA'" />
+    <PackageReference Include="$(MonoGamePackageId)" Version="$(MonoGameVersion)" Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' == ''" />
+    <PackageReference Include="$(FnaPackageId)" Version="$(FnaVersion)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' == ''" />
+    <ProjectReference Include="$(MonoGameProjectPath)" Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' != ''" />
+    <ProjectReference Include="$(FnaProjectPath)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' != ''" />
     <ProjectReference Include="../../src/Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
     <ProjectReference Include="../../src/Forma.Xaml.Build/Forma.Xaml.Build.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" ReferenceOutputAssembly="false" />
   </ItemGroup>

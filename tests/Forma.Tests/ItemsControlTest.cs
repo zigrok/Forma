@@ -477,6 +477,33 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void ListBox_ActivateOnSingleClickRaisesItemActivatedOnFirstRelease()
+        {
+            var list = new ListBox
+            {
+                Size = new Vector2(100, 100),
+                ItemTemplate = DataTemplate.Create<string>((context, item) => new Control
+                {
+                    CustomMinimumSize = new Vector2(80, 20),
+                }),
+                ItemsSource = new[] { "a", "b" },
+                ActivateOnSingleClick = true,
+            };
+            var activated = new List<int>();
+            list.ItemActivated += (_, args) => activated.Add(args.Index);
+            using var context = new UIContext();
+            context.Add(list);
+            context.Layout();
+            var first = list.GetRealizedContainer(0).VisualBounds.Center;
+
+            list.PointerPressed(first);
+            list.PointerReleased(first, true);
+
+            Assert.That(activated, Is.EqualTo(new[] { 0 }));
+            list.Dispose();
+        }
+
+        [Test]
         public void ListBox_ItemsPanelReplacementUpdatesNestedPresenter()
         {
             var list = new ListBox

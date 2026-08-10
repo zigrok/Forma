@@ -84,6 +84,24 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void PointerHover_ActivatesVisualAncestors()
+        {
+            var context = new UIContext();
+            var parent = new Panel { Size = new Vector2(100, 100) };
+            var child = new Control { Position = new Vector2(10, 10), Size = new Vector2(40, 40) };
+            parent.AddChild(child);
+            context.Add(parent);
+
+            context.Update(Time, Mouse(20, 20), new KeyboardState());
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(child.IsPseudoStateActive("hover"), Is.True);
+                Assert.That(parent.IsPseudoStateActive("hover"), Is.True);
+            });
+        }
+
+        [Test]
         public void UIContext_DisplayScaleMapsPhysicalPointerToLogicalControls()
         {
             var context = new UIContext { DisplayScale = 2f };
@@ -99,6 +117,41 @@ namespace Forma.Tests
             Assert.That(context.PointerPosition, Is.EqualTo(new Point(20, 20)));
             Assert.That(clicks, Is.EqualTo(1));
             Assert.That(context.FocusedControl, Is.SameAs(button));
+        }
+
+        [Test]
+        public void InjectPointerClick_UsesPhysicalPixelsAndActivatesControl()
+        {
+            var context = new UIContext { DisplayScale = 2f };
+            var button = new Button { Position = new Vector2(10, 10), Size = new Vector2(20, 20) };
+            var clicks = 0;
+            button.Pressed += (_, _) => clicks++;
+            context.Add(button);
+
+            context.InjectPointerMove(new Point(40, 40));
+            context.InjectPointerPress(new Point(40, 40));
+            context.InjectPointerRelease(new Point(40, 40));
+
+            Assert.That(context.PointerPosition, Is.EqualTo(new Point(20, 20)));
+            Assert.That(clicks, Is.EqualTo(1));
+            Assert.That(context.FocusedControl, Is.SameAs(button));
+        }
+
+        [Test]
+        public void InjectPointerWheel_RoutesDeltaWithoutChangingPolledWheelBaseline()
+        {
+            var context = new UIContext();
+            var scroll = new ScrollContainer { Size = new Vector2(100, 100) };
+            scroll.AddChild(new Control { CustomMinimumSize = new Vector2(100, 400) });
+            context.Add(scroll);
+            context.Update(Time, Mouse(50, 50, scrollWheel: 100), new KeyboardState());
+
+            Assert.That(context.InjectPointerWheel(new Point(50, 50), -120), Is.True);
+            var afterInjection = scroll.VerticalScroll;
+            context.Update(Time, Mouse(50, 50, scrollWheel: 100), new KeyboardState());
+
+            Assert.That(afterInjection, Is.GreaterThan(0f));
+            Assert.That(scroll.VerticalScroll, Is.EqualTo(afterInjection));
         }
 
         [Test]
@@ -2065,6 +2118,9 @@ namespace Forma.Tests
                 Assert.Throws<ArgumentOutOfRangeException>(() => root.Opacity = 1.01f);
                 Assert.That(typeof(DrawingElement).IsSubclassOf(typeof(Control)), Is.True);
                 Assert.That(typeof(TemplatedControl).IsAssignableFrom(typeof(DrawingElement)), Is.False);
+                Assert.That(typeof(DrawingContext).GetMethod(nameof(DrawingContext.MeasureText)), Is.Not.Null);
+                Assert.That(typeof(DrawingContext).GetMethod(nameof(DrawingContext.DrawText)), Is.Not.Null);
+                Assert.That(typeof(DrawingContext).GetMethod(nameof(DrawingContext.DrawImage)), Is.Not.Null);
             });
 
             root.IsHitTestVisible = false;
@@ -4278,6 +4334,24 @@ namespace Forma.Tests
 
             tabs.SetPopup(new Popup());
             Assert.That(tabs.GetMinimumSize().X, Is.EqualTo(70), "An attached popup button adds its width to the minimum, matching Godot's popup_button branch.");
+        }
+
+        [Test]
+        public void TabContainer_DefaultHeaderHeightFitsActiveFontWithBalancedPadding()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var font = new DynamicUIFont(face, 32);
+            var page = new Control { CustomMinimumSize = new Vector2(120, 60) };
+            var tabs = new TabContainer { UIFont = font, Size = new Vector2(200, 120) };
+            tabs.AddChild(page);
+            var context = new UIContext();
+            context.Add(tabs);
+            context.Layout();
+
+            var expectedHeaderHeight = MathF.Ceiling(Math.Max(28, TextMetrics.LineHeight(font) + 10));
+            Assert.That(tabs.EffectiveTabHeight, Is.EqualTo(expectedHeaderHeight));
+            Assert.That(tabs.GetMinimumSize().Y, Is.EqualTo(expectedHeaderHeight + 60));
+            Assert.That(page.Position.Y, Is.EqualTo(expectedHeaderHeight));
         }
 
         [Test]

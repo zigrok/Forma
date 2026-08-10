@@ -862,6 +862,51 @@ public class FormaXamlCompilerTest
     }
 
     [Test]
+    public void SreEmitter_BindsSiblingAfterDataGridWithoutCountingInfrastructureChildren()
+    {
+        var namespaceName = typeof(CompilerDataGridModel).Namespace;
+        var assemblyName = typeof(CompilerDataGridModel).Assembly.GetName().Name;
+        var source = $$"""
+            <VBoxContainer xmlns="https://forma.dev/xaml"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:local="clr-namespace:{{namespaceName}};assembly={{assemblyName}}"
+                           x:DataType="local:CompilerDataGridModel">
+                <DataGrid ItemsSource="{Binding Rows}" />
+                <HBoxContainer Visible="{Binding ActionsVisible}" />
+            </VBoxContainer>
+            """;
+        var model = new CompilerDataGridModel { ActionsVisible = false };
+
+        var root = (VBoxContainer)FormaXamlCompiler.CreateSre(assemblyName).CompileSre(source, "DataGridSibling.xaml").Build(null);
+        root.DataContext = model;
+
+        Assert.That(root.Children[1], Is.TypeOf<HBoxContainer>());
+        Assert.That(root.Children[1].Visible, Is.False);
+    }
+
+    [Test]
+    public void SreEmitter_UpdatesTemplatedButtonTextAfterConstruction()
+    {
+        const string source = """
+            <Button xmlns="https://forma.dev/xaml"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    Text="Before">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="{Binding Text, RelativeSource=TemplatedParent}" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            """;
+        var button = (Button)FormaXamlCompiler.CreateSre().CompileSre(source, "DynamicButtonText.xaml").Build(null);
+        var text = (TextBlock)button.TemplateRoot;
+
+        button.Text = "After";
+
+        Assert.That(text.Text, Is.EqualTo("After"));
+    }
+
+    [Test]
     public void SreEmitter_CreatesVirtualizingItemsPanelsWithCanonicalProperties()
     {
         const string source = """
@@ -1398,6 +1443,7 @@ public sealed record CompilerDataGridRow(string Name, int Order);
 public sealed class CompilerDataGridModel
 {
     public CompilerDataGridRow[] Rows { get; set; } = Array.Empty<CompilerDataGridRow>();
+    public bool ActionsVisible { get; set; } = true;
 }
 
 public sealed class CompilerDataGridNameColumn : DataGridTextColumn

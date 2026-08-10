@@ -9,8 +9,10 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
     <PackageReference Include="NUnit" Version="4.3.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
-    <PackageReference Include="$(MonoGamePackageId)" Version="$(MonoGameVersion)" Condition="'$(FormaRuntime)' == 'MonoGame'" />
-    <PackageReference Include="$(FnaPackageId)" Version="$(FnaVersion)" Condition="'$(FormaRuntime)' == 'FNA'" />
+    <PackageReference Include="$(MonoGamePackageId)" Version="$(MonoGameVersion)" Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' == ''" />
+    <PackageReference Include="$(FnaPackageId)" Version="$(FnaVersion)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' == ''" />
+    <ProjectReference Include="$(MonoGameProjectPath)" Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' != ''" />
+    <ProjectReference Include="$(FnaProjectPath)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' != ''" />
     <ProjectReference Include="../../src/Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
     <ProjectReference Include="../../src/Forma.Xaml.Compiler/Forma.Xaml.Compiler.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
     <ProjectReference Include="../../src/Forma.Xaml.HotReload/Forma.Xaml.HotReload.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />

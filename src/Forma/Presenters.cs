@@ -570,7 +570,7 @@ namespace Forma
     internal sealed class TabContainerPresenter : Control
     {
         private readonly TabContainer _owner;
-        internal TabContainerPresenter(TabContainer owner) { _owner = owner ?? throw new ArgumentNullException(nameof(owner)); MouseFilter = MouseFilter.Pass; }
+        internal TabContainerPresenter(TabContainer owner) { _owner = owner ?? throw new ArgumentNullException(nameof(owner)); MouseFilter = MouseFilter.Ignore; }
         internal override void Draw(UIRenderContext context) => _owner.DrawTabContainerChrome(context);
     }
 

@@ -259,8 +259,7 @@ namespace Forma
             }
             if (IsInVisualSubtree(root, _hovered))
             {
-                _hovered.PointerExited();
-                _hovered = null;
+                UpdateHoveredTarget(null);
             }
             if (IsInVisualSubtree(root, _tooltipOwner))
             {
@@ -303,6 +302,87 @@ namespace Forma
 
         public void Update(GameTime gameTime) => Update(gameTime, Mouse.GetState(), Keyboard.GetState());
 
+        /// <summary>Moves the pointer using physical back-buffer pixels without changing the polled mouse state.</summary>
+        public void InjectPointerMove(Point physicalPosition)
+        {
+            Layout();
+            var previous = PointerPosition;
+            var point = ToLogicalPointerPosition(physicalPosition);
+            var target = UpdateInjectedPointerTarget(point);
+            if (point == previous) return;
+            var motionTarget = _captured ?? target;
+            if (motionTarget != null)
+            {
+                DispatchPointerMoved(motionTarget, point);
+                RetainedPointerMoved?.Invoke(motionTarget, point, new Vector2(point.X - previous.X, point.Y - previous.Y));
+            }
+            if (_captured != null) UpdateDrag(point);
+        }
+
+        /// <summary>Presses a pointer button at a position expressed in physical back-buffer pixels.</summary>
+        public void InjectPointerPress(Point physicalPosition, PointerButton button = PointerButton.Left)
+        {
+            Layout();
+            var point = ToLogicalPointerPosition(physicalPosition);
+            var modalPopup = GetActiveModalPopup();
+            var target = UpdateInjectedPointerTarget(point, modalPopup);
+            if (button == PointerButton.Left)
+            {
+                if (modalPopup != null && target == null)
+                {
+                    modalPopup.OutsidePointerPressed(point);
+                    return;
+                }
+                if (target != null)
+                {
+                    _captured = target;
+                    _dragStartPosition = point;
+                    DispatchPointerPressed(target, point);
+                    RetainedPointerPressed?.Invoke(target, point);
+                }
+            }
+            DispatchInjectedPointerButton(target, point, button, pressed: true);
+        }
+
+        /// <summary>Releases a pointer button at a position expressed in physical back-buffer pixels.</summary>
+        public void InjectPointerRelease(Point physicalPosition, PointerButton button = PointerButton.Left)
+        {
+            Layout();
+            var point = ToLogicalPointerPosition(physicalPosition);
+            var target = UpdateInjectedPointerTarget(point);
+            DispatchInjectedPointerButton(target, point, button, pressed: false);
+            if (button != PointerButton.Left || _captured == null) return;
+            var capture = _captured;
+            _captured = null;
+            var dropped = false;
+            if (_dragSource != null)
+            {
+                var dropTarget = GetDropTarget(point);
+                if (dropTarget != null)
+                {
+                    dropTarget.DropData(point, _dragData);
+                    dropped = true;
+                }
+                _dragSource.NotifyDragEnded(dropped);
+                _dragSource = null;
+                _dragData = null;
+            }
+            DispatchPointerReleased(capture, point);
+            RetainedPointerReleased?.Invoke(capture, point);
+        }
+
+        /// <summary>Routes a wheel delta at a position expressed in physical back-buffer pixels.</summary>
+        public bool InjectPointerWheel(Point physicalPosition, int delta, Control fallbackTarget = null)
+        {
+            if (delta == 0) return false;
+            Layout();
+            var point = ToLogicalPointerPosition(physicalPosition);
+            var target = UpdateInjectedPointerTarget(point);
+            if (DispatchPointerWheel(target, delta)) return true;
+            return fallbackTarget != null && fallbackTarget.Context == this && fallbackTarget.IsRendered
+                && DispatchPointerWheel(fallbackTarget, delta);
+        }
+
         /// <summary>Updates the tree from supplied states; this overload makes UI input deterministic in tests.</summary>
         public void Update(GameTime gameTime, MouseState mouse, KeyboardState keyboard)
         {
@@ -327,12 +407,7 @@ namespace Forma
             PointerPosition = point;
             var modalPopup = GetActiveModalPopup();
             var target = modalPopup == null ? HitTest(point) : HitTest(modalPopup, point);
-            if (target != _hovered)
-            {
-                _hovered?.PointerExited();
-                _hovered = target;
-                _hovered?.PointerEntered();
-            }
+            UpdateHoveredTarget(target);
             UpdateTooltip(target, point, gameTime.ElapsedGameTime);
 
             var pressed = mouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released;
@@ -397,6 +472,68 @@ namespace Forma
             foreach (var root in new List<Control>(_roots)) if (root.IsRendered) root.Process(gameTime);
             _previousMouse = mouse;
             _previousKeyboard = keyboard;
+        }
+
+        private Point ToLogicalPointerPosition(Point physicalPosition) => Math.Abs(DisplayScale - 1f) <= .0001f
+            ? physicalPosition
+            : new Point(
+                (int)MathF.Round(physicalPosition.X / DisplayScale),
+                (int)MathF.Round(physicalPosition.Y / DisplayScale));
+
+        private Control UpdateInjectedPointerTarget(Point point, Popup modalPopup = null)
+        {
+            PointerPosition = point;
+            modalPopup ??= GetActiveModalPopup();
+            var target = modalPopup == null ? HitTest(point) : HitTest(modalPopup, point);
+            UpdateHoveredTarget(target);
+            return target;
+        }
+
+        private void UpdateHoveredTarget(Control target)
+        {
+            if (ReferenceEquals(target, _hovered)) return;
+
+            var previousChain = VisualAncestorChain(_hovered);
+            var nextChain = VisualAncestorChain(target);
+            var previousIndex = previousChain.Count - 1;
+            var nextIndex = nextChain.Count - 1;
+            while (previousIndex >= 0 && nextIndex >= 0 && ReferenceEquals(previousChain[previousIndex], nextChain[nextIndex]))
+            {
+                previousIndex--;
+                nextIndex--;
+            }
+
+            for (var index = 0; index <= previousIndex; index++)
+                previousChain[index].PointerExited();
+            for (var index = nextIndex; index >= 0; index--)
+                nextChain[index].PointerEntered();
+            _hovered = target;
+        }
+
+        private static List<Control> VisualAncestorChain(Control control)
+        {
+            var chain = new List<Control>();
+            for (var current = control; current != null; current = current.VisualParent)
+                chain.Add(current);
+            return chain;
+        }
+
+        private static void DispatchInjectedPointerButton(Control target, Point point, PointerButton button, bool pressed)
+        {
+            if (target == null) return;
+            for (var control = target; control != null; control = control.VisualParent)
+            {
+                if (pressed) control.PointerButtonPressed(point, button);
+                else control.PointerButtonReleased(point, button);
+                if (control.ConsumeEventAccepted() || control.MouseFilter != MouseFilter.Pass) break;
+            }
+        }
+
+        private static bool DispatchPointerWheel(Control target, int delta)
+        {
+            for (var control = target; control != null; control = control.VisualParent)
+                if (control.PointerWheel(delta)) return true;
+            return false;
         }
 
         public void Layout()

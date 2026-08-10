@@ -129,6 +129,7 @@ namespace Forma
             public Control Parent { get; private set; }
         public Control VisualParent { get; private set; }
         internal Control InheritanceParent { get; private set; }
+        internal bool IsXamlInfrastructure { get; set; }
         public ReadOnlyCollection<Control> Children => _readOnlyChildren;
         public UIContext Context { get; private set; }
         public ResourceDictionary Resources { get; } = new ResourceDictionary();
