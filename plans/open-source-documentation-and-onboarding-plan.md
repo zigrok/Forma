@@ -198,12 +198,12 @@ documentation requirements.
 
 - [ ] Phase 0: Audience, NuGet Publication Contract, and Documentation Inventory
 - [x] Phase 1: README and Documentation Front Door
-- [ ] Phase 2: Tested MonoGame and FNA Quick Starts
+- [x] Phase 2: Tested MonoGame and FNA Quick Starts
 - [x] Phase 3: Core Conceptual Guides
 - [x] Phase 4: Control and API Reference
 - [x] Phase 5: Focused Example Gallery and Catalog Cross-Links
 - [x] Phase 6: Contributor and Community Health
-- [ ] Phase 7: Documentation Site, Versioning, and CI Quality Gates
+- [x] Phase 7: Documentation Site, Versioning, and CI Quality Gates
 
 Check a phase only after every task and exit criterion in that phase is complete.
 
@@ -232,10 +232,10 @@ validation criteria.
   and the shortest supported path to trying it.
 - [x] Every supported installation snippet references packages or source projects that are actually
   available and validated from an empty package cache or clean checkout.
-- [ ] Every package in the initial public manifest, including both ThorVG peers, is owned by the
+- [x] Every package in the initial public manifest, including both ThorVG peers, is owned by the
   Zigrok NuGet.org organization, published at the same version, indexed, and restorable without an
   authenticated package source.
-- [ ] Public publication uses a protected GitHub environment and NuGet.org trusted publishing; no
+- [x] Public publication uses a protected GitHub environment and NuGet.org trusted publishing; no
   long-lived registry credential is stored in the repository or GitHub Actions secrets.
 - [x] The layout guide explains `Size`, `Width`, `Height`, `CustomMinimumSize`,
   `CustomMaximumSize`, size flags, parent-container ownership, margin, padding, content alignment,
@@ -255,7 +255,7 @@ validation criteria.
   logs, visual evidence, test coverage, and compatibility impact where relevant.
 - [x] CI rejects broken internal links, uncompilable documented code, failed quick-start builds,
   missing required reference metadata, and unclassified documentation drift.
-- [ ] Documentation is versioned with releases so users can distinguish the default branch from the
+- [x] Documentation is versioned with releases so users can distinguish the default branch from the
   latest stable or preview package contract.
 
 ## Non-Goals
@@ -419,7 +419,7 @@ Each curated control entry should include:
 - [x] Create the Zigrok NuGet.org organization with the project owner as its sole administrator for the current
   single-maintainer project, and record account recovery and future ownership-transfer procedures
   without committing credentials.
-- [ ] Recheck every initial package ID immediately before publication and record the result in the
+- [x] Recheck every initial package ID immediately before publication and record the result in the
   release evidence.
 - [x] Finalize the fourteen-package initial public manifest, including both ThorVG and XAML
   hot-reload peers, while rejecting the two unused SVG compatibility package IDs.
@@ -451,11 +451,11 @@ Each curated control entry should include:
 ### Exit Criteria
 
 - [x] The audience and content inventory is committed and has no unowned documentation page.
-- [ ] The sole-administrator recovery procedure, NuGet.org organization, trusted-publishing policy,
+- [x] The sole-administrator recovery procedure, NuGet.org organization, trusted-publishing policy,
   and tag-restricted protected environment are active and tested without a long-lived API key.
-- [ ] One tagged workflow run publishes the exact manifest at one version, including both ThorVG
+- [x] One tagged workflow run publishes the exact manifest at one version, including both ThorVG
   and both XAML hot-reload peers, and attaches the same validated artifacts to its GitHub release.
-- [ ] Every published package restores from NuGet.org in a clean consumer without authentication;
+- [x] Every published package restores from NuGet.org in a clean consumer without authentication;
   ThorVG consumers receive only supported RID assets and no Skia dependency.
 - [x] The installation route used by quick starts is executable from a clean environment.
 - [x] The documentation toolchain decision records alternatives, tradeoffs, and maintenance cost.
@@ -505,7 +505,7 @@ Each curated control entry should include:
 - [x] Both C# quick starts build and execute from the documented commands on supported CI hosts.
 - [x] Both XAML quick starts compile in Debug and Release, and Release output excludes development
   compiler/hot-reload artifacts according to existing XAML gates.
-- [ ] Package-based instructions restore from an empty cache when public packages become canonical.
+- [x] Package-based instructions restore from an empty cache when public packages become canonical.
 
 ## Phase 3: Core Conceptual Guides
 
@@ -638,7 +638,7 @@ Each curated control entry should include:
 - [x] Generate inventory values from authoritative manifests where exact counts are intentionally
   displayed.
 - [x] Add a control-story-reference completeness check.
-- [ ] Publish stable documentation through GitHub Pages, keep default-branch previews visibly
+- [x] Publish stable documentation through GitHub Pages, keep default-branch previews visibly
   separate, and generate immutable release paths plus a version manifest for supported package lines.
 - [x] Add redirects and link-stability rules before publishing public URLs.
 - [x] Include documentation changes in release checklists and release-note review.
@@ -648,8 +648,8 @@ Each curated control entry should include:
 - [x] The documentation site builds deterministically from a clean checkout.
 - [x] CI fails on broken internal links, missing pages, failed snippets, failed quick starts, or
   incomplete control mappings.
-- [ ] Published pages visibly identify their Forma version and support maturity.
-- [ ] API source links resolve to the release commit in `zigrok/Forma`, and GitHub Pages versioned
+- [x] Published pages visibly identify their Forma version and support maturity.
+- [x] API source links resolve to the release commit in `zigrok/Forma`, and GitHub Pages versioned
   navigation resolves correctly for a release tag and the default development preview.
 
 ## Validation Matrix
