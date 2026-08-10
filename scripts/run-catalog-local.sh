@@ -57,7 +57,7 @@ esac
   -p:FormaRuntime="$runtime" \
   -p:"$framework_property=$local_framework_project" \
   -p:UseAppHost=true \
-  "${dotnet_arguments[@]}" \
+  "${dotnet_arguments[@]+"${dotnet_arguments[@]}"}" \
   --nologo
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
@@ -66,16 +66,16 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
       --configuration "$configuration" \
       -p:FormaRuntime="$runtime" \
       -p:"$framework_property=$local_framework_project" \
-      "${dotnet_arguments[@]}" \
+      "${dotnet_arguments[@]+"${dotnet_arguments[@]}"}" \
       --no-build
   fi
   exec "$dotnet_command" run --project "$project" \
     --configuration "$configuration" \
     -p:FormaRuntime="$runtime" \
     -p:"$framework_property=$local_framework_project" \
-    "${dotnet_arguments[@]}" \
+    "${dotnet_arguments[@]+"${dotnet_arguments[@]}"}" \
     --no-build \
-    -- "${catalog_arguments[@]}"
+    -- "${catalog_arguments[@]+"${catalog_arguments[@]}"}"
 fi
 
 output_directory="$(dirname "$project")/bin/$runtime/$configuration/net10.0"

@@ -21,6 +21,7 @@
     <ProjectReference Include="../../src/Forma.Media/Forma.Media.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" />
     <ProjectReference Include="../../src/Forma.Xaml.Build/Forma.Xaml.Build.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" ReferenceOutputAssembly="false" />
     <ProjectReference Include="../../src/Forma.Xaml.HotReload/Forma.Xaml.HotReload.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" Condition="'$(FormaXamlHotReload)' == 'true'" />
+    <!-- HotReload hides the compiler (PrivateAssets=All); reference it directly so FormaDiagnostic is available to the Debug hot-reload path. -->
     <ProjectReference Include="../../src/Forma.Xaml.Compiler/Forma.Xaml.Compiler.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" PrivateAssets="All" Condition="'$(FormaXamlHotReload)' == 'true'" />
     <AssemblyMetadata Include="FormaCatalogBackend" Value="$(CatalogBackend)" />
     <AssemblyMetadata Include="FormaCatalogXamlRoot" Value="$(MSBuildProjectDirectory)" Condition="'$(FormaXamlHotReload)' == 'true'" />
