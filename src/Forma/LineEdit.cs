@@ -73,8 +73,9 @@ namespace Forma
                     if (_undoStack.Count > UndoStackMaxSize) _undoStack.RemoveAt(0);
                     _redoStack.Clear();
                 }
+                var isInitialPopulation = MoveCaretToEndOnInitialTextAssignment && _text.Length == 0 && CaretColumn == 0 && _selectionAnchor < 0;
                 _text = value;
-                CaretColumn = Math.Min(CaretColumn, _text.Length);
+                CaretColumn = isInitialPopulation ? _text.Length : Math.Min(CaretColumn, _text.Length);
                 if (_selectionAnchor >= 0) _selectionAnchor = Math.Min(_selectionAnchor, _text.Length);
                 TextChanged?.Invoke(this, _text);
             }
@@ -85,6 +86,8 @@ namespace Forma
             base.OnTemplateApplied();
         }
         public string PlaceholderText { get; set; } = string.Empty;
+        /// <summary>Gets whether the first programmatic text assignment moves the caret to the end.</summary>
+        protected virtual bool MoveCaretToEndOnInitialTextAssignment => true;
         public string SecretCharacter { get; set; } = string.Empty;
         public bool Editable { get; set; } = true;
         private int _maxLength;

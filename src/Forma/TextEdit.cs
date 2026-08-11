@@ -15,6 +15,8 @@ namespace Forma
     /// <summary>Edits multiline text with wrapping, multiple carets, gutters, syntax highlighting, and undo history.</summary>
     public class TextEdit : LineEdit
     {
+        /// <summary>Gets whether the first programmatic text assignment moves the caret to the end.</summary>
+        protected override bool MoveCaretToEndOnInitialTextAssignment => false;
         private readonly List<string> _undoStack = new List<string>();
         private readonly List<string> _redoStack = new List<string>();
         private readonly List<uint> _undoVersions = new List<uint>();
