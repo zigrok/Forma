@@ -27,6 +27,11 @@ namespace Forma
                 {
                     new TemplatePartMetadata(ContentControl.ContentPresenterPartName, typeof(ContentPresenter), false),
                 });
+                registry.Register<GroupBox>((_, owner) => new GroupBoxPresenter(owner), new[]
+                {
+                    new TemplatePartMetadata(GroupBox.HeaderPresenterPartName, typeof(Label), false),
+                    new TemplatePartMetadata(ContentControl.ContentPresenterPartName, typeof(ContentPresenter), false),
+                });
                 registry.Register<BaseButton>((_, owner) => new BaseButtonPresenter(owner), new[]
                 {
                     new TemplatePartMetadata(ContentControl.ContentPresenterPartName, typeof(ContentPresenter), false),

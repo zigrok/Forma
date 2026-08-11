@@ -1,0 +1,13 @@
+<GroupBox
+    xmlns="https://forma.dev/xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Name="GroupBox"
+    TooltipText="Forma.GroupBox"
+    CustomMinimumSize="560,240"
+    Title="Key bindings">
+    <VBoxContainer Separation="12">
+        <Label Text="Turn left                                      A" />
+        <Label Text="Turn right                                    D" />
+        <Label Text="Accelerate                                   W" />
+    </VBoxContainer>
+</GroupBox>
