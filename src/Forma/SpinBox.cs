@@ -12,6 +12,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Forma
 {
+    /// <summary>Places a spin box's decrement and increment arrows either stacked at the right edge or at opposite horizontal ends.</summary>
+    public enum SpinBoxArrowLayout
+    {
+        /// <summary>Stacks decrement and increment arrows at the right edge.</summary>
+        Vertical,
+        /// <summary>Places decrement at the left edge and increment at the right edge.</summary>
+        Horizontal,
+    }
+
     /// <summary>Editable numeric field owned by a <see cref="SpinBox"/>.</summary>
     public sealed class SpinBoxLineEdit : LineEdit
     {
@@ -45,8 +54,10 @@ namespace Forma
         private double _heldArrowElapsed;
         private bool _heldArrowRepeating;
         private bool _heldArrowActive;
+        private SpinBoxArrowLayout _arrowLayout;
         private const double ArrowRepeatDelaySeconds = 0.6;
         private const double ArrowRepeatIntervalSeconds = 0.075;
+        private const int ArrowButtonSize = 16;
         public SpinBox()
         {
             FocusMode = FocusMode.All;
@@ -62,6 +73,18 @@ namespace Forma
         public bool UpdateOnTextChanged { get => _updateOnTextChanged; set => _updateOnTextChanged = value; }
         public float CustomArrowStep { get; set; }
         public bool CustomArrowRound { get; set; }
+        /// <summary>Gets or sets the arrow arrangement. The default is <see cref="SpinBoxArrowLayout.Vertical"/>.</summary>
+        public SpinBoxArrowLayout ArrowLayout
+        {
+            get => _arrowLayout;
+            set
+            {
+                if (!Enum.IsDefined(typeof(SpinBoxArrowLayout), value)) throw new ArgumentOutOfRangeException(nameof(value));
+                if (_arrowLayout == value) return;
+                _arrowLayout = value;
+                QueueLayout();
+            }
+        }
         public bool IsDraggingValue => _dragging;
         public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); LineEdit.Font = value; QueueLayout(); } }
         public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); LineEdit.UIFont = value; QueueLayout(); } }
@@ -83,6 +106,10 @@ namespace Forma
         public float GetCustomArrowStep() => CustomArrowStep;
         public void SetCustomArrowRound(bool round) => CustomArrowRound = round;
         public bool IsCustomArrowRounding() => CustomArrowRound;
+        /// <summary>Sets the arrow arrangement.</summary>
+        public void SetArrowLayout(SpinBoxArrowLayout layout) => ArrowLayout = layout;
+        /// <summary>Gets the arrow arrangement.</summary>
+        public SpinBoxArrowLayout GetArrowLayout() => ArrowLayout;
         public void Apply() => CommitText();
         public LineEdit GetLineEdit() => LineEdit;
         public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, new Vector2(72, 24));
@@ -96,11 +123,12 @@ namespace Forma
             _dragBaseValue = Value;
             _dragDiffY = 0;
             if (!IsEditable()) return;
-            StepArrow(point.Y < Bounds.Center.Y);
+            if (!TryGetArrowButton(point, out var increment)) return;
+            StepArrow(increment);
             _heldArrowPoint = point;
             _heldArrowElapsed = 0;
             _heldArrowRepeating = false;
-            _heldArrowActive = IsPointOnArrowButton(point);
+            _heldArrowActive = true;
         }
         internal override void PointerMoved(Point point)
         {
@@ -141,18 +169,23 @@ namespace Forma
         internal void DrawSpinBoxChrome(UIRenderContext context)
         {
             context.Fill(Bounds, context.Theme.BackgroundColor); context.Border(Bounds, context.Theme.PanelBorderColor);
-            context.Fill(new Rectangle(Bounds.Right - 16, Bounds.Top, 16, Math.Max(1, Bounds.Height / 2)), context.Theme.HoverColor);
-            context.Fill(new Rectangle(Bounds.Right - 16, Bounds.Center.Y, 16, Math.Max(1, Bounds.Height - Bounds.Height / 2)), context.Theme.HoverColor);
+            GetArrowButtonRectangles(out var decrement, out var increment);
+            context.Fill(decrement, context.Theme.HoverColor);
+            context.Fill(increment, context.Theme.HoverColor);
             DrawArrow(context, true);
             DrawArrow(context, false);
         }
         private void DrawArrow(UIRenderContext context, bool up)
         {
             var suffix = !Enabled || !IsEditable() ? "_disabled" : _heldArrowActive && TryGetArrowButton(_heldArrowPoint, out var heldUp) && heldUp == up ? "_pressed" : string.Empty;
-            var icon = GetThemeIcon((up ? "up" : "down") + suffix);
+            var iconName = ArrowLayout == SpinBoxArrowLayout.Horizontal
+                ? up ? "right" : "left"
+                : up ? "up" : "down";
+            var icon = GetThemeIcon(iconName + suffix);
             if (!icon.HasValue) return;
-            var half = up ? new Rectangle(Bounds.Right - 16, Bounds.Top, 16, Math.Max(1, Bounds.Height / 2)) : new Rectangle(Bounds.Right - 16, Bounds.Center.Y, 16, Math.Max(1, Bounds.Height - Bounds.Height / 2));
-            context.Icon(icon.Value, new Vector2(half.Center.X - icon.Value.LogicalSize.X / 2, half.Center.Y - icon.Value.LogicalSize.Y / 2), Color.White);
+            GetArrowButtonRectangles(out var decrement, out var increment);
+            var button = up ? increment : decrement;
+            context.Icon(icon.Value, new Vector2(button.Center.X - icon.Value.LogicalSize.X / 2, button.Center.Y - icon.Value.LogicalSize.Y / 2), Color.White);
         }
         internal void StepArrow(bool up)
         {
@@ -188,11 +221,22 @@ namespace Forma
         private bool IsPointOnArrowButton(Point point) => TryGetArrowButton(point, out _);
         private bool TryGetArrowButton(Point point, out bool up)
         {
-            up = point.Y < Bounds.Center.Y;
+            GetArrowButtonRectangles(out var decrement, out var increment);
+            up = increment.Contains(point);
             if (Bounds.Width <= 0 || Bounds.Height <= 0) return false;
-            if (point.X < Bounds.Right - 16 || point.X >= Bounds.Right) return false;
-            if (point.Y < Bounds.Top || point.Y >= Bounds.Bottom) return false;
-            return true;
+            return up || decrement.Contains(point);
+        }
+        internal void GetArrowButtonRectangles(out Rectangle decrement, out Rectangle increment)
+        {
+            if (ArrowLayout == SpinBoxArrowLayout.Horizontal)
+            {
+                decrement = new Rectangle(Bounds.Left, Bounds.Top, Math.Min(ArrowButtonSize, Bounds.Width), Bounds.Height);
+                increment = new Rectangle(Math.Max(Bounds.Left, Bounds.Right - ArrowButtonSize), Bounds.Top, Math.Min(ArrowButtonSize, Bounds.Width), Bounds.Height);
+                return;
+            }
+
+            decrement = new Rectangle(Bounds.Right - ArrowButtonSize, Bounds.Center.Y, ArrowButtonSize, Math.Max(1, Bounds.Height - Bounds.Height / 2));
+            increment = new Rectangle(Bounds.Right - ArrowButtonSize, Bounds.Top, ArrowButtonSize, Math.Max(1, Bounds.Height / 2));
         }
         private void CommitText(bool onlyIfValid = false)
         {

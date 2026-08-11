@@ -1346,8 +1346,9 @@ namespace Forma
 
         protected override void ArrangeChildren()
         {
-            _editorPresenter.Position = Vector2.Zero;
-            _editorPresenter.Size = new Vector2(Math.Max(0, Size.X - 16), Size.Y);
+            var horizontal = _owner.ArrowLayout == SpinBoxArrowLayout.Horizontal;
+            _editorPresenter.Position = horizontal ? new Vector2(16, 0) : Vector2.Zero;
+            _editorPresenter.Size = new Vector2(Math.Max(0, Size.X - (horizontal ? 32 : 16)), Size.Y);
         }
 
         internal override void Draw(UIRenderContext context)

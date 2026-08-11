@@ -4,6 +4,7 @@
     x:Name="SpinBox"
     TooltipText="Forma.SpinBox"
     CustomMinimumSize="300,64"
+    ArrowLayout="Horizontal"
     MinValue="8"
     MaxValue="96"
     Value="24"

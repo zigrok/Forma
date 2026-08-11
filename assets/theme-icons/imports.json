@@ -26,7 +26,11 @@
         "FileDialog:back",
         "Tree:arrow_collapsed_mirrored",
         "FoldableContainer:folded_arrow_mirrored",
-        "HScrollBar:decrement"
+        "HScrollBar:decrement",
+        "SpinBox:left",
+        "SpinBox:left_hover",
+        "SpinBox:left_pressed",
+        "SpinBox:left_disabled"
       ],
       "States": [
         "collapsed"
@@ -44,7 +48,11 @@
         "FileDialog:forward",
         "Tree:arrow_collapsed",
         "FoldableContainer:folded_arrow",
-        "HScrollBar:increment"
+        "HScrollBar:increment",
+        "SpinBox:right",
+        "SpinBox:right_hover",
+        "SpinBox:right_pressed",
+        "SpinBox:right_disabled"
       ],
       "States": [
         "collapsed",

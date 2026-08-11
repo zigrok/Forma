@@ -21,7 +21,9 @@ normally use their owning controls.
 
 `LineEdit` starts empty, is keyboard-focusable, and has `6,4,6,4` padding. Host text-input forwarding
 is required for composed/IME text; do not convert key codes to characters. `SpinBox` normally commits
-edited text on submission because `UpdateOnTextChanged` defaults to `false`.
+edited text on submission because `UpdateOnTextChanged` defaults to `false`. Its `ArrowLayout`
+defaults to `Vertical`, with stacked arrows on the right. Set `ArrowLayout="Horizontal"` in XAML
+for a full-height decrement button on the left and increment button on the right around the editor.
 
 Text editors expose a text-box accessibility role, current value, selection/edit actions, and a
 read-only state when editing is disabled. `SpinBox` exposes the spin-button role and range actions.
