@@ -318,7 +318,9 @@ namespace Forma
         public float GetCustomStep() => CustomStep;
         public void SetSmoothScrollEnabled(bool enabled) => SmoothScrollEnabled = enabled;
         public bool IsSmoothScrollEnabled() => SmoothScrollEnabled;
+        /// <summary>Shows or hides the scrollbar's decrement and increment buttons.</summary>
         public void SetShowStepButtons(bool visible) => ShowStepButtons = visible;
+        /// <summary>Gets whether the scrollbar shows decrement and increment buttons.</summary>
         public bool IsShowingStepButtons() => ShowStepButtons;
         public void SetDragNode(string path)
         {

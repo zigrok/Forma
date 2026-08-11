@@ -1188,10 +1188,12 @@ namespace Forma
         }
     }
 
+    /// <summary>Measures and lays out text through Forma's unified font abstraction.</summary>
     public static class TextMetrics
     {
         private static readonly TextLayoutEngine LayoutEngine = new TextLayoutEngine();
 
+        /// <summary>Creates a text layout for the specified font, text, and shaping options.</summary>
         public static TextLayout Layout(UIFont font, string text, TextLayoutOptions options = default)
         {
             if (font == null) throw new ArgumentNullException(nameof(font));
@@ -1199,6 +1201,7 @@ namespace Forma
             return LayoutEngine.Layout(font, text, options);
         }
 
+        /// <summary>Measures text using the specified UI font.</summary>
         public static Vector2 Measure(UIFont font, string text)
         {
             if (font == null) throw new ArgumentNullException(nameof(font));
@@ -1207,12 +1210,14 @@ namespace Forma
             return LayoutEngine.Layout(font, text).Size;
         }
 
+        /// <summary>Gets the rounded-up line height for the specified UI font.</summary>
         public static int LineHeight(UIFont font)
         {
             if (font == null) throw new ArgumentNullException(nameof(font));
             return Math.Max(1, (int)MathF.Ceiling(LayoutEngine.Layout(font, "Mg").Size.Y));
         }
 
+        /// <summary>Returns the font resized to a positive size, or the original font when no resize is needed.</summary>
         public static UIFont Resize(UIFont font, float size)
         {
             if (font == null) throw new ArgumentNullException(nameof(font));
@@ -1220,6 +1225,7 @@ namespace Forma
             return font.Resize(size);
         }
 
+        /// <summary>Measures text using a MonoGame sprite font at the specified positive scale.</summary>
         public static Vector2 Measure(SpriteFont font, string text, float scale = 1f)
         {
             if (font == null) throw new ArgumentNullException(nameof(font));

@@ -145,6 +145,7 @@ namespace Forma
 
         public bool AllowReselect { get; set; }
         public bool AllowRightMouseSelect { get; set; }
+        /// <summary>Gets or sets whether one pointer click selects and activates an item.</summary>
         public bool ActivateOnSingleClick { get; set; }
         public bool IsTextSearchEnabled { get; set; } = true;
         public bool WrapNavigation { get; set; } = true;

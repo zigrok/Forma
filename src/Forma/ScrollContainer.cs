@@ -113,7 +113,9 @@ namespace Forma
         /// which Godot always computes from the scrollbar's page instead (see PointerWheel).</summary>
         public float HorizontalCustomStep { get => _horizontalScrollBar.CustomStep; set => _horizontalScrollBar.CustomStep = value; }
         public float VerticalCustomStep { get => _verticalScrollBar.CustomStep; set => _verticalScrollBar.CustomStep = value; }
+        /// <summary>Gets or sets whether the horizontal scrollbar shows its decrement and increment buttons.</summary>
         public bool ShowHorizontalStepButtons { get => _horizontalScrollBar.ShowStepButtons; set => _horizontalScrollBar.ShowStepButtons = value; }
+        /// <summary>Gets or sets whether the vertical scrollbar shows its decrement and increment buttons.</summary>
         public bool ShowVerticalStepButtons { get => _verticalScrollBar.ShowStepButtons; set => _verticalScrollBar.ShowStepButtons = value; }
         /// <summary>Scrolls the focused descendant into view as focus changes, matching Godot's follow_focus property.</summary>
         public bool FollowFocus { get; set; }
@@ -160,9 +162,13 @@ namespace Forma
         public float GetHorizontalCustomStep() => HorizontalCustomStep;
         public void SetVerticalCustomStep(float value) => VerticalCustomStep = value;
         public float GetVerticalCustomStep() => VerticalCustomStep;
+        /// <summary>Shows or hides the horizontal scrollbar's decrement and increment buttons.</summary>
         public void SetShowHorizontalStepButtons(bool visible) => ShowHorizontalStepButtons = visible;
+        /// <summary>Gets whether the horizontal scrollbar shows decrement and increment buttons.</summary>
         public bool IsShowingHorizontalStepButtons() => ShowHorizontalStepButtons;
+        /// <summary>Shows or hides the vertical scrollbar's decrement and increment buttons.</summary>
         public void SetShowVerticalStepButtons(bool visible) => ShowVerticalStepButtons = visible;
+        /// <summary>Gets whether the vertical scrollbar shows decrement and increment buttons.</summary>
         public bool IsShowingVerticalStepButtons() => ShowVerticalStepButtons;
         public void SetHorizontalScrollMode(ScrollBarVisibility mode) { HorizontalScrollMode = mode; }
         public ScrollBarVisibility GetHorizontalScrollMode() => HorizontalScrollMode;
