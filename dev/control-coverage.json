@@ -2,9 +2,9 @@
   "PublicTypes": 498,
   "DocumentedTypes": 211,
   "TypeCoveragePercent": 42.369477911646584,
-  "PublicMembers": 5363,
-  "DocumentedMembers": 664,
-  "MemberCoveragePercent": 12.381129964572068,
+  "PublicMembers": 5364,
+  "DocumentedMembers": 665,
+  "MemberCoveragePercent": 12.397464578672633,
   "MinimumTypeCoveragePercent": 27.65,
   "MinimumMemberCoveragePercent": 11.57,
   "Controls": [

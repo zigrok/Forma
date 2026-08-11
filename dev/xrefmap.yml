@@ -12539,6 +12539,18 @@ references:
   commentId: Overload:Forma.DrawingContext.Clip
   fullName: Forma.DrawingContext.Clip
   nameWithType: DrawingContext.Clip
+- uid: Forma.DrawingContext.DrawIcon(Forma.ThemeIcon,Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Color)
+  name: DrawIcon(ThemeIcon, Rectangle, Color)
+  href: api/Forma.DrawingContext.html#Forma_DrawingContext_DrawIcon_Forma_ThemeIcon_Microsoft_Xna_Framework_Rectangle_Microsoft_Xna_Framework_Color_
+  commentId: M:Forma.DrawingContext.DrawIcon(Forma.ThemeIcon,Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Color)
+  fullName: Forma.DrawingContext.DrawIcon(Forma.ThemeIcon, Microsoft.Xna.Framework.Rectangle, Microsoft.Xna.Framework.Color)
+  nameWithType: DrawingContext.DrawIcon(ThemeIcon, Rectangle, Color)
+- uid: Forma.DrawingContext.DrawIcon*
+  name: DrawIcon
+  href: api/Forma.DrawingContext.html#Forma_DrawingContext_DrawIcon_
+  commentId: Overload:Forma.DrawingContext.DrawIcon
+  fullName: Forma.DrawingContext.DrawIcon
+  nameWithType: DrawingContext.DrawIcon
 - uid: Forma.DrawingContext.DrawImage(Microsoft.Xna.Framework.Graphics.Texture2D,System.Nullable{Microsoft.Xna.Framework.Rectangle},Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Matrix,Microsoft.Xna.Framework.Color,Forma.ImageSamplingMode)
   name: DrawImage(Texture2D, Rectangle?, Rectangle, Matrix, Color, ImageSamplingMode)
   href: api/Forma.DrawingContext.html#Forma_DrawingContext_DrawImage_Microsoft_Xna_Framework_Graphics_Texture2D_System_Nullable_Microsoft_Xna_Framework_Rectangle__Microsoft_Xna_Framework_Rectangle_Microsoft_Xna_Framework_Matrix_Microsoft_Xna_Framework_Color_Forma_ImageSamplingMode_
