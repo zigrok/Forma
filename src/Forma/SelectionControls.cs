@@ -265,6 +265,7 @@ namespace Forma
         private float _dragRatioAtClick;
         private float _targetScroll;
         private bool _smoothScrolling;
+        private bool _showStepButtons = true;
         private string _dragNodePath = string.Empty;
         private Control _dragNode;
         private bool _dragNodeTouching;
@@ -286,6 +287,20 @@ namespace Forma
         public float CustomStep { get; set; } = -1;
         public bool SmoothScrollEnabled { get; set; }
         public bool DragNodeEnabled { get; set; } = true;
+        /// <summary>Shows the decrement and increment buttons. Hiding them reclaims their track space.</summary>
+        public bool ShowStepButtons
+        {
+            get => _showStepButtons;
+            set
+            {
+                if (_showStepButtons == value) return;
+                _showStepButtons = value;
+                _decrementActive = false;
+                _incrementActive = false;
+                _highlight = HighlightRegion.None;
+                QueueLayout();
+            }
+        }
         public bool IsDraggingGrabber => _dragging;
         internal bool IsDecrementActive => _decrementActive;
         internal bool IsIncrementActive => _incrementActive;
@@ -303,6 +318,8 @@ namespace Forma
         public float GetCustomStep() => CustomStep;
         public void SetSmoothScrollEnabled(bool enabled) => SmoothScrollEnabled = enabled;
         public bool IsSmoothScrollEnabled() => SmoothScrollEnabled;
+        public void SetShowStepButtons(bool visible) => ShowStepButtons = visible;
+        public bool IsShowingStepButtons() => ShowStepButtons;
         public void SetDragNode(string path)
         {
             _dragNodePath = path ?? string.Empty;
@@ -397,7 +414,11 @@ namespace Forma
             }
             _dragNode = control;
         }
-        public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, Orientation == Orientation.Horizontal ? new Vector2(32, 14) : new Vector2(14, 32));
+        public override Vector2 GetMinimumSize()
+        {
+            var mainAxis = ShowStepButtons ? 32 : MinimumGrabberSize;
+            return Vector2.Max(CustomMinimumSize, Orientation == Orientation.Horizontal ? new Vector2(mainAxis, 14) : new Vector2(14, mainAxis));
+        }
         public Rectangle GetDecrementButtonRectangle()
         {
             var button = GetButtonSize();
@@ -641,6 +662,7 @@ namespace Forma
         private float GetWheelScrollBase() => Page != 0 ? Page / PageDivisor : (MaxValue - MinValue) / FallbackPageDivisor;
         private int GetButtonSize()
         {
+            if (!ShowStepButtons) return 0;
             var cross = Orientation == Orientation.Horizontal ? Bounds.Height : Bounds.Width;
             return Math.Max(0, Math.Min(14, Math.Max(0, cross)));
         }

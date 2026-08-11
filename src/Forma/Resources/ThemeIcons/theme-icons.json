@@ -36,7 +36,8 @@
       "Bindings": [
         "CodeEdit:can_fold",
         "Tree:arrow",
-        "FoldableContainer:expanded_arrow"
+        "FoldableContainer:expanded_arrow",
+        "VScrollBar:increment"
       ],
       "States": [
         "expanded"
@@ -57,7 +58,8 @@
       "Bindings": [
         "FileDialog:back",
         "Tree:arrow_collapsed_mirrored",
-        "FoldableContainer:folded_arrow_mirrored"
+        "FoldableContainer:folded_arrow_mirrored",
+        "HScrollBar:decrement"
       ],
       "States": [
         "collapsed"
@@ -80,7 +82,8 @@
         "CodeEdit:folded",
         "FileDialog:forward",
         "Tree:arrow_collapsed",
-        "FoldableContainer:folded_arrow"
+        "FoldableContainer:folded_arrow",
+        "HScrollBar:increment"
       ],
       "States": [
         "collapsed",
@@ -101,7 +104,8 @@
       "SourceSha256": "2de93bbfbc65100e8ae93631af65cd88481d61cdbe9e497f2beb919e1891648d",
       "Bindings": [
         "FileDialog:up",
-        "FoldableContainer:expanded_arrow_mirrored"
+        "FoldableContainer:expanded_arrow_mirrored",
+        "VScrollBar:decrement"
       ],
       "States": [
         "expanded"
@@ -1599,7 +1603,8 @@
       "Bindings": [
         "CodeEdit:can_fold",
         "Tree:arrow",
-        "FoldableContainer:expanded_arrow"
+        "FoldableContainer:expanded_arrow",
+        "VScrollBar:increment"
       ],
       "States": [
         "expanded"
@@ -1620,7 +1625,8 @@
       "Bindings": [
         "FileDialog:back",
         "Tree:arrow_collapsed_mirrored",
-        "FoldableContainer:folded_arrow_mirrored"
+        "FoldableContainer:folded_arrow_mirrored",
+        "HScrollBar:decrement"
       ],
       "States": [
         "collapsed"
@@ -1643,7 +1649,8 @@
         "CodeEdit:folded",
         "FileDialog:forward",
         "Tree:arrow_collapsed",
-        "FoldableContainer:folded_arrow"
+        "FoldableContainer:folded_arrow",
+        "HScrollBar:increment"
       ],
       "States": [
         "collapsed",
@@ -1664,7 +1671,8 @@
       "SourceSha256": "2de93bbfbc65100e8ae93631af65cd88481d61cdbe9e497f2beb919e1891648d",
       "Bindings": [
         "FileDialog:up",
-        "FoldableContainer:expanded_arrow_mirrored"
+        "FoldableContainer:expanded_arrow_mirrored",
+        "VScrollBar:decrement"
       ],
       "States": [
         "expanded"

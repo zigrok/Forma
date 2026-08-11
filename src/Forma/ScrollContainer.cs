@@ -113,6 +113,8 @@ namespace Forma
         /// which Godot always computes from the scrollbar's page instead (see PointerWheel).</summary>
         public float HorizontalCustomStep { get => _horizontalScrollBar.CustomStep; set => _horizontalScrollBar.CustomStep = value; }
         public float VerticalCustomStep { get => _verticalScrollBar.CustomStep; set => _verticalScrollBar.CustomStep = value; }
+        public bool ShowHorizontalStepButtons { get => _horizontalScrollBar.ShowStepButtons; set => _horizontalScrollBar.ShowStepButtons = value; }
+        public bool ShowVerticalStepButtons { get => _verticalScrollBar.ShowStepButtons; set => _verticalScrollBar.ShowStepButtons = value; }
         /// <summary>Scrolls the focused descendant into view as focus changes, matching Godot's follow_focus property.</summary>
         public bool FollowFocus { get; set; }
         /// <summary>Scrolls while a retained drag hovers near an edge, matching Godot's scroll_on_drag_hover property.</summary>
@@ -158,6 +160,10 @@ namespace Forma
         public float GetHorizontalCustomStep() => HorizontalCustomStep;
         public void SetVerticalCustomStep(float value) => VerticalCustomStep = value;
         public float GetVerticalCustomStep() => VerticalCustomStep;
+        public void SetShowHorizontalStepButtons(bool visible) => ShowHorizontalStepButtons = visible;
+        public bool IsShowingHorizontalStepButtons() => ShowHorizontalStepButtons;
+        public void SetShowVerticalStepButtons(bool visible) => ShowVerticalStepButtons = visible;
+        public bool IsShowingVerticalStepButtons() => ShowVerticalStepButtons;
         public void SetHorizontalScrollMode(ScrollBarVisibility mode) { HorizontalScrollMode = mode; }
         public ScrollBarVisibility GetHorizontalScrollMode() => HorizontalScrollMode;
         public void SetVerticalScrollMode(ScrollBarVisibility mode) { VerticalScrollMode = mode; }
@@ -405,7 +411,7 @@ namespace Forma
                 if (focused != _followedFocus)
                 {
                     _followedFocus = focused;
-                    if (focused != null && focused != this && ContainsDescendant(focused))
+                    if (focused != null && focused != this && ContainsDescendant(focused) && !IsScrollBar(focused))
                     {
                         EnsureNestedFocusFollowers(focused);
                         EnsureControlVisible(focused);

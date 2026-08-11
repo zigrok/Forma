@@ -779,10 +779,18 @@ namespace Forma
             var increment = _owner.GetIncrementButtonRectangle();
             context.Fill(ToGlobal(decrement), _owner.IsDecrementActive ? context.Theme.AccentColor : _owner.IsDecrementHighlighted ? context.Theme.HoverColor : context.Theme.PanelColor);
             context.Fill(ToGlobal(increment), _owner.IsIncrementActive ? context.Theme.AccentColor : _owner.IsIncrementHighlighted ? context.Theme.HoverColor : context.Theme.PanelColor);
+            DrawStepButtonIcon(context, "decrement", decrement);
+            DrawStepButtonIcon(context, "increment", increment);
             var grabber = ToGlobal(_owner.GetGrabberRectangle());
             context.Fill(grabber, _owner.IsDraggingGrabber ? context.Theme.AccentColor : _owner.IsRangeHighlighted ? context.Theme.HoverColor : context.Theme.PanelBorderColor);
             context.Border(grabber, context.Theme.FocusColor);
             base.Draw(context);
+        }
+
+        private void DrawStepButtonIcon(UIRenderContext context, string itemName, Rectangle rectangle)
+        {
+            var icon = _owner.GetThemeIcon(itemName);
+            if (icon.HasValue) context.Icon(icon.Value, ToGlobal(rectangle), Color.White);
         }
 
         private Rectangle ToGlobal(Rectangle local) =>
