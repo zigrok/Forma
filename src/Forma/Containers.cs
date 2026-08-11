@@ -64,7 +64,7 @@ namespace Forma
         }
         public override Vector2 GetMinimumSize()
         {
-            var size = CustomMinimumSize;
+            var size = Vector2.Zero;
             var count = 0;
             foreach (var child in VisualChildren)
             {
@@ -79,7 +79,7 @@ namespace Forma
                 var gap = float.IsNaN(Separation) ? Context?.Theme.Separation ?? 4 : Separation;
                 if (Orientation == Orientation.Horizontal) size.X += gap * (count - 1); else size.Y += gap * (count - 1);
             }
-            return size;
+            return Vector2.Max(CustomMinimumSize, size);
         }
         protected override void ArrangeChildren()
         {

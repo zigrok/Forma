@@ -183,23 +183,25 @@ namespace Forma
         }
         public override Vector2 GetMinimumSize()
         {
-            var result = base.GetMinimumSize();
+            var result = GetButtonMinimumSizeWithoutCustomMinimum();
             var arrow = GetThemeIcon("arrow");
             if (arrow.HasValue)
             {
                 result.X += arrow.Value.LogicalSize.X + IconSeparation;
                 result.Y = Math.Max(result.Y, arrow.Value.LogicalSize.Y + Padding.Vertical);
             }
-            if (!FitToLongestItem || EffectiveUIFont == null) return result;
-            foreach (var item in _items)
+            if (FitToLongestItem && EffectiveUIFont != null)
             {
-                if (item.Separator) continue;
-                // Matches Godot's _refresh_size_cache measuring get_minimum_size_for_text_and_icon per
-                // item, folding in each item's own icon width, not just the currently-selected item's.
-                var iconWidth = item.Icon != null ? item.Icon.Width + IconSeparation : 0;
-                result.X = Math.Max(result.X, TextMetrics.Measure(EffectiveUIFont, item.Text).X + iconWidth + Padding.Horizontal);
+                foreach (var item in _items)
+                {
+                    if (item.Separator) continue;
+                    // Matches Godot's _refresh_size_cache measuring get_minimum_size_for_text_and_icon per
+                    // item, folding in each item's own icon width, not just the currently-selected item's.
+                    var iconWidth = item.Icon != null ? item.Icon.Width + IconSeparation : 0;
+                    result.X = Math.Max(result.X, TextMetrics.Measure(EffectiveUIFont, item.Text).X + iconWidth + Padding.Horizontal);
+                }
             }
-            return result;
+            return Vector2.Max(CustomMinimumSize, result);
         }
         private int AddItemCore(string text, Texture2D icon, int id, bool separator)
         {

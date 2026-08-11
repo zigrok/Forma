@@ -136,7 +136,8 @@ namespace Forma
         /// <summary>Matches Godot's BaseButton::is_pressed: the toggled state for a toggle button, or whether the pointer/key is currently held down otherwise.</summary>
         public bool IsPressed() => ToggleMode ? ButtonPressed : IsPressing;
         public bool IsHovered() => IsHovering;
-        public override Vector2 GetMinimumSize()
+        /// <summary>Calculates the button's content and template minimum size before applying <see cref="Control.CustomMinimumSize"/>.</summary>
+        protected Vector2 GetButtonMinimumSizeWithoutCustomMinimum()
         {
             var text = EffectiveUIFont == null ? Vector2.Zero : TextMetrics.Measure(EffectiveUIFont, Text ?? string.Empty);
             var decorativeIcon = Icon == null ? DecorativeIconProvider?.Invoke() : null;
@@ -147,8 +148,9 @@ namespace Forma
                 text.Y = VerticalIconAlignment == VerticalAlignment.Center ? Math.Max(text.Y, icon.Y) : text.Y + icon.Y;
                 text.X = IconAlignment == HorizontalAlignment.Center ? Math.Max(text.X, icon.X) : text.X + icon.X + (text.X > 0 ? IconSeparation : 0);
             }
-            return Vector2.Max(base.GetMinimumSize(), Vector2.Max(CustomMinimumSize, text + new Vector2(Padding.Horizontal, Padding.Vertical)));
+            return Vector2.Max(TemplateRoot?.GetMinimumSize() ?? Vector2.Zero, text + new Vector2(Padding.Horizontal, Padding.Vertical));
         }
+        public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, GetButtonMinimumSizeWithoutCustomMinimum());
         /// <summary>Calculates local text placement independent of a font renderer.</summary>
         public Vector2 GetTextPosition(Vector2 textSize)
         {
