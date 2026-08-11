@@ -129,6 +129,7 @@ namespace Forma
     {
         public override AccessibilityRole AccessibilityRole => AccessibilityRole.Menu;
         public const string ItemsPartName = "PART_Items";
+        private const float DefaultItemVerticalPadding = 8;
         private readonly UIFontSelection _fontSelection = new UIFontSelection();
         private readonly List<PopupMenuItem> _items = new List<PopupMenuItem>();
         private int _highlighted = -1;
@@ -160,6 +161,11 @@ namespace Forma
         public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public float ItemHeight { get; set; } = 24;
+        internal float EffectiveItemHeight => MathF.Ceiling(Math.Max(
+            ItemHeight,
+            EffectiveUIFont == null
+                ? ItemHeight
+                : TextMetrics.LineHeight(EffectiveUIFont) + DefaultItemVerticalPadding));
         public TimeSpan SubmenuPopupDelay { get; set; } = TimeSpan.FromMilliseconds(200);
         public bool HideOnItemSelection { get; set; } = true;
         public bool HideOnCheckableItemSelection { get; set; } = true;
@@ -527,7 +533,7 @@ namespace Forma
         {
             if (index < 0 || index >= _items.Count) throw new ArgumentOutOfRangeException(nameof(index));
             var itemTop = ItemContentTop(index);
-            var itemHeight = (int)(_items[index].Separator ? 7 : ItemHeight);
+            var itemHeight = (int)(_items[index].Separator ? 7 : EffectiveItemHeight);
             var relativeTop = itemTop - _scrollOffset;
             if (relativeTop < 0) SetScrollOffset(itemTop);
             else if (relativeTop + itemHeight > VisibleItemsHeight) SetScrollOffset(itemTop + itemHeight - VisibleItemsHeight);
@@ -558,7 +564,7 @@ namespace Forma
                 foreach (var item in _items)
                 {
                     if (!item.Visible) continue;
-                    height += item.Separator ? 7 : ItemHeight;
+                    height += item.Separator ? 7 : EffectiveItemHeight;
                 }
                 return height + 2;
             }
@@ -619,7 +625,7 @@ namespace Forma
         internal bool HandleItemsWheel(int delta)
         {
             if (delta == 0 || MaxScrollOffset <= 0) return false;
-            SetScrollOffset(_scrollOffset - Math.Sign(delta) * Math.Max(1, (int)ItemHeight * 3));
+            SetScrollOffset(_scrollOffset - Math.Sign(delta) * Math.Max(1, (int)EffectiveItemHeight * 3));
             return true;
         }
         protected override void ArrangeChildren()
@@ -732,7 +738,7 @@ namespace Forma
             for (var index = 0; index < _items.Count; index++)
             {
                 if (!_items[index].Visible) continue;
-                var height = _items[index].Separator ? 7 : ItemHeight;
+                var height = _items[index].Separator ? 7 : EffectiveItemHeight;
                 if (y >= 0 && y < height) return _items[index].Separator ? -1 : index;
                 y -= (int)height;
             }
@@ -881,7 +887,7 @@ namespace Forma
             for (var i = 0; i < index && i < _items.Count; i++)
             {
                 if (!_items[i].Visible) continue;
-                y += (int)(_items[i].Separator ? 7 : ItemHeight);
+                y += (int)(_items[i].Separator ? 7 : EffectiveItemHeight);
             }
             return y;
         }
@@ -891,7 +897,7 @@ namespace Forma
             {
                 var height = 0;
                 foreach (var item in _items)
-                    if (item.Visible) height += (int)(item.Separator ? 7 : ItemHeight);
+                    if (item.Visible) height += (int)(item.Separator ? 7 : EffectiveItemHeight);
                 return height;
             }
         }
@@ -909,6 +915,19 @@ namespace Forma
             }
         }
         private float SearchBarContentHeight => SearchBarHeight + SearchBarSeparation;
+        internal static float GetItemStateIconY(TextLayout textLayout, float textY, Rectangle row, float iconHeight)
+        {
+            if (textLayout == null) throw new ArgumentNullException(nameof(textLayout));
+            if (textLayout.VisibleGlyphs.Count == 0) return row.Center.Y - iconHeight / 2;
+            var top = float.MaxValue;
+            var bottom = float.MinValue;
+            foreach (var glyph in textLayout.VisibleGlyphs)
+            {
+                top = Math.Min(top, glyph.Bounds.Top);
+                bottom = Math.Max(bottom, glyph.Bounds.Bottom);
+            }
+            return textY + (top + bottom - iconHeight) / 2;
+        }
         private void ApplySearchFilter()
         {
             ApplySearchFilterForQuery(IsSearchBarVisible ? _searchBarText : string.Empty);
@@ -1028,6 +1047,7 @@ namespace Forma
                 y += (int)SearchBarContentHeight;
             }
             y -= _scrollOffset;
+            var itemHeight = EffectiveItemHeight;
             var itemsBounds = new Rectangle(Bounds.X + 1, Bounds.Y + 1 + (IsSearchBarVisible ? (int)SearchBarContentHeight : 0), Math.Max(0, Bounds.Width - 2), VisibleItemsHeight);
             context.PushClip(itemsBounds);
             try
@@ -1042,41 +1062,51 @@ namespace Forma
                         y += 7;
                         continue;
                     }
-                    var rect = new Rectangle(Bounds.X + 1, y, Math.Max(0, Bounds.Width - 2), (int)ItemHeight);
+                    var rect = new Rectangle(Bounds.X + 1, y, Math.Max(0, Bounds.Width - 2), (int)itemHeight);
+                    var itemTextLayout = EffectiveUIFont == null || string.IsNullOrEmpty(item.Text)
+                        ? null
+                        : TextMetrics.Layout(EffectiveUIFont, item.Text);
+                    var itemTextY = EffectiveUIFont == null ? rect.Y : rect.Y + Math.Max(2, (itemHeight - TextMetrics.LineHeight(EffectiveUIFont)) / 2);
                     if (index == _highlighted) context.Fill(rect, context.Theme.HoverColor);
                     if (item.CheckableType != PopupMenuCheckableType.None)
                     {
                         var state = item.Indeterminate ? "indeterminate" : item.CheckableType == PopupMenuCheckableType.Radio ? (item.Checked ? "radio_checked" : "radio_unchecked") : item.Checked ? "checked" : "unchecked";
                         if (item.Disabled) state += "_disabled";
                         var stateIcon = GetThemeIcon(state);
-                        if (stateIcon.HasValue) context.Icon(stateIcon.Value, new Vector2(rect.X + 4, rect.Center.Y - stateIcon.Value.LogicalSize.Y / 2), Color.White);
+                        if (stateIcon.HasValue)
+                        {
+                            var iconY = itemTextLayout == null
+                                ? rect.Center.Y - stateIcon.Value.LogicalSize.Y / 2
+                                : GetItemStateIconY(itemTextLayout, itemTextY, rect, stateIcon.Value.LogicalSize.Y);
+                            context.Icon(stateIcon.Value, new Vector2(rect.X + 4, iconY), Color.White);
+                        }
                     }
                     var contentX = rect.X + 22 + item.Indent * 16;
                     if (item.Icon != null)
                     {
                         var iconWidth = item.IconMaxWidth > 0 ? Math.Min(item.Icon.Width, item.IconMaxWidth) : item.Icon.Width;
                         var iconHeight = item.Icon.Height;
-                        var maxHeight = Math.Max(1, (int)ItemHeight - 4);
+                        var maxHeight = Math.Max(1, (int)itemHeight - 4);
                         var scale = Math.Min(1f, Math.Min(iconWidth / (float)Math.Max(1, item.Icon.Width), maxHeight / (float)Math.Max(1, item.Icon.Height)));
                         iconWidth = Math.Max(1, (int)MathF.Round(item.Icon.Width * scale));
                         iconHeight = Math.Max(1, (int)MathF.Round(item.Icon.Height * scale));
-                        var iconRect = new Rectangle(contentX, rect.Y + Math.Max(0, ((int)ItemHeight - iconHeight) / 2), iconWidth, iconHeight);
+                        var iconRect = new Rectangle(contentX, rect.Y + Math.Max(0, ((int)itemHeight - iconHeight) / 2), iconWidth, iconHeight);
                         context.SpriteBatch.Draw(item.Icon, iconRect, item.Disabled ? context.Theme.DisabledTextColor : item.IconModulate);
                         contentX = iconRect.Right + 4;
                     }
-                    if (EffectiveUIFont != null) context.Text(EffectiveUIFont, item.Text, new Vector2(contentX, rect.Y + Math.Max(2, (ItemHeight - TextMetrics.LineHeight(EffectiveUIFont)) / 2)), item.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
+                    if (itemTextLayout != null) context.Text(itemTextLayout, new Vector2(contentX, itemTextY), item.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
                     var shortcutText = item.Accelerator?.DisplayText ?? item.Shortcut?.DisplayText ?? (item.MaxStates > 0 ? $"{item.State}/{item.MaxStates - 1}" : string.Empty);
                     if (EffectiveUIFont != null && !string.IsNullOrEmpty(shortcutText))
                     {
                         var textSize = TextMetrics.Measure(EffectiveUIFont, shortcutText);
-                        context.Text(EffectiveUIFont, shortcutText, new Vector2(rect.Right - 18 - textSize.X, rect.Y + Math.Max(2, (ItemHeight - TextMetrics.LineHeight(EffectiveUIFont)) / 2)), item.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
+                        context.Text(EffectiveUIFont, shortcutText, new Vector2(rect.Right - 18 - textSize.X, rect.Y + Math.Max(2, (itemHeight - TextMetrics.LineHeight(EffectiveUIFont)) / 2)), item.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
                     }
                     if (item.Kind == PopupMenuItemKind.Submenu)
                     {
                         var submenu = GetThemeIcon(IsLayoutRtl() ? "submenu_mirrored" : "submenu");
                         if (submenu.HasValue) context.Icon(submenu.Value, new Vector2(rect.Right - 4 - submenu.Value.LogicalSize.X, rect.Center.Y - submenu.Value.LogicalSize.Y / 2), item.Disabled ? context.Theme.DisabledTextColor : Color.White);
                     }
-                    y += (int)ItemHeight;
+                    y += (int)itemHeight;
                 }
             }
             finally
