@@ -137,8 +137,8 @@ namespace Forma
         private readonly Dictionary<string, StyleBox> _styleBoxes = new Dictionary<string, StyleBox>(StringComparer.Ordinal);
         private readonly Dictionary<string, ThemeIcon?> _icons = new Dictionary<string, ThemeIcon?>(StringComparer.Ordinal);
         private readonly Dictionary<Type, ControlTemplate> _controlTemplates = new Dictionary<Type, ControlTemplate>();
-        private Color? _panelColor, _panelBorderColor, _textColor, _disabledTextColor, _accentColor, _hoverColor, _pressedColor, _focusColor, _backgroundColor, _connectionActivityColor;
-        private float? _separation, _borderWidth;
+        private Color? _panelColor, _panelBorderColor, _textColor, _disabledTextColor, _accentColor, _hoverColor, _pressedColor, _focusColor, _backgroundColor, _connectionActivityColor, _tabSelectedColor, _tabSelectedIndicatorColor;
+        private float? _separation, _borderWidth, _tabSelectedIndicatorHeight, _tabSelectedLift;
         private UIFontFamily _fontFamily;
         private float? _fontSize;
         private IReadOnlyList<UIFontOpenTypeFeature> _fontOpenTypeFeatures;
@@ -164,6 +164,14 @@ namespace Forma
         public Color BackgroundColor { get => _backgroundColor ?? Parent?.BackgroundColor ?? new Color(35, 39, 47); set => SetThemeValue(ref _backgroundColor, value); }
         /// <summary>Godot-style GraphEdit activity tint applied to active connection lines.</summary>
         public Color ConnectionActivityColor { get => _connectionActivityColor ?? Parent?.ConnectionActivityColor ?? new Color(255, 190, 86); set => SetThemeValue(ref _connectionActivityColor, value); }
+        /// <summary>Fill used by the selected tab header. Defaults to <see cref="PressedColor"/>.</summary>
+        public Color TabSelectedColor { get => _tabSelectedColor ?? Parent?.TabSelectedColor ?? PressedColor; set => SetThemeValue(ref _tabSelectedColor, value); }
+        /// <summary>Color of the selected tab's outer-edge indicator. Defaults to <see cref="AccentColor"/>.</summary>
+        public Color TabSelectedIndicatorColor { get => _tabSelectedIndicatorColor ?? Parent?.TabSelectedIndicatorColor ?? AccentColor; set => SetThemeValue(ref _tabSelectedIndicatorColor, value); }
+        /// <summary>Thickness of the selected tab's outer-edge indicator.</summary>
+        public float TabSelectedIndicatorHeight { get => _tabSelectedIndicatorHeight ?? Parent?.TabSelectedIndicatorHeight ?? 3; set => SetNonNegativeThemeValue(ref _tabSelectedIndicatorHeight, value); }
+        /// <summary>Distance the selected tab projects beyond the normal tab strip.</summary>
+        public float TabSelectedLift { get => _tabSelectedLift ?? Parent?.TabSelectedLift ?? 3; set => SetNonNegativeThemeValue(ref _tabSelectedLift, value); }
         public float Separation { get => _separation ?? Parent?.Separation ?? 4; set => SetThemeValue(ref _separation, value); }
         public float BorderWidth { get => _borderWidth ?? Parent?.BorderWidth ?? 1; set => SetThemeValue(ref _borderWidth, value); }
         /// <summary>Inherited default font family used by text controls without a local font override.</summary>
@@ -195,6 +203,13 @@ namespace Forma
         private void SetThemeValue<T>(ref T field, T value)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return;
+            field = value;
+            OnChanged();
+        }
+        private void SetNonNegativeThemeValue(ref float? field, float value)
+        {
+            if (value < 0 || !float.IsFinite(value)) throw new ArgumentOutOfRangeException(nameof(value));
+            if (field == value) return;
             field = value;
             OnChanged();
         }

@@ -17,6 +17,7 @@ namespace Forma
     {
         private const float DefaultTabHeight = 28;
         private const float DefaultTabVerticalPadding = 10;
+        private static readonly Thickness DefaultContentPadding = new Thickness(8);
         public override AccessibilityRole AccessibilityRole => AccessibilityRole.TabPanel;
         private readonly UIFontSelection _fontSelection = new UIFontSelection();
         private sealed class TabPageState
@@ -71,6 +72,7 @@ namespace Forma
         public void SetDeselectEnabled(bool enabled) => DeselectEnabled = enabled;
         public bool GetDeselectEnabled() => DeselectEnabled;
         private float _tabHeight = DefaultTabHeight;
+        private Thickness _contentPadding = DefaultContentPadding;
         /// <summary>Minimum tab-header height. The effective height grows to fit the active font with balanced vertical padding.</summary>
         public float TabHeight
         {
@@ -80,6 +82,17 @@ namespace Forma
                 var validated = Math.Max(0, value);
                 if (Math.Abs(_tabHeight - validated) <= float.Epsilon) return;
                 _tabHeight = validated;
+                QueueLayout();
+            }
+        }
+        /// <summary>Insets the selected page from the tab body chrome.</summary>
+        public Thickness ContentPadding
+        {
+            get => _contentPadding;
+            set
+            {
+                if (_contentPadding.Equals(value)) return;
+                _contentPadding = value;
                 QueueLayout();
             }
         }
@@ -186,15 +199,21 @@ namespace Forma
         {
             var current = CurrentTab >= 0 && CurrentTab < Children.Count ? Children[CurrentTab] : null;
             var contentMin = current?.GetMinimumSize() ?? Vector2.Zero;
-            var width = contentMin.X + (_popup != null ? PopupButtonWidth : 0);
-            return Vector2.Max(CustomMinimumSize, new Vector2(width, EffectiveTabHeight + contentMin.Y));
+            var width = contentMin.X + ContentPadding.Horizontal + (_popup != null ? PopupButtonWidth : 0);
+            return Vector2.Max(CustomMinimumSize, new Vector2(width, EffectiveTabHeight + ContentPadding.Vertical + contentMin.Y));
         }
         protected override void ArrangeChildren()
         {
             base.ArrangeChildren();
             UpdateVisibility();
             var headerHeight = EffectiveTabHeight;
-            foreach (var child in Children) { child.Position = new Vector2(0, headerHeight); child.Size = new Vector2(Size.X, Math.Max(0, Size.Y - headerHeight)); }
+            foreach (var child in Children)
+            {
+                child.Position = new Vector2(ContentPadding.Left, headerHeight + ContentPadding.Top);
+                child.Size = new Vector2(
+                    Math.Max(0, Size.X - ContentPadding.Horizontal),
+                    Math.Max(0, Size.Y - headerHeight - ContentPadding.Vertical));
+            }
         }
         private void UpdateVisibility() { for (var i = 0; i < Children.Count; i++) Children[i].Visible = i == CurrentTab && !GetState(i).Hidden; }
         internal override void PointerPressed(Point point)
@@ -237,6 +256,8 @@ namespace Forma
         internal void DrawTabContainerChrome(UIRenderContext context)
         {
             var headerHeight = EffectiveTabHeight;
+            var body = new Rectangle(Bounds.X, Bounds.Y + (int)headerHeight - 1, Bounds.Width, Math.Max(0, Bounds.Height - (int)headerHeight + 1));
+            context.Border(body, context.Theme.PanelBorderColor);
             context.Fill(new Rectangle(Bounds.X, Bounds.Y, Bounds.Width, (int)headerHeight), context.Theme.BackgroundColor);
             var strip = GetTabStripRectangle();
             var visible = GetVisibleTabs();
@@ -245,21 +266,29 @@ namespace Forma
             {
                 var i = visible[order]; var state = GetState(i);
                 var rect = new Rectangle(strip.X + width * order, Bounds.Y, order == visible.Count - 1 ? strip.Right - (strip.X + width * order) : width, (int)headerHeight);
-                context.Fill(rect, i == CurrentTab ? context.Theme.PanelColor : context.Theme.BackgroundColor); context.Border(rect, context.Theme.PanelBorderColor);
-                var textX = rect.X + 6;
+                var drawRect = i == CurrentTab ? GetSelectedTabRectangle(rect, context.Theme) : rect;
+                var fill = i == CurrentTab
+                    ? context.Theme.TabSelectedColor
+                    : i == _hoveredTab && !state.Disabled
+                        ? context.Theme.HoverColor
+                        : context.Theme.BackgroundColor;
+                context.Fill(drawRect, fill); context.Border(drawRect, context.Theme.PanelBorderColor);
+                if (i == CurrentTab)
+                    context.Fill(GetSelectedTabIndicatorRectangle(rect, context.Theme), context.Theme.TabSelectedIndicatorColor);
+                var textX = drawRect.X + 6;
                 if (state.Icon != null)
                 {
-                    var iconHeight = Math.Max(1, Math.Min(16, rect.Height - 4));
+                    var iconHeight = Math.Max(1, Math.Min(16, drawRect.Height - 4));
                     var iconWidth = Math.Max(1, (int)MathF.Round(iconHeight * state.Icon.Width / (float)Math.Max(1, state.Icon.Height)));
                     if (state.IconMaxWidth > 0) iconWidth = Math.Min(iconWidth, state.IconMaxWidth);
-                    var icon = new Rectangle(textX, rect.Y + (rect.Height - iconHeight) / 2, iconWidth, iconHeight);
+                    var icon = new Rectangle(textX, drawRect.Y + (drawRect.Height - iconHeight) / 2, iconWidth, iconHeight);
                     context.SpriteBatch.Draw(state.Icon, icon, Color.White); textX = icon.Right + 4;
                 }
                 if (EffectiveUIFont != null)
                 {
                     var title = GetTabTitle(i);
                     var layout = TextMetrics.Layout(EffectiveUIFont, title);
-                    context.Text(layout, new Vector2(textX, GetTabTitleY(layout, rect)), state.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
+                    context.Text(layout, new Vector2(textX, GetTabTitleY(layout, drawRect)), state.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
                 }
                 if (state.ButtonIcon != null) context.SpriteBatch.Draw(state.ButtonIcon, GetTabButtonRectangle(i), Color.White);
             }
@@ -337,6 +366,29 @@ namespace Forma
             var width = Math.Max(1, strip.Width / visible.Count);
             var x = strip.X + width * order;
             return new Rectangle(x, Bounds.Y, order == visible.Count - 1 ? strip.Right - x : width, (int)EffectiveTabHeight);
+        }
+        internal Rectangle GetSelectedTabRectangle()
+        {
+            if (CurrentTab < 0) return Rectangle.Empty;
+            var rect = GetTabRectangle(CurrentTab);
+            return rect == Rectangle.Empty ? Rectangle.Empty : GetSelectedTabRectangle(rect, Context?.Theme ?? new Theme());
+        }
+        internal Rectangle GetSelectedTabIndicatorRectangle()
+        {
+            if (CurrentTab < 0) return Rectangle.Empty;
+            var rect = GetTabRectangle(CurrentTab);
+            return rect == Rectangle.Empty ? Rectangle.Empty : GetSelectedTabIndicatorRectangle(rect, Context?.Theme ?? new Theme());
+        }
+        private static Rectangle GetSelectedTabRectangle(Rectangle rect, Theme theme)
+        {
+            var lift = Math.Max(0, (int)MathF.Ceiling(theme.TabSelectedLift));
+            return new Rectangle(rect.X, rect.Y - lift, rect.Width, rect.Height + lift);
+        }
+        private static Rectangle GetSelectedTabIndicatorRectangle(Rectangle rect, Theme theme)
+        {
+            var selected = GetSelectedTabRectangle(rect, theme);
+            var height = Math.Min(selected.Height, Math.Max(0, (int)MathF.Ceiling(theme.TabSelectedIndicatorHeight)));
+            return new Rectangle(selected.X + 1, selected.Y, Math.Max(0, selected.Width - 2), height);
         }
         private Rectangle GetTabButtonRectangle(int tab)
         {
