@@ -43,16 +43,20 @@ for project in "${projects[@]}"; do
     -exec cp {} "$generated_root/references/" \;
 done
 
-nuget_root="$(dotnet msbuild src/Forma/Forma.csproj \
-  -p:FormaRuntime=MonoGame -getProperty:NuGetPackageRoot -nologo)"
-monogame_version="$(dotnet msbuild src/Forma/Forma.csproj \
-  -p:FormaRuntime=MonoGame -getProperty:MonoGameVersion -nologo)"
-cp "$nuget_root/monogame.framework.desktopgl/$monogame_version/lib/net8.0/MonoGame.Framework.dll" \
-  "$generated_root/references/"
-nvorbis_version="$(jq -r '.targets[] | keys[] | select(startswith("NVorbis/")) | split("/")[1]' \
-  src/Forma.Media/bin/MonoGame/Release/net10.0/Forma.Media.deps.json | head -1)"
-cp "$nuget_root/nvorbis/$nvorbis_version/lib/netstandard2.0/NVorbis.dll" \
-  "$generated_root/references/"
+monogame_project_path="$(dotnet msbuild src/Forma/Forma.csproj \
+  -p:FormaRuntime=MonoGame -getProperty:MonoGameProjectPath -nologo)"
+if [[ -z "$monogame_project_path" ]]; then
+  nuget_root="$(dotnet msbuild src/Forma/Forma.csproj \
+    -p:FormaRuntime=MonoGame -getProperty:NuGetPackageRoot -nologo)"
+  monogame_version="$(dotnet msbuild src/Forma/Forma.csproj \
+    -p:FormaRuntime=MonoGame -getProperty:MonoGameVersion -nologo)"
+  cp "$nuget_root/monogame.framework.desktopgl/$monogame_version/lib/net8.0/MonoGame.Framework.dll" \
+    "$generated_root/references/"
+  nvorbis_version="$(jq -r '.targets[] | keys[] | select(startswith("NVorbis/")) | split("/")[1]' \
+    src/Forma.Media/bin/MonoGame/Release/net10.0/Forma.Media.deps.json | head -1)"
+  cp "$nuget_root/nvorbis/$nvorbis_version/lib/netstandard2.0/NVorbis.dll" \
+    "$generated_root/references/"
+fi
 
 footer="Forma $docs_version · $docs_maturity · $docs_short_revision · <a href=\"/Forma/versions/\">All versions</a>"
 jq \
