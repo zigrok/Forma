@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/3260a3c62e13e9d4abc6fe3bd7ef3b7703d49ea9/docs/reference/controls/text-input.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/d1ad57b34e461d022c30cd3aad95d141a70c7bee/docs/reference/controls/text-input.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -110,7 +110,9 @@ normally use their owning controls.</p>
 </table>
 <p><code>LineEdit</code> starts empty, is keyboard-focusable, and has <code>6,4,6,4</code> padding. Host text-input forwarding
 is required for composed/IME text; do not convert key codes to characters. <code>SpinBox</code> normally commits
-edited text on submission because <code>UpdateOnTextChanged</code> defaults to <code>false</code>.</p>
+edited text on submission because <code>UpdateOnTextChanged</code> defaults to <code>false</code>. Its <code>ArrowLayout</code>
+defaults to <code>Vertical</code>, with stacked arrows on the right. Set <code>ArrowLayout=&quot;Horizontal&quot;</code> in XAML
+for a full-height decrement button on the left and increment button on the right around the editor.</p>
 <p>Text editors expose a text-box accessibility role, current value, selection/edit actions, and a
 read-only state when editing is disabled. <code>SpinBox</code> exposes the spin-button role and range actions.
 Give an explicit <code>AccessibilityLabel</code> when the nearby visual label is not represented by the host's
@@ -126,7 +128,7 @@ identifier is <code>catalog-</code> plus the kebab-case type name, such as <code
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/3260a3c62e13e9d4abc6fe3bd7ef3b7703d49ea9/docs/reference/controls/text-input.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/d1ad57b34e461d022c30cd3aad95d141a70c7bee/docs/reference/controls/text-input.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -143,7 +145,7 @@ identifier is <code>catalog-</code> plus the kebab-case type name, such as <code
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 3260a3c62e13 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · d1ad57b34e46 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

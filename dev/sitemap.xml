@@ -2,3277 +2,3295 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://zigrok.github.io/Forma/dev/adr/0001-dynamic-text-api.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/adr/0002-dynamic-text-dependencies.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/adr/0003-dynamic-text-security-limits.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/adr/0004-backend-neutral-drawing-and-compositing.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/adr/0005-template-first-compatibility-and-lifetime.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/adr/0006-runtime-svg-architecture.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/adr/0007-explicit-svg-backends.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AcceptDialog.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AccessibilityActions.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AccessibilityChangedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AccessibilityPeer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AccessibilityRole.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AccessibilityStates.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AspectRatioAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AspectRatioContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AspectRatioMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.AutoTranslateMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.BaseButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.BlurEffect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Border.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.BoxAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.BoxContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.BoxShadow.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.BoxShadowCollection.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.BringIntoViewRequestedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Brush.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Button.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ButtonActionMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ButtonGroup.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ButtonMouseMask.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CanvasPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CellIndex.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CenterContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CheckBox.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CheckButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CodeCompletionKind.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CodeCompletionOption.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CodeEdit.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CodeHighlightColorRegion.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CodeHighlighter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorMatrixEffect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorPicker.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorPickerButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorPickerDialog.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorPickerMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorPickerPopupPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorPickerShape.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorPresetButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColorRect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ColumnDefinition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CombinedGeometry.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ConfirmationDialog.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ConicGradientBrush.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Container.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ContentControl.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ContentPresenter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Control.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ControlParentChangedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ControlPseudoStateChangedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ControlTemplate.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ControlTemplateFactory-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CornerRadius.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.CrossAxisAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Cursor.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGrid.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridBinding-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridCell.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridCellSelectionChangedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridCheckBoxColumn.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridColumn.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridColumnHeader.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridExpanderColumn.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridExpansionChangedEventArgs-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridExpansionChangingEventArgs-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridFilterMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridRow.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridSelectionUnit.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridSortBinding.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridSortDescription-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridSortDescription.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridSortDirection.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridSource-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridTemplateColumn.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataGridTextColumn.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataTemplate.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DataTemplateFactory-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DefaultControlTemplateRegistry.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DesktopFileDialogFileSystem.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Drawing.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingColorMatrixEffect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingContext.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingContextLimits.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingElement.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingGroup.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingImage.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingLinearGradient.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingPath.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingPathCommand.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DrawingPathCommandKind.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DropShadowEffect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DynamicGlyphAtlasPageSnapshot.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DynamicGlyphAtlasView.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DynamicGlyphCacheDiagnostics.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DynamicGlyphCacheOptions.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DynamicTextDefaults.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DynamicTextNativeDiagnostics.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.DynamicUIFont.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.EffectGroup.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.EllipseGeometry.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.EllipseShape.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FileDialog.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FileDialogAccess.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FileDialogCustomization.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FileDialogDisplayMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FileDialogMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FileDialogOption.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FileDialogSortOption.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FillRule.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlexAlign.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlexAlignContent.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlexDirection.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlexJustify.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlexPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlexWrap.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlowAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlowContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FlowLastWrapAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FocusMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FoldableContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FoldableGroup.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FontLoadErrorCode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FontLoadException.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FrameworkTemplate.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FrameworkTemplateFactory.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.FreezableResource.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Geometry.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GeometryCombineMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GeometryDrawing.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GeometryGroup.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GradientBrush.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GradientInterpolationSpace.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GradientSpreadMethod.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GradientStop.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphConnection.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphEdit.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphEditArranger.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphEditFilter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphEditGridPattern.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphEditMinimap.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphEditPanningScheme.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphElement.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphFrame.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GraphNode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GridContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GridPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GridTrackSize.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GridTrackUnit.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://zigrok.github.io/Forma/dev/api/Forma.GroupBox.html</loc>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.GrowDirection.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.HBoxContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.HFlowContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.HScrollBar.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.HSeparator.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.HSlider.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.HSplitContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.HorizontalAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IClipboard.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IDataGridSource.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IDataTemplateRecyclingState.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IFileDialogFileSystem.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IItemContainerGenerator.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IItemsPresenterOwner.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IRecyclableItemContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IScrollIndexProvider.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IScrollViewportOwner.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IVideoPlaybackBackend.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IVirtualizationPinState.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Image.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ImageBrush.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ImageDrawing.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ImageLayout.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ImageSamplingMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ImageStretch.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ImageTileMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.IndexPath.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Inline.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.InlineImage.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.InputModality.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemAccessibilityPeer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemGeneratorChangeAction.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemGeneratorChangedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemList.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemListEntry.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemListIconMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemListScrollHintMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemListSelectionMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemsControl.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemsControlRealizationDiagnostic.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemsPanelTemplate.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemsPanelTemplateFactory.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ItemsPresenter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Label.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LabelAutowrapMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LabelJustificationFlags.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LabelTextOverrunBehavior.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LabelVisibleCharactersBehavior.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LayoutDirection.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LayoutLength.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LayoutLengthUnit.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LineBreak.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LineEdit.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LineEditMenuOption.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LineEditPresenter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LineGeometry.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LineShape.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LinearGradientBrush.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LinkButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.LinkButtonUnderlineMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ListBox.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ListBoxItem.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ListBoxItemEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ListBoxSelectionChangedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.MarginContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.MatrixTransform.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.MenuBar.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.MenuButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.MouseFilter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.NinePatchAxisStretchMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.NinePatchRect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.NineSliceImage.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.OptionButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.OptionButtonItem.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Orientation.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.OverlayPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Panel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PanelContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PathGeometry.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PathShape.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PixelSnapping.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PointerButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PolygonShape.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PolylineShape.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Popup.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupHideReason.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupMenu.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupMenuCheckableType.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupMenuItem.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupMenuItemKind.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupMenuItems.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupMenuShortcut.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.PopupSystemMenu.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ProgressBar.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ProgressBarFillMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RadialGradientBrush.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Range.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RectangleF.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RectangleGeometry.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RectangleShape.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ReferenceRect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RichTextDocument.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RichTextEffect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RichTextLabel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RichTextListType.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RichTextMetaRegion.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RichTextSelectionMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RichTextSpan.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RotateTransform.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.RowDefinition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Run.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScalableImageSource.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScaleTransform.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollAnchor.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollBar.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollBarVisibility.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollContainerScrollHintMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollMetrics.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollPresenter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollViewportController.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ScrollViewportMetricsChangedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Separator.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Shape.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ShapeStretch.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Side.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SizeFlags.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SkewTransform.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Slider.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SliderTickPosition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SolidColorBrush.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Span.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SpinBox.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://zigrok.github.io/Forma/dev/api/Forma.SpinBoxArrowLayout.html</loc>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SpinBoxLineEdit.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SplitContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SplitContainerDragger.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SplitContainerDraggerVisibility.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SplitContainerMultiDragger.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SpriteFontAdapter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StackPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StrokeAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StrokeLineCap.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StrokeLineJoin.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StrokeStyle.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StructuredTextParser.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StyleBox.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StyleBoxEmpty.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StyleBoxFlat.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.StyleBoxTexture.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SubViewportContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgBackendDefaults.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgBackendFeatures.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgBackendHealth.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgBackendLinkMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgImageSource.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgLoadErrorCode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgLoadException.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgLoadOptions.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgNativeAvailability.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgRasterAtlasPageSnapshot.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgRasterCacheDiagnostics.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgRasterCacheOptions.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgRuntime.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgSkiaBackendDefaults.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SvgThorvgBackendDefaults.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SyntaxHighlightSpan.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.SyntaxHighlighter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TabBar.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TabBarAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TabBarItem.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TabBarSizingMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TabCloseDisplayPolicy.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TabContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TemplateAttachmentKind.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TemplateBuildContext.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TemplateInstance.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TemplateInstanceState.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TemplatePartAttribute.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TemplatePartMetadata.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TemplatedControl.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextBlock.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextDecoration.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextDirection.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextDrawing.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextEdit.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextEditCaret.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextEditEditAction.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextEditGutter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextEditGutterType.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextEditLineWrappingMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextEditMenuOption.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextJustificationFlags.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayout.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayoutCluster.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayoutEngine.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayoutEngineDiagnostics.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayoutGlyph.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayoutLine.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayoutOptions.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayoutRange.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextLayoutRun.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextMetrics.html</loc>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextSearchFlags.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextTrimming.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextWrapping.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureButtonClickMask.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureButtonLayout.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureButtonStretchMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureProgressBar.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureProgressFillMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureProgressNinePatchRegion.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureProgressRegion.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureRect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureRectExpandMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureRectLayout.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TextureStretchMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Theme.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ThemeIcon.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ThemeIconDiagnostics.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ThemeIconRect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ThemeIconRenderingPolicy.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ThemeIconView.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ThemeVariant.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Thickness.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Transform.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TransformGroup.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TranslateTransform.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Tree.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TreeCellMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TreeDropModeFlags.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TreeItem.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TreeItemButton.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TreeItemCustomDrawCallback.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TreePresenter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TreeScrollHintMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.TreeSelectMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIComponent.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIContext.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFont.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontAsset.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontFace.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontFaceMetrics.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontFamily.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontGlyphBitmap.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontGlyphMetrics.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontHinting.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontIdentity.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontOpenTypeFeature.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontShapedGlyph.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontShapedRun.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontStretch.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontStyle.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontVariationAxis.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontVariationCoordinate.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIFontWeight.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.UIRenderContext.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VBoxContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VFlowContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VScrollBar.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VSeparator.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VSlider.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VSplitContainer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VerticalAlignment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VideoPlaybackCapabilities.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VideoStreamPlayer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.ViewPanner.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Viewbox.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VirtualJoystick.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VirtualizingGridPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VirtualizingPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VirtualizingStackPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Visibility.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.VisualEffect.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.WrapPanel.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.AdaptiveCondition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.BindingMode.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.BindingOptions-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.BindingSubscriptions.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.BindingTargetAdapter-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.BindingTargetAdapters.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.BindingValue-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.ColorTimeline.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.ColorTransition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.CompiledBinding.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.CompiledBindingPath-2.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.CompiledBindingSource.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.CompiledEvent.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.CompiledStoryboardTrigger.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.CompiledTimeline.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.ContentAttribute.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.ControlClassList.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.DataContextChangedEventArgs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.DynamicResource.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.Easing.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.FillBehavior.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.FloatTimeline.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.FloatTransition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.FormaXamlLoader.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.HotReload.FormaXamlArtifactId.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.HotReload.FormaXamlArtifactKind.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.HotReload.FormaXamlArtifactPreparationContext.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.HotReload.FormaXamlHotReloadService.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.HotReload.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.IActiveTimeline.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.IAddChild-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.IAddChild.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.IStoryboardTimeline.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.IStyleSetter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.IStyleTransition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.IValueConverter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.IXamlUpdateParticipant.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.KeyFrame-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.NameScope.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.PseudoStateAttribute.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.RepeatBehavior.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.ResourceDictionary.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StaticResource.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.Storyboard.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StoryboardClock.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StoryboardTriggers.PseudoState.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StoryboardTriggers.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.Style.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StyleEngine.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StyleSelector.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StyleSelectorArm.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StyleSelectorCombinator.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StyleSelectorCompound.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StyleSetter-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.StyleTransition-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.ThicknessTimeline.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.ThicknessTransition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.Timeline-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.UpdateSourceTrigger.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.Vector2Timeline.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.Vector2Transition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XamlAttachment.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XamlNamespaces.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XamlProperty-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XamlValueContribution-1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XamlValueConverter.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XamlValueLayer.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XamlValues.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XmlnsDefinitionAttribute.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.XmlnsPrefixAttribute.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.Xaml.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/api/Forma.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/authorized-host-checklist.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/contributor-architecture.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/control-template-migration-manifest.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/controls-and-containers.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/data-binding.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/documentation-inventory.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/dynamic-text.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/getting-started/csharp-first-ui.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/getting-started/xaml-first-ui.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/index.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/input-and-focus.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/layout-and-sizing.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/buttons.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/collections.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/containers.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/data-display.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/dialogs.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/graph-code.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/index.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/media.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/selection.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/reference/controls/text-input.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/release-api-review.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/release-operations.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/resource-lifetime.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/runtime-acquisition.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/runtime-support.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/runtime-svg-profile-v1.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/runtime-svg.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/styling-and-themes.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/svg-backend-migration.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/svg-backend-rollout.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/theme-icons.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/thorvg-build-and-provenance.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/troubleshooting/index.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/troubleshooting/rendering-and-assets.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/troubleshooting/runtime-and-packages.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/troubleshooting/xaml-build-and-hot-reload.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/versioning.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/xaml-language.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://zigrok.github.io/Forma/dev/xaml-templates-migration.html</loc>
-    <lastmod>2026-08-08T04:21:37+00:00</lastmod>
+    <lastmod>2026-08-11T01:39:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

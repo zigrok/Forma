@@ -1219,6 +1219,18 @@ references:
   commentId: Overload:Forma.BaseButton.GetButtonMask
   fullName: Forma.BaseButton.GetButtonMask
   nameWithType: BaseButton.GetButtonMask
+- uid: Forma.BaseButton.GetButtonMinimumSizeWithoutCustomMinimum
+  name: GetButtonMinimumSizeWithoutCustomMinimum()
+  href: api/Forma.BaseButton.html#Forma_BaseButton_GetButtonMinimumSizeWithoutCustomMinimum
+  commentId: M:Forma.BaseButton.GetButtonMinimumSizeWithoutCustomMinimum
+  fullName: Forma.BaseButton.GetButtonMinimumSizeWithoutCustomMinimum()
+  nameWithType: BaseButton.GetButtonMinimumSizeWithoutCustomMinimum()
+- uid: Forma.BaseButton.GetButtonMinimumSizeWithoutCustomMinimum*
+  name: GetButtonMinimumSizeWithoutCustomMinimum
+  href: api/Forma.BaseButton.html#Forma_BaseButton_GetButtonMinimumSizeWithoutCustomMinimum_
+  commentId: Overload:Forma.BaseButton.GetButtonMinimumSizeWithoutCustomMinimum
+  fullName: Forma.BaseButton.GetButtonMinimumSizeWithoutCustomMinimum
+  nameWithType: BaseButton.GetButtonMinimumSizeWithoutCustomMinimum
 - uid: Forma.BaseButton.GetIconRectangle(Microsoft.Xna.Framework.Vector2)
   name: GetIconRectangle(Vector2)
   href: api/Forma.BaseButton.html#Forma_BaseButton_GetIconRectangle_Microsoft_Xna_Framework_Vector2_
@@ -12527,6 +12539,33 @@ references:
   commentId: Overload:Forma.DrawingContext.Clip
   fullName: Forma.DrawingContext.Clip
   nameWithType: DrawingContext.Clip
+- uid: Forma.DrawingContext.DrawImage(Microsoft.Xna.Framework.Graphics.Texture2D,System.Nullable{Microsoft.Xna.Framework.Rectangle},Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Matrix,Microsoft.Xna.Framework.Color,Forma.ImageSamplingMode)
+  name: DrawImage(Texture2D, Rectangle?, Rectangle, Matrix, Color, ImageSamplingMode)
+  href: api/Forma.DrawingContext.html#Forma_DrawingContext_DrawImage_Microsoft_Xna_Framework_Graphics_Texture2D_System_Nullable_Microsoft_Xna_Framework_Rectangle__Microsoft_Xna_Framework_Rectangle_Microsoft_Xna_Framework_Matrix_Microsoft_Xna_Framework_Color_Forma_ImageSamplingMode_
+  commentId: M:Forma.DrawingContext.DrawImage(Microsoft.Xna.Framework.Graphics.Texture2D,System.Nullable{Microsoft.Xna.Framework.Rectangle},Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Matrix,Microsoft.Xna.Framework.Color,Forma.ImageSamplingMode)
+  fullName: Forma.DrawingContext.DrawImage(Microsoft.Xna.Framework.Graphics.Texture2D, Microsoft.Xna.Framework.Rectangle?, Microsoft.Xna.Framework.Rectangle, Microsoft.Xna.Framework.Matrix, Microsoft.Xna.Framework.Color, Forma.ImageSamplingMode)
+  nameWithType: DrawingContext.DrawImage(Texture2D, Rectangle?, Rectangle, Matrix, Color, ImageSamplingMode)
+- uid: Forma.DrawingContext.DrawImage*
+  name: DrawImage
+  href: api/Forma.DrawingContext.html#Forma_DrawingContext_DrawImage_
+  commentId: Overload:Forma.DrawingContext.DrawImage
+  fullName: Forma.DrawingContext.DrawImage
+  nameWithType: DrawingContext.DrawImage
+- uid: Forma.DrawingContext.DrawText(Forma.UIFont,System.String,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color)
+  name: DrawText(UIFont, string, Vector2, Color)
+  href: api/Forma.DrawingContext.html#Forma_DrawingContext_DrawText_Forma_UIFont_System_String_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Color_
+  commentId: M:Forma.DrawingContext.DrawText(Forma.UIFont,System.String,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color)
+  name.vb: DrawText(UIFont, String, Vector2, Color)
+  fullName: Forma.DrawingContext.DrawText(Forma.UIFont, string, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color)
+  fullName.vb: Forma.DrawingContext.DrawText(Forma.UIFont, String, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color)
+  nameWithType: DrawingContext.DrawText(UIFont, string, Vector2, Color)
+  nameWithType.vb: DrawingContext.DrawText(UIFont, String, Vector2, Color)
+- uid: Forma.DrawingContext.DrawText*
+  name: DrawText
+  href: api/Forma.DrawingContext.html#Forma_DrawingContext_DrawText_
+  commentId: Overload:Forma.DrawingContext.DrawText
+  fullName: Forma.DrawingContext.DrawText
+  nameWithType: DrawingContext.DrawText
 - uid: Forma.DrawingContext.FillPath(Forma.DrawingPath,Forma.Brush,Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Matrix,Forma.FillRule,System.Single)
   name: FillPath(DrawingPath, Brush, Rectangle, Matrix, FillRule, float)
   href: api/Forma.DrawingContext.html#Forma_DrawingContext_FillPath_Forma_DrawingPath_Forma_Brush_Microsoft_Xna_Framework_Rectangle_Microsoft_Xna_Framework_Matrix_Forma_FillRule_System_Single_
@@ -12569,6 +12608,21 @@ references:
   commentId: Overload:Forma.DrawingContext.FillPath
   fullName: Forma.DrawingContext.FillPath
   nameWithType: DrawingContext.FillPath
+- uid: Forma.DrawingContext.MeasureText(Forma.UIFont,System.String)
+  name: MeasureText(UIFont, string)
+  href: api/Forma.DrawingContext.html#Forma_DrawingContext_MeasureText_Forma_UIFont_System_String_
+  commentId: M:Forma.DrawingContext.MeasureText(Forma.UIFont,System.String)
+  name.vb: MeasureText(UIFont, String)
+  fullName: Forma.DrawingContext.MeasureText(Forma.UIFont, string)
+  fullName.vb: Forma.DrawingContext.MeasureText(Forma.UIFont, String)
+  nameWithType: DrawingContext.MeasureText(UIFont, string)
+  nameWithType.vb: DrawingContext.MeasureText(UIFont, String)
+- uid: Forma.DrawingContext.MeasureText*
+  name: MeasureText
+  href: api/Forma.DrawingContext.html#Forma_DrawingContext_MeasureText_
+  commentId: Overload:Forma.DrawingContext.MeasureText
+  fullName: Forma.DrawingContext.MeasureText
+  nameWithType: DrawingContext.MeasureText
 - uid: Forma.DrawingContext.MultiplyOpacity(System.Single)
   name: MultiplyOpacity(float)
   href: api/Forma.DrawingContext.html#Forma_DrawingContext_MultiplyOpacity_System_Single_
@@ -21755,6 +21809,168 @@ references:
   commentId: F:Forma.GridTrackUnit.Star
   fullName: Forma.GridTrackUnit.Star
   nameWithType: GridTrackUnit.Star
+- uid: Forma.GroupBox
+  name: GroupBox
+  href: api/Forma.GroupBox.html
+  commentId: T:Forma.GroupBox
+  fullName: Forma.GroupBox
+  nameWithType: GroupBox
+- uid: Forma.GroupBox.#ctor
+  name: GroupBox()
+  href: api/Forma.GroupBox.html#Forma_GroupBox__ctor
+  commentId: M:Forma.GroupBox.#ctor
+  name.vb: New()
+  fullName: Forma.GroupBox.GroupBox()
+  fullName.vb: Forma.GroupBox.New()
+  nameWithType: GroupBox.GroupBox()
+  nameWithType.vb: GroupBox.New()
+- uid: Forma.GroupBox.#ctor*
+  name: GroupBox
+  href: api/Forma.GroupBox.html#Forma_GroupBox__ctor_
+  commentId: Overload:Forma.GroupBox.#ctor
+  name.vb: New
+  fullName: Forma.GroupBox.GroupBox
+  fullName.vb: Forma.GroupBox.New
+  nameWithType: GroupBox.GroupBox
+  nameWithType.vb: GroupBox.New
+- uid: Forma.GroupBox.AccessibilityName
+  name: AccessibilityName
+  href: api/Forma.GroupBox.html#Forma_GroupBox_AccessibilityName
+  commentId: P:Forma.GroupBox.AccessibilityName
+  fullName: Forma.GroupBox.AccessibilityName
+  nameWithType: GroupBox.AccessibilityName
+- uid: Forma.GroupBox.AccessibilityName*
+  name: AccessibilityName
+  href: api/Forma.GroupBox.html#Forma_GroupBox_AccessibilityName_
+  commentId: Overload:Forma.GroupBox.AccessibilityName
+  fullName: Forma.GroupBox.AccessibilityName
+  nameWithType: GroupBox.AccessibilityName
+- uid: Forma.GroupBox.AccessibilityRole
+  name: AccessibilityRole
+  href: api/Forma.GroupBox.html#Forma_GroupBox_AccessibilityRole
+  commentId: P:Forma.GroupBox.AccessibilityRole
+  fullName: Forma.GroupBox.AccessibilityRole
+  nameWithType: GroupBox.AccessibilityRole
+- uid: Forma.GroupBox.AccessibilityRole*
+  name: AccessibilityRole
+  href: api/Forma.GroupBox.html#Forma_GroupBox_AccessibilityRole_
+  commentId: Overload:Forma.GroupBox.AccessibilityRole
+  fullName: Forma.GroupBox.AccessibilityRole
+  nameWithType: GroupBox.AccessibilityRole
+- uid: Forma.GroupBox.BackgroundColor
+  name: BackgroundColor
+  href: api/Forma.GroupBox.html#Forma_GroupBox_BackgroundColor
+  commentId: P:Forma.GroupBox.BackgroundColor
+  fullName: Forma.GroupBox.BackgroundColor
+  nameWithType: GroupBox.BackgroundColor
+- uid: Forma.GroupBox.BackgroundColor*
+  name: BackgroundColor
+  href: api/Forma.GroupBox.html#Forma_GroupBox_BackgroundColor_
+  commentId: Overload:Forma.GroupBox.BackgroundColor
+  fullName: Forma.GroupBox.BackgroundColor
+  nameWithType: GroupBox.BackgroundColor
+- uid: Forma.GroupBox.BorderColor
+  name: BorderColor
+  href: api/Forma.GroupBox.html#Forma_GroupBox_BorderColor
+  commentId: P:Forma.GroupBox.BorderColor
+  fullName: Forma.GroupBox.BorderColor
+  nameWithType: GroupBox.BorderColor
+- uid: Forma.GroupBox.BorderColor*
+  name: BorderColor
+  href: api/Forma.GroupBox.html#Forma_GroupBox_BorderColor_
+  commentId: Overload:Forma.GroupBox.BorderColor
+  fullName: Forma.GroupBox.BorderColor
+  nameWithType: GroupBox.BorderColor
+- uid: Forma.GroupBox.BorderWidth
+  name: BorderWidth
+  href: api/Forma.GroupBox.html#Forma_GroupBox_BorderWidth
+  commentId: P:Forma.GroupBox.BorderWidth
+  fullName: Forma.GroupBox.BorderWidth
+  nameWithType: GroupBox.BorderWidth
+- uid: Forma.GroupBox.BorderWidth*
+  name: BorderWidth
+  href: api/Forma.GroupBox.html#Forma_GroupBox_BorderWidth_
+  commentId: Overload:Forma.GroupBox.BorderWidth
+  fullName: Forma.GroupBox.BorderWidth
+  nameWithType: GroupBox.BorderWidth
+- uid: Forma.GroupBox.HeaderForeground
+  name: HeaderForeground
+  href: api/Forma.GroupBox.html#Forma_GroupBox_HeaderForeground
+  commentId: P:Forma.GroupBox.HeaderForeground
+  fullName: Forma.GroupBox.HeaderForeground
+  nameWithType: GroupBox.HeaderForeground
+- uid: Forma.GroupBox.HeaderForeground*
+  name: HeaderForeground
+  href: api/Forma.GroupBox.html#Forma_GroupBox_HeaderForeground_
+  commentId: Overload:Forma.GroupBox.HeaderForeground
+  fullName: Forma.GroupBox.HeaderForeground
+  nameWithType: GroupBox.HeaderForeground
+- uid: Forma.GroupBox.HeaderGap
+  name: HeaderGap
+  href: api/Forma.GroupBox.html#Forma_GroupBox_HeaderGap
+  commentId: P:Forma.GroupBox.HeaderGap
+  fullName: Forma.GroupBox.HeaderGap
+  nameWithType: GroupBox.HeaderGap
+- uid: Forma.GroupBox.HeaderGap*
+  name: HeaderGap
+  href: api/Forma.GroupBox.html#Forma_GroupBox_HeaderGap_
+  commentId: Overload:Forma.GroupBox.HeaderGap
+  fullName: Forma.GroupBox.HeaderGap
+  nameWithType: GroupBox.HeaderGap
+- uid: Forma.GroupBox.HeaderIndent
+  name: HeaderIndent
+  href: api/Forma.GroupBox.html#Forma_GroupBox_HeaderIndent
+  commentId: P:Forma.GroupBox.HeaderIndent
+  fullName: Forma.GroupBox.HeaderIndent
+  nameWithType: GroupBox.HeaderIndent
+- uid: Forma.GroupBox.HeaderIndent*
+  name: HeaderIndent
+  href: api/Forma.GroupBox.html#Forma_GroupBox_HeaderIndent_
+  commentId: Overload:Forma.GroupBox.HeaderIndent
+  fullName: Forma.GroupBox.HeaderIndent
+  nameWithType: GroupBox.HeaderIndent
+- uid: Forma.GroupBox.HeaderPresenterPartName
+  name: HeaderPresenterPartName
+  href: api/Forma.GroupBox.html#Forma_GroupBox_HeaderPresenterPartName
+  commentId: F:Forma.GroupBox.HeaderPresenterPartName
+  fullName: Forma.GroupBox.HeaderPresenterPartName
+  nameWithType: GroupBox.HeaderPresenterPartName
+- uid: Forma.GroupBox.OnTemplateApplied
+  name: OnTemplateApplied()
+  href: api/Forma.GroupBox.html#Forma_GroupBox_OnTemplateApplied
+  commentId: M:Forma.GroupBox.OnTemplateApplied
+  fullName: Forma.GroupBox.OnTemplateApplied()
+  nameWithType: GroupBox.OnTemplateApplied()
+- uid: Forma.GroupBox.OnTemplateApplied*
+  name: OnTemplateApplied
+  href: api/Forma.GroupBox.html#Forma_GroupBox_OnTemplateApplied_
+  commentId: Overload:Forma.GroupBox.OnTemplateApplied
+  fullName: Forma.GroupBox.OnTemplateApplied
+  nameWithType: GroupBox.OnTemplateApplied
+- uid: Forma.GroupBox.Padding
+  name: Padding
+  href: api/Forma.GroupBox.html#Forma_GroupBox_Padding
+  commentId: P:Forma.GroupBox.Padding
+  fullName: Forma.GroupBox.Padding
+  nameWithType: GroupBox.Padding
+- uid: Forma.GroupBox.Padding*
+  name: Padding
+  href: api/Forma.GroupBox.html#Forma_GroupBox_Padding_
+  commentId: Overload:Forma.GroupBox.Padding
+  fullName: Forma.GroupBox.Padding
+  nameWithType: GroupBox.Padding
+- uid: Forma.GroupBox.Title
+  name: Title
+  href: api/Forma.GroupBox.html#Forma_GroupBox_Title
+  commentId: P:Forma.GroupBox.Title
+  fullName: Forma.GroupBox.Title
+  nameWithType: GroupBox.Title
+- uid: Forma.GroupBox.Title*
+  name: Title
+  href: api/Forma.GroupBox.html#Forma_GroupBox_Title_
+  commentId: Overload:Forma.GroupBox.Title
+  fullName: Forma.GroupBox.Title
+  nameWithType: GroupBox.Title
 - uid: Forma.GrowDirection
   name: GrowDirection
   href: api/Forma.GrowDirection.html
@@ -28241,6 +28457,18 @@ references:
   commentId: Overload:Forma.LineEdit.MenuOption
   fullName: Forma.LineEdit.MenuOption
   nameWithType: LineEdit.MenuOption
+- uid: Forma.LineEdit.MoveCaretToEndOnInitialTextAssignment
+  name: MoveCaretToEndOnInitialTextAssignment
+  href: api/Forma.LineEdit.html#Forma_LineEdit_MoveCaretToEndOnInitialTextAssignment
+  commentId: P:Forma.LineEdit.MoveCaretToEndOnInitialTextAssignment
+  fullName: Forma.LineEdit.MoveCaretToEndOnInitialTextAssignment
+  nameWithType: LineEdit.MoveCaretToEndOnInitialTextAssignment
+- uid: Forma.LineEdit.MoveCaretToEndOnInitialTextAssignment*
+  name: MoveCaretToEndOnInitialTextAssignment
+  href: api/Forma.LineEdit.html#Forma_LineEdit_MoveCaretToEndOnInitialTextAssignment_
+  commentId: Overload:Forma.LineEdit.MoveCaretToEndOnInitialTextAssignment
+  fullName: Forma.LineEdit.MoveCaretToEndOnInitialTextAssignment
+  nameWithType: LineEdit.MoveCaretToEndOnInitialTextAssignment
 - uid: Forma.LineEdit.OnTemplateApplied
   name: OnTemplateApplied()
   href: api/Forma.LineEdit.html#Forma_LineEdit_OnTemplateApplied
@@ -29258,6 +29486,18 @@ references:
   commentId: Overload:Forma.ListBox.Activate
   fullName: Forma.ListBox.Activate
   nameWithType: ListBox.Activate
+- uid: Forma.ListBox.ActivateOnSingleClick
+  name: ActivateOnSingleClick
+  href: api/Forma.ListBox.html#Forma_ListBox_ActivateOnSingleClick
+  commentId: P:Forma.ListBox.ActivateOnSingleClick
+  fullName: Forma.ListBox.ActivateOnSingleClick
+  nameWithType: ListBox.ActivateOnSingleClick
+- uid: Forma.ListBox.ActivateOnSingleClick*
+  name: ActivateOnSingleClick
+  href: api/Forma.ListBox.html#Forma_ListBox_ActivateOnSingleClick_
+  commentId: Overload:Forma.ListBox.ActivateOnSingleClick
+  fullName: Forma.ListBox.ActivateOnSingleClick
+  nameWithType: ListBox.ActivateOnSingleClick
 - uid: Forma.ListBox.AllowReselect
   name: AllowReselect
   href: api/Forma.ListBox.html#Forma_ListBox_AllowReselect
@@ -38177,6 +38417,18 @@ references:
   commentId: Overload:Forma.ScrollBar.IsRangeHighlighted
   fullName: Forma.ScrollBar.IsRangeHighlighted
   nameWithType: ScrollBar.IsRangeHighlighted
+- uid: Forma.ScrollBar.IsShowingStepButtons
+  name: IsShowingStepButtons()
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_IsShowingStepButtons
+  commentId: M:Forma.ScrollBar.IsShowingStepButtons
+  fullName: Forma.ScrollBar.IsShowingStepButtons()
+  nameWithType: ScrollBar.IsShowingStepButtons()
+- uid: Forma.ScrollBar.IsShowingStepButtons*
+  name: IsShowingStepButtons
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_IsShowingStepButtons_
+  commentId: Overload:Forma.ScrollBar.IsShowingStepButtons
+  fullName: Forma.ScrollBar.IsShowingStepButtons
+  nameWithType: ScrollBar.IsShowingStepButtons
 - uid: Forma.ScrollBar.IsSmoothScrollEnabled
   name: IsSmoothScrollEnabled()
   href: api/Forma.ScrollBar.html#Forma_ScrollBar_IsSmoothScrollEnabled
@@ -38276,6 +38528,21 @@ references:
   commentId: Overload:Forma.ScrollBar.SetDragNodeEnabled
   fullName: Forma.ScrollBar.SetDragNodeEnabled
   nameWithType: ScrollBar.SetDragNodeEnabled
+- uid: Forma.ScrollBar.SetShowStepButtons(System.Boolean)
+  name: SetShowStepButtons(bool)
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_SetShowStepButtons_System_Boolean_
+  commentId: M:Forma.ScrollBar.SetShowStepButtons(System.Boolean)
+  name.vb: SetShowStepButtons(Boolean)
+  fullName: Forma.ScrollBar.SetShowStepButtons(bool)
+  fullName.vb: Forma.ScrollBar.SetShowStepButtons(Boolean)
+  nameWithType: ScrollBar.SetShowStepButtons(bool)
+  nameWithType.vb: ScrollBar.SetShowStepButtons(Boolean)
+- uid: Forma.ScrollBar.SetShowStepButtons*
+  name: SetShowStepButtons
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_SetShowStepButtons_
+  commentId: Overload:Forma.ScrollBar.SetShowStepButtons
+  fullName: Forma.ScrollBar.SetShowStepButtons
+  nameWithType: ScrollBar.SetShowStepButtons
 - uid: Forma.ScrollBar.SetSmoothScrollEnabled(System.Boolean)
   name: SetSmoothScrollEnabled(bool)
   href: api/Forma.ScrollBar.html#Forma_ScrollBar_SetSmoothScrollEnabled_System_Boolean_
@@ -38291,6 +38558,18 @@ references:
   commentId: Overload:Forma.ScrollBar.SetSmoothScrollEnabled
   fullName: Forma.ScrollBar.SetSmoothScrollEnabled
   nameWithType: ScrollBar.SetSmoothScrollEnabled
+- uid: Forma.ScrollBar.ShowStepButtons
+  name: ShowStepButtons
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_ShowStepButtons
+  commentId: P:Forma.ScrollBar.ShowStepButtons
+  fullName: Forma.ScrollBar.ShowStepButtons
+  nameWithType: ScrollBar.ShowStepButtons
+- uid: Forma.ScrollBar.ShowStepButtons*
+  name: ShowStepButtons
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_ShowStepButtons_
+  commentId: Overload:Forma.ScrollBar.ShowStepButtons
+  fullName: Forma.ScrollBar.ShowStepButtons
+  nameWithType: ScrollBar.ShowStepButtons
 - uid: Forma.ScrollBar.SmoothScrollEnabled
   name: SmoothScrollEnabled
   href: api/Forma.ScrollBar.html#Forma_ScrollBar_SmoothScrollEnabled
@@ -38843,6 +39122,30 @@ references:
   commentId: Overload:Forma.ScrollContainer.IsScrollOnDragHoverEnabled
   fullName: Forma.ScrollContainer.IsScrollOnDragHoverEnabled
   nameWithType: ScrollContainer.IsScrollOnDragHoverEnabled
+- uid: Forma.ScrollContainer.IsShowingHorizontalStepButtons
+  name: IsShowingHorizontalStepButtons()
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_IsShowingHorizontalStepButtons
+  commentId: M:Forma.ScrollContainer.IsShowingHorizontalStepButtons
+  fullName: Forma.ScrollContainer.IsShowingHorizontalStepButtons()
+  nameWithType: ScrollContainer.IsShowingHorizontalStepButtons()
+- uid: Forma.ScrollContainer.IsShowingHorizontalStepButtons*
+  name: IsShowingHorizontalStepButtons
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_IsShowingHorizontalStepButtons_
+  commentId: Overload:Forma.ScrollContainer.IsShowingHorizontalStepButtons
+  fullName: Forma.ScrollContainer.IsShowingHorizontalStepButtons
+  nameWithType: ScrollContainer.IsShowingHorizontalStepButtons
+- uid: Forma.ScrollContainer.IsShowingVerticalStepButtons
+  name: IsShowingVerticalStepButtons()
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_IsShowingVerticalStepButtons
+  commentId: M:Forma.ScrollContainer.IsShowingVerticalStepButtons
+  fullName: Forma.ScrollContainer.IsShowingVerticalStepButtons()
+  nameWithType: ScrollContainer.IsShowingVerticalStepButtons()
+- uid: Forma.ScrollContainer.IsShowingVerticalStepButtons*
+  name: IsShowingVerticalStepButtons
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_IsShowingVerticalStepButtons_
+  commentId: Overload:Forma.ScrollContainer.IsShowingVerticalStepButtons
+  fullName: Forma.ScrollContainer.IsShowingVerticalStepButtons
+  nameWithType: ScrollContainer.IsShowingVerticalStepButtons
 - uid: Forma.ScrollContainer.IsTouchDragDecelerating
   name: IsTouchDragDecelerating
   href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_IsTouchDragDecelerating
@@ -39167,6 +39470,36 @@ references:
   commentId: Overload:Forma.ScrollContainer.SetScrollOnDragHover
   fullName: Forma.ScrollContainer.SetScrollOnDragHover
   nameWithType: ScrollContainer.SetScrollOnDragHover
+- uid: Forma.ScrollContainer.SetShowHorizontalStepButtons(System.Boolean)
+  name: SetShowHorizontalStepButtons(bool)
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_SetShowHorizontalStepButtons_System_Boolean_
+  commentId: M:Forma.ScrollContainer.SetShowHorizontalStepButtons(System.Boolean)
+  name.vb: SetShowHorizontalStepButtons(Boolean)
+  fullName: Forma.ScrollContainer.SetShowHorizontalStepButtons(bool)
+  fullName.vb: Forma.ScrollContainer.SetShowHorizontalStepButtons(Boolean)
+  nameWithType: ScrollContainer.SetShowHorizontalStepButtons(bool)
+  nameWithType.vb: ScrollContainer.SetShowHorizontalStepButtons(Boolean)
+- uid: Forma.ScrollContainer.SetShowHorizontalStepButtons*
+  name: SetShowHorizontalStepButtons
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_SetShowHorizontalStepButtons_
+  commentId: Overload:Forma.ScrollContainer.SetShowHorizontalStepButtons
+  fullName: Forma.ScrollContainer.SetShowHorizontalStepButtons
+  nameWithType: ScrollContainer.SetShowHorizontalStepButtons
+- uid: Forma.ScrollContainer.SetShowVerticalStepButtons(System.Boolean)
+  name: SetShowVerticalStepButtons(bool)
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_SetShowVerticalStepButtons_System_Boolean_
+  commentId: M:Forma.ScrollContainer.SetShowVerticalStepButtons(System.Boolean)
+  name.vb: SetShowVerticalStepButtons(Boolean)
+  fullName: Forma.ScrollContainer.SetShowVerticalStepButtons(bool)
+  fullName.vb: Forma.ScrollContainer.SetShowVerticalStepButtons(Boolean)
+  nameWithType: ScrollContainer.SetShowVerticalStepButtons(bool)
+  nameWithType.vb: ScrollContainer.SetShowVerticalStepButtons(Boolean)
+- uid: Forma.ScrollContainer.SetShowVerticalStepButtons*
+  name: SetShowVerticalStepButtons
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_SetShowVerticalStepButtons_
+  commentId: Overload:Forma.ScrollContainer.SetShowVerticalStepButtons
+  fullName: Forma.ScrollContainer.SetShowVerticalStepButtons
+  nameWithType: ScrollContainer.SetShowVerticalStepButtons
 - uid: Forma.ScrollContainer.SetTileScrollHint(System.Boolean)
   name: SetTileScrollHint(bool)
   href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_SetTileScrollHint_System_Boolean_
@@ -39224,6 +39557,30 @@ references:
   commentId: Overload:Forma.ScrollContainer.SetVerticalScrollMode
   fullName: Forma.ScrollContainer.SetVerticalScrollMode
   nameWithType: ScrollContainer.SetVerticalScrollMode
+- uid: Forma.ScrollContainer.ShowHorizontalStepButtons
+  name: ShowHorizontalStepButtons
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_ShowHorizontalStepButtons
+  commentId: P:Forma.ScrollContainer.ShowHorizontalStepButtons
+  fullName: Forma.ScrollContainer.ShowHorizontalStepButtons
+  nameWithType: ScrollContainer.ShowHorizontalStepButtons
+- uid: Forma.ScrollContainer.ShowHorizontalStepButtons*
+  name: ShowHorizontalStepButtons
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_ShowHorizontalStepButtons_
+  commentId: Overload:Forma.ScrollContainer.ShowHorizontalStepButtons
+  fullName: Forma.ScrollContainer.ShowHorizontalStepButtons
+  nameWithType: ScrollContainer.ShowHorizontalStepButtons
+- uid: Forma.ScrollContainer.ShowVerticalStepButtons
+  name: ShowVerticalStepButtons
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_ShowVerticalStepButtons
+  commentId: P:Forma.ScrollContainer.ShowVerticalStepButtons
+  fullName: Forma.ScrollContainer.ShowVerticalStepButtons
+  nameWithType: ScrollContainer.ShowVerticalStepButtons
+- uid: Forma.ScrollContainer.ShowVerticalStepButtons*
+  name: ShowVerticalStepButtons
+  href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_ShowVerticalStepButtons_
+  commentId: Overload:Forma.ScrollContainer.ShowVerticalStepButtons
+  fullName: Forma.ScrollContainer.ShowVerticalStepButtons
+  nameWithType: ScrollContainer.ShowVerticalStepButtons
 - uid: Forma.ScrollContainer.TileScrollHint
   name: TileScrollHint
   href: api/Forma.ScrollContainer.html#Forma_ScrollContainer_TileScrollHint
@@ -40877,6 +41234,18 @@ references:
   commentId: Overload:Forma.SpinBox.Apply
   fullName: Forma.SpinBox.Apply
   nameWithType: SpinBox.Apply
+- uid: Forma.SpinBox.ArrowLayout
+  name: ArrowLayout
+  href: api/Forma.SpinBox.html#Forma_SpinBox_ArrowLayout
+  commentId: P:Forma.SpinBox.ArrowLayout
+  fullName: Forma.SpinBox.ArrowLayout
+  nameWithType: SpinBox.ArrowLayout
+- uid: Forma.SpinBox.ArrowLayout*
+  name: ArrowLayout
+  href: api/Forma.SpinBox.html#Forma_SpinBox_ArrowLayout_
+  commentId: Overload:Forma.SpinBox.ArrowLayout
+  fullName: Forma.SpinBox.ArrowLayout
+  nameWithType: SpinBox.ArrowLayout
 - uid: Forma.SpinBox.CustomArrowRound
   name: CustomArrowRound
   href: api/Forma.SpinBox.html#Forma_SpinBox_CustomArrowRound
@@ -40919,6 +41288,18 @@ references:
   commentId: Overload:Forma.SpinBox.Font
   fullName: Forma.SpinBox.Font
   nameWithType: SpinBox.Font
+- uid: Forma.SpinBox.GetArrowLayout
+  name: GetArrowLayout()
+  href: api/Forma.SpinBox.html#Forma_SpinBox_GetArrowLayout
+  commentId: M:Forma.SpinBox.GetArrowLayout
+  fullName: Forma.SpinBox.GetArrowLayout()
+  nameWithType: SpinBox.GetArrowLayout()
+- uid: Forma.SpinBox.GetArrowLayout*
+  name: GetArrowLayout
+  href: api/Forma.SpinBox.html#Forma_SpinBox_GetArrowLayout_
+  commentId: Overload:Forma.SpinBox.GetArrowLayout
+  fullName: Forma.SpinBox.GetArrowLayout
+  nameWithType: SpinBox.GetArrowLayout
 - uid: Forma.SpinBox.GetCustomArrowStep
   name: GetCustomArrowStep()
   href: api/Forma.SpinBox.html#Forma_SpinBox_GetCustomArrowStep
@@ -41075,6 +41456,18 @@ references:
   commentId: Overload:Forma.SpinBox.Prefix
   fullName: Forma.SpinBox.Prefix
   nameWithType: SpinBox.Prefix
+- uid: Forma.SpinBox.SetArrowLayout(Forma.SpinBoxArrowLayout)
+  name: SetArrowLayout(SpinBoxArrowLayout)
+  href: api/Forma.SpinBox.html#Forma_SpinBox_SetArrowLayout_Forma_SpinBoxArrowLayout_
+  commentId: M:Forma.SpinBox.SetArrowLayout(Forma.SpinBoxArrowLayout)
+  fullName: Forma.SpinBox.SetArrowLayout(Forma.SpinBoxArrowLayout)
+  nameWithType: SpinBox.SetArrowLayout(SpinBoxArrowLayout)
+- uid: Forma.SpinBox.SetArrowLayout*
+  name: SetArrowLayout
+  href: api/Forma.SpinBox.html#Forma_SpinBox_SetArrowLayout_
+  commentId: Overload:Forma.SpinBox.SetArrowLayout
+  fullName: Forma.SpinBox.SetArrowLayout
+  nameWithType: SpinBox.SetArrowLayout
 - uid: Forma.SpinBox.SetCustomArrowRound(System.Boolean)
   name: SetCustomArrowRound(bool)
   href: api/Forma.SpinBox.html#Forma_SpinBox_SetCustomArrowRound_System_Boolean_
@@ -41228,6 +41621,24 @@ references:
   commentId: Overload:Forma.SpinBox.UpdateOnTextChanged
   fullName: Forma.SpinBox.UpdateOnTextChanged
   nameWithType: SpinBox.UpdateOnTextChanged
+- uid: Forma.SpinBoxArrowLayout
+  name: SpinBoxArrowLayout
+  href: api/Forma.SpinBoxArrowLayout.html
+  commentId: T:Forma.SpinBoxArrowLayout
+  fullName: Forma.SpinBoxArrowLayout
+  nameWithType: SpinBoxArrowLayout
+- uid: Forma.SpinBoxArrowLayout.Horizontal
+  name: Horizontal
+  href: api/Forma.SpinBoxArrowLayout.html#Forma_SpinBoxArrowLayout_Horizontal
+  commentId: F:Forma.SpinBoxArrowLayout.Horizontal
+  fullName: Forma.SpinBoxArrowLayout.Horizontal
+  nameWithType: SpinBoxArrowLayout.Horizontal
+- uid: Forma.SpinBoxArrowLayout.Vertical
+  name: Vertical
+  href: api/Forma.SpinBoxArrowLayout.html#Forma_SpinBoxArrowLayout_Vertical
+  commentId: F:Forma.SpinBoxArrowLayout.Vertical
+  fullName: Forma.SpinBoxArrowLayout.Vertical
+  nameWithType: SpinBoxArrowLayout.Vertical
 - uid: Forma.SpinBoxLineEdit
   name: SpinBoxLineEdit
   href: api/Forma.SpinBoxLineEdit.html
@@ -45476,6 +45887,18 @@ references:
   commentId: Overload:Forma.TabContainer.ArrangeChildren
   fullName: Forma.TabContainer.ArrangeChildren
   nameWithType: TabContainer.ArrangeChildren
+- uid: Forma.TabContainer.ContentPadding
+  name: ContentPadding
+  href: api/Forma.TabContainer.html#Forma_TabContainer_ContentPadding
+  commentId: P:Forma.TabContainer.ContentPadding
+  fullName: Forma.TabContainer.ContentPadding
+  nameWithType: TabContainer.ContentPadding
+- uid: Forma.TabContainer.ContentPadding*
+  name: ContentPadding
+  href: api/Forma.TabContainer.html#Forma_TabContainer_ContentPadding_
+  commentId: Overload:Forma.TabContainer.ContentPadding
+  fullName: Forma.TabContainer.ContentPadding
+  nameWithType: TabContainer.ContentPadding
 - uid: Forma.TabContainer.CurrentTab
   name: CurrentTab
   href: api/Forma.TabContainer.html#Forma_TabContainer_CurrentTab
@@ -48314,6 +48737,18 @@ references:
   commentId: Overload:Forma.TextEdit.MergeOverlappingCarets
   fullName: Forma.TextEdit.MergeOverlappingCarets
   nameWithType: TextEdit.MergeOverlappingCarets
+- uid: Forma.TextEdit.MoveCaretToEndOnInitialTextAssignment
+  name: MoveCaretToEndOnInitialTextAssignment
+  href: api/Forma.TextEdit.html#Forma_TextEdit_MoveCaretToEndOnInitialTextAssignment
+  commentId: P:Forma.TextEdit.MoveCaretToEndOnInitialTextAssignment
+  fullName: Forma.TextEdit.MoveCaretToEndOnInitialTextAssignment
+  nameWithType: TextEdit.MoveCaretToEndOnInitialTextAssignment
+- uid: Forma.TextEdit.MoveCaretToEndOnInitialTextAssignment*
+  name: MoveCaretToEndOnInitialTextAssignment
+  href: api/Forma.TextEdit.html#Forma_TextEdit_MoveCaretToEndOnInitialTextAssignment_
+  commentId: Overload:Forma.TextEdit.MoveCaretToEndOnInitialTextAssignment
+  fullName: Forma.TextEdit.MoveCaretToEndOnInitialTextAssignment
+  nameWithType: TextEdit.MoveCaretToEndOnInitialTextAssignment
 - uid: Forma.TextEdit.MultipleCaretsEnabled
   name: MultipleCaretsEnabled
   href: api/Forma.TextEdit.html#Forma_TextEdit_MultipleCaretsEnabled
@@ -50753,6 +51188,78 @@ references:
   commentId: Overload:Forma.TextLayoutRun.Start
   fullName: Forma.TextLayoutRun.Start
   nameWithType: TextLayoutRun.Start
+- uid: Forma.TextMetrics
+  name: TextMetrics
+  href: api/Forma.TextMetrics.html
+  commentId: T:Forma.TextMetrics
+  fullName: Forma.TextMetrics
+  nameWithType: TextMetrics
+- uid: Forma.TextMetrics.Layout(Forma.UIFont,System.String,Forma.TextLayoutOptions)
+  name: Layout(UIFont, string, TextLayoutOptions)
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_Layout_Forma_UIFont_System_String_Forma_TextLayoutOptions_
+  commentId: M:Forma.TextMetrics.Layout(Forma.UIFont,System.String,Forma.TextLayoutOptions)
+  name.vb: Layout(UIFont, String, TextLayoutOptions)
+  fullName: Forma.TextMetrics.Layout(Forma.UIFont, string, Forma.TextLayoutOptions)
+  fullName.vb: Forma.TextMetrics.Layout(Forma.UIFont, String, Forma.TextLayoutOptions)
+  nameWithType: TextMetrics.Layout(UIFont, string, TextLayoutOptions)
+  nameWithType.vb: TextMetrics.Layout(UIFont, String, TextLayoutOptions)
+- uid: Forma.TextMetrics.Layout*
+  name: Layout
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_Layout_
+  commentId: Overload:Forma.TextMetrics.Layout
+  fullName: Forma.TextMetrics.Layout
+  nameWithType: TextMetrics.Layout
+- uid: Forma.TextMetrics.LineHeight(Forma.UIFont)
+  name: LineHeight(UIFont)
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_LineHeight_Forma_UIFont_
+  commentId: M:Forma.TextMetrics.LineHeight(Forma.UIFont)
+  fullName: Forma.TextMetrics.LineHeight(Forma.UIFont)
+  nameWithType: TextMetrics.LineHeight(UIFont)
+- uid: Forma.TextMetrics.LineHeight*
+  name: LineHeight
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_LineHeight_
+  commentId: Overload:Forma.TextMetrics.LineHeight
+  fullName: Forma.TextMetrics.LineHeight
+  nameWithType: TextMetrics.LineHeight
+- uid: Forma.TextMetrics.Measure(Forma.UIFont,System.String)
+  name: Measure(UIFont, string)
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_Measure_Forma_UIFont_System_String_
+  commentId: M:Forma.TextMetrics.Measure(Forma.UIFont,System.String)
+  name.vb: Measure(UIFont, String)
+  fullName: Forma.TextMetrics.Measure(Forma.UIFont, string)
+  fullName.vb: Forma.TextMetrics.Measure(Forma.UIFont, String)
+  nameWithType: TextMetrics.Measure(UIFont, string)
+  nameWithType.vb: TextMetrics.Measure(UIFont, String)
+- uid: Forma.TextMetrics.Measure(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,System.Single)
+  name: Measure(SpriteFont, string, float)
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_Measure_Microsoft_Xna_Framework_Graphics_SpriteFont_System_String_System_Single_
+  commentId: M:Forma.TextMetrics.Measure(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,System.Single)
+  name.vb: Measure(SpriteFont, String, Single)
+  fullName: Forma.TextMetrics.Measure(Microsoft.Xna.Framework.Graphics.SpriteFont, string, float)
+  fullName.vb: Forma.TextMetrics.Measure(Microsoft.Xna.Framework.Graphics.SpriteFont, String, Single)
+  nameWithType: TextMetrics.Measure(SpriteFont, string, float)
+  nameWithType.vb: TextMetrics.Measure(SpriteFont, String, Single)
+- uid: Forma.TextMetrics.Measure*
+  name: Measure
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_Measure_
+  commentId: Overload:Forma.TextMetrics.Measure
+  fullName: Forma.TextMetrics.Measure
+  nameWithType: TextMetrics.Measure
+- uid: Forma.TextMetrics.Resize(Forma.UIFont,System.Single)
+  name: Resize(UIFont, float)
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_Resize_Forma_UIFont_System_Single_
+  commentId: M:Forma.TextMetrics.Resize(Forma.UIFont,System.Single)
+  name.vb: Resize(UIFont, Single)
+  fullName: Forma.TextMetrics.Resize(Forma.UIFont, float)
+  fullName.vb: Forma.TextMetrics.Resize(Forma.UIFont, Single)
+  nameWithType: TextMetrics.Resize(UIFont, float)
+  nameWithType.vb: TextMetrics.Resize(UIFont, Single)
+- uid: Forma.TextMetrics.Resize*
+  name: Resize
+  href: api/Forma.TextMetrics.html#Forma_TextMetrics_Resize_
+  commentId: Overload:Forma.TextMetrics.Resize
+  fullName: Forma.TextMetrics.Resize
+  nameWithType: TextMetrics.Resize
 - uid: Forma.TextSearchFlags
   name: TextSearchFlags
   href: api/Forma.TextSearchFlags.html
@@ -52991,6 +53498,54 @@ references:
   commentId: Overload:Forma.Theme.SuppressIcon
   fullName: Forma.Theme.SuppressIcon
   nameWithType: Theme.SuppressIcon
+- uid: Forma.Theme.TabSelectedColor
+  name: TabSelectedColor
+  href: api/Forma.Theme.html#Forma_Theme_TabSelectedColor
+  commentId: P:Forma.Theme.TabSelectedColor
+  fullName: Forma.Theme.TabSelectedColor
+  nameWithType: Theme.TabSelectedColor
+- uid: Forma.Theme.TabSelectedColor*
+  name: TabSelectedColor
+  href: api/Forma.Theme.html#Forma_Theme_TabSelectedColor_
+  commentId: Overload:Forma.Theme.TabSelectedColor
+  fullName: Forma.Theme.TabSelectedColor
+  nameWithType: Theme.TabSelectedColor
+- uid: Forma.Theme.TabSelectedIndicatorColor
+  name: TabSelectedIndicatorColor
+  href: api/Forma.Theme.html#Forma_Theme_TabSelectedIndicatorColor
+  commentId: P:Forma.Theme.TabSelectedIndicatorColor
+  fullName: Forma.Theme.TabSelectedIndicatorColor
+  nameWithType: Theme.TabSelectedIndicatorColor
+- uid: Forma.Theme.TabSelectedIndicatorColor*
+  name: TabSelectedIndicatorColor
+  href: api/Forma.Theme.html#Forma_Theme_TabSelectedIndicatorColor_
+  commentId: Overload:Forma.Theme.TabSelectedIndicatorColor
+  fullName: Forma.Theme.TabSelectedIndicatorColor
+  nameWithType: Theme.TabSelectedIndicatorColor
+- uid: Forma.Theme.TabSelectedIndicatorHeight
+  name: TabSelectedIndicatorHeight
+  href: api/Forma.Theme.html#Forma_Theme_TabSelectedIndicatorHeight
+  commentId: P:Forma.Theme.TabSelectedIndicatorHeight
+  fullName: Forma.Theme.TabSelectedIndicatorHeight
+  nameWithType: Theme.TabSelectedIndicatorHeight
+- uid: Forma.Theme.TabSelectedIndicatorHeight*
+  name: TabSelectedIndicatorHeight
+  href: api/Forma.Theme.html#Forma_Theme_TabSelectedIndicatorHeight_
+  commentId: Overload:Forma.Theme.TabSelectedIndicatorHeight
+  fullName: Forma.Theme.TabSelectedIndicatorHeight
+  nameWithType: Theme.TabSelectedIndicatorHeight
+- uid: Forma.Theme.TabSelectedLift
+  name: TabSelectedLift
+  href: api/Forma.Theme.html#Forma_Theme_TabSelectedLift
+  commentId: P:Forma.Theme.TabSelectedLift
+  fullName: Forma.Theme.TabSelectedLift
+  nameWithType: Theme.TabSelectedLift
+- uid: Forma.Theme.TabSelectedLift*
+  name: TabSelectedLift
+  href: api/Forma.Theme.html#Forma_Theme_TabSelectedLift_
+  commentId: Overload:Forma.Theme.TabSelectedLift
+  fullName: Forma.Theme.TabSelectedLift
+  nameWithType: Theme.TabSelectedLift
 - uid: Forma.Theme.TextColor
   name: TextColor
   href: api/Forma.Theme.html#Forma_Theme_TextColor
@@ -58223,6 +58778,57 @@ references:
   commentId: Overload:Forma.UIContext.HitTest
   fullName: Forma.UIContext.HitTest
   nameWithType: UIContext.HitTest
+- uid: Forma.UIContext.InjectPointerMove(Microsoft.Xna.Framework.Point)
+  name: InjectPointerMove(Point)
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerMove_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.UIContext.InjectPointerMove(Microsoft.Xna.Framework.Point)
+  fullName: Forma.UIContext.InjectPointerMove(Microsoft.Xna.Framework.Point)
+  nameWithType: UIContext.InjectPointerMove(Point)
+- uid: Forma.UIContext.InjectPointerMove*
+  name: InjectPointerMove
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerMove_
+  commentId: Overload:Forma.UIContext.InjectPointerMove
+  fullName: Forma.UIContext.InjectPointerMove
+  nameWithType: UIContext.InjectPointerMove
+- uid: Forma.UIContext.InjectPointerPress(Microsoft.Xna.Framework.Point,Forma.PointerButton)
+  name: InjectPointerPress(Point, PointerButton)
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerPress_Microsoft_Xna_Framework_Point_Forma_PointerButton_
+  commentId: M:Forma.UIContext.InjectPointerPress(Microsoft.Xna.Framework.Point,Forma.PointerButton)
+  fullName: Forma.UIContext.InjectPointerPress(Microsoft.Xna.Framework.Point, Forma.PointerButton)
+  nameWithType: UIContext.InjectPointerPress(Point, PointerButton)
+- uid: Forma.UIContext.InjectPointerPress*
+  name: InjectPointerPress
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerPress_
+  commentId: Overload:Forma.UIContext.InjectPointerPress
+  fullName: Forma.UIContext.InjectPointerPress
+  nameWithType: UIContext.InjectPointerPress
+- uid: Forma.UIContext.InjectPointerRelease(Microsoft.Xna.Framework.Point,Forma.PointerButton)
+  name: InjectPointerRelease(Point, PointerButton)
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerRelease_Microsoft_Xna_Framework_Point_Forma_PointerButton_
+  commentId: M:Forma.UIContext.InjectPointerRelease(Microsoft.Xna.Framework.Point,Forma.PointerButton)
+  fullName: Forma.UIContext.InjectPointerRelease(Microsoft.Xna.Framework.Point, Forma.PointerButton)
+  nameWithType: UIContext.InjectPointerRelease(Point, PointerButton)
+- uid: Forma.UIContext.InjectPointerRelease*
+  name: InjectPointerRelease
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerRelease_
+  commentId: Overload:Forma.UIContext.InjectPointerRelease
+  fullName: Forma.UIContext.InjectPointerRelease
+  nameWithType: UIContext.InjectPointerRelease
+- uid: Forma.UIContext.InjectPointerWheel(Microsoft.Xna.Framework.Point,System.Int32,Forma.Control)
+  name: InjectPointerWheel(Point, int, Control)
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerWheel_Microsoft_Xna_Framework_Point_System_Int32_Forma_Control_
+  commentId: M:Forma.UIContext.InjectPointerWheel(Microsoft.Xna.Framework.Point,System.Int32,Forma.Control)
+  name.vb: InjectPointerWheel(Point, Integer, Control)
+  fullName: Forma.UIContext.InjectPointerWheel(Microsoft.Xna.Framework.Point, int, Forma.Control)
+  fullName.vb: Forma.UIContext.InjectPointerWheel(Microsoft.Xna.Framework.Point, Integer, Forma.Control)
+  nameWithType: UIContext.InjectPointerWheel(Point, int, Control)
+  nameWithType.vb: UIContext.InjectPointerWheel(Point, Integer, Control)
+- uid: Forma.UIContext.InjectPointerWheel*
+  name: InjectPointerWheel
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerWheel_
+  commentId: Overload:Forma.UIContext.InjectPointerWheel
+  fullName: Forma.UIContext.InjectPointerWheel
+  nameWithType: UIContext.InjectPointerWheel
 - uid: Forma.UIContext.InputModality
   name: InputModality
   href: api/Forma.UIContext.html#Forma_UIContext_InputModality

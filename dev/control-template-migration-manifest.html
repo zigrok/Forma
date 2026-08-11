@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/3260a3c62e13e9d4abc6fe3bd7ef3b7703d49ea9/docs/control-template-migration-manifest.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/d1ad57b34e461d022c30cd3aad95d141a70c7bee/docs/control-template-migration-manifest.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -235,7 +235,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>Label</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>Label.cs</code></td>
 <td>Drawing primitive</td>
 <td>Text/font/color, wrapping, clipping, alignment, bidi/language, padding</td>
 <td>Migrate/alias to <code>TextBlock</code>; no template. <code>F</code></td>
@@ -412,7 +412,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 <tbody>
 <tr>
 <td><code>BaseButton</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>Buttons.cs</code></td>
 <td><code>BTN</code></td>
 <td>Action mode, toggle/group, shortcut, text/icon alignment</td>
 <td><code>B</code></td>
@@ -420,7 +420,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>Button</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>Buttons.cs</code></td>
 <td><code>BTN</code></td>
 <td>Base button behavior and arbitrary content compatibility</td>
 <td><code>B</code></td>
@@ -428,7 +428,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>CheckBox</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>Buttons.cs</code></td>
 <td><code>CHECK</code></td>
 <td>Toggle state and indicator semantics</td>
 <td><code>B</code></td>
@@ -436,7 +436,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>CheckButton</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>Buttons.cs</code></td>
 <td><code>CHECK</code> variant</td>
 <td>CheckBox behavior with alternate packaged chrome</td>
 <td><code>B</code></td>
@@ -476,7 +476,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>Slider</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>Slider.cs</code></td>
 <td><code>RANGE</code></td>
 <td>Value, orientation, pointer/key changes, grabber state</td>
 <td><code>R</code></td>
@@ -484,7 +484,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>HSlider</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>Slider.cs</code></td>
 <td><code>RANGE</code> horizontal</td>
 <td>Slider semantics with fixed orientation</td>
 <td><code>R</code></td>
@@ -492,7 +492,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>VSlider</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>Slider.cs</code></td>
 <td><code>RANGE</code> vertical</td>
 <td>Slider semantics with fixed orientation</td>
 <td><code>R</code></td>
@@ -500,7 +500,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>ProgressBar</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>ProgressBar.cs</code></td>
 <td><code>RANGE</code> progress</td>
 <td>Fill ratio, percentage text, range semantics</td>
 <td><code>R</code></td>
@@ -564,7 +564,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>LineEdit</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>LineEdit.cs</code></td>
 <td><code>EDITOR</code> line</td>
 <td>Editing, selection, IME, clipboard, history, secret text</td>
 <td><code>E</code></td>
@@ -572,7 +572,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>TextEdit</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>TextEdit.cs</code></td>
 <td><code>EDITOR</code> text</td>
 <td>Multiline editing, wrapping, gutters and scrolling</td>
 <td><code>E</code></td>
@@ -588,7 +588,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>SpinBox</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>SpinBox.cs</code></td>
 <td><code>EDITOR</code> numeric</td>
 <td>Numeric parsing, prefix/suffix, repeat and drag adjustment</td>
 <td><code>E/R</code></td>
@@ -596,7 +596,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>OptionButton</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>OptionButton.cs</code></td>
 <td><code>CHOICE</code> popup</td>
 <td>Item identity, popup selection, shortcuts, longest-fit</td>
 <td><code>B/L</code></td>
@@ -612,7 +612,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>TabContainer</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>TabContainer.cs</code></td>
 <td><code>CHOICE</code> pages</td>
 <td>Selected logical page projection and tab policy</td>
 <td><code>B/L</code></td>
@@ -620,7 +620,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>ScrollContainer</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>ScrollContainer.cs</code></td>
 <td><code>SCROLL</code></td>
 <td>Viewport policy, wheel/touch/focus-follow, hints, RTL</td>
 <td><code>R/V</code></td>
@@ -628,7 +628,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>Popup</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>Popup.cs</code></td>
 <td><code>POPUP</code></td>
 <td>Modal focus, outside click, Escape, focus restoration</td>
 <td><code>M</code></td>
@@ -636,7 +636,7 @@ coverage. <code>Signal Run all</code> means HUD, settings, and result XAML plus 
 </tr>
 <tr>
 <td><code>PopupPanel</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>Popup.cs</code></td>
 <td><code>POPUP</code> panel</td>
 <td>Popup behavior with panel chrome</td>
 <td><code>M</code></td>
@@ -823,7 +823,7 @@ release; implementation types can then become internal.</p>
 <tbody>
 <tr>
 <td><code>DynamicGlyphAtlasView</code></td>
-<td><code>Controls.cs</code></td>
+<td><code>DynamicGlyphAtlasView.cs</code></td>
 <td>Diagnostic atlas-page rendering</td>
 <td>Move behind diagnostics model/package; not general vocabulary</td>
 <td><code>F</code></td>
@@ -831,7 +831,7 @@ release; implementation types can then become internal.</p>
 </tr>
 <tr>
 <td><code>SpinBoxLineEdit</code></td>
-<td><code>AdvancedControls.cs</code></td>
+<td><code>SpinBox.cs</code></td>
 <td>Route Up/Down while retaining line editing</td>
 <td><code>SpinBox.PART_Editor</code>; change <code>SpinBox.LineEdit</code> return type to <code>LineEdit</code></td>
 <td><code>E</code></td>
@@ -913,7 +913,7 @@ Catalog/Signal Run ownership, and focused parity gate together.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/3260a3c62e13e9d4abc6fe3bd7ef3b7703d49ea9/docs/control-template-migration-manifest.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/d1ad57b34e461d022c30cd3aad95d141a70c7bee/docs/control-template-migration-manifest.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -930,7 +930,7 @@ Catalog/Signal Run ownership, and focused parity gate together.</p>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 3260a3c62e13 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · d1ad57b34e46 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

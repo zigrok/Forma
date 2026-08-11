@@ -1,10 +1,10 @@
 {
-  "PublicTypes": 495,
-  "DocumentedTypes": 208,
-  "TypeCoveragePercent": 42.02020202020202,
-  "PublicMembers": 5315,
-  "DocumentedMembers": 615,
-  "MemberCoveragePercent": 11.571025399811854,
+  "PublicTypes": 498,
+  "DocumentedTypes": 211,
+  "TypeCoveragePercent": 42.369477911646584,
+  "PublicMembers": 5363,
+  "DocumentedMembers": 664,
+  "MemberCoveragePercent": 12.381129964572068,
   "MinimumTypeCoveragePercent": 27.65,
   "MinimumMemberCoveragePercent": 11.57,
   "Controls": [
@@ -324,6 +324,14 @@
       "Control": "GridPanel",
       "Story": "Forma.Catalog/Stories/Controls/GridPanel.xaml",
       "ApiUid": "Forma.GridPanel",
+      "MetadataExists": true,
+      "PageExists": true,
+      "Documented": true
+    },
+    {
+      "Control": "GroupBox",
+      "Story": "Forma.Catalog/Stories/Controls/GroupBox.xaml",
+      "ApiUid": "Forma.GroupBox",
       "MetadataExists": true,
       "PageExists": true,
       "Documented": true

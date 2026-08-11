@@ -53,6 +53,7 @@
         "Forma.FoldableContainer",
         "Forma.GridContainer",
         "Forma.GridPanel",
+        "Forma.GroupBox",
         "Forma.HBoxContainer",
         "Forma.HFlowContainer",
         "Forma.HScrollBar",
