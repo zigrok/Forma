@@ -145,6 +145,12 @@ namespace Forma
             DrawImageCore(source, sourceRectangle, bounds, transform, tint, samplingMode);
         }
 
+        /// <summary>Draws an SVG-first theme icon with its configured bitmap fallback.</summary>
+        public void DrawIcon(ThemeIcon icon, Rectangle destination, Color tint)
+        {
+            _renderer.Icon(icon, destination, tint);
+        }
+
         private void Draw(DrawingMesh mesh, Func<Vector2, Color> colorAt)
         {
             if (_state.Clip != null) mesh = DrawingPathClipper.Clip(mesh, _state.Clip);

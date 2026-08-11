@@ -2189,6 +2189,7 @@ namespace Forma.Tests
                 Assert.That(typeof(DrawingContext).GetMethod(nameof(DrawingContext.MeasureText)), Is.Not.Null);
                 Assert.That(typeof(DrawingContext).GetMethod(nameof(DrawingContext.DrawText)), Is.Not.Null);
                 Assert.That(typeof(DrawingContext).GetMethod(nameof(DrawingContext.DrawImage)), Is.Not.Null);
+                Assert.That(typeof(DrawingContext).GetMethod(nameof(DrawingContext.DrawIcon)), Is.Not.Null);
             });
 
             root.IsHitTestVisible = false;
