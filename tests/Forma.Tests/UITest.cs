@@ -18,6 +18,16 @@ namespace Forma.Tests
 {
     public class UITest
     {
+        [TestCase(1f, .5f, 2f)]
+        [TestCase(1f, .85f, 1f / .85f)]
+        [TestCase(1f, 1f, 1f)]
+        [TestCase(1f, 1.7f, 1f)]
+        [TestCase(2f, .85f, 2f)]
+        public void VisibleHairlineThickness_CoversAtLeastOnePhysicalPixel(float thickness, float displayScale, float expected)
+        {
+            Assert.That(UIRenderContext.GetVisibleHairlineThickness(thickness, displayScale), Is.EqualTo(expected).Within(.0001f));
+        }
+
         private static readonly GameTime Time = new GameTime();
 
         private sealed class TestClipboard : IClipboard
@@ -81,6 +91,51 @@ namespace Forma.Tests
 
             Assert.That(clicks, Is.EqualTo(1));
             Assert.That(context.FocusedControl, Is.SameAs(button));
+        }
+
+        [Test]
+        public void GroupBox_MeasuresAndArrangesHeaderAboveContent()
+        {
+            var content = new Control { CustomMinimumSize = new Vector2(160, 60) };
+            var group = new GroupBox
+            {
+                Title = "Key bindings",
+                Content = content,
+                Padding = new Thickness(10),
+                HeaderIndent = 8,
+                HeaderGap = 4,
+                BorderWidth = 1,
+                Size = new Vector2(220, 120),
+            };
+            var headerPresenter = (Label)group.GetTemplateChild(GroupBox.HeaderPresenterPartName);
+            headerPresenter.CustomMinimumSize = new Vector2(90, 20);
+            using var context = new UIContext { ViewportSize = group.Size };
+            context.Add(group);
+            context.Layout();
+
+            var contentPresenter = (ContentPresenter)group.GetTemplateChild(ContentControl.ContentPresenterPartName);
+            Assert.Multiple(() =>
+            {
+                Assert.That(group.GetMinimumSize(), Is.EqualTo(new Vector2(182, 101)));
+                Assert.That(headerPresenter.Position, Is.EqualTo(new Vector2(9, 0)));
+                Assert.That(contentPresenter.Position.Y, Is.EqualTo(30));
+                Assert.That(contentPresenter.Size.X, Is.EqualTo(198));
+            });
+        }
+
+        [Test]
+        public void GroupBox_UsesStringHeaderAsAccessibleName()
+        {
+            var group = new GroupBox { Title = "Key bindings" };
+
+            Assert.That(group.AccessibilityRole, Is.EqualTo(AccessibilityRole.Group));
+            Assert.That(group.AccessibilityName, Is.EqualTo("Key bindings"));
+
+            group.Name = "BindingsGroup";
+            Assert.That(group.AccessibilityName, Is.EqualTo("Key bindings"));
+
+            group.AccessibilityLabel = "Keyboard controls";
+            Assert.That(group.AccessibilityName, Is.EqualTo("Keyboard controls"));
         }
 
         [Test]
@@ -1465,6 +1520,19 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void OptionButton_CustomMinimumSizeIsAFloorRatherThanAddedToArrow()
+        {
+            var texture = CreateHeadlessTexture(8, 8);
+            var theme = new Theme();
+            theme.SetIcon("arrow", new ThemeIcon(texture, new Rectangle(0, 0, 8, 8), new Point(8, 8)), nameof(OptionButton));
+            var context = new UIContext { Theme = theme };
+            var button = new OptionButton { CustomMinimumSize = new Vector2(360, 38) };
+            context.Add(button);
+
+            Assert.That(button.GetMinimumSize(), Is.EqualTo(new Vector2(360, 38)));
+        }
+
+        [Test]
         public void OptionButton_FiresItemFocusedFromThePopupsIndexFocusedLikeGodot()
         {
             var button = new OptionButton();
@@ -2648,6 +2716,16 @@ namespace Forma.Tests
             box.ReverseSort = true; context.Layout();
             Assert.That(second.Bounds.X, Is.EqualTo(23));
             Assert.That(first.Bounds.X, Is.EqualTo(57));
+        }
+
+        [Test]
+        public void BoxContainer_CustomMinimumSizeIsAFloorRatherThanAddedToChildren()
+        {
+            var box = new HBoxContainer { CustomMinimumSize = new Vector2(100, 30), Separation = 4 };
+            box.AddChild(new Control { CustomMinimumSize = new Vector2(20, 10) });
+            box.AddChild(new Control { CustomMinimumSize = new Vector2(30, 40) });
+
+            Assert.That(box.GetMinimumSize(), Is.EqualTo(new Vector2(100, 40)));
         }
 
         [Test]
@@ -4030,6 +4108,16 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void LineEdit_InitialBoundTextPlacesCaretAtTheEnd()
+        {
+            var edit = new LineEdit { Text = "Tracer" };
+
+            Assert.That(edit.CaretColumn, Is.EqualTo(edit.Text.Length));
+            edit.InsertText("X");
+            Assert.That(edit.Text, Is.EqualTo("TracerX"));
+        }
+
+        [Test]
         public void LineEdit_SelectAllOnFocusSurvivesTheFocusingMouseClickInsteadOfCollapsingToACaret()
         {
             var edit = new LineEdit { Text = "hello", SelectAllOnFocus = true, Size = new Vector2(160, 24) };
@@ -4327,13 +4415,13 @@ namespace Forma.Tests
             var second = new Control { CustomMinimumSize = new Vector2(50, 200) };
             tabs.AddChild(first); tabs.AddChild(second);
 
-            Assert.That(tabs.GetMinimumSize(), Is.EqualTo(new Vector2(120, 88)), "Only the current (first) page's minimum should count, not the larger second page.");
+            Assert.That(tabs.GetMinimumSize(), Is.EqualTo(new Vector2(136, 104)), "Only the current (first) page's minimum plus the body inset should count, not the larger second page.");
 
             tabs.CurrentTab = 1;
-            Assert.That(tabs.GetMinimumSize(), Is.EqualTo(new Vector2(50, 228)), "Switching the current tab changes which page's minimum is folded in.");
+            Assert.That(tabs.GetMinimumSize(), Is.EqualTo(new Vector2(66, 244)), "Switching the current tab changes which page's minimum is folded in.");
 
             tabs.SetPopup(new Popup());
-            Assert.That(tabs.GetMinimumSize().X, Is.EqualTo(70), "An attached popup button adds its width to the minimum, matching Godot's popup_button branch.");
+            Assert.That(tabs.GetMinimumSize().X, Is.EqualTo(86), "An attached popup button adds its width to the inset content minimum, matching Godot's popup_button branch.");
         }
 
         [Test]
@@ -4350,8 +4438,9 @@ namespace Forma.Tests
 
             var expectedHeaderHeight = MathF.Ceiling(Math.Max(28, TextMetrics.LineHeight(font) + 10));
             Assert.That(tabs.EffectiveTabHeight, Is.EqualTo(expectedHeaderHeight));
-            Assert.That(tabs.GetMinimumSize().Y, Is.EqualTo(expectedHeaderHeight + 60));
-            Assert.That(page.Position.Y, Is.EqualTo(expectedHeaderHeight));
+            Assert.That(tabs.GetMinimumSize().Y, Is.EqualTo(expectedHeaderHeight + 76));
+            Assert.That(page.Position, Is.EqualTo(new Vector2(8, expectedHeaderHeight + 8)));
+            Assert.That(page.Size, Is.EqualTo(new Vector2(184, 120 - expectedHeaderHeight - 16)));
         }
 
         [Test]
@@ -4365,6 +4454,30 @@ namespace Forma.Tests
             var visibleBottom = layout.VisibleGlyphs.Max(glyph => glyph.Bounds.Bottom) + titleY;
 
             Assert.That(visibleTop - header.Top, Is.EqualTo(header.Bottom - visibleBottom).Within(.001f));
+        }
+
+        [Test]
+        public void TabContainer_SelectedTabGetsDefaultAccentIndicator()
+        {
+            var tabs = new TabContainer { Size = new Vector2(200, 100), DeselectEnabled = true };
+            tabs.AddChild(new Control());
+            tabs.AddChild(new Control());
+            using var context = new UIContext();
+            context.Add(tabs);
+            context.Layout();
+
+            tabs.CurrentTab = 1;
+            Assert.That(tabs.GetSelectedTabRectangle(), Is.EqualTo(new Rectangle(100, -3, 100, 31)));
+            Assert.That(tabs.GetSelectedTabIndicatorRectangle(), Is.EqualTo(new Rectangle(101, -3, 98, 3)));
+
+            context.Theme.TabSelectedLift = 5;
+            context.Theme.TabSelectedIndicatorHeight = 2;
+            Assert.That(tabs.GetSelectedTabRectangle(), Is.EqualTo(new Rectangle(100, -5, 100, 33)));
+            Assert.That(tabs.GetSelectedTabIndicatorRectangle(), Is.EqualTo(new Rectangle(101, -5, 98, 2)));
+
+            tabs.CurrentTab = -1;
+            Assert.That(tabs.GetSelectedTabRectangle(), Is.EqualTo(Rectangle.Empty));
+            Assert.That(tabs.GetSelectedTabIndicatorRectangle(), Is.EqualTo(Rectangle.Empty));
         }
 
         [Test]
@@ -4893,6 +5006,43 @@ namespace Forma.Tests
             menu.SetShrinkHeight(true);
             menu.PopupAt(Vector2.Zero, new Vector2(120, 0));
             Assert.That(menu.Size, Is.EqualTo(new Vector2(320, 50)));
+        }
+
+        [Test]
+        public void PopupMenu_ExpandsDefaultRowsToFitDynamicFont()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var menu = new PopupMenu { UIFont = new DynamicUIFont(face, 24) };
+            menu.AddItem("First");
+            menu.AddItem("Second");
+            var context = new UIContext();
+            context.Add(menu);
+
+            menu.PopupAt(Vector2.Zero, new Vector2(120, 0));
+
+            Assert.That(menu.EffectiveItemHeight, Is.GreaterThan(menu.ItemHeight));
+            Assert.That(menu.Size.Y, Is.EqualTo(menu.EffectiveItemHeight * 2 + 2));
+            Assert.That(menu.ItemAt(new Point(8, (int)menu.EffectiveItemHeight + 2)), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void PopupMenu_AlignsStateIconWithVisibleItemGlyphs()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var font = new DynamicUIFont(face, 24);
+            var layout = TextMetrics.Layout(font, "100%");
+            var row = new Rectangle(0, 10, 200, 36);
+            var textY = row.Y + Math.Max(2, (row.Height - TextMetrics.LineHeight(font)) / 2);
+            var iconY = PopupMenu.GetItemStateIconY(layout, textY, row, 16);
+            var visibleTop = layout.VisibleGlyphs.Min(glyph => glyph.Bounds.Top) + textY;
+            var visibleBottom = layout.VisibleGlyphs.Max(glyph => glyph.Bounds.Bottom) + textY;
+
+            Assert.That(iconY + 8, Is.EqualTo((visibleTop + visibleBottom) / 2).Within(.001f));
+
+            var emptyLayout = TextMetrics.Layout(font, string.Empty);
+            Assert.That(
+                PopupMenu.GetItemStateIconY(emptyLayout, textY, row, 16),
+                Is.EqualTo(row.Center.Y - 8));
         }
 
         [Test]
@@ -7143,6 +7293,12 @@ namespace Forma.Tests
             // CustomStep, matching Godot's set_horizontal_custom_step/set_vertical_custom_step.
             Assert.That(scroll.HorizontalScrollBar.CustomStep, Is.EqualTo(12));
             Assert.That(scroll.VerticalScrollBar.CustomStep, Is.EqualTo(18));
+            scroll.SetShowHorizontalStepButtons(false);
+            scroll.ShowVerticalStepButtons = false;
+            Assert.That(scroll.IsShowingHorizontalStepButtons(), Is.False);
+            Assert.That(scroll.IsShowingVerticalStepButtons(), Is.False);
+            Assert.That(scroll.HorizontalScrollBar.ShowStepButtons, Is.False);
+            Assert.That(scroll.VerticalScrollBar.ShowStepButtons, Is.False);
             scroll.ScrollTo(Vector2.Zero); scroll.EnsureControlVisible(target);
             Assert.That(scroll.ScrollOffset.X, Is.GreaterThan(0));
             Assert.That(scroll.ScrollOffset.Y, Is.GreaterThan(0));
@@ -7538,6 +7694,68 @@ namespace Forma.Tests
 
             context.Update(Time, Mouse(7, 4, ButtonState.Pressed), new KeyboardState());
             Assert.That(scroll.Value, Is.EqualTo(40), "The decrement button applies the same fallback in the opposite direction.");
+        }
+
+        [Test]
+        public void ScrollBar_HiddenStepButtonsReclaimTrackAndDoNotHandleStepClicks()
+        {
+            var scroll = new VScrollBar { Size = new Vector2(14, 100), MinValue = 0, MaxValue = 100, Page = 20, Step = 2, Value = 40 };
+            var context = new UIContext(); context.Add(scroll);
+
+            Assert.That(scroll.ShowStepButtons, Is.True);
+            Assert.That(scroll.IsShowingStepButtons(), Is.True);
+            scroll.SetShowStepButtons(false);
+
+            Assert.That(scroll.GetMinimumSize(), Is.EqualTo(new Vector2(14, 4)));
+            Assert.That(scroll.GetDecrementButtonRectangle(), Is.EqualTo(new Rectangle(0, 0, 14, 0)));
+            Assert.That(scroll.GetIncrementButtonRectangle(), Is.EqualTo(new Rectangle(0, 100, 14, 0)));
+            Assert.That(scroll.GetGrabberRectangle(), Is.EqualTo(new Rectangle(0, 38, 14, 23)));
+
+            context.Update(Time, Mouse(7, 4, ButtonState.Pressed), new KeyboardState());
+            Assert.That(scroll.Value, Is.EqualTo(20), "The former decrement region becomes page-track space when step buttons are hidden.");
+        }
+
+        [Test]
+        public void ScrollBar_DefaultThemeManifestBindsDirectionalStepButtonIcons()
+        {
+            var bindings = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var entry in DefaultThemeIconResources.ManifestEntries)
+                if (entry.Density == 1)
+                    foreach (var binding in entry.Bindings)
+                        bindings.Add(binding);
+
+            Assert.That(bindings, Does.Contain("HScrollBar:decrement"));
+            Assert.That(bindings, Does.Contain("HScrollBar:increment"));
+            Assert.That(bindings, Does.Contain("VScrollBar:decrement"));
+            Assert.That(bindings, Does.Contain("VScrollBar:increment"));
+        }
+
+        [Test]
+        public void ScrollContainer_FollowFocusIgnoresItsOwnVerticalScrollbarButtons()
+        {
+            var content = new Control { CustomMinimumSize = new Vector2(240, 240) };
+            var scroll = new ScrollContainer
+            {
+                Size = new Vector2(100, 100),
+                FollowFocus = true,
+                HorizontalScrollMode = ScrollBarVisibility.Never,
+                VerticalScrollMode = ScrollBarVisibility.Always,
+                Content = content,
+            };
+            using var context = new UIContext();
+            context.Add(scroll);
+            context.Layout();
+            var arrow = scroll.VerticalScrollBar.GetIncrementButtonRectangle();
+            var point = new Point(
+                scroll.VerticalScrollBar.Bounds.X + arrow.Center.X,
+                scroll.VerticalScrollBar.Bounds.Y + arrow.Center.Y);
+
+            context.Update(Time, Mouse(point.X, point.Y), new KeyboardState());
+            context.Update(Time, Mouse(point.X, point.Y, ButtonState.Pressed), new KeyboardState());
+            scroll.Process(Time);
+
+            Assert.That(scroll.ScrollOffset.X, Is.Zero);
+            Assert.That(scroll.ScrollOffset.Y, Is.GreaterThan(0));
         }
 
         [Test]
@@ -11161,7 +11379,14 @@ namespace Forma.Tests
         [Test]
         public void Themes_InheritStyleItemsColorsAndBaseControlTypeItems()
         {
-            var root = new Theme { AccentColor = Color.Orange };
+            var root = new Theme
+            {
+                AccentColor = Color.Orange,
+                TabSelectedColor = Color.DarkBlue,
+                TabSelectedIndicatorColor = Color.Gold,
+                TabSelectedIndicatorHeight = 4,
+                TabSelectedLift = 6,
+            };
             var baseButtonStyle = new StyleBoxFlat { BackgroundColor = Color.CornflowerBlue };
             root.SetStyleBox("normal", baseButtonStyle, nameof(BaseButton));
             var contextual = new Theme { Parent = root };
@@ -11171,6 +11396,10 @@ namespace Forma.Tests
             panel.AddChild(button); context.Add(panel);
 
             Assert.That(contextual.AccentColor, Is.EqualTo(Color.Orange));
+            Assert.That(contextual.TabSelectedColor, Is.EqualTo(Color.DarkBlue));
+            Assert.That(contextual.TabSelectedIndicatorColor, Is.EqualTo(Color.Gold));
+            Assert.That(contextual.TabSelectedIndicatorHeight, Is.EqualTo(4));
+            Assert.That(contextual.TabSelectedLift, Is.EqualTo(6));
             Assert.That(button.GetThemeStyleBox("normal"), Is.SameAs(baseButtonStyle));
         }
 
@@ -12212,6 +12441,32 @@ namespace Forma.Tests
 
             Assert.That(spin.Value, Is.EqualTo(50));
             Assert.That(spin.IsDraggingValue, Is.False);
+        }
+
+        [Test]
+        public void SpinBox_HorizontalArrowLayoutStepsFromFullHeightEndButtons()
+        {
+            var spin = new SpinBox
+            {
+                Size = new Vector2(100, 24),
+                MinValue = 0,
+                MaxValue = 100,
+                Step = 1,
+                Value = 50,
+                ArrowLayout = SpinBoxArrowLayout.Horizontal,
+            };
+            var context = new UIContext(); context.Add(spin);
+
+            spin.GetArrowButtonRectangles(out var decrement, out var increment);
+            context.Update(Time, Mouse(8, 12, ButtonState.Pressed), new KeyboardState());
+            context.Update(Time, Mouse(8, 12), new KeyboardState());
+            context.Update(Time, Mouse(92, 12, ButtonState.Pressed), new KeyboardState());
+
+            Assert.That(spin.GetArrowLayout(), Is.EqualTo(SpinBoxArrowLayout.Horizontal));
+            Assert.That(decrement, Is.EqualTo(new Rectangle(0, 0, 16, 24)));
+            Assert.That(increment, Is.EqualTo(new Rectangle(84, 0, 16, 24)));
+            Assert.That(spin.Value, Is.EqualTo(50));
+            Assert.Throws<ArgumentOutOfRangeException>(() => spin.SetArrowLayout((SpinBoxArrowLayout)999));
         }
 
         [Test]

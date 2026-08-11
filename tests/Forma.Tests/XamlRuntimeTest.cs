@@ -1177,7 +1177,7 @@ namespace Forma.Tests
         {
             var semanticWidgets = new[]
             {
-                typeof(BaseButton), typeof(Button), typeof(CheckBox), typeof(CheckButton), typeof(LinkButton),
+                typeof(GroupBox), typeof(BaseButton), typeof(Button), typeof(CheckBox), typeof(CheckButton), typeof(LinkButton),
                 typeof(TextureButton), typeof(ColorPresetButton), typeof(ColorPickerButton), typeof(Slider),
                 typeof(HSlider), typeof(VSlider), typeof(ProgressBar), typeof(TextureProgressBar), typeof(ScrollBar),
                 typeof(HScrollBar), typeof(VScrollBar), typeof(SplitContainer), typeof(HSplitContainer),
@@ -1190,7 +1190,7 @@ namespace Forma.Tests
                 typeof(RichTextDocument), typeof(Tree), typeof(SubViewportContainer), typeof(VirtualJoystick),
             };
 
-            Assert.That(semanticWidgets, Has.Length.EqualTo(49));
+            Assert.That(semanticWidgets, Has.Length.EqualTo(50));
             foreach (var widgetType in semanticWidgets)
             {
                 Assert.That(typeof(TemplatedControl).IsAssignableFrom(widgetType), Is.True, $"{widgetType.Name} must be a templated semantic owner.");

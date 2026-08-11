@@ -68,6 +68,39 @@ namespace Forma.RenderTests
         }
 
         [Test]
+        public void UIContext_FractionalDisplayScaleKeepsHairlineBordersVisible()
+        {
+            using var renderTarget = new RenderTarget2D(gd, 85, 85, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+            using var ui = new UIContext { DisplayScale = .85f, ViewportSize = new Vector2(100, 100) };
+            ui.Add(new Panel
+            {
+                Position = new Vector2(3, 3),
+                Size = new Vector2(30, 30),
+                BackgroundColor = Color.Blue,
+                BorderColor = Color.Red,
+                BorderWidth = 1
+            });
+            ui.Add(new Border
+            {
+                Position = new Vector2(43, 43),
+                Size = new Vector2(30, 30),
+                BorderBrush = new SolidColorBrush(Color.Lime),
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(3)
+            });
+
+            gd.SetRenderTarget(renderTarget);
+            gd.Clear(Color.Blue);
+            ui.Draw(gd);
+            gd.SetRenderTarget(null);
+            var pixels = new Color[85 * 85];
+            renderTarget.GetData(pixels);
+
+            Assert.That(pixels[15 + 3 * 85], Is.EqualTo(Color.Red), "The SpriteBatch hairline disappeared at 85% scale.");
+            Assert.That(pixels[49 + 37 * 85], Is.EqualTo(Color.Lime), "The rounded vector hairline disappeared at 85% scale.");
+        }
+
+        [Test]
         public void UIContext_DisplayFontResolverUsesDensityAtlasAtLogicalSize()
         {
             using var logicalTexture = new Texture2D(gd, 1, 1);
@@ -152,6 +185,10 @@ namespace Forma.RenderTests
 
             first.Ensure(1f, ThemeIconRenderingPolicy.BitmapAtlas);
             var firstIcon = first.Theme.GetIcon("arrow", nameof(OptionButton)) ?? throw new AssertionException("Default OptionButton arrow is missing.");
+            Assert.That(first.Theme.GetIcon("decrement", nameof(HScrollBar)), Is.Not.Null);
+            Assert.That(first.Theme.GetIcon("increment", nameof(HScrollBar)), Is.Not.Null);
+            Assert.That(first.Theme.GetIcon("decrement", nameof(VScrollBar)), Is.Not.Null);
+            Assert.That(first.Theme.GetIcon("increment", nameof(VScrollBar)), Is.Not.Null);
             Assert.That(first.Diagnostics.ActiveDensity, Is.EqualTo(1));
             Assert.That(first.Diagnostics.AtlasCount, Is.EqualTo(1));
             Assert.That(first.Diagnostics.TextureBytes, Is.GreaterThan(0));
