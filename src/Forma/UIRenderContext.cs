@@ -121,7 +121,19 @@ namespace Forma
             if (scope.InheritedParent) scope.Override.SetInheritedParent(null);
             Theme = scope.Previous;
         }
-        public void Fill(Rectangle rectangle, Color color) { if (rectangle.Width > 0 && rectangle.Height > 0) _spriteBatch.Draw(_pixel, rectangle, color); }
+        public void Fill(Rectangle rectangle, Color color)
+        {
+            if (rectangle.Width <= 0 || rectangle.Height <= 0) return;
+            var width = GetVisibleHairlineThickness(rectangle.Width, DisplayScale);
+            var height = GetVisibleHairlineThickness(rectangle.Height, DisplayScale);
+            if (width == rectangle.Width && height == rectangle.Height) _spriteBatch.Draw(_pixel, rectangle, color);
+            else _spriteBatch.Draw(_pixel, new Vector2(rectangle.X, rectangle.Y), null, color, 0, Vector2.Zero, new Vector2(width, height), SpriteEffects.None, 0);
+        }
+        internal static float GetVisibleHairlineThickness(float logicalThickness, float displayScale)
+        {
+            if (logicalThickness <= 0) return 0;
+            return MathF.Max(logicalThickness, 1f / displayScale);
+        }
         /// <summary>Draws a theme-owned atlas region into a pixel-rounded logical rectangle.</summary>
         public void Icon(ThemeIcon icon, Rectangle destination, Color color)
         {

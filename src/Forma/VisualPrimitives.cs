@@ -118,10 +118,10 @@ namespace Forma
         internal override void Draw(UIRenderContext context)
         {
             var transform = Matrix.CreateTranslation(GlobalPosition.X, GlobalPosition.Y, 0);
-            var left = MathF.Max(0, BorderThickness.Left);
-            var top = MathF.Max(0, BorderThickness.Top);
-            var right = MathF.Max(0, BorderThickness.Right);
-            var bottom = MathF.Max(0, BorderThickness.Bottom);
+            var left = UIRenderContext.GetVisibleHairlineThickness(BorderThickness.Left, context.DisplayScale);
+            var top = UIRenderContext.GetVisibleHairlineThickness(BorderThickness.Top, context.DisplayScale);
+            var right = UIRenderContext.GetVisibleHairlineThickness(BorderThickness.Right, context.DisplayScale);
+            var bottom = UIRenderContext.GetVisibleHairlineThickness(BorderThickness.Bottom, context.DisplayScale);
             var width = MathF.Max(0, Size.X - left - right);
             var height = MathF.Max(0, Size.Y - top - bottom);
             var innerRadius = new CornerRadius(
