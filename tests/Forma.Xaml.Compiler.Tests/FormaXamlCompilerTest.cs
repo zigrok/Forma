@@ -21,6 +21,28 @@ public sealed class PseudoStateProbe : Control { }
 public class FormaXamlCompilerTest
 {
     [Test]
+    public void Parser_AcceptsTypedResourceValuesInsteadOfRequiringKeyValuePairs()
+    {
+        const string source = """
+            <Control xmlns="https://forma.dev/xaml" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+              <Control.Resources>
+                <ResourceDictionary>
+                  <Style x:Key="caption" Selector="Label">
+                    <Setter Property="FontColor" Value="Red"/>
+                  </Style>
+                </ResourceDictionary>
+              </Control.Resources>
+            </Control>
+            """;
+        var result = new FormaXamlParser().Parse(source, "resources.xaml", new FormaXamlParseOptions
+        {
+            TypeResolver = (ns, name) => ns == Forma.Xaml.XamlNamespaces.Forma
+                ? typeof(Control).Assembly.GetType("Forma." + name) ?? typeof(Control).Assembly.GetType("Forma.Xaml." + name) : null
+        });
+        Assert.That(result.Diagnostics, Is.Empty);
+    }
+
+    [Test]
     public void Parser_ProducesNormalizedSemanticDocument()
     {
         const string source = """
@@ -1222,6 +1244,28 @@ public class FormaXamlCompilerTest
                         Assert.That(((EffectGroup)geometry.Effect).Children, Has.Count.EqualTo(2));
                 });
         }
+
+    [Test]
+    public void CecilCompiler_EmitsSourceIdentityOnActualUnnamedObjects()
+    {
+        var references = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!.ToString()!.Split(Path.PathSeparator).Append(typeof(Control).Assembly.Location);
+        using var typeSystem = new CecilTypeSystem(references, null);
+        var assembly = typeSystem.CreateAndRegisterAssembly("Forma.Xaml.Compiler.SourceOutput", new Version(1, 0), ModuleKind.Dll);
+        var generated = new TypeDefinition("Generated", "SourceView", TypeAttributes.Class | TypeAttributes.Public, assembly.MainModule.TypeSystem.Object);
+        var context = new TypeDefinition("Generated", "SourceContext", TypeAttributes.Class | TypeAttributes.NotPublic, assembly.MainModule.TypeSystem.Object);
+        assembly.MainModule.Types.Add(generated);
+        assembly.MainModule.Types.Add(context);
+        const string source = "<VBoxContainer xmlns='https://forma.dev/xaml'><VBoxContainer><Label Text='unnamed'/></VBoxContainer></VBoxContainer>";
+        var compiler = new FormaXamlCompiler(typeSystem, typeof(Control).Assembly.GetName().Name!);
+        var lowered = compiler.Lower(source, "source.xaml");
+        var metadata = new XamlSourceDocument("source.xaml", source).Describe((ns, name) => typeof(Control).Assembly.GetType("Forma." + name))
+            .ToDictionary(node => node.Node, node => System.Text.Json.JsonSerializer.Serialize(node));
+        compiler.CompileCecil(lowered, typeSystem, generated, context, sourceMetadata: metadata);
+        var calls = generated.Methods.Single(method => method.Name == "Populate").Body.Instructions
+            .Select(instruction => instruction.Operand).OfType<MethodReference>().ToArray();
+        Assert.That(calls.Count(method => method.Name == "SetMetadata"), Is.EqualTo(3));
+        Assert.That(calls.Any(method => method.Name == "FindControlByOrdinal"), Is.False);
+    }
 
     [Test]
     public void CecilCompiler_ConsumesClassDirectiveAndEmitsMethods()

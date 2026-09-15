@@ -1,0 +1,10 @@
+<Label xmlns="https://forma.dev/xaml"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:local="clr-namespace:Forma.Xaml.Build.Integration"
+       x:Class="Forma.Xaml.Build.Integration.BrowserGlyphView"
+       x:DataType="local:BrowserGlyphViewModel"
+       Text="{Binding Text}"
+       Foreground="White"
+       Padding="0"
+       ClipText="True"
+       VisibleCharactersBehavior="CharactersAfterShaping" />

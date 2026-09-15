@@ -4,6 +4,7 @@
 using Forma.Xaml;
 using Forma.Xaml.Build.Integration.Views;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System.ComponentModel;
 
 namespace Forma.Xaml.Build.Integration;
@@ -248,13 +249,13 @@ internal static class Program
             throw new InvalidOperationException("Compiled event hookup did not invoke the code-behind handler.");
         if (styleTarget.CustomMinimumSize != new Vector2(2, 3))
             throw new InvalidOperationException("Compiled event trigger did not start its storyboard.");
-        context.Update(new GameTime(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(100)));
+        context.Update(new GameTime(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(100)), default(MouseState), default(KeyboardState));
         if (styleTarget.CustomMinimumSize != new Vector2(8, 9))
             throw new InvalidOperationException("Compiled storyboard did not advance to its deterministic final value.");
         model.IsActive = true;
         if (dynamicTarget.CustomMinimumSize != new Vector2(1, 2))
             throw new InvalidOperationException("Compiled property trigger did not start its storyboard.");
-        context.Update(new GameTime(TimeSpan.FromMilliseconds(150), TimeSpan.FromMilliseconds(50)));
+        context.Update(new GameTime(TimeSpan.FromMilliseconds(150), TimeSpan.FromMilliseconds(50)), default(MouseState), default(KeyboardState));
         if (dynamicTarget.CustomMinimumSize != new Vector2(1, 2))
             throw new InvalidOperationException("Compiled storyboard did not honor its repeat behavior.");
         dynamicTarget.RaiseStopRequested();

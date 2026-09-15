@@ -3,15 +3,27 @@
     <FormaXamlBuildAssembly Condition="'$(FormaXamlBuildAssembly)' == ''">$(MSBuildThisFileDirectory)..\tools\net10.0\Forma.Xaml.Build.dll</FormaXamlBuildAssembly>
     <FormaXamlValidateOnly Condition="'$(FormaXamlValidateOnly)' == ''">false</FormaXamlValidateOnly>
     <FormaXamlHotReload Condition="'$(FormaXamlHotReload)' == ''">false</FormaXamlHotReload>
+    <FormaXamlAuthoring Condition="'$(FormaXamlAuthoring)' == ''">false</FormaXamlAuthoring>
     <FormaXamlRequireCompiledBindings Condition="'$(FormaXamlRequireCompiledBindings)' == '' and '$(Configuration)' == 'Release'">true</FormaXamlRequireCompiledBindings>
     <FormaXamlRequireCompiledBindings Condition="'$(FormaXamlRequireCompiledBindings)' == ''">false</FormaXamlRequireCompiledBindings>
     <FormaXamlIntermediateDirectory Condition="'$(FormaXamlIntermediateDirectory)' == ''">$(BaseIntermediateOutputPath)$(Configuration)/$(TargetFramework)/FormaXaml</FormaXamlIntermediateDirectory>
+    <FormaXamlIntermediateDirectory Condition="'$(FormaXamlAuthoring)' == 'true'">$(FormaXamlIntermediateDirectory)/authoring</FormaXamlIntermediateDirectory>
+    <_FormaXamlAuthoringIdentityFile Condition="'$(FormaXamlAuthoring)' == 'true'">$(FormaXamlIntermediateDirectory)/source-root.txt</_FormaXamlAuthoringIdentityFile>
     <FormaXamlDevelopmentOutputDirectory Condition="'$(FormaXamlDevelopmentOutputDirectory)' == ''">$(BaseOutputPath)$(Configuration)/$(TargetFramework)/xaml</FormaXamlDevelopmentOutputDirectory>
   </PropertyGroup>
 
   <UsingTask TaskName="Forma.Xaml.Build.DiscoverFormaXaml" AssemblyFile="$(FormaXamlBuildAssembly)" />
   <UsingTask TaskName="Forma.Xaml.Build.CompileFormaXaml" AssemblyFile="$(FormaXamlBuildAssembly)" />
   <UsingTask TaskName="Forma.Xaml.Build.ValidateFormaSvg" AssemblyFile="$(FormaXamlBuildAssembly)" />
+
+  <ItemGroup Condition="'$(FormaXamlAuthoring)' == 'true'">
+    <AdditionalFiles Include="$(_FormaXamlAuthoringIdentityFile)" />
+  </ItemGroup>
+  <Target Name="FormaXamlAuthoringIdentity" BeforeTargets="CoreCompile" Condition="'$(FormaXamlAuthoring)' == 'true'">
+    <MakeDir Directories="$(FormaXamlIntermediateDirectory)" />
+    <WriteLinesToFile File="$(_FormaXamlAuthoringIdentityFile)" Lines="$(FormaXamlSourceRoot)"
+                      Overwrite="true" WriteOnlyWhenDifferent="true" />
+  </Target>
 
   <ItemGroup Condition="'$(EnableDefaultItems)' == 'true' and '$(EnableDefaultNoneItems)' == 'true'">
     <FormaXaml Include="**/*.xaml" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
@@ -39,7 +51,8 @@
           Inputs="@(FormaXaml);$(FormaXamlBuildAssembly)"
           Outputs="$(FormaXamlIntermediateDirectory)/discovery.stamp">
     <MakeDir Directories="$(FormaXamlIntermediateDirectory)" />
-    <DiscoverFormaXaml XamlFiles="@(FormaXaml)" RequireCompiledBindings="$(FormaXamlRequireCompiledBindings)">
+    <DiscoverFormaXaml XamlFiles="@(FormaXaml)" RequireCompiledBindings="$(FormaXamlRequireCompiledBindings)"
+                       Authoring="$(FormaXamlAuthoring)">
       <Output TaskParameter="Roots" ItemName="_FormaXamlRoots" />
     </DiscoverFormaXaml>
     <Touch Files="$(FormaXamlIntermediateDirectory)/discovery.stamp" AlwaysCreate="true" />
@@ -57,7 +70,7 @@
       BeforeTargets="ILLink;ComputeIlcCompileInputs;IlcCompile;LinkNative;PrepareForPublish;CopyFilesToOutputDirectory;Publish"
           DependsOnTargets="ResolveReferences"
           Condition="'@(FormaXaml)' != ''"
-          Inputs="@(FormaXaml);@(IntermediateAssembly);$(FormaXamlBuildAssembly);$(MSBuildThisFileFullPath);@(ReferencePath)"
+          Inputs="@(FormaXaml);@(IntermediateAssembly);$(FormaXamlBuildAssembly);$(MSBuildThisFileFullPath);@(ReferencePath);$(_FormaXamlAuthoringIdentityFile)"
           Outputs="$(FormaXamlIntermediateDirectory)/compile.stamp">
     <CompileFormaXaml XamlFiles="@(FormaXaml)"
                   TargetAssembly="@(IntermediateAssembly)"
@@ -65,7 +78,9 @@
                   TargetPdb="$(IntermediateOutputPath)$(TargetName).pdb"
                       References="@(ReferencePath)"
                       RequireCompiledBindings="$(FormaXamlRequireCompiledBindings)"
-                      ValidateOnly="$(FormaXamlValidateOnly)" />
+                      ValidateOnly="$(FormaXamlValidateOnly)"
+                      Authoring="$(FormaXamlAuthoring)"
+                      AuthoringSourceRoot="$(FormaXamlSourceRoot)" />
               <Touch Files="$(FormaXamlIntermediateDirectory)/compile.stamp" AlwaysCreate="true" />
   </Target>
 

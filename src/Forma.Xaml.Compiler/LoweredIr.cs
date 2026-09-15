@@ -175,9 +175,11 @@ public sealed class FormaLoweredDocument
         IEnumerable<FormaLoweredNode> nodes,
         FormaLoweredScope ownerScope,
         IEnumerable<FormaLoweredTemplate> templates,
-        IEnumerable<FormaLoweredSymbol> symbols)
+        IEnumerable<FormaLoweredSymbol> symbols,
+        string canonicalSource)
     {
         Source = source;
+        CanonicalSource = canonicalSource;
         SourcePath = sourcePath;
         RootNodeId = rootNodeId;
         RootClass = rootClass;
@@ -190,6 +192,7 @@ public sealed class FormaLoweredDocument
     }
 
     public string Source { get; }
+    public string CanonicalSource { get; }
     public string SourcePath { get; }
     public FormaNodeId RootNodeId { get; }
     public string? RootClass { get; }
@@ -207,8 +210,12 @@ public sealed class FormaXamlLowerer
     private readonly List<FormaLoweredSymbol> _symbols = [];
     private readonly Dictionary<FormaXamlObject, FormaNodeId> _nodeIds = [];
 
-    public FormaLoweredDocument Lower(string source, FormaXamlDocument document)
+    public FormaLoweredDocument Lower(string source, FormaXamlDocument document) => Lower(source, document, source);
+
+    public FormaLoweredDocument Lower(string source, FormaXamlDocument document, string canonicalSource)
     {
+        if (AuthoringSourceText.ParserText(canonicalSource) != source)
+            throw new ArgumentException("Canonical source must project exactly to the parsed compiler input.", nameof(canonicalSource));
         _symbolIds.Clear();
         _symbols.Clear();
         _nodeIds.Clear();
@@ -260,7 +267,8 @@ public sealed class FormaXamlLowerer
             loweredNodes,
             new FormaLoweredScope(0, ownerOperations),
             templates,
-            _symbols);
+            _symbols,
+            canonicalSource);
     }
 
     private IEnumerable<FormaLoweredOperation> LowerScope(FormaXamlObject root, int scopeId, FormaXamlDocument document)

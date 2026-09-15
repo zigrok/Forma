@@ -42,7 +42,8 @@ namespace Forma.Xaml
 
         private T _value;
         internal long Sequence { get; }
-        internal XamlValueLayer Layer { get; }
+        public XamlValueLayer Layer { get; }
+        public bool IsAttached => _entry != null;
         internal long Priority { get; }
         internal T CurrentValue => _value;
 
@@ -52,8 +53,16 @@ namespace Forma.Xaml
             set
             {
                 if (_entry == null) throw new ObjectDisposedException(nameof(XamlValueContribution<T>));
+                var before = _value;
                 _value = value;
-                _entry.Apply();
+                try { _entry.Apply(); }
+                catch (Exception failure)
+                {
+                    _value = before;
+                    try { _entry.Apply(); }
+                    catch (Exception rollback) { throw new AggregateException("Value contribution rollback failed.", failure, rollback); }
+                    throw;
+                }
             }
         }
 
@@ -74,6 +83,21 @@ namespace Forma.Xaml
         }
 
         private static readonly ConditionalWeakTable<object, EntryMap> Values = new ConditionalWeakTable<object, EntryMap>();
+
+        public static XamlValueHandle<T> Inspect<T>(object target, string propertyName)
+        {
+            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (!Values.TryGetValue(target, out var map)) return null;
+            XamlValueHandle<T> result = null;
+            foreach (var entry in map.Entries.Values)
+            {
+                if (entry.Name != propertyName) continue;
+                if (result != null || entry is not XamlValueEntry<T> typed)
+                    throw new InvalidOperationException($"Property '{propertyName}' has ambiguous descriptor identity or an incompatible value type.");
+                result = new XamlValueHandle<T>(typed.Property, typed.Contributions);
+            }
+            return result;
+        }
 
         public static XamlValueContribution<T> Set<T>(
             object target,
@@ -112,7 +136,12 @@ namespace Forma.Xaml
         }
     }
 
-    internal interface IXamlValueEntry { }
+    public sealed record XamlValueHandle<T>(XamlProperty<T> Property, IReadOnlyList<XamlValueContribution<T>> Contributions);
+
+    internal interface IXamlValueEntry
+    {
+        string Name { get; }
+    }
 
     internal sealed class XamlValueEntry<T> : IXamlValueEntry
     {
@@ -131,12 +160,23 @@ namespace Forma.Xaml
         }
 
         public T EffectiveValue { get; private set; }
+        public string Name => _property.Name;
+        public XamlProperty<T> Property => _property;
+        public IReadOnlyList<XamlValueContribution<T>> Contributions => _contributions.AsReadOnly();
 
         public XamlValueContribution<T> Add(XamlValueLayer layer, long priority, T value)
         {
             var contribution = new XamlValueContribution<T>(this, ++_nextSequence, layer, priority, value);
             _contributions.Add(contribution);
-            Apply();
+            try { Apply(); }
+            catch (Exception failure)
+            {
+                // A failed notifying setter must not leave an unowned contribution behind.
+                _contributions.Remove(contribution);
+                try { Apply(); }
+                catch (Exception rollback) { throw new AggregateException("Value contribution rollback failed.", failure, rollback); }
+                throw;
+            }
             return contribution;
         }
 

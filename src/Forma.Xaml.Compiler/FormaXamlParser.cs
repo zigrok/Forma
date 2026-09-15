@@ -406,7 +406,8 @@ public sealed class FormaXamlParser
             diagnostics.Add(Diagnostic(FormaDiagnosticCodes.ContentModel, $"Property '{node.TypeName}' was not found.", node.Location));
             return;
         }
-        var elementType = GetCollectionElementType(property.PropertyType);
+        // XAML resource entries are values, not the dictionary's CLR KeyValuePair enumerator.
+        var elementType = property.PropertyType == typeof(ResourceDictionary) ? typeof(object) : GetCollectionElementType(property.PropertyType);
         if (elementType == null && node.Children.Count > 1)
             diagnostics.Add(Diagnostic(FormaDiagnosticCodes.ContentModel, $"Property '{node.TypeName}' accepts one value.", node.Children[1].Location));
         var expectedType = elementType ?? property.PropertyType;

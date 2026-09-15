@@ -33,13 +33,16 @@ public abstract class FormaXamlTask : Microsoft.Build.Utilities.Task
         return success;
     }
 
-    protected static string ReadSource(ITaskItem item) => File.ReadAllText(item.GetMetadata("FullPath"));
+    protected static string ReadSource(ITaskItem item, bool authoring = false) => authoring
+        ? AuthoringSourceText.Decode(File.ReadAllBytes(item.GetMetadata("FullPath")))
+        : File.ReadAllText(item.GetMetadata("FullPath"));
 }
 
 public sealed class DiscoverFormaXaml : FormaXamlTask
 {
     [Required] public ITaskItem[] XamlFiles { get; set; } = [];
     public bool RequireCompiledBindings { get; set; }
+    public bool Authoring { get; set; }
     [Output] public ITaskItem[] Roots { get; private set; } = [];
 
     public override bool Execute()
@@ -49,7 +52,14 @@ public sealed class DiscoverFormaXaml : FormaXamlTask
         var success = true;
         foreach (var file in XamlFiles)
         {
-            var result = parser.Parse(ReadSource(file), file.ItemSpec, new FormaXamlParseOptions { RequireCompiledBindings = RequireCompiledBindings });
+            var source = ReadSource(file, Authoring);
+            if (Authoring)
+            {
+                try { _ = new XamlSourceDocument(file.ItemSpec, source); }
+                catch (System.Xml.XmlException error) { Log.LogError(error.Message); return false; }
+            }
+            var result = parser.Parse(Authoring ? AuthoringSourceText.ParserText(source) : source, file.ItemSpec,
+                new FormaXamlParseOptions { RequireCompiledBindings = RequireCompiledBindings });
             success &= LogDiagnostics(result.Diagnostics);
             if (result.Document == null) continue;
             var root = new TaskItem(file);
@@ -77,16 +87,38 @@ public sealed class CompileFormaXaml : FormaXamlTask
     public ITaskItem[] References { get; set; } = [];
     public bool RequireCompiledBindings { get; set; }
     public bool ValidateOnly { get; set; }
+    public bool Authoring { get; set; }
+    public string? AuthoringSourceRoot { get; set; }
 
     public override bool Execute()
     {
+        if (Authoring && (string.IsNullOrWhiteSpace(AuthoringSourceRoot) || !Path.IsPathFullyQualified(AuthoringSourceRoot)))
+        {
+            Log.LogError("Authoring requires an explicit absolute FormaXamlSourceRoot.");
+            return false;
+        }
         var parser = new FormaXamlParser();
         var documents = new List<(ITaskItem Item, string Source, FormaXamlDocument Document)>();
         var success = true;
         foreach (var file in XamlFiles)
         {
-            var source = ReadSource(file);
-            var result = parser.Parse(source, file.ItemSpec, new FormaXamlParseOptions { RequireCompiledBindings = RequireCompiledBindings });
+            var source = ReadSource(file, Authoring);
+            var sourceIdentity = file.ItemSpec;
+            if (Authoring)
+            {
+                try
+                {
+                    sourceIdentity = AuthoringSourceIdentity.RelativeDocument(AuthoringSourceRoot!, Path.GetFullPath(file.ItemSpec, ProjectDirectory));
+                    _ = new XamlSourceDocument(sourceIdentity, source);
+                }
+                catch (Exception error) when (error is ArgumentException or System.Xml.XmlException)
+                {
+                    Log.LogError(error.Message);
+                    return false;
+                }
+            }
+            var result = parser.Parse(Authoring ? AuthoringSourceText.ParserText(source) : source, sourceIdentity,
+                new FormaXamlParseOptions { RequireCompiledBindings = RequireCompiledBindings });
             success &= LogDiagnostics(result.Diagnostics);
             if (result.Document != null) documents.Add((file, source, result.Document));
         }
@@ -111,8 +143,9 @@ public sealed class CompileFormaXaml : FormaXamlTask
             var compiler = new FormaXamlCompiler(typeSystem, assembly.Name.Name, ProjectDirectory);
             foreach (var item in documents)
             {
-                var lowered = new FormaXamlLowerer().Lower(item.Source, item.Document);
-                CompileDocument(compiler, typeSystem, module, item.Item.ItemSpec, lowered);
+                var lowered = new FormaXamlLowerer().Lower(
+                    Authoring ? AuthoringSourceText.ParserText(item.Source) : item.Source, item.Document, item.Source);
+                CompileDocument(compiler, typeSystem, module, item.Item.ItemSpec, lowered, Authoring);
             }
             var writeSymbols = !string.IsNullOrWhiteSpace(TargetPdb) && File.Exists(TargetPdb);
             assembly.Write(TargetAssembly, new WriterParameters
@@ -134,7 +167,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
         }
     }
 
-    private static void CompileDocument(FormaXamlCompiler compiler, CecilTypeSystem typeSystem, ModuleDefinition module, string sourcePath, FormaLoweredDocument lowered)
+    private static void CompileDocument(FormaXamlCompiler compiler, CecilTypeSystem typeSystem, ModuleDefinition module, string sourcePath, FormaLoweredDocument lowered, bool authoring)
     {
         var suffix = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(sourcePath))).Substring(0, 16);
         var generatedType = new TypeDefinition("Forma.Xaml.Generated", $"View_{suffix}", TypeAttributes.Class | TypeAttributes.NotPublic | TypeAttributes.Abstract | TypeAttributes.Sealed, module.TypeSystem.Object);
@@ -143,9 +176,26 @@ public sealed class CompileFormaXaml : FormaXamlTask
         module.Types.Add(contextType);
         var rootType = lowered.RootClass == null ? null : FindType(module, lowered.RootClass)
             ?? throw new InvalidOperationException($"x:Class type '{lowered.RootClass}' was not found in {module.Assembly.Name.Name}.");
+        if (authoring && rootType == null)
+            throw new InvalidOperationException("Authoring metadata currently requires an x:Class view; standalone resources remain source-only.");
         ValidateTemplates(typeSystem, module, lowered);
         var eventMemberNames = FindEventMemberNames(typeSystem, module, lowered);
-        compiler.CompileCecil(lowered, typeSystem, generatedType, contextType, eventMemberNames);
+        Dictionary<int, string>? sourceMetadata = null;
+        if (authoring)
+        {
+            var forma = typeSystem.Resolve(module.AssemblyReferences.Single(reference => reference.Name == "Forma"));
+            var control = forma.MainModule.GetType("Forma.Control");
+            sourceMetadata = OwnerNodes(lowered)
+                .Where(node => IsControl(ResolveObjectType(typeSystem, module, node, lowered), control))
+                .ToDictionary(node => node.Id.Value, node => SourceMetadata(lowered, node,
+                    node.Id == lowered.RootNodeId ? rootType!.FullName : ResolveObjectType(typeSystem, module, node, lowered)!.FullName));
+            var manifest = lowered.Nodes.Select(node => SourceNode(lowered, node,
+                node.Id == lowered.RootNodeId ? rootType!.FullName :
+                ResolveObjectType(typeSystem, module, node, lowered)?.FullName ?? node.TypeName)).ToArray();
+            sourceMetadata[lowered.RootNodeId.Value] = System.Text.Json.JsonSerializer.Serialize(
+                manifest[lowered.RootNodeId.Value] with { DocumentNodes = manifest });
+        }
+        compiler.CompileCecil(lowered, typeSystem, generatedType, contextType, eventMemberNames, sourceMetadata);
         if (rootType == null)
         {
             rootType = ResolveObjectType(typeSystem, module, lowered.Nodes[lowered.RootNodeId.Value], lowered)
@@ -153,8 +203,14 @@ public sealed class CompileFormaXaml : FormaXamlTask
             RegisterFactory(typeSystem, module, generatedType, rootType);
             return;
         }
-        RegisterPopulate(typeSystem, module, generatedType, rootType, lowered);
+        RegisterPopulate(typeSystem, module, generatedType, rootType, lowered, authoring);
     }
+
+    private static string SourceMetadata(FormaLoweredDocument document, FormaLoweredNode node, string type) =>
+        System.Text.Json.JsonSerializer.Serialize(SourceNode(document, node, type));
+
+    private static XamlSourceNode SourceNode(FormaLoweredDocument document, FormaLoweredNode node, string type) =>
+        AuthoringSourceText.Describe(document, node, type);
 
     private static void RegisterFactory(CecilTypeSystem typeSystem, ModuleDefinition module, TypeDefinition generatedType, TypeDefinition rootType)
     {
@@ -367,7 +423,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
         foreach (var nested in type.NestedTypes.SelectMany(AllTypes)) yield return nested;
     }
 
-    private static void RegisterPopulate(CecilTypeSystem typeSystem, ModuleDefinition module, TypeDefinition generatedType, TypeDefinition rootType, FormaLoweredDocument lowered)
+    private static void RegisterPopulate(CecilTypeSystem typeSystem, ModuleDefinition module, TypeDefinition generatedType, TypeDefinition rootType, FormaLoweredDocument lowered, bool authoring)
     {
         var formaReference = module.AssemblyReferences.Single(reference => reference.Name == "Forma");
         var formaAssembly = typeSystem.Resolve(formaReference);
@@ -388,7 +444,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
         il.Emit(OpCodes.Pop);
         EmitTemplateScopeAttachments(typeSystem, module, generatedType, lowered);
         EmitTemplates(typeSystem, module, generatedType, wrapper, lowered);
-        EmitStyles(typeSystem, module, generatedType, wrapper, lowered);
+        EmitStyles(typeSystem, module, generatedType, wrapper, lowered, authoring);
         EmitStoryboardsAndTriggers(typeSystem, module, generatedType, wrapper, lowered);
         EmitResourceReferences(typeSystem, module, generatedType, wrapper, lowered);
         EmitEvents(typeSystem, module, generatedType, wrapper, rootType, lowered);
@@ -1439,7 +1495,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
         return method;
     }
 
-        private static void EmitStyles(CecilTypeSystem typeSystem, ModuleDefinition module, TypeDefinition generatedType, MethodDefinition wrapper, FormaLoweredDocument lowered)
+        private static void EmitStyles(CecilTypeSystem typeSystem, ModuleDefinition module, TypeDefinition generatedType, MethodDefinition wrapper, FormaLoweredDocument lowered, bool authoring = false)
     {
             var styleNodes = NodesForOperations(lowered, FormaLoweredOperationKind.Style).ToArray();
             if (styleNodes.Length == 0) return;
@@ -1503,6 +1559,14 @@ public sealed class CompileFormaXaml : FormaXamlTask
                     EmitDelegate(body, funcTarget, getTarget);
                     EmitDelegate(body, actionTarget, setTarget);
                     body.Emit(OpCodes.Newobj, xamlPropertyConstructor);
+                    if (authoring)
+                    {
+                        var sourceType = formaAssembly.MainModule.GetType("Forma.Xaml.XamlSource");
+                        var register = new GenericInstanceMethod(module.ImportReference(sourceType.Methods.Single(method => method.Name == "RegisterProperty")));
+                        register.GenericArguments.Add(valueType);
+                        body.Emit(OpCodes.Ldstr, SourceMetadata(lowered, setter, "Forma.Xaml.Setter"));
+                        body.Emit(OpCodes.Call, register);
+                    }
                     MethodDefinition styleSetterConstructorDefinition;
                     if (valueMember.Value is FormaResourceValue resource)
                     {
@@ -1932,6 +1996,25 @@ public sealed class CompileFormaXaml : FormaXamlTask
 
     private static void EmitStyleValue(ILProcessor body, ModuleDefinition module, AssemblyDefinition formaAssembly, TypeReference valueType, string value)
     {
+        if (valueType is GenericInstanceType nullable && nullable.ElementType.FullName == "System.Nullable`1")
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                var empty = new VariableDefinition(valueType);
+                body.Body.Variables.Add(empty);
+                body.Body.InitLocals = true;
+                body.Emit(OpCodes.Ldloca, empty);
+                body.Emit(OpCodes.Initobj, valueType);
+                body.Emit(OpCodes.Ldloc, empty);
+            }
+            else
+            {
+                EmitStyleValue(body, module, formaAssembly, nullable.GenericArguments[0], value);
+                body.Emit(OpCodes.Newobj, MakeClosedMethod(module,
+                    nullable.Resolve().Methods.Single(method => method.IsConstructor && !method.IsStatic && method.Parameters.Count == 1), nullable));
+            }
+            return;
+        }
         switch (valueType.FullName)
         {
             case "System.String": body.Emit(OpCodes.Ldstr, value); return;

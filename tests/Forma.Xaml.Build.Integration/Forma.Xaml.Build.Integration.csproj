@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
-    <FormaXamlBuildAssembly>$(MSBuildThisFileDirectory)../../src/Forma.Xaml.Build/bin/$(FormaRuntime)/$(Configuration)/net10.0/Forma.Xaml.Build.dll</FormaXamlBuildAssembly>
+    <FormaXamlBuildAssembly Condition="'$(FormaXamlBuildAssembly)' == ''">$(MSBuildThisFileDirectory)../../src/Forma.Xaml.Build/bin/$(FormaRuntime)/$(Configuration)/net10.0/Forma.Xaml.Build.dll</FormaXamlBuildAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +12,8 @@
     <ProjectReference Include="$(MonoGameProjectPath)" Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' != ''" />
     <ProjectReference Include="$(FnaProjectPath)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' != ''" />
     <ProjectReference Include="../../src/Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
-    <ProjectReference Include="../../src/Forma.Xaml.Build/Forma.Xaml.Build.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../../src/Forma.Xaml.Build/Forma.Xaml.Build.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" ReferenceOutputAssembly="false"
+                      Condition="'$(FormaBuildTarget)' != 'Browser'" />
   </ItemGroup>
 
   <Import Project="../../src/Forma.Xaml.Build/buildTransitive/Forma.Xaml.Build.targets" />

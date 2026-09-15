@@ -148,13 +148,13 @@ public sealed class FormaXamlCompiler
     public void CompileCecil(string source, string sourcePath, CecilTypeSystem typeSystem, TypeDefinition generatedType, TypeDefinition contextType, FormaXamlParseOptions? options = null, IReadOnlyCollection<string>? eventMemberNames = null)
         => CompileCecil(Lower(source, sourcePath, options), typeSystem, generatedType, contextType, eventMemberNames);
 
-    public void CompileCecil(FormaLoweredDocument lowered, CecilTypeSystem typeSystem, TypeDefinition generatedType, TypeDefinition contextType, IReadOnlyCollection<string>? eventMemberNames = null)
+    public void CompileCecil(FormaLoweredDocument lowered, CecilTypeSystem typeSystem, TypeDefinition generatedType, TypeDefinition contextType, IReadOnlyCollection<string>? eventMemberNames = null, IReadOnlyDictionary<int, string>? sourceMetadata = null)
     {
         _currentSourcePath = lowered.SourcePath;
         _useSvgFiles = false;
         var compiler = CreateCompiler();
         var contextBuilder = compiler.CreateContextType(typeSystem.CreateTypeBuilder(contextType));
-        var source = ProjectForEmission(lowered, eventMemberNames);
+        var source = ProjectForEmission(lowered, eventMemberNames, sourceMetadata);
         var document = ParseAndTransform(compiler, source);
         compiler.Compile(document, typeSystem.CreateTypeBuilder(generatedType), contextBuilder, "Populate", "Build", "XamlNamespaceInfo", XamlNamespaces.Forma, new StringFileSource(lowered.SourcePath, lowered.Source));
         CompileCecilTemplateFactories(lowered, typeSystem, generatedType, compiler, contextBuilder);
@@ -297,7 +297,7 @@ public sealed class FormaXamlCompiler
         return document;
     }
 
-    private static string ProjectForEmission(FormaLoweredDocument lowered, IReadOnlyCollection<string>? eventMemberNames)
+    private static string ProjectForEmission(FormaLoweredDocument lowered, IReadOnlyCollection<string>? eventMemberNames, IReadOnlyDictionary<int, string>? sourceMetadata = null)
     {
         var xml = XDocument.Parse(lowered.Source, LoadOptions.PreserveWhitespace);
         var elements = xml.Root!.DescendantsAndSelf().ToArray();
@@ -317,6 +317,9 @@ public sealed class FormaXamlCompiler
             .ToHashSet();
         var eventNames = eventMemberNames == null ? null : eventMemberNames.ToHashSet(StringComparer.Ordinal);
         var xamlNamespace = XNamespace.Get(XamlNamespaces.Xaml2006);
+        var authoringNamespace = XNamespace.Get("clr-namespace:Forma.Xaml;assembly=Forma");
+        if (sourceMetadata != null)
+            xml.Root!.SetAttributeValue(XNamespace.Xmlns + "__formaSource", authoringNamespace.NamespaceName);
 
         for (var index = elements.Length - 1; index >= 0; index--)
         {
@@ -341,6 +344,8 @@ public sealed class FormaXamlCompiler
                 element.SetAttributeValue("Name", name.Value);
                 name.Remove();
             }
+            if (sourceMetadata != null && sourceMetadata.TryGetValue(index, out var metadata))
+                element.SetAttributeValue(authoringNamespace + "XamlSource.Metadata", "{}" + metadata);
         }
         return xml.ToString(SaveOptions.DisableFormatting);
     }
