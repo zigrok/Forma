@@ -1,5 +1,29 @@
 # Third-Party Notices
 
+## Browser native text
+
+The optional browser-native build uses FreeType 2.14.3 at
+`0a0221a1347e2f1e07c395263540026e9a0aa7c7` under the FreeType Project License,
+and HarfBuzz 14.4.0 at `36cb489cb02ce4b92099669ba9f9bea348eff93f` under its
+Old MIT license and applicable component notices.
+
+For the .NET workload's LLVM 19 setjmp ABI, the build also compiles the upstream
+Emscripten `system/lib/compiler-rt/emscripten_setjmp.c` implementation at
+`ceee49d2ecdab36a3feb85a684f8e5a453dde910` (3.1.68).
+Copyright 2020 The Emscripten Authors. Emscripten offers this under the MIT
+license or University of Illinois/NCSA Open Source License.
+
+These sources are SHA-256-verified build downloads, not replacements for the
+installed Emscripten toolchain. The build copies the complete upstream notices
+to `artifacts/browser/native-text/licenses`; include those notices when
+redistributing the linked browser platform.
+
+The browser proof fetches full Japanese, Korean and Simplified-Chinese Noto Sans
+CJK fonts at `notofonts/noto-cjk` revision
+`f8d157532fbfaeda587e826d4cd5b21a49186f7c`. Their SIL Open Font License is
+downloaded and copied beside the font content. Fonts are not compiled into the
+native text library.
+
 ## XamlX
 
 Forma's build-time XAML compiler uses a Forma-maintained fork of XamlX pinned in the

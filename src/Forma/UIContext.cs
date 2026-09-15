@@ -60,9 +60,14 @@ namespace Forma
         /// <summary>Game time for the input frame currently being dispatched, used by retained multi-click gestures.</summary>
         public TimeSpan CurrentTime { get; private set; }
 
-        public UIContext()
+        public UIContext() : this(RuntimeClipboard.Instance)
         {
-            Clipboard = RuntimeClipboard.Instance;
+        }
+
+        /// <summary>Creates a context with a host-owned clipboard without probing native platform libraries.</summary>
+        public UIContext(IClipboard clipboard)
+        {
+            Clipboard = clipboard ?? throw new ArgumentNullException(nameof(clipboard));
             Theme = new Theme { FontFamily = UIFontDefaultRegistry.FontFamily };
         }
         public IReadOnlyList<Control> Roots => _roots;
@@ -949,6 +954,7 @@ namespace Forma
             catch (Exception exception) { failure ??= System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception); }
             _iconResources = null;
             TextLayoutEngine.Clear();
+            global::Forma.TextLayoutEngine.ClearSharedCaches();
             failure?.Throw();
         }
     }

@@ -311,6 +311,47 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void ReloadedIdenticalFontPackDoesNotReuseDisposedPrimaryOrFallbackFaces()
+        {
+            var engine = new TextLayoutEngine();
+            using var firstLatin = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            using var firstArabic = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/NotoSansArabic_Variable.ttf");
+            var firstFont = new DynamicUIFont(firstLatin, 24, UIFontHinting.None, firstArabic);
+            var first = engine.Layout(firstFont, "Luna مرحبا");
+            var sameOwners = engine.Layout(new DynamicUIFont(firstLatin, 24, UIFontHinting.None, firstArabic), first.Text);
+            Assert.That(sameOwners, Is.SameAs(first));
+
+            firstArabic.Dispose();
+            using var nextArabic = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/NotoSansArabic_Variable.ttf");
+            var nextFont = new DynamicUIFont(firstLatin, 24, UIFontHinting.None, nextArabic);
+            var fallbackReloaded = engine.Layout(nextFont, first.Text);
+            Assert.That(nextFont.Identity, Is.EqualTo(firstFont.Identity));
+            Assert.That(fallbackReloaded, Is.Not.SameAs(first));
+            foreach (var run in fallbackReloaded.Runs)
+                Assert.That(() => ((DynamicUIFont)run.Font).Face.RasterizeGlyph(run.Glyphs[0].GlyphId, 24), Throws.Nothing);
+
+            firstLatin.Dispose();
+            using var nextLatin = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var primaryReloaded = engine.Layout(new DynamicUIFont(nextLatin, 24, UIFontHinting.None, nextArabic), first.Text);
+            Assert.That(primaryReloaded, Is.Not.SameAs(fallbackReloaded));
+            Assert.That(((DynamicUIFont)primaryReloaded.Runs[0].Font).Face, Is.SameAs(nextLatin));
+        }
+
+        [Test]
+        public void ContextDisposalClearsSharedTextMetricsLayouts()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var font = new DynamicUIFont(face, 24);
+            var layout = TextMetrics.Layout(font, "font pack lifetime");
+            Assert.That(TextMetrics.Layout(font, layout.Text), Is.SameAs(layout));
+            using (var context = new UIContext()) { }
+            Assert.That(TextMetrics.Layout(font, layout.Text), Is.Not.SameAs(layout));
+            var cleared = TextMetrics.Layout(font, layout.Text);
+            TextLayoutEngine.ClearSharedCaches();
+            Assert.That(TextMetrics.Layout(font, layout.Text), Is.Not.SameAs(cleared));
+        }
+
+        [Test]
         public void DynamicLabelCopiesOpenTypeFeaturesIntoItsLayoutContract()
         {
             using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");

@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <FormaBrowserNativeTextRoot Condition="'$(FormaBrowserNativeTextRoot)' == ''">$(MSBuildThisFileDirectory)../../artifacts/browser/native-text</FormaBrowserNativeTextRoot>
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <PublishTrimmed>false</PublishTrimmed>
+    <WasmBuildNative>true</WasmBuildNative>
+    <EmccExtraLDFlags>$(EmccExtraLDFlags) -sSUPPORT_LONGJMP=wasm</EmccExtraLDFlags>
+  </PropertyGroup>
+  <ItemGroup>
+    <NativeFileReference Include="$(FormaBrowserNativeTextRoot)/lib/libforma_dynamictext.a" />
+    <NativeFileReference Include="$(FormaBrowserNativeTextRoot)/lib/libfreetype.a" />
+    <NativeFileReference Include="$(FormaBrowserNativeTextRoot)/lib/libharfbuzz.a" />
+  </ItemGroup>
+  <Target Name="CheckFormaBrowserNativeText" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(RuntimeIdentifier)' != 'browser-wasm'"
+           Text="Forma.DynamicText.Browser.Native.targets is for executable browser-wasm hosts only." />
+    <Error Condition="!Exists('$(FormaBrowserNativeTextRoot)/lib/libforma_dynamictext.a') or !Exists('$(FormaBrowserNativeTextRoot)/lib/libfreetype.a') or !Exists('$(FormaBrowserNativeTextRoot)/lib/libharfbuzz.a')"
+           Text="Build the pinned native font dependencies first: bash Forma/native/dynamictext/build-wasm.sh" />
+  </Target>
+</Project>

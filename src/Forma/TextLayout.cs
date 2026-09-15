@@ -92,6 +92,7 @@ namespace Forma
         internal virtual UIFont ApplyThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) => Resize(size);
         internal virtual UIFontHinting RasterHinting => UIFontHinting.Default;
         internal virtual long ShapeTicks => 0;
+        internal virtual bool SharesLayoutResources(UIFont other) => true;
         internal virtual UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float displayScale) => throw new NotSupportedException($"{GetType().Name} does not support dynamic glyph rasterization.");
         internal abstract TextLayout CreateLayout(string text, TextLayoutOptions options);
         internal abstract void Draw(UIRenderContext context, TextLayout layout, Vector2 position, Color color);
@@ -725,7 +726,7 @@ namespace Forma
             options = Normalize(options);
             if (options.OpenTypeFeatures.Count == 0 && font.DefaultOpenTypeFeatures.Count > 0)
                 options = new TextLayoutOptions(options.MaxWidth, options.Wrapping, options.Alignment, options.Direction, options.LineSpacing, options.TabSize, options.Trimming, options.MaxVisibleCharacters, options.Locale, options.ParagraphSeparator, options.TabStops, font.DefaultOpenTypeFeatures, options.Ellipsis, options.ParagraphSpacing, options.JustificationFlags);
-            var key = new LayoutCacheKey(font.Identity, font.Size, text, options);
+            var key = new LayoutCacheKey(font, font.Size, text, options);
             if (_cache.TryGetValue(key, out var cached))
             {
                 _cacheHits++;
@@ -755,24 +756,33 @@ namespace Forma
             _insertionOrder.Clear();
         }
 
+        /// <summary>Clears detached-control and text-metrics layouts on the UI thread before releasing a font pack.</summary>
+        public static void ClearSharedCaches()
+        {
+            Label.ClearDetachedLayoutCache();
+            TextBlock.ClearDetachedInlineLayoutCache();
+            TextMetrics.ClearLayoutCache();
+        }
+
         private static TextLayoutOptions Normalize(TextLayoutOptions options) => options.LineSpacing == 0 ? TextLayoutOptions.Default : options;
 
         private readonly struct LayoutCacheKey : IEquatable<LayoutCacheKey>
         {
-            public LayoutCacheKey(UIFontIdentity font, float size, string text, TextLayoutOptions options)
+            public LayoutCacheKey(UIFont font, float size, string text, TextLayoutOptions options)
             {
                 Font = font;
                 Size = size;
                 Text = text;
                 Options = options;
             }
-            private UIFontIdentity Font { get; }
+            private UIFont Font { get; }
             private float Size { get; }
             private string Text { get; }
             private TextLayoutOptions Options { get; }
-            public bool Equals(LayoutCacheKey other) => Font == other.Font && Size.Equals(other.Size) && string.Equals(Text, other.Text, StringComparison.Ordinal) && Options == other.Options;
+            public bool Equals(LayoutCacheKey other) => Font.Identity == other.Font.Identity && Font.SharesLayoutResources(other.Font) && other.Font.SharesLayoutResources(Font) &&
+                Size.Equals(other.Size) && string.Equals(Text, other.Text, StringComparison.Ordinal) && Options == other.Options;
             public override bool Equals(object obj) => obj is LayoutCacheKey other && Equals(other);
-            public override int GetHashCode() => HashCode.Combine(Font, Size, StringComparer.Ordinal.GetHashCode(Text), Options);
+            public override int GetHashCode() => HashCode.Combine(Font.Identity, Size, StringComparer.Ordinal.GetHashCode(Text), Options);
         }
     }
 
@@ -1192,6 +1202,7 @@ namespace Forma
     public static class TextMetrics
     {
         private static readonly TextLayoutEngine LayoutEngine = new TextLayoutEngine();
+        internal static void ClearLayoutCache() => LayoutEngine.Clear();
 
         /// <summary>Creates a text layout for the specified font, text, and shaping options.</summary>
         public static TextLayout Layout(UIFont font, string text, TextLayoutOptions options = default)

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Forma.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Forma.DynamicText/Forma.DynamicText.csproj" />
+    <PackageReference Include="$(MonoGamePackageId)" Version="$(MonoGameVersion)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    <Using Include="NUnit.Framework" />
+    <Compile Include="../Forma.Tests/DynamicFontTests.cs" Link="DynamicFontTests.cs" />
+    <None Include="../Assets/Fonts/*.ttf" Link="Fonts/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="RequireRealFontBackend" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(FormaDynamicTextBackend)' != 'External' or '$(FormaDynamicTextBackendSource)' == ''"
+           Text="Run with FormaDynamicTextBackend=External and FormaDynamicTextBackendSource pointing to Browser/BrowserDynamicTextBackend.cs." />
+  </Target>
+</Project>

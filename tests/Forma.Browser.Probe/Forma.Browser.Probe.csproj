@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <PublishTrimmed>false</PublishTrimmed>
+    <WasmBuildNative>true</WasmBuildNative>
+    <WasmEnableWebcil>false</WasmEnableWebcil>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Forma.DynamicText/Forma.DynamicText.csproj" />
+    <NativeFileReference Include="longjmp_probe.c" />
+  </ItemGroup>
+  <Import Project="../../native/dynamictext/Forma.DynamicText.Browser.Native.targets" />
+  <Import Project="../../../MonoGame/native/browser/MonoGame.Browser.Native.targets" />
+</Project>

@@ -231,7 +231,7 @@ namespace Forma
         public IDynamicTextFaceBackend CreateFace(byte[] source, int faceIndex) => new FreeTypeHarfBuzzFaceBackend(source, faceIndex);
     }
 
-    internal sealed unsafe class FreeTypeHarfBuzzFaceBackend : IDynamicTextFaceBackend
+    internal sealed unsafe partial class FreeTypeHarfBuzzFaceBackend : IDynamicTextFaceBackend
     {
         private static int _activePinnedMemories;
         private static int _activeFreeTypeLibraries;
@@ -630,8 +630,16 @@ namespace Forma
 
         private static FontLoadException Error(FontLoadErrorCode errorCode, string message) => new FontLoadException(errorCode, message);
 
-        private sealed class SfntFontData
+    }
+#endif
+
+        internal sealed class SfntFontData
         {
+            private const int MaximumSourceBytes = UIFontFace.MaximumSourceBytes;
+            private const int MaximumFaces = UIFontFace.MaximumFaces;
+            private const int MaximumTables = UIFontFace.MaximumTables;
+            private const int MaximumTableBytes = UIFontFace.MaximumTableBytes;
+            private static FontLoadException Error(FontLoadErrorCode code, string message) => new FontLoadException(code, message);
             private const uint TrueTypeCollectionTag = 0x74746366;
             private readonly byte[] _source;
             private readonly int _faceOffset;
@@ -772,6 +780,9 @@ namespace Forma
             }
         }
 
+#if !FORMA_EXTERNAL_DYNAMIC_TEXT_BACKEND
+    internal sealed unsafe partial class FreeTypeHarfBuzzFaceBackend
+    {
         private sealed class PinnedFontMemoryHandle : SafeHandleZeroOrMinusOneIsInvalid
         {
             public PinnedFontMemoryHandle(byte[] source) : base(true)

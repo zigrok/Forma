@@ -15,11 +15,15 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>disable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FormaDynamicTextBackend Condition="'$(FormaDynamicTextBackend)' == '' and '$(FormaBuildTarget)' == 'Browser'">External</FormaDynamicTextBackend>
+    <FormaDynamicTextBackendSource Condition="'$(FormaDynamicTextBackendSource)' == '' and '$(FormaBuildTarget)' == 'Browser'">$(MSBuildThisFileDirectory)Browser/BrowserDynamicTextBackend.cs</FormaDynamicTextBackendSource>
     <FormaDynamicTextBackend Condition="'$(FormaDynamicTextBackend)' == ''">FreeTypeHarfBuzz</FormaDynamicTextBackend>
     <DefineConstants Condition="'$(FormaDynamicTextBackend)' == 'External'">$(DefineConstants);FORMA_EXTERNAL_DYNAMIC_TEXT_BACKEND</DefineConstants>
+    <DefineConstants Condition="'$(FormaBuildTarget)' == 'Browser'">$(DefineConstants);FORMA_BROWSER_DYNAMIC_TEXT</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Browser/**/*.cs" />
     <ProjectReference Include="../Forma/Forma.csproj"
               AdditionalProperties="FormaRuntime=$(FormaRuntime);MonoGameProjectPath=$(MonoGameProjectPath)"
               Condition="'$(FormaRuntime)' == 'MonoGame'" />
@@ -40,6 +44,8 @@
         Text="FormaDynamicTextBackend must be FreeTypeHarfBuzz or External." />
       <Error Condition="'$(FormaDynamicTextBackend)' == 'External' and '$(FormaDynamicTextBackendSource)' == ''"
         Text="FormaDynamicTextBackendSource is required when FormaDynamicTextBackend=External." />
+      <Error Condition="'$(FormaBuildTarget)' == 'Browser' and '$(FormaDynamicTextBackend)' != 'External'"
+        Text="Browser DynamicText requires a statically linked External backend; desktop FreeTypeSharp/HarfBuzzSharp native assets are not browser libraries." />
     </Target>
 
   <ItemGroup>

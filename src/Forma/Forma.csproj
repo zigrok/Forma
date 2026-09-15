@@ -16,6 +16,8 @@
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <EnableAotAnalyzer>true</EnableAotAnalyzer>
     <IsAotCompatible>true</IsAotCompatible>
+    <DefineConstants Condition="'$(FormaBuildTarget)' == 'Browser'">$(DefineConstants);FORMA_BROWSER</DefineConstants>
+    <FormaBrowserAlpha8EffectPath Condition="'$(FormaBuildTarget)' == 'Browser' and '$(FormaBrowserAlpha8EffectPath)' == ''">$(MSBuildThisFileDirectory)Resources/Alpha8Coverage.Browser.mgfxo.b64</FormaBrowserAlpha8EffectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -45,6 +47,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(FormaRuntime)' == 'MonoGame'">
+    <EmbeddedResource Include="$(FormaBrowserAlpha8EffectPath)" LogicalName="Forma.Alpha8Coverage.Browser.mgfxo.b64"
+                      Condition="'$(FormaBuildTarget)' == 'Browser' and '$(FormaBrowserAlpha8EffectPath)' != ''" />
     <Compile Remove="RuntimeAdapters/FNA/**/*.cs" />
   </ItemGroup>
 

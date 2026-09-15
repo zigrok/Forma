@@ -60,6 +60,14 @@ namespace Forma
             new DynamicUIFont(Face, size, hinting, VariationCoordinates, features, new List<UIFontFace>(FallbackFaces).ToArray());
         internal override UIFontHinting RasterHinting => Hinting;
         internal override long ShapeTicks => Interlocked.Read(ref _shapeTicks);
+        internal override bool SharesLayoutResources(UIFont other)
+        {
+            if (other is not DynamicUIFont font || !ReferenceEquals(Face, font.Face) || FallbackFaces.Count != font.FallbackFaces.Count)
+                return false;
+            for (var index = 0; index < FallbackFaces.Count; index++)
+                if (!ReferenceEquals(FallbackFaces[index], font.FallbackFaces[index])) return false;
+            return true;
+        }
         internal override UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float displayScale) => Face.RasterizeGlyph(glyphId, Size, displayScale, Hinting, VariationCoordinates);
 
         internal override TextLayout CreateLayout(string text, TextLayoutOptions options)

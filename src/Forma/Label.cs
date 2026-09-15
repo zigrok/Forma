@@ -30,6 +30,7 @@ namespace Forma
     public class Label : Control
     {
         private static readonly TextLayoutEngine DynamicLayoutEngine = new TextLayoutEngine();
+        internal static void ClearDetachedLayoutCache() => DynamicLayoutEngine.Clear();
         private readonly UIFontSelection _fontSelection = new UIFontSelection();
         private string _text = string.Empty;
         private LabelAutowrapMode _autowrapMode;

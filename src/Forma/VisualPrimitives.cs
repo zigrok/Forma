@@ -309,6 +309,7 @@ namespace Forma
     public class TextBlock : Label
     {
         private static readonly TextLayoutEngine InlineLayoutEngine = new TextLayoutEngine();
+        internal static void ClearDetachedInlineLayoutCache() => InlineLayoutEngine.Clear();
         private readonly InlineCollection _inlines;
         private string _plainText = string.Empty;
         private float _letterSpacing;

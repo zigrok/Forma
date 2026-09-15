@@ -54,12 +54,18 @@ namespace Forma
 
         private static RuntimeClipboard Create()
         {
+            // Browser clipboard permissions are asynchronous; the synchronous contract reports unavailable.
+            if (OperatingSystem.IsBrowser()) return new RuntimeClipboard(null, null, null);
             foreach (var libraryName in GetLibraryNames())
             {
-                if (!NativeLibrary.TryLoad(libraryName, out var library) ||
-                    !NativeLibrary.TryGetExport(library, "SDL_GetClipboardText", out var getText) ||
+                if (!NativeLibrary.TryLoad(libraryName, out var library)) continue;
+                if (!NativeLibrary.TryGetExport(library, "SDL_GetClipboardText", out var getText) ||
                     !NativeLibrary.TryGetExport(library, "SDL_SetClipboardText", out var setText) ||
-                    !NativeLibrary.TryGetExport(library, "SDL_free", out var free)) continue;
+                    !NativeLibrary.TryGetExport(library, "SDL_free", out var free))
+                {
+                    NativeLibrary.Free(library);
+                    continue;
+                }
                 return new RuntimeClipboard(
                     Marshal.GetDelegateForFunctionPointer<SdlGetClipboardText>(getText),
                     Marshal.GetDelegateForFunctionPointer<SdlSetClipboardText>(setText),

@@ -24,9 +24,14 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <FormaRuntimeWasDefaulted Condition="'$(FormaRuntime)' == ''">true</FormaRuntimeWasDefaulted>
     <FormaRuntime Condition="'$(FormaRuntime)' == ''">MonoGame</FormaRuntime>
+    <FormaBuildTarget Condition="'$(FormaBuildTarget)' == ''">Desktop</FormaBuildTarget>
     <FormaVersion>0.1.0-alpha.2</FormaVersion>
     <BaseIntermediateOutputPath>obj/$(FormaRuntime)/</BaseIntermediateOutputPath>
     <BaseOutputPath>bin/$(FormaRuntime)/</BaseOutputPath>
+    <BaseIntermediateOutputPath Condition="'$(FormaDynamicTextBackend)' == 'External'">obj/$(FormaRuntime)/External/</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(FormaDynamicTextBackend)' == 'External'">bin/$(FormaRuntime)/External/</BaseOutputPath>
+    <BaseIntermediateOutputPath Condition="'$(FormaBuildTarget)' == 'Browser'">obj/$(FormaRuntime)/Browser/</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(FormaBuildTarget)' == 'Browser'">bin/$(FormaRuntime)/Browser/</BaseOutputPath>
     <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
     <PackageOutputPath>$(MSBuildThisFileDirectory)Artifacts/packages/$(FormaRuntime)</PackageOutputPath>
     <MonoGameVersion>3.8.5</MonoGameVersion>
@@ -53,6 +58,12 @@
   <Target Name="ValidateFormaRuntime" BeforeTargets="PrepareForBuild">
     <Error Condition="'$(FormaRuntime)' != 'MonoGame' and '$(FormaRuntime)' != 'FNA'"
            Text="FormaRuntime must be either 'MonoGame' or 'FNA'." />
+    <Error Condition="'$(FormaBuildTarget)' != 'Desktop' and '$(FormaBuildTarget)' != 'Browser'"
+           Text="FormaBuildTarget must be Desktop or Browser." />
+    <Error Condition="'$(FormaBuildTarget)' == 'Browser' and ('$(FormaRuntime)' != 'MonoGame' or '$(MonoGameProjectPath)' == '')"
+           Text="Browser builds require FormaRuntime=MonoGame and MonoGameProjectPath pointing to the browser framework project." />
+    <Error Condition="'$(FormaBuildTarget)' == 'Browser' and ('$(MSBuildProjectName)' == 'Forma.Xaml.Build' or '$(MSBuildProjectName)' == 'Forma.Xaml.Compiler' or '$(MSBuildProjectName)' == 'Forma.Xaml.HotReload')"
+           Text="XAML tooling is desktop-only. Build Forma.Xaml.Build separately with FormaBuildTarget=Desktop and an independent desktop MonoGameProjectPath (or the default package), then set FormaXamlBuildAssembly in the browser module." />
   </Target>
 
   <Target Name="RequireExplicitFormaRuntimeForPack" BeforeTargets="Pack" Condition="'$(IsPackable)' == 'true'">
