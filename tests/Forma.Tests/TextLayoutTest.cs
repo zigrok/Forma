@@ -12,6 +12,38 @@ namespace Forma.Tests
 {
     public class TextLayoutTest
     {
+        [TestCase(false)]
+        [TestCase(true)]
+        public void WrappedLabelMinimumHeightTracksShapedLinesAndResizing(bool dynamicFont)
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            UIFont font = dynamicFont ? new DynamicUIFont(face, 18) : new SpriteFontAdapter(CreateTestFont());
+            var label = new Label
+            {
+                UIFont = font,
+                Text = "Speaker\nA long paragraph with several words that must wrap onto multiple lines.",
+                AutowrapMode = LabelAutowrapMode.WordSmart,
+                Padding = new Thickness(2),
+                ParagraphSpacing = 6,
+                Size = new Vector2(84, 40)
+            };
+            var engine = new TextLayoutEngine();
+            float Height(float width) => engine.Layout(font, label.Text,
+                new TextLayoutOptions(maxWidth: width - 4, wrapping: TextWrapping.Word, paragraphSpacing: 6)).Size.Y + 4;
+
+            var narrow = label.GetMinimumSize();
+            Assert.That(narrow.X, Is.EqualTo(4));
+            Assert.That(narrow.Y, Is.EqualTo(Height(84)).Within(.01f));
+            label.Size = new Vector2(340, 40);
+            Assert.That(label.GetMinimumSize().Y, Is.EqualTo(Height(340)).Within(.01f));
+            Assert.That(label.GetMinimumSize().Y, Is.LessThan(narrow.Y));
+            label.VisibleCharactersBehavior = LabelVisibleCharactersBehavior.CharactersAfterShaping;
+            label.VisibleCharacters = 1;
+            Assert.That(label.GetMinimumSize().Y, Is.EqualTo(Height(340)).Within(.01f));
+            label.ClipText = true;
+            Assert.That(label.GetMinimumSize().Y, Is.EqualTo(5));
+        }
+
         [Test]
         public void SpriteFontAdapter_MatchesAsciiMeasurementAtLogicalSize()
         {

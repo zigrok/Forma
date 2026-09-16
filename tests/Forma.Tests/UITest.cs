@@ -2880,6 +2880,64 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void WrappedBacklogRowsDoNotOverlapAndReflowInsideAScrollContainer()
+        {
+            using var context = new UIContext { ViewportSize = new Vector2(180, 120) };
+            var scroll = new ScrollContainer
+            {
+                Size = context.ViewportSize,
+                HorizontalScrollMode = ScrollBarVisibility.Disabled
+            };
+            var items = new BoxContainer(Orientation.Vertical)
+            {
+                Separation = 10,
+                HorizontalSizeFlags = SizeFlags.Fill | SizeFlags.Expand
+            };
+            scroll.AddChild(items);
+            var labels = new List<Label>();
+            for (var i = 0; i < 5; i++)
+            {
+                var row = new BoxContainer(Orientation.Vertical) { Margins = new Thickness(8, 6, 8, 6) };
+                var label = new Label
+                {
+                    UIFont = new SpriteFontAdapter(CreateTestFont()),
+                    Text = "Speaker\nA long backlog paragraph with words that wrap over several lines.",
+                    AutowrapMode = LabelAutowrapMode.WordSmart,
+                    CustomMinimumSize = new Vector2(0, 40)
+                };
+                row.AddChild(label);
+                items.AddChild(row);
+                labels.Add(label);
+            }
+            context.Add(scroll);
+            void Settle()
+            {
+                for (var frame = 0; frame < 8; frame++)
+                    context.Update(Time, Mouse(0, 0), new KeyboardState());
+                for (var i = 0; i < labels.Count; i++)
+                {
+                    var label = labels[i];
+                    var last = label.GetCharacterBounds(label.Text.Length - 1);
+                    Assert.That(last, Is.Not.EqualTo(Rectangle.Empty));
+                    Assert.That(label.Size.Y, Is.GreaterThanOrEqualTo(last.Bottom));
+                    if (i + 1 < labels.Count)
+                        Assert.That(labels[i + 1].GlobalPosition.Y,
+                            Is.GreaterThanOrEqualTo(label.GlobalPosition.Y + last.Bottom + 10));
+                    Assert.That(label.Size.X, Is.LessThanOrEqualTo(scroll.Size.X - 16));
+                }
+            }
+            Settle();
+            var narrowHeight = items.GetMinimumSize().Y;
+            scroll.Size = new Vector2(420, 120);
+            Settle();
+            Assert.That(items.GetMinimumSize().Y, Is.LessThan(narrowHeight));
+            labels[0].Text += " An additional paragraph that must make this row taller after editing.";
+            Settle();
+            scroll.Size = new Vector2(180, 120);
+            Settle();
+        }
+
+        [Test]
         public void Label_EmptyParagraphSeparatorDisablesSplittingLikeGodot()
         {
             // Godot's set_paragraph_separator assigns the passed string directly with no empty-string
