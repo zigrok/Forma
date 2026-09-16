@@ -397,10 +397,11 @@ namespace Forma
         private Vector2 MeasureTextBlock()
         {
             // Wrapped text must reserve the same height it draws at the assigned width.
-            var dynamicLayout = GetDynamicLayout(useAvailableWidth: AutowrapMode != LabelAutowrapMode.Off);
+            var useAvailableWidth = AutowrapMode != LabelAutowrapMode.Off && CustomMinimumSize.X <= 0;
+            var dynamicLayout = GetDynamicLayout(useAvailableWidth);
             if (dynamicLayout != null) return dynamicLayout.Size;
             if (Font == null || string.IsNullOrEmpty(Text)) return Vector2.Zero;
-            if (AutowrapMode != LabelAutowrapMode.Off)
+            if (useAvailableWidth)
                 return new Vector2(0, GetLayoutsHeight(GetAllLineLayouts()));
             var size = Vector2.Zero;
             var lineCount = 0;
