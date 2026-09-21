@@ -10,6 +10,38 @@ project to disable this initializer. Core-only and opted-out applications contin
 explicitly assigned fonts. Applications can replace the default through `UIContext.Theme.FontFamily`
 or call `DynamicTextDefaults.Install` before constructing contexts.
 
+## Typed rich text and reveal
+
+`TextBlock.Inlines` uses the existing typed `Span`, `Run`, `LineBreak` and
+`InlineImage` tree; it does not require BBCode parsing. Author that tree in Forma
+XAML. Spans inherit font, foreground, background, decoration, language, direction
+and optional `Meta` values into their children. A font override supplies a real
+font face/size, not a synthetic bold or italic approximation.
+
+`VisibleCharacters` counts document graphemes, including combining sequences
+across inline boundaries. A nonnegative count takes precedence over
+`VisibleRatio`; the ratio is clamped to `[0,1]` and must be finite.
+`CharactersBeforeShaping` truncates at the reveal boundary and can change layout.
+The other existing reveal modes retain the complete shaped geometry and hide
+unrevealed glyphs, backgrounds and decorations together. Hidden text has no
+character bounds or active metadata region. Ellipsis is suppressed while reveal
+is incomplete. Inline images participate through `AlternativeText`; an empty
+alternative does not consume a character and remains visible under full reveal.
+
+`GetMetaUnderPosition` takes a context-space point and queries the same visible
+shaped rectangles used for drawing. `MetaClicked` follows the existing
+pointer-press convention, with inherited opaque metadata as its argument. Hidden,
+disabled, clipped-row and synthetic-ellipsis regions do not activate links.
+Hosts decide what metadata means: Forma does not open URLs or dispatch external
+actions automatically.
+
+This path retains the current per-inline/chunk shaping model. It does not yet
+provide paragraph-wide bidirectional reordering or joining across differently
+styled runs, or distinct visual-glyph-order semantics for each glyph reveal
+enum variant. Grapheme-atomic visibility across a style boundary is not a claim
+of cross-style glyph joining. Locale-aware word navigation remains separate.
+The runtime path uses no new reflection or dynamic compilation.
+
 ## Native IME input
 
 On native macOS, editable controls use Option+Left/Right for word movement and

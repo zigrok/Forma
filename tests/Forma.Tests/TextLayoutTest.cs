@@ -217,6 +217,33 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void TextBlock_InlinesHonorGraphemeRevealWithoutReflow()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var text = new TextBlock
+            {
+                UIFont = new DynamicUIFont(face, 18), Padding = Thickness.Zero, Size = new Vector2(300, 60),
+                VisibleCharactersBehavior = LabelVisibleCharactersBehavior.CharactersAfterShaping,
+            };
+            text.Inlines.Add(new Run("Ae\u0301") { Foreground = Color.Red });
+            text.Inlines.Add(new Run("BC") { Decoration = TextDecoration.Underline });
+            var fullSize = text.GetMinimumSize();
+            var accent = text.GetCharacterBounds(1);
+            var final = text.GetCharacterBounds(4);
+            text.VisibleCharacters = 2;
+            Assert.Multiple(() =>
+            {
+                Assert.That(text.GetMinimumSize(), Is.EqualTo(fullSize));
+                Assert.That(text.GetCharacterBounds(1), Is.EqualTo(accent));
+                Assert.That(text.GetCharacterBounds(2), Is.EqualTo(accent));
+                Assert.That(text.GetCharacterBounds(3), Is.EqualTo(Rectangle.Empty));
+                Assert.That(text.GetCharacterBounds(4), Is.EqualTo(Rectangle.Empty));
+            });
+            text.VisibleCharacters = 4;
+            Assert.That(text.GetCharacterBounds(4), Is.EqualTo(final));
+        }
+
+        [Test]
         public void TextLayoutEngine_CachesByValueIdentity()
         {
             var spriteFont = CreateTestFont();

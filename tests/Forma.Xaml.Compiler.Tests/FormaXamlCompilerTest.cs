@@ -1187,7 +1187,7 @@ public class FormaXamlCompilerTest
                             <TextBlock FontSize="18" FontWeight="SemiBold" FontStyle="Italic" FontStretch="Condensed">
                                 <TextBlock.Inlines>
                                     <Run Text="A" />
-                                    <Span>
+                                    <Span Meta="lesson">
                                         <Span.Inlines><Run Text="B" /></Span.Inlines>
                                     </Span>
                                 </TextBlock.Inlines>
@@ -1238,6 +1238,7 @@ public class FormaXamlCompilerTest
                         Assert.That(text.FontStyle, Is.EqualTo(UIFontStyle.Italic));
                         Assert.That(text.FontStretch, Is.EqualTo(UIFontStretch.Condensed));
                         Assert.That(((Span)text.Inlines[1]).Inlines, Has.Count.EqualTo(1));
+                        Assert.That(text.Inlines[1].Meta, Is.EqualTo("lesson"));
                         Assert.That(shape.Fill, Is.TypeOf<RadialGradientBrush>());
                         Assert.That(transforms.Children, Has.Count.EqualTo(2));
                         Assert.That(drawing.Children, Has.Count.EqualTo(1));

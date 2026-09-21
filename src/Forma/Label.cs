@@ -420,10 +420,7 @@ namespace Forma
             var text = GetTextForLayout();
             var boundaries = UnicodeGraphemeSegmenter.GetUtf16Boundaries(text);
             var graphemeCount = Math.Max(0, boundaries.Length - 1);
-            var visibleCount = VisibleCharacters >= 0
-                ? Math.Min(VisibleCharacters, graphemeCount)
-                : (int)MathF.Floor(graphemeCount * MathHelper.Clamp(VisibleRatio, 0, 1));
-            if (VisibleCharacters < 0 && VisibleRatio >= 1) visibleCount = graphemeCount;
+            var visibleCount = TextReveal.VisibleCount(graphemeCount, VisibleCharacters, VisibleRatio);
             var maxVisibleCharacters = visibleCount;
             if (VisibleCharactersBehavior == LabelVisibleCharactersBehavior.CharactersBeforeShaping)
             {
@@ -674,14 +671,9 @@ namespace Forma
         private string GetVisibleText()
         {
             var text = GetTextForLayout();
-            // Godot only substrs the text itself for VC_CHARS_BEFORE_SHAPING; every other behavior
-            // shapes/wraps the FULL text and hides characters per-glyph at draw time instead (out of
-            // scope for this port, which doesn't model glyph-level rendering) - so line count, wrapping,
-            // and minimum size must still be computed from the full text for those behaviors.
+            // Before-shaping reveal changes layout; other modes retain the full shaped geometry.
             if (VisibleCharactersBehavior != LabelVisibleCharactersBehavior.CharactersBeforeShaping) return text;
-            var count = VisibleCharacters >= 0 ? VisibleCharacters : (int)MathF.Floor(text.Length * MathHelper.Clamp(VisibleRatio, 0, 1));
-            if (VisibleCharacters < 0 && VisibleRatio >= 1) count = text.Length;
-            return text.Substring(0, Math.Max(0, Math.Min(text.Length, count)));
+            return text.Substring(0, TextReveal.VisibleEnd(text, VisibleCharacters, VisibleRatio));
         }
         private IReadOnlyList<string> ApplyLineWindow(List<string> lines)
         {

@@ -189,12 +189,14 @@ namespace Forma
         private TextDirection _direction = TextDirection.Inherited;
         private TextDecoration _decoration;
         private float? _letterSpacing;
+        private object _meta;
         public UIFont Font { get => _font; set { if (ReferenceEquals(_font, value)) return; _font = value; Invalidate(); } }
         public Color? Foreground { get => _foreground; set { if (_foreground == value) return; _foreground = value; Invalidate(); } }
         public Color? Background { get => _background; set { if (_background == value) return; _background = value; Invalidate(); } }
         public string Language { get => _language; set { value ??= string.Empty; if (_language == value) return; _language = value; Invalidate(); } }
         public TextDirection Direction { get => _direction; set { if (_direction == value) return; _direction = value; Invalidate(); } }
         public TextDecoration Decoration { get => _decoration; set { if (_decoration == value) return; _decoration = value; Invalidate(); } }
+        public object Meta { get => _meta; set { if (Equals(_meta, value)) return; _meta = value; Invalidate(); } }
         public float? LetterSpacing
         {
             get => _letterSpacing;
@@ -329,6 +331,7 @@ namespace Forma
         }
         public IList<Inline> Inlines => _inlines;
         public bool UsesInlineContent => _inlines.Count != 0;
+        public event Action<TextBlock, object> MetaClicked;
         public float LetterSpacing
         {
             get => _letterSpacing;
@@ -368,38 +371,54 @@ namespace Forma
         public override Rectangle GetCharacterBounds(int position)
         {
             if (_inlines.Count == 0) return base.GetCharacterBounds(position);
-            if (position < 0 || position >= base.Text.Length) return Rectangle.Empty;
-            var layout = BuildInlineLayout(useAvailableWidth: true);
-            var contentHeight = MathF.Max(0, Size.Y - Padding.Vertical);
-            var lineCount = PrepareInlineLayoutForDisplay(layout, contentHeight);
-            var offsetY = VerticalAlignment == VerticalAlignment.Center ? MathF.Max(0, (contentHeight - layout.Size.Y) * .5f)
-                : VerticalAlignment == VerticalAlignment.Bottom ? MathF.Max(0, contentHeight - layout.Size.Y) : 0;
-            for (var lineIndex = 0; lineIndex < lineCount; lineIndex++)
+            if (position < 0 || position >= InlineVisibleEnd) return Rectangle.Empty;
+            foreach (var placement in GetInlinePlacements())
             {
-                var line = layout.Lines[lineIndex];
-                var offsetX = HorizontalAlignment == HorizontalAlignment.Center ? MathF.Max(0, (layout.AvailableWidth - line.Width) * .5f)
-                    : HorizontalAlignment == HorizontalAlignment.Right ? MathF.Max(0, layout.AvailableWidth - line.Width) : 0;
-                foreach (var box in line.Boxes)
+                var box = placement.Box;
+                if (position < box.SourceStart || position >= box.SourceStart + box.SourceLength) continue;
+                if (box.Image != null) return placement.Bounds;
+                var localIndex = position - box.SourceStart;
+                foreach (var cluster in box.TextLayout.Clusters)
                 {
-                    if (position < box.SourceStart || position >= box.SourceStart + box.SourceLength) continue;
-                    var boxY = Padding.Top + offsetY + line.Y + MathF.Max(0, (line.Height - box.Size.Y) * .5f);
-                    if (box.Image != null)
-                        return new Rectangle((int)MathF.Round(Padding.Left + offsetX + box.X), (int)MathF.Round(boxY),
-                            Math.Max(1, (int)MathF.Ceiling(box.Size.X)), Math.Max(1, (int)MathF.Ceiling(box.Size.Y)));
-                    var localIndex = position - box.SourceStart;
-                    foreach (var cluster in box.TextLayout.Clusters)
-                    {
-                        if (localIndex < cluster.Start || localIndex >= cluster.Start + cluster.Length) continue;
-                        return new Rectangle(
-                            (int)MathF.Floor(Padding.Left + offsetX + box.X + cluster.Bounds.X),
-                            (int)MathF.Floor(boxY + cluster.Bounds.Y),
-                            Math.Max(1, (int)MathF.Ceiling(cluster.Bounds.Width)),
-                            Math.Max(1, (int)MathF.Ceiling(cluster.Bounds.Height)));
-                    }
-                    return Rectangle.Empty;
+                    if (localIndex < cluster.Start || localIndex >= cluster.Start + cluster.Length) continue;
+                    return new Rectangle(
+                        (int)MathF.Floor(placement.Position.X + cluster.Bounds.X),
+                        (int)MathF.Floor(placement.Position.Y + cluster.Bounds.Y),
+                        Math.Max(1, (int)MathF.Ceiling(cluster.Bounds.Width)),
+                        Math.Max(1, (int)MathF.Ceiling(cluster.Bounds.Height)));
                 }
+                return Rectangle.Empty;
             }
             return Rectangle.Empty;
+        }
+
+        public object GetMetaUnderPosition(Point position)
+        {
+            if (!Enabled || !Bounds.Contains(position)) return null;
+            var local = new Vector2(position.X, position.Y) - GlobalPosition;
+            foreach (var placement in GetInlinePlacements())
+            {
+                var box = placement.Box;
+                if (box.Style.Meta == null || box.IsEllipsis) continue;
+                if (box.Image != null)
+                {
+                    if (local.X >= placement.Bounds.Left && local.X < placement.Bounds.Right &&
+                        local.Y >= placement.Bounds.Top && local.Y < placement.Bounds.Bottom) return box.Style.Meta;
+                    continue;
+                }
+                var point = local - placement.Position;
+                foreach (var rectangle in VisibleRectangles(box))
+                    if (point.X >= rectangle.X && point.X < rectangle.Right &&
+                        point.Y >= rectangle.Y && point.Y < rectangle.Bottom) return box.Style.Meta;
+            }
+            return null;
+        }
+
+        internal override void PointerPressed(Point position)
+        {
+            var meta = GetMetaUnderPosition(position);
+            if (meta != null) { MetaClicked?.Invoke(this, meta); return; }
+            base.PointerPressed(position);
         }
 
         public override Vector2 GetMinimumSize()
@@ -418,36 +437,62 @@ namespace Forma
                 DrawPlainTextDecorations(context);
                 return;
             }
+            foreach (var placement in GetInlinePlacements())
+            {
+                var box = placement.Box;
+                var position = GlobalPosition + placement.Position;
+                if (box.Image != null)
+                {
+                    var rectangle = new Rectangle((int)MathF.Round(position.X), (int)MathF.Round(position.Y), Math.Max(1, (int)MathF.Ceiling(box.Size.X)), Math.Max(1, (int)MathF.Ceiling(box.Size.Y)));
+                    if (box.Style.Background.HasValue) context.Fill(rectangle, box.Style.Background.Value);
+                    if (box.Image.Source != null) context.SpriteBatch.Draw(box.Image.Source, rectangle, Color.White);
+                    else if (box.Image.VectorSource != null) box.Image.VectorSource.Render(context, rectangle);
+                    else if (box.Image.ScalableSource != null) context.DrawScalableImage(box.Image.ScalableSource, rectangle, Color.White);
+                }
+                else
+                {
+                    if (box.Style.Background.HasValue)
+                        foreach (var rectangle in VisibleRectangles(box))
+                            context.Fill(new Rectangle((int)MathF.Floor(position.X + rectangle.X), (int)MathF.Floor(position.Y + rectangle.Y),
+                                Math.Max(1, (int)MathF.Ceiling(rectangle.Width)), Math.Max(1, (int)MathF.Ceiling(rectangle.Height))), box.Style.Background.Value);
+                    var color = Enabled ? box.Style.Foreground ?? FontColor ?? context.Theme.TextColor : context.Theme.DisabledTextColor;
+                    context.Text(box.TextLayout, position, color);
+                    DrawDecorations(context, box, position, color);
+                }
+            }
+        }
+
+        private int InlineVisibleEnd => TextReveal.VisibleEnd(base.Text, VisibleCharacters, VisibleRatio);
+        private bool InlineFullyVisible => InlineVisibleEnd == base.Text.Length &&
+            (VisibleCharacters > 0 || VisibleCharacters < 0 && VisibleRatio >= 1);
+
+        private IEnumerable<InlinePlacement> GetInlinePlacements()
+        {
             var layout = BuildInlineLayout(useAvailableWidth: true);
             var contentHeight = MathF.Max(0, Size.Y - Padding.Vertical);
             var lineCount = PrepareInlineLayoutForDisplay(layout, contentHeight);
             var offsetY = VerticalAlignment == VerticalAlignment.Center ? MathF.Max(0, (contentHeight - layout.Size.Y) * .5f)
                 : VerticalAlignment == VerticalAlignment.Bottom ? MathF.Max(0, contentHeight - layout.Size.Y) : 0;
-            var origin = GlobalPosition + new Vector2(Padding.Left, Padding.Top + offsetY);
-            for (var lineIndex = 0; lineIndex < lineCount; lineIndex++)
+            var visibleEnd = InlineVisibleEnd;
+            for (var index = 0; index < lineCount; index++)
             {
-                var line = layout.Lines[lineIndex];
+                var line = layout.Lines[index];
                 var offsetX = HorizontalAlignment == HorizontalAlignment.Center ? MathF.Max(0, (layout.AvailableWidth - line.Width) * .5f)
                     : HorizontalAlignment == HorizontalAlignment.Right ? MathF.Max(0, layout.AvailableWidth - line.Width) : 0;
                 foreach (var box in line.Boxes)
                 {
-                    var position = origin + new Vector2(offsetX + box.X, line.Y + MathF.Max(0, (line.Height - box.Size.Y) * .5f));
-                    var rectangle = new Rectangle((int)MathF.Round(position.X), (int)MathF.Round(position.Y), Math.Max(1, (int)MathF.Ceiling(box.Size.X)), Math.Max(1, (int)MathF.Ceiling(box.Size.Y)));
-                    if (box.Style.Background.HasValue) context.Fill(rectangle, box.Style.Background.Value);
-                    if (box.Image != null)
-                    {
-                        if (box.Image.Source != null) context.SpriteBatch.Draw(box.Image.Source, rectangle, Color.White);
-                        else if (box.Image.VectorSource != null) box.Image.VectorSource.Render(context, rectangle);
-                        else if (box.Image.ScalableSource != null) context.DrawScalableImage(box.Image.ScalableSource, rectangle, Color.White);
-                    }
-                    else
-                    {
-                        var color = Enabled ? box.Style.Foreground ?? FontColor ?? context.Theme.TextColor : context.Theme.DisabledTextColor;
-                        context.Text(box.TextLayout, position, color);
-                        DrawDecorations(context, box, position, color);
-                    }
+                    if (box.SourceStart >= visibleEnd && !(InlineFullyVisible && (box.IsEllipsis || box.SourceLength == 0))) continue;
+                    yield return new InlinePlacement(box, new Vector2(Padding.Left + offsetX + box.X,
+                        Padding.Top + offsetY + line.Y + MathF.Max(0, (line.Height - box.Size.Y) * .5f)));
                 }
             }
+        }
+
+        private static IEnumerable<RectangleF> VisibleRectangles(InlineBox box)
+        {
+            foreach (var range in box.TextLayout.VisibleRanges)
+                foreach (var rectangle in box.TextLayout.GetSelectionRectangles(range.Start, range.Length))
+                    yield return rectangle;
         }
 
         private int PrepareInlineLayoutForDisplay(InlineLayout layout, float contentHeight)
@@ -455,7 +500,8 @@ namespace Forma
             var maximum = MaxLinesVisible < 0 ? layout.Lines.Count : Math.Min(MaxLinesVisible, layout.Lines.Count);
             var visible = 0;
             while (visible < maximum && layout.Lines[visible].Y + layout.Lines[visible].Height <= contentHeight) visible++;
-            if (visible == 0 || visible >= layout.Lines.Count || string.IsNullOrEmpty(EllipsisCharacter)) return visible;
+            if (visible == 0 || visible >= layout.Lines.Count || string.IsNullOrEmpty(EllipsisCharacter) ||
+                InlineVisibleEnd < base.Text.Length) return visible;
             var line = layout.Lines[visible - 1];
             var style = line.Boxes.Count > 0
                 ? line.Boxes[line.Boxes.Count - 1].Style
@@ -495,7 +541,7 @@ namespace Forma
                 line.Boxes.RemoveAt(line.Boxes.Count - 1);
                 line.Width = removed.X;
             }
-            var ellipsis = new InlineBox(EllipsisCharacter, ellipsisLayout, style, base.Text.Length);
+            var ellipsis = new InlineBox(EllipsisCharacter, ellipsisLayout, style, base.Text.Length) { IsEllipsis = true };
             ellipsis.X = line.Width;
             line.Boxes.Add(ellipsis);
             line.Width += ellipsis.Size.X;
@@ -508,17 +554,20 @@ namespace Forma
             if (box.Style.Decoration == TextDecoration.None || box.TextLayout.Lines.Count == 0) return;
             var line = box.TextLayout.Lines[0];
             var thickness = Math.Max(1, (int)MathF.Round(box.Style.Font.Size / 14f));
-            var left = (int)MathF.Round(position.X + line.Origin.X);
-            var width = Math.Max(1, (int)MathF.Ceiling(line.Size.X));
-            if ((box.Style.Decoration & TextDecoration.Underline) != 0)
+            foreach (var rectangle in VisibleRectangles(box))
             {
-                var y = (int)MathF.Round(position.Y + line.Origin.Y + line.Baseline + thickness);
-                context.Fill(new Rectangle(left, y, width, thickness), color);
-            }
-            if ((box.Style.Decoration & TextDecoration.Strikethrough) != 0)
-            {
-                var y = (int)MathF.Round(position.Y + line.Origin.Y + line.Baseline * .55f);
-                context.Fill(new Rectangle(left, y, width, thickness), color);
+                var left = (int)MathF.Round(position.X + rectangle.X);
+                var width = Math.Max(1, (int)MathF.Ceiling(rectangle.Width));
+                if ((box.Style.Decoration & TextDecoration.Underline) != 0)
+                {
+                    var y = (int)MathF.Round(position.Y + rectangle.Y + line.Baseline + thickness);
+                    context.Fill(new Rectangle(left, y, width, thickness), color);
+                }
+                if ((box.Style.Decoration & TextDecoration.Strikethrough) != 0)
+                {
+                    var y = (int)MathF.Round(position.Y + rectangle.Y + line.Baseline * .55f);
+                    context.Fill(new Rectangle(left, y, width, thickness), color);
+                }
             }
         }
 
@@ -565,22 +614,24 @@ namespace Forma
             var layout = new InlineLayout(availableWidth);
             var style = new InlineStyle(defaultFont, FontColor, null, Language, TextDirection, Decoration, LetterSpacing);
             var sourceOffset = 0;
-            foreach (var inline in _inlines) AppendInline(layout, inline, style, ref sourceOffset);
+            var visibleEnd = InlineVisibleEnd;
+            foreach (var inline in _inlines) AppendInline(layout, inline, style, ref sourceOffset, visibleEnd);
             layout.FinishLine(GetInlineLineHeight(defaultFont));
             return layout;
         }
 
-        private void AppendInline(InlineLayout target, Inline inline, InlineStyle inherited, ref int sourceOffset)
+        private void AppendInline(InlineLayout target, Inline inline, InlineStyle inherited, ref int sourceOffset, int visibleEnd)
         {
             var style = inherited.With(inline);
+            var beforeShaping = VisibleCharactersBehavior == LabelVisibleCharactersBehavior.CharactersBeforeShaping;
             if (inline is Span span)
             {
-                foreach (var child in span.Inlines) AppendInline(target, child, style, ref sourceOffset);
+                foreach (var child in span.Inlines) AppendInline(target, child, style, ref sourceOffset, visibleEnd);
                 return;
             }
             if (inline is LineBreak)
             {
-                target.FinishLine(GetInlineLineHeight(style.Font));
+                if (!beforeShaping || sourceOffset < visibleEnd) target.FinishLine(GetInlineLineHeight(style.Font));
                 sourceOffset++;
                 return;
             }
@@ -589,23 +640,30 @@ namespace Forma
                 var size = image.Size;
                 if (size.X <= 0 || size.Y <= 0)
                     size = image.Source != null ? new Vector2(image.Source.Width, image.Source.Height) : image.VectorSource?.IntrinsicSize ?? image.ScalableSource?.IntrinsicSize ?? Vector2.Zero;
-                if (size.X > 0 && size.Y > 0) target.Add(new InlineBox(image, size, style, sourceOffset, image.AlternativeText.Length), AutowrapMode != LabelAutowrapMode.Off);
+                if (size.X > 0 && size.Y > 0 && (!beforeShaping || sourceOffset < visibleEnd || InlineFullyVisible))
+                    target.Add(new InlineBox(image, size, style, sourceOffset, image.AlternativeText.Length), AutowrapMode != LabelAutowrapMode.Off);
                 sourceOffset += image.AlternativeText.Length;
                 return;
             }
             if (inline is not Run run || string.IsNullOrEmpty(run.Text)) return;
-            foreach (var text in SplitInlineText(run.Text))
+            foreach (var source in SplitInlineText(run.Text))
             {
-                if (text == "\n") { target.FinishLine(GetInlineLineHeight(style.Font)); sourceOffset++; continue; }
-                if (style.Font == null) { sourceOffset += text.Length; continue; }
+                var localEnd = Math.Clamp(visibleEnd - sourceOffset, 0, source.Length);
+                if (beforeShaping && localEnd == 0) { sourceOffset += source.Length; continue; }
+                if (source == "\n") { target.FinishLine(GetInlineLineHeight(style.Font)); sourceOffset++; continue; }
+                if (style.Font == null) { sourceOffset += source.Length; continue; }
+                var text = beforeShaping ? source.Substring(0, localEnd) : source;
+                var visibleCount = beforeShaping ? int.MaxValue
+                    : UnicodeGraphemeSegmenter.GetUtf16Boundaries(text).Count(boundary => boundary <= localEnd) - 1;
                 var options = new TextLayoutOptions(
                     direction: style.Direction == TextDirection.Inherited ? TextDirection.Auto : style.Direction,
                     lineSpacing: LineHeight > 0 ? LineHeight / style.Font.Size : 1,
+                    maxVisibleCharacters: visibleCount,
                     locale: style.Language);
                 var textLayout = (Context?.TextLayoutEngine ?? InlineLayoutEngine).Layout(style.Font, text, options);
                 if (style.LetterSpacing != 0) textLayout = TextLayoutAdjuster.Apply(textLayout, style.LetterSpacing);
                 target.Add(new InlineBox(text, textLayout, style, sourceOffset), AutowrapMode != LabelAutowrapMode.Off);
-                sourceOffset += text.Length;
+                sourceOffset += source.Length;
             }
         }
 
@@ -635,9 +693,9 @@ namespace Forma
 
         private readonly struct InlineStyle
         {
-            public InlineStyle(UIFont font, Color? foreground, Color? background, string language, TextDirection direction, TextDecoration decoration, float letterSpacing)
+            public InlineStyle(UIFont font, Color? foreground, Color? background, string language, TextDirection direction, TextDecoration decoration, float letterSpacing, object meta = null)
             {
-                Font = font; Foreground = foreground; Background = background; Language = language ?? string.Empty; Direction = direction; Decoration = decoration; LetterSpacing = letterSpacing;
+                Font = font; Foreground = foreground; Background = background; Language = language ?? string.Empty; Direction = direction; Decoration = decoration; LetterSpacing = letterSpacing; Meta = meta;
             }
             public UIFont Font { get; }
             public Color? Foreground { get; }
@@ -646,6 +704,7 @@ namespace Forma
             public TextDirection Direction { get; }
             public TextDecoration Decoration { get; }
             public float LetterSpacing { get; }
+            public object Meta { get; }
             public InlineStyle With(Inline inline) => new InlineStyle(
                 inline.Font ?? Font,
                 inline.Foreground ?? Foreground,
@@ -653,7 +712,17 @@ namespace Forma
                 string.IsNullOrEmpty(inline.Language) ? Language : inline.Language,
                 inline.Direction == TextDirection.Inherited ? Direction : inline.Direction,
                 Decoration | inline.Decoration,
-                inline.LetterSpacing ?? LetterSpacing);
+                inline.LetterSpacing ?? LetterSpacing,
+                inline.Meta ?? Meta);
+        }
+
+        private readonly struct InlinePlacement
+        {
+            public InlinePlacement(InlineBox box, Vector2 position) { Box = box; Position = position; }
+            public InlineBox Box { get; }
+            public Vector2 Position { get; }
+            public Rectangle Bounds => new Rectangle((int)MathF.Round(Position.X), (int)MathF.Round(Position.Y),
+                Math.Max(1, (int)MathF.Ceiling(Box.Size.X)), Math.Max(1, (int)MathF.Ceiling(Box.Size.Y)));
         }
 
         private sealed class InlineBox
@@ -668,6 +737,7 @@ namespace Forma
             public int SourceStart { get; }
             public int SourceLength { get; }
             public float X { get; set; }
+            public bool IsEllipsis { get; set; }
         }
 
         private sealed class InlineLine
