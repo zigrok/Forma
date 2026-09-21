@@ -412,15 +412,22 @@ namespace Forma
             var dropped = false;
             if (_dragSource != null)
             {
+                // Resolve the target while the drag state is still live (GetDropTarget reads
+                // _dragData), then clear it before dispatching. A drop handler is allowed to detach
+                // the drag source - moving a dragged item is the common case - and detaching clears
+                // this state reentrantly, which would otherwise null _dragSource before the
+                // notification below and leave the source notified twice or not at all.
+                var dragSource = _dragSource;
+                var dragData = _dragData;
                 var dropTarget = GetDropTarget(point);
-                if (dropTarget != null)
-                {
-                    dropTarget.DropData(point, _dragData);
-                    dropped = true;
-                }
-                _dragSource.NotifyDragEnded(dropped);
                 _dragSource = null;
                 _dragData = null;
+                if (dropTarget != null)
+                {
+                    dropTarget.DropData(point, dragData);
+                    dropped = true;
+                }
+                dragSource.NotifyDragEnded(dropped);
             }
             DispatchPointerReleased(capture, point);
             RetainedPointerReleased?.Invoke(capture, point);
@@ -498,15 +505,19 @@ namespace Forma
                 var dropped = false;
                 if (_dragSource != null)
                 {
+                    // Same reentrancy contract as InjectPointerRelease: resolve, clear, dispatch,
+                    // then notify the original source exactly once.
+                    var dragSource = _dragSource;
+                    var dragData = _dragData;
                     var dropTarget = GetDropTarget(point);
-                    if (dropTarget != null)
-                    {
-                        dropTarget.DropData(point, _dragData);
-                        dropped = true;
-                    }
-                    _dragSource.NotifyDragEnded(dropped);
                     _dragSource = null;
                     _dragData = null;
+                    if (dropTarget != null)
+                    {
+                        dropTarget.DropData(point, dragData);
+                        dropped = true;
+                    }
+                    dragSource.NotifyDragEnded(dropped);
                 }
                 DispatchPointerReleased(capture, point);
                 RetainedPointerReleased?.Invoke(capture, point);
