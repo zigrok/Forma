@@ -7,12 +7,15 @@ namespace Forma
     {
         public static RuntimeClipboard Instance { get; } = new RuntimeClipboard();
 
+        internal static IClipboard ForGame(Microsoft.Xna.Framework.Game game) => Instance;
+
         private static bool UsesSdl3 => Environment.GetEnvironmentVariable("FNA_PLATFORM_BACKEND") != "SDL2";
 
         private RuntimeClipboard() { }
 
         public string GetText()
         {
+            if (OperatingSystem.IsBrowser()) return null;
             try
             {
                 return UsesSdl3 ? SDL3.SDL.SDL_GetClipboardText() : SDL2.SDL.SDL_GetClipboardText();
@@ -25,6 +28,7 @@ namespace Forma
 
         public bool SetText(string text)
         {
+            if (OperatingSystem.IsBrowser() || (text?.Contains('\0') ?? false)) return false;
             try
             {
                 return UsesSdl3

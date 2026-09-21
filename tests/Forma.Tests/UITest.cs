@@ -3153,7 +3153,7 @@ namespace Forma.Tests
             var edit = new LineEdit { Text = "secret", SecretCharacter = "*", Size = new Vector2(160, 24), ClipboardTextProvider = _ => "X" };
             var copied = string.Empty;
             edit.CopyRequested += (_, text) => copied = text;
-            var context = new UIContext(); context.Add(edit); edit.GrabFocus();
+            var context = new UIContext(new TestClipboard()); context.Add(edit); edit.GrabFocus();
             edit.SelectAll();
 
             context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl));
@@ -4280,6 +4280,7 @@ namespace Forma.Tests
         public void LineEdit_CutFallsBackToCopyWhenNotEditableLikeGodotsUiCut()
         {
             var edit = new LineEdit { Text = "hello", Editable = false };
+            using var context = new UIContext(new TestClipboard()); context.Add(edit);
             edit.Select(0, 5);
             var copied = string.Empty;
             edit.CopyRequested += (_, text) => copied = text;
@@ -10753,6 +10754,7 @@ namespace Forma.Tests
         public void TextEdit_MapsGodotMultiCaretClipboardAndShortcutHooks()
         {
             var edit = new TextEdit { Text = "alpha\nbravo", MultipleCaretsEnabled = true };
+            using var clipboardContext = new UIContext(new TestClipboard()); clipboardContext.Add(edit);
             edit.Select(0, 0, 0, 1); edit.AddCaret(1, 1); edit.Select(1, 0, 1, 1, 1);
             var copied = string.Empty; edit.CopyRequested += (_, text) => copied = text;
             edit.Copy();
@@ -10770,6 +10772,7 @@ namespace Forma.Tests
 
             copied = string.Empty;
             edit = new TextEdit { Text = "one\ntwo", MultipleCaretsEnabled = true };
+            clipboardContext.Add(edit);
             edit.SetCaret(0, 0); edit.AddCaret(1, 0); edit.CopyRequested += (_, text) => copied = text;
             edit.Copy();
             Assert.That(copied, Is.EqualTo("one\ntwo\n"), "No-selection copy uses merged complete line ranges.");

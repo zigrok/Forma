@@ -20,6 +20,26 @@ public sealed class UIContextClipboardTest
         Assert.Throws<ArgumentNullException>(() => new UIContext(null));
     }
 
+    [Test]
+    public void ComponentBindingReplacesOnlyTheDefaultClipboard()
+    {
+        var clipboard = new HostClipboard();
+        using var context = new UIContext();
+        context.BindDefaultClipboard(() => clipboard);
+        Assert.That(context.Clipboard, Is.SameAs(clipboard));
+        context.BindDefaultClipboard(() => throw new InvalidOperationException("Must not replace a host clipboard."));
+        Assert.That(context.Clipboard, Is.SameAs(clipboard));
+    }
+
+    [Test]
+    public void ComponentBindingDoesNotProbeTheRuntimeForAnInjectedClipboard()
+    {
+        var clipboard = new HostClipboard();
+        using var context = new UIContext(clipboard);
+        context.BindDefaultClipboard(() => throw new InvalidOperationException("Must not probe the runtime."));
+        Assert.That(context.Clipboard, Is.SameAs(clipboard));
+    }
+
     private sealed class HostClipboard : IClipboard
     {
         private string _text;

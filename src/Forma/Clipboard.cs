@@ -3,6 +3,9 @@
 
 namespace Forma
 {
+    /// <summary>An editor clipboard operation that the platform could not complete.</summary>
+    public enum ClipboardOperation { Copy, Cut, Paste }
+
     /// <summary>Platform clipboard access used by retained text controls.</summary>
     public interface IClipboard
     {

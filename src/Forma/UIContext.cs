@@ -78,6 +78,10 @@ namespace Forma
         public ResourceDictionary Resources { get; } = new ResourceDictionary();
         /// <summary>Clipboard capability used by copy, cut, and paste commands in retained text controls.</summary>
         public IClipboard Clipboard { get; set; }
+        internal void BindDefaultClipboard(Func<IClipboard> createClipboard)
+        {
+            if (ReferenceEquals(Clipboard, RuntimeClipboard.Instance)) Clipboard = createClipboard();
+        }
         public Theme Theme
         {
             get => _theme;
@@ -1072,6 +1076,7 @@ namespace Forma
         public UIComponent(Game game, UIContext context = null) : base(game)
         {
             Context = context ?? new UIContext();
+            Context.BindDefaultClipboard(() => RuntimeClipboard.ForGame(game));
             _textInput = new RuntimeTextInputAdapter(game, Context);
             _cursor = new RuntimeCursorRouter(Context, new RuntimeCursorAdapter(game));
             game.Deactivated += OnDeactivated;

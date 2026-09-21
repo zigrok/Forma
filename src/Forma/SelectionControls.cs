@@ -3167,8 +3167,7 @@ namespace Forma
         }
         private bool HasCommandModifier()
         {
-            var keyboard = Context?.CurrentKeyboardState ?? default;
-            return keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl) || keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows);
+            return TextInputShortcuts.HasCommandModifier(Context?.CurrentKeyboardState ?? default);
         }
         private bool HasShiftModifier()
         {

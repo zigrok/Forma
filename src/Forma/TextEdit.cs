@@ -72,7 +72,7 @@ namespace Forma
         public new bool UndoEnabled { get; set; } = true;
         public new int UndoStackMaxSize { get; set; } = 50;
         /// <summary>Enables Control/Command copy, cut, paste, and select-all dispatch, matching Godot's <c>shortcut_keys_enabled</c>.</summary>
-        public new bool ShortcutKeysEnabled { get; set; } = true;
+        public new bool ShortcutKeysEnabled { get => base.ShortcutKeysEnabled; set => base.ShortcutKeysEnabled = value; }
         /// <summary>Allows copying/cutting whole caret line ranges when no caret has a selection, matching Godot's <c>empty_selection_clipboard_enabled</c>.</summary>
         public bool EmptySelectionClipboardEnabled { get; set; } = true;
         /// <summary>Optional per-control override used by <see cref="Paste(int)"/> before <see cref="UIContext.Clipboard"/>.</summary>
@@ -402,31 +402,39 @@ namespace Forma
             return string.Join("\n", fragments);
         }
         /// <summary>Requests a host clipboard write using Godot's selection-or-whole-line copy policy.</summary>
-        public void Copy(int caret = -1)
+        public void Copy(int caret = -1) => TryCopy(caret, ClipboardOperation.Copy);
+        private bool TryCopy(int caret, ClipboardOperation operation)
         {
             if (caret >= CaretCount || caret < -1) throw new ArgumentOutOfRangeException(nameof(caret));
             var copied = GetSelectedText(caret);
             if (!string.IsNullOrEmpty(copied))
             {
-                _cutCopyLine = string.Empty; WriteClipboard(copied); return;
+                if (!WriteClipboard(copied, operation)) return false;
+                _cutCopyLine = string.Empty;
+                return true;
             }
-            if (!EmptySelectionClipboardEnabled) return;
+            if (!EmptySelectionClipboardEnabled) return false;
             var ranges = GetCaretLineRanges(caret); var lines = new System.Text.StringBuilder();
             foreach (var range in ranges) for (var line = range.First; line <= range.Last; line++) { lines.Append(GetLine(line)); lines.Append('\n'); }
-            copied = lines.ToString(); _cutCopyLine = CaretCount == 1 ? copied : string.Empty;
-            if (!string.IsNullOrEmpty(copied)) WriteClipboard(copied);
+            copied = lines.ToString();
+            if (string.IsNullOrEmpty(copied) || !WriteClipboard(copied, operation)) return false;
+            _cutCopyLine = CaretCount == 1 ? copied : string.Empty;
+            return true;
         }
         /// <summary>Copies text using <see cref="Copy"/> then removes selections or whole caret line ranges when editable.</summary>
         public void Cut(int caret = -1)
         {
-            Copy(caret); if (!Editable) return;
+            if (!TryCopy(caret, ClipboardOperation.Cut) || !Editable) return;
             if (caret >= CaretCount || caret < -1) throw new ArgumentOutOfRangeException(nameof(caret));
             if (caret >= 0 ? HasCaretSelection(caret) : HasAnyCaretSelection()) { DeleteCaretSelections(caret); return; }
             if (!EmptySelectionClipboardEnabled) return;
             DeleteCaretLines(caret);
         }
         /// <summary>Obtains host clipboard content and applies Godot's multi-caret paste distribution policy.</summary>
-        public void Paste(int caret = -1) => Paste(ClipboardTextProvider?.Invoke(this) ?? Context?.Clipboard?.GetText(), caret);
+        public void Paste(int caret = -1)
+        {
+            if (Editable) Paste(ClipboardTextProvider?.Invoke(this) ?? ReadClipboardText(), caret);
+        }
         /// <summary>Pastes supplied clipboard content at one caret or all carets. A line per caret is used when the counts match.</summary>
         public void Paste(string clipboard, int caret = -1)
         {
@@ -451,10 +459,11 @@ namespace Forma
             foreach (var index in carets) replacements[index] = distributeLines ? replacements[index] : clipboard;
             ApplyMultiCaretEdits(edits, edit => replacements[edit.Caret]);
         }
-        private void WriteClipboard(string text)
+        private bool WriteClipboard(string text, ClipboardOperation operation)
         {
-            Context?.Clipboard?.SetText(text);
+            var accepted = TryWriteClipboardText(text, operation);
             CopyRequested?.Invoke(this, text);
+            return accepted;
         }
         /// <summary>Clears the retained document and secondary carets, matching Godot's <c>clear</c>.</summary>
         public new void Clear()
@@ -721,6 +730,8 @@ namespace Forma
                 if (key == Keys.C) { Copy(); return; }
                 if (key == Keys.X) { Cut(); return; }
                 if (key == Keys.V) { Paste(); return; }
+                if (key == Keys.Z) { if (HasShiftModifier()) Redo(); else Undo(); return; }
+                if (key == Keys.Y) { Redo(); return; }
             }
             var movement = TextNavigation.Resolve(key, Context?.CurrentKeyboardState ?? default, UsesMacTextNavigation, true);
             if (movement != TextNavigationAction.None)
@@ -1050,8 +1061,7 @@ namespace Forma
         private static int CollapseTextIndex(int index, int from, int to) => index <= from ? index : index >= to ? index - (to - from) : from;
         private bool HasCommandModifier()
         {
-            var keyboard = Context?.CurrentKeyboardState ?? default;
-            return keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl) || keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows);
+            return TextInputShortcuts.HasCommandModifier(Context?.CurrentKeyboardState ?? default);
         }
         private bool HasShiftModifier()
         {

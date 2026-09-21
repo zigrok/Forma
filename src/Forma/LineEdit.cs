@@ -168,6 +168,8 @@ namespace Forma
         public event EventHandler TextSubmitted;
         /// <summary>Raised after Copy or Cut submits text to <see cref="UIContext.Clipboard"/>.</summary>
         public event Action<LineEdit, string> CopyRequested;
+        /// <summary>Reports unavailable/rejected clipboard access without exposing clipboard contents.</summary>
+        public event Action<LineEdit, ClipboardOperation> ClipboardOperationFailed;
         /// <summary>Returns the retained context popup, equivalent to Godot's <c>get_menu()</c>.</summary>
         public virtual PopupMenu GetMenu() => _contextMenu;
         public PopupMenu GetTextDirectionMenu() => _directionMenu;
@@ -358,10 +360,12 @@ namespace Forma
             if (!HasSelection || !string.IsNullOrEmpty(SecretCharacter)) return;
             var copied = SelectedText;
             if (string.IsNullOrEmpty(copied)) return;
-            WriteClipboard(copied);
-            DeleteSelection();
+            if (WriteClipboard(copied, ClipboardOperation.Cut)) DeleteSelection();
         }
-        public void Paste() => Paste(ClipboardTextProvider?.Invoke(this) ?? Context?.Clipboard?.GetText());
+        public void Paste()
+        {
+            if (Editable) Paste(ClipboardTextProvider?.Invoke(this) ?? ReadClipboardText());
+        }
         public void Paste(string clipboard)
         {
             if (!Editable || string.IsNullOrEmpty(clipboard)) return;
@@ -404,10 +408,28 @@ namespace Forma
                 case LineEditMenuOption.InsertSoftHyphen: InsertControlCharacter('\u00AD'); break;
             }
         }
-        private void WriteClipboard(string text)
+        private bool WriteClipboard(string text, ClipboardOperation operation = ClipboardOperation.Copy)
         {
-            Context?.Clipboard?.SetText(text);
+            var accepted = TryWriteClipboardText(text, operation);
             CopyRequested?.Invoke(this, text);
+            return accepted;
+        }
+        protected bool TryWriteClipboardText(string text, ClipboardOperation operation)
+        {
+            if (Context?.Clipboard?.SetText(text) == true) return true;
+            ReportClipboardFailure(operation);
+            return false;
+        }
+        protected string ReadClipboardText()
+        {
+            var text = Context?.Clipboard?.GetText();
+            if (text == null) ReportClipboardFailure(ClipboardOperation.Paste);
+            return text;
+        }
+        private void ReportClipboardFailure(ClipboardOperation operation)
+        {
+            System.Diagnostics.Trace.TraceWarning($"Clipboard {operation} was unavailable or rejected; editor text was preserved.");
+            ClipboardOperationFailed?.Invoke(this, operation);
         }
         public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, new Vector2(80, EffectiveUIFont == null ? 24 : TextMetrics.LineHeight(EffectiveUIFont) + Padding.Vertical));
         internal override void PointerPressed(Point position)
@@ -495,7 +517,7 @@ namespace Forma
                 if (key == Keys.C) { Copy(); return; }
                 if (key == Keys.X) { Cut(); return; }
                 if (key == Keys.V) { Paste(); return; }
-                if (key == Keys.Z) { Undo(); return; }
+                if (key == Keys.Z) { if (HasShiftModifier()) Redo(); else Undo(); return; }
                 if (key == Keys.Y) { Redo(); return; }
             }
             if (!Editable) return;
@@ -622,8 +644,7 @@ namespace Forma
         }
         private bool HasCommandModifier()
         {
-            var keyboard = Context?.CurrentKeyboardState ?? default;
-            return keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl) || keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows);
+            return TextInputShortcuts.HasCommandModifier(Context?.CurrentKeyboardState ?? default);
         }
         private bool HasShiftModifier()
         {

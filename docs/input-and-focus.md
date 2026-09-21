@@ -83,6 +83,41 @@ single `LineEdit` can override paste through `ClipboardTextProvider`.
 Run the peer-specific fixture described in [Build your first UI in C#](getting-started/csharp-first-ui.md)
 to validate the full adapter rather than invoking control internals directly.
 
+Desktop text editors support Command+C/X/V/A/Z on macOS and Control+C/X/V/A/Z on
+Windows/Linux, including either side's modifier key and Shift+Command/Control+Z
+for redo. Existing Control/Command aliases are retained; Alt/AltGr combinations
+do not invoke editing shortcuts or interfere with printable text.
+
+`UIComponent` binds the default clipboard to its actual runtime without replacing
+an injected `IClipboard`. Native MonoGame resolves the SDL exports from its
+assembly-relative `mgruntime`; DesktopGL resolves its SDL2 library on Windows,
+macOS and Linux. A Native window never falls back to an unrelated SDL instance.
+Access is retried after early initialization failure. SDL2's zero-success integer
+and SDL3's one-byte success boolean are marshalled separately, and returned UTF-8
+buffers are freed by that same SDL module. FNA uses its SDL2/SDL3 managed wrappers.
+Non-SDL MonoGame windows require a host-provided clipboard.
+
+Cut removes selections or whole caret lines only after `IClipboard.SetText`
+acknowledges the write. Unavailable/rejected copy, cut or paste reports
+`LineEdit.ClipboardOperationFailed` (also inherited by `TextEdit`) and a trace
+warning, without changing text, selections or undo history. `CopyRequested`
+remains a notification of the attempted write, not an acknowledgement: custom
+hosts should supply `IClipboard`, not rely on that event to authorize deletion.
+Readonly editors may copy/cut-as-copy but do not read the clipboard for paste;
+password fields never export their secret. An empty available clipboard is
+distinct from unavailable access.
+
+The synchronous default clipboard contract does not implement browser permission/
+asynchronous clipboard APIs. Browser hosts must supply an appropriate host bridge;
+unsupported access must not pretend to succeed or discard selected text.
+
+`ClipboardShortcutTest`, `UIContextClipboardTest` and `RuntimeClipboardTransportTest`
+exercise isolated memory/native doubles, not the machine's clipboard. The optional
+C ABI cases use `tests/Forma.Tests/RuntimeClipboardAbiFixture.c`: compile it as a
+shared library for the runner's architecture and set `FORMA_CLIPBOARD_ABI_FIXTURE`
+to its absolute path. It neither links SDL nor accesses a window or OS clipboard;
+without that explicit fixture only those two ABI cases are skipped.
+
 ## Common mistakes
 
 - `MouseFilter.Ignore` does not disable hit testing for descendants; disable or restructure the
