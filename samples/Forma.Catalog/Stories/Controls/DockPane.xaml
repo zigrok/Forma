@@ -1,0 +1,6 @@
+﻿<DockPane
+    xmlns="https://forma.dev/xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Name="DockPane"
+    TooltipText="Forma.DockPane"
+    CustomMinimumSize="560,360" />
