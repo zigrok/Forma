@@ -51,6 +51,7 @@ namespace Forma
         private const int MultiClickTolerance = 5;
         public LineEdit()
         {
+            Cursor = Cursor.IBeam;
             FocusMode = FocusMode.All;
             Padding = new Thickness(6, 4, 6, 4);
             _contextMenu = new PopupMenu { Visible = false };
@@ -67,6 +68,7 @@ namespace Forma
             {
                 value ??= string.Empty;
                 if (_text == value) return;
+                if (HasImeComposition) CancelImeComposition();
                 if (!_restoringHistory && UndoEnabled)
                 {
                     _undoStack.Add(_text);
@@ -128,6 +130,9 @@ namespace Forma
         /// <summary>Zero-based caret index in the underlying string.</summary>
         public int CaretColumn { get; protected set; }
         public bool HasImeComposition => _imeComposition.Length > 0;
+        internal bool NativeImeActive { get; set; }
+        internal event Action ImeCompositionCancelled;
+        internal virtual bool SupportsNativeTextComposition => true;
         public string ImeCompositionText => _imeComposition;
         public Point ImeCompositionSelection => new Point(_imeSelectionStart, _imeSelectionLength);
         public float GetScrollOffset()
@@ -224,10 +229,14 @@ namespace Forma
                 }
             }
             if (string.IsNullOrEmpty(text)) return;
-            Text = Text.Insert(CaretColumn, text); CaretColumn += text.Length; Deselect();
+            var insertionOffset = CaretColumn;
+            Text = Text.Insert(insertionOffset, text);
+            CaretColumn = Math.Min(insertionOffset + text.Length, Text.Length);
+            Deselect();
         }
         public void SetImeComposition(string text, int selectionStart = 0, int selectionLength = 0)
         {
+            if (!Editable) return;
             text ??= string.Empty;
             if (!HasImeComposition)
             {
@@ -244,15 +253,35 @@ namespace Forma
         {
             if (!HasImeComposition && string.IsNullOrEmpty(text)) return;
             var committed = text ?? _imeComposition;
-            var start = HasImeComposition ? _imeReplaceStart : CaretColumn;
-            var length = HasImeComposition ? _imeReplaceLength : 0;
-            CancelImeComposition();
+            var start = HasImeComposition ? _imeReplaceStart : SelectionFrom;
+            var length = HasImeComposition ? _imeReplaceLength : SelectionTo - SelectionFrom;
+            ClearImeComposition();
             if (!Editable || string.IsNullOrEmpty(committed)) return;
+            if (MaxLength > 0)
+            {
+                var available = Math.Max(0, MaxLength - (Text.Length - length));
+                if (committed.Length > available)
+                {
+                    var accepted = 0;
+                    foreach (var boundary in StringInfo.ParseCombiningCharacters(committed))
+                        if (boundary <= available) accepted = boundary;
+                    var rejected = committed.Substring(accepted);
+                    committed = committed.Substring(0, accepted);
+                    TextChangeRejected?.Invoke(this, rejected);
+                }
+            }
+            if (committed.Length == 0) return;
             Text = Text.Remove(start, length).Insert(start, committed);
-            CaretColumn = start + committed.Length;
+            CaretColumn = Math.Min(start + committed.Length, Text.Length);
             Deselect();
         }
         public void CancelImeComposition()
+        {
+            var hadComposition = HasImeComposition;
+            ClearImeComposition();
+            if (hadComposition) ImeCompositionCancelled?.Invoke();
+        }
+        private void ClearImeComposition()
         {
             _imeComposition = string.Empty;
             _imeSelectionStart = 0;
@@ -263,11 +292,16 @@ namespace Forma
         }
         public void Select(int from, int to)
         {
+            if (HasImeComposition) CancelImeComposition();
             _selectionAnchor = MathHelper.Clamp(from, 0, Text.Length);
             CaretColumn = MathHelper.Clamp(to, 0, Text.Length);
         }
         public void SelectAll() => Select(0, Text.Length);
-        public void Deselect() => _selectionAnchor = -1;
+        public void Deselect()
+        {
+            if (HasImeComposition) CancelImeComposition();
+            _selectionAnchor = -1;
+        }
         public void DeleteSelection()
         {
             if (!HasSelection) return;
@@ -435,11 +469,21 @@ namespace Forma
             _selectingByWord = false;
             base.PointerReleased(position, isInside);
         }
+        internal override void CancelInput()
+        {
+            _selectingText = false;
+            _selectingByWord = false;
+            _textClickCount = 0;
+            _lastTextClickTime = TimeSpan.MinValue;
+            base.CancelInput();
+        }
         internal override void PointerRightPressed(Point position) => OpenContextMenu(position);
+        internal virtual bool UsesMacTextNavigation => OperatingSystem.IsMacOS();
         internal override void KeyPressed(Keys key)
         {
             if (HasImeComposition)
             {
+                if (NativeImeActive) return;
                 if (key == Keys.Escape) { CancelImeComposition(); return; }
                 if (key == Keys.Enter) { CommitImeComposition(); return; }
                 CancelImeComposition();
@@ -456,35 +500,55 @@ namespace Forma
             }
             if (!Editable) return;
             var shift = HasShiftModifier();
-            var ctrl = HasCommandModifier();
-            if (key == Keys.Left)
+            var keyboard = Context?.CurrentKeyboardState ?? default;
+            var movement = TextNavigation.Resolve(key, keyboard, UsesMacTextNavigation, false);
+            if (movement != TextNavigationAction.None)
             {
-                if (HasSelection && !shift) { CaretColumn = SelectionFrom; Deselect(); }
-                else { ShiftSelectionCheckPre(shift); CaretColumn = ctrl ? FindWordBoundaryLeft(CaretColumn) : FindGraphemeBoundaryLeft(CaretColumn); }
+                if (HasSelection && !shift && movement is TextNavigationAction.PreviousCharacter or TextNavigationAction.NextCharacter)
+                {
+                    CaretColumn = movement == TextNavigationAction.PreviousCharacter ? SelectionFrom : SelectionTo;
+                    Deselect();
+                }
+                else
+                {
+                    ShiftSelectionCheckPre(shift);
+                    CaretColumn = GetNavigationTarget(movement, CaretColumn);
+                }
             }
-            else if (key == Keys.Right)
-            {
-                if (HasSelection && !shift) { CaretColumn = SelectionTo; Deselect(); }
-                else { ShiftSelectionCheckPre(shift); CaretColumn = ctrl ? FindWordBoundaryRight(CaretColumn) : FindGraphemeBoundaryRight(CaretColumn); }
-            }
-            else if (key == Keys.Home) { ShiftSelectionCheckPre(shift); CaretColumn = 0; }
-            else if (key == Keys.End) { ShiftSelectionCheckPre(shift); CaretColumn = Text.Length; }
             else if (key == Keys.Back)
             {
                 if (HasSelection) DeleteSelection();
-                else if (ctrl) { var start = FindWordBoundaryLeft(CaretColumn); if (start < CaretColumn) DeleteText(start, CaretColumn); }
-                else if (CaretColumn > 0) DeleteText(FindGraphemeBoundaryLeft(CaretColumn), CaretColumn);
+                else
+                {
+                    var action = TextNavigation.Resolve(Keys.Left, keyboard, UsesMacTextNavigation, false);
+                    var start = GetNavigationTarget(action, CaretColumn);
+                    if (start < CaretColumn) DeleteText(start, CaretColumn);
+                }
             }
             else if (key == Keys.Delete)
             {
                 if (HasSelection) DeleteSelection();
-                else if (ctrl) { var end = FindWordBoundaryRight(CaretColumn); if (end > CaretColumn) DeleteText(CaretColumn, end); }
-                else if (CaretColumn < Text.Length) DeleteText(CaretColumn, FindGraphemeBoundaryRight(CaretColumn));
+                else
+                {
+                    var action = TextNavigation.Resolve(Keys.Right, keyboard, UsesMacTextNavigation, false);
+                    var end = GetNavigationTarget(action, CaretColumn);
+                    if (end > CaretColumn) DeleteText(CaretColumn, end);
+                }
             }
             else if (key == Keys.Enter) TextSubmitted?.Invoke(this, EventArgs.Empty);
         }
-        private int FindGraphemeBoundaryLeft(int from) => EffectiveUIFont == null ? Math.Max(0, from - 1) : GetEditingLayout().GetPreviousGraphemeBoundary(from);
-        private int FindGraphemeBoundaryRight(int from) => EffectiveUIFont == null ? Math.Min(Text.Length, from + 1) : GetEditingLayout().GetNextGraphemeBoundary(from);
+        internal virtual int GetNavigationTarget(TextNavigationAction action, int from) => action switch
+        {
+            TextNavigationAction.PreviousCharacter => FindGraphemeBoundaryLeft(from),
+            TextNavigationAction.NextCharacter => FindGraphemeBoundaryRight(from),
+            TextNavigationAction.PreviousWord => FindWordBoundaryLeft(from),
+            TextNavigationAction.NextWord => FindWordBoundaryRight(from),
+            TextNavigationAction.LineStart or TextNavigationAction.DocumentStart or TextNavigationAction.PreviousParagraph => 0,
+            TextNavigationAction.LineEnd or TextNavigationAction.DocumentEnd or TextNavigationAction.NextParagraph => Text.Length,
+            _ => from
+        };
+        private int FindGraphemeBoundaryLeft(int from) => EffectiveUIFont == null ? TextNavigation.GraphemeBoundary(Text, from, -1) : GetEditingLayout().GetPreviousGraphemeBoundary(from);
+        private int FindGraphemeBoundaryRight(int from) => EffectiveUIFont == null ? TextNavigation.GraphemeBoundary(Text, from, 1) : GetEditingLayout().GetNextGraphemeBoundary(from);
         private int FindWordBoundaryLeft(int from)
         {
             if (EffectiveUIFont != null) return GetEditingLayout().GetPreviousWordBoundary(from);
@@ -500,7 +564,8 @@ namespace Forma
             while (from < Text.Length && IsWordChar(Text[from])) from++;
             return from;
         }
-        private static bool IsWordChar(char c) => char.IsLetterOrDigit(c) || c == '_';
+        private static bool IsWordChar(char c) => char.IsLetterOrDigit(c) || c == '_' ||
+            char.GetUnicodeCategory(c) is UnicodeCategory.NonSpacingMark or UnicodeCategory.SpacingCombiningMark;
         protected virtual int GetCaretColumnAtPosition(Point position)
         {
             if (EffectiveUIFont == null) return Text.Length;
@@ -541,6 +606,7 @@ namespace Forma
             if (HasImeComposition) CommitImeComposition(character.ToString());
             else InsertText(character.ToString());
         }
+        internal override void TextInput(string text) => CommitImeComposition(text);
         internal override void TextComposition(string text, int selectionStart, int selectionLength) => SetImeComposition(text, selectionStart, selectionLength);
         internal override void FocusGained()
         {
@@ -692,6 +758,23 @@ namespace Forma
             var clear = GetClearButtonRectangle();
             var right = clear.IsEmpty ? Size.X - Padding.Right : clear.X - 2;
             return new Rectangle((int)MathF.Round(GlobalPosition.X + Padding.Left), (int)MathF.Round(GlobalPosition.Y + Padding.Top), Math.Max(0, (int)MathF.Floor(right - Padding.Left)), Math.Max(0, (int)MathF.Floor(Size.Y - Padding.Vertical)));
+        }
+        internal Rectangle GetTextInputRectangle()
+        {
+            var origin = GlobalPosition + new Vector2(Padding.Left, Padding.Top);
+            var height = Math.Max(1, (int)(Size.Y - Padding.Vertical));
+            if (EffectiveUIFont != null)
+            {
+                var shown = string.IsNullOrEmpty(SecretCharacter) ? GetComposedDisplayText() : new string(SecretCharacter[0], Text.Length);
+                var layout = GetEditingLayout(shown);
+                var column = Math.Min(GetDisplayCaretColumn(), layout.Text.Length);
+                EnsureCaretVisible(layout, column);
+                origin += layout.GetCaretPosition(column) + new Vector2(-_scrollOffset, GetTextVerticalOffset(layout));
+                height = Math.Max(1, TextMetrics.LineHeight(EffectiveUIFont));
+            }
+            var caret = new Rectangle((int)MathF.Floor(origin.X), (int)MathF.Floor(origin.Y), 1, height);
+            var scale = Context?.DisplayScale ?? 1f;
+            return TransformBounds(caret, GetWorldRenderTransformMatrix() * Matrix.CreateScale(scale, scale, 1));
         }
         private string GetComposedDisplayText() => HasImeComposition
             ? Text.Remove(_imeReplaceStart, _imeReplaceLength).Insert(_imeReplaceStart, _imeComposition)

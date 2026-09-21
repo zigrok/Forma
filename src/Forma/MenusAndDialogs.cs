@@ -2168,6 +2168,13 @@ namespace Forma
             if (isInside && _doubleClickPending && index >= 0 && index == _lastClickIndex) ActivateEntry(index);
             _doubleClickPending = false;
         }
+        internal override void CancelInput()
+        {
+            _doubleClickPending = false;
+            _lastClickTime = TimeSpan.MinValue;
+            _lastClickIndex = -1;
+            base.CancelInput();
+        }
         internal override void PointerButtonPressed(Point point, PointerButton button)
         {
             base.PointerButtonPressed(point, button);

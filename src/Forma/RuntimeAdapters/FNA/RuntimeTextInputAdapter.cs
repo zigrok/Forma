@@ -10,12 +10,15 @@ namespace Forma
     {
         private readonly Action<char> _handler;
 
-        public RuntimeTextInputAdapter(Game game, Action<char> handler)
+        public RuntimeTextInputAdapter(Game game, UIContext context)
         {
-            _handler = handler;
+            _handler = context.TextInput;
             TextInputEXT.StartTextInput();
             TextInputEXT.TextInput += _handler;
         }
+
+        internal bool SupportsTextComposition => false;
+        internal void Update(bool active) { }
 
         public void Dispose()
         {

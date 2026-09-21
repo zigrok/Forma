@@ -90,6 +90,7 @@ namespace Forma
             else if (_panning) PanGraphTo(position);
         }
         internal override void PointerReleased(Point position, bool isInside) { _panning = false; _resizing = false; }
+        internal override void CancelInput() { _panning = false; _resizing = false; base.CancelInput(); }
         internal override void Draw(UIRenderContext context)
         {
             context.Fill(Bounds, context.Theme.BackgroundColor);
@@ -211,6 +212,7 @@ namespace Forma
             Target.SplitOffset = Target.Orientation == Orientation.Horizontal ? position.X - Target.Bounds.X : position.Y - Target.Bounds.Y;
         }
         internal override void PointerReleased(Point position, bool isInside) { _dragging = false; }
+        internal override void CancelInput() { _dragging = false; base.CancelInput(); }
     }
 
     /// <summary>Dragger capable of selecting among multiple split handles.</summary>
@@ -228,6 +230,7 @@ namespace Forma
             target.SplitOffset = target.Orientation == Orientation.Horizontal ? position.X - target.Bounds.X : position.Y - target.Bounds.Y;
         }
         internal override void PointerReleased(Point position, bool isInside) { _dragging = false; }
+        internal override void CancelInput() { _dragging = false; base.CancelInput(); }
     }
 
     /// <summary>Lightweight floating-point rectangle used by retained UI geometry queries.</summary>

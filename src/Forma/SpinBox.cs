@@ -160,6 +160,15 @@ namespace Forma
             _heldArrowRepeating = false;
             _heldArrowElapsed = 0;
         }
+        internal override void CancelInput()
+        {
+            _dragAllowed = false;
+            _dragging = false;
+            _heldArrowActive = false;
+            _heldArrowRepeating = false;
+            _heldArrowElapsed = 0;
+            base.CancelInput();
+        }
         internal override void KeyPressed(Keys key) { if (key == Keys.Up) StepArrow(true); else if (key == Keys.Down) StepArrow(false); }
         internal override void Process(GameTime gameTime)
         {

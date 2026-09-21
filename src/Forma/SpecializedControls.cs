@@ -82,6 +82,14 @@ namespace Forma
             _hostPointerPressed = true;
         }
         internal override void PointerReleased(Point position, bool isInside) => _hostPointerPressed = false;
+        internal override void CancelInput()
+        {
+            _hostPointerPressed = false;
+            _hostRightButton = _hostMiddleButton = _hostXButton1 = _hostXButton2 = ButtonState.Released;
+            _hostKeyboard = default;
+            _hostScrollWheel = 0;
+            ViewportContext.ResetPlatformInput();
+        }
         internal override void PointerButtonPressed(Point position, PointerButton button)
         {
             base.PointerButtonPressed(position, button);
@@ -204,6 +212,7 @@ namespace Forma
             if (!_active) return;
             _active = false; Value = Vector2.Zero; Released?.Invoke(this, EventArgs.Empty);
         }
+        internal override void CancelInput() { _active = false; Value = Vector2.Zero; base.CancelInput(); }
         internal override bool HitTestBeforeChildren(Point point) => ContainsPoint(point);
         private void SetFromPoint(Point point)
         {

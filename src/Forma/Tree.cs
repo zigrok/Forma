@@ -1514,6 +1514,20 @@ namespace Forma
             var rows = Flatten(); var index = GetRowIndexAtPosition(rows, point.Y);
             if (index >= 0 && index < rows.Count && rows[index] == _selected) ItemActivated?.Invoke(this, _selected);
         }
+        internal override void CancelInput()
+        {
+            _resizingColumn = -1;
+            _pressedButtonItem = null;
+            _pressedButtonColumn = _pressedButtonIndex = -1;
+            _stringEditPressItem = null;
+            _stringEditPressColumn = -1;
+            ResetRangeDrag();
+            ResetRangeStepRepeat();
+            CancelTouchDragScroll();
+            _dragAutoScrolling = false;
+            ResetDragUnfoldTarget();
+            base.CancelInput();
+        }
         public override string GetTooltip(Point position)
         {
             if (!Bounds.Contains(position) || position.X < ContentLeft || position.X >= ContentLeft + ContentWidth) return base.GetTooltip(position);

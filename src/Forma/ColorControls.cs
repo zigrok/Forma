@@ -277,6 +277,12 @@ namespace Forma
             if (flushDeferred) ColorChanged?.Invoke(this, Color);
             if (wasPicking) AddRecentPreset(Color);
         }
+        internal override void CancelInput()
+        {
+            _picking = false;
+            _deferredSliderDragging = false;
+            base.CancelInput();
+        }
         internal override void KeyPressed(Keys key)
         {
             if (DisplayOldColor && (key == Keys.Enter || key == Keys.Space))

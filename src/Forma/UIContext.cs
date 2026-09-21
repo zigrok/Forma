@@ -22,6 +22,9 @@ namespace Forma
     /// </summary>
     public sealed class UIContext : IDisposable
     {
+        internal int OwnerThreadId { get; } = Environment.CurrentManagedThreadId;
+        internal IDisposable ModalSessionOwner { get; set; }
+        internal bool IsDisposingOrDisposed { get; private set; }
         private readonly List<Control> _roots = new List<Control>();
         private readonly List<Control> _rootsInDrawOrder = new List<Control>();
         private readonly HashSet<XamlAttachmentScope> _xamlScopes = new HashSet<XamlAttachmentScope>();
@@ -30,6 +33,7 @@ namespace Forma
         private readonly UIFontSelection _tooltipFontSelection = new UIFontSelection();
         private MouseState _previousMouse;
         private KeyboardState _previousKeyboard;
+        internal event Action InputFocusChanged;
         private Control _hovered;
         private Control _captured;
         private Control _dragSource;
@@ -90,12 +94,25 @@ namespace Forma
         internal long ThemeGeneration => _themeGeneration;
         public TextLayoutEngine TextLayoutEngine { get; } = new TextLayoutEngine();
         public Control FocusedControl { get; private set; }
+        /// <summary>Resolves the captured or hit-tested pointer cursor in logical UI coordinates, not keyboard focus.</summary>
+        public Cursor EffectiveCursor
+        {
+            get
+            {
+                if (IsDisposingOrDisposed) return Cursor.Arrow;
+                if (IsInputEligible(_captured)) return _captured.EffectiveCursor;
+                var modal = GetActiveModalPopup();
+                var target = modal == null ? HitTest(PointerPosition) : HitTest(modal, PointerPosition);
+                return IsInputEligible(target) ? target.EffectiveCursor : Cursor.Arrow;
+            }
+        }
         /// <summary>Whether retained touch-style interactions should be enabled for pointer input.</summary>
         public bool TouchscreenAvailable { get; set; }
         /// <summary>Whether a retained drag-and-drop operation is currently active.</summary>
         public bool IsDragging => _dragSource != null;
         /// <summary>Payload supplied by the active retained drag source, or null when not dragging.</summary>
         public object DragData => _dragData;
+        /// <summary>Available viewport extent in logical UI coordinates, before DisplayScale.</summary>
         public Vector2 ViewportSize
         {
             get => _viewportSize;
@@ -241,15 +258,19 @@ namespace Forma
         internal void ResetInteractionState(Control root)
         {
             if (root == null) return;
+            System.Runtime.ExceptionServices.ExceptionDispatchInfo failure = null;
             if (IsInVisualSubtree(root, FocusedControl))
             {
-                foreach (var key in CurrentKeyboardState.GetPressedKeys()) FocusedControl.KeyReleased(key);
-                SetFocus(null);
+                try { FocusedControl.CancelInput(); }
+                catch (Exception exception) { failure = System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception); }
+                try { SetFocus(null); }
+                catch (Exception exception) { failure ??= System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception); }
             }
             if (IsInVisualSubtree(root, _captured))
             {
                 var captured = _captured;
                 _captured = null;
+                captured.CancelInput();
                 for (var control = captured; control != null; control = control.VisualParent)
                 {
                     control.PointerReleased(PointerPosition, false);
@@ -273,10 +294,33 @@ namespace Forma
                 _tooltipElapsed = TimeSpan.Zero;
                 IsTooltipVisible = false;
             }
+            failure?.Throw();
         }
 
         internal bool HasPinnedInteraction(Control root) =>
             IsInVisualSubtree(root, _captured) || IsInVisualSubtree(root, _dragSource);
+
+        internal void EnterModal(Popup popup)
+        {
+            if (!popup.Modal) return;
+            foreach (var root in _roots.ToArray())
+                if (!popup.IsAncestorOf(root)) ResetInteractionState(root);
+        }
+
+        private bool IsInputEligible(Control control)
+        {
+            if (control == null || control.Context != this) return false;
+            for (var current = control; current != null; current = current.VisualParent)
+                if (!current.IsRendered || !current.IsEffectivelyEnabled) return false;
+            var modal = GetActiveModalPopup();
+            return modal == null || modal.IsAncestorOf(control);
+        }
+
+        private void ValidateInteractionState()
+        {
+            if (FocusedControl != null && !IsInputEligible(FocusedControl)) ResetInteractionState(FocusedControl);
+            if (_captured != null && !IsInputEligible(_captured)) ResetInteractionState(_captured);
+        }
 
         private static bool IsInVisualSubtree(Control root, Control control)
         {
@@ -299,13 +343,15 @@ namespace Forma
         public bool Remove(Control control)
         {
             if (control == null || !_roots.Remove(control)) return false;
-            if (FocusedControl == control) SetFocus(null);
             _rootOrderDirty = true;
             control.SetContext(null);
             return true;
         }
 
         public void Update(GameTime gameTime) => Update(gameTime, Mouse.GetState(), Keyboard.GetState());
+
+        internal void SetDrawableViewportSize(int width, int height) =>
+            ViewportSize = new Vector2(width, height) / DisplayScale;
 
         /// <summary>Moves the pointer using physical back-buffer pixels without changing the polled mouse state.</summary>
         public void InjectPointerMove(Point physicalPosition)
@@ -393,6 +439,7 @@ namespace Forma
         {
             UpdateFrameBoundaryCallbacks(gameTime);
             UpdateXamlScopes(gameTime);
+            ValidateInteractionState();
             if (Math.Abs(DisplayScale - 1f) > .0001f)
             {
                 mouse = new MouseState(
@@ -596,14 +643,13 @@ namespace Forma
 
         public void SetFocus(Control control)
         {
-            var modalPopup = GetActiveModalPopup();
-            if (control != null && modalPopup != null && !modalPopup.IsAncestorOf(control)) return;
-            if (control != null && (control.Context != this || !control.IsRendered || !control.IsEffectivelyEnabled || control.FocusMode == FocusMode.None)) return;
+            if (control != null && !CanFocus(control)) return;
             if (FocusedControl == control) return;
             var previous = FocusedControl;
             FocusedControl = control;
             previous?.FocusLost();
             FocusedControl?.FocusGained();
+            InputFocusChanged?.Invoke();
         }
 
         public Control HitTest(Point point)
@@ -681,6 +727,7 @@ namespace Forma
 
         private void DispatchKey(Keys key, KeyboardState keyboard)
         {
+            if (FocusedControl is LineEdit { NativeImeActive: true, HasImeComposition: true }) return;
             var modalPopup = GetActiveModalPopup();
             if (modalPopup != null && (FocusedControl == null || !modalPopup.IsAncestorOf(FocusedControl))) SetFocus(modalPopup);
             if (DispatchShortcutInput(key, keyboard, modalPopup)) return;
@@ -733,17 +780,71 @@ namespace Forma
             return control.ShortcutInput(key, keyboard);
         }
 
-        private bool CanFocus(Control control) => control != null && control.Context == this && control.IsRendered && control.IsEffectivelyEnabled && control.FocusMode != FocusMode.None;
+        internal bool CanFocus(Control control) => IsInputEligible(control) && control.FocusMode != FocusMode.None;
 
         /// <summary>Forwards one platform text-input character to the focused retained control.</summary>
         public void TextInput(char character)
         {
+            ValidateInteractionState();
             if (!char.IsControl(character)) FocusedControl?.TextInput(character);
         }
 
+        /// <summary>Forwards one complete platform text commit; LineEdit records it as one edit.</summary>
+        public void TextInput(string text)
+        {
+            ValidateInteractionState();
+            if (string.IsNullOrEmpty(text)) return;
+            var printable = new System.Text.StringBuilder(text.Length);
+            foreach (var character in text)
+                if (!char.IsControl(character)) printable.Append(character);
+            if (printable.Length != 0) FocusedControl?.TextInput(printable.ToString());
+        }
+
+        internal void ResetPlatformInput()
+        {
+            var cancelTargets = new HashSet<Control>();
+            // Drag observers and embedded gesture owners need cancellation even without capture or focus.
+            foreach (var root in _roots) CollectInputCancellationTargets(root, cancelTargets);
+            if (FocusedControl != null) cancelTargets.Add(FocusedControl);
+            for (var control = _captured; control != null; control = control.VisualParent)
+            {
+                cancelTargets.Add(control);
+                if (control.MouseFilter != MouseFilter.Pass) break;
+            }
+            var dragSource = _dragSource;
+            if (dragSource != null) cancelTargets.Add(dragSource);
+            _captured = null;
+            _dragSource = null;
+            _dragData = null;
+            _dragStartPosition = default;
+            System.Runtime.ExceptionServices.ExceptionDispatchInfo failure = null;
+            foreach (var control in cancelTargets)
+            {
+                try { control.CancelInput(); }
+                catch (Exception exception) { failure ??= System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception); }
+            }
+            try { if (FocusedControl is LineEdit editor) editor.CancelImeComposition(); }
+            catch (Exception exception) { failure ??= System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception); }
+            try { dragSource?.NotifyDragEnded(false); }
+            catch (Exception exception) { failure ??= System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception); }
+            CurrentKeyboardState = default;
+            _previousKeyboard = default;
+            _previousMouse = default;
+            failure?.Throw();
+        }
+
+        private static void CollectInputCancellationTargets(Control control, HashSet<Control> targets)
+        {
+            if (!targets.Add(control)) return;
+            foreach (var child in control.GetChildrenInDrawOrder()) CollectInputCancellationTargets(child, targets);
+        }
+
         /// <summary>Forwards platform IME preedit text and its selected range to the focused control.</summary>
-        public void TextComposition(string text, int selectionStart = 0, int selectionLength = 0) =>
+        public void TextComposition(string text, int selectionStart = 0, int selectionLength = 0)
+        {
+            ValidateInteractionState();
             FocusedControl?.TextComposition(text ?? string.Empty, selectionStart, selectionLength);
+        }
 
         private void UpdateDrag(Point point)
         {
@@ -932,7 +1033,10 @@ namespace Forma
 
         public void Dispose()
         {
+            IsDisposingOrDisposed = true;
             System.Runtime.ExceptionServices.ExceptionDispatchInfo failure = null;
+            try { ModalSessionOwner?.Dispose(); }
+            catch (Exception exception) { failure = System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception); }
             var roots = _roots.ToArray();
             foreach (var root in roots)
             {
@@ -963,22 +1067,61 @@ namespace Forma
     public sealed class UIComponent : DrawableGameComponent
     {
         private readonly RuntimeTextInputAdapter _textInput;
+        private readonly RuntimeCursorRouter _cursor;
 
         public UIComponent(Game game, UIContext context = null) : base(game)
         {
             Context = context ?? new UIContext();
-            _textInput = new RuntimeTextInputAdapter(game, Context.TextInput);
+            _textInput = new RuntimeTextInputAdapter(game, Context);
+            _cursor = new RuntimeCursorRouter(Context, new RuntimeCursorAdapter(game));
+            game.Deactivated += OnDeactivated;
+            game.Activated += OnActivated;
         }
         public UIContext Context { get; }
+        /// <summary>Whether this runtime can set system cursors with native pointer-window ownership checks.</summary>
+        public bool SupportsSystemCursor => _cursor.IsSupported;
+        /// <summary>True only when the runtime has the native composition, atomic-commit and candidate-area APIs.</summary>
+        public bool SupportsTextComposition => _textInput.SupportsTextComposition;
+        /// <summary>Native preedit/candidate placement currently supports editable LineEdit, not TextEdit.</summary>
+        public bool SupportsFocusedTextComposition => SupportsTextComposition &&
+            Context.FocusedControl is LineEdit { Editable: true, SupportsNativeTextComposition: true };
         public override void Update(GameTime gameTime)
         {
-            Context.ViewportSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            Context.Update(gameTime);
+            Context.SetDrawableViewportSize(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            _textInput.Update(Game.IsActive);
+            if (Game.IsActive) Context.Update(gameTime);
+            else Context.Update(gameTime, default, default);
+            _textInput.Update(Game.IsActive);
+            _cursor.Update(Enabled && Visible);
+        }
+        private void OnDeactivated(object sender, EventArgs args)
+        {
+            _cursor.Suspend();
+            _textInput.Update(false);
+            Context.ResetPlatformInput();
+        }
+        private void OnActivated(object sender, EventArgs args) => _textInput.Update(true);
+        protected override void OnEnabledChanged(object sender, EventArgs args)
+        {
+            base.OnEnabledChanged(sender, args);
+            if (!Enabled) _cursor?.Update(false);
+        }
+        protected override void OnVisibleChanged(object sender, EventArgs args)
+        {
+            base.OnVisibleChanged(sender, args);
+            if (!Visible) _cursor?.Update(false);
         }
         public override void Draw(GameTime gameTime) => Context.Draw(GraphicsDevice);
         protected override void Dispose(bool disposing)
         {
-            if (disposing) { _textInput.Dispose(); Context.Dispose(); }
+            if (disposing)
+            {
+                Game.Deactivated -= OnDeactivated;
+                Game.Activated -= OnActivated;
+                _cursor.Dispose();
+                _textInput.Dispose();
+                Context.Dispose();
+            }
             base.Dispose(disposing);
         }
     }

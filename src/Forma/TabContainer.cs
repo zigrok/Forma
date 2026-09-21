@@ -253,6 +253,7 @@ namespace Forma
         internal override void PointerEntered() { UpdateHoveredTab(Context?.PointerPosition ?? Point.Zero); base.PointerEntered(); }
         internal override void PointerExited() { _hoveredTab = -1; base.PointerExited(); }
         internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
+        internal override void CancelInput() { _draggedTab = -1; base.CancelInput(); }
         internal void DrawTabContainerChrome(UIRenderContext context)
         {
             var headerHeight = EffectiveTabHeight;

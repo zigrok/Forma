@@ -10,6 +10,87 @@ project to disable this initializer. Core-only and opted-out applications contin
 explicitly assigned fonts. Applications can replace the default through `UIContext.Theme.FontFamily`
 or call `DynamicTextDefaults.Install` before constructing contexts.
 
+## Native IME input
+
+On native macOS, editable controls use Option+Left/Right for word movement and
+Command+Left/Right for line boundaries. In `TextEdit`/`CodeEdit`, Command+Up/Down
+moves to document boundaries, while Option+Up/Down uses hard paragraph boundaries;
+Command+Left/Right follows displayed rows when text wraps. Shift extends the
+selection without moving its anchor. Word/line deletion uses the same modifier
+policy. Windows/Linux retain Control-based word navigation. Plain character
+movement respects grapheme boundaries even without an assigned font.
+
+`UIComponent` connects native text input automatically; hosts should not forward a second
+`GameWindow.TextInput` handler into its context. `SupportsTextComposition` reports whether the
+runtime exposes real preedit, complete-string commits and native candidate-area placement.
+`SupportsFocusedTextComposition` additionally checks the focused editor. The supported control is
+editable `LineEdit`; `TextEdit` and other character consumers retain their ordinary text route,
+but do **not** claim native composition or candidate-placement parity.
+
+The source-built MonoGame SDL3 native backend carries `SDL_EVENT_TEXT_EDITING` separately from
+`SDL_EVENT_TEXT_INPUT`. Preedit does not change `Text`, raise `TextChanged` or enter undo history.
+A complete UTF-8 commit becomes one managed string and one LineEdit edit, including selected-text
+replacement, surrogate pairs and combining sequences. SDL scalar selection offsets are converted
+to UTF-16 at the MonoGame boundary. Existing per-character MonoGame subscribers still receive
+UTF-16 characters after the complete-string event; Forma consumes only the latter on this route.
+Native candidate navigation and Enter are not synthesized into LineEdit commits.
+
+Candidate rectangles follow the shaped/scrolled caret, control transforms and `DisplayScale`.
+They are sent in drawable pixels; MonoGame converts using the live drawable-to-window ratio
+before calling SDL's point-space text-input-area API. `UIComponent` divides the drawable viewport
+by `DisplayScale` when assigning the context's logical `ViewportSize`, so root layout and popup
+limits remain in the same coordinates as the controls. Focus transfer and local cancellation clear
+the native session rather than committing marked text. Window deactivation also resets retained
+keyboard modifiers; reactivation restarts input for the still-focused editor.
+Modifiers pressed during preedit remain tracked across commit, while candidate-navigation keys
+remain owned by the IME. Deactivation cancels pointer selection, captured presses and active
+drag/drop without synthesizing a release, click or drop; logical focus and the existing text
+selection remain available when the window becomes active again.
+
+Platform cancellation visits the complete retained visual tree, not only the focused/captured
+control: scroll observers, nested split handles and hosted `SubViewportContainer` contexts also
+own gestures. Cancellation-only cleanup covers Slider, ScrollBar (including drag-node inertia
+and pending smooth motion), SpinBox drag/repeat, ScrollContainer touch inertia, SplitContainer
+and its helper draggers, ColorPicker (without flushing a deferred change or adding a recent
+preset), tab reordering, Tree column/range/edit-button gestures, rich-text selection/autoscroll,
+CodeEdit minimap, graph element/group/resize/connection/box/pan/minimap gestures, and list/dialog
+multi-click tracking. LineEdit/TextEdit and BaseButton retain their existing cancellation path.
+Controls with only immediate press actions or stateless release actions need no gesture flag
+cleanup; cancellation never dispatches their release handler. Committed values, layout offsets,
+selection and focus are retained. VirtualJoystick clears `IsPressed` but retains `Value`, without
+synthesizing `Released` or `ValueChanged`. A later real gesture starts normally.
+
+The APIs are discovered using typed reflection delegates with trimming annotations, not dynamic
+code generation. Existing MonoGame 3.8.5 packages and FNA continue to compile and use their
+character-only adapters. Browser/SDL2 and old native binaries report unsupported, not simulated
+IME coverage. A new managed assembly alone does not upgrade an old native runtime. Event enum
+values are appended and the existing native event union is unchanged; text payloads are copied
+from platform-owned storage before the next poll. Rich events are opt-in, preserving legacy
+native callers.
+
+Focused regression commands, from the enclosing Textus checkout:
+
+```sh
+dotnet test Forma/tests/Forma.Tests/Forma.Tests.csproj \
+  --filter 'FullyQualifiedName~NativeTextCompositionTest|FullyQualifiedName~PlatformInputCancellationTest|FullyQualifiedName~ModalInputBoundaryTest|FullyQualifiedName~UITest.LineEdit'
+dotnet test Forma/tests/Forma.Tests/Forma.Tests.csproj -p:FormaRuntime=FNA \
+  --filter 'FullyQualifiedName~NativeTextCompositionTest|FullyQualifiedName~PlatformInputCancellationTest|FullyQualifiedName~ModalInputBoundaryTest|FullyQualifiedName~UITest.LineEdit'
+dotnet test MonoGame/Tests/MonoGame.Tests.DesktopGL.csproj \
+  '-p:DefaultItemExcludesInProjectFolder=Assets/Projects/obj/**' \
+  --filter 'FullyQualifiedName~TextCompositionIndexTest'
+```
+
+The MonoGame exclusion prevents earlier generated project-fixture assembly metadata from entering
+the framework test compilation; it does not exclude any test source.
+
+These are synthetic routing/Unicode/lifecycle regressions, **not** macOS IME acceptance.
+Release acceptance still requires a newly source-bound SDL3 native build and the authorized
+real-window session: select a real OS IME, compose without committed changes, navigate and commit
+a candidate, cancel, switch between two LineEdits, move/resize the window and caret on Retina,
+and leave/re-enter focus with modifiers held. That user-controlled run must verify the visible
+candidate popup and retained text/undo behavior. Do not reuse earlier immutable graphics build
+evidence for changed native source, or change system input settings without authorization.
+
 ## Packages and Deployment
 
 Use the package matching the application's framework:

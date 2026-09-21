@@ -418,6 +418,13 @@ namespace Forma
             if (isInside && index >= 0 && index == _lastClickIndex && (ActivateOnSingleClick || _doubleClickPending)) Activate(index);
             _doubleClickPending = false;
         }
+        internal override void CancelInput()
+        {
+            _doubleClickPending = false;
+            _lastClickTime = TimeSpan.MinValue;
+            _lastClickIndex = -1;
+            base.CancelInput();
+        }
 
         internal override void Process(GameTime gameTime)
         {

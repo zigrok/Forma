@@ -414,10 +414,13 @@ namespace Forma.Tests
 
             button.SetDisabled(true);
             context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.Enter));
-            Assert.That(presses, Is.EqualTo(0), "A disabled button must ignore Enter/Space even while it still holds keyboard focus.");
+            Assert.That(context.FocusedControl, Is.Null, "Disabling a control releases its keyboard focus.");
+            Assert.That(presses, Is.EqualTo(0), "A disabled button must ignore Enter/Space.");
 
             button.SetDisabled(false);
             context.Update(Time, Mouse(0, 0), new KeyboardState());
+            Assert.That(context.FocusedControl, Is.Null, "Re-enabling does not steal keyboard focus.");
+            button.GrabFocus();
             context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.Enter));
             context.Update(Time, Mouse(0, 0), new KeyboardState());
             Assert.That(presses, Is.EqualTo(1), "The default action_mode (release) activates on the Enter key-up, matching Godot's on_action_event.");
@@ -3349,7 +3352,9 @@ namespace Forma.Tests
 
             Assert.That(tree.EditSelected(), Is.True);
             multiline.Text = "Ctrl+Enter commits";
+            Assert.That(context.FocusedControl, Is.SameAs(multiline));
             context.Update(Time, Mouse(0, 0), new KeyboardState());
+            Assert.That(context.FocusedControl, Is.SameAs(multiline));
             context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl, Keys.Enter));
             Assert.That(item.GetText(1), Is.EqualTo("Ctrl+Enter commits"));
             Assert.That(popup.Visible, Is.False);
@@ -4313,29 +4318,30 @@ namespace Forma.Tests
         }
 
         [Test]
-        public void LineEdit_CtrlArrowsJumpWordsAndCtrlBackspaceDeleteRemoveWholeWords()
+        public void LineEdit_PlatformWordModifierNavigatesAndDeletesWholeWords()
         {
             var edit = new LineEdit { Text = "alpha beta gamma", Size = new Vector2(200, 24) };
             var context = new UIContext(); context.Add(edit); edit.GrabFocus();
             edit.Select(0, 0);
+            var modifier = OperatingSystem.IsMacOS() ? Keys.LeftAlt : Keys.LeftControl;
 
-            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl));
-            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl, Keys.Right));
-            Assert.That(edit.CaretColumn, Is.EqualTo(5), "Ctrl+Right should land at the end of 'alpha'.");
+            context.Update(Time, Mouse(0, 0), new KeyboardState(modifier));
+            context.Update(Time, Mouse(0, 0), new KeyboardState(modifier, Keys.Right));
+            Assert.That(edit.CaretColumn, Is.EqualTo(5), "The word modifier should land at the end of 'alpha'.");
 
-            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl));
-            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl, Keys.Right));
-            Assert.That(edit.CaretColumn, Is.EqualTo(10), "Ctrl+Right should skip the space then land at the end of 'beta'.");
+            context.Update(Time, Mouse(0, 0), new KeyboardState(modifier));
+            context.Update(Time, Mouse(0, 0), new KeyboardState(modifier, Keys.Right));
+            Assert.That(edit.CaretColumn, Is.EqualTo(10), "The word modifier should skip the space then land at the end of 'beta'.");
 
-            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl));
-            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl, Keys.Left));
-            Assert.That(edit.CaretColumn, Is.EqualTo(6), "Ctrl+Left should land at the start of 'beta'.");
+            context.Update(Time, Mouse(0, 0), new KeyboardState(modifier));
+            context.Update(Time, Mouse(0, 0), new KeyboardState(modifier, Keys.Left));
+            Assert.That(edit.CaretColumn, Is.EqualTo(6), "The word modifier should land at the start of 'beta'.");
 
             context.Update(Time, Mouse(0, 0), new KeyboardState());
             edit.Select(11, 11);
-            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl));
-            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.LeftControl, Keys.Back));
-            Assert.That(edit.Text, Is.EqualTo("alpha gamma"), "Ctrl+Backspace should delete the whole preceding word 'beta'.");
+            context.Update(Time, Mouse(0, 0), new KeyboardState(modifier));
+            context.Update(Time, Mouse(0, 0), new KeyboardState(modifier, Keys.Back));
+            Assert.That(edit.Text, Is.EqualTo("alpha gamma"), "The word modifier should delete the whole preceding word 'beta'.");
         }
 
         [Test]

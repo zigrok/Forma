@@ -225,6 +225,11 @@ namespace Forma
         {
             _viewportController.CancelTouchDrag();
         }
+        internal override void CancelInput()
+        {
+            CancelTouchDragScroll();
+            base.CancelInput();
+        }
         protected override void OnContextChanged(UIContext previous, UIContext current)
         {
             if (previous != null)

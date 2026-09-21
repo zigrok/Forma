@@ -149,6 +149,17 @@ namespace Forma
             _dragging = false;
             if (Parent is GraphEdit graph) graph.EndGraphElementDrag(this, moved, position);
         }
+        internal override void CancelInput()
+        {
+            _dragging = false;
+            _resizing = false;
+            if (Parent is GraphEdit graph)
+            {
+                graph.CancelGraphElementDrag(this);
+                if (this is GraphNode node && graph.IsConnectionDragSource(node)) graph.ForceConnectionDragEnd();
+            }
+            base.CancelInput();
+        }
         internal void ApplyViewportTransform(float zoom, Vector2 scrollOffset)
         {
             if (!_hasGraphPosition) { _positionOffset = base.Position; _hasGraphPosition = true; }
@@ -1425,6 +1436,12 @@ namespace Forma
             _draggedElementOrigins.Clear();
             _draggedElementSource = null;
         }
+        internal void CancelGraphElementDrag(GraphElement source)
+        {
+            if (!ReferenceEquals(source, _draggedElementSource)) return;
+            _draggedElementOrigins.Clear();
+            _draggedElementSource = null;
+        }
         private void NotifyGraphElementDropped(GraphElement element, Point position)
         {
             if (element == null || element.Parent != this) return;
@@ -1484,6 +1501,16 @@ namespace Forma
             if (IsConnectionDragging) { EndConnectionDrag(position); return; }
             if (_boxSelecting) { UpdateBoxSelection(position); _boxSelecting = false; return; }
             _backgroundPanning = false; Panner.EndPan();
+        }
+        internal override void CancelInput()
+        {
+            _boxSelecting = false;
+            _backgroundPanning = false;
+            Panner.EndPan();
+            _draggedElementOrigins.Clear();
+            _draggedElementSource = null;
+            ForceConnectionDragEnd();
+            base.CancelInput();
         }
         internal override bool ShortcutInput(Keys key, KeyboardState keyboard)
         {
@@ -2365,6 +2392,7 @@ namespace Forma
             _draggingMinimap = false;
             base.PointerReleased(position, isInside);
         }
+        internal override void CancelInput() { _draggingMinimap = false; base.CancelInput(); }
         /// <summary>Indents the current selection, or the caret line when no selection exists.</summary>
         public void IndentLines() => ChangeIndent(true);
         /// <summary>Removes one configured indentation level from the current selection or caret line.</summary>

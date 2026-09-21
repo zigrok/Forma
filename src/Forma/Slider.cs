@@ -86,6 +86,11 @@ namespace Forma
             _dragging = false;
             DragEnded?.Invoke(this, Math.Abs(_ratioBeforeDragging - Ratio) > 0.0001f);
         }
+        internal override void CancelInput()
+        {
+            _dragging = false;
+            base.CancelInput();
+        }
         private void SetFromPoint(Point point)
         {
             if (!Editable) return;

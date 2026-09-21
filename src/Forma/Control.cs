@@ -179,6 +179,7 @@ namespace Forma
                 var visibilityChanged = _visibility != visibility;
                 _visible = value;
                 _visibility = visibility;
+                if (!value) Context?.ResetInteractionState(this);
                 QueueLayout();
                 if (visibleChanged) OnPropertyChanged(nameof(Visible));
                 if (visibilityChanged) OnPropertyChanged(nameof(Visibility));
@@ -195,6 +196,7 @@ namespace Forma
                 var visibleChanged = _visible != visible;
                 _visibility = value;
                 _visible = visible;
+                if (value != Visibility.Visible) Context?.ResetInteractionState(this);
                 QueueLayout();
                 OnPropertyChanged(nameof(Visibility));
                 if (visibleChanged) OnPropertyChanged(nameof(Visible));
@@ -210,6 +212,7 @@ namespace Forma
                 if (_enabled == value) return;
                 var previous = CaptureInheritedStates();
                 _enabled = value;
+                if (!value) Context?.ResetInteractionState(this);
                 EnabledChanged?.Invoke(this, EventArgs.Empty);
                 OnPropertyChanged(nameof(Enabled));
                 NotifyInheritedStateChanges(previous);
@@ -1262,12 +1265,17 @@ namespace Forma
         internal void SetContext(UIContext context)
         {
             var previous = Context;
-            Context = context;
             ExceptionDispatchInfo failure = null;
+            if (previous != null && previous != context)
+            {
+                try { previous.ResetInteractionState(this); }
+                catch (Exception exception) { failure = ExceptionDispatchInfo.Capture(exception); }
+            }
+            Context = context;
             if (previous != context)
             {
                 try { OnContextChanged(previous, context); }
-                catch (Exception exception) { failure = ExceptionDispatchInfo.Capture(exception); }
+                catch (Exception exception) { failure ??= ExceptionDispatchInfo.Capture(exception); }
                 if (previous != null)
                 {
                     try { Detached?.Invoke(this, EventArgs.Empty); }
@@ -1281,8 +1289,10 @@ namespace Forma
                     catch (Exception exception) { failure ??= ExceptionDispatchInfo.Capture(exception); }
                 }
             }
-            foreach (var child in _visualChildren)
+            foreach (var child in _visualChildren.ToArray())
             {
+                if (Context != context) break;
+                if (child.VisualParent != this) continue;
                 try { child.SetContext(context); }
                 catch (Exception exception) { failure ??= ExceptionDispatchInfo.Capture(exception); }
             }
@@ -1473,7 +1483,16 @@ namespace Forma
         internal virtual void KeyPressed(Keys key) { }
         /// <summary>Notifies the focused control that a previously-pressed key was released. Purely additive over <see cref="KeyPressed"/>; most controls have no need to override it.</summary>
         internal virtual void KeyReleased(Keys key) { }
+        internal virtual void CancelInput()
+        {
+            if (Context == null) return;
+            foreach (var key in Context.CurrentKeyboardState.GetPressedKeys()) KeyReleased(key);
+        }
         internal virtual void TextInput(char character) { }
+        internal virtual void TextInput(string text)
+        {
+            foreach (var character in text) TextInput(character);
+        }
         internal virtual void TextComposition(string text, int selectionStart, int selectionLength) { }
         /// <summary>Returns data to drag, or <see langword="null"/> to decline starting a drag.</summary>
         public virtual object GetDragData(Point position) => null;
@@ -1484,7 +1503,7 @@ namespace Forma
         internal void NotifyDragStarted(object data) => DragStarted?.Invoke(this, data);
         internal void NotifyDragEnded(bool succeeded) => DragEnded?.Invoke(this, succeeded);
 
-        private static Rectangle TransformBounds(Rectangle bounds, Matrix transform)
+        internal static Rectangle TransformBounds(Rectangle bounds, Matrix transform)
         {
             var topLeft = Vector2.Transform(new Vector2(bounds.Left, bounds.Top), transform);
             var topRight = Vector2.Transform(new Vector2(bounds.Right, bounds.Top), transform);

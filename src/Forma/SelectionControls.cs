@@ -498,6 +498,18 @@ namespace Forma
             _incrementActive = false;
             if (isInside) UpdateHighlight(point);
         }
+        internal override void CancelInput()
+        {
+            _dragging = false;
+            _decrementActive = false;
+            _incrementActive = false;
+            _dragNodeTouching = false;
+            _dragNodeDecelerating = false;
+            _dragNodeSpeed = _dragNodeAccum = _lastDragNodeAccum = Vector2.Zero;
+            _smoothScrolling = false;
+            _targetScroll = Value;
+            base.CancelInput();
+        }
         internal override void PointerEntered() { UpdateHighlight(Context?.PointerPosition ?? Point.Zero); base.PointerEntered(); }
         internal override void PointerExited() { _highlight = HighlightRegion.None; base.PointerExited(); }
         internal override void Process(GameTime gameTime)
@@ -1400,6 +1412,7 @@ namespace Forma
             ActiveTabRearranged?.Invoke(this, target);
         }
         internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
+        internal override void CancelInput() { _draggedTab = -1; base.CancelInput(); }
         /// <summary>Scrolls the tab offset by one tab per wheel tick, matching Godot's TabBar::gui_input WHEEL_UP/WHEEL_DOWN handling.</summary>
         internal override bool PointerWheel(int delta)
         {
@@ -1896,6 +1909,13 @@ namespace Forma
         internal override void PointerReleased(Point point, bool isInside)
         {
             var index = GetItemAtPosition(point); if (isInside && index >= 0 && index == _current && _isDoubleClick) ItemActivated?.Invoke(this, index);
+        }
+        internal override void CancelInput()
+        {
+            _isDoubleClick = false;
+            _lastClickTime = TimeSpan.MinValue;
+            _lastClickIndex = -1;
+            base.CancelInput();
         }
         internal override void KeyPressed(Keys key)
         {
@@ -2712,6 +2732,17 @@ namespace Forma
             _selectionDragAttempt = false;
             _selectionAutoScrollRemainder = 0;
             base.PointerReleased(position, isInside);
+        }
+        internal override void CancelInput()
+        {
+            _selectingText = false;
+            _selectionDragAttempt = false;
+            _selectionAnchor = -1;
+            _selectionMode = RichTextSelectionMode.SingleClick;
+            _selectionAutoScrollRemainder = 0;
+            _textClickCount = 0;
+            _lastTextClickTime = TimeSpan.MinValue;
+            base.CancelInput();
         }
         internal override void FocusLost()
         {

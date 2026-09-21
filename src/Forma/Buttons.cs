@@ -236,6 +236,19 @@ namespace Forma
             NotifyPseudoStateChanged("pressed");
             if (activate) Activate();
         }
+        internal override void CancelInput()
+        {
+            var wasPressed = _pressed;
+            _pressed = false;
+            _activeKey = null;
+            _activePointerButton = PointerButton.None;
+            _activationHandled = false;
+            if (wasPressed)
+            {
+                ButtonUp?.Invoke(this, EventArgs.Empty);
+                NotifyPseudoStateChanged("pressed");
+            }
+        }
         internal override bool ShortcutInput(Keys key, KeyboardState keyboard)
         {
             if (!Enabled || !Visible || Shortcut == null || !Shortcut.Matches(key, keyboard)) return false;

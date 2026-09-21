@@ -35,10 +35,13 @@ namespace Forma
         public event Action<Popup, PopupHideReason> PopupHidden;
         public void PopupAt(Vector2 position)
         {
+            // Project children before they can receive focus; first-layout attachment resets input.
+            ApplyTemplate();
             _focusBeforePopup = Context?.FocusedControl;
             Position = position;
             var wasVisible = Visible;
             Visible = true;
+            Context?.EnterModal(this);
             GrabFocus();
             if (!wasVisible) PopupShown?.Invoke(this, EventArgs.Empty);
         }
@@ -49,7 +52,7 @@ namespace Forma
             var priorFocus = _focusBeforePopup;
             _focusBeforePopup = null;
             if (Context?.FocusedControl != null && IsAncestorOf(Context.FocusedControl)) Context.SetFocus(null);
-            if (priorFocus != null && priorFocus.Context == Context && priorFocus.Visible && priorFocus.Enabled && priorFocus.FocusMode != FocusMode.None)
+            if (Context != null && Context.CanFocus(priorFocus))
                 priorFocus.GrabFocus();
             PopupHidden?.Invoke(this, reason);
         }

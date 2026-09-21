@@ -31,6 +31,36 @@ status label:
 
 [!code-csharp[](examples/csharp-first-ui.cs)]
 
+## System cursors
+
+`UIComponent` routes `Control.EffectiveCursor` to the runtime's system cursor. `LineEdit` and
+`TextEdit` default to `Cursor.IBeam`, including selectable read-only text. Set `Cursor` explicitly
+to override that default, or set `Cursor.Inherited` to use the parent's cursor. Other controls
+continue to inherit, falling back to `Cursor.Arrow`.
+
+`UIContext.EffectiveCursor` resolves the eligible pointer capture first (so a text selection keeps
+its I-beam across other controls), then the current hit target, then Arrow. Keyboard focus does
+not select a cursor. Modal boundaries, hidden/disabled/detached subtrees and hit-test filtering
+are respected. Input positions are converted through `DisplayScale` exactly once by the existing
+input path; cursor resolution uses logical coordinates. Custom hosts can consume this property
+without invoking native APIs.
+
+`UIComponent.SupportsSystemCursor` reports the adapter capability. MonoGame DesktopGL uses
+`Mouse.SetCursor`; the native SDL runtime uses the same public API and obtains ownership checks
+from its loaded `mgruntime` library. FNA.NET 2.2.11.2602 supplies `MouseCursorEXT.SetCursor` and
+built-in cursors for its SDL2/SDL3 desktop backends. Browser builds, non-SDL MonoGame windows and
+unavailable native focus APIs report unsupported rather than changing a global cursor blindly.
+This path uses typed native delegates, not dynamic code generation, and does not own/dispose the
+runtime's shared built-in cursors.
+
+Routing requires an active game, a visible system mouse, the runtime's primary mouse window,
+matching native mouse **and** keyboard focus, and a pointer inside the physical drawable area.
+Capture does not authorize writes outside that window. Leaving or deactivating forgets the last
+cursor without writing to another window; reentry reapplies it. Empty UI space restores Arrow.
+Disabling/hiding or disposing the component restores Arrow only if it previously applied a cursor
+and still owns the pointer. Native focus changes and cursor appearance still require a visible
+platform acceptance test; deterministic context/router tests do not open a game window.
+
 ## Focus and keyboard
 
 Base `Control` defaults to `FocusMode.None`; interactive controls choose stronger defaults, and

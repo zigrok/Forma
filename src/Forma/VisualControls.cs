@@ -587,6 +587,13 @@ namespace Forma
             foreach (var nested in _nestedIntersectionDraggers) nested._draggingIndex = -1;
             _nestedIntersectionDraggers.Clear();
         }
+        internal override void CancelInput()
+        {
+            _draggingIndex = -1;
+            foreach (var nested in _nestedIntersectionDraggers) nested._draggingIndex = -1;
+            _nestedIntersectionDraggers.Clear();
+            base.CancelInput();
+        }
         /// <summary>Nudges the dragger by 10% of the container's extent per key press, matching Godot's SplitContainerDragger::gui_input keyboard handling.</summary>
         internal override void KeyPressed(Keys key)
         {

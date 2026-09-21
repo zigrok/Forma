@@ -15,6 +15,11 @@ namespace Forma
     /// <summary>Edits multiline text with wrapping, multiple carets, gutters, syntax highlighting, and undo history.</summary>
     public class TextEdit : LineEdit
     {
+        internal override bool SupportsNativeTextComposition => false;
+        internal override void TextInput(string text)
+        {
+            foreach (var character in text) TextInput(character);
+        }
         /// <summary>Gets whether the first programmatic text assignment moves the caret to the end.</summary>
         protected override bool MoveCaretToEndOnInitialTextAssignment => false;
         private readonly List<string> _undoStack = new List<string>();
@@ -717,22 +722,19 @@ namespace Forma
                 if (key == Keys.X) { Cut(); return; }
                 if (key == Keys.V) { Paste(); return; }
             }
+            var movement = TextNavigation.Resolve(key, Context?.CurrentKeyboardState ?? default, UsesMacTextNavigation, true);
+            if (movement != TextNavigationAction.None)
+            {
+                MoveCarets(movement, HasShiftModifier());
+                return;
+            }
+            if (key is Keys.Left or Keys.Right or Keys.Up or Keys.Down) return;
             if (_secondaryCarets.Count > 0)
             {
                 if (key == Keys.Back) { DeleteAtCarets(true); return; }
                 if (key == Keys.Delete) { DeleteAtCarets(false); return; }
-                if (key == Keys.Left) { MoveAllCaretsHorizontal(-1); return; }
-                if (key == Keys.Right) { MoveAllCaretsHorizontal(1); return; }
-                if (key == Keys.Home) { MoveAllCaretsToLineBoundary(false); return; }
-                if (key == Keys.End) { MoveAllCaretsToLineBoundary(true); return; }
-                if (key == Keys.Up) { MoveAllCaretsVertical(-1); return; }
-                if (key == Keys.Down) { MoveAllCaretsVertical(1); return; }
             }
             if (key == Keys.Enter) InsertNewline();
-            else if (key == Keys.Home) SetCaret(CaretLine, 0);
-            else if (key == Keys.End) SetCaret(CaretLine, GetLine(CaretLine).Length);
-            else if (key == Keys.Up) MoveCaretVisualRow(-1);
-            else if (key == Keys.Down) MoveCaretVisualRow(1);
             else base.KeyPressed(key);
         }
         internal override void TextInput(char character) => InsertText(character.ToString());
@@ -916,34 +918,41 @@ namespace Forma
         }
         private TextLayout GetSegmentLayout(string source, int start, int length) => GetEditingLayout(source.Substring(start, length));
         private float MeasureTextWidth(string text) => EffectiveUIFont == null ? text.Length * 8 : TextMetrics.Measure(EffectiveUIFont, text).X;
-        private void MoveAllCaretsHorizontal(int direction)
+        private void MoveCarets(TextNavigationAction movement, bool shift)
         {
             _caretMergeSuspension++;
             try
             {
                 for (var caret = 0; caret < CaretCount; caret++)
                 {
-                    var index = direction < 0 ? GetSelectionFromIndex(caret) : GetSelectionToIndex(caret);
-                    if (!HasCaretSelection(caret)) index = GetAdjacentGraphemeIndex(index, direction);
+                    var anchor = GetSelectionOriginIndex(caret);
+                    var index = GetCaretIndex(caret);
+                    if (!shift && HasCaretSelection(caret) && movement is TextNavigationAction.PreviousCharacter or TextNavigationAction.NextCharacter)
+                        index = movement == TextNavigationAction.PreviousCharacter ? GetSelectionFromIndex(caret) : GetSelectionToIndex(caret);
+                    else index = GetNavigationTarget(movement, index);
                     SetCaretAtTextIndex(index, caret);
+                    if (shift)
+                    {
+                        if (caret == 0) base.Select(anchor, index);
+                        else GetSecondaryCaret(caret).Anchor = anchor;
+                    }
                 }
             }
             finally { _caretMergeSuspension--; }
-            MergeOverlappingCarets();
-        }
-        private void MoveAllCaretsToLineBoundary(bool end)
-        {
-            _caretMergeSuspension++;
-            try { for (var caret = 0; caret < CaretCount; caret++) { var line = GetCaretLine(caret); SetCaret(line, end ? GetLine(line).Length : 0, caret); } }
-            finally { _caretMergeSuspension--; }
-            MergeOverlappingCarets();
-        }
-        private void MoveAllCaretsVertical(int direction)
-        {
-            _caretMergeSuspension++;
-            try { for (var caret = 0; caret < CaretCount; caret++) MoveCaretVisualRow(direction, caret); }
-            finally { _caretMergeSuspension--; }
-            MergeOverlappingCarets();
+            var sorted = GetSortedCaretIndexes();
+            for (var index = 1; index < sorted.Count; index++)
+                if (GetSelectionFromIndex(sorted[index]) <= GetSelectionToIndex(sorted[index - 1]))
+                {
+                    var carets = Enumerable.Range(0, CaretCount)
+                        .Select(caret => new TextCaretRange(GetSelectionOriginIndex(caret), GetCaretIndex(caret))).ToArray();
+                    var merged = TextEditRanges.Merge(carets);
+                    base.Select(merged[0].Anchor, merged[0].Index);
+                    _secondaryCarets.Clear();
+                    foreach (var caret in merged.Skip(1))
+                        _secondaryCarets.Add(new SecondaryCaret { Anchor = caret.Anchor, Index = caret.Index });
+                    break;
+                }
+            AdjustViewportToCaret();
         }
         private void DeleteAtCarets(bool backward)
         {
@@ -953,12 +962,15 @@ namespace Forma
                 var start = GetSelectionFromIndex(caret); var end = GetSelectionToIndex(caret);
                 if (start == end)
                 {
-                    if (backward) start = GetAdjacentGraphemeIndex(start, -1);
-                    else end = GetAdjacentGraphemeIndex(end, 1);
+                    var action = TextNavigation.Resolve(backward ? Keys.Left : Keys.Right,
+                        Context?.CurrentKeyboardState ?? default, UsesMacTextNavigation, true);
+                    if (backward) start = GetNavigationTarget(action, start);
+                    else end = GetNavigationTarget(action, end);
                 }
                 edits.Add(new CaretEdit { Caret = caret, Start = start, End = end });
             }
-            ApplyMultiCaretEdits(edits, string.Empty);
+            var result = TextEditRanges.Delete(Text, edits.Select(edit => (edit.Start, edit.End)).ToArray());
+            ApplyTextWithCarets(result.Text, result.Carets);
         }
         private bool HasAnyCaretSelection()
         {
@@ -1149,8 +1161,12 @@ namespace Forma
                 builder.Append(Text, cursor, edit.Start - cursor); builder.Append(inserted); finalIndexes[edit.Caret] = builder.Length; cursor = edit.End;
             }
             builder.Append(Text, cursor, Text.Length - cursor);
+            ApplyTextWithCarets(builder.ToString(), finalIndexes);
+        }
+        private void ApplyTextWithCarets(string text, int[] finalIndexes)
+        {
             _updatingMultipleCarets = true;
-            try { Text = builder.ToString(); CaretColumn = finalIndexes[0]; Deselect(); for (var caret = 1; caret < CaretCount; caret++) { var secondary = _secondaryCarets[caret - 1]; secondary.Index = finalIndexes[caret]; secondary.Anchor = -1; } }
+            try { Text = text; CaretColumn = finalIndexes[0]; Deselect(); for (var caret = 1; caret < CaretCount; caret++) { var secondary = _secondaryCarets[caret - 1]; secondary.Index = finalIndexes[caret]; secondary.Anchor = -1; } }
             finally { _updatingMultipleCarets = false; }
             MergeOverlappingCarets();
         }
@@ -1158,38 +1174,60 @@ namespace Forma
         {
             index = MathHelper.Clamp(index, 0, Text.Length); var line = GetLineForIndex(index); SetCaret(line, index - GetLineStart(line), caret);
         }
-        private void MoveCaretVisualRow(int direction, int caret = 0)
+        internal override int GetNavigationTarget(TextNavigationAction action, int from)
         {
-            var line = GetCaretLine(caret); var sourceColumn = GetCaretColumn(caret); var segments = GetWrapSegments(line); var wrapIndex = GetLineWrapIndexAtColumn(line, sourceColumn);
+            var line = GetLineForIndex(from);
+            var start = GetLineStart(line);
+            var column = from - start;
+            if (action is TextNavigationAction.LineStart or TextNavigationAction.LineEnd)
+            {
+                var segment = GetWrapSegments(line)[GetLineWrapIndexAtColumn(line, column)];
+                return start + segment.Start + (action == TextNavigationAction.LineEnd ? segment.Length : 0);
+            }
+            if (action == TextNavigationAction.PreviousParagraph)
+                return column == 0 && line > 0 ? GetLineStart(line - 1) : start;
+            if (action == TextNavigationAction.NextParagraph)
+            {
+                if (column == GetLine(line).Length && line < LineCount - 1) line++;
+                return GetLineStart(line) + GetLine(line).Length;
+            }
+            if (action == TextNavigationAction.PreviousRow) return GetVisualRowTarget(from, -1);
+            if (action == TextNavigationAction.NextRow) return GetVisualRowTarget(from, 1);
+            if (action == TextNavigationAction.PreviousCharacter) return GetAdjacentGraphemeIndex(from, -1);
+            if (action == TextNavigationAction.NextCharacter) return GetAdjacentGraphemeIndex(from, 1);
+            return base.GetNavigationTarget(action, from);
+        }
+        private int GetVisualRowTarget(int from, int direction)
+        {
+            var line = GetLineForIndex(from); var sourceColumn = from - GetLineStart(line); var segments = GetWrapSegments(line); var wrapIndex = GetLineWrapIndexAtColumn(line, sourceColumn);
             var targetLine = line; var targetWrap = wrapIndex + direction;
             if (targetWrap < 0)
             {
                 targetLine = line - 1; while (targetLine >= 0 && IsLineHiddenForDisplay(targetLine)) targetLine--;
-                if (targetLine < 0) return;
+                if (targetLine < 0) return from;
                 targetWrap = Math.Max(0, GetWrapSegments(targetLine).Count - 1);
             }
             else if (targetWrap >= segments.Count)
             {
                 targetLine = line + 1; while (targetLine < LineCount && IsLineHiddenForDisplay(targetLine)) targetLine++;
-                if (targetLine >= LineCount) return;
+                if (targetLine >= LineCount) return from;
                 targetWrap = 0;
             }
             var current = segments[wrapIndex]; var targetSource = GetLine(targetLine); var target = GetWrapSegments(targetLine)[targetWrap];
             if (EffectiveUIFont == null)
             {
-                SetCaret(targetLine, target.Start + Math.Min(Math.Max(0, sourceColumn - current.Start), target.Length), caret);
-                return;
+                return GetLineStart(targetLine) + target.Start + Math.Min(Math.Max(0, sourceColumn - current.Start), target.Length);
             }
             var currentLayout = GetSegmentLayout(GetLine(line), current.Start, current.Length);
             var targetLayout = GetSegmentLayout(targetSource, target.Start, target.Length);
             var preferredX = currentLayout.GetCaretPosition(MathHelper.Clamp(sourceColumn - current.Start, 0, current.Length)).X;
             var targetColumn = target.Start + targetLayout.HitTest(new Vector2(preferredX, 0));
-            SetCaret(targetLine, targetColumn, caret);
+            return GetLineStart(targetLine) + targetColumn;
         }
         private int GetAdjacentGraphemeIndex(int index, int direction)
         {
             index = MathHelper.Clamp(index, 0, Text.Length);
-            if (EffectiveUIFont == null) return MathHelper.Clamp(index + Math.Sign(direction), 0, Text.Length);
+            if (EffectiveUIFont == null) return TextNavigation.GraphemeBoundary(Text, index, direction);
             var line = GetLineForIndex(index);
             var lineStart = GetLineStart(line);
             var column = index - lineStart;
