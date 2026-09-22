@@ -1035,6 +1035,21 @@ namespace Forma
                 control.BringIntoViewRequested?.Invoke(control, request);
         }
         /// <summary>Marks this control and every ancestor dirty, matching Godot's Control::update_minimum_size walking the full parent chain so a deeply nested size change reaches the root container.</summary>
+        /// <summary>
+        /// Whether this control still owes a layout pass. Part of the settle check: acting on a
+        /// tree mid-layout reads bounds that are about to change.
+        /// </summary>
+        internal bool IsLayoutDirty => _layoutDirty;
+
+        /// <summary>True when this control and everything under it have settled.</summary>
+        internal bool IsSubtreeSettled()
+        {
+            if (_layoutDirty) return false;
+            foreach (var child in _visualChildren)
+                if (!child.IsSubtreeSettled()) return false;
+            return true;
+        }
+
         public void QueueLayout()
         {
             for (var control = this; control != null; control = control.VisualParent)

@@ -185,7 +185,9 @@ namespace Forma
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            context.Layout();
+            // Settle rather than a single pass: a snapshot taken mid-layout reports bounds that are
+            // about to change, and every consumer downstream would inherit that race.
+            context.WaitForSettled();
 
             var nodes = new List<AccessibilityNode>();
             var modal = context.GetActiveModalPopup();

@@ -49,6 +49,11 @@ namespace Forma
     /// extension methods over this type rather than forking it, which is how a canvas or any other
     /// app-specific surface gets first-class locators without Forma knowing what they mean.
     /// </para>
+    /// <para>
+    /// Every resolution waits for the UI to settle first, so a test never advances a fixed number of
+    /// frames and hopes. Too few and the assertion races layout; too many and every test pays for
+    /// the slowest case.
+    /// </para>
     /// </summary>
     public sealed class Locator
     {

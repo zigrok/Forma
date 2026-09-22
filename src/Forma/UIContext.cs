@@ -671,6 +671,49 @@ namespace Forma
             return false;
         }
 
+        /// <summary>
+        /// Whether the UI has stopped moving: every control has had its layout pass and no
+        /// frame-boundary work is outstanding.
+        /// <para>
+        /// This is what removes fixed frame counts from tests. Advancing "enough" frames and hoping
+        /// is the single most common source of flakiness in UI tests — too few and the assertion
+        /// races the layout, too many and every test pays for the slowest case.
+        /// </para>
+        /// </summary>
+        public bool IsSettled
+        {
+            get
+            {
+                lock (_frameBoundaryCallbacks)
+                    if (_frameBoundaryCallbacks.Count > 0) return false;
+
+                foreach (var root in _roots)
+                    if (root.IsRendered && !root.IsSubtreeSettled()) return false;
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Runs layout passes until the UI settles, returning whether it did within
+        /// <paramref name="maxPasses"/>.
+        /// <para>
+        /// Bounded by passes rather than wall-clock time, deliberately: a time budget makes a test
+        /// behave differently on a loaded machine, which is exactly the flakiness this is meant to
+        /// remove. Layout converges in a handful of passes or it is not going to.
+        /// </para>
+        /// </summary>
+        public bool WaitForSettled(int maxPasses = 16)
+        {
+            for (var pass = 0; pass < maxPasses; pass++)
+            {
+                Layout();
+                if (IsSettled) return true;
+            }
+
+            return IsSettled;
+        }
+
         public void Layout()
         {
             foreach (var root in _roots)
