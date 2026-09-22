@@ -207,6 +207,18 @@ bash scripts/test-nativeaot-package-consumer.sh
 Graphics render tests execute on supported Windows/Linux CI cells and compile on macOS, where NUnit
 excludes fixture setup because SDL graphics-device creation must run on the process main thread.
 
+### Before pushing
+
+`make check-before-push` runs the subset of CI's gates that reproduce on a single machine: license
+and SPDX compliance, documentation spelling/style, both-runtime build/test parity, the release
+public API review, peer package budgets and isolated consumers, and (on macOS) trim/NativeAOT
+consumers. It intentionally does not cover the `runtime` job's per-OS graphics smoke/render/video
+matrix (needs Windows and Linux GPU drivers), the ThorVG native builds (`thorvg-linux`,
+`thorvg-macos`), the full Docfx site build, or the external link check — those require CI's
+OS matrix, native toolchains, or network access to run meaningfully. Running it before a push
+catches the same compliance, parity, and packaging failures CI would, without waiting on
+GitHub Actions.
+
 See the [runtime support guide](https://zigrok.github.io/Forma/latest/runtime-support.html) for the graphics, content, effects, media,
 native dependency, trimming, AOT, CI, and manual-gate matrix. See
 [runtime acquisition](https://zigrok.github.io/Forma/latest/runtime-acquisition.html) for pinned distribution ownership.

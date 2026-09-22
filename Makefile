@@ -35,7 +35,7 @@ DOTNET_ARGS := --configuration "$(CONFIGURATION)" --nologo
 	text-spike text-spike-local text-baseline xaml-spike \
 	format-xaml format-xaml-check \
 	docs docs-quality docs-check docs-serve \
-	compliance backend-references parity packages aot-analyzers native-font-failures static-font-backend nativeaot check check-all \
+	compliance backend-references parity api-review packages aot-analyzers native-font-failures static-font-backend nativeaot check check-all check-before-push \
 	svg-selection svg-benchmark svg-compare svg-packages thorvg-catalog thorvg-render thorvg-spike thorvg-linux thorvg-nativeaot thorvg-static-host icons icons-import icons-verify unicode unicode-verify track clean
 
 help: ## Show available targets and configuration variables.
@@ -190,6 +190,9 @@ backend-references: ## Compile Forma.Media against supported MonoGame backends.
 parity: ## Build/test both runtimes and compare references and public APIs.
 	bash scripts/check-runtime-parity.sh
 
+api-review: ## Review the release public API surface against the acknowledged baseline.
+	bash scripts/check-release-api.sh
+
 packages: ## Build and validate all peer packages and isolated consumers.
 	bash scripts/test-package-consumer.sh
 
@@ -257,6 +260,8 @@ unicode-verify: ## Download pinned Unicode sources and byte-compare generated ou
 check: compliance icons-verify unicode-verify parity test-xaml performance aot-analyzers native-font-failures ## Run the portable CI validation gates.
 
 check-all: check backend-references smoke performance-graphics render-parity video-smoke packages nativeaot ## Run every validation, including graphical, package, and NativeAOT checks.
+
+check-before-push: compliance docs-quality parity api-review packages nativeaot ## Run the CI checks practical to reproduce on a single machine before pushing.
 
 track: ## Show plan progress; override PLAN and TRACK_ARGS as needed.
 	bash scripts/track-plan.sh $(TRACK_ARGS) "$(PLAN)"
