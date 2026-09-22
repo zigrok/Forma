@@ -57,7 +57,7 @@ namespace Forma
             }
             return result;
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             if (!Editable) return;
@@ -69,7 +69,7 @@ namespace Forma
             _dragStartRatio = Ratio;
         }
         /// <summary>Tracks the pointer while held, matching Godot's Slider::gui_input relative-motion grab (grab.pos/grab.uvalue).</summary>
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             if (!_dragging || !Editable) return;
             var main = Orientation == Orientation.Horizontal ? point.X : point.Y;
@@ -80,7 +80,7 @@ namespace Forma
             if (areaSize <= 0) return;
             Ratio = _dragStartRatio + motion / areaSize;
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             if (!_dragging) return;
             _dragging = false;

@@ -701,7 +701,7 @@ namespace Forma
         }
         /// <summary>Centers the active caret line in the text viewport where possible.</summary>
         public void CenterViewportToCaret() => SetLineAsCenterVisible(CaretLine, GetLineWrapIndexAtColumn(CaretLine, CaretColumnInLine));
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             base.PointerPressed(position);
             if (EffectiveUIFont == null) return;

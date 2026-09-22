@@ -17,7 +17,7 @@ public sealed class NativeTextCompositionTest
     {
         internal int Releases { get; private set; }
         public override object GetDragData(Point position) => "payload";
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             Releases++;
             base.PointerReleased(position, isInside);

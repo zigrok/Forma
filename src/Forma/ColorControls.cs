@@ -250,7 +250,7 @@ namespace Forma
             var linear = OkColor.ToLinearSrgb(Color); if (channel == 0) linear.X = value; else if (channel == 1) linear.Y = value; else linear.Z = value;
             CommitColor(OkColor.FromLinearSrgb(linear, Color.A / 255f));
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             // Godot's _sample_input reverts to old_color on a left-click of the old-color half of the
@@ -266,8 +266,8 @@ namespace Forma
             var sampleHeight = Math.Min(10, Math.Max(0, Bounds.Height / 8));
             return new Rectangle(Bounds.X + 2, Bounds.Y + 2, sampleWidth, sampleHeight);
         }
-        internal override void PointerMoved(Point point) { if (_picking) SetFromPoint(point); }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerMoved(Point point) { if (_picking) SetFromPoint(point); }
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             var wasPicking = _picking;
             if (wasPicking && isInside) SetFromPoint(point);
@@ -699,7 +699,7 @@ namespace Forma
         public event Action<ColorPickerButton, Color> ColorChanged;
         /// <summary>Raised whenever the picker popup closes, matching Godot's ColorPickerButton.popup_closed.</summary>
         public event EventHandler PopupClosed;
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             base.PointerReleased(position, isInside);
             if (!isInside || Context == null) return;

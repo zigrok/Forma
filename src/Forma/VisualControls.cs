@@ -548,7 +548,7 @@ namespace Forma
                 }
             }
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             _nestedIntersectionDraggers.Clear();
@@ -559,7 +559,21 @@ namespace Forma
                 if (nested.BeginDividerDrag(point, DragAreaSize)) _nestedIntersectionDraggers.Add(nested);
             }
         }
-        internal override bool HitTestBeforeChildren(Point point)
+        internal override bool HitTestBeforeChildren(Point point) => IsOverDragger(point);
+        /// <summary>
+        /// Shows the axis resize cursor over a dragger, which is the only affordance a thin divider has
+        /// before it is pressed, and holds it for the whole gesture once one is grabbed, since a drag
+        /// routinely runs the pointer past the bar it is moving. An explicit <see cref="Control.Cursor"/>
+        /// on this container wins, so a host that wants its own cursor still gets it.
+        /// </summary>
+        public override Cursor GetCursorAt(Point position)
+        {
+            if (Cursor != Cursor.Inherited || (_draggingIndex < 0 && !IsOverDragger(position))) return base.GetCursorAt(position);
+            return Orientation == Orientation.Horizontal ? Cursor.SizeHorizontal : Cursor.SizeVertical;
+        }
+        /// <summary>Whether a point lands on a grabbable dragger. Hit testing, the resize cursor and the
+        /// start of a drag share this, so the region that advertises a resize is the one that performs it.</summary>
+        private bool IsOverDragger(Point point)
         {
             if (!DraggingEnabled || Collapsed || DraggerVisibility != SplitContainerDraggerVisibility.Visible) return false;
             for (var index = 0; index < _resolvedDraggerPositions.Count; index++)
@@ -569,7 +583,7 @@ namespace Forma
             }
             return false;
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             if (_draggingIndex < 0) return;
             // Godot's SplitContainerDragger::gui_input tracks a relative delta from the press point
@@ -581,7 +595,7 @@ namespace Forma
             SetSplitOffset(_dragStartSplitOffset + delta, _draggingIndex);
             foreach (var nested in _nestedIntersectionDraggers) nested.MoveDividerDrag(point);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             _draggingIndex = -1;
             foreach (var nested in _nestedIntersectionDraggers) nested._draggingIndex = -1;

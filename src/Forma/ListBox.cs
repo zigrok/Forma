@@ -391,7 +391,7 @@ namespace Forma
             base.OnTemplateApplied();
         }
 
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             var index = GetIndexAtPosition(point);
@@ -415,7 +415,7 @@ namespace Forma
             if (index >= 0) SelectItemFromPointer(index, point);
         }
 
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             var index = GetIndexAtPosition(point);
             if (isInside && index >= 0 && index == _lastClickIndex && (ActivateOnSingleClick || _doubleClickPending)) Activate(index);

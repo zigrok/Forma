@@ -12738,7 +12738,7 @@ namespace Forma.Tests
         private sealed class InputProbe : Control
         {
             public int PressedCount { get; private set; }
-            internal override void PointerPressed(Point position) => PressedCount++;
+            protected internal override void PointerPressed(Point position) => PressedCount++;
         }
 
         private sealed class PointerButtonProbe : Control
@@ -12752,7 +12752,7 @@ namespace Forma.Tests
         private sealed class AcceptingProbe : Control
         {
             public int PressedCount { get; private set; }
-            internal override void PointerPressed(Point position) { PressedCount++; AcceptEvent(); }
+            protected internal override void PointerPressed(Point position) { PressedCount++; AcceptEvent(); }
         }
     }
 }

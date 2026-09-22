@@ -113,7 +113,7 @@ namespace Forma
         public void Apply() => CommitText();
         public LineEdit GetLineEdit() => LineEdit;
         public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, new Vector2(72, 24));
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             _dragAllowed = IsEditable();
@@ -130,7 +130,7 @@ namespace Forma
             _heldArrowRepeating = false;
             _heldArrowActive = true;
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             _heldArrowPoint = point;
             if (!_dragAllowed) return;
@@ -152,7 +152,7 @@ namespace Forma
             var diff = -0.01f * MathF.Pow(MathF.Abs(_dragDiffY), 1.8f) * MathF.Sign(_dragDiffY);
             Value = _dragBaseValue + step * diff;
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             _dragAllowed = false;
             _dragging = false;

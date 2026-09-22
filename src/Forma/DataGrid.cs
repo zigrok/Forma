@@ -540,7 +540,7 @@ namespace Forma
             OnPropertyChanged(nameof(SortDirection));
         }
 
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             base.PointerReleased(point, isInside);
             if (isInside && Owner?.CanUserSortColumns == true && Column?.CanUserSort == true && Column.SortBinding != null)

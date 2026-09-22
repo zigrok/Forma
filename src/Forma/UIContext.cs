@@ -104,11 +104,18 @@ namespace Forma
             get
             {
                 if (IsDisposingOrDisposed) return Cursor.Arrow;
-                if (IsInputEligible(_captured)) return _captured.EffectiveCursor;
+                if (IsInputEligible(_captured)) return ResolveCursor(_captured);
                 var modal = GetActiveModalPopup();
                 var target = modal == null ? HitTest(PointerPosition) : HitTest(modal, PointerPosition);
-                return IsInputEligible(target) ? target.EffectiveCursor : Cursor.Arrow;
+                return IsInputEligible(target) ? ResolveCursor(target) : Cursor.Arrow;
             }
+        }
+        /// <summary>Asks a control which cursor belongs under the pointer, so a control whose cursor
+        /// varies across its surface can answer per position, and falls back to its resolved cursor.</summary>
+        private Cursor ResolveCursor(Control control)
+        {
+            var cursor = control.GetCursorAt(PointerPosition);
+            return cursor == Cursor.Inherited ? control.EffectiveCursor : cursor;
         }
         /// <summary>Whether retained touch-style interactions should be enabled for pointer input.</summary>
         public bool TouchscreenAvailable { get; set; }

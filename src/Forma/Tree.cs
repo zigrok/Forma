@@ -1331,7 +1331,7 @@ namespace Forma
             if (_selected != null && !_selected.IsVisibleInTree()) { _selected.IsSelected = false; _selected = null; _selectedColumn = 0; }
             QueueLayout();
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             if (ColumnTitlesVisible && point.Y < RowOriginY)
@@ -1439,7 +1439,7 @@ namespace Forma
             }
             ItemMouseSelected?.Invoke(this, point, button);
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             _dragPointer = point;
             if (_dragAutoScrolling) UpdateDragUnfoldTarget(point);
@@ -1471,7 +1471,7 @@ namespace Forma
             QueueLayout();
             ColumnResized?.Invoke(this, _resizingColumn, width);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             ResetRangeStepRepeat();
             if (_stringEditPressItem != null)

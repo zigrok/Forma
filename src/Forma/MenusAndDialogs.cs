@@ -113,8 +113,8 @@ namespace Forma
             MouseFilter = MouseFilter.Stop;
         }
         public PopupMenu Popup { get; }
-        internal override void PointerPressed(Point point) => Popup.HandleItemsPressed(point);
-        internal override void PointerReleased(Point point, bool isInside) => Popup.HandleItemsReleased(point, isInside);
+        protected internal override void PointerPressed(Point point) => Popup.HandleItemsPressed(point);
+        protected internal override void PointerReleased(Point point, bool isInside) => Popup.HandleItemsReleased(point, isInside);
         internal override bool PointerWheel(int delta) => Popup.HandleItemsWheel(delta);
         public override string GetTooltip(Point position)
         {
@@ -1420,7 +1420,7 @@ namespace Forma
             SynchronizeTemplateParts();
             base.OnTemplateApplied();
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             if (!isInside) return;
             if (OkButtonBounds.Contains(point)) { if (!OkButtonDisabled) Confirm(); }
@@ -2184,7 +2184,7 @@ namespace Forma
                     return;
             }
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             var index = GetEntryIndexAt(point);
@@ -2198,7 +2198,7 @@ namespace Forma
             _lastClickIndex = index;
             SelectEntry(index, FileMode == FileDialogMode.OpenFiles);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             base.PointerReleased(point, isInside);
             var index = GetEntryIndexAt(point);

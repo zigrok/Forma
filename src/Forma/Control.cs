@@ -1532,15 +1532,26 @@ namespace Forma
             for (var current = this; current != null; current = StyleBoundary.GetOrdinaryParent(current))
                 current.NotifyPseudoStateChanged("focus-within");
         }
-        internal virtual void PointerPressed(Point position) { if (FocusMode != FocusMode.None) GrabFocus(); }
+        /// <summary>
+        /// A pointer press landed on this control, in global coordinates.
+        /// <para>
+        /// Protected as well as internal so a control defined outside this assembly can take part in
+        /// pointer input. Without that, an app hosting its own drawing surface has to read raw mouse
+        /// state instead, which bypasses hit-testing, modal gating and the injection side-channel —
+        /// so such a surface cannot be driven by a test at all.
+        /// </para>
+        /// </summary>
+        protected internal virtual void PointerPressed(Point position) { if (FocusMode != FocusMode.None) GrabFocus(); }
         /// <summary>Receives a physical pointer press. The primary button additionally routes through <see cref="PointerPressed"/> for compatibility with existing controls.</summary>
         internal virtual void PointerButtonPressed(Point position, PointerButton button) { if (button == PointerButton.Right) PointerRightPressed(position); }
         /// <summary>Receives a secondary/right pointer press. Controls that present a context menu can override this independently of primary activation.</summary>
         internal virtual void PointerRightPressed(Point position) { }
         /// <summary>Receives a physical pointer release at the current hit-tested position.</summary>
         internal virtual void PointerButtonReleased(Point position, PointerButton button) { }
-        internal virtual void PointerMoved(Point position) { }
-        internal virtual void PointerReleased(Point position, bool isInside) { }
+        /// <summary>The pointer moved over this control, in global coordinates.</summary>
+        protected internal virtual void PointerMoved(Point position) { }
+        /// <summary>The pointer was released, with whether it was still inside this control.</summary>
+        protected internal virtual void PointerReleased(Point position, bool isInside) { }
         internal virtual bool PointerWheel(int delta) => false;
         internal virtual bool ShortcutInput(Keys key, KeyboardState keyboard) => false;
         internal virtual void KeyPressed(Keys key) { }

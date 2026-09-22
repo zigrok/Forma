@@ -448,7 +448,7 @@ namespace Forma
             ClipboardOperationFailed?.Invoke(this, operation);
         }
         public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, new Vector2(80, EffectiveUIFont == null ? 24 : TextMetrics.LineHeight(EffectiveUIFont) + Padding.Vertical));
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             CancelImeComposition();
             var hadSelectionBeforeFocus = HasSelection;
@@ -496,11 +496,11 @@ namespace Forma
             else if (_selectingByWord) SelectPointerRange(clickedColumn);
             else Deselect();
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (_selectingText) SelectPointerRange(GetCaretColumnAtPosition(position));
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (_selectingText) SelectPointerRange(GetCaretColumnAtPosition(position));
             _selectingText = false;

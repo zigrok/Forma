@@ -76,12 +76,12 @@ namespace Forma
             var local = new Vector2(position.X, position.Y) - GlobalPosition;
             return Stretch && StretchShrink > 1 ? local / StretchShrink : local;
         }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             base.PointerPressed(position);
             _hostPointerPressed = true;
         }
-        internal override void PointerReleased(Point position, bool isInside) => _hostPointerPressed = false;
+        protected internal override void PointerReleased(Point position, bool isInside) => _hostPointerPressed = false;
         internal override void CancelInput()
         {
             _hostPointerPressed = false;
@@ -246,12 +246,12 @@ namespace Forma
         public event Action<VirtualJoystick, Vector2> ValueChanged;
         public event EventHandler Pressed;
         public event EventHandler Released;
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             base.PointerPressed(position); _active = true; SetFromPoint(position); Pressed?.Invoke(this, EventArgs.Empty);
         }
-        internal override void PointerMoved(Point position) { if (_active) SetFromPoint(position); }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerMoved(Point position) { if (_active) SetFromPoint(position); }
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (!_active) return;
             _active = false; Value = Vector2.Zero; Released?.Invoke(this, EventArgs.Empty);

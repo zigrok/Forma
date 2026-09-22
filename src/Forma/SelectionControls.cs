@@ -444,7 +444,7 @@ namespace Forma
                 ? new Rectangle(start, 0, size, Math.Max(0, Bounds.Height))
                 : new Rectangle(0, start, Math.Max(0, Bounds.Width), size);
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             UpdateHighlight(point);
@@ -481,7 +481,7 @@ namespace Forma
             }
             PageBy(1);
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             if (_dragging)
             {
@@ -491,7 +491,7 @@ namespace Forma
             }
             else UpdateHighlight(point);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             _dragging = false;
             _decrementActive = false;
@@ -1382,7 +1382,7 @@ namespace Forma
             return Rectangle.Empty;
         }
         public override string GetTooltip(Point position) { var index = GetTabAt(position, out _); return index >= 0 && !string.IsNullOrEmpty(_tabs[index].Tooltip) ? _tabs[index].Tooltip : base.GetTooltip(position); }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             UpdateHoveredTab(point);
@@ -1401,7 +1401,7 @@ namespace Forma
             }
             PressTabAt(position, button);
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             UpdateHoveredTab(point);
             if (_draggedTab < 0) return;
@@ -1411,7 +1411,7 @@ namespace Forma
             _draggedTab = target;
             ActiveTabRearranged?.Invoke(this, target);
         }
-        internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
+        protected internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
         internal override void CancelInput() { _draggedTab = -1; base.CancelInput(); }
         /// <summary>Scrolls the tab offset by one tab per wheel tick, matching Godot's TabBar::gui_input WHEEL_UP/WHEEL_DOWN handling.</summary>
         internal override bool PointerWheel(int delta)
@@ -1888,7 +1888,7 @@ namespace Forma
             var index = GetItemAtPosition(position, true); if (index >= 0) { var entry = _entries[index]; if (!entry.TooltipEnabled) return string.Empty; if (!string.IsNullOrEmpty(entry.Tooltip)) return entry.Tooltip; if (!string.IsNullOrEmpty(entry.Text)) return entry.Text; }
             return base.GetTooltip(position);
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point); var index = GetItemAtPosition(point); if (index < 0) return;
             // Godot's item_activated only fires on an actual LEFT double-click, not every plain click -
@@ -1906,7 +1906,7 @@ namespace Forma
             if (button != PointerButton.Right || !AllowRightMouseSelect) return;
             var index = GetItemAtPosition(position); if (index >= 0) SelectFromPointer(index);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             var index = GetItemAtPosition(point); if (isInside && index >= 0 && index == _current && _isDoubleClick) ItemActivated?.Invoke(this, index);
         }
@@ -2670,7 +2670,7 @@ namespace Forma
         {
             context.Fill(new Rectangle((int)MathF.Floor(position.X + rectangle.X), (int)MathF.Floor(position.Y + rectangle.Y), Math.Max(1, (int)MathF.Ceiling(rectangle.Width)), Math.Max(1, (int)MathF.Ceiling(rectangle.Height))), color);
         }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             var meta = GetMetaUnderPosition(position);
             if (meta != null) { MetaClicked?.Invoke(this, meta); return; }
@@ -2699,14 +2699,14 @@ namespace Forma
             else SelectGestureRange(_selectionAnchor, _selectionAnchor);
             if (_selectionMode == RichTextSelectionMode.TripleClick) _textClickCount = 0;
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (!_selectingText) return;
             _lastSelectionPointerPosition = position;
             var index = GetTextIndexAtPosition(position);
             if (index >= 0) SelectGestureRange(_selectionAnchor, index);
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (_selectionDragAttempt)
             {

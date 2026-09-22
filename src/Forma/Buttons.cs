@@ -189,7 +189,7 @@ namespace Forma
         internal override bool HitTestBeforeChildren(Point point) => ContainsPoint(point);
         internal override void PointerEntered() { IsHovering = true; base.PointerEntered(); NotifyPseudoStateChanged("pressed"); }
         internal override void PointerExited() { IsHovering = false; base.PointerExited(); NotifyPseudoStateChanged("pressed"); }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             if (IsPointerButtonMasked(PointerButton.Left)) BeginPointerActivation(position, PointerButton.Left);
         }
@@ -199,7 +199,7 @@ namespace Forma
             if (!IsPointerButtonMasked(button)) { base.PointerButtonPressed(position, button); return; }
             BeginPointerActivation(position, button);
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (_activePointerButton == PointerButton.Left) EndPointerActivation(isInside);
         }

@@ -216,7 +216,7 @@ namespace Forma
             }
         }
         private void UpdateVisibility() { for (var i = 0; i < Children.Count; i++) Children[i].Visible = i == CurrentTab && !GetState(i).Hidden; }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             if (_popup != null && GetPopupButtonRectangle().Contains(point)) { ShowPopupAtButton(); return; }
             if (point.Y >= Bounds.Top && point.Y < Bounds.Top + EffectiveTabHeight && Children.Count > 0)
@@ -240,7 +240,7 @@ namespace Forma
             }
             else base.PointerPressed(point);
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             UpdateHoveredTab(point);
             if (_draggedTab < 0) return;
@@ -252,7 +252,7 @@ namespace Forma
         }
         internal override void PointerEntered() { UpdateHoveredTab(Context?.PointerPosition ?? Point.Zero); base.PointerEntered(); }
         internal override void PointerExited() { _hoveredTab = -1; base.PointerExited(); }
-        internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
+        protected internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
         internal override void CancelInput() { _draggedTab = -1; base.CancelInput(); }
         internal void DrawTabContainerChrome(UIRenderContext context)
         {
