@@ -16,7 +16,7 @@
     <ProjectReference Include="../../src/Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
     <ProjectReference Include="../../src/Forma.Xaml.Compiler/Forma.Xaml.Compiler.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
     <ProjectReference Include="../../src/Forma.Xaml.HotReload/Forma.Xaml.HotReload.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
-    <ProjectReference Include="../Forma.Xaml.Build.Integration/Forma.Xaml.Build.Integration.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../Forma.Xaml.Build.Integration/Forma.Xaml.Build.Integration.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" ReferenceOutputAssembly="false" OutputItemType="_FormaXamlIntegrationAssembly" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,5 +32,12 @@
   <ItemGroup>
     <Using Include="NUnit.Framework" />
   </ItemGroup>
+
+  <Target Name="RecordFormaXamlIntegrationAssembly" BeforeTargets="GetAssemblyAttributes" DependsOnTargets="ResolveProjectReferences">
+    <Error Condition="'@(_FormaXamlIntegrationAssembly)' == ''" Text="The compiled XAML integration fixture output was not resolved." />
+    <ItemGroup>
+      <AssemblyMetadata Include="FormaXamlIntegrationAssembly" Value="@(_FormaXamlIntegrationAssembly->'%(FullPath)')" />
+    </ItemGroup>
+  </Target>
 
 </Project>
