@@ -399,6 +399,60 @@ namespace Forma
             DispatchInjectedPointerButton(target, point, button, pressed: true);
         }
 
+        /// <summary>
+        /// Whether <see cref="Update(GameTime, MouseState, KeyboardState)"/> ignores the mouse and
+        /// keyboard it is handed. Off by default; turn it on when a host drives this context purely
+        /// through the Inject methods, so the polled pass cannot overwrite what was injected.
+        /// </summary>
+        public bool SuppressPolledInput { get; set; }
+
+        /// <summary>
+        /// Delivers a key press to the focused control, including shortcut routing, as though it
+        /// arrived this frame.
+        /// <para>
+        /// Distinct from handing a <see cref="KeyboardState"/> to <c>Update</c>: that replaces the
+        /// whole keyboard, so it cannot express a chord arriving mid-frame and forces a caller to
+        /// model key state it does not own. Modifiers travel with the press instead.
+        /// </para>
+        /// <para>
+        /// Call on the update thread, between frames — the same contract the pointer injection
+        /// methods follow. Dispatch runs synchronously and reaches handlers that expect to be on the
+        /// thread that owns the tree.
+        /// </para>
+        /// </summary>
+        public void InjectKeyPress(Keys key, params Keys[] modifiers)
+        {
+            Layout();
+
+            var pressed = new List<Keys>(modifiers?.Length + 1 ?? 1) { key };
+            if (modifiers != null) pressed.AddRange(modifiers);
+
+            var state = new KeyboardState(pressed.ToArray());
+            CurrentKeyboardState = state;
+            DispatchKey(key, state);
+        }
+
+        /// <summary>Delivers a key release to the focused control. See <see cref="InjectKeyPress"/>.</summary>
+        public void InjectKeyRelease(Keys key)
+        {
+            Layout();
+            CurrentKeyboardState = new KeyboardState();
+            FocusedControl?.KeyReleased(key);
+        }
+
+        /// <summary>
+        /// Delivers committed text to the focused control, as a completed composition rather than a
+        /// preedit. This is the text-entry counterpart of <see cref="InjectKeyPress"/>; typing a
+        /// character through key injection alone would not produce text, because a key is not a
+        /// character until the platform's input method says so.
+        /// </summary>
+        public void InjectText(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+            Layout();
+            TextInput(text);
+        }
+
         /// <summary>Releases a pointer button at a position expressed in physical back-buffer pixels.</summary>
         public void InjectPointerRelease(Point physicalPosition, PointerButton button = PointerButton.Left)
         {
@@ -451,6 +505,20 @@ namespace Forma
             UpdateFrameBoundaryCallbacks(gameTime);
             UpdateXamlScopes(gameTime);
             ValidateInteractionState();
+
+            // With polled input suppressed, the frame still advances - layout settles, controls tick,
+            // animations run - but the mouse and keyboard passed in are ignored entirely. A host that
+            // is driving this context by injection needs that: an unfocused game is fed a default
+            // MouseState and KeyboardState every frame, which would otherwise yank the pointer back
+            // to (0,0) and release every key between one injected event and the next.
+            if (SuppressPolledInput)
+            {
+                Layout();
+                CurrentTime = gameTime?.TotalGameTime ?? TimeSpan.Zero;
+                foreach (var root in new List<Control>(_roots)) if (root.IsRendered) root.Process(gameTime);
+                return;
+            }
+
             if (Math.Abs(DisplayScale - 1f) > .0001f)
             {
                 mouse = new MouseState(
