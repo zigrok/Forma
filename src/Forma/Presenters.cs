@@ -1741,10 +1741,10 @@ namespace Forma
         {
             ScrollPresenter.Position = _owner.ScrollPresenterPosition;
             ScrollPresenter.Size = _owner.ScrollPresenterSize;
-            _horizontalScrollBarPresenter.Position = _owner.HorizontalScrollBar.Position;
-            _horizontalScrollBarPresenter.Size = _owner.HorizontalScrollBar.Size;
-            _verticalScrollBarPresenter.Position = _owner.VerticalScrollBar.Position;
-            _verticalScrollBarPresenter.Size = _owner.VerticalScrollBar.Size;
+            _horizontalScrollBarPresenter.Position = _owner.HorizontalScrollBarPosition;
+            _horizontalScrollBarPresenter.Size = _owner.HorizontalScrollBarSize;
+            _verticalScrollBarPresenter.Position = _owner.VerticalScrollBarPosition;
+            _verticalScrollBarPresenter.Size = _owner.VerticalScrollBarSize;
         }
 
         internal override void Draw(UIRenderContext context)

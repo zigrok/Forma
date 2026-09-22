@@ -1,8 +1,8 @@
 === AcceptDialog
 Dialog "AcceptDialog" [Modal]
   Generic
-    Generic "PART_TitlePresenter"
-    Generic "PART_ContentPresenter"
+    Generic "AcceptDialog"
+    Generic "This is a modal message."
     Button "PART_AcceptButton"
       Generic
         Generic "PART_ContentPresenter"
@@ -20,8 +20,8 @@ Generic
     Button "atlasClear"
       Generic
         Generic "PART_ContentPresenter"
-  Generic "atlasPreviewText"
-  Generic "atlasStatus"
+  Generic "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 مرحبا 你好 👩🏽‍💻"
+  Generic "Pages 0 · Glyphs 0 · Occupancy 0.0% · Hits 0 · Misses 0 · Uploads 0 · Evictions 0 · Memory 0.0 KB / 32 MB"
   Generic "atlasPages"
     Generic "atlasPage0"
     Generic "atlasPage1"
@@ -29,7 +29,8 @@ Generic
     Generic "atlasPage3"
 === Atlas diagnostics
 Generic
-  Generic "status"
+  Generic "Density: 0x   Atlases: 0   Texture: 0.0 KB
+Generation: 0   Missing optional lookups: 0"
   Generic
     Button "one"
       Generic
@@ -53,8 +54,8 @@ Generic
       Generic
         Generic
           Generic "PART_ContentPresenter"
-  Generic "bidiPreview"
-  Generic "bidiDiagnostics"
+  Generic "Forma שלום 123 مرحبا"
+  Generic "Runtime bidi diagnostics unavailable."
 === Border
 Generic "Border"
   Generic
@@ -77,12 +78,12 @@ Button "Button" #catalog.button
 Generic "CanvasPanel"
   Generic
     Generic
-    Generic
+    Generic "CanvasPanel"
 === CenterContainer
 Generic "CenterContainer"
   Generic
     Generic
-    Generic
+    Generic "CenterContainer"
 === CheckBox
 CheckBox "CheckBox" [Checked]
   Generic
@@ -103,7 +104,7 @@ var button = new Button
   Generic "PART_EditorPresenter"
 === Collection Systems
 Generic "CollectionSystemsRoot"
-  Generic
+  Generic "Collection systems"
   Generic
     Button "AddItem"
       Generic
@@ -120,7 +121,7 @@ Generic "CollectionSystemsRoot"
     Button "ResetItems"
       Generic
         Generic "PART_ContentPresenter"
-    Generic "MutationStatus"
+    Generic "Ready"
   Generic
     List "SingleSelection"
       ListItem "CatalogCollectionItem { Name = Item 01 }"
@@ -136,27 +137,27 @@ Generic "CollectionSystemsRoot"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 01"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 02"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 03"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 04"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 05"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 06"
     List "MultiSelection"
       ListItem "CatalogCollectionItem { Name = Item 01 }"
       ListItem "CatalogCollectionItem { Name = Item 02 }"
@@ -171,27 +172,27 @@ Generic "CollectionSystemsRoot"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 01"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 02"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 03"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 04"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 05"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 06"
     List "ToggleSelection"
       ListItem "CatalogCollectionItem { Name = Item 01 }"
       ListItem "CatalogCollectionItem { Name = Item 02 }"
@@ -206,28 +207,28 @@ Generic "CollectionSystemsRoot"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 01"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 02"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 03"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 04"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
+                    Generic "Item 05"
               ListItem
                 Generic "PART_ContentPresenter"
                   Generic
-                    Generic
-  Generic
+                    Generic "Item 06"
+  Generic "Eventful row x:Class"
   List "EventRows"
     ListItem "CatalogCollectionItem { Name = Item 01 }"
     ListItem "CatalogCollectionItem { Name = Item 02 }"
@@ -275,7 +276,7 @@ Generic "CollectionSystemsRoot"
                   Button "RowAction"
                     Generic
                       Generic "PART_ContentPresenter"
-  Generic
+  Generic "Vertical / horizontal / grid virtualization"
   List "VerticalVirtualList"
     ListItem "CatalogCollectionItem { Name = Virtual 00000 }"
     ListItem "CatalogCollectionItem { Name = Virtual 00001 }"
@@ -316,8 +317,8 @@ Dialog "ColorPickerDialog" [Modal]
   Generic
     ColorPicker
       Generic "PART_ColorField"
-    Generic "PART_TitlePresenter"
-    Generic "PART_ContentPresenter"
+    Generic "ColorPickerDialog"
+    Generic "Continue with this action?"
     Button "PART_AcceptButton"
       Generic
         Generic "PART_ContentPresenter"
@@ -338,24 +339,24 @@ Button "ColorPresetButton"
 Generic "ColorRect"
 === Compiled Data Binding
 Generic "BindingRoot"
+  Generic "Compiled data binding"
+  Generic "Edit the model through two-way controls while one-way targets update from property notifications."
   Generic
-  Generic
-  Generic
-    Generic
+    Generic "Project"
     TextBox "ProjectNameEditor" =Aurora UI
       Generic "PART_EditorPresenter"
   Generic
-    Generic
+    Generic "Completion"
     Slider "CompletionSlider" =64
       Generic
-    Generic "CompletionLabel"
+    Generic "Progress: 64%"
   CheckBox "AutoSaveToggle" [Checked]
     Generic
       Generic
         Generic "PART_ContentPresenter"
   ProgressBar =64
     Generic
-  Generic "BindingSummary"
+  Generic "Aurora UI is 64% complete · autosave on"
   Button "Reset model"
     Generic
       Generic "PART_ContentPresenter"
@@ -367,217 +368,217 @@ Generic
         Generic "iconFlow"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "arrow_down"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:can_fold"
+            Generic "scene/theme/icons/arrow_down.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "arrow_left"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:back"
+            Generic "scene/theme/icons/arrow_left.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "arrow_right"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:executing_line"
+            Generic "scene/theme/icons/arrow_right.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "arrow_up"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:up"
+            Generic "scene/theme/icons/arrow_up.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "bookmark"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:bookmark"
+            Generic "scene/theme/icons/bookmark.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "breakpoint"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:breakpoint"
+            Generic "scene/theme/icons/breakpoint.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "checked"
+            Generic "16x16 @ 1x/2x"
+            Generic "CheckBox:checked"
+            Generic "scene/theme/icons/checked.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "checked_disabled"
+            Generic "16x16 @ 1x/2x"
+            Generic "CheckBox:checked_disabled"
+            Generic "scene/theme/icons/checked_disabled.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "close"
+            Generic "16x16 @ 1x/2x"
+            Generic "TabBar:close"
+            Generic "scene/theme/icons/close.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "color_picker_cursor"
+            Generic "12x12 @ 1x/2x"
+            Generic "ColorPicker:picker_cursor"
+            Generic "scene/theme/icons/color_picker_cursor.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "color_picker_cursor_bg"
+            Generic "12x12 @ 1x/2x"
+            Generic "ColorPicker:picker_cursor_bg"
+            Generic "scene/theme/icons/color_picker_cursor_bg.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "favorite"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:favorite"
+            Generic "scene/theme/icons/favorite.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "file"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:file"
+            Generic "scene/theme/icons/file.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "file_mode_list"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:list_mode"
+            Generic "scene/theme/icons/file_mode_list.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "file_mode_thumbnail"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:thumbnail_mode"
+            Generic "scene/theme/icons/file_mode_thumbnail.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "file_thumbnail"
+            Generic "64x64 @ 1x/2x"
+            Generic "FileDialog:file_thumbnail"
+            Generic "scene/theme/icons/file_thumbnail.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "folder"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:folder"
+            Generic "scene/theme/icons/folder.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "folder_create"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:create_folder"
+            Generic "scene/theme/icons/folder_create.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "folder_thumbnail"
+            Generic "64x64 @ 1x/2x"
+            Generic "FileDialog:folder_thumbnail"
+            Generic "scene/theme/icons/folder_thumbnail.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "graph_port"
+            Generic "10x10 @ 1x/2x"
+            Generic "GraphNode:port"
+            Generic "scene/theme/icons/graph_port.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "grid_layout"
+            Generic "16x16 @ 1x/2x"
+            Generic "GraphEdit:layout"
+            Generic "scene/theme/icons/grid_layout.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "grid_minimap"
+            Generic "16x16 @ 1x/2x"
+            Generic "GraphEdit:minimap_toggle"
+            Generic "scene/theme/icons/grid_minimap.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "grid_snap"
+            Generic "16x16 @ 1x/2x"
+            Generic "GraphEdit:snapping_toggle"
+            Generic "scene/theme/icons/grid_snap.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "grid_toggle"
+            Generic "16x16 @ 1x/2x"
+            Generic "GraphEdit:grid_toggle"
+            Generic "scene/theme/icons/grid_toggle.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "h_dragger"
+            Generic "30x60 @ 1x/2x"
+            Generic "SplitContainer:h_touch_dragger"
+            Generic "scene/theme/icons/h_dragger.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "hslider_tick"
+            Generic "4x8 @ 1x/2x"
+            Generic "HSlider:tick"
+            Generic "scene/theme/icons/hslider_tick.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "hsplitter"
+            Generic "8x48 @ 1x/2x"
+            Generic "SplitContainer:h_grabber"
+            Generic "scene/theme/icons/hsplitter.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "indeterminate"
+            Generic "16x16 @ 1x/2x"
+            Generic "PopupMenu:indeterminate"
+            Generic "scene/theme/icons/indeterminate.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "indeterminate_disabled"
+            Generic "16x16 @ 1x/2x"
+            Generic "PopupMenu:indeterminate_disabled"
+            Generic "scene/theme/icons/indeterminate_disabled.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "line_edit_clear"
+            Generic "16x16 @ 1x/2x"
+            Generic "LineEdit:clear"
+            Generic "scene/theme/icons/line_edit_clear.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "mini_checkerboard"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:completion_color_bg"
+            Generic "scene/theme/icons/mini_checkerboard.svg"
           Generic
             Generic
-            Generic
-            Generic
-            Generic
-            Generic
+            Generic "move_down"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:favorite_down"
+            Generic "scene/theme/icons/move_down.svg"
           Generic
             Generic
-            Generic
+            Generic "move_up"
 ... 284 more line(s) not recorded (capped at 200)
 === Composition Systems
 Generic "CompositionRoot"
-  Generic
+  Generic "Composition systems"
   Generic "ResponsiveLayout"
     Generic "GradientSurface"
       Generic "EffectShape"
     Generic "ResponsiveGrid"
       Generic
-        Generic
+        Generic "Grid A"
       Generic
-        Generic
+        Generic "Grid B"
       Generic
-        Generic "AncestorRelative"
+        Generic "CompositionRoot"
   Generic
     Button "PartSelectorProbe"
       Generic "PartChrome"
-        Generic
+        Generic "Styled across template boundary"
     Generic "SelfRelative"
     Button "ThemeProbe"
       Generic
@@ -588,8 +589,8 @@ Generic "CompositionRoot"
 === ConfirmationDialog
 Dialog "ConfirmationDialog" [Modal]
   Generic
-    Generic "PART_TitlePresenter"
-    Generic "PART_ContentPresenter"
+    Generic "ConfirmationDialog"
+    Generic "Continue with this action?"
     Button "PART_AcceptButton"
       Generic
         Generic "PART_ContentPresenter"
@@ -600,7 +601,7 @@ Dialog "ConfirmationDialog" [Modal]
 Generic "Container"
   Generic
     Generic
-    Generic
+    Generic "Container"
 === ContentControl
 Generic "ContentControl"
   Generic "PART_ContentPresenter"
@@ -639,11 +640,17 @@ Generic
     Button "density2"
       Generic
         Generic "PART_ContentPresenter"
-  Generic "densityStatus"
+  Generic "1.0x active · logical widths 190 / 190 / 190"
   Generic
-    Generic "sample1"
-    Generic "sample15"
-    Generic "sample2"
+    Generic "Forma
+24 px logical
+24 px raster"
+    Generic "Forma
+24 px logical
+36 px raster"
+    Generic "Forma
+24 px logical
+48 px raster"
 === DockPane
 Generic "DockPane"
   Generic
@@ -660,9 +667,9 @@ Generic
           Generic "PART_ContentPresenter"
     Slider "fontSize" =28
       Generic
-  Generic "sizeStatus"
-  Generic "preview"
-  Generic "smallPreview"
+  Generic "28 px logical size"
+  Generic "Forma office 你好"
+  Generic "Forma office 你好"
 === DynamicGlyphAtlasView
 Generic "DynamicGlyphAtlasView"
 === EllipseShape
@@ -672,16 +679,16 @@ Generic
   Button "runFailureProbes"
     Generic
       Generic "PART_ContentPresenter"
-  Generic "missingFaceFailure"
-  Generic "malformedFontFailure"
-  Generic "fallbackFailure"
-  Generic "atlasFailure"
+  Generic "Missing face · FileNotFoundException: Could not find file '<test-dir>/Fonts/does-not-exist.ttf'."
+  Generic "Malformed asset · UnsupportedFormat: Font face is not a supported SFNT font."
+  Generic "Fallback exhaustion diagnostics unavailable."
+  Generic "Atlas budget · ready (32 MB hard limit); active-frame exhaustion is skipped and recorded"
 === Fallback Chain
 Generic
   TextBox "fallbackText" =Forma Ελληνικά Кириллица مرحبا क्ष 你好 ★ 👩🏽‍💻
     Generic "PART_EditorPresenter"
-  Generic "fallbackPreview"
-  Generic "fallbackDiagnostics"
+  Generic "Forma Ελληνικά Кириллица مرحبا क्ष 你好 ★ 👩🏽‍💻"
+  Generic "Runtime font diagnostics unavailable."
 === FileDialog
 Dialog "FileDialog" [Modal]
   Generic
@@ -724,8 +731,8 @@ Dialog "FileDialog" [Modal]
       Generic
         Generic
           Generic "PART_ContentPresenter"
-    Generic "FileDialogFavoritesLabel"
-    Generic "FileDialogRecentsLabel"
+    Generic "Favorites"
+    Generic "Recent"
     List "FileDialogFavorites"
       Generic
     List "FileDialogRecents"
@@ -736,7 +743,7 @@ Dialog "FileDialog" [Modal]
     Button "FileDialogFavoriteDown" [Disabled]
       Generic [Disabled]
         Generic "PART_ContentPresenter" [Disabled]
-    Generic "PART_TitlePresenter"
+    Generic "Open project asset"
     Button "PART_AcceptButton"
       Generic
         Generic "PART_ContentPresenter"
@@ -949,7 +956,7 @@ Generic
 Generic "FlexPanel"
   Generic
     Generic
-    Generic
+    Generic "FlexPanel"
 === FlowContainer
 Generic "FlowContainer"
   Button "Item 1"
@@ -983,9 +990,9 @@ Generic "FlowContainer"
 Group "FoldableContainer" [Expanded]
   Generic
     Generic
-      Generic
+      Generic "Position   120, 64"
     Generic
-      Generic
+      Generic "Rotation   0 degrees"
 === GraphEdit
 Canvas "GraphEdit"
   Generic "PART_GraphCanvas"
@@ -1033,11 +1040,11 @@ Group "GraphElement"
 Group "GraphFrame"
   Generic
     Generic "_titlebar_hbox"
-    Generic
+    Generic "Process value"
 === GraphNode
 Group "GraphNode"
   Generic
-    Generic
+    Generic "Process value"
 === GridContainer
 Generic "GridContainer"
   Button "1"
@@ -1071,16 +1078,16 @@ Generic "GridContainer"
 Generic "GridPanel"
   Generic
     Generic
-    Generic
+    Generic "GridPanel"
 === GroupBox
 Group "Key bindings"
   Generic
     Generic "PART_ContentPresenter"
       Generic
-        Generic
-        Generic
-        Generic
-    Generic "PART_HeaderPresenter"
+        Generic "Turn left                                      A"
+        Generic "Turn right                                    D"
+        Generic "Accelerate                                   W"
+    Generic "Key bindings"
 === HBoxContainer
 Generic "HBoxContainer"
   Button "One"
@@ -1134,10 +1141,10 @@ Group "HSplitContainer"
   Generic
     Generic
       Generic "PrimaryPane"
-        Generic
+        Generic "Primary pane"
     Generic
       Generic "SecondaryPane"
-        Generic
+        Generic "Secondary pane"
 === Hierarchical Data Grid
 Generic
   Generic
@@ -1352,7 +1359,8 @@ List "ItemsControl"
 === ItemsPresenter
 Generic "ItemsPresenter"
 === Label
-Generic "Label"
+Generic "Label
+Forma"
 === Letter Spacing
 Generic
   TextBox "letterSpacingText" =runtime.
@@ -1363,7 +1371,8 @@ Generic
     Button "resetLetterSpacing"
       Generic
         Generic "PART_ContentPresenter"
-  Generic "letterSpacingStatus"
+  Generic "Tracking +0.25 px   Delta 0.00 px
+Natural 0.00 px   Tracked 0.00 px"
   Document "naturalSpacingPreview"
     Generic "PART_RichTextPresenter"
   Document "trackedSpacingPreview"
@@ -1393,7 +1402,7 @@ ListItem "ListBoxItem"
 Generic "MarginContainer"
   Generic
     Generic
-    Generic
+    Generic "MarginContainer"
 === MenuBar
 MenuBar "MenuBar"
   Generic
@@ -1420,7 +1429,7 @@ ComboBox "OptionButton"
 Generic "OverlayPanel"
   Generic
     Generic
-    Generic
+    Generic "OverlayPanel"
 === Override and suppression
 Generic
   Generic
@@ -1432,19 +1441,19 @@ Generic
         Generic "PART_ContentPresenter"
   Generic
     Generic
-      Generic
+      Generic "Default"
       ComboBox "default"
         Generic
           Generic
             Generic "PART_ContentPresenter"
     Generic
-      Generic
+      Generic "Overridden"
       ComboBox "override"
         Generic
           Generic
             Generic "PART_ContentPresenter"
     Generic
-      Generic
+      Generic "Suppressed"
       ComboBox "suppressed"
         Generic
           Generic
@@ -1458,7 +1467,7 @@ Generic "Panel"
 Generic "PanelContainer"
   Generic
     Generic
-    Generic
+    Generic "PanelContainer"
 === PathShape
 Generic "PathShape"
 === PolygonShape
@@ -1494,7 +1503,9 @@ Generic
     Generic
       Generic "PART_ScrollPresenter"
         Generic "runtimeSvgContent"
-          Generic "svgStatus"
+          Generic "  · profile  · Managed/Unavailable
+BitmapAtlas · SVG icons 0 · PNG fallbacks 0
+Rasters 0 · pages 0 · 0.0 KB · hits 0 · misses 0 · atlas pending"
           Generic
             Button "runtimePolicy"
               Generic
@@ -1513,11 +1524,11 @@ Generic
                 Generic "PART_ContentPresenter"
           Generic
             Generic
-              Generic
+              Generic "Tree hierarchy arrow"
               Tree "svgTree"
                 Generic "PART_TreePresenter"
             Generic
-              Generic
+              Generic "DataGrid hierarchy arrow"
               Grid "svgGrid"
                 Row "Forma.Catalog.CatalogTreeRow"
                 Row "Forma.Catalog.CatalogTreeRow"
@@ -1527,7 +1538,7 @@ Generic
                     Generic
                       Generic
                         Generic "PART_ContentPresenter"
-                          Generic
+                          Generic "Name"
                   Generic "PART_ScrollPresenter"
                     Generic "PART_ItemsPresenter"
                       Generic
@@ -1542,7 +1553,7 @@ Generic
                                         Button "Collapse row"
                                           Generic
                                             Generic "PART_ContentPresenter"
-                                        Generic
+                                        Generic "Source SVG"
                         Row
                           Generic
                             Generic "PART_ContentPresenter"
@@ -1554,7 +1565,7 @@ Generic
                                         Button "Expand row" [Disabled]
                                           Generic [Disabled]
                                             Generic "PART_ContentPresenter" [Disabled]
-                                        Generic
+                                        Generic "Exact scale"
                   Generic "PART_VerticalScrollBarPresenter"
                     ScrollBar =0
                       Generic
@@ -1570,16 +1581,16 @@ Generic
                 Generic "PART_ContentPresenter"
           Generic
             Generic
-              Generic
+              Generic "Compiled · gradient·clip·xform"
               Generic "compiledSvg"
             Generic
-              Generic
+              Generic "File · cover · tinted"
               Generic "fileSvg"
             Generic
-              Generic
+              Generic "DrawingImage · gradient"
               Generic "drawingImage"
             Generic
-              Generic
+              Generic "Default arrow (policy)"
               ComboBox "themeArrow"
                 Generic
                   Generic
@@ -1604,7 +1615,8 @@ Generic
               Generic
                 Generic "PART_ContentPresenter"
             Generic "atlasPreview"
-          Generic "invalidStatus"
+          Generic "Rejected external ref · UnsupportedFeature: SVG element 'image' is not supported.
+Backend absent: No SVG backend is registered. Reference and explicitly install a runtime-matched Forma SVG backend package."
       Generic
       Generic
         ScrollBar =0
@@ -1665,18 +1677,18 @@ ScrollView "ScrollContainer"
 Generic "ScrollPresenter"
 === Selector Styles
 Generic "StylesRoot"
-  Generic
-  Generic
+  Generic "Selector styles"
+  Generic "Type and class selectors establish the card treatment; hover and name selectors override it by specificity."
   Generic
     Generic
       Generic "BaseCard"
-      Generic
+      Generic "Class selector"
     Generic
       Generic "HoverCard"
-      Generic
+      Generic "Hover state"
     Generic
       Generic "SelectedCard"
-      Generic
+      Generic "Name specificity"
 === Shaping and Features
 Generic
   Generic
@@ -1690,9 +1702,9 @@ Generic
           Generic "PART_ContentPresenter"
     Slider "weight" =400
       Generic
-  Generic "latinFeatures"
-  Generic "arabicFeatures"
-  Generic "featureDiagnostics"
+  Generic "office AV é"
+  Generic "مرحبا بالعالم"
+  Generic "Runtime shaping diagnostics unavailable."
 === Slider
 Slider "Slider" =62
   Generic
@@ -1707,10 +1719,10 @@ Group "SplitContainer"
   Generic
     Generic
       Generic "PrimaryPane"
-        Generic
+        Generic "Primary pane"
     Generic
       Generic "SecondaryPane"
-        Generic
+        Generic "Secondary pane"
 === SplitContainerDragger
 Generic "SplitContainerDragger"
 === SplitContainerMultiDragger
@@ -1719,18 +1731,18 @@ Generic "SplitContainerMultiDragger"
 Generic
   TextBox "compatibilityText" =Forma office AV
     Generic "PART_EditorPresenter"
-  Generic "dynamicCompatibility"
-  Generic "spriteCompatibility"
-  Generic "compatibilityDiagnostics"
+  Generic "Dynamic  ·  Forma office AV"
+  Generic "SpriteFontAdapter  ·  Forma office AV"
+  Generic "Compatibility diagnostics unavailable."
 === StackPanel
 Generic "StackPanel"
   Generic
     Generic
-    Generic
+    Generic "StackPanel"
 === Storyboards and Triggers
 Generic "AnimationsRoot"
-  Generic
-  Generic
+  Generic "Storyboards and triggers"
+  Generic "An event trigger replays the size and color pulse. A typed property trigger owns the looping color clock."
   Generic
     Generic "EventTarget"
     Button "ReplayButton"
@@ -1751,14 +1763,14 @@ TabList "TabBar"
 === TabContainer
 TabPanel "TabContainer"
   Generic "Scene"
-    Generic
+    Generic "Scene"
   Generic
 === Template Systems
 Dialog "ReferenceDialog" [Modal]
   Generic
     Generic
-      Generic "PART_TitlePresenter"
-      Generic "PART_ContentPresenter"
+      Generic "Publish changes"
+      Generic "Ship the template-only composition?"
       Generic
         Button "PART_CancelButton"
           Generic
@@ -1769,7 +1781,8 @@ Dialog "ReferenceDialog" [Modal]
 === TemplatedControl
 Generic "TemplatedControl"
 === TextBlock
-Generic "TextBlock"
+Generic "TextBlock
+Forma"
 === TextEdit
 TextBox "TextEdit" =A multiline editor built with Forma.
 
@@ -1796,7 +1809,7 @@ Tree "Tree"
 Generic "TreePresenter"
   Generic
     Generic
-    Generic
+    Generic "TreePresenter"
 === VBoxContainer
 Generic "VBoxContainer"
   Button "One"
@@ -1850,17 +1863,18 @@ Group "VSplitContainer"
   Generic
     Generic
       Generic "PrimaryPane"
-        Generic
+        Generic "Primary pane"
     Generic
       Generic "SecondaryPane"
-        Generic
+        Generic "Secondary pane"
 === VideoStreamPlayer
 Generic "VideoStreamPlayer"
   Generic
-  Generic
+  Generic "VIDEO
+NO STREAM"
 === Viewbox
 Generic "Viewbox"
-  Generic
+  Generic "Scalable Viewbox content"
 === VirtualJoystick
 Joystick "VirtualJoystick" =0,0
   Generic
@@ -1868,17 +1882,17 @@ Joystick "VirtualJoystick" =0,0
 Generic "VirtualizingGridPanel"
   Generic
     Generic
-    Generic
+    Generic "VirtualizingGridPanel"
 === VirtualizingStackPanel
 Generic "VirtualizingStackPanel"
   Generic
     Generic
-    Generic
+    Generic "VirtualizingStackPanel"
 === WrapPanel
 Generic "WrapPanel"
   Generic
     Generic
-    Generic
+    Generic "WrapPanel"
 === Wrapping and Selection
 Generic
   TextBox "wrappingText" =Forma élan office שלום مرحبا
@@ -1913,5 +1927,6 @@ Generic
     Button "inspectSelection"
       Generic
         Generic "PART_ContentPresenter"
-  Generic "wrappingPreview"
-  Generic "wrappingDiagnostics"
+  Generic "Forma élan office שלום مرحبا
+नमस्ते สวัสดี 你好 — select this text with the mouse."
+  Generic "Runtime selection diagnostics unavailable."

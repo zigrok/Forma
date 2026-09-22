@@ -29,6 +29,19 @@ namespace Forma
     /// <summary>Displays shaped text with alignment, wrapping, trimming, casing, and visible-character controls.</summary>
     public class Label : Control
     {
+        /// <summary>
+        /// The text it displays, unless an explicit <see cref="Control.AccessibilityLabel"/> says
+        /// otherwise.
+        /// <para>
+        /// Without this a label is an unnamed node: a screen reader announces nothing for it, and
+        /// <c>ByText</c> cannot find it — which means most of what an application actually says to
+        /// the user is unreachable, since status lines, panel messages and field captions are all
+        /// labels.
+        /// </para>
+        /// </summary>
+        public override string AccessibilityName =>
+            string.IsNullOrEmpty(AccessibilityLabel) ? Text ?? string.Empty : AccessibilityLabel;
+
         private static readonly TextLayoutEngine DynamicLayoutEngine = new TextLayoutEngine();
         internal static void ClearDetachedLayoutCache() => DynamicLayoutEngine.Clear();
         private readonly UIFontSelection _fontSelection = new UIFontSelection();
@@ -52,8 +65,8 @@ namespace Forma
                 QueueLayout();
             }
         }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection, FontFamily, FontSize, FontWeight, FontStyle, FontStretch);
         public Color? FontColor { get => Foreground; set => Foreground = value; }
         public new HorizontalAlignment HorizontalAlignment { get; set; }

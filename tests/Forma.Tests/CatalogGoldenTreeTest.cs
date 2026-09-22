@@ -66,10 +66,23 @@ public sealed class CatalogGoldenTreeTest
                 text = $"<threw {exception.GetType().Name}>\n";
             }
 
-            builder.Append(Cap(text));
+            builder.Append(Cap(Normalize(text)));
         }
 
         return builder.ToString();
+    }
+
+    /// <summary>
+    /// Removes what is true of this machine rather than of the UI. A story that surfaces a caught
+    /// exception puts the full path of the file it could not find into a label, so without this the
+    /// golden pins somebody's checkout directory and which runtime built it, and fails for everyone
+    /// else for reasons that have nothing to do with accessibility.
+    /// </summary>
+    private static string Normalize(string text)
+    {
+        var directory = TestContext.CurrentContext.TestDirectory;
+        if (!string.IsNullOrEmpty(directory)) text = text.Replace(directory, "<test-dir>");
+        return text;
     }
 
     [Test]

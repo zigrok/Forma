@@ -53,8 +53,8 @@ namespace Forma
                 QueueLayout();
             }
         }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public Thickness Padding { get; set; }
         /// <summary>Horizontal text placement for text-bearing buttons.</summary>

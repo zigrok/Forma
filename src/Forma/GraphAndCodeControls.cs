@@ -232,8 +232,8 @@ namespace Forma
         private string _title = string.Empty;
         public GraphNode() { CustomMinimumSize = new Vector2(140, 80); }
         public string Title { get => _title; set { value ??= string.Empty; if (_title == value) return; _title = value; QueueLayout(); } }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         /// <summary>Allows this node to accept an interactive connection whose type is not otherwise compatible.</summary>
         public bool IgnoreInvalidConnectionType { get; set; }

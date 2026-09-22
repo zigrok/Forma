@@ -1119,8 +1119,8 @@ namespace Forma
         private bool _deselectEnabled;
         public IReadOnlyList<TabBarItem> TabItems => _tabs;
         public IReadOnlyList<string> Tabs { get { var result = new List<string>(_tabs.Count); foreach (var tab in _tabs) result.Add(tab.Title); return result; } }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public TabCloseDisplayPolicy CloseDisplayPolicy { get; set; }
         public TabBarAlignment TabAlignment { get; set; }
@@ -1674,8 +1674,8 @@ namespace Forma
         public Vector2 FixedIconSize { get; set; }
         public float IconScale { get; set; } = 1f;
         public float ItemHeight { get; set; } = 24;
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public int Current { get => _current; set => SetCurrent(value); }
         public float ScrollOffsetY { get => _scrollOffsetY; set => _scrollOffsetY = MathHelper.Clamp(value, 0, GetMaxScrollOffsetY()); }
@@ -2230,8 +2230,8 @@ namespace Forma
             };
         }
         public string Text { get => _text; set { value ??= string.Empty; if (_text == value) return; _text = value; QueueLayout(); } }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection, FontFamily, FontSize, FontWeight, FontStyle, FontStretch);
         public Color? FontColor { get => Foreground; set => Foreground = value; }
         public new HorizontalAlignment HorizontalAlignment { get; set; }

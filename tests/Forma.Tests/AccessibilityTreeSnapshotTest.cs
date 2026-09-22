@@ -343,4 +343,36 @@ public sealed class AccessibilityTreeDeltaTest
         Assert.That(watcher.IsDirty, Is.True);
         Assert.That(watcher.Update().FocusChanged, Is.True);
     }
+    /// <summary>
+    /// A label announces its text. Most of what an application says to the user - status lines,
+    /// panel messages, field captions - is a label, and an unnamed one is silent to a screen reader
+    /// and unfindable by <c>ByText</c>. Labels used to report <see cref="Control.Name"/> instead,
+    /// which leaked internal part names such as "PART_ContentPresenter" as the accessible name.
+    /// </summary>
+    [Test]
+    public void ALabelAnnouncesItsText()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var label = new Label { Name = "statusText", Text = "No problems found." };
+        context.Add(label);
+        context.WaitForSettled();
+
+        var nodes = AccessibilityTree.Capture(context).Nodes;
+        Assert.That(nodes.Any(candidate => candidate.Name == "No problems found."), Is.True,
+            "the label's text should be its accessible name");
+    }
+
+    /// <summary>An explicit label still wins, so a caption can differ from what is announced.</summary>
+    [Test]
+    public void AnExplicitAccessibilityLabelOverridesALabelsText()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        context.Add(new Label { Text = "3", AccessibilityLabel = "three unread messages" });
+        context.WaitForSettled();
+
+        var nodes = AccessibilityTree.Capture(context).Nodes;
+        Assert.That(nodes.Any(candidate => candidate.Name == "three unread messages"), Is.True);
+        Assert.That(nodes.Any(candidate => candidate.Name == "3"), Is.False);
+    }
+
 }

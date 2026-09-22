@@ -1280,23 +1280,31 @@ namespace Forma
             return _resolved;
         }
 
-        public void SetSpriteFont(SpriteFont font)
+        /// <summary>Returns whether the selection actually changed, so a caller can skip a layout pass.</summary>
+        public bool SetSpriteFont(SpriteFont font)
         {
+            var changed = !ReferenceEquals(SpriteFont, font);
             SpriteFont = font;
             if (font == null)
             {
+                changed |= _adapter != null || Effective != null;
                 _adapter = null;
                 Effective = null;
-                return;
+                return changed;
             }
-            if (_adapter == null || !ReferenceEquals(_adapter.SpriteFont, font)) _adapter = new SpriteFontAdapter(font);
+            if (_adapter == null || !ReferenceEquals(_adapter.SpriteFont, font)) { _adapter = new SpriteFontAdapter(font); changed = true; }
+            changed |= !ReferenceEquals(Effective, _adapter);
             Effective = _adapter;
+            return changed;
         }
 
-        public void SetUIFont(UIFont font)
+        /// <summary>Returns whether the selection actually changed, so a caller can skip a layout pass.</summary>
+        public bool SetUIFont(UIFont font)
         {
+            var changed = !ReferenceEquals(UIFont, font) || !ReferenceEquals(Effective, font);
             UIFont = font;
             Effective = font;
+            return changed;
         }
     }
 }

@@ -84,6 +84,23 @@ until it has. Locators call it before resolving *and* before acting.
 The budget is **passes, not wall-clock time**, on purpose: a time budget behaves differently on a
 loaded machine, which is exactly the flakiness this removes.
 
+### When it never settles
+
+`Quiescence.Describe(context)` names the controls still owing a layout pass, deepest first, as
+`Type#AutomationId` paths. `Quiescence.UnsettledControls(context)` returns the same list, and
+`Quiescence.HasPendingFrameWork(context)` says whether frame-boundary callbacks rather than layout
+are what is keeping it busy — different causes, different fixes.
+
+Use it in the failure message of any wait you write. "The UI never settled" tells a caller nothing;
+"`ScrollContainer > ScrollContainerChromePresenter` is still dirty" points straight at the control
+that queued the pass.
+
+The usual cause is a control writing a property during its own layout without checking whether the
+value changed. `QueueLayout` walks up to the root, and `LayoutTree` clears a control's flag *before*
+laying out its children, so one such write re-dirties every ancestor after they have cleared — and
+the tree never settles again. Idempotent setters are not a style preference here; they are what
+makes auto-waiting work at all.
+
 ## Authoring rules for app developers
 
 - Give anything a test targets an `AutomationId`.

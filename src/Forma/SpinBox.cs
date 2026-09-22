@@ -86,8 +86,8 @@ namespace Forma
             }
         }
         public bool IsDraggingValue => _dragging;
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); LineEdit.Font = value; QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); LineEdit.UIFont = value; QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { var changed = _fontSelection.SetSpriteFont(value); LineEdit.Font = value; if (changed) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { var changed = _fontSelection.SetUIFont(value); LineEdit.UIFont = value; if (changed) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public SpinBoxLineEdit LineEdit { get; }
         public void SetHorizontalAlignment(HorizontalAlignment alignment) { if (!Enum.IsDefined(typeof(HorizontalAlignment), alignment)) throw new ArgumentOutOfRangeException(nameof(alignment)); _horizontalAlignment = alignment; }

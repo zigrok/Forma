@@ -726,8 +726,8 @@ namespace Forma
         public string IncrementalSearchText => _incrementalSearch;
         public float ItemHeight { get; set; } = 24;
         public float Indent { get; set; } = 16;
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public TreeItem SelectedItem => _selected;
         public int SelectedColumn => _selected == null ? -1 : _selectedColumn;

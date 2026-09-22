@@ -721,6 +721,16 @@ namespace Forma
             return IsSettled;
         }
 
+        /// <summary>
+        /// How many frame-boundary callbacks are outstanding. Non-zero keeps
+        /// <see cref="IsSettled"/> false for a reason unrelated to layout, which is worth telling
+        /// apart when a wait times out.
+        /// </summary>
+        internal int PendingFrameBoundaryCallbackCount
+        {
+            get { lock (_frameBoundaryCallbacks) return _frameBoundaryCallbacks.Count; }
+        }
+
         public void Layout()
         {
             foreach (var root in _roots)

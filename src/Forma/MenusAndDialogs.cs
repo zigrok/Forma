@@ -157,8 +157,8 @@ namespace Forma
         }
         public IReadOnlyList<PopupMenuItem> Items => _items;
         public PopupMenuItems ItemsControl { get; }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public float ItemHeight { get; set; } = 24;
         internal float EffectiveItemHeight => MathF.Ceiling(Math.Max(
@@ -1312,8 +1312,8 @@ namespace Forma
         }
         /// <summary>The fallback OK button text shown while no custom <see cref="OkText"/> override is set.</summary>
         protected string DefaultOkText { get => _defaultOkText; set => _defaultOkText = value ?? string.Empty; }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public float ButtonHeight { get; set; } = 24;
         /// <summary>Matches Godot's dialog_hide_on_ok option. Confirmation still emits when disabled.</summary>
