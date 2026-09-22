@@ -315,7 +315,7 @@ namespace Forma
             if (wasPressing) NotifyPseudoStateChanged("pressed");
             if (activate) Activate(true);
         }
-        private void Activate(bool fromPointer = false)
+        internal void Activate(bool fromPointer = false)
         {
             WasActivatedByPointer = fromPointer;
             try
@@ -336,6 +336,24 @@ namespace Forma
             }
             finally { WasActivatedByPointer = false; }
         }
+        /// <summary>
+        /// Press and Toggle both run <see cref="Activate"/> — the very method keyboard activation
+        /// uses — so an invoked press is the same event sequence as a real one, per D4.
+        /// </summary>
+        public override bool PerformAccessibilityAction(AccessibilityActions action, object argument = null)
+        {
+            switch (action)
+            {
+                case AccessibilityActions.Press:
+                case AccessibilityActions.Toggle:
+                    if (!IsEffectivelyEnabled) return false;
+                    Activate();
+                    return true;
+                default:
+                    return base.PerformAccessibilityAction(action, argument);
+            }
+        }
+
         private bool SetPressed(bool pressed, bool emitSignal)
         {
             if (!ToggleMode) return false;

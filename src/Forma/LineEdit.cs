@@ -92,6 +92,22 @@ namespace Forma
         protected virtual bool MoveCaretToEndOnInitialTextAssignment => true;
         public string SecretCharacter { get; set; } = string.Empty;
         public bool Editable { get; set; } = true;
+
+        /// <summary>
+        /// SetValue assigns <see cref="Text"/>, the same property typing ultimately writes, so
+        /// validation and change notification behave identically. Refused when not editable,
+        /// because a read-only field cannot be typed into either.
+        /// </summary>
+        public override bool PerformAccessibilityAction(AccessibilityActions action, object argument = null)
+        {
+            if (action != AccessibilityActions.SetValue)
+                return base.PerformAccessibilityAction(action, argument);
+
+            if (!Editable || !IsEffectivelyEnabled) return false;
+
+            Text = argument?.ToString() ?? string.Empty;
+            return true;
+        }
         private int _maxLength;
         public int MaxLength
         {

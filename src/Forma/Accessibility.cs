@@ -96,6 +96,17 @@ namespace Forma
         public virtual Rectangle Bounds => Owner.AccessibilityBounds;
         public virtual bool IsOffscreen => (States & AccessibilityStates.Offscreen) != 0;
         public virtual IReadOnlyList<AccessibilityPeer> Children => Owner.GetAccessibilityChildren();
+
+        /// <summary>
+        /// Performs one of the actions this peer advertises in <see cref="Actions"/>, returning
+        /// whether it was handled. Asking for an action that is not advertised returns false rather
+        /// than throwing, so a caller can probe without guarding every call.
+        /// </summary>
+        public virtual bool Invoke(AccessibilityActions action, object argument = null)
+        {
+            if ((Actions & action) == 0) return false;
+            return Owner.PerformAccessibilityAction(action, argument);
+        }
     }
 
     public sealed class ItemAccessibilityPeer : AccessibilityPeer

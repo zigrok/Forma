@@ -500,6 +500,23 @@ namespace Forma
 
         protected virtual AccessibilityPeer CreateAccessibilityPeer() => new AccessibilityPeer(this);
 
+        /// <summary>
+        /// Performs one advertised accessibility action, returning whether it was handled.
+        /// <para>
+        /// Overrides must route through the same code the corresponding real input runs, never a
+        /// parallel implementation. An invoked press that takes a shortcut would make a test pass
+        /// while telling you nothing about whether a person clicking the thing works.
+        /// </para>
+        /// </summary>
+        public virtual bool PerformAccessibilityAction(AccessibilityActions action, object argument = null)
+        {
+            if (action != AccessibilityActions.Focus) return false;
+            if (FocusMode == FocusMode.None || !IsEffectivelyEnabled || !IsRendered) return false;
+
+            GrabFocus();
+            return true;
+        }
+
         public virtual IReadOnlyList<AccessibilityPeer> GetAccessibilityChildren()
         {
             if (_children.Count == 0) return Array.Empty<AccessibilityPeer>();

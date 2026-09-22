@@ -184,6 +184,57 @@ namespace Forma
             return CheckActionability(matches[0], out _);
         }
 
+        // --- actions ----------------------------------------------------------------------------
+
+        /// <summary>
+        /// Activates the element, after checking it can actually be acted on. This is the semantic
+        /// equivalent of a click: it runs the control's own activation path, so the observable
+        /// result is the same as a real press rather than a parallel implementation of one.
+        /// </summary>
+        public void Click() => Perform(AccessibilityActions.Press, null, "click");
+
+        /// <summary>Gives the element keyboard focus.</summary>
+        public void Focus() => Perform(AccessibilityActions.Focus, null, "focus");
+
+        /// <summary>Selects the element, for list, tree and tab items.</summary>
+        public void Select() => Perform(AccessibilityActions.Select, null, "select");
+
+        /// <summary>Replaces the element's text. The editable-field counterpart of <see cref="Click"/>.</summary>
+        public void Fill(string text) => Perform(AccessibilityActions.SetValue, text ?? string.Empty, "fill");
+
+        /// <summary>Sets a numeric value, for sliders, scrollbars and spin buttons.</summary>
+        public void SetValue(object value) => Perform(AccessibilityActions.SetValue, value, "set value");
+
+        public void Increment() => Perform(AccessibilityActions.Increment, null, "increment");
+
+        public void Decrement() => Perform(AccessibilityActions.Decrement, null, "decrement");
+
+        private void Perform(AccessibilityActions action, object argument, string verb)
+        {
+            var node = ResolveActionable();
+
+            // The node is a value snapshot, so the live control has to be found again to act on it.
+            var control = FindControl(node.Id)
+                ?? throw new LocatorException($"Cannot {verb} {Quote(Description)}: it left the tree between resolving and acting.");
+
+            if ((node.Actions & action) == 0)
+            {
+                throw new LocatorException(
+                    $"Cannot {verb} {Quote(Description)}: {node.Role} \"{node.Name}\" does not support {action}. "
+                    + $"It advertises {node.Actions}.");
+            }
+
+            if (!control.AccessibilityPeer.Invoke(action, argument))
+                throw new LocatorException($"Cannot {verb} {Quote(Description)}: {action} was refused by {node.Role} \"{node.Name}\".");
+        }
+
+        private Control FindControl(int id)
+        {
+            foreach (var control in AccessibilityTree.EnumerateControls(_context))
+                if (control.AccessibilityId == id) return control;
+            return null;
+        }
+
         // --- assertions -------------------------------------------------------------------------
 
         public bool IsVisible => ResolveAll().Count > 0;
