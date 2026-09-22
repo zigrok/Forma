@@ -69,9 +69,17 @@ inspect_package() {
   done
 
   if [[ "$assembly_name" == "Forma" ]]; then
+    # MonoGame embeds one compiled Alpha8Coverage effect per graphics backend
+    # (OpenGL, DirectX11, DirectX12, Vulkan); FNA embeds a single fxb, so its
+    # budget stays tighter than the multi-backend MonoGame assembly's.
+    local core_budget_bytes=$((2 * 1024 * 1024))
+    if [[ "$runtime" == "MonoGame" ]]; then
+      core_budget_bytes=$((2 * 1024 * 1024 + 256 * 1024))
+    fi
     assembly_bytes="$(unzip -p "$package_path" "lib/net10.0/$assembly_name.dll" | wc -c | tr -d ' ')"
-    if (( assembly_bytes > 2 * 1024 * 1024 )); then
-      printf '%s exceeds the 2 MiB core managed assembly budget (%s bytes).\n' "$package_id" "$assembly_bytes" >&2
+    if (( assembly_bytes > core_budget_bytes )); then
+      printf '%s exceeds the %s core managed assembly budget (%s bytes).\n' \
+        "$package_id" "$([[ "$runtime" == "MonoGame" ]] && echo "2.25 MiB" || echo "2 MiB")" "$assembly_bytes" >&2
       exit 1
     fi
     grep -Fxq "licenses/theme-icons/LICENSE.Godot.txt" <<<"$entries"
