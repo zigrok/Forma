@@ -883,7 +883,7 @@ namespace Forma
             return null;
         }
 
-        private Popup GetActiveModalPopup()
+        internal Popup GetActiveModalPopup()
         {
             var roots = GetRootsInDrawOrder();
             for (var index = roots.Count - 1; index >= 0; index--)
@@ -1032,7 +1032,7 @@ namespace Forma
             }
         }
 
-        private IReadOnlyList<Control> GetRootsInDrawOrder()
+        internal IReadOnlyList<Control> GetRootsInDrawOrder()
         {
             if (!_rootOrderDirty) return _rootsInDrawOrder;
             _rootsInDrawOrder.Clear();
