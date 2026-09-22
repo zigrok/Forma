@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
+    <BuildLocalXamlTask Condition="'$(FormaXamlBuildAssembly)' == ''">true</BuildLocalXamlTask>
     <FormaXamlBuildAssembly Condition="'$(FormaXamlBuildAssembly)' == ''">$(MSBuildThisFileDirectory)../../src/Forma.Xaml.Build/bin/$(FormaRuntime)/$(Configuration)/net10.0/Forma.Xaml.Build.dll</FormaXamlBuildAssembly>
   </PropertyGroup>
 
@@ -13,7 +14,7 @@
     <ProjectReference Include="$(FnaProjectPath)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' != ''" />
     <ProjectReference Include="../../src/Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
     <ProjectReference Include="../../src/Forma.Xaml.Build/Forma.Xaml.Build.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" ReferenceOutputAssembly="false"
-                      Condition="'$(FormaBuildTarget)' != 'Browser'" />
+                      Condition="'$(FormaBuildTarget)' != 'Browser' and '$(BuildLocalXamlTask)' == 'true'" />
   </ItemGroup>
 
   <Import Project="../../src/Forma.Xaml.Build/buildTransitive/Forma.Xaml.Build.targets" />

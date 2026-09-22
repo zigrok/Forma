@@ -1253,9 +1253,18 @@ public sealed class FormaXamlCompiler
                 ? resolvedPath
                 : SvgAssetLogicalName.Create(_defaultAssemblyName, _projectDirectory ?? sourceDirectory, resolvedPath);
             var svgConverterType = context.Configuration.TypeSystem.GetType(typeof(XamlValueConverter).FullName!);
-            var svgMethod = svgConverterType.Methods.First(candidate => candidate.IsPublic && candidate.IsStatic && candidate.Name == svgMethodName);
             var stringType = context.Configuration.TypeSystem.GetType(typeof(string).FullName!);
-            result = new XamlStaticOrTargetedReturnMethodCallNode(node, svgMethod, new[] { new XamlAstTextNode(node, argument, true, stringType) });
+            var arguments = new List<IXamlAstValueNode> { new XamlAstTextNode(node, argument, true, stringType) };
+            if (!_useSvgFiles)
+            {
+                var assemblyType = context.Configuration.TypeSystem.GetType(typeof(Assembly).FullName!);
+                var executingAssembly = assemblyType.Methods.Single(candidate =>
+                    candidate.IsPublic && candidate.IsStatic && candidate.Name == nameof(Assembly.GetExecutingAssembly));
+                arguments.Add(new XamlStaticOrTargetedReturnMethodCallNode(node, executingAssembly, []));
+            }
+            var svgMethod = svgConverterType.Methods.Single(candidate => candidate.IsPublic && candidate.IsStatic &&
+                candidate.Name == svgMethodName && candidate.Parameters.Count == arguments.Count);
+            result = new XamlStaticOrTargetedReturnMethodCallNode(node, svgMethod, arguments);
             return true;
         }
         var methodName = type.FullName switch

@@ -138,8 +138,12 @@ namespace Forma.Xaml
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [RequiresDynamicCode("Calling-assembly inference is not supported by NativeAOT. Use the explicit assembly overload.")]
         public static SvgImageSource ParseSvgAsset(string logicalName) =>
-            SvgImageSource.FromManifestResource(Assembly.GetCallingAssembly(), logicalName);
+            ParseSvgAsset(logicalName, Assembly.GetCallingAssembly());
+
+        public static SvgImageSource ParseSvgAsset(string logicalName, Assembly assembly) =>
+            SvgImageSource.FromManifestResource(assembly, logicalName);
 
         public static SvgImageSource ParseSvgFile(string path) => SvgImageSource.FromFile(path);
 

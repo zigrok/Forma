@@ -8,8 +8,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Mono.Cecil;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using XamlX.TypeSystem;
+using TypeAttributes = Mono.Cecil.TypeAttributes;
 
 [assembly: Forma.Xaml.PseudoState("custom", typeof(Forma.Xaml.Compiler.Tests.PseudoStateProbe), true, nameof(Forma.Control.IsPseudoStateActive))]
 [assembly: Forma.Xaml.PseudoState("broken", typeof(Forma.Xaml.Compiler.Tests.PseudoStateProbe), true, "MissingProvider")]
@@ -1355,22 +1357,8 @@ public class FormaXamlCompilerTest
     [Test]
     public void BuildTask_EmitsTypedAdvancedConstructCallsWithoutReflectionFallback()
     {
-        var testDirectory = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
-        var configuration = testDirectory.Parent!.Name;
-        var runtime = testDirectory.Parent.Parent!.Name;
-        var repository = testDirectory;
-        while (repository != null && !File.Exists(Path.Combine(repository.FullName, "Directory.Build.props")))
-            repository = repository.Parent;
-        Assert.That(repository, Is.Not.Null, "Could not locate the Forma repository root.");
-        var fixturePath = Path.Combine(
-            repository!.FullName,
-            "tests",
-            "Forma.Xaml.Build.Integration",
-            "bin",
-            runtime,
-            configuration,
-            "net10.0",
-            "Forma.Xaml.Build.Integration.dll");
+        var fixturePath = typeof(FormaXamlCompilerTest).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
+            .Single(attribute => attribute.Key == "FormaXamlIntegrationAssembly").Value!;
         Assert.That(File.Exists(fixturePath), Is.True, $"Injected fixture was not built at '{fixturePath}'.");
 
         using var fixture = AssemblyDefinition.ReadAssembly(fixturePath);
@@ -1407,8 +1395,13 @@ public class FormaXamlCompilerTest
             Assert.That(calls, Does.Contain("Forma.DataGrid.set_SelectionUnit"));
             Assert.That(calls, Does.Contain("Forma.ItemsControl.set_ItemTemplate"));
             Assert.That(
-                calls.Where(call => call.StartsWith("System.Reflection.", StringComparison.Ordinal)),
-                Is.EqualTo(new[] { "System.Reflection.Assembly.GetManifestResourceNames" }));
+                calls.Where(call => call.StartsWith("System.Reflection.", StringComparison.Ordinal)).Order(),
+                Is.EqualTo(new[] { "System.Reflection.Assembly.GetExecutingAssembly", "System.Reflection.Assembly.GetManifestResourceNames" }));
+            Assert.That(fixture.MainModule.Types.SelectMany(AllTypes).SelectMany(type => type.Methods)
+                .Where(method => method.HasBody).SelectMany(method => method.Body.Instructions)
+                .Select(instruction => instruction.Operand).OfType<MethodReference>()
+                .Where(method => method.DeclaringType.FullName == "Forma.Xaml.XamlValueConverter" && method.Name == "ParseSvgAsset")
+                .Select(method => method.Parameters.Count), Is.EqualTo(new[] { 2 }));
             Assert.That(calls, Has.None.StartsWith("System.Activator."));
             Assert.That(calls, Has.None.EqualTo("System.Type.GetType"));
         });

@@ -63,6 +63,10 @@ logical resource names, and embedded without MGCB or XNB:
 
 Relative paths resolve against the XAML document. Static missing, invalid, forbidden, oversized,
 outside-project, and duplicate assets fail the build with `FXAML3601`, `FXAML3602`, or `FXAML3603`.
+Compiled loads pass their owning assembly explicitly, including under NativeAOT; they do not
+infer ownership by walking the calling stack. C# resource loads use `FromManifestResource`
+or the `ParseSvgAsset` overload with an explicit assembly. The legacy one-argument converter
+retains its managed calling-assembly behavior and is not a NativeAOT entry point.
 Debug hot reload copies and watches SVG assets; changed bytes create a new content identity while
 unaffected cache variants remain reusable.
 
