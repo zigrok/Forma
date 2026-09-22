@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Igor Hipólito Vieira
+// SPDX-License-Identifier: MIT
+
 namespace Forma.BrowserText.Module;
 
 /// <summary>Runs in a separately loaded module; fonts are fetched content, never compiled resources.</summary>
