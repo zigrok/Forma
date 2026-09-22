@@ -89,6 +89,11 @@ MSBuild properties:
 
 Compilation is incremental over XAML, references, the target assembly, and compiler task. Release
 outputs are deterministic and portable-PDB diagnostics retain source file, line, and column.
+XAML edits and additions/removals participate in C# compilation inputs, as do the XAML build
+options. Referenced implementation assemblies also participate, even when a dependency's
+public reference assembly is unchanged. Changed inputs regenerate a pristine assembly
+before Cecil injection; an unchanged rebuild does not append another set of generated
+types or registrations.
 
 ## Object Construction and Content
 

@@ -8,6 +8,7 @@
     <FormaXamlRequireCompiledBindings Condition="'$(FormaXamlRequireCompiledBindings)' == ''">false</FormaXamlRequireCompiledBindings>
     <FormaXamlIntermediateDirectory Condition="'$(FormaXamlIntermediateDirectory)' == ''">$(BaseIntermediateOutputPath)$(Configuration)/$(TargetFramework)/FormaXaml</FormaXamlIntermediateDirectory>
     <FormaXamlIntermediateDirectory Condition="'$(FormaXamlAuthoring)' == 'true'">$(FormaXamlIntermediateDirectory)/authoring</FormaXamlIntermediateDirectory>
+    <_FormaXamlCompilationInputsFile>$(FormaXamlIntermediateDirectory)/compilation-inputs.txt</_FormaXamlCompilationInputsFile>
     <_FormaXamlAuthoringIdentityFile Condition="'$(FormaXamlAuthoring)' == 'true'">$(FormaXamlIntermediateDirectory)/source-root.txt</_FormaXamlAuthoringIdentityFile>
     <FormaXamlDevelopmentOutputDirectory Condition="'$(FormaXamlDevelopmentOutputDirectory)' == ''">$(BaseOutputPath)$(Configuration)/$(TargetFramework)/xaml</FormaXamlDevelopmentOutputDirectory>
   </PropertyGroup>
@@ -31,6 +32,24 @@
     <None Remove="@(FormaXaml)" />
     <None Remove="@(FormaSvg)" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- Cecil injection must start from a pristine assembly when XAML or its compiler changes. -->
+    <AdditionalFiles Include="@(FormaXaml)" />
+    <AdditionalFiles Include="$(_FormaXamlCompilationInputsFile)" />
+    <CustomAdditionalCompileInputs Include="$(FormaXamlBuildAssembly);$(MSBuildThisFileFullPath)" Condition="'@(FormaXaml)' != ''" />
+  </ItemGroup>
+
+  <Target Name="FormaXamlCompilationInputs" BeforeTargets="CoreCompile" DependsOnTargets="ResolveReferences">
+    <ItemGroup Condition="'@(FormaXaml)' != ''">
+      <!-- XAML resolves implementation assemblies, not only Roslyn's API-only reference assemblies. -->
+      <CustomAdditionalCompileInputs Include="@(ReferencePath)" />
+    </ItemGroup>
+    <MakeDir Directories="$(FormaXamlIntermediateDirectory)" />
+    <WriteLinesToFile File="$(_FormaXamlCompilationInputsFile)"
+                      Lines="Compiler=$(FormaXamlBuildAssembly);Authoring=$(FormaXamlAuthoring);Bindings=$(FormaXamlRequireCompiledBindings);ValidateOnly=$(FormaXamlValidateOnly);@(FormaXaml->'%(FullPath)')"
+                      Overwrite="true" WriteOnlyWhenDifferent="true" />
+  </Target>
 
   <Target Name="FormaXamlValidateSvgAssets"
       BeforeTargets="AssignTargetPaths"
