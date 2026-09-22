@@ -85,6 +85,10 @@ namespace Forma
 
         public Control Owner { get; }
         public virtual AccessibilityRole Role => Owner.AccessibilityRole;
+        /// <summary>Process-unique identity of the owning control, stable for its lifetime.</summary>
+        public virtual int Id => Owner.AccessibilityId;
+        /// <summary>The owner's author-assigned <see cref="Control.AutomationId"/>, empty when unset.</summary>
+        public virtual string AutomationId => Owner.AutomationId ?? string.Empty;
         public virtual string Name => Owner.AccessibilityName;
         public virtual string Value => Owner.AccessibilityValue;
         public virtual AccessibilityActions Actions => Owner.AccessibilityActions;
@@ -105,6 +109,16 @@ namespace Forma
             _token = token;
         }
 
+        private readonly int _id = Control.AllocateAccessibilityId();
+        /// <summary>
+        /// This item's own identity, not the owning items control's: every item is a distinct node,
+        /// and a snapshot keyed by id would otherwise collapse them all onto the list itself.
+        /// Allocated once per slot, and slots outlive scrolling, so it is stable while realized.
+        /// </summary>
+        public override int Id => _id;
+        /// <summary>Always empty: an automation id is author-assigned to a control, and an item is
+        /// data rather than a control. Items are addressed by role, name or index.</summary>
+        public override string AutomationId => string.Empty;
         public int Index => _itemsOwner.GetAccessibilityItemIndex(_token);
         public object Item => _itemsOwner.GetAccessibilityItem(_token);
         public override AccessibilityRole Role => _itemsOwner.GetAccessibilityItemRole(Index);

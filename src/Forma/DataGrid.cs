@@ -455,6 +455,9 @@ namespace Forma
         private bool _isCurrent;
         private bool _isSelectable = true;
         public DataGridCell() => Padding = new Thickness(10, 5, 10, 5);
+        /// <summary>A cell of a <see cref="DataGrid"/>, which reports <see cref="AccessibilityRole.Grid"/>.
+        /// A grid whose cells are anonymous cannot be navigated cell by cell.</summary>
+        public override AccessibilityRole AccessibilityRole => AccessibilityRole.Cell;
         public DataGridColumn Column { get; internal set; }
         public object RowItem { get; internal set; }
         public int ColumnIndex { get; internal set; } = -1;
@@ -551,6 +554,9 @@ namespace Forma
         private readonly List<DataGridCell> _cells = new List<DataGridCell>();
         private bool _isExpanded;
         private bool _isCollapsed;
+        /// <summary>Overrides the <see cref="AccessibilityRole.ListItem"/> inherited from
+        /// <see cref="ListBoxItem"/>: inside a grid this is a row, and its cells are the items.</summary>
+        public override AccessibilityRole AccessibilityRole => AccessibilityRole.Row;
         public DataGrid Owner { get; private set; }
         public IndexPath IndexPath { get; private set; }
         public int RowIndex { get; private set; } = -1;

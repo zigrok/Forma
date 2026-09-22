@@ -48,6 +48,9 @@ namespace Forma
         private bool _isSelectable = true;
 
         public ListBoxItem() => FocusMode = FocusMode.All;
+        /// <summary>A row of a <see cref="ListBox"/>, which reports <see cref="AccessibilityRole.List"/>.
+        /// Without this the list announces itself but its rows are anonymous.</summary>
+        public override AccessibilityRole AccessibilityRole => AccessibilityRole.ListItem;
 
         public bool IsSelected => _isSelected;
         public bool IsCurrent => _isCurrent;

@@ -101,6 +101,8 @@ namespace Forma
         private GrowDirection _hGrowDirection = GrowDirection.End;
         private GrowDirection _vGrowDirection = GrowDirection.End;
         private AccessibilityPeer _accessibilityPeer;
+        private static int _nextAccessibilityId;
+        private string _automationId = string.Empty;
         private string _accessibilityLabel;
 
         public Control()
@@ -413,6 +415,35 @@ namespace Forma
         public Rectangle FocusBounds => VisualBounds;
         public Rectangle AccessibilityBounds => VisualBounds;
         public AccessibilityPeer AccessibilityPeer => _accessibilityPeer ??= CreateAccessibilityPeer();
+        /// <summary>
+        /// Identity for this control instance, unique within the process and stable for its whole
+        /// lifetime. Assigned at construction and never reassigned, so it survives a template reload:
+        /// reloading rebuilds a template's visual children, not the templated control itself.
+        /// <para>
+        /// This is what lets an accessibility tree be diffed rather than re-walked, and what lets an
+        /// out-of-process client refer to a node it saw earlier. It is deliberately not an
+        /// author-facing identifier - use <see cref="AutomationId"/> for that, since this value is
+        /// allocation-ordered and so differs between runs.
+        /// </para>
+        /// </summary>
+        public int AccessibilityId { get; } = AllocateAccessibilityId();
+        /// <summary>
+        /// Next value from the identity sequence. Peers that are not backed by a control of their
+        /// own - a virtualized item's peer, say - draw from the same sequence so every node in an
+        /// accessibility tree has a distinct id, which is what lets a snapshot be diffed by id.
+        /// </summary>
+        internal static int AllocateAccessibilityId() => System.Threading.Interlocked.Increment(ref _nextAccessibilityId);
+        /// <summary>
+        /// Stable, author-assigned identifier for tests and automation to target, independent of
+        /// anything the user sees. <see cref="Name"/> doubles as the accessible name and so changes
+        /// when a control is relabelled or localized; an automation id is a contract that does not.
+        /// Empty by default, in which case callers fall back to role and name.
+        /// </summary>
+        public string AutomationId
+        {
+            get => _automationId;
+            set => SetValue(ref _automationId, value, nameof(AutomationId));
+        }
         public string AccessibilityLabel
         {
             get => _accessibilityLabel;
