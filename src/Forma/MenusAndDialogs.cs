@@ -542,7 +542,9 @@ namespace Forma
         internal void PopupAt(Vector2 position, Vector2? minimumSize, bool focusFirst)
         {
             var requested = minimumSize ?? Vector2.Zero;
-            var shrinkSize = new Vector2(Math.Max(CustomMinimumSize.X, requested.X), Math.Max(requested.Y, RequiredHeight));
+            var shrinkSize = new Vector2(
+                Math.Max(Math.Max(CustomMinimumSize.X, requested.X), RequiredWidth),
+                Math.Max(requested.Y, RequiredHeight));
             var popupSize = new Vector2(ShrinkWidth || Size.X <= 0 ? shrinkSize.X : Size.X, ShrinkHeight || Size.Y <= 0 ? shrinkSize.Y : Size.Y);
             if (Context != null)
             {
@@ -554,7 +556,42 @@ namespace Forma
             base.PopupAt(position);
             if (focusFirst) SetFocusedItem(FirstEnabled(0, 1));
         }
-        public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, new Vector2(0, RequiredHeight));
+        public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, new Vector2(RequiredWidth, RequiredHeight));
+        /// <summary>
+        /// Width needed for the widest item to render without its label and its shortcut colliding.
+        /// The popup is otherwise only as wide as whatever the opener asked for, which leaves any
+        /// item carrying an accelerator overlapping, since the shortcut is drawn right-aligned.
+        /// </summary>
+        private float RequiredWidth
+        {
+            get
+            {
+                var font = EffectiveUIFont;
+                if (font == null) return 0;
+                var width = 0f;
+                foreach (var item in _items)
+                {
+                    if (!item.Visible || item.Separator) continue;
+                    // Mirrors the draw pass: content starts past the check/icon gutter, and the
+                    // shortcut is right-aligned inside a trailing inset.
+                    var itemWidth = (float)ItemContentInset + (item.Indent * 16);
+                    if (!string.IsNullOrEmpty(item.Text)) itemWidth += TextMetrics.Measure(font, item.Text).X;
+                    var shortcutText = ItemShortcutText(item);
+                    if (!string.IsNullOrEmpty(shortcutText))
+                        itemWidth += ItemShortcutGap + TextMetrics.Measure(font, shortcutText).X;
+                    else if (item.Kind == PopupMenuItemKind.Submenu) itemWidth += ItemShortcutGap;
+                    width = Math.Max(width, itemWidth + ItemTrailingInset);
+                }
+                return width <= 0 ? 0 : width + 2;
+            }
+        }
+        private const int ItemContentInset = 22;
+        private const int ItemTrailingInset = 18;
+        private const int ItemShortcutGap = 12;
+        private static string ItemShortcutText(PopupMenuItem item)
+            => item.Accelerator?.DisplayText
+                ?? item.Shortcut?.DisplayText
+                ?? (item.MaxStates > 0 ? $"{item.State}/{item.MaxStates - 1}" : string.Empty);
         private float RequiredHeight
         {
             get
@@ -1095,7 +1132,7 @@ namespace Forma
                         contentX = iconRect.Right + 4;
                     }
                     if (itemTextLayout != null) context.Text(itemTextLayout, new Vector2(contentX, itemTextY), item.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
-                    var shortcutText = item.Accelerator?.DisplayText ?? item.Shortcut?.DisplayText ?? (item.MaxStates > 0 ? $"{item.State}/{item.MaxStates - 1}" : string.Empty);
+                    var shortcutText = ItemShortcutText(item);
                     if (EffectiveUIFont != null && !string.IsNullOrEmpty(shortcutText))
                     {
                         var textSize = TextMetrics.Measure(EffectiveUIFont, shortcutText);
