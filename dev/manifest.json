@@ -479,6 +479,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.ClipboardOperation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.ClipboardOperation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.ClipboardOperation",
+      "Summary": "<p sourcefile=\"api/Forma.ClipboardOperation.yml\" sourcestartlinenumber=\"1\">An editor clipboard operation that the platform could not complete.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.CodeCompletionKind.yml",
       "output": {
         ".html": {
@@ -1232,6 +1246,76 @@
       "IsMRef": true,
       "Title": "Forma.DesktopFileDialogFileSystem",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.DockPane.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.DockPane.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.DockPane",
+      "Summary": "<p sourcefile=\"api/Forma.DockPane.yml\" sourcestartlinenumber=\"1\">A tabbed group of dock sections. Accepts dropped sections and reports which\n<xref href=\"Forma.DockZone\" data-throw-if-not-resolved=\"false\"></xref> the pointer is over so the workspace can either merge the section in\nas a tab or split this pane.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.DockSection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.DockSection.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.DockSection",
+      "Summary": "<p sourcefile=\"api/Forma.DockSection.yml\" sourcestartlinenumber=\"1\">A dockable panel: a stable id, a tab title, and the content shown when it is active.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.DockTab.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.DockTab.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.DockTab",
+      "Summary": "<p sourcefile=\"api/Forma.DockTab.yml\" sourcestartlinenumber=\"1\">One tab in a <xref href=\"Forma.DockPane\" data-throw-if-not-resolved=\"false\"></xref>'s header. Dragging it hands a <xref href=\"Forma.DockDragPayload\" data-throw-if-not-resolved=\"false\"></xref>\nto <xref href=\"Forma.UIContext\" data-throw-if-not-resolved=\"false\"></xref>'s drag system, which resolves the drop target by walking ancestors\nand asking each for <xref href=\"Forma.Control.CanDropData(Microsoft.Xna.Framework.Point%2cSystem.Object)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.DockWorkspace.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.DockWorkspace.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.DockWorkspace",
+      "Summary": "<p sourcefile=\"api/Forma.DockWorkspace.yml\" sourcestartlinenumber=\"1\">Root of a docking workspace. Holds a logical tree of panes and splits, and rebuilds the\ncontrol tree from it whenever the layout changes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.DockZone.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.DockZone.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.DockZone",
+      "Summary": "<p sourcefile=\"api/Forma.DockZone.yml\" sourcestartlinenumber=\"1\">Where a dropped section lands relative to the pane under the pointer.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -3164,6 +3248,76 @@
       "IsMRef": true,
       "Title": "Forma.MenuButton",
       "Summary": "<p sourcefile=\"api/Forma.MenuButton.yml\" sourcestartlinenumber=\"1\">A button that opens its owned <xref href=\"Forma.PopupMenu\" data-throw-if-not-resolved=\"false\"></xref> underneath itself.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.ModalCancelReason.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.ModalCancelReason.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.ModalCancelReason",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.ModalOutcome-1.Accepted.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.ModalOutcome-1.Accepted.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.ModalOutcome<T>.Accepted",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.ModalOutcome-1.Cancelled.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.ModalOutcome-1.Cancelled.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.ModalOutcome<T>.Cancelled",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.ModalOutcome-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.ModalOutcome-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.ModalOutcome<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.ModalSession-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.ModalSession-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.ModalSession<T>",
+      "Summary": "<p sourcefile=\"api/Forma.ModalSession-1.yml\" sourcestartlinenumber=\"1\">Owns one detached popup and its compiled control lifetime. Construct, open, accept, cancel and dispose\non the context's creation thread. Token callbacks only latch; Update drains cancellation.\nAcceptance linearizes under the same lock as cancellation, after result validation.\nA cancellation already signalled at that point wins. Cleanup precedes completion; cleanup failure faults it.\nContext disposal terminates even an unopened session and prevents further session reservations.\nThe caller supplies result validation and is responsible for immutable result ownership.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6961,6 +7115,48 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.XamlAuthoring.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.XamlAuthoring.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.XamlAuthoring",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.XamlAuthoring.yml\" sourcestartlinenumber=\"1\">Explicit typed capabilities; ambiguity and expressions require a rebuild, never a guessed setter.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.XamlLiteralCapability-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.XamlLiteralCapability-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.XamlLiteralCapability<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.XamlMemberRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.XamlMemberRange.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.XamlMemberRange",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.Xaml.XamlNamespaces.yml",
       "output": {
         ".html": {
@@ -6989,6 +7185,34 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.XamlSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.XamlSource.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.XamlSource",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.XamlSourceNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.XamlSourceNode.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.XamlSourceNode",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.XamlSourceNode.yml\" sourcestartlinenumber=\"1\">Revision-scoped compiler identities, not runtime tree ordinals or control names.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.Xaml.XamlValueContribution-1.yml",
       "output": {
         ".html": {
@@ -7013,6 +7237,34 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Forma.Xaml.XamlValueConverter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.XamlValueEdit-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.XamlValueEdit-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.XamlValueEdit<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.XamlValueHandle-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.XamlValueHandle-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.XamlValueHandle<T>",
       "Summary": null
     },
     {
@@ -7118,6 +7370,16 @@
       "output": {
         ".html": {
           "relative_path": "authorized-host-checklist.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "browser-runtime.md",
+      "output": {
+        ".html": {
+          "relative_path": "browser-runtime.html"
         }
       },
       "version": ""

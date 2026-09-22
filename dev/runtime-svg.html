@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/8088b838e131ee70be9923fb08936d2dd232e4e6/docs/runtime-svg.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/docs/runtime-svg.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -117,6 +117,10 @@ logical resource names, and embedded without MGCB or XNB:</p>
 </code></pre>
 <p>Relative paths resolve against the XAML document. Static missing, invalid, forbidden, oversized,
 outside-project, and duplicate assets fail the build with <code>FXAML3601</code>, <code>FXAML3602</code>, or <code>FXAML3603</code>.
+Compiled loads pass their owning assembly explicitly, including under NativeAOT; they do not
+infer ownership by walking the calling stack. C# resource loads use <code>FromManifestResource</code>
+or the <code>ParseSvgAsset</code> overload with an explicit assembly. The legacy one-argument converter
+retains its managed calling-assembly behavior and is not a NativeAOT entry point.
 Debug hot reload copies and watches SVG assets; changed bytes create a new content identity while
 unaffected cache variants remain reusable.</p>
 <h2 id="exact-scale-cache">Exact-Scale Cache</h2>
@@ -361,7 +365,7 @@ statistics, and rejected external input. Use <code>--theme-icon-policy BitmapAtl
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/8088b838e131ee70be9923fb08936d2dd232e4e6/docs/runtime-svg.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/docs/runtime-svg.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -378,7 +382,7 @@ statistics, and rejected external input. Use <code>--theme-icon-policy BitmapAtl
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 8088b838e131 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · feb6f8daee6b · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

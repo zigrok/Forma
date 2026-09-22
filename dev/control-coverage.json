@@ -1,10 +1,10 @@
 {
-  "PublicTypes": 498,
-  "DocumentedTypes": 211,
-  "TypeCoveragePercent": 42.369477911646584,
-  "PublicMembers": 5364,
-  "DocumentedMembers": 665,
-  "MemberCoveragePercent": 12.397464578672633,
+  "PublicTypes": 516,
+  "DocumentedTypes": 220,
+  "TypeCoveragePercent": 42.63565891472868,
+  "PublicMembers": 5534,
+  "DocumentedMembers": 682,
+  "MemberCoveragePercent": 12.323816407661727,
   "MinimumTypeCoveragePercent": 27.65,
   "MinimumMemberCoveragePercent": 11.57,
   "Controls": [
@@ -212,6 +212,22 @@
       "Control": "DataGridRow",
       "Story": "Forma.Catalog/Stories/Controls/DataGridRow.xaml",
       "ApiUid": "Forma.DataGridRow",
+      "MetadataExists": true,
+      "PageExists": true,
+      "Documented": true
+    },
+    {
+      "Control": "DockPane",
+      "Story": "Forma.Catalog/Stories/Controls/DockPane.xaml",
+      "ApiUid": "Forma.DockPane",
+      "MetadataExists": true,
+      "PageExists": true,
+      "Documented": true
+    },
+    {
+      "Control": "DockWorkspace",
+      "Story": "Forma.Catalog/Stories/Controls/DockWorkspace.xaml",
+      "ApiUid": "Forma.DockWorkspace",
       "MetadataExists": true,
       "PageExists": true,
       "Documented": true

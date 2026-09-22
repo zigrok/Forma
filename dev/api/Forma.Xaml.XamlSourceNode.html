@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Class XamlSourceNode | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class XamlSourceNode | Forma Documentation ">
+      
+      <meta name="description" content="Revision-scoped compiler identities, not runtime tree ordinals or control names.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Forma.Xaml.XamlSourceNode">
+
+
+
+  <h1 id="Forma_Xaml_XamlSourceNode" data-uid="Forma.Xaml.XamlSourceNode" class="text-break">
+Class XamlSourceNode  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Forma.html">Forma</a>.<a class="xref" href="Forma.Xaml.html">Xaml</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Forma.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Revision-scoped compiler identities, not runtime tree ordinals or control names.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed record XamlSourceNode : IEquatable&lt;XamlSourceNode&gt;</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">XamlSourceNode</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Forma.Xaml.XamlSourceNode.html">XamlSourceNode</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Forma_Xaml_XamlSourceNode__ctor_" data-uid="Forma.Xaml.XamlSourceNode.#ctor*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode__ctor_System_String_System_String_System_Int32_System_Int32_System_String_System_String_System_Int32_System_Int32_System_Collections_Generic_Dictionary_System_String_System_String__" data-uid="Forma.Xaml.XamlSourceNode.#ctor(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.String})">
+  XamlSourceNode(string, string, int, int, string, string, int, int, Dictionary&lt;string, string&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Revision-scoped compiler identities, not runtime tree ordinals or control names.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public XamlSourceNode(string Document, string Revision, int Node, int Scope, string Type, string Name, int Line, int Column, Dictionary&lt;string, string&gt; Members)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>Document</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>Revision</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>Node</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>Scope</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>Type</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>Name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>Line</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>Column</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>Members</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Column_" data-uid="Forma.Xaml.XamlSourceNode.Column*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Column" data-uid="Forma.Xaml.XamlSourceNode.Column">
+  Column
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Column { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Coordinates_" data-uid="Forma.Xaml.XamlSourceNode.Coordinates*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Coordinates" data-uid="Forma.Xaml.XamlSourceNode.Coordinates">
+  Coordinates
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Coordinates { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Document_" data-uid="Forma.Xaml.XamlSourceNode.Document*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Document" data-uid="Forma.Xaml.XamlSourceNode.Document">
+  Document
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Document { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_DocumentNodes_" data-uid="Forma.Xaml.XamlSourceNode.DocumentNodes*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_DocumentNodes" data-uid="Forma.Xaml.XamlSourceNode.DocumentNodes">
+  DocumentNodes
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public XamlSourceNode[] DocumentNodes { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Forma.Xaml.XamlSourceNode.html">XamlSourceNode</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_EndColumn_" data-uid="Forma.Xaml.XamlSourceNode.EndColumn*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_EndColumn" data-uid="Forma.Xaml.XamlSourceNode.EndColumn">
+  EndColumn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int EndColumn { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_EndLine_" data-uid="Forma.Xaml.XamlSourceNode.EndLine*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_EndLine" data-uid="Forma.Xaml.XamlSourceNode.EndLine">
+  EndLine
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int EndLine { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Line_" data-uid="Forma.Xaml.XamlSourceNode.Line*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Line" data-uid="Forma.Xaml.XamlSourceNode.Line">
+  Line
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Line { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_MemberRanges_" data-uid="Forma.Xaml.XamlSourceNode.MemberRanges*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_MemberRanges" data-uid="Forma.Xaml.XamlSourceNode.MemberRanges">
+  MemberRanges
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, XamlMemberRange&gt; MemberRanges { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="Forma.Xaml.XamlMemberRange.html">XamlMemberRange</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Members_" data-uid="Forma.Xaml.XamlSourceNode.Members*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Members" data-uid="Forma.Xaml.XamlSourceNode.Members">
+  Members
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, string&gt; Members { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_MetadataVersion_" data-uid="Forma.Xaml.XamlSourceNode.MetadataVersion*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_MetadataVersion" data-uid="Forma.Xaml.XamlSourceNode.MetadataVersion">
+  MetadataVersion
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MetadataVersion { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Name_" data-uid="Forma.Xaml.XamlSourceNode.Name*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Name" data-uid="Forma.Xaml.XamlSourceNode.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Node_" data-uid="Forma.Xaml.XamlSourceNode.Node*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Node" data-uid="Forma.Xaml.XamlSourceNode.Node">
+  Node
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Node { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_ParentNode_" data-uid="Forma.Xaml.XamlSourceNode.ParentNode*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_ParentNode" data-uid="Forma.Xaml.XamlSourceNode.ParentNode">
+  ParentNode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int? ParentNode { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_ParserRevision_" data-uid="Forma.Xaml.XamlSourceNode.ParserRevision*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_ParserRevision" data-uid="Forma.Xaml.XamlSourceNode.ParserRevision">
+  ParserRevision
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ParserRevision { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Revision_" data-uid="Forma.Xaml.XamlSourceNode.Revision*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Revision" data-uid="Forma.Xaml.XamlSourceNode.Revision">
+  Revision
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Revision { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_RevisionEncoding_" data-uid="Forma.Xaml.XamlSourceNode.RevisionEncoding*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_RevisionEncoding" data-uid="Forma.Xaml.XamlSourceNode.RevisionEncoding">
+  RevisionEncoding
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string RevisionEncoding { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Scope_" data-uid="Forma.Xaml.XamlSourceNode.Scope*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Scope" data-uid="Forma.Xaml.XamlSourceNode.Scope">
+  Scope
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Scope { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Type_" data-uid="Forma.Xaml.XamlSourceNode.Type*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Type" data-uid="Forma.Xaml.XamlSourceNode.Type">
+  Type
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Type { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_XmlNamespace_" data-uid="Forma.Xaml.XamlSourceNode.XmlNamespace*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_XmlNamespace" data-uid="Forma.Xaml.XamlSourceNode.XmlNamespace">
+  XmlNamespace
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string XmlNamespace { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_XmlType_" data-uid="Forma.Xaml.XamlSourceNode.XmlType*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_XmlType" data-uid="Forma.Xaml.XamlSourceNode.XmlType">
+  XmlType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string XmlType { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Deconstruct_" data-uid="Forma.Xaml.XamlSourceNode.Deconstruct*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Deconstruct_System_String__System_String__System_Int32__System_Int32__System_String__System_String__System_Int32__System_Int32__System_Collections_Generic_Dictionary_System_String_System_String___" data-uid="Forma.Xaml.XamlSourceNode.Deconstruct(System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@,System.Int32@,System.Int32@,System.Collections.Generic.Dictionary{System.String,System.String}@)">
+  Deconstruct(out string, out string, out int, out int, out string, out string, out int, out int, out Dictionary&lt;string, string&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Deconstruct(out string Document, out string Revision, out int Node, out int Scope, out string Type, out string Name, out int Line, out int Column, out Dictionary&lt;string, string&gt; Members)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>Document</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>Revision</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>Node</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>Scope</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>Type</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>Name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>Line</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>Column</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>Members</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Equals_" data-uid="Forma.Xaml.XamlSourceNode.Equals*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Equals_Forma_Xaml_XamlSourceNode_" data-uid="Forma.Xaml.XamlSourceNode.Equals(Forma.Xaml.XamlSourceNode)">
+  Equals(XamlSourceNode?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(XamlSourceNode? other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Forma.Xaml.XamlSourceNode.html">XamlSourceNode</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_Equals_" data-uid="Forma.Xaml.XamlSourceNode.Equals*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_Equals_System_Object_" data-uid="Forma.Xaml.XamlSourceNode.Equals(System.Object)">
+  Equals(object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object? obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_GetHashCode_" data-uid="Forma.Xaml.XamlSourceNode.GetHashCode*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_GetHashCode" data-uid="Forma.Xaml.XamlSourceNode.GetHashCode">
+  GetHashCode()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_ToString_" data-uid="Forma.Xaml.XamlSourceNode.ToString*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_ToString" data-uid="Forma.Xaml.XamlSourceNode.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="Forma_Xaml_XamlSourceNode_op_Equality_" data-uid="Forma.Xaml.XamlSourceNode.op_Equality*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_op_Equality_Forma_Xaml_XamlSourceNode_Forma_Xaml_XamlSourceNode_" data-uid="Forma.Xaml.XamlSourceNode.op_Equality(Forma.Xaml.XamlSourceNode,Forma.Xaml.XamlSourceNode)">
+  operator ==(XamlSourceNode?, XamlSourceNode?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(XamlSourceNode? left, XamlSourceNode? right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="Forma.Xaml.XamlSourceNode.html">XamlSourceNode</a></dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="Forma.Xaml.XamlSourceNode.html">XamlSourceNode</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlSourceNode_op_Inequality_" data-uid="Forma.Xaml.XamlSourceNode.op_Inequality*"></a>
+
+  <h3 id="Forma_Xaml_XamlSourceNode_op_Inequality_Forma_Xaml_XamlSourceNode_Forma_Xaml_XamlSourceNode_" data-uid="Forma.Xaml.XamlSourceNode.op_Inequality(Forma.Xaml.XamlSourceNode,Forma.Xaml.XamlSourceNode)">
+  operator !=(XamlSourceNode?, XamlSourceNode?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(XamlSourceNode? left, XamlSourceNode? right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="Forma.Xaml.XamlSourceNode.html">XamlSourceNode</a></dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="Forma.Xaml.XamlSourceNode.html">XamlSourceNode</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlSource.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · feb6f8daee6b · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

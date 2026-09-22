@@ -2926,6 +2926,30 @@ references:
   fullName.vb: Forma.CheckButton.New
   nameWithType: CheckButton.CheckButton
   nameWithType.vb: CheckButton.New
+- uid: Forma.ClipboardOperation
+  name: ClipboardOperation
+  href: api/Forma.ClipboardOperation.html
+  commentId: T:Forma.ClipboardOperation
+  fullName: Forma.ClipboardOperation
+  nameWithType: ClipboardOperation
+- uid: Forma.ClipboardOperation.Copy
+  name: Copy
+  href: api/Forma.ClipboardOperation.html#Forma_ClipboardOperation_Copy
+  commentId: F:Forma.ClipboardOperation.Copy
+  fullName: Forma.ClipboardOperation.Copy
+  nameWithType: ClipboardOperation.Copy
+- uid: Forma.ClipboardOperation.Cut
+  name: Cut
+  href: api/Forma.ClipboardOperation.html#Forma_ClipboardOperation_Cut
+  commentId: F:Forma.ClipboardOperation.Cut
+  fullName: Forma.ClipboardOperation.Cut
+  nameWithType: ClipboardOperation.Cut
+- uid: Forma.ClipboardOperation.Paste
+  name: Paste
+  href: api/Forma.ClipboardOperation.html#Forma_ClipboardOperation_Paste
+  commentId: F:Forma.ClipboardOperation.Paste
+  fullName: Forma.ClipboardOperation.Paste
+  nameWithType: ClipboardOperation.Paste
 - uid: Forma.CodeCompletionKind
   name: CodeCompletionKind
   href: api/Forma.CodeCompletionKind.html
@@ -12401,6 +12425,345 @@ references:
   commentId: Overload:Forma.DesktopFileDialogFileSystem.ShowInFileManager
   fullName: Forma.DesktopFileDialogFileSystem.ShowInFileManager
   nameWithType: DesktopFileDialogFileSystem.ShowInFileManager
+- uid: Forma.DockPane
+  name: DockPane
+  href: api/Forma.DockPane.html
+  commentId: T:Forma.DockPane
+  fullName: Forma.DockPane
+  nameWithType: DockPane
+- uid: Forma.DockPane.#ctor
+  name: DockPane()
+  href: api/Forma.DockPane.html#Forma_DockPane__ctor
+  commentId: M:Forma.DockPane.#ctor
+  name.vb: New()
+  fullName: Forma.DockPane.DockPane()
+  fullName.vb: Forma.DockPane.New()
+  nameWithType: DockPane.DockPane()
+  nameWithType.vb: DockPane.New()
+- uid: Forma.DockPane.#ctor*
+  name: DockPane
+  href: api/Forma.DockPane.html#Forma_DockPane__ctor_
+  commentId: Overload:Forma.DockPane.#ctor
+  name.vb: New
+  fullName: Forma.DockPane.DockPane
+  fullName.vb: Forma.DockPane.New
+  nameWithType: DockPane.DockPane
+  nameWithType.vb: DockPane.New
+- uid: Forma.DockPane.Activate(System.Int32)
+  name: Activate(int)
+  href: api/Forma.DockPane.html#Forma_DockPane_Activate_System_Int32_
+  commentId: M:Forma.DockPane.Activate(System.Int32)
+  name.vb: Activate(Integer)
+  fullName: Forma.DockPane.Activate(int)
+  fullName.vb: Forma.DockPane.Activate(Integer)
+  nameWithType: DockPane.Activate(int)
+  nameWithType.vb: DockPane.Activate(Integer)
+- uid: Forma.DockPane.Activate*
+  name: Activate
+  href: api/Forma.DockPane.html#Forma_DockPane_Activate_
+  commentId: Overload:Forma.DockPane.Activate
+  fullName: Forma.DockPane.Activate
+  nameWithType: DockPane.Activate
+- uid: Forma.DockPane.ActiveSection
+  name: ActiveSection
+  href: api/Forma.DockPane.html#Forma_DockPane_ActiveSection
+  commentId: P:Forma.DockPane.ActiveSection
+  fullName: Forma.DockPane.ActiveSection
+  nameWithType: DockPane.ActiveSection
+- uid: Forma.DockPane.ActiveSection*
+  name: ActiveSection
+  href: api/Forma.DockPane.html#Forma_DockPane_ActiveSection_
+  commentId: Overload:Forma.DockPane.ActiveSection
+  fullName: Forma.DockPane.ActiveSection
+  nameWithType: DockPane.ActiveSection
+- uid: Forma.DockPane.Add(Forma.DockSection)
+  name: Add(DockSection)
+  href: api/Forma.DockPane.html#Forma_DockPane_Add_Forma_DockSection_
+  commentId: M:Forma.DockPane.Add(Forma.DockSection)
+  fullName: Forma.DockPane.Add(Forma.DockSection)
+  nameWithType: DockPane.Add(DockSection)
+- uid: Forma.DockPane.Add*
+  name: Add
+  href: api/Forma.DockPane.html#Forma_DockPane_Add_
+  commentId: Overload:Forma.DockPane.Add
+  fullName: Forma.DockPane.Add
+  nameWithType: DockPane.Add
+- uid: Forma.DockPane.ArrangeChildren
+  name: ArrangeChildren()
+  href: api/Forma.DockPane.html#Forma_DockPane_ArrangeChildren
+  commentId: M:Forma.DockPane.ArrangeChildren
+  fullName: Forma.DockPane.ArrangeChildren()
+  nameWithType: DockPane.ArrangeChildren()
+- uid: Forma.DockPane.ArrangeChildren*
+  name: ArrangeChildren
+  href: api/Forma.DockPane.html#Forma_DockPane_ArrangeChildren_
+  commentId: Overload:Forma.DockPane.ArrangeChildren
+  fullName: Forma.DockPane.ArrangeChildren
+  nameWithType: DockPane.ArrangeChildren
+- uid: Forma.DockPane.CanDropData(Microsoft.Xna.Framework.Point,System.Object)
+  name: CanDropData(Point, object)
+  href: api/Forma.DockPane.html#Forma_DockPane_CanDropData_Microsoft_Xna_Framework_Point_System_Object_
+  commentId: M:Forma.DockPane.CanDropData(Microsoft.Xna.Framework.Point,System.Object)
+  name.vb: CanDropData(Point, Object)
+  fullName: Forma.DockPane.CanDropData(Microsoft.Xna.Framework.Point, object)
+  fullName.vb: Forma.DockPane.CanDropData(Microsoft.Xna.Framework.Point, Object)
+  nameWithType: DockPane.CanDropData(Point, object)
+  nameWithType.vb: DockPane.CanDropData(Point, Object)
+- uid: Forma.DockPane.CanDropData*
+  name: CanDropData
+  href: api/Forma.DockPane.html#Forma_DockPane_CanDropData_
+  commentId: Overload:Forma.DockPane.CanDropData
+  fullName: Forma.DockPane.CanDropData
+  nameWithType: DockPane.CanDropData
+- uid: Forma.DockPane.DropData(Microsoft.Xna.Framework.Point,System.Object)
+  name: DropData(Point, object)
+  href: api/Forma.DockPane.html#Forma_DockPane_DropData_Microsoft_Xna_Framework_Point_System_Object_
+  commentId: M:Forma.DockPane.DropData(Microsoft.Xna.Framework.Point,System.Object)
+  name.vb: DropData(Point, Object)
+  fullName: Forma.DockPane.DropData(Microsoft.Xna.Framework.Point, object)
+  fullName.vb: Forma.DockPane.DropData(Microsoft.Xna.Framework.Point, Object)
+  nameWithType: DockPane.DropData(Point, object)
+  nameWithType.vb: DockPane.DropData(Point, Object)
+- uid: Forma.DockPane.DropData*
+  name: DropData
+  href: api/Forma.DockPane.html#Forma_DockPane_DropData_
+  commentId: Overload:Forma.DockPane.DropData
+  fullName: Forma.DockPane.DropData
+  nameWithType: DockPane.DropData
+- uid: Forma.DockPane.GetMinimumSize
+  name: GetMinimumSize()
+  href: api/Forma.DockPane.html#Forma_DockPane_GetMinimumSize
+  commentId: M:Forma.DockPane.GetMinimumSize
+  fullName: Forma.DockPane.GetMinimumSize()
+  nameWithType: DockPane.GetMinimumSize()
+- uid: Forma.DockPane.GetMinimumSize*
+  name: GetMinimumSize
+  href: api/Forma.DockPane.html#Forma_DockPane_GetMinimumSize_
+  commentId: Overload:Forma.DockPane.GetMinimumSize
+  fullName: Forma.DockPane.GetMinimumSize
+  nameWithType: DockPane.GetMinimumSize
+- uid: Forma.DockPane.Remove(Forma.DockSection)
+  name: Remove(DockSection)
+  href: api/Forma.DockPane.html#Forma_DockPane_Remove_Forma_DockSection_
+  commentId: M:Forma.DockPane.Remove(Forma.DockSection)
+  fullName: Forma.DockPane.Remove(Forma.DockSection)
+  nameWithType: DockPane.Remove(DockSection)
+- uid: Forma.DockPane.Remove*
+  name: Remove
+  href: api/Forma.DockPane.html#Forma_DockPane_Remove_
+  commentId: Overload:Forma.DockPane.Remove
+  fullName: Forma.DockPane.Remove
+  nameWithType: DockPane.Remove
+- uid: Forma.DockPane.Sections
+  name: Sections
+  href: api/Forma.DockPane.html#Forma_DockPane_Sections
+  commentId: P:Forma.DockPane.Sections
+  fullName: Forma.DockPane.Sections
+  nameWithType: DockPane.Sections
+- uid: Forma.DockPane.Sections*
+  name: Sections
+  href: api/Forma.DockPane.html#Forma_DockPane_Sections_
+  commentId: Overload:Forma.DockPane.Sections
+  fullName: Forma.DockPane.Sections
+  nameWithType: DockPane.Sections
+- uid: Forma.DockSection
+  name: DockSection
+  href: api/Forma.DockSection.html
+  commentId: T:Forma.DockSection
+  fullName: Forma.DockSection
+  nameWithType: DockSection
+- uid: Forma.DockSection.#ctor(System.String,System.String,Forma.Control)
+  name: DockSection(string, string, Control)
+  href: api/Forma.DockSection.html#Forma_DockSection__ctor_System_String_System_String_Forma_Control_
+  commentId: M:Forma.DockSection.#ctor(System.String,System.String,Forma.Control)
+  name.vb: New(String, String, Control)
+  fullName: Forma.DockSection.DockSection(string, string, Forma.Control)
+  fullName.vb: Forma.DockSection.New(String, String, Forma.Control)
+  nameWithType: DockSection.DockSection(string, string, Control)
+  nameWithType.vb: DockSection.New(String, String, Control)
+- uid: Forma.DockSection.#ctor*
+  name: DockSection
+  href: api/Forma.DockSection.html#Forma_DockSection__ctor_
+  commentId: Overload:Forma.DockSection.#ctor
+  name.vb: New
+  fullName: Forma.DockSection.DockSection
+  fullName.vb: Forma.DockSection.New
+  nameWithType: DockSection.DockSection
+  nameWithType.vb: DockSection.New
+- uid: Forma.DockSection.Content
+  name: Content
+  href: api/Forma.DockSection.html#Forma_DockSection_Content
+  commentId: P:Forma.DockSection.Content
+  fullName: Forma.DockSection.Content
+  nameWithType: DockSection.Content
+- uid: Forma.DockSection.Content*
+  name: Content
+  href: api/Forma.DockSection.html#Forma_DockSection_Content_
+  commentId: Overload:Forma.DockSection.Content
+  fullName: Forma.DockSection.Content
+  nameWithType: DockSection.Content
+- uid: Forma.DockSection.Id
+  name: Id
+  href: api/Forma.DockSection.html#Forma_DockSection_Id
+  commentId: P:Forma.DockSection.Id
+  fullName: Forma.DockSection.Id
+  nameWithType: DockSection.Id
+- uid: Forma.DockSection.Id*
+  name: Id
+  href: api/Forma.DockSection.html#Forma_DockSection_Id_
+  commentId: Overload:Forma.DockSection.Id
+  fullName: Forma.DockSection.Id
+  nameWithType: DockSection.Id
+- uid: Forma.DockSection.Title
+  name: Title
+  href: api/Forma.DockSection.html#Forma_DockSection_Title
+  commentId: P:Forma.DockSection.Title
+  fullName: Forma.DockSection.Title
+  nameWithType: DockSection.Title
+- uid: Forma.DockSection.Title*
+  name: Title
+  href: api/Forma.DockSection.html#Forma_DockSection_Title_
+  commentId: Overload:Forma.DockSection.Title
+  fullName: Forma.DockSection.Title
+  nameWithType: DockSection.Title
+- uid: Forma.DockTab
+  name: DockTab
+  href: api/Forma.DockTab.html
+  commentId: T:Forma.DockTab
+  fullName: Forma.DockTab
+  nameWithType: DockTab
+- uid: Forma.DockTab.GetDragData(Microsoft.Xna.Framework.Point)
+  name: GetDragData(Point)
+  href: api/Forma.DockTab.html#Forma_DockTab_GetDragData_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.DockTab.GetDragData(Microsoft.Xna.Framework.Point)
+  fullName: Forma.DockTab.GetDragData(Microsoft.Xna.Framework.Point)
+  nameWithType: DockTab.GetDragData(Point)
+- uid: Forma.DockTab.GetDragData*
+  name: GetDragData
+  href: api/Forma.DockTab.html#Forma_DockTab_GetDragData_
+  commentId: Overload:Forma.DockTab.GetDragData
+  fullName: Forma.DockTab.GetDragData
+  nameWithType: DockTab.GetDragData
+- uid: Forma.DockWorkspace
+  name: DockWorkspace
+  href: api/Forma.DockWorkspace.html
+  commentId: T:Forma.DockWorkspace
+  fullName: Forma.DockWorkspace
+  nameWithType: DockWorkspace
+- uid: Forma.DockWorkspace.#ctor
+  name: DockWorkspace()
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace__ctor
+  commentId: M:Forma.DockWorkspace.#ctor
+  name.vb: New()
+  fullName: Forma.DockWorkspace.DockWorkspace()
+  fullName.vb: Forma.DockWorkspace.New()
+  nameWithType: DockWorkspace.DockWorkspace()
+  nameWithType.vb: DockWorkspace.New()
+- uid: Forma.DockWorkspace.#ctor*
+  name: DockWorkspace
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace__ctor_
+  commentId: Overload:Forma.DockWorkspace.#ctor
+  name.vb: New
+  fullName: Forma.DockWorkspace.DockWorkspace
+  fullName.vb: Forma.DockWorkspace.New
+  nameWithType: DockWorkspace.DockWorkspace
+  nameWithType.vb: DockWorkspace.New
+- uid: Forma.DockWorkspace.ArrangeChildren
+  name: ArrangeChildren()
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_ArrangeChildren
+  commentId: M:Forma.DockWorkspace.ArrangeChildren
+  fullName: Forma.DockWorkspace.ArrangeChildren()
+  nameWithType: DockWorkspace.ArrangeChildren()
+- uid: Forma.DockWorkspace.ArrangeChildren*
+  name: ArrangeChildren
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_ArrangeChildren_
+  commentId: Overload:Forma.DockWorkspace.ArrangeChildren
+  fullName: Forma.DockWorkspace.ArrangeChildren
+  nameWithType: DockWorkspace.ArrangeChildren
+- uid: Forma.DockWorkspace.CreatePane
+  name: CreatePane()
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_CreatePane
+  commentId: M:Forma.DockWorkspace.CreatePane
+  fullName: Forma.DockWorkspace.CreatePane()
+  nameWithType: DockWorkspace.CreatePane()
+- uid: Forma.DockWorkspace.CreatePane*
+  name: CreatePane
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_CreatePane_
+  commentId: Overload:Forma.DockWorkspace.CreatePane
+  fullName: Forma.DockWorkspace.CreatePane
+  nameWithType: DockWorkspace.CreatePane
+- uid: Forma.DockWorkspace.DescribeTree
+  name: DescribeTree()
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_DescribeTree
+  commentId: M:Forma.DockWorkspace.DescribeTree
+  fullName: Forma.DockWorkspace.DescribeTree()
+  nameWithType: DockWorkspace.DescribeTree()
+- uid: Forma.DockWorkspace.DescribeTree*
+  name: DescribeTree
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_DescribeTree_
+  commentId: Overload:Forma.DockWorkspace.DescribeTree
+  fullName: Forma.DockWorkspace.DescribeTree
+  nameWithType: DockWorkspace.DescribeTree
+- uid: Forma.DockWorkspace.Dock(Forma.DockPane,Forma.DockPane,Forma.DockZone)
+  name: Dock(DockPane, DockPane, DockZone)
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_Dock_Forma_DockPane_Forma_DockPane_Forma_DockZone_
+  commentId: M:Forma.DockWorkspace.Dock(Forma.DockPane,Forma.DockPane,Forma.DockZone)
+  fullName: Forma.DockWorkspace.Dock(Forma.DockPane, Forma.DockPane, Forma.DockZone)
+  nameWithType: DockWorkspace.Dock(DockPane, DockPane, DockZone)
+- uid: Forma.DockWorkspace.Dock*
+  name: Dock
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_Dock_
+  commentId: Overload:Forma.DockWorkspace.Dock
+  fullName: Forma.DockWorkspace.Dock
+  nameWithType: DockWorkspace.Dock
+- uid: Forma.DockWorkspace.GetMinimumSize
+  name: GetMinimumSize()
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_GetMinimumSize
+  commentId: M:Forma.DockWorkspace.GetMinimumSize
+  fullName: Forma.DockWorkspace.GetMinimumSize()
+  nameWithType: DockWorkspace.GetMinimumSize()
+- uid: Forma.DockWorkspace.GetMinimumSize*
+  name: GetMinimumSize
+  href: api/Forma.DockWorkspace.html#Forma_DockWorkspace_GetMinimumSize_
+  commentId: Overload:Forma.DockWorkspace.GetMinimumSize
+  fullName: Forma.DockWorkspace.GetMinimumSize
+  nameWithType: DockWorkspace.GetMinimumSize
+- uid: Forma.DockZone
+  name: DockZone
+  href: api/Forma.DockZone.html
+  commentId: T:Forma.DockZone
+  fullName: Forma.DockZone
+  nameWithType: DockZone
+- uid: Forma.DockZone.Bottom
+  name: Bottom
+  href: api/Forma.DockZone.html#Forma_DockZone_Bottom
+  commentId: F:Forma.DockZone.Bottom
+  fullName: Forma.DockZone.Bottom
+  nameWithType: DockZone.Bottom
+- uid: Forma.DockZone.Center
+  name: Center
+  href: api/Forma.DockZone.html#Forma_DockZone_Center
+  commentId: F:Forma.DockZone.Center
+  fullName: Forma.DockZone.Center
+  nameWithType: DockZone.Center
+- uid: Forma.DockZone.Left
+  name: Left
+  href: api/Forma.DockZone.html#Forma_DockZone_Left
+  commentId: F:Forma.DockZone.Left
+  fullName: Forma.DockZone.Left
+  nameWithType: DockZone.Left
+- uid: Forma.DockZone.Right
+  name: Right
+  href: api/Forma.DockZone.html#Forma_DockZone_Right
+  commentId: F:Forma.DockZone.Right
+  fullName: Forma.DockZone.Right
+  nameWithType: DockZone.Right
+- uid: Forma.DockZone.Top
+  name: Top
+  href: api/Forma.DockZone.html#Forma_DockZone_Top
+  commentId: F:Forma.DockZone.Top
+  fullName: Forma.DockZone.Top
+  nameWithType: DockZone.Top
 - uid: Forma.Drawing
   name: Drawing
   href: api/Forma.Drawing.html
@@ -23702,6 +24065,18 @@ references:
   commentId: Overload:Forma.Inline.LetterSpacing
   fullName: Forma.Inline.LetterSpacing
   nameWithType: Inline.LetterSpacing
+- uid: Forma.Inline.Meta
+  name: Meta
+  href: api/Forma.Inline.html#Forma_Inline_Meta
+  commentId: P:Forma.Inline.Meta
+  fullName: Forma.Inline.Meta
+  nameWithType: Inline.Meta
+- uid: Forma.Inline.Meta*
+  name: Meta
+  href: api/Forma.Inline.html#Forma_Inline_Meta_
+  commentId: Overload:Forma.Inline.Meta
+  fullName: Forma.Inline.Meta
+  nameWithType: Inline.Meta
 - uid: Forma.InlineImage
   name: InlineImage
   href: api/Forma.InlineImage.html
@@ -27992,6 +28367,12 @@ references:
   commentId: Overload:Forma.LineEdit.ClearUndoHistory
   fullName: Forma.LineEdit.ClearUndoHistory
   nameWithType: LineEdit.ClearUndoHistory
+- uid: Forma.LineEdit.ClipboardOperationFailed
+  name: ClipboardOperationFailed
+  href: api/Forma.LineEdit.html#Forma_LineEdit_ClipboardOperationFailed
+  commentId: E:Forma.LineEdit.ClipboardOperationFailed
+  fullName: Forma.LineEdit.ClipboardOperationFailed
+  nameWithType: LineEdit.ClipboardOperationFailed
 - uid: Forma.LineEdit.ClipboardTextProvider
   name: ClipboardTextProvider
   href: api/Forma.LineEdit.html#Forma_LineEdit_ClipboardTextProvider
@@ -28538,6 +28919,18 @@ references:
   commentId: Overload:Forma.LineEdit.PlaceholderText
   fullName: Forma.LineEdit.PlaceholderText
   nameWithType: LineEdit.PlaceholderText
+- uid: Forma.LineEdit.ReadClipboardText
+  name: ReadClipboardText()
+  href: api/Forma.LineEdit.html#Forma_LineEdit_ReadClipboardText
+  commentId: M:Forma.LineEdit.ReadClipboardText
+  fullName: Forma.LineEdit.ReadClipboardText()
+  nameWithType: LineEdit.ReadClipboardText()
+- uid: Forma.LineEdit.ReadClipboardText*
+  name: ReadClipboardText
+  href: api/Forma.LineEdit.html#Forma_LineEdit_ReadClipboardText_
+  commentId: Overload:Forma.LineEdit.ReadClipboardText
+  fullName: Forma.LineEdit.ReadClipboardText
+  nameWithType: LineEdit.ReadClipboardText
 - uid: Forma.LineEdit.Redo
   name: Redo()
   href: api/Forma.LineEdit.html#Forma_LineEdit_Redo
@@ -28883,6 +29276,21 @@ references:
   commentId: Overload:Forma.LineEdit.TextVerticalAlignment
   fullName: Forma.LineEdit.TextVerticalAlignment
   nameWithType: LineEdit.TextVerticalAlignment
+- uid: Forma.LineEdit.TryWriteClipboardText(System.String,Forma.ClipboardOperation)
+  name: TryWriteClipboardText(string, ClipboardOperation)
+  href: api/Forma.LineEdit.html#Forma_LineEdit_TryWriteClipboardText_System_String_Forma_ClipboardOperation_
+  commentId: M:Forma.LineEdit.TryWriteClipboardText(System.String,Forma.ClipboardOperation)
+  name.vb: TryWriteClipboardText(String, ClipboardOperation)
+  fullName: Forma.LineEdit.TryWriteClipboardText(string, Forma.ClipboardOperation)
+  fullName.vb: Forma.LineEdit.TryWriteClipboardText(String, Forma.ClipboardOperation)
+  nameWithType: LineEdit.TryWriteClipboardText(string, ClipboardOperation)
+  nameWithType.vb: LineEdit.TryWriteClipboardText(String, ClipboardOperation)
+- uid: Forma.LineEdit.TryWriteClipboardText*
+  name: TryWriteClipboardText
+  href: api/Forma.LineEdit.html#Forma_LineEdit_TryWriteClipboardText_
+  commentId: Overload:Forma.LineEdit.TryWriteClipboardText
+  fullName: Forma.LineEdit.TryWriteClipboardText
+  nameWithType: LineEdit.TryWriteClipboardText
 - uid: Forma.LineEdit.UIFont
   name: UIFont
   href: api/Forma.LineEdit.html#Forma_LineEdit_UIFont
@@ -30416,6 +30824,692 @@ references:
   commentId: Overload:Forma.MenuButton.SwitchOnHover
   fullName: Forma.MenuButton.SwitchOnHover
   nameWithType: MenuButton.SwitchOnHover
+- uid: Forma.ModalCancelReason
+  name: ModalCancelReason
+  href: api/Forma.ModalCancelReason.html
+  commentId: T:Forma.ModalCancelReason
+  fullName: Forma.ModalCancelReason
+  nameWithType: ModalCancelReason
+- uid: Forma.ModalCancelReason.Detached
+  name: Detached
+  href: api/Forma.ModalCancelReason.html#Forma_ModalCancelReason_Detached
+  commentId: F:Forma.ModalCancelReason.Detached
+  fullName: Forma.ModalCancelReason.Detached
+  nameWithType: ModalCancelReason.Detached
+- uid: Forma.ModalCancelReason.Disposed
+  name: Disposed
+  href: api/Forma.ModalCancelReason.html#Forma_ModalCancelReason_Disposed
+  commentId: F:Forma.ModalCancelReason.Disposed
+  fullName: Forma.ModalCancelReason.Disposed
+  nameWithType: ModalCancelReason.Disposed
+- uid: Forma.ModalCancelReason.Hidden
+  name: Hidden
+  href: api/Forma.ModalCancelReason.html#Forma_ModalCancelReason_Hidden
+  commentId: F:Forma.ModalCancelReason.Hidden
+  fullName: Forma.ModalCancelReason.Hidden
+  nameWithType: ModalCancelReason.Hidden
+- uid: Forma.ModalCancelReason.Token
+  name: Token
+  href: api/Forma.ModalCancelReason.html#Forma_ModalCancelReason_Token
+  commentId: F:Forma.ModalCancelReason.Token
+  fullName: Forma.ModalCancelReason.Token
+  nameWithType: ModalCancelReason.Token
+- uid: Forma.ModalCancelReason.User
+  name: User
+  href: api/Forma.ModalCancelReason.html#Forma_ModalCancelReason_User
+  commentId: F:Forma.ModalCancelReason.User
+  fullName: Forma.ModalCancelReason.User
+  nameWithType: ModalCancelReason.User
+- uid: Forma.ModalOutcome`1
+  name: ModalOutcome<T>
+  href: api/Forma.ModalOutcome-1.html
+  commentId: T:Forma.ModalOutcome`1
+  name.vb: ModalOutcome(Of T)
+  fullName: Forma.ModalOutcome<T>
+  fullName.vb: Forma.ModalOutcome(Of T)
+  nameWithType: ModalOutcome<T>
+  nameWithType.vb: ModalOutcome(Of T)
+- uid: Forma.ModalOutcome`1.#ctor(Forma.ModalOutcome{`0})
+  name: ModalOutcome(ModalOutcome<T>)
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1__ctor_Forma_ModalOutcome__0__
+  commentId: M:Forma.ModalOutcome`1.#ctor(Forma.ModalOutcome{`0})
+  name.vb: New(ModalOutcome(Of T))
+  fullName: Forma.ModalOutcome<T>.ModalOutcome(Forma.ModalOutcome<T>)
+  fullName.vb: Forma.ModalOutcome(Of T).New(Forma.ModalOutcome(Of T))
+  nameWithType: ModalOutcome<T>.ModalOutcome(ModalOutcome<T>)
+  nameWithType.vb: ModalOutcome(Of T).New(ModalOutcome(Of T))
+- uid: Forma.ModalOutcome`1.#ctor*
+  name: ModalOutcome
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1__ctor_
+  commentId: Overload:Forma.ModalOutcome`1.#ctor
+  name.vb: New
+  fullName: Forma.ModalOutcome<T>.ModalOutcome
+  fullName.vb: Forma.ModalOutcome(Of T).New
+  nameWithType: ModalOutcome<T>.ModalOutcome
+  nameWithType.vb: ModalOutcome(Of T).New
+- uid: Forma.ModalOutcome`1.Accepted
+  name: ModalOutcome<T>.Accepted
+  href: api/Forma.ModalOutcome-1.Accepted.html
+  commentId: T:Forma.ModalOutcome`1.Accepted
+  name.vb: ModalOutcome(Of T).Accepted
+  fullName: Forma.ModalOutcome<T>.Accepted
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted
+  nameWithType: ModalOutcome<T>.Accepted
+  nameWithType.vb: ModalOutcome(Of T).Accepted
+- uid: Forma.ModalOutcome`1.Accepted.#ctor(`0)
+  name: Accepted(T)
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted__ctor__0_
+  commentId: M:Forma.ModalOutcome`1.Accepted.#ctor(`0)
+  name.vb: New(T)
+  fullName: Forma.ModalOutcome<T>.Accepted.Accepted(T)
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.New(T)
+  nameWithType: ModalOutcome<T>.Accepted.Accepted(T)
+  nameWithType.vb: ModalOutcome(Of T).Accepted.New(T)
+- uid: Forma.ModalOutcome`1.Accepted.#ctor*
+  name: Accepted
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted__ctor_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.#ctor
+  name.vb: New
+  fullName: Forma.ModalOutcome<T>.Accepted.Accepted
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.New
+  nameWithType: ModalOutcome<T>.Accepted.Accepted
+  nameWithType.vb: ModalOutcome(Of T).Accepted.New
+- uid: Forma.ModalOutcome`1.Accepted.Deconstruct(`0@)
+  name: Deconstruct(out T)
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_Deconstruct__0__
+  commentId: M:Forma.ModalOutcome`1.Accepted.Deconstruct(`0@)
+  name.vb: Deconstruct(T)
+  fullName: Forma.ModalOutcome<T>.Accepted.Deconstruct(out T)
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.Deconstruct(T)
+  nameWithType: ModalOutcome<T>.Accepted.Deconstruct(out T)
+  nameWithType.vb: ModalOutcome(Of T).Accepted.Deconstruct(T)
+- uid: Forma.ModalOutcome`1.Accepted.Deconstruct*
+  name: Deconstruct
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_Deconstruct_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.Deconstruct
+  fullName: Forma.ModalOutcome<T>.Accepted.Deconstruct
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.Deconstruct
+  nameWithType: ModalOutcome<T>.Accepted.Deconstruct
+  nameWithType.vb: ModalOutcome(Of T).Accepted.Deconstruct
+- uid: Forma.ModalOutcome`1.Accepted.EqualityContract
+  name: EqualityContract
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_EqualityContract
+  commentId: P:Forma.ModalOutcome`1.Accepted.EqualityContract
+  fullName: Forma.ModalOutcome<T>.Accepted.EqualityContract
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.EqualityContract
+  nameWithType: ModalOutcome<T>.Accepted.EqualityContract
+  nameWithType.vb: ModalOutcome(Of T).Accepted.EqualityContract
+- uid: Forma.ModalOutcome`1.Accepted.EqualityContract*
+  name: EqualityContract
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_EqualityContract_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.EqualityContract
+  fullName: Forma.ModalOutcome<T>.Accepted.EqualityContract
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.EqualityContract
+  nameWithType: ModalOutcome<T>.Accepted.EqualityContract
+  nameWithType.vb: ModalOutcome(Of T).Accepted.EqualityContract
+- uid: Forma.ModalOutcome`1.Accepted.Equals(Forma.ModalOutcome{`0})
+  name: Equals(ModalOutcome<T>?)
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_Equals_Forma_ModalOutcome__0__
+  commentId: M:Forma.ModalOutcome`1.Accepted.Equals(Forma.ModalOutcome{`0})
+  name.vb: Equals(ModalOutcome(Of T))
+  fullName: Forma.ModalOutcome<T>.Accepted.Equals(Forma.ModalOutcome<T>?)
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.Equals(Forma.ModalOutcome(Of T))
+  nameWithType: ModalOutcome<T>.Accepted.Equals(ModalOutcome<T>?)
+  nameWithType.vb: ModalOutcome(Of T).Accepted.Equals(ModalOutcome(Of T))
+- uid: Forma.ModalOutcome`1.Accepted.Equals(Forma.ModalOutcome{`0}.Accepted)
+  name: Equals(Accepted?)
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_Equals_Forma_ModalOutcome__0__Accepted_
+  commentId: M:Forma.ModalOutcome`1.Accepted.Equals(Forma.ModalOutcome{`0}.Accepted)
+  name.vb: Equals(Accepted)
+  fullName: Forma.ModalOutcome<T>.Accepted.Equals(Forma.ModalOutcome<T>.Accepted?)
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.Equals(Forma.ModalOutcome(Of T).Accepted)
+  nameWithType: ModalOutcome<T>.Accepted.Equals(ModalOutcome<T>.Accepted?)
+  nameWithType.vb: ModalOutcome(Of T).Accepted.Equals(ModalOutcome(Of T).Accepted)
+- uid: Forma.ModalOutcome`1.Accepted.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_Equals_System_Object_
+  commentId: M:Forma.ModalOutcome`1.Accepted.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Forma.ModalOutcome<T>.Accepted.Equals(object?)
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.Equals(Object)
+  nameWithType: ModalOutcome<T>.Accepted.Equals(object?)
+  nameWithType.vb: ModalOutcome(Of T).Accepted.Equals(Object)
+- uid: Forma.ModalOutcome`1.Accepted.Equals*
+  name: Equals
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_Equals_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.Equals
+  fullName: Forma.ModalOutcome<T>.Accepted.Equals
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.Equals
+  nameWithType: ModalOutcome<T>.Accepted.Equals
+  nameWithType.vb: ModalOutcome(Of T).Accepted.Equals
+- uid: Forma.ModalOutcome`1.Accepted.GetHashCode
+  name: GetHashCode()
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_GetHashCode
+  commentId: M:Forma.ModalOutcome`1.Accepted.GetHashCode
+  fullName: Forma.ModalOutcome<T>.Accepted.GetHashCode()
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.GetHashCode()
+  nameWithType: ModalOutcome<T>.Accepted.GetHashCode()
+  nameWithType.vb: ModalOutcome(Of T).Accepted.GetHashCode()
+- uid: Forma.ModalOutcome`1.Accepted.GetHashCode*
+  name: GetHashCode
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_GetHashCode_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.GetHashCode
+  fullName: Forma.ModalOutcome<T>.Accepted.GetHashCode
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.GetHashCode
+  nameWithType: ModalOutcome<T>.Accepted.GetHashCode
+  nameWithType.vb: ModalOutcome(Of T).Accepted.GetHashCode
+- uid: Forma.ModalOutcome`1.Accepted.PrintMembers(System.Text.StringBuilder)
+  name: PrintMembers(StringBuilder)
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_PrintMembers_System_Text_StringBuilder_
+  commentId: M:Forma.ModalOutcome`1.Accepted.PrintMembers(System.Text.StringBuilder)
+  fullName: Forma.ModalOutcome<T>.Accepted.PrintMembers(System.Text.StringBuilder)
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.PrintMembers(System.Text.StringBuilder)
+  nameWithType: ModalOutcome<T>.Accepted.PrintMembers(StringBuilder)
+  nameWithType.vb: ModalOutcome(Of T).Accepted.PrintMembers(StringBuilder)
+- uid: Forma.ModalOutcome`1.Accepted.PrintMembers*
+  name: PrintMembers
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_PrintMembers_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.PrintMembers
+  fullName: Forma.ModalOutcome<T>.Accepted.PrintMembers
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.PrintMembers
+  nameWithType: ModalOutcome<T>.Accepted.PrintMembers
+  nameWithType.vb: ModalOutcome(Of T).Accepted.PrintMembers
+- uid: Forma.ModalOutcome`1.Accepted.ToString
+  name: ToString()
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_ToString
+  commentId: M:Forma.ModalOutcome`1.Accepted.ToString
+  fullName: Forma.ModalOutcome<T>.Accepted.ToString()
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.ToString()
+  nameWithType: ModalOutcome<T>.Accepted.ToString()
+  nameWithType.vb: ModalOutcome(Of T).Accepted.ToString()
+- uid: Forma.ModalOutcome`1.Accepted.ToString*
+  name: ToString
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_ToString_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.ToString
+  fullName: Forma.ModalOutcome<T>.Accepted.ToString
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.ToString
+  nameWithType: ModalOutcome<T>.Accepted.ToString
+  nameWithType.vb: ModalOutcome(Of T).Accepted.ToString
+- uid: Forma.ModalOutcome`1.Accepted.Value
+  name: Value
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_Value
+  commentId: P:Forma.ModalOutcome`1.Accepted.Value
+  fullName: Forma.ModalOutcome<T>.Accepted.Value
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.Value
+  nameWithType: ModalOutcome<T>.Accepted.Value
+  nameWithType.vb: ModalOutcome(Of T).Accepted.Value
+- uid: Forma.ModalOutcome`1.Accepted.Value*
+  name: Value
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_Value_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.Value
+  fullName: Forma.ModalOutcome<T>.Accepted.Value
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.Value
+  nameWithType: ModalOutcome<T>.Accepted.Value
+  nameWithType.vb: ModalOutcome(Of T).Accepted.Value
+- uid: Forma.ModalOutcome`1.Accepted.op_Equality(Forma.ModalOutcome{`0}.Accepted,Forma.ModalOutcome{`0}.Accepted)
+  name: operator ==(Accepted?, Accepted?)
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_op_Equality_Forma_ModalOutcome__0__Accepted_Forma_ModalOutcome__0__Accepted_
+  commentId: M:Forma.ModalOutcome`1.Accepted.op_Equality(Forma.ModalOutcome{`0}.Accepted,Forma.ModalOutcome{`0}.Accepted)
+  name.vb: =(Accepted, Accepted)
+  fullName: Forma.ModalOutcome<T>.Accepted.operator ==(Forma.ModalOutcome<T>.Accepted?, Forma.ModalOutcome<T>.Accepted?)
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.=(Forma.ModalOutcome(Of T).Accepted, Forma.ModalOutcome(Of T).Accepted)
+  nameWithType: ModalOutcome<T>.Accepted.operator ==(ModalOutcome<T>.Accepted?, ModalOutcome<T>.Accepted?)
+  nameWithType.vb: ModalOutcome(Of T).Accepted.=(ModalOutcome(Of T).Accepted, ModalOutcome(Of T).Accepted)
+- uid: Forma.ModalOutcome`1.Accepted.op_Equality*
+  name: operator ==
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_op_Equality_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.op_Equality
+  name.vb: =
+  fullName: Forma.ModalOutcome<T>.Accepted.operator ==
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.=
+  nameWithType: ModalOutcome<T>.Accepted.operator ==
+  nameWithType.vb: ModalOutcome(Of T).Accepted.=
+- uid: Forma.ModalOutcome`1.Accepted.op_Inequality(Forma.ModalOutcome{`0}.Accepted,Forma.ModalOutcome{`0}.Accepted)
+  name: operator !=(Accepted?, Accepted?)
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_op_Inequality_Forma_ModalOutcome__0__Accepted_Forma_ModalOutcome__0__Accepted_
+  commentId: M:Forma.ModalOutcome`1.Accepted.op_Inequality(Forma.ModalOutcome{`0}.Accepted,Forma.ModalOutcome{`0}.Accepted)
+  name.vb: <>(Accepted, Accepted)
+  fullName: Forma.ModalOutcome<T>.Accepted.operator !=(Forma.ModalOutcome<T>.Accepted?, Forma.ModalOutcome<T>.Accepted?)
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.<>(Forma.ModalOutcome(Of T).Accepted, Forma.ModalOutcome(Of T).Accepted)
+  nameWithType: ModalOutcome<T>.Accepted.operator !=(ModalOutcome<T>.Accepted?, ModalOutcome<T>.Accepted?)
+  nameWithType.vb: ModalOutcome(Of T).Accepted.<>(ModalOutcome(Of T).Accepted, ModalOutcome(Of T).Accepted)
+- uid: Forma.ModalOutcome`1.Accepted.op_Inequality*
+  name: operator !=
+  href: api/Forma.ModalOutcome-1.Accepted.html#Forma_ModalOutcome_1_Accepted_op_Inequality_
+  commentId: Overload:Forma.ModalOutcome`1.Accepted.op_Inequality
+  name.vb: <>
+  fullName: Forma.ModalOutcome<T>.Accepted.operator !=
+  fullName.vb: Forma.ModalOutcome(Of T).Accepted.<>
+  nameWithType: ModalOutcome<T>.Accepted.operator !=
+  nameWithType.vb: ModalOutcome(Of T).Accepted.<>
+- uid: Forma.ModalOutcome`1.Cancelled
+  name: ModalOutcome<T>.Cancelled
+  href: api/Forma.ModalOutcome-1.Cancelled.html
+  commentId: T:Forma.ModalOutcome`1.Cancelled
+  name.vb: ModalOutcome(Of T).Cancelled
+  fullName: Forma.ModalOutcome<T>.Cancelled
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled
+  nameWithType: ModalOutcome<T>.Cancelled
+  nameWithType.vb: ModalOutcome(Of T).Cancelled
+- uid: Forma.ModalOutcome`1.Cancelled.#ctor(Forma.ModalCancelReason)
+  name: Cancelled(ModalCancelReason)
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled__ctor_Forma_ModalCancelReason_
+  commentId: M:Forma.ModalOutcome`1.Cancelled.#ctor(Forma.ModalCancelReason)
+  name.vb: New(ModalCancelReason)
+  fullName: Forma.ModalOutcome<T>.Cancelled.Cancelled(Forma.ModalCancelReason)
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.New(Forma.ModalCancelReason)
+  nameWithType: ModalOutcome<T>.Cancelled.Cancelled(ModalCancelReason)
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.New(ModalCancelReason)
+- uid: Forma.ModalOutcome`1.Cancelled.#ctor*
+  name: Cancelled
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled__ctor_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.#ctor
+  name.vb: New
+  fullName: Forma.ModalOutcome<T>.Cancelled.Cancelled
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.New
+  nameWithType: ModalOutcome<T>.Cancelled.Cancelled
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.New
+- uid: Forma.ModalOutcome`1.Cancelled.Deconstruct(Forma.ModalCancelReason@)
+  name: Deconstruct(out ModalCancelReason)
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_Deconstruct_Forma_ModalCancelReason__
+  commentId: M:Forma.ModalOutcome`1.Cancelled.Deconstruct(Forma.ModalCancelReason@)
+  name.vb: Deconstruct(ModalCancelReason)
+  fullName: Forma.ModalOutcome<T>.Cancelled.Deconstruct(out Forma.ModalCancelReason)
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.Deconstruct(Forma.ModalCancelReason)
+  nameWithType: ModalOutcome<T>.Cancelled.Deconstruct(out ModalCancelReason)
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.Deconstruct(ModalCancelReason)
+- uid: Forma.ModalOutcome`1.Cancelled.Deconstruct*
+  name: Deconstruct
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_Deconstruct_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.Deconstruct
+  fullName: Forma.ModalOutcome<T>.Cancelled.Deconstruct
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.Deconstruct
+  nameWithType: ModalOutcome<T>.Cancelled.Deconstruct
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.Deconstruct
+- uid: Forma.ModalOutcome`1.Cancelled.EqualityContract
+  name: EqualityContract
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_EqualityContract
+  commentId: P:Forma.ModalOutcome`1.Cancelled.EqualityContract
+  fullName: Forma.ModalOutcome<T>.Cancelled.EqualityContract
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.EqualityContract
+  nameWithType: ModalOutcome<T>.Cancelled.EqualityContract
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.EqualityContract
+- uid: Forma.ModalOutcome`1.Cancelled.EqualityContract*
+  name: EqualityContract
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_EqualityContract_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.EqualityContract
+  fullName: Forma.ModalOutcome<T>.Cancelled.EqualityContract
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.EqualityContract
+  nameWithType: ModalOutcome<T>.Cancelled.EqualityContract
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.EqualityContract
+- uid: Forma.ModalOutcome`1.Cancelled.Equals(Forma.ModalOutcome{`0})
+  name: Equals(ModalOutcome<T>?)
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_Equals_Forma_ModalOutcome__0__
+  commentId: M:Forma.ModalOutcome`1.Cancelled.Equals(Forma.ModalOutcome{`0})
+  name.vb: Equals(ModalOutcome(Of T))
+  fullName: Forma.ModalOutcome<T>.Cancelled.Equals(Forma.ModalOutcome<T>?)
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.Equals(Forma.ModalOutcome(Of T))
+  nameWithType: ModalOutcome<T>.Cancelled.Equals(ModalOutcome<T>?)
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.Equals(ModalOutcome(Of T))
+- uid: Forma.ModalOutcome`1.Cancelled.Equals(Forma.ModalOutcome{`0}.Cancelled)
+  name: Equals(Cancelled?)
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_Equals_Forma_ModalOutcome__0__Cancelled_
+  commentId: M:Forma.ModalOutcome`1.Cancelled.Equals(Forma.ModalOutcome{`0}.Cancelled)
+  name.vb: Equals(Cancelled)
+  fullName: Forma.ModalOutcome<T>.Cancelled.Equals(Forma.ModalOutcome<T>.Cancelled?)
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.Equals(Forma.ModalOutcome(Of T).Cancelled)
+  nameWithType: ModalOutcome<T>.Cancelled.Equals(ModalOutcome<T>.Cancelled?)
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.Equals(ModalOutcome(Of T).Cancelled)
+- uid: Forma.ModalOutcome`1.Cancelled.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_Equals_System_Object_
+  commentId: M:Forma.ModalOutcome`1.Cancelled.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Forma.ModalOutcome<T>.Cancelled.Equals(object?)
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.Equals(Object)
+  nameWithType: ModalOutcome<T>.Cancelled.Equals(object?)
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.Equals(Object)
+- uid: Forma.ModalOutcome`1.Cancelled.Equals*
+  name: Equals
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_Equals_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.Equals
+  fullName: Forma.ModalOutcome<T>.Cancelled.Equals
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.Equals
+  nameWithType: ModalOutcome<T>.Cancelled.Equals
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.Equals
+- uid: Forma.ModalOutcome`1.Cancelled.GetHashCode
+  name: GetHashCode()
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_GetHashCode
+  commentId: M:Forma.ModalOutcome`1.Cancelled.GetHashCode
+  fullName: Forma.ModalOutcome<T>.Cancelled.GetHashCode()
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.GetHashCode()
+  nameWithType: ModalOutcome<T>.Cancelled.GetHashCode()
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.GetHashCode()
+- uid: Forma.ModalOutcome`1.Cancelled.GetHashCode*
+  name: GetHashCode
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_GetHashCode_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.GetHashCode
+  fullName: Forma.ModalOutcome<T>.Cancelled.GetHashCode
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.GetHashCode
+  nameWithType: ModalOutcome<T>.Cancelled.GetHashCode
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.GetHashCode
+- uid: Forma.ModalOutcome`1.Cancelled.PrintMembers(System.Text.StringBuilder)
+  name: PrintMembers(StringBuilder)
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_PrintMembers_System_Text_StringBuilder_
+  commentId: M:Forma.ModalOutcome`1.Cancelled.PrintMembers(System.Text.StringBuilder)
+  fullName: Forma.ModalOutcome<T>.Cancelled.PrintMembers(System.Text.StringBuilder)
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.PrintMembers(System.Text.StringBuilder)
+  nameWithType: ModalOutcome<T>.Cancelled.PrintMembers(StringBuilder)
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.PrintMembers(StringBuilder)
+- uid: Forma.ModalOutcome`1.Cancelled.PrintMembers*
+  name: PrintMembers
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_PrintMembers_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.PrintMembers
+  fullName: Forma.ModalOutcome<T>.Cancelled.PrintMembers
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.PrintMembers
+  nameWithType: ModalOutcome<T>.Cancelled.PrintMembers
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.PrintMembers
+- uid: Forma.ModalOutcome`1.Cancelled.Reason
+  name: Reason
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_Reason
+  commentId: P:Forma.ModalOutcome`1.Cancelled.Reason
+  fullName: Forma.ModalOutcome<T>.Cancelled.Reason
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.Reason
+  nameWithType: ModalOutcome<T>.Cancelled.Reason
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.Reason
+- uid: Forma.ModalOutcome`1.Cancelled.Reason*
+  name: Reason
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_Reason_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.Reason
+  fullName: Forma.ModalOutcome<T>.Cancelled.Reason
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.Reason
+  nameWithType: ModalOutcome<T>.Cancelled.Reason
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.Reason
+- uid: Forma.ModalOutcome`1.Cancelled.ToString
+  name: ToString()
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_ToString
+  commentId: M:Forma.ModalOutcome`1.Cancelled.ToString
+  fullName: Forma.ModalOutcome<T>.Cancelled.ToString()
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.ToString()
+  nameWithType: ModalOutcome<T>.Cancelled.ToString()
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.ToString()
+- uid: Forma.ModalOutcome`1.Cancelled.ToString*
+  name: ToString
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_ToString_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.ToString
+  fullName: Forma.ModalOutcome<T>.Cancelled.ToString
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.ToString
+  nameWithType: ModalOutcome<T>.Cancelled.ToString
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.ToString
+- uid: Forma.ModalOutcome`1.Cancelled.op_Equality(Forma.ModalOutcome{`0}.Cancelled,Forma.ModalOutcome{`0}.Cancelled)
+  name: operator ==(Cancelled?, Cancelled?)
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_op_Equality_Forma_ModalOutcome__0__Cancelled_Forma_ModalOutcome__0__Cancelled_
+  commentId: M:Forma.ModalOutcome`1.Cancelled.op_Equality(Forma.ModalOutcome{`0}.Cancelled,Forma.ModalOutcome{`0}.Cancelled)
+  name.vb: =(Cancelled, Cancelled)
+  fullName: Forma.ModalOutcome<T>.Cancelled.operator ==(Forma.ModalOutcome<T>.Cancelled?, Forma.ModalOutcome<T>.Cancelled?)
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.=(Forma.ModalOutcome(Of T).Cancelled, Forma.ModalOutcome(Of T).Cancelled)
+  nameWithType: ModalOutcome<T>.Cancelled.operator ==(ModalOutcome<T>.Cancelled?, ModalOutcome<T>.Cancelled?)
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.=(ModalOutcome(Of T).Cancelled, ModalOutcome(Of T).Cancelled)
+- uid: Forma.ModalOutcome`1.Cancelled.op_Equality*
+  name: operator ==
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_op_Equality_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.op_Equality
+  name.vb: =
+  fullName: Forma.ModalOutcome<T>.Cancelled.operator ==
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.=
+  nameWithType: ModalOutcome<T>.Cancelled.operator ==
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.=
+- uid: Forma.ModalOutcome`1.Cancelled.op_Inequality(Forma.ModalOutcome{`0}.Cancelled,Forma.ModalOutcome{`0}.Cancelled)
+  name: operator !=(Cancelled?, Cancelled?)
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_op_Inequality_Forma_ModalOutcome__0__Cancelled_Forma_ModalOutcome__0__Cancelled_
+  commentId: M:Forma.ModalOutcome`1.Cancelled.op_Inequality(Forma.ModalOutcome{`0}.Cancelled,Forma.ModalOutcome{`0}.Cancelled)
+  name.vb: <>(Cancelled, Cancelled)
+  fullName: Forma.ModalOutcome<T>.Cancelled.operator !=(Forma.ModalOutcome<T>.Cancelled?, Forma.ModalOutcome<T>.Cancelled?)
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.<>(Forma.ModalOutcome(Of T).Cancelled, Forma.ModalOutcome(Of T).Cancelled)
+  nameWithType: ModalOutcome<T>.Cancelled.operator !=(ModalOutcome<T>.Cancelled?, ModalOutcome<T>.Cancelled?)
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.<>(ModalOutcome(Of T).Cancelled, ModalOutcome(Of T).Cancelled)
+- uid: Forma.ModalOutcome`1.Cancelled.op_Inequality*
+  name: operator !=
+  href: api/Forma.ModalOutcome-1.Cancelled.html#Forma_ModalOutcome_1_Cancelled_op_Inequality_
+  commentId: Overload:Forma.ModalOutcome`1.Cancelled.op_Inequality
+  name.vb: <>
+  fullName: Forma.ModalOutcome<T>.Cancelled.operator !=
+  fullName.vb: Forma.ModalOutcome(Of T).Cancelled.<>
+  nameWithType: ModalOutcome<T>.Cancelled.operator !=
+  nameWithType.vb: ModalOutcome(Of T).Cancelled.<>
+- uid: Forma.ModalOutcome`1.EqualityContract
+  name: EqualityContract
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_EqualityContract
+  commentId: P:Forma.ModalOutcome`1.EqualityContract
+  fullName: Forma.ModalOutcome<T>.EqualityContract
+  fullName.vb: Forma.ModalOutcome(Of T).EqualityContract
+  nameWithType: ModalOutcome<T>.EqualityContract
+  nameWithType.vb: ModalOutcome(Of T).EqualityContract
+- uid: Forma.ModalOutcome`1.EqualityContract*
+  name: EqualityContract
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_EqualityContract_
+  commentId: Overload:Forma.ModalOutcome`1.EqualityContract
+  fullName: Forma.ModalOutcome<T>.EqualityContract
+  fullName.vb: Forma.ModalOutcome(Of T).EqualityContract
+  nameWithType: ModalOutcome<T>.EqualityContract
+  nameWithType.vb: ModalOutcome(Of T).EqualityContract
+- uid: Forma.ModalOutcome`1.Equals(Forma.ModalOutcome{`0})
+  name: Equals(ModalOutcome<T>?)
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_Equals_Forma_ModalOutcome__0__
+  commentId: M:Forma.ModalOutcome`1.Equals(Forma.ModalOutcome{`0})
+  name.vb: Equals(ModalOutcome(Of T))
+  fullName: Forma.ModalOutcome<T>.Equals(Forma.ModalOutcome<T>?)
+  fullName.vb: Forma.ModalOutcome(Of T).Equals(Forma.ModalOutcome(Of T))
+  nameWithType: ModalOutcome<T>.Equals(ModalOutcome<T>?)
+  nameWithType.vb: ModalOutcome(Of T).Equals(ModalOutcome(Of T))
+- uid: Forma.ModalOutcome`1.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_Equals_System_Object_
+  commentId: M:Forma.ModalOutcome`1.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Forma.ModalOutcome<T>.Equals(object?)
+  fullName.vb: Forma.ModalOutcome(Of T).Equals(Object)
+  nameWithType: ModalOutcome<T>.Equals(object?)
+  nameWithType.vb: ModalOutcome(Of T).Equals(Object)
+- uid: Forma.ModalOutcome`1.Equals*
+  name: Equals
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_Equals_
+  commentId: Overload:Forma.ModalOutcome`1.Equals
+  fullName: Forma.ModalOutcome<T>.Equals
+  fullName.vb: Forma.ModalOutcome(Of T).Equals
+  nameWithType: ModalOutcome<T>.Equals
+  nameWithType.vb: ModalOutcome(Of T).Equals
+- uid: Forma.ModalOutcome`1.GetHashCode
+  name: GetHashCode()
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_GetHashCode
+  commentId: M:Forma.ModalOutcome`1.GetHashCode
+  fullName: Forma.ModalOutcome<T>.GetHashCode()
+  fullName.vb: Forma.ModalOutcome(Of T).GetHashCode()
+  nameWithType: ModalOutcome<T>.GetHashCode()
+  nameWithType.vb: ModalOutcome(Of T).GetHashCode()
+- uid: Forma.ModalOutcome`1.GetHashCode*
+  name: GetHashCode
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_GetHashCode_
+  commentId: Overload:Forma.ModalOutcome`1.GetHashCode
+  fullName: Forma.ModalOutcome<T>.GetHashCode
+  fullName.vb: Forma.ModalOutcome(Of T).GetHashCode
+  nameWithType: ModalOutcome<T>.GetHashCode
+  nameWithType.vb: ModalOutcome(Of T).GetHashCode
+- uid: Forma.ModalOutcome`1.PrintMembers(System.Text.StringBuilder)
+  name: PrintMembers(StringBuilder)
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_PrintMembers_System_Text_StringBuilder_
+  commentId: M:Forma.ModalOutcome`1.PrintMembers(System.Text.StringBuilder)
+  fullName: Forma.ModalOutcome<T>.PrintMembers(System.Text.StringBuilder)
+  fullName.vb: Forma.ModalOutcome(Of T).PrintMembers(System.Text.StringBuilder)
+  nameWithType: ModalOutcome<T>.PrintMembers(StringBuilder)
+  nameWithType.vb: ModalOutcome(Of T).PrintMembers(StringBuilder)
+- uid: Forma.ModalOutcome`1.PrintMembers*
+  name: PrintMembers
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_PrintMembers_
+  commentId: Overload:Forma.ModalOutcome`1.PrintMembers
+  fullName: Forma.ModalOutcome<T>.PrintMembers
+  fullName.vb: Forma.ModalOutcome(Of T).PrintMembers
+  nameWithType: ModalOutcome<T>.PrintMembers
+  nameWithType.vb: ModalOutcome(Of T).PrintMembers
+- uid: Forma.ModalOutcome`1.ToString
+  name: ToString()
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_ToString
+  commentId: M:Forma.ModalOutcome`1.ToString
+  fullName: Forma.ModalOutcome<T>.ToString()
+  fullName.vb: Forma.ModalOutcome(Of T).ToString()
+  nameWithType: ModalOutcome<T>.ToString()
+  nameWithType.vb: ModalOutcome(Of T).ToString()
+- uid: Forma.ModalOutcome`1.ToString*
+  name: ToString
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_ToString_
+  commentId: Overload:Forma.ModalOutcome`1.ToString
+  fullName: Forma.ModalOutcome<T>.ToString
+  fullName.vb: Forma.ModalOutcome(Of T).ToString
+  nameWithType: ModalOutcome<T>.ToString
+  nameWithType.vb: ModalOutcome(Of T).ToString
+- uid: Forma.ModalOutcome`1.op_Equality(Forma.ModalOutcome{`0},Forma.ModalOutcome{`0})
+  name: operator ==(ModalOutcome<T>?, ModalOutcome<T>?)
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_op_Equality_Forma_ModalOutcome__0__Forma_ModalOutcome__0__
+  commentId: M:Forma.ModalOutcome`1.op_Equality(Forma.ModalOutcome{`0},Forma.ModalOutcome{`0})
+  name.vb: =(ModalOutcome(Of T), ModalOutcome(Of T))
+  fullName: Forma.ModalOutcome<T>.operator ==(Forma.ModalOutcome<T>?, Forma.ModalOutcome<T>?)
+  fullName.vb: Forma.ModalOutcome(Of T).=(Forma.ModalOutcome(Of T), Forma.ModalOutcome(Of T))
+  nameWithType: ModalOutcome<T>.operator ==(ModalOutcome<T>?, ModalOutcome<T>?)
+  nameWithType.vb: ModalOutcome(Of T).=(ModalOutcome(Of T), ModalOutcome(Of T))
+- uid: Forma.ModalOutcome`1.op_Equality*
+  name: operator ==
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_op_Equality_
+  commentId: Overload:Forma.ModalOutcome`1.op_Equality
+  name.vb: =
+  fullName: Forma.ModalOutcome<T>.operator ==
+  fullName.vb: Forma.ModalOutcome(Of T).=
+  nameWithType: ModalOutcome<T>.operator ==
+  nameWithType.vb: ModalOutcome(Of T).=
+- uid: Forma.ModalOutcome`1.op_Inequality(Forma.ModalOutcome{`0},Forma.ModalOutcome{`0})
+  name: operator !=(ModalOutcome<T>?, ModalOutcome<T>?)
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_op_Inequality_Forma_ModalOutcome__0__Forma_ModalOutcome__0__
+  commentId: M:Forma.ModalOutcome`1.op_Inequality(Forma.ModalOutcome{`0},Forma.ModalOutcome{`0})
+  name.vb: <>(ModalOutcome(Of T), ModalOutcome(Of T))
+  fullName: Forma.ModalOutcome<T>.operator !=(Forma.ModalOutcome<T>?, Forma.ModalOutcome<T>?)
+  fullName.vb: Forma.ModalOutcome(Of T).<>(Forma.ModalOutcome(Of T), Forma.ModalOutcome(Of T))
+  nameWithType: ModalOutcome<T>.operator !=(ModalOutcome<T>?, ModalOutcome<T>?)
+  nameWithType.vb: ModalOutcome(Of T).<>(ModalOutcome(Of T), ModalOutcome(Of T))
+- uid: Forma.ModalOutcome`1.op_Inequality*
+  name: operator !=
+  href: api/Forma.ModalOutcome-1.html#Forma_ModalOutcome_1_op_Inequality_
+  commentId: Overload:Forma.ModalOutcome`1.op_Inequality
+  name.vb: <>
+  fullName: Forma.ModalOutcome<T>.operator !=
+  fullName.vb: Forma.ModalOutcome(Of T).<>
+  nameWithType: ModalOutcome<T>.operator !=
+  nameWithType.vb: ModalOutcome(Of T).<>
+- uid: Forma.ModalSession`1
+  name: ModalSession<T>
+  href: api/Forma.ModalSession-1.html
+  commentId: T:Forma.ModalSession`1
+  name.vb: ModalSession(Of T)
+  fullName: Forma.ModalSession<T>
+  fullName.vb: Forma.ModalSession(Of T)
+  nameWithType: ModalSession<T>
+  nameWithType.vb: ModalSession(Of T)
+- uid: Forma.ModalSession`1.#ctor(Forma.UIContext,Forma.Popup,System.Action{`0},System.IDisposable,System.Threading.CancellationToken)
+  name: ModalSession(UIContext, Popup, Action<T>, IDisposable, CancellationToken)
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1__ctor_Forma_UIContext_Forma_Popup_System_Action__0__System_IDisposable_System_Threading_CancellationToken_
+  commentId: M:Forma.ModalSession`1.#ctor(Forma.UIContext,Forma.Popup,System.Action{`0},System.IDisposable,System.Threading.CancellationToken)
+  name.vb: New(UIContext, Popup, Action(Of T), IDisposable, CancellationToken)
+  fullName: Forma.ModalSession<T>.ModalSession(Forma.UIContext, Forma.Popup, System.Action<T>, System.IDisposable, System.Threading.CancellationToken)
+  fullName.vb: Forma.ModalSession(Of T).New(Forma.UIContext, Forma.Popup, System.Action(Of T), System.IDisposable, System.Threading.CancellationToken)
+  nameWithType: ModalSession<T>.ModalSession(UIContext, Popup, Action<T>, IDisposable, CancellationToken)
+  nameWithType.vb: ModalSession(Of T).New(UIContext, Popup, Action(Of T), IDisposable, CancellationToken)
+- uid: Forma.ModalSession`1.#ctor*
+  name: ModalSession
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1__ctor_
+  commentId: Overload:Forma.ModalSession`1.#ctor
+  name.vb: New
+  fullName: Forma.ModalSession<T>.ModalSession
+  fullName.vb: Forma.ModalSession(Of T).New
+  nameWithType: ModalSession<T>.ModalSession
+  nameWithType.vb: ModalSession(Of T).New
+- uid: Forma.ModalSession`1.Cancel(Forma.ModalCancelReason)
+  name: Cancel(ModalCancelReason)
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Cancel_Forma_ModalCancelReason_
+  commentId: M:Forma.ModalSession`1.Cancel(Forma.ModalCancelReason)
+  fullName: Forma.ModalSession<T>.Cancel(Forma.ModalCancelReason)
+  fullName.vb: Forma.ModalSession(Of T).Cancel(Forma.ModalCancelReason)
+  nameWithType: ModalSession<T>.Cancel(ModalCancelReason)
+  nameWithType.vb: ModalSession(Of T).Cancel(ModalCancelReason)
+- uid: Forma.ModalSession`1.Cancel*
+  name: Cancel
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Cancel_
+  commentId: Overload:Forma.ModalSession`1.Cancel
+  fullName: Forma.ModalSession<T>.Cancel
+  fullName.vb: Forma.ModalSession(Of T).Cancel
+  nameWithType: ModalSession<T>.Cancel
+  nameWithType.vb: ModalSession(Of T).Cancel
+- uid: Forma.ModalSession`1.Completion
+  name: Completion
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Completion
+  commentId: P:Forma.ModalSession`1.Completion
+  fullName: Forma.ModalSession<T>.Completion
+  fullName.vb: Forma.ModalSession(Of T).Completion
+  nameWithType: ModalSession<T>.Completion
+  nameWithType.vb: ModalSession(Of T).Completion
+- uid: Forma.ModalSession`1.Completion*
+  name: Completion
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Completion_
+  commentId: Overload:Forma.ModalSession`1.Completion
+  fullName: Forma.ModalSession<T>.Completion
+  fullName.vb: Forma.ModalSession(Of T).Completion
+  nameWithType: ModalSession<T>.Completion
+  nameWithType.vb: ModalSession(Of T).Completion
+- uid: Forma.ModalSession`1.Dispose
+  name: Dispose()
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Dispose
+  commentId: M:Forma.ModalSession`1.Dispose
+  fullName: Forma.ModalSession<T>.Dispose()
+  fullName.vb: Forma.ModalSession(Of T).Dispose()
+  nameWithType: ModalSession<T>.Dispose()
+  nameWithType.vb: ModalSession(Of T).Dispose()
+- uid: Forma.ModalSession`1.Dispose*
+  name: Dispose
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Dispose_
+  commentId: Overload:Forma.ModalSession`1.Dispose
+  fullName: Forma.ModalSession<T>.Dispose
+  fullName.vb: Forma.ModalSession(Of T).Dispose
+  nameWithType: ModalSession<T>.Dispose
+  nameWithType.vb: ModalSession(Of T).Dispose
+- uid: Forma.ModalSession`1.Open(Microsoft.Xna.Framework.Vector2,Forma.Control)
+  name: Open(Vector2, Control)
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Open_Microsoft_Xna_Framework_Vector2_Forma_Control_
+  commentId: M:Forma.ModalSession`1.Open(Microsoft.Xna.Framework.Vector2,Forma.Control)
+  fullName: Forma.ModalSession<T>.Open(Microsoft.Xna.Framework.Vector2, Forma.Control)
+  fullName.vb: Forma.ModalSession(Of T).Open(Microsoft.Xna.Framework.Vector2, Forma.Control)
+  nameWithType: ModalSession<T>.Open(Vector2, Control)
+  nameWithType.vb: ModalSession(Of T).Open(Vector2, Control)
+- uid: Forma.ModalSession`1.Open*
+  name: Open
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Open_
+  commentId: Overload:Forma.ModalSession`1.Open
+  fullName: Forma.ModalSession<T>.Open
+  fullName.vb: Forma.ModalSession(Of T).Open
+  nameWithType: ModalSession<T>.Open
+  nameWithType.vb: ModalSession(Of T).Open
+- uid: Forma.ModalSession`1.TryAccept(`0)
+  name: TryAccept(T)
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_TryAccept__0_
+  commentId: M:Forma.ModalSession`1.TryAccept(`0)
+  fullName: Forma.ModalSession<T>.TryAccept(T)
+  fullName.vb: Forma.ModalSession(Of T).TryAccept(T)
+  nameWithType: ModalSession<T>.TryAccept(T)
+  nameWithType.vb: ModalSession(Of T).TryAccept(T)
+- uid: Forma.ModalSession`1.TryAccept*
+  name: TryAccept
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_TryAccept_
+  commentId: Overload:Forma.ModalSession`1.TryAccept
+  fullName: Forma.ModalSession<T>.TryAccept
+  fullName.vb: Forma.ModalSession(Of T).TryAccept
+  nameWithType: ModalSession<T>.TryAccept
+  nameWithType.vb: ModalSession(Of T).TryAccept
 - uid: Forma.MouseFilter
   name: MouseFilter
   href: api/Forma.MouseFilter.html
@@ -47198,6 +48292,18 @@ references:
   commentId: Overload:Forma.TextBlock.GetCharacterBounds
   fullName: Forma.TextBlock.GetCharacterBounds
   nameWithType: TextBlock.GetCharacterBounds
+- uid: Forma.TextBlock.GetMetaUnderPosition(Microsoft.Xna.Framework.Point)
+  name: GetMetaUnderPosition(Point)
+  href: api/Forma.TextBlock.html#Forma_TextBlock_GetMetaUnderPosition_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.TextBlock.GetMetaUnderPosition(Microsoft.Xna.Framework.Point)
+  fullName: Forma.TextBlock.GetMetaUnderPosition(Microsoft.Xna.Framework.Point)
+  nameWithType: TextBlock.GetMetaUnderPosition(Point)
+- uid: Forma.TextBlock.GetMetaUnderPosition*
+  name: GetMetaUnderPosition
+  href: api/Forma.TextBlock.html#Forma_TextBlock_GetMetaUnderPosition_
+  commentId: Overload:Forma.TextBlock.GetMetaUnderPosition
+  fullName: Forma.TextBlock.GetMetaUnderPosition
+  nameWithType: TextBlock.GetMetaUnderPosition
 - uid: Forma.TextBlock.GetMinimumSize
   name: GetMinimumSize()
   href: api/Forma.TextBlock.html#Forma_TextBlock_GetMinimumSize
@@ -47258,6 +48364,12 @@ references:
   commentId: Overload:Forma.TextBlock.LineHeight
   fullName: Forma.TextBlock.LineHeight
   nameWithType: TextBlock.LineHeight
+- uid: Forma.TextBlock.MetaClicked
+  name: MetaClicked
+  href: api/Forma.TextBlock.html#Forma_TextBlock_MetaClicked
+  commentId: E:Forma.TextBlock.MetaClicked
+  fullName: Forma.TextBlock.MetaClicked
+  nameWithType: TextBlock.MetaClicked
 - uid: Forma.TextBlock.Text
   name: Text
   href: api/Forma.TextBlock.html#Forma_TextBlock_Text
@@ -50390,6 +51502,18 @@ references:
   commentId: Overload:Forma.TextLayoutEngine.Clear
   fullName: Forma.TextLayoutEngine.Clear
   nameWithType: TextLayoutEngine.Clear
+- uid: Forma.TextLayoutEngine.ClearSharedCaches
+  name: ClearSharedCaches()
+  href: api/Forma.TextLayoutEngine.html#Forma_TextLayoutEngine_ClearSharedCaches
+  commentId: M:Forma.TextLayoutEngine.ClearSharedCaches
+  fullName: Forma.TextLayoutEngine.ClearSharedCaches()
+  nameWithType: TextLayoutEngine.ClearSharedCaches()
+- uid: Forma.TextLayoutEngine.ClearSharedCaches*
+  name: ClearSharedCaches
+  href: api/Forma.TextLayoutEngine.html#Forma_TextLayoutEngine_ClearSharedCaches_
+  commentId: Overload:Forma.TextLayoutEngine.ClearSharedCaches
+  fullName: Forma.TextLayoutEngine.ClearSharedCaches
+  nameWithType: TextLayoutEngine.ClearSharedCaches
 - uid: Forma.TextLayoutEngine.Diagnostics
   name: Diagnostics
   href: api/Forma.TextLayoutEngine.html#Forma_TextLayoutEngine_Diagnostics
@@ -58544,6 +59668,72 @@ references:
   commentId: Overload:Forma.UIComponent.Draw
   fullName: Forma.UIComponent.Draw
   nameWithType: UIComponent.Draw
+- uid: Forma.UIComponent.OnEnabledChanged(System.Object,System.EventArgs)
+  name: OnEnabledChanged(object, EventArgs)
+  href: api/Forma.UIComponent.html#Forma_UIComponent_OnEnabledChanged_System_Object_System_EventArgs_
+  commentId: M:Forma.UIComponent.OnEnabledChanged(System.Object,System.EventArgs)
+  name.vb: OnEnabledChanged(Object, EventArgs)
+  fullName: Forma.UIComponent.OnEnabledChanged(object, System.EventArgs)
+  fullName.vb: Forma.UIComponent.OnEnabledChanged(Object, System.EventArgs)
+  nameWithType: UIComponent.OnEnabledChanged(object, EventArgs)
+  nameWithType.vb: UIComponent.OnEnabledChanged(Object, EventArgs)
+- uid: Forma.UIComponent.OnEnabledChanged*
+  name: OnEnabledChanged
+  href: api/Forma.UIComponent.html#Forma_UIComponent_OnEnabledChanged_
+  commentId: Overload:Forma.UIComponent.OnEnabledChanged
+  fullName: Forma.UIComponent.OnEnabledChanged
+  nameWithType: UIComponent.OnEnabledChanged
+- uid: Forma.UIComponent.OnVisibleChanged(System.Object,System.EventArgs)
+  name: OnVisibleChanged(object, EventArgs)
+  href: api/Forma.UIComponent.html#Forma_UIComponent_OnVisibleChanged_System_Object_System_EventArgs_
+  commentId: M:Forma.UIComponent.OnVisibleChanged(System.Object,System.EventArgs)
+  name.vb: OnVisibleChanged(Object, EventArgs)
+  fullName: Forma.UIComponent.OnVisibleChanged(object, System.EventArgs)
+  fullName.vb: Forma.UIComponent.OnVisibleChanged(Object, System.EventArgs)
+  nameWithType: UIComponent.OnVisibleChanged(object, EventArgs)
+  nameWithType.vb: UIComponent.OnVisibleChanged(Object, EventArgs)
+- uid: Forma.UIComponent.OnVisibleChanged*
+  name: OnVisibleChanged
+  href: api/Forma.UIComponent.html#Forma_UIComponent_OnVisibleChanged_
+  commentId: Overload:Forma.UIComponent.OnVisibleChanged
+  fullName: Forma.UIComponent.OnVisibleChanged
+  nameWithType: UIComponent.OnVisibleChanged
+- uid: Forma.UIComponent.SupportsFocusedTextComposition
+  name: SupportsFocusedTextComposition
+  href: api/Forma.UIComponent.html#Forma_UIComponent_SupportsFocusedTextComposition
+  commentId: P:Forma.UIComponent.SupportsFocusedTextComposition
+  fullName: Forma.UIComponent.SupportsFocusedTextComposition
+  nameWithType: UIComponent.SupportsFocusedTextComposition
+- uid: Forma.UIComponent.SupportsFocusedTextComposition*
+  name: SupportsFocusedTextComposition
+  href: api/Forma.UIComponent.html#Forma_UIComponent_SupportsFocusedTextComposition_
+  commentId: Overload:Forma.UIComponent.SupportsFocusedTextComposition
+  fullName: Forma.UIComponent.SupportsFocusedTextComposition
+  nameWithType: UIComponent.SupportsFocusedTextComposition
+- uid: Forma.UIComponent.SupportsSystemCursor
+  name: SupportsSystemCursor
+  href: api/Forma.UIComponent.html#Forma_UIComponent_SupportsSystemCursor
+  commentId: P:Forma.UIComponent.SupportsSystemCursor
+  fullName: Forma.UIComponent.SupportsSystemCursor
+  nameWithType: UIComponent.SupportsSystemCursor
+- uid: Forma.UIComponent.SupportsSystemCursor*
+  name: SupportsSystemCursor
+  href: api/Forma.UIComponent.html#Forma_UIComponent_SupportsSystemCursor_
+  commentId: Overload:Forma.UIComponent.SupportsSystemCursor
+  fullName: Forma.UIComponent.SupportsSystemCursor
+  nameWithType: UIComponent.SupportsSystemCursor
+- uid: Forma.UIComponent.SupportsTextComposition
+  name: SupportsTextComposition
+  href: api/Forma.UIComponent.html#Forma_UIComponent_SupportsTextComposition
+  commentId: P:Forma.UIComponent.SupportsTextComposition
+  fullName: Forma.UIComponent.SupportsTextComposition
+  nameWithType: UIComponent.SupportsTextComposition
+- uid: Forma.UIComponent.SupportsTextComposition*
+  name: SupportsTextComposition
+  href: api/Forma.UIComponent.html#Forma_UIComponent_SupportsTextComposition_
+  commentId: Overload:Forma.UIComponent.SupportsTextComposition
+  fullName: Forma.UIComponent.SupportsTextComposition
+  nameWithType: UIComponent.SupportsTextComposition
 - uid: Forma.UIComponent.Update(Microsoft.Xna.Framework.GameTime)
   name: Update(GameTime)
   href: api/Forma.UIComponent.html#Forma_UIComponent_Update_Microsoft_Xna_Framework_GameTime_
@@ -58571,6 +59761,15 @@ references:
   fullName.vb: Forma.UIContext.New()
   nameWithType: UIContext.UIContext()
   nameWithType.vb: UIContext.New()
+- uid: Forma.UIContext.#ctor(Forma.IClipboard)
+  name: UIContext(IClipboard)
+  href: api/Forma.UIContext.html#Forma_UIContext__ctor_Forma_IClipboard_
+  commentId: M:Forma.UIContext.#ctor(Forma.IClipboard)
+  name.vb: New(IClipboard)
+  fullName: Forma.UIContext.UIContext(Forma.IClipboard)
+  fullName.vb: Forma.UIContext.New(Forma.IClipboard)
+  nameWithType: UIContext.UIContext(IClipboard)
+  nameWithType.vb: UIContext.New(IClipboard)
 - uid: Forma.UIContext.#ctor*
   name: UIContext
   href: api/Forma.UIContext.html#Forma_UIContext__ctor_
@@ -58742,6 +59941,18 @@ references:
   commentId: Overload:Forma.UIContext.DynamicGlyphDiagnostics
   fullName: Forma.UIContext.DynamicGlyphDiagnostics
   nameWithType: UIContext.DynamicGlyphDiagnostics
+- uid: Forma.UIContext.EffectiveCursor
+  name: EffectiveCursor
+  href: api/Forma.UIContext.html#Forma_UIContext_EffectiveCursor
+  commentId: P:Forma.UIContext.EffectiveCursor
+  fullName: Forma.UIContext.EffectiveCursor
+  nameWithType: UIContext.EffectiveCursor
+- uid: Forma.UIContext.EffectiveCursor*
+  name: EffectiveCursor
+  href: api/Forma.UIContext.html#Forma_UIContext_EffectiveCursor_
+  commentId: Overload:Forma.UIContext.EffectiveCursor
+  fullName: Forma.UIContext.EffectiveCursor
+  nameWithType: UIContext.EffectiveCursor
 - uid: Forma.UIContext.FocusedControl
   name: FocusedControl
   href: api/Forma.UIContext.html#Forma_UIContext_FocusedControl
@@ -59036,6 +60247,15 @@ references:
   fullName.vb: Forma.UIContext.TextInput(Char)
   nameWithType: UIContext.TextInput(char)
   nameWithType.vb: UIContext.TextInput(Char)
+- uid: Forma.UIContext.TextInput(System.String)
+  name: TextInput(string)
+  href: api/Forma.UIContext.html#Forma_UIContext_TextInput_System_String_
+  commentId: M:Forma.UIContext.TextInput(System.String)
+  name.vb: TextInput(String)
+  fullName: Forma.UIContext.TextInput(string)
+  fullName.vb: Forma.UIContext.TextInput(String)
+  nameWithType: UIContext.TextInput(string)
+  nameWithType.vb: UIContext.TextInput(String)
 - uid: Forma.UIContext.TextInput*
   name: TextInput
   href: api/Forma.UIContext.html#Forma_UIContext_TextInput_
@@ -66993,6 +68213,395 @@ references:
   commentId: Overload:Forma.Xaml.XamlAttachment.RegisterUpdateParticipant
   fullName: Forma.Xaml.XamlAttachment.RegisterUpdateParticipant
   nameWithType: XamlAttachment.RegisterUpdateParticipant
+- uid: Forma.Xaml.XamlAuthoring
+  name: XamlAuthoring
+  href: api/Forma.Xaml.XamlAuthoring.html
+  commentId: T:Forma.Xaml.XamlAuthoring
+  fullName: Forma.Xaml.XamlAuthoring
+  nameWithType: XamlAuthoring
+- uid: Forma.Xaml.XamlAuthoring.Literal*
+  name: Literal
+  href: api/Forma.Xaml.XamlAuthoring.html#Forma_Xaml_XamlAuthoring_Literal_
+  commentId: Overload:Forma.Xaml.XamlAuthoring.Literal
+  fullName: Forma.Xaml.XamlAuthoring.Literal
+  nameWithType: XamlAuthoring.Literal
+- uid: Forma.Xaml.XamlAuthoring.Literal``1(Forma.Control,Forma.Xaml.XamlLiteralCapability{``0},System.String)
+  name: Literal<T>(Control, XamlLiteralCapability<T>, string)
+  href: api/Forma.Xaml.XamlAuthoring.html#Forma_Xaml_XamlAuthoring_Literal__1_Forma_Control_Forma_Xaml_XamlLiteralCapability___0__System_String_
+  commentId: M:Forma.Xaml.XamlAuthoring.Literal``1(Forma.Control,Forma.Xaml.XamlLiteralCapability{``0},System.String)
+  name.vb: Literal(Of T)(Control, XamlLiteralCapability(Of T), String)
+  fullName: Forma.Xaml.XamlAuthoring.Literal<T>(Forma.Control, Forma.Xaml.XamlLiteralCapability<T>, string)
+  fullName.vb: Forma.Xaml.XamlAuthoring.Literal(Of T)(Forma.Control, Forma.Xaml.XamlLiteralCapability(Of T), String)
+  nameWithType: XamlAuthoring.Literal<T>(Control, XamlLiteralCapability<T>, string)
+  nameWithType.vb: XamlAuthoring.Literal(Of T)(Control, XamlLiteralCapability(Of T), String)
+- uid: Forma.Xaml.XamlAuthoring.Style*
+  name: Style
+  href: api/Forma.Xaml.XamlAuthoring.html#Forma_Xaml_XamlAuthoring_Style_
+  commentId: Overload:Forma.Xaml.XamlAuthoring.Style
+  fullName: Forma.Xaml.XamlAuthoring.Style
+  nameWithType: XamlAuthoring.Style
+- uid: Forma.Xaml.XamlAuthoring.Style``1(Forma.Control,Forma.Control,System.String,System.String)
+  name: Style<T>(Control, Control, string, string)
+  href: api/Forma.Xaml.XamlAuthoring.html#Forma_Xaml_XamlAuthoring_Style__1_Forma_Control_Forma_Control_System_String_System_String_
+  commentId: M:Forma.Xaml.XamlAuthoring.Style``1(Forma.Control,Forma.Control,System.String,System.String)
+  name.vb: Style(Of T)(Control, Control, String, String)
+  fullName: Forma.Xaml.XamlAuthoring.Style<T>(Forma.Control, Forma.Control, string, string)
+  fullName.vb: Forma.Xaml.XamlAuthoring.Style(Of T)(Forma.Control, Forma.Control, String, String)
+  nameWithType: XamlAuthoring.Style<T>(Control, Control, string, string)
+  nameWithType.vb: XamlAuthoring.Style(Of T)(Control, Control, String, String)
+- uid: Forma.Xaml.XamlAuthoring.VisualChildren(Forma.Control)
+  name: VisualChildren(Control)
+  href: api/Forma.Xaml.XamlAuthoring.html#Forma_Xaml_XamlAuthoring_VisualChildren_Forma_Control_
+  commentId: M:Forma.Xaml.XamlAuthoring.VisualChildren(Forma.Control)
+  fullName: Forma.Xaml.XamlAuthoring.VisualChildren(Forma.Control)
+  nameWithType: XamlAuthoring.VisualChildren(Control)
+- uid: Forma.Xaml.XamlAuthoring.VisualChildren*
+  name: VisualChildren
+  href: api/Forma.Xaml.XamlAuthoring.html#Forma_Xaml_XamlAuthoring_VisualChildren_
+  commentId: Overload:Forma.Xaml.XamlAuthoring.VisualChildren
+  fullName: Forma.Xaml.XamlAuthoring.VisualChildren
+  nameWithType: XamlAuthoring.VisualChildren
+- uid: Forma.Xaml.XamlLiteralCapability`1
+  name: XamlLiteralCapability<T>
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html
+  commentId: T:Forma.Xaml.XamlLiteralCapability`1
+  name.vb: XamlLiteralCapability(Of T)
+  fullName: Forma.Xaml.XamlLiteralCapability<T>
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T)
+  nameWithType: XamlLiteralCapability<T>
+  nameWithType.vb: XamlLiteralCapability(Of T)
+- uid: Forma.Xaml.XamlLiteralCapability`1.#ctor(Forma.Xaml.XamlProperty{`0},System.Action{`0})
+  name: XamlLiteralCapability(XamlProperty<T>, Action<T>)
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1__ctor_Forma_Xaml_XamlProperty__0__System_Action__0__
+  commentId: M:Forma.Xaml.XamlLiteralCapability`1.#ctor(Forma.Xaml.XamlProperty{`0},System.Action{`0})
+  name.vb: New(XamlProperty(Of T), Action(Of T))
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.XamlLiteralCapability(Forma.Xaml.XamlProperty<T>, System.Action<T>)
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).New(Forma.Xaml.XamlProperty(Of T), System.Action(Of T))
+  nameWithType: XamlLiteralCapability<T>.XamlLiteralCapability(XamlProperty<T>, Action<T>)
+  nameWithType.vb: XamlLiteralCapability(Of T).New(XamlProperty(Of T), Action(Of T))
+- uid: Forma.Xaml.XamlLiteralCapability`1.#ctor*
+  name: XamlLiteralCapability
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1__ctor_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.#ctor
+  name.vb: New
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.XamlLiteralCapability
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).New
+  nameWithType: XamlLiteralCapability<T>.XamlLiteralCapability
+  nameWithType.vb: XamlLiteralCapability(Of T).New
+- uid: Forma.Xaml.XamlLiteralCapability`1.Deconstruct(Forma.Xaml.XamlProperty{`0}@,System.Action{`0}@)
+  name: Deconstruct(out XamlProperty<T>, out Action<T>)
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Deconstruct_Forma_Xaml_XamlProperty__0___System_Action__0___
+  commentId: M:Forma.Xaml.XamlLiteralCapability`1.Deconstruct(Forma.Xaml.XamlProperty{`0}@,System.Action{`0}@)
+  name.vb: Deconstruct(XamlProperty(Of T), Action(Of T))
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Deconstruct(out Forma.Xaml.XamlProperty<T>, out System.Action<T>)
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Deconstruct(Forma.Xaml.XamlProperty(Of T), System.Action(Of T))
+  nameWithType: XamlLiteralCapability<T>.Deconstruct(out XamlProperty<T>, out Action<T>)
+  nameWithType.vb: XamlLiteralCapability(Of T).Deconstruct(XamlProperty(Of T), Action(Of T))
+- uid: Forma.Xaml.XamlLiteralCapability`1.Deconstruct*
+  name: Deconstruct
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Deconstruct_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.Deconstruct
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Deconstruct
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Deconstruct
+  nameWithType: XamlLiteralCapability<T>.Deconstruct
+  nameWithType.vb: XamlLiteralCapability(Of T).Deconstruct
+- uid: Forma.Xaml.XamlLiteralCapability`1.Equals(Forma.Xaml.XamlLiteralCapability{`0})
+  name: Equals(XamlLiteralCapability<T>?)
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Equals_Forma_Xaml_XamlLiteralCapability__0__
+  commentId: M:Forma.Xaml.XamlLiteralCapability`1.Equals(Forma.Xaml.XamlLiteralCapability{`0})
+  name.vb: Equals(XamlLiteralCapability(Of T))
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Equals(Forma.Xaml.XamlLiteralCapability<T>?)
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Equals(Forma.Xaml.XamlLiteralCapability(Of T))
+  nameWithType: XamlLiteralCapability<T>.Equals(XamlLiteralCapability<T>?)
+  nameWithType.vb: XamlLiteralCapability(Of T).Equals(XamlLiteralCapability(Of T))
+- uid: Forma.Xaml.XamlLiteralCapability`1.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Equals_System_Object_
+  commentId: M:Forma.Xaml.XamlLiteralCapability`1.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Equals(object?)
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Equals(Object)
+  nameWithType: XamlLiteralCapability<T>.Equals(object?)
+  nameWithType.vb: XamlLiteralCapability(Of T).Equals(Object)
+- uid: Forma.Xaml.XamlLiteralCapability`1.Equals*
+  name: Equals
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Equals_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.Equals
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Equals
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Equals
+  nameWithType: XamlLiteralCapability<T>.Equals
+  nameWithType.vb: XamlLiteralCapability(Of T).Equals
+- uid: Forma.Xaml.XamlLiteralCapability`1.GetHashCode
+  name: GetHashCode()
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_GetHashCode
+  commentId: M:Forma.Xaml.XamlLiteralCapability`1.GetHashCode
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.GetHashCode()
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).GetHashCode()
+  nameWithType: XamlLiteralCapability<T>.GetHashCode()
+  nameWithType.vb: XamlLiteralCapability(Of T).GetHashCode()
+- uid: Forma.Xaml.XamlLiteralCapability`1.GetHashCode*
+  name: GetHashCode
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_GetHashCode_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.GetHashCode
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.GetHashCode
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).GetHashCode
+  nameWithType: XamlLiteralCapability<T>.GetHashCode
+  nameWithType.vb: XamlLiteralCapability(Of T).GetHashCode
+- uid: Forma.Xaml.XamlLiteralCapability`1.Property
+  name: Property
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Property
+  commentId: P:Forma.Xaml.XamlLiteralCapability`1.Property
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Property
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Property
+  nameWithType: XamlLiteralCapability<T>.Property
+  nameWithType.vb: XamlLiteralCapability(Of T).Property
+- uid: Forma.Xaml.XamlLiteralCapability`1.Property*
+  name: Property
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Property_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.Property
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Property
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Property
+  nameWithType: XamlLiteralCapability<T>.Property
+  nameWithType.vb: XamlLiteralCapability(Of T).Property
+- uid: Forma.Xaml.XamlLiteralCapability`1.ToString
+  name: ToString()
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_ToString
+  commentId: M:Forma.Xaml.XamlLiteralCapability`1.ToString
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.ToString()
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).ToString()
+  nameWithType: XamlLiteralCapability<T>.ToString()
+  nameWithType.vb: XamlLiteralCapability(Of T).ToString()
+- uid: Forma.Xaml.XamlLiteralCapability`1.ToString*
+  name: ToString
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_ToString_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.ToString
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.ToString
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).ToString
+  nameWithType: XamlLiteralCapability<T>.ToString
+  nameWithType.vb: XamlLiteralCapability(Of T).ToString
+- uid: Forma.Xaml.XamlLiteralCapability`1.Validate
+  name: Validate
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Validate
+  commentId: P:Forma.Xaml.XamlLiteralCapability`1.Validate
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Validate
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Validate
+  nameWithType: XamlLiteralCapability<T>.Validate
+  nameWithType.vb: XamlLiteralCapability(Of T).Validate
+- uid: Forma.Xaml.XamlLiteralCapability`1.Validate*
+  name: Validate
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_Validate_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.Validate
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.Validate
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).Validate
+  nameWithType: XamlLiteralCapability<T>.Validate
+  nameWithType.vb: XamlLiteralCapability(Of T).Validate
+- uid: Forma.Xaml.XamlLiteralCapability`1.op_Equality(Forma.Xaml.XamlLiteralCapability{`0},Forma.Xaml.XamlLiteralCapability{`0})
+  name: operator ==(XamlLiteralCapability<T>?, XamlLiteralCapability<T>?)
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_op_Equality_Forma_Xaml_XamlLiteralCapability__0__Forma_Xaml_XamlLiteralCapability__0__
+  commentId: M:Forma.Xaml.XamlLiteralCapability`1.op_Equality(Forma.Xaml.XamlLiteralCapability{`0},Forma.Xaml.XamlLiteralCapability{`0})
+  name.vb: =(XamlLiteralCapability(Of T), XamlLiteralCapability(Of T))
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.operator ==(Forma.Xaml.XamlLiteralCapability<T>?, Forma.Xaml.XamlLiteralCapability<T>?)
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).=(Forma.Xaml.XamlLiteralCapability(Of T), Forma.Xaml.XamlLiteralCapability(Of T))
+  nameWithType: XamlLiteralCapability<T>.operator ==(XamlLiteralCapability<T>?, XamlLiteralCapability<T>?)
+  nameWithType.vb: XamlLiteralCapability(Of T).=(XamlLiteralCapability(Of T), XamlLiteralCapability(Of T))
+- uid: Forma.Xaml.XamlLiteralCapability`1.op_Equality*
+  name: operator ==
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_op_Equality_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.op_Equality
+  name.vb: =
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.operator ==
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).=
+  nameWithType: XamlLiteralCapability<T>.operator ==
+  nameWithType.vb: XamlLiteralCapability(Of T).=
+- uid: Forma.Xaml.XamlLiteralCapability`1.op_Inequality(Forma.Xaml.XamlLiteralCapability{`0},Forma.Xaml.XamlLiteralCapability{`0})
+  name: operator !=(XamlLiteralCapability<T>?, XamlLiteralCapability<T>?)
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_op_Inequality_Forma_Xaml_XamlLiteralCapability__0__Forma_Xaml_XamlLiteralCapability__0__
+  commentId: M:Forma.Xaml.XamlLiteralCapability`1.op_Inequality(Forma.Xaml.XamlLiteralCapability{`0},Forma.Xaml.XamlLiteralCapability{`0})
+  name.vb: <>(XamlLiteralCapability(Of T), XamlLiteralCapability(Of T))
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.operator !=(Forma.Xaml.XamlLiteralCapability<T>?, Forma.Xaml.XamlLiteralCapability<T>?)
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).<>(Forma.Xaml.XamlLiteralCapability(Of T), Forma.Xaml.XamlLiteralCapability(Of T))
+  nameWithType: XamlLiteralCapability<T>.operator !=(XamlLiteralCapability<T>?, XamlLiteralCapability<T>?)
+  nameWithType.vb: XamlLiteralCapability(Of T).<>(XamlLiteralCapability(Of T), XamlLiteralCapability(Of T))
+- uid: Forma.Xaml.XamlLiteralCapability`1.op_Inequality*
+  name: operator !=
+  href: api/Forma.Xaml.XamlLiteralCapability-1.html#Forma_Xaml_XamlLiteralCapability_1_op_Inequality_
+  commentId: Overload:Forma.Xaml.XamlLiteralCapability`1.op_Inequality
+  name.vb: <>
+  fullName: Forma.Xaml.XamlLiteralCapability<T>.operator !=
+  fullName.vb: Forma.Xaml.XamlLiteralCapability(Of T).<>
+  nameWithType: XamlLiteralCapability<T>.operator !=
+  nameWithType.vb: XamlLiteralCapability(Of T).<>
+- uid: Forma.Xaml.XamlMemberRange
+  name: XamlMemberRange
+  href: api/Forma.Xaml.XamlMemberRange.html
+  commentId: T:Forma.Xaml.XamlMemberRange
+  fullName: Forma.Xaml.XamlMemberRange
+  nameWithType: XamlMemberRange
+- uid: Forma.Xaml.XamlMemberRange.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)
+  name: XamlMemberRange(int, int, int, int)
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange__ctor_System_Int32_System_Int32_System_Int32_System_Int32_
+  commentId: M:Forma.Xaml.XamlMemberRange.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)
+  name.vb: New(Integer, Integer, Integer, Integer)
+  fullName: Forma.Xaml.XamlMemberRange.XamlMemberRange(int, int, int, int)
+  fullName.vb: Forma.Xaml.XamlMemberRange.New(Integer, Integer, Integer, Integer)
+  nameWithType: XamlMemberRange.XamlMemberRange(int, int, int, int)
+  nameWithType.vb: XamlMemberRange.New(Integer, Integer, Integer, Integer)
+- uid: Forma.Xaml.XamlMemberRange.#ctor*
+  name: XamlMemberRange
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange__ctor_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.#ctor
+  name.vb: New
+  fullName: Forma.Xaml.XamlMemberRange.XamlMemberRange
+  fullName.vb: Forma.Xaml.XamlMemberRange.New
+  nameWithType: XamlMemberRange.XamlMemberRange
+  nameWithType.vb: XamlMemberRange.New
+- uid: Forma.Xaml.XamlMemberRange.Column
+  name: Column
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Column
+  commentId: P:Forma.Xaml.XamlMemberRange.Column
+  fullName: Forma.Xaml.XamlMemberRange.Column
+  nameWithType: XamlMemberRange.Column
+- uid: Forma.Xaml.XamlMemberRange.Column*
+  name: Column
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Column_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.Column
+  fullName: Forma.Xaml.XamlMemberRange.Column
+  nameWithType: XamlMemberRange.Column
+- uid: Forma.Xaml.XamlMemberRange.Deconstruct(System.Int32@,System.Int32@,System.Int32@,System.Int32@)
+  name: Deconstruct(out int, out int, out int, out int)
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Deconstruct_System_Int32__System_Int32__System_Int32__System_Int32__
+  commentId: M:Forma.Xaml.XamlMemberRange.Deconstruct(System.Int32@,System.Int32@,System.Int32@,System.Int32@)
+  name.vb: Deconstruct(Integer, Integer, Integer, Integer)
+  fullName: Forma.Xaml.XamlMemberRange.Deconstruct(out int, out int, out int, out int)
+  fullName.vb: Forma.Xaml.XamlMemberRange.Deconstruct(Integer, Integer, Integer, Integer)
+  nameWithType: XamlMemberRange.Deconstruct(out int, out int, out int, out int)
+  nameWithType.vb: XamlMemberRange.Deconstruct(Integer, Integer, Integer, Integer)
+- uid: Forma.Xaml.XamlMemberRange.Deconstruct*
+  name: Deconstruct
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Deconstruct_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.Deconstruct
+  fullName: Forma.Xaml.XamlMemberRange.Deconstruct
+  nameWithType: XamlMemberRange.Deconstruct
+- uid: Forma.Xaml.XamlMemberRange.EndColumn
+  name: EndColumn
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_EndColumn
+  commentId: P:Forma.Xaml.XamlMemberRange.EndColumn
+  fullName: Forma.Xaml.XamlMemberRange.EndColumn
+  nameWithType: XamlMemberRange.EndColumn
+- uid: Forma.Xaml.XamlMemberRange.EndColumn*
+  name: EndColumn
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_EndColumn_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.EndColumn
+  fullName: Forma.Xaml.XamlMemberRange.EndColumn
+  nameWithType: XamlMemberRange.EndColumn
+- uid: Forma.Xaml.XamlMemberRange.EndLine
+  name: EndLine
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_EndLine
+  commentId: P:Forma.Xaml.XamlMemberRange.EndLine
+  fullName: Forma.Xaml.XamlMemberRange.EndLine
+  nameWithType: XamlMemberRange.EndLine
+- uid: Forma.Xaml.XamlMemberRange.EndLine*
+  name: EndLine
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_EndLine_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.EndLine
+  fullName: Forma.Xaml.XamlMemberRange.EndLine
+  nameWithType: XamlMemberRange.EndLine
+- uid: Forma.Xaml.XamlMemberRange.Equals(Forma.Xaml.XamlMemberRange)
+  name: Equals(XamlMemberRange?)
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Equals_Forma_Xaml_XamlMemberRange_
+  commentId: M:Forma.Xaml.XamlMemberRange.Equals(Forma.Xaml.XamlMemberRange)
+  name.vb: Equals(XamlMemberRange)
+  fullName: Forma.Xaml.XamlMemberRange.Equals(Forma.Xaml.XamlMemberRange?)
+  fullName.vb: Forma.Xaml.XamlMemberRange.Equals(Forma.Xaml.XamlMemberRange)
+  nameWithType: XamlMemberRange.Equals(XamlMemberRange?)
+  nameWithType.vb: XamlMemberRange.Equals(XamlMemberRange)
+- uid: Forma.Xaml.XamlMemberRange.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Equals_System_Object_
+  commentId: M:Forma.Xaml.XamlMemberRange.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Forma.Xaml.XamlMemberRange.Equals(object?)
+  fullName.vb: Forma.Xaml.XamlMemberRange.Equals(Object)
+  nameWithType: XamlMemberRange.Equals(object?)
+  nameWithType.vb: XamlMemberRange.Equals(Object)
+- uid: Forma.Xaml.XamlMemberRange.Equals*
+  name: Equals
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Equals_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.Equals
+  fullName: Forma.Xaml.XamlMemberRange.Equals
+  nameWithType: XamlMemberRange.Equals
+- uid: Forma.Xaml.XamlMemberRange.GetHashCode
+  name: GetHashCode()
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_GetHashCode
+  commentId: M:Forma.Xaml.XamlMemberRange.GetHashCode
+  fullName: Forma.Xaml.XamlMemberRange.GetHashCode()
+  nameWithType: XamlMemberRange.GetHashCode()
+- uid: Forma.Xaml.XamlMemberRange.GetHashCode*
+  name: GetHashCode
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_GetHashCode_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.GetHashCode
+  fullName: Forma.Xaml.XamlMemberRange.GetHashCode
+  nameWithType: XamlMemberRange.GetHashCode
+- uid: Forma.Xaml.XamlMemberRange.Line
+  name: Line
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Line
+  commentId: P:Forma.Xaml.XamlMemberRange.Line
+  fullName: Forma.Xaml.XamlMemberRange.Line
+  nameWithType: XamlMemberRange.Line
+- uid: Forma.Xaml.XamlMemberRange.Line*
+  name: Line
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_Line_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.Line
+  fullName: Forma.Xaml.XamlMemberRange.Line
+  nameWithType: XamlMemberRange.Line
+- uid: Forma.Xaml.XamlMemberRange.ToString
+  name: ToString()
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_ToString
+  commentId: M:Forma.Xaml.XamlMemberRange.ToString
+  fullName: Forma.Xaml.XamlMemberRange.ToString()
+  nameWithType: XamlMemberRange.ToString()
+- uid: Forma.Xaml.XamlMemberRange.ToString*
+  name: ToString
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_ToString_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.ToString
+  fullName: Forma.Xaml.XamlMemberRange.ToString
+  nameWithType: XamlMemberRange.ToString
+- uid: Forma.Xaml.XamlMemberRange.op_Equality(Forma.Xaml.XamlMemberRange,Forma.Xaml.XamlMemberRange)
+  name: operator ==(XamlMemberRange?, XamlMemberRange?)
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_op_Equality_Forma_Xaml_XamlMemberRange_Forma_Xaml_XamlMemberRange_
+  commentId: M:Forma.Xaml.XamlMemberRange.op_Equality(Forma.Xaml.XamlMemberRange,Forma.Xaml.XamlMemberRange)
+  name.vb: =(XamlMemberRange, XamlMemberRange)
+  fullName: Forma.Xaml.XamlMemberRange.operator ==(Forma.Xaml.XamlMemberRange?, Forma.Xaml.XamlMemberRange?)
+  fullName.vb: Forma.Xaml.XamlMemberRange.=(Forma.Xaml.XamlMemberRange, Forma.Xaml.XamlMemberRange)
+  nameWithType: XamlMemberRange.operator ==(XamlMemberRange?, XamlMemberRange?)
+  nameWithType.vb: XamlMemberRange.=(XamlMemberRange, XamlMemberRange)
+- uid: Forma.Xaml.XamlMemberRange.op_Equality*
+  name: operator ==
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_op_Equality_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.op_Equality
+  name.vb: =
+  fullName: Forma.Xaml.XamlMemberRange.operator ==
+  fullName.vb: Forma.Xaml.XamlMemberRange.=
+  nameWithType: XamlMemberRange.operator ==
+  nameWithType.vb: XamlMemberRange.=
+- uid: Forma.Xaml.XamlMemberRange.op_Inequality(Forma.Xaml.XamlMemberRange,Forma.Xaml.XamlMemberRange)
+  name: operator !=(XamlMemberRange?, XamlMemberRange?)
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_op_Inequality_Forma_Xaml_XamlMemberRange_Forma_Xaml_XamlMemberRange_
+  commentId: M:Forma.Xaml.XamlMemberRange.op_Inequality(Forma.Xaml.XamlMemberRange,Forma.Xaml.XamlMemberRange)
+  name.vb: <>(XamlMemberRange, XamlMemberRange)
+  fullName: Forma.Xaml.XamlMemberRange.operator !=(Forma.Xaml.XamlMemberRange?, Forma.Xaml.XamlMemberRange?)
+  fullName.vb: Forma.Xaml.XamlMemberRange.<>(Forma.Xaml.XamlMemberRange, Forma.Xaml.XamlMemberRange)
+  nameWithType: XamlMemberRange.operator !=(XamlMemberRange?, XamlMemberRange?)
+  nameWithType.vb: XamlMemberRange.<>(XamlMemberRange, XamlMemberRange)
+- uid: Forma.Xaml.XamlMemberRange.op_Inequality*
+  name: operator !=
+  href: api/Forma.Xaml.XamlMemberRange.html#Forma_Xaml_XamlMemberRange_op_Inequality_
+  commentId: Overload:Forma.Xaml.XamlMemberRange.op_Inequality
+  name.vb: <>
+  fullName: Forma.Xaml.XamlMemberRange.operator !=
+  fullName.vb: Forma.Xaml.XamlMemberRange.<>
+  nameWithType: XamlMemberRange.operator !=
+  nameWithType.vb: XamlMemberRange.<>
 - uid: Forma.Xaml.XamlNamespaces
   name: XamlNamespaces
   href: api/Forma.Xaml.XamlNamespaces.html
@@ -67054,6 +68663,450 @@ references:
   fullName.vb: Forma.Xaml.XamlProperty(Of T).Name
   nameWithType: XamlProperty<T>.Name
   nameWithType.vb: XamlProperty(Of T).Name
+- uid: Forma.Xaml.XamlSource
+  name: XamlSource
+  href: api/Forma.Xaml.XamlSource.html
+  commentId: T:Forma.Xaml.XamlSource
+  fullName: Forma.Xaml.XamlSource
+  nameWithType: XamlSource
+- uid: Forma.Xaml.XamlSource.AuthoringMetadataVersion
+  name: AuthoringMetadataVersion
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_AuthoringMetadataVersion
+  commentId: F:Forma.Xaml.XamlSource.AuthoringMetadataVersion
+  fullName: Forma.Xaml.XamlSource.AuthoringMetadataVersion
+  nameWithType: XamlSource.AuthoringMetadataVersion
+- uid: Forma.Xaml.XamlSource.Get(Forma.Control)
+  name: Get(Control)
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_Get_Forma_Control_
+  commentId: M:Forma.Xaml.XamlSource.Get(Forma.Control)
+  fullName: Forma.Xaml.XamlSource.Get(Forma.Control)
+  nameWithType: XamlSource.Get(Control)
+- uid: Forma.Xaml.XamlSource.Get*
+  name: Get
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_Get_
+  commentId: Overload:Forma.Xaml.XamlSource.Get
+  fullName: Forma.Xaml.XamlSource.Get
+  nameWithType: XamlSource.Get
+- uid: Forma.Xaml.XamlSource.GetMetadata(Forma.Control)
+  name: GetMetadata(Control)
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_GetMetadata_Forma_Control_
+  commentId: M:Forma.Xaml.XamlSource.GetMetadata(Forma.Control)
+  fullName: Forma.Xaml.XamlSource.GetMetadata(Forma.Control)
+  nameWithType: XamlSource.GetMetadata(Control)
+- uid: Forma.Xaml.XamlSource.GetMetadata*
+  name: GetMetadata
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_GetMetadata_
+  commentId: Overload:Forma.Xaml.XamlSource.GetMetadata
+  fullName: Forma.Xaml.XamlSource.GetMetadata
+  nameWithType: XamlSource.GetMetadata
+- uid: Forma.Xaml.XamlSource.GetProperty*
+  name: GetProperty
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_GetProperty_
+  commentId: Overload:Forma.Xaml.XamlSource.GetProperty
+  fullName: Forma.Xaml.XamlSource.GetProperty
+  nameWithType: XamlSource.GetProperty
+- uid: Forma.Xaml.XamlSource.GetProperty``1(Forma.Xaml.XamlProperty{``0})
+  name: GetProperty<T>(XamlProperty<T>)
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_GetProperty__1_Forma_Xaml_XamlProperty___0__
+  commentId: M:Forma.Xaml.XamlSource.GetProperty``1(Forma.Xaml.XamlProperty{``0})
+  name.vb: GetProperty(Of T)(XamlProperty(Of T))
+  fullName: Forma.Xaml.XamlSource.GetProperty<T>(Forma.Xaml.XamlProperty<T>)
+  fullName.vb: Forma.Xaml.XamlSource.GetProperty(Of T)(Forma.Xaml.XamlProperty(Of T))
+  nameWithType: XamlSource.GetProperty<T>(XamlProperty<T>)
+  nameWithType.vb: XamlSource.GetProperty(Of T)(XamlProperty(Of T))
+- uid: Forma.Xaml.XamlSource.RegisterProperty*
+  name: RegisterProperty
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_RegisterProperty_
+  commentId: Overload:Forma.Xaml.XamlSource.RegisterProperty
+  fullName: Forma.Xaml.XamlSource.RegisterProperty
+  nameWithType: XamlSource.RegisterProperty
+- uid: Forma.Xaml.XamlSource.RegisterProperty``1(Forma.Xaml.XamlProperty{``0},System.String)
+  name: RegisterProperty<T>(XamlProperty<T>, string)
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_RegisterProperty__1_Forma_Xaml_XamlProperty___0__System_String_
+  commentId: M:Forma.Xaml.XamlSource.RegisterProperty``1(Forma.Xaml.XamlProperty{``0},System.String)
+  name.vb: RegisterProperty(Of T)(XamlProperty(Of T), String)
+  fullName: Forma.Xaml.XamlSource.RegisterProperty<T>(Forma.Xaml.XamlProperty<T>, string)
+  fullName.vb: Forma.Xaml.XamlSource.RegisterProperty(Of T)(Forma.Xaml.XamlProperty(Of T), String)
+  nameWithType: XamlSource.RegisterProperty<T>(XamlProperty<T>, string)
+  nameWithType.vb: XamlSource.RegisterProperty(Of T)(XamlProperty(Of T), String)
+- uid: Forma.Xaml.XamlSource.SetMetadata(Forma.Control,System.String)
+  name: SetMetadata(Control, string)
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_SetMetadata_Forma_Control_System_String_
+  commentId: M:Forma.Xaml.XamlSource.SetMetadata(Forma.Control,System.String)
+  name.vb: SetMetadata(Control, String)
+  fullName: Forma.Xaml.XamlSource.SetMetadata(Forma.Control, string)
+  fullName.vb: Forma.Xaml.XamlSource.SetMetadata(Forma.Control, String)
+  nameWithType: XamlSource.SetMetadata(Control, string)
+  nameWithType.vb: XamlSource.SetMetadata(Control, String)
+- uid: Forma.Xaml.XamlSource.SetMetadata*
+  name: SetMetadata
+  href: api/Forma.Xaml.XamlSource.html#Forma_Xaml_XamlSource_SetMetadata_
+  commentId: Overload:Forma.Xaml.XamlSource.SetMetadata
+  fullName: Forma.Xaml.XamlSource.SetMetadata
+  nameWithType: XamlSource.SetMetadata
+- uid: Forma.Xaml.XamlSourceNode
+  name: XamlSourceNode
+  href: api/Forma.Xaml.XamlSourceNode.html
+  commentId: T:Forma.Xaml.XamlSourceNode
+  fullName: Forma.Xaml.XamlSourceNode
+  nameWithType: XamlSourceNode
+- uid: Forma.Xaml.XamlSourceNode.#ctor(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.String})
+  name: XamlSourceNode(string, string, int, int, string, string, int, int, Dictionary<string, string>)
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode__ctor_System_String_System_String_System_Int32_System_Int32_System_String_System_String_System_Int32_System_Int32_System_Collections_Generic_Dictionary_System_String_System_String__
+  commentId: M:Forma.Xaml.XamlSourceNode.#ctor(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.String})
+  name.vb: New(String, String, Integer, Integer, String, String, Integer, Integer, Dictionary(Of String, String))
+  fullName: Forma.Xaml.XamlSourceNode.XamlSourceNode(string, string, int, int, string, string, int, int, System.Collections.Generic.Dictionary<string, string>)
+  fullName.vb: Forma.Xaml.XamlSourceNode.New(String, String, Integer, Integer, String, String, Integer, Integer, System.Collections.Generic.Dictionary(Of String, String))
+  nameWithType: XamlSourceNode.XamlSourceNode(string, string, int, int, string, string, int, int, Dictionary<string, string>)
+  nameWithType.vb: XamlSourceNode.New(String, String, Integer, Integer, String, String, Integer, Integer, Dictionary(Of String, String))
+- uid: Forma.Xaml.XamlSourceNode.#ctor*
+  name: XamlSourceNode
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode__ctor_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.#ctor
+  name.vb: New
+  fullName: Forma.Xaml.XamlSourceNode.XamlSourceNode
+  fullName.vb: Forma.Xaml.XamlSourceNode.New
+  nameWithType: XamlSourceNode.XamlSourceNode
+  nameWithType.vb: XamlSourceNode.New
+- uid: Forma.Xaml.XamlSourceNode.Column
+  name: Column
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Column
+  commentId: P:Forma.Xaml.XamlSourceNode.Column
+  fullName: Forma.Xaml.XamlSourceNode.Column
+  nameWithType: XamlSourceNode.Column
+- uid: Forma.Xaml.XamlSourceNode.Column*
+  name: Column
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Column_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Column
+  fullName: Forma.Xaml.XamlSourceNode.Column
+  nameWithType: XamlSourceNode.Column
+- uid: Forma.Xaml.XamlSourceNode.Coordinates
+  name: Coordinates
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Coordinates
+  commentId: P:Forma.Xaml.XamlSourceNode.Coordinates
+  fullName: Forma.Xaml.XamlSourceNode.Coordinates
+  nameWithType: XamlSourceNode.Coordinates
+- uid: Forma.Xaml.XamlSourceNode.Coordinates*
+  name: Coordinates
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Coordinates_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Coordinates
+  fullName: Forma.Xaml.XamlSourceNode.Coordinates
+  nameWithType: XamlSourceNode.Coordinates
+- uid: Forma.Xaml.XamlSourceNode.Deconstruct(System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@,System.Int32@,System.Int32@,System.Collections.Generic.Dictionary{System.String,System.String}@)
+  name: Deconstruct(out string, out string, out int, out int, out string, out string, out int, out int, out Dictionary<string, string>)
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Deconstruct_System_String__System_String__System_Int32__System_Int32__System_String__System_String__System_Int32__System_Int32__System_Collections_Generic_Dictionary_System_String_System_String___
+  commentId: M:Forma.Xaml.XamlSourceNode.Deconstruct(System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@,System.Int32@,System.Int32@,System.Collections.Generic.Dictionary{System.String,System.String}@)
+  name.vb: Deconstruct(String, String, Integer, Integer, String, String, Integer, Integer, Dictionary(Of String, String))
+  fullName: Forma.Xaml.XamlSourceNode.Deconstruct(out string, out string, out int, out int, out string, out string, out int, out int, out System.Collections.Generic.Dictionary<string, string>)
+  fullName.vb: Forma.Xaml.XamlSourceNode.Deconstruct(String, String, Integer, Integer, String, String, Integer, Integer, System.Collections.Generic.Dictionary(Of String, String))
+  nameWithType: XamlSourceNode.Deconstruct(out string, out string, out int, out int, out string, out string, out int, out int, out Dictionary<string, string>)
+  nameWithType.vb: XamlSourceNode.Deconstruct(String, String, Integer, Integer, String, String, Integer, Integer, Dictionary(Of String, String))
+- uid: Forma.Xaml.XamlSourceNode.Deconstruct*
+  name: Deconstruct
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Deconstruct_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Deconstruct
+  fullName: Forma.Xaml.XamlSourceNode.Deconstruct
+  nameWithType: XamlSourceNode.Deconstruct
+- uid: Forma.Xaml.XamlSourceNode.Document
+  name: Document
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Document
+  commentId: P:Forma.Xaml.XamlSourceNode.Document
+  fullName: Forma.Xaml.XamlSourceNode.Document
+  nameWithType: XamlSourceNode.Document
+- uid: Forma.Xaml.XamlSourceNode.Document*
+  name: Document
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Document_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Document
+  fullName: Forma.Xaml.XamlSourceNode.Document
+  nameWithType: XamlSourceNode.Document
+- uid: Forma.Xaml.XamlSourceNode.DocumentNodes
+  name: DocumentNodes
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_DocumentNodes
+  commentId: P:Forma.Xaml.XamlSourceNode.DocumentNodes
+  fullName: Forma.Xaml.XamlSourceNode.DocumentNodes
+  nameWithType: XamlSourceNode.DocumentNodes
+- uid: Forma.Xaml.XamlSourceNode.DocumentNodes*
+  name: DocumentNodes
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_DocumentNodes_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.DocumentNodes
+  fullName: Forma.Xaml.XamlSourceNode.DocumentNodes
+  nameWithType: XamlSourceNode.DocumentNodes
+- uid: Forma.Xaml.XamlSourceNode.EndColumn
+  name: EndColumn
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_EndColumn
+  commentId: P:Forma.Xaml.XamlSourceNode.EndColumn
+  fullName: Forma.Xaml.XamlSourceNode.EndColumn
+  nameWithType: XamlSourceNode.EndColumn
+- uid: Forma.Xaml.XamlSourceNode.EndColumn*
+  name: EndColumn
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_EndColumn_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.EndColumn
+  fullName: Forma.Xaml.XamlSourceNode.EndColumn
+  nameWithType: XamlSourceNode.EndColumn
+- uid: Forma.Xaml.XamlSourceNode.EndLine
+  name: EndLine
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_EndLine
+  commentId: P:Forma.Xaml.XamlSourceNode.EndLine
+  fullName: Forma.Xaml.XamlSourceNode.EndLine
+  nameWithType: XamlSourceNode.EndLine
+- uid: Forma.Xaml.XamlSourceNode.EndLine*
+  name: EndLine
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_EndLine_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.EndLine
+  fullName: Forma.Xaml.XamlSourceNode.EndLine
+  nameWithType: XamlSourceNode.EndLine
+- uid: Forma.Xaml.XamlSourceNode.Equals(Forma.Xaml.XamlSourceNode)
+  name: Equals(XamlSourceNode?)
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Equals_Forma_Xaml_XamlSourceNode_
+  commentId: M:Forma.Xaml.XamlSourceNode.Equals(Forma.Xaml.XamlSourceNode)
+  name.vb: Equals(XamlSourceNode)
+  fullName: Forma.Xaml.XamlSourceNode.Equals(Forma.Xaml.XamlSourceNode?)
+  fullName.vb: Forma.Xaml.XamlSourceNode.Equals(Forma.Xaml.XamlSourceNode)
+  nameWithType: XamlSourceNode.Equals(XamlSourceNode?)
+  nameWithType.vb: XamlSourceNode.Equals(XamlSourceNode)
+- uid: Forma.Xaml.XamlSourceNode.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Equals_System_Object_
+  commentId: M:Forma.Xaml.XamlSourceNode.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Forma.Xaml.XamlSourceNode.Equals(object?)
+  fullName.vb: Forma.Xaml.XamlSourceNode.Equals(Object)
+  nameWithType: XamlSourceNode.Equals(object?)
+  nameWithType.vb: XamlSourceNode.Equals(Object)
+- uid: Forma.Xaml.XamlSourceNode.Equals*
+  name: Equals
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Equals_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Equals
+  fullName: Forma.Xaml.XamlSourceNode.Equals
+  nameWithType: XamlSourceNode.Equals
+- uid: Forma.Xaml.XamlSourceNode.GetHashCode
+  name: GetHashCode()
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_GetHashCode
+  commentId: M:Forma.Xaml.XamlSourceNode.GetHashCode
+  fullName: Forma.Xaml.XamlSourceNode.GetHashCode()
+  nameWithType: XamlSourceNode.GetHashCode()
+- uid: Forma.Xaml.XamlSourceNode.GetHashCode*
+  name: GetHashCode
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_GetHashCode_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.GetHashCode
+  fullName: Forma.Xaml.XamlSourceNode.GetHashCode
+  nameWithType: XamlSourceNode.GetHashCode
+- uid: Forma.Xaml.XamlSourceNode.Line
+  name: Line
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Line
+  commentId: P:Forma.Xaml.XamlSourceNode.Line
+  fullName: Forma.Xaml.XamlSourceNode.Line
+  nameWithType: XamlSourceNode.Line
+- uid: Forma.Xaml.XamlSourceNode.Line*
+  name: Line
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Line_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Line
+  fullName: Forma.Xaml.XamlSourceNode.Line
+  nameWithType: XamlSourceNode.Line
+- uid: Forma.Xaml.XamlSourceNode.MemberRanges
+  name: MemberRanges
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_MemberRanges
+  commentId: P:Forma.Xaml.XamlSourceNode.MemberRanges
+  fullName: Forma.Xaml.XamlSourceNode.MemberRanges
+  nameWithType: XamlSourceNode.MemberRanges
+- uid: Forma.Xaml.XamlSourceNode.MemberRanges*
+  name: MemberRanges
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_MemberRanges_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.MemberRanges
+  fullName: Forma.Xaml.XamlSourceNode.MemberRanges
+  nameWithType: XamlSourceNode.MemberRanges
+- uid: Forma.Xaml.XamlSourceNode.Members
+  name: Members
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Members
+  commentId: P:Forma.Xaml.XamlSourceNode.Members
+  fullName: Forma.Xaml.XamlSourceNode.Members
+  nameWithType: XamlSourceNode.Members
+- uid: Forma.Xaml.XamlSourceNode.Members*
+  name: Members
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Members_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Members
+  fullName: Forma.Xaml.XamlSourceNode.Members
+  nameWithType: XamlSourceNode.Members
+- uid: Forma.Xaml.XamlSourceNode.MetadataVersion
+  name: MetadataVersion
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_MetadataVersion
+  commentId: P:Forma.Xaml.XamlSourceNode.MetadataVersion
+  fullName: Forma.Xaml.XamlSourceNode.MetadataVersion
+  nameWithType: XamlSourceNode.MetadataVersion
+- uid: Forma.Xaml.XamlSourceNode.MetadataVersion*
+  name: MetadataVersion
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_MetadataVersion_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.MetadataVersion
+  fullName: Forma.Xaml.XamlSourceNode.MetadataVersion
+  nameWithType: XamlSourceNode.MetadataVersion
+- uid: Forma.Xaml.XamlSourceNode.Name
+  name: Name
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Name
+  commentId: P:Forma.Xaml.XamlSourceNode.Name
+  fullName: Forma.Xaml.XamlSourceNode.Name
+  nameWithType: XamlSourceNode.Name
+- uid: Forma.Xaml.XamlSourceNode.Name*
+  name: Name
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Name_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Name
+  fullName: Forma.Xaml.XamlSourceNode.Name
+  nameWithType: XamlSourceNode.Name
+- uid: Forma.Xaml.XamlSourceNode.Node
+  name: Node
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Node
+  commentId: P:Forma.Xaml.XamlSourceNode.Node
+  fullName: Forma.Xaml.XamlSourceNode.Node
+  nameWithType: XamlSourceNode.Node
+- uid: Forma.Xaml.XamlSourceNode.Node*
+  name: Node
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Node_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Node
+  fullName: Forma.Xaml.XamlSourceNode.Node
+  nameWithType: XamlSourceNode.Node
+- uid: Forma.Xaml.XamlSourceNode.ParentNode
+  name: ParentNode
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_ParentNode
+  commentId: P:Forma.Xaml.XamlSourceNode.ParentNode
+  fullName: Forma.Xaml.XamlSourceNode.ParentNode
+  nameWithType: XamlSourceNode.ParentNode
+- uid: Forma.Xaml.XamlSourceNode.ParentNode*
+  name: ParentNode
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_ParentNode_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.ParentNode
+  fullName: Forma.Xaml.XamlSourceNode.ParentNode
+  nameWithType: XamlSourceNode.ParentNode
+- uid: Forma.Xaml.XamlSourceNode.ParserRevision
+  name: ParserRevision
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_ParserRevision
+  commentId: P:Forma.Xaml.XamlSourceNode.ParserRevision
+  fullName: Forma.Xaml.XamlSourceNode.ParserRevision
+  nameWithType: XamlSourceNode.ParserRevision
+- uid: Forma.Xaml.XamlSourceNode.ParserRevision*
+  name: ParserRevision
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_ParserRevision_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.ParserRevision
+  fullName: Forma.Xaml.XamlSourceNode.ParserRevision
+  nameWithType: XamlSourceNode.ParserRevision
+- uid: Forma.Xaml.XamlSourceNode.Revision
+  name: Revision
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Revision
+  commentId: P:Forma.Xaml.XamlSourceNode.Revision
+  fullName: Forma.Xaml.XamlSourceNode.Revision
+  nameWithType: XamlSourceNode.Revision
+- uid: Forma.Xaml.XamlSourceNode.Revision*
+  name: Revision
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Revision_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Revision
+  fullName: Forma.Xaml.XamlSourceNode.Revision
+  nameWithType: XamlSourceNode.Revision
+- uid: Forma.Xaml.XamlSourceNode.RevisionEncoding
+  name: RevisionEncoding
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_RevisionEncoding
+  commentId: P:Forma.Xaml.XamlSourceNode.RevisionEncoding
+  fullName: Forma.Xaml.XamlSourceNode.RevisionEncoding
+  nameWithType: XamlSourceNode.RevisionEncoding
+- uid: Forma.Xaml.XamlSourceNode.RevisionEncoding*
+  name: RevisionEncoding
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_RevisionEncoding_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.RevisionEncoding
+  fullName: Forma.Xaml.XamlSourceNode.RevisionEncoding
+  nameWithType: XamlSourceNode.RevisionEncoding
+- uid: Forma.Xaml.XamlSourceNode.Scope
+  name: Scope
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Scope
+  commentId: P:Forma.Xaml.XamlSourceNode.Scope
+  fullName: Forma.Xaml.XamlSourceNode.Scope
+  nameWithType: XamlSourceNode.Scope
+- uid: Forma.Xaml.XamlSourceNode.Scope*
+  name: Scope
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Scope_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Scope
+  fullName: Forma.Xaml.XamlSourceNode.Scope
+  nameWithType: XamlSourceNode.Scope
+- uid: Forma.Xaml.XamlSourceNode.ToString
+  name: ToString()
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_ToString
+  commentId: M:Forma.Xaml.XamlSourceNode.ToString
+  fullName: Forma.Xaml.XamlSourceNode.ToString()
+  nameWithType: XamlSourceNode.ToString()
+- uid: Forma.Xaml.XamlSourceNode.ToString*
+  name: ToString
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_ToString_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.ToString
+  fullName: Forma.Xaml.XamlSourceNode.ToString
+  nameWithType: XamlSourceNode.ToString
+- uid: Forma.Xaml.XamlSourceNode.Type
+  name: Type
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Type
+  commentId: P:Forma.Xaml.XamlSourceNode.Type
+  fullName: Forma.Xaml.XamlSourceNode.Type
+  nameWithType: XamlSourceNode.Type
+- uid: Forma.Xaml.XamlSourceNode.Type*
+  name: Type
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_Type_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.Type
+  fullName: Forma.Xaml.XamlSourceNode.Type
+  nameWithType: XamlSourceNode.Type
+- uid: Forma.Xaml.XamlSourceNode.XmlNamespace
+  name: XmlNamespace
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_XmlNamespace
+  commentId: P:Forma.Xaml.XamlSourceNode.XmlNamespace
+  fullName: Forma.Xaml.XamlSourceNode.XmlNamespace
+  nameWithType: XamlSourceNode.XmlNamespace
+- uid: Forma.Xaml.XamlSourceNode.XmlNamespace*
+  name: XmlNamespace
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_XmlNamespace_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.XmlNamespace
+  fullName: Forma.Xaml.XamlSourceNode.XmlNamespace
+  nameWithType: XamlSourceNode.XmlNamespace
+- uid: Forma.Xaml.XamlSourceNode.XmlType
+  name: XmlType
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_XmlType
+  commentId: P:Forma.Xaml.XamlSourceNode.XmlType
+  fullName: Forma.Xaml.XamlSourceNode.XmlType
+  nameWithType: XamlSourceNode.XmlType
+- uid: Forma.Xaml.XamlSourceNode.XmlType*
+  name: XmlType
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_XmlType_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.XmlType
+  fullName: Forma.Xaml.XamlSourceNode.XmlType
+  nameWithType: XamlSourceNode.XmlType
+- uid: Forma.Xaml.XamlSourceNode.op_Equality(Forma.Xaml.XamlSourceNode,Forma.Xaml.XamlSourceNode)
+  name: operator ==(XamlSourceNode?, XamlSourceNode?)
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_op_Equality_Forma_Xaml_XamlSourceNode_Forma_Xaml_XamlSourceNode_
+  commentId: M:Forma.Xaml.XamlSourceNode.op_Equality(Forma.Xaml.XamlSourceNode,Forma.Xaml.XamlSourceNode)
+  name.vb: =(XamlSourceNode, XamlSourceNode)
+  fullName: Forma.Xaml.XamlSourceNode.operator ==(Forma.Xaml.XamlSourceNode?, Forma.Xaml.XamlSourceNode?)
+  fullName.vb: Forma.Xaml.XamlSourceNode.=(Forma.Xaml.XamlSourceNode, Forma.Xaml.XamlSourceNode)
+  nameWithType: XamlSourceNode.operator ==(XamlSourceNode?, XamlSourceNode?)
+  nameWithType.vb: XamlSourceNode.=(XamlSourceNode, XamlSourceNode)
+- uid: Forma.Xaml.XamlSourceNode.op_Equality*
+  name: operator ==
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_op_Equality_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.op_Equality
+  name.vb: =
+  fullName: Forma.Xaml.XamlSourceNode.operator ==
+  fullName.vb: Forma.Xaml.XamlSourceNode.=
+  nameWithType: XamlSourceNode.operator ==
+  nameWithType.vb: XamlSourceNode.=
+- uid: Forma.Xaml.XamlSourceNode.op_Inequality(Forma.Xaml.XamlSourceNode,Forma.Xaml.XamlSourceNode)
+  name: operator !=(XamlSourceNode?, XamlSourceNode?)
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_op_Inequality_Forma_Xaml_XamlSourceNode_Forma_Xaml_XamlSourceNode_
+  commentId: M:Forma.Xaml.XamlSourceNode.op_Inequality(Forma.Xaml.XamlSourceNode,Forma.Xaml.XamlSourceNode)
+  name.vb: <>(XamlSourceNode, XamlSourceNode)
+  fullName: Forma.Xaml.XamlSourceNode.operator !=(Forma.Xaml.XamlSourceNode?, Forma.Xaml.XamlSourceNode?)
+  fullName.vb: Forma.Xaml.XamlSourceNode.<>(Forma.Xaml.XamlSourceNode, Forma.Xaml.XamlSourceNode)
+  nameWithType: XamlSourceNode.operator !=(XamlSourceNode?, XamlSourceNode?)
+  nameWithType.vb: XamlSourceNode.<>(XamlSourceNode, XamlSourceNode)
+- uid: Forma.Xaml.XamlSourceNode.op_Inequality*
+  name: operator !=
+  href: api/Forma.Xaml.XamlSourceNode.html#Forma_Xaml_XamlSourceNode_op_Inequality_
+  commentId: Overload:Forma.Xaml.XamlSourceNode.op_Inequality
+  name.vb: <>
+  fullName: Forma.Xaml.XamlSourceNode.operator !=
+  fullName.vb: Forma.Xaml.XamlSourceNode.<>
+  nameWithType: XamlSourceNode.operator !=
+  nameWithType.vb: XamlSourceNode.<>
 - uid: Forma.Xaml.XamlValueContribution`1
   name: XamlValueContribution<T>
   href: api/Forma.Xaml.XamlValueContribution-1.html
@@ -67079,6 +69132,38 @@ references:
   fullName.vb: Forma.Xaml.XamlValueContribution(Of T).Dispose
   nameWithType: XamlValueContribution<T>.Dispose
   nameWithType.vb: XamlValueContribution(Of T).Dispose
+- uid: Forma.Xaml.XamlValueContribution`1.IsAttached
+  name: IsAttached
+  href: api/Forma.Xaml.XamlValueContribution-1.html#Forma_Xaml_XamlValueContribution_1_IsAttached
+  commentId: P:Forma.Xaml.XamlValueContribution`1.IsAttached
+  fullName: Forma.Xaml.XamlValueContribution<T>.IsAttached
+  fullName.vb: Forma.Xaml.XamlValueContribution(Of T).IsAttached
+  nameWithType: XamlValueContribution<T>.IsAttached
+  nameWithType.vb: XamlValueContribution(Of T).IsAttached
+- uid: Forma.Xaml.XamlValueContribution`1.IsAttached*
+  name: IsAttached
+  href: api/Forma.Xaml.XamlValueContribution-1.html#Forma_Xaml_XamlValueContribution_1_IsAttached_
+  commentId: Overload:Forma.Xaml.XamlValueContribution`1.IsAttached
+  fullName: Forma.Xaml.XamlValueContribution<T>.IsAttached
+  fullName.vb: Forma.Xaml.XamlValueContribution(Of T).IsAttached
+  nameWithType: XamlValueContribution<T>.IsAttached
+  nameWithType.vb: XamlValueContribution(Of T).IsAttached
+- uid: Forma.Xaml.XamlValueContribution`1.Layer
+  name: Layer
+  href: api/Forma.Xaml.XamlValueContribution-1.html#Forma_Xaml_XamlValueContribution_1_Layer
+  commentId: P:Forma.Xaml.XamlValueContribution`1.Layer
+  fullName: Forma.Xaml.XamlValueContribution<T>.Layer
+  fullName.vb: Forma.Xaml.XamlValueContribution(Of T).Layer
+  nameWithType: XamlValueContribution<T>.Layer
+  nameWithType.vb: XamlValueContribution(Of T).Layer
+- uid: Forma.Xaml.XamlValueContribution`1.Layer*
+  name: Layer
+  href: api/Forma.Xaml.XamlValueContribution-1.html#Forma_Xaml_XamlValueContribution_1_Layer_
+  commentId: Overload:Forma.Xaml.XamlValueContribution`1.Layer
+  fullName: Forma.Xaml.XamlValueContribution<T>.Layer
+  fullName.vb: Forma.Xaml.XamlValueContribution(Of T).Layer
+  nameWithType: XamlValueContribution<T>.Layer
+  nameWithType.vb: XamlValueContribution(Of T).Layer
 - uid: Forma.Xaml.XamlValueContribution`1.Value
   name: Value
   href: api/Forma.Xaml.XamlValueContribution-1.html#Forma_Xaml_XamlValueContribution_1_Value
@@ -67200,6 +69285,15 @@ references:
   fullName.vb: Forma.Xaml.XamlValueConverter.ParseSvgAsset(String)
   nameWithType: XamlValueConverter.ParseSvgAsset(string)
   nameWithType.vb: XamlValueConverter.ParseSvgAsset(String)
+- uid: Forma.Xaml.XamlValueConverter.ParseSvgAsset(System.String,System.Reflection.Assembly)
+  name: ParseSvgAsset(string, Assembly)
+  href: api/Forma.Xaml.XamlValueConverter.html#Forma_Xaml_XamlValueConverter_ParseSvgAsset_System_String_System_Reflection_Assembly_
+  commentId: M:Forma.Xaml.XamlValueConverter.ParseSvgAsset(System.String,System.Reflection.Assembly)
+  name.vb: ParseSvgAsset(String, Assembly)
+  fullName: Forma.Xaml.XamlValueConverter.ParseSvgAsset(string, System.Reflection.Assembly)
+  fullName.vb: Forma.Xaml.XamlValueConverter.ParseSvgAsset(String, System.Reflection.Assembly)
+  nameWithType: XamlValueConverter.ParseSvgAsset(string, Assembly)
+  nameWithType.vb: XamlValueConverter.ParseSvgAsset(String, Assembly)
 - uid: Forma.Xaml.XamlValueConverter.ParseSvgAsset*
   name: ParseSvgAsset
   href: api/Forma.Xaml.XamlValueConverter.html#Forma_Xaml_XamlValueConverter_ParseSvgAsset_
@@ -67266,6 +69360,329 @@ references:
   commentId: Overload:Forma.Xaml.XamlValueConverter.TryConvert
   fullName: Forma.Xaml.XamlValueConverter.TryConvert
   nameWithType: XamlValueConverter.TryConvert
+- uid: Forma.Xaml.XamlValueEdit`1
+  name: XamlValueEdit<T>
+  href: api/Forma.Xaml.XamlValueEdit-1.html
+  commentId: T:Forma.Xaml.XamlValueEdit`1
+  name.vb: XamlValueEdit(Of T)
+  fullName: Forma.Xaml.XamlValueEdit<T>
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T)
+  nameWithType: XamlValueEdit<T>
+  nameWithType.vb: XamlValueEdit(Of T)
+- uid: Forma.Xaml.XamlValueEdit`1.Apply(`0)
+  name: Apply(T)
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Apply__0_
+  commentId: M:Forma.Xaml.XamlValueEdit`1.Apply(`0)
+  fullName: Forma.Xaml.XamlValueEdit<T>.Apply(T)
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Apply(T)
+  nameWithType: XamlValueEdit<T>.Apply(T)
+  nameWithType.vb: XamlValueEdit(Of T).Apply(T)
+- uid: Forma.Xaml.XamlValueEdit`1.Apply*
+  name: Apply
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Apply_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.Apply
+  fullName: Forma.Xaml.XamlValueEdit<T>.Apply
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Apply
+  nameWithType: XamlValueEdit<T>.Apply
+  nameWithType.vb: XamlValueEdit(Of T).Apply
+- uid: Forma.Xaml.XamlValueEdit`1.Attribute
+  name: Attribute
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Attribute
+  commentId: P:Forma.Xaml.XamlValueEdit`1.Attribute
+  fullName: Forma.Xaml.XamlValueEdit<T>.Attribute
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Attribute
+  nameWithType: XamlValueEdit<T>.Attribute
+  nameWithType.vb: XamlValueEdit(Of T).Attribute
+- uid: Forma.Xaml.XamlValueEdit`1.Attribute*
+  name: Attribute
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Attribute_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.Attribute
+  fullName: Forma.Xaml.XamlValueEdit<T>.Attribute
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Attribute
+  nameWithType: XamlValueEdit<T>.Attribute
+  nameWithType.vb: XamlValueEdit(Of T).Attribute
+- uid: Forma.Xaml.XamlValueEdit`1.AuthoredValue
+  name: AuthoredValue
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_AuthoredValue
+  commentId: P:Forma.Xaml.XamlValueEdit`1.AuthoredValue
+  fullName: Forma.Xaml.XamlValueEdit<T>.AuthoredValue
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).AuthoredValue
+  nameWithType: XamlValueEdit<T>.AuthoredValue
+  nameWithType.vb: XamlValueEdit(Of T).AuthoredValue
+- uid: Forma.Xaml.XamlValueEdit`1.AuthoredValue*
+  name: AuthoredValue
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_AuthoredValue_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.AuthoredValue
+  fullName: Forma.Xaml.XamlValueEdit<T>.AuthoredValue
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).AuthoredValue
+  nameWithType: XamlValueEdit<T>.AuthoredValue
+  nameWithType.vb: XamlValueEdit(Of T).AuthoredValue
+- uid: Forma.Xaml.XamlValueEdit`1.Dispose
+  name: Dispose()
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Dispose
+  commentId: M:Forma.Xaml.XamlValueEdit`1.Dispose
+  fullName: Forma.Xaml.XamlValueEdit<T>.Dispose()
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Dispose()
+  nameWithType: XamlValueEdit<T>.Dispose()
+  nameWithType.vb: XamlValueEdit(Of T).Dispose()
+- uid: Forma.Xaml.XamlValueEdit`1.Dispose*
+  name: Dispose
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Dispose_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.Dispose
+  fullName: Forma.Xaml.XamlValueEdit<T>.Dispose
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Dispose
+  nameWithType: XamlValueEdit<T>.Dispose
+  nameWithType.vb: XamlValueEdit(Of T).Dispose
+- uid: Forma.Xaml.XamlValueEdit`1.EffectiveValue
+  name: EffectiveValue
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_EffectiveValue
+  commentId: P:Forma.Xaml.XamlValueEdit`1.EffectiveValue
+  fullName: Forma.Xaml.XamlValueEdit<T>.EffectiveValue
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).EffectiveValue
+  nameWithType: XamlValueEdit<T>.EffectiveValue
+  nameWithType.vb: XamlValueEdit(Of T).EffectiveValue
+- uid: Forma.Xaml.XamlValueEdit`1.EffectiveValue*
+  name: EffectiveValue
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_EffectiveValue_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.EffectiveValue
+  fullName: Forma.Xaml.XamlValueEdit<T>.EffectiveValue
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).EffectiveValue
+  nameWithType: XamlValueEdit<T>.EffectiveValue
+  nameWithType.vb: XamlValueEdit(Of T).EffectiveValue
+- uid: Forma.Xaml.XamlValueEdit`1.Property
+  name: Property
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Property
+  commentId: P:Forma.Xaml.XamlValueEdit`1.Property
+  fullName: Forma.Xaml.XamlValueEdit<T>.Property
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Property
+  nameWithType: XamlValueEdit<T>.Property
+  nameWithType.vb: XamlValueEdit(Of T).Property
+- uid: Forma.Xaml.XamlValueEdit`1.Property*
+  name: Property
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Property_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.Property
+  fullName: Forma.Xaml.XamlValueEdit<T>.Property
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Property
+  nameWithType: XamlValueEdit<T>.Property
+  nameWithType.vb: XamlValueEdit(Of T).Property
+- uid: Forma.Xaml.XamlValueEdit`1.Source
+  name: Source
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Source
+  commentId: P:Forma.Xaml.XamlValueEdit`1.Source
+  fullName: Forma.Xaml.XamlValueEdit<T>.Source
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Source
+  nameWithType: XamlValueEdit<T>.Source
+  nameWithType.vb: XamlValueEdit(Of T).Source
+- uid: Forma.Xaml.XamlValueEdit`1.Source*
+  name: Source
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Source_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.Source
+  fullName: Forma.Xaml.XamlValueEdit<T>.Source
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Source
+  nameWithType: XamlValueEdit<T>.Source
+  nameWithType.vb: XamlValueEdit(Of T).Source
+- uid: Forma.Xaml.XamlValueEdit`1.Undo
+  name: Undo()
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Undo
+  commentId: M:Forma.Xaml.XamlValueEdit`1.Undo
+  fullName: Forma.Xaml.XamlValueEdit<T>.Undo()
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Undo()
+  nameWithType: XamlValueEdit<T>.Undo()
+  nameWithType.vb: XamlValueEdit(Of T).Undo()
+- uid: Forma.Xaml.XamlValueEdit`1.Undo*
+  name: Undo
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_Undo_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.Undo
+  fullName: Forma.Xaml.XamlValueEdit<T>.Undo
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).Undo
+  nameWithType: XamlValueEdit<T>.Undo
+  nameWithType.vb: XamlValueEdit(Of T).Undo
+- uid: Forma.Xaml.XamlValueEdit`1.ValidateCurrent
+  name: ValidateCurrent()
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_ValidateCurrent
+  commentId: M:Forma.Xaml.XamlValueEdit`1.ValidateCurrent
+  fullName: Forma.Xaml.XamlValueEdit<T>.ValidateCurrent()
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).ValidateCurrent()
+  nameWithType: XamlValueEdit<T>.ValidateCurrent()
+  nameWithType.vb: XamlValueEdit(Of T).ValidateCurrent()
+- uid: Forma.Xaml.XamlValueEdit`1.ValidateCurrent*
+  name: ValidateCurrent
+  href: api/Forma.Xaml.XamlValueEdit-1.html#Forma_Xaml_XamlValueEdit_1_ValidateCurrent_
+  commentId: Overload:Forma.Xaml.XamlValueEdit`1.ValidateCurrent
+  fullName: Forma.Xaml.XamlValueEdit<T>.ValidateCurrent
+  fullName.vb: Forma.Xaml.XamlValueEdit(Of T).ValidateCurrent
+  nameWithType: XamlValueEdit<T>.ValidateCurrent
+  nameWithType.vb: XamlValueEdit(Of T).ValidateCurrent
+- uid: Forma.Xaml.XamlValueHandle`1
+  name: XamlValueHandle<T>
+  href: api/Forma.Xaml.XamlValueHandle-1.html
+  commentId: T:Forma.Xaml.XamlValueHandle`1
+  name.vb: XamlValueHandle(Of T)
+  fullName: Forma.Xaml.XamlValueHandle<T>
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T)
+  nameWithType: XamlValueHandle<T>
+  nameWithType.vb: XamlValueHandle(Of T)
+- uid: Forma.Xaml.XamlValueHandle`1.#ctor(Forma.Xaml.XamlProperty{`0},System.Collections.Generic.IReadOnlyList{Forma.Xaml.XamlValueContribution{`0}})
+  name: XamlValueHandle(XamlProperty<T>, IReadOnlyList<XamlValueContribution<T>>)
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1__ctor_Forma_Xaml_XamlProperty__0__System_Collections_Generic_IReadOnlyList_Forma_Xaml_XamlValueContribution__0___
+  commentId: M:Forma.Xaml.XamlValueHandle`1.#ctor(Forma.Xaml.XamlProperty{`0},System.Collections.Generic.IReadOnlyList{Forma.Xaml.XamlValueContribution{`0}})
+  name.vb: New(XamlProperty(Of T), IReadOnlyList(Of XamlValueContribution(Of T)))
+  fullName: Forma.Xaml.XamlValueHandle<T>.XamlValueHandle(Forma.Xaml.XamlProperty<T>, System.Collections.Generic.IReadOnlyList<Forma.Xaml.XamlValueContribution<T>>)
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).New(Forma.Xaml.XamlProperty(Of T), System.Collections.Generic.IReadOnlyList(Of Forma.Xaml.XamlValueContribution(Of T)))
+  nameWithType: XamlValueHandle<T>.XamlValueHandle(XamlProperty<T>, IReadOnlyList<XamlValueContribution<T>>)
+  nameWithType.vb: XamlValueHandle(Of T).New(XamlProperty(Of T), IReadOnlyList(Of XamlValueContribution(Of T)))
+- uid: Forma.Xaml.XamlValueHandle`1.#ctor*
+  name: XamlValueHandle
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1__ctor_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.#ctor
+  name.vb: New
+  fullName: Forma.Xaml.XamlValueHandle<T>.XamlValueHandle
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).New
+  nameWithType: XamlValueHandle<T>.XamlValueHandle
+  nameWithType.vb: XamlValueHandle(Of T).New
+- uid: Forma.Xaml.XamlValueHandle`1.Contributions
+  name: Contributions
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Contributions
+  commentId: P:Forma.Xaml.XamlValueHandle`1.Contributions
+  fullName: Forma.Xaml.XamlValueHandle<T>.Contributions
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Contributions
+  nameWithType: XamlValueHandle<T>.Contributions
+  nameWithType.vb: XamlValueHandle(Of T).Contributions
+- uid: Forma.Xaml.XamlValueHandle`1.Contributions*
+  name: Contributions
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Contributions_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.Contributions
+  fullName: Forma.Xaml.XamlValueHandle<T>.Contributions
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Contributions
+  nameWithType: XamlValueHandle<T>.Contributions
+  nameWithType.vb: XamlValueHandle(Of T).Contributions
+- uid: Forma.Xaml.XamlValueHandle`1.Deconstruct(Forma.Xaml.XamlProperty{`0}@,System.Collections.Generic.IReadOnlyList{Forma.Xaml.XamlValueContribution{`0}}@)
+  name: Deconstruct(out XamlProperty<T>, out IReadOnlyList<XamlValueContribution<T>>)
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Deconstruct_Forma_Xaml_XamlProperty__0___System_Collections_Generic_IReadOnlyList_Forma_Xaml_XamlValueContribution__0____
+  commentId: M:Forma.Xaml.XamlValueHandle`1.Deconstruct(Forma.Xaml.XamlProperty{`0}@,System.Collections.Generic.IReadOnlyList{Forma.Xaml.XamlValueContribution{`0}}@)
+  name.vb: Deconstruct(XamlProperty(Of T), IReadOnlyList(Of XamlValueContribution(Of T)))
+  fullName: Forma.Xaml.XamlValueHandle<T>.Deconstruct(out Forma.Xaml.XamlProperty<T>, out System.Collections.Generic.IReadOnlyList<Forma.Xaml.XamlValueContribution<T>>)
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Deconstruct(Forma.Xaml.XamlProperty(Of T), System.Collections.Generic.IReadOnlyList(Of Forma.Xaml.XamlValueContribution(Of T)))
+  nameWithType: XamlValueHandle<T>.Deconstruct(out XamlProperty<T>, out IReadOnlyList<XamlValueContribution<T>>)
+  nameWithType.vb: XamlValueHandle(Of T).Deconstruct(XamlProperty(Of T), IReadOnlyList(Of XamlValueContribution(Of T)))
+- uid: Forma.Xaml.XamlValueHandle`1.Deconstruct*
+  name: Deconstruct
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Deconstruct_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.Deconstruct
+  fullName: Forma.Xaml.XamlValueHandle<T>.Deconstruct
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Deconstruct
+  nameWithType: XamlValueHandle<T>.Deconstruct
+  nameWithType.vb: XamlValueHandle(Of T).Deconstruct
+- uid: Forma.Xaml.XamlValueHandle`1.Equals(Forma.Xaml.XamlValueHandle{`0})
+  name: Equals(XamlValueHandle<T>?)
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Equals_Forma_Xaml_XamlValueHandle__0__
+  commentId: M:Forma.Xaml.XamlValueHandle`1.Equals(Forma.Xaml.XamlValueHandle{`0})
+  name.vb: Equals(XamlValueHandle(Of T))
+  fullName: Forma.Xaml.XamlValueHandle<T>.Equals(Forma.Xaml.XamlValueHandle<T>?)
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Equals(Forma.Xaml.XamlValueHandle(Of T))
+  nameWithType: XamlValueHandle<T>.Equals(XamlValueHandle<T>?)
+  nameWithType.vb: XamlValueHandle(Of T).Equals(XamlValueHandle(Of T))
+- uid: Forma.Xaml.XamlValueHandle`1.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Equals_System_Object_
+  commentId: M:Forma.Xaml.XamlValueHandle`1.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Forma.Xaml.XamlValueHandle<T>.Equals(object?)
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Equals(Object)
+  nameWithType: XamlValueHandle<T>.Equals(object?)
+  nameWithType.vb: XamlValueHandle(Of T).Equals(Object)
+- uid: Forma.Xaml.XamlValueHandle`1.Equals*
+  name: Equals
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Equals_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.Equals
+  fullName: Forma.Xaml.XamlValueHandle<T>.Equals
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Equals
+  nameWithType: XamlValueHandle<T>.Equals
+  nameWithType.vb: XamlValueHandle(Of T).Equals
+- uid: Forma.Xaml.XamlValueHandle`1.GetHashCode
+  name: GetHashCode()
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_GetHashCode
+  commentId: M:Forma.Xaml.XamlValueHandle`1.GetHashCode
+  fullName: Forma.Xaml.XamlValueHandle<T>.GetHashCode()
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).GetHashCode()
+  nameWithType: XamlValueHandle<T>.GetHashCode()
+  nameWithType.vb: XamlValueHandle(Of T).GetHashCode()
+- uid: Forma.Xaml.XamlValueHandle`1.GetHashCode*
+  name: GetHashCode
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_GetHashCode_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.GetHashCode
+  fullName: Forma.Xaml.XamlValueHandle<T>.GetHashCode
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).GetHashCode
+  nameWithType: XamlValueHandle<T>.GetHashCode
+  nameWithType.vb: XamlValueHandle(Of T).GetHashCode
+- uid: Forma.Xaml.XamlValueHandle`1.Property
+  name: Property
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Property
+  commentId: P:Forma.Xaml.XamlValueHandle`1.Property
+  fullName: Forma.Xaml.XamlValueHandle<T>.Property
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Property
+  nameWithType: XamlValueHandle<T>.Property
+  nameWithType.vb: XamlValueHandle(Of T).Property
+- uid: Forma.Xaml.XamlValueHandle`1.Property*
+  name: Property
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_Property_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.Property
+  fullName: Forma.Xaml.XamlValueHandle<T>.Property
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).Property
+  nameWithType: XamlValueHandle<T>.Property
+  nameWithType.vb: XamlValueHandle(Of T).Property
+- uid: Forma.Xaml.XamlValueHandle`1.ToString
+  name: ToString()
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_ToString
+  commentId: M:Forma.Xaml.XamlValueHandle`1.ToString
+  fullName: Forma.Xaml.XamlValueHandle<T>.ToString()
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).ToString()
+  nameWithType: XamlValueHandle<T>.ToString()
+  nameWithType.vb: XamlValueHandle(Of T).ToString()
+- uid: Forma.Xaml.XamlValueHandle`1.ToString*
+  name: ToString
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_ToString_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.ToString
+  fullName: Forma.Xaml.XamlValueHandle<T>.ToString
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).ToString
+  nameWithType: XamlValueHandle<T>.ToString
+  nameWithType.vb: XamlValueHandle(Of T).ToString
+- uid: Forma.Xaml.XamlValueHandle`1.op_Equality(Forma.Xaml.XamlValueHandle{`0},Forma.Xaml.XamlValueHandle{`0})
+  name: operator ==(XamlValueHandle<T>?, XamlValueHandle<T>?)
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_op_Equality_Forma_Xaml_XamlValueHandle__0__Forma_Xaml_XamlValueHandle__0__
+  commentId: M:Forma.Xaml.XamlValueHandle`1.op_Equality(Forma.Xaml.XamlValueHandle{`0},Forma.Xaml.XamlValueHandle{`0})
+  name.vb: =(XamlValueHandle(Of T), XamlValueHandle(Of T))
+  fullName: Forma.Xaml.XamlValueHandle<T>.operator ==(Forma.Xaml.XamlValueHandle<T>?, Forma.Xaml.XamlValueHandle<T>?)
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).=(Forma.Xaml.XamlValueHandle(Of T), Forma.Xaml.XamlValueHandle(Of T))
+  nameWithType: XamlValueHandle<T>.operator ==(XamlValueHandle<T>?, XamlValueHandle<T>?)
+  nameWithType.vb: XamlValueHandle(Of T).=(XamlValueHandle(Of T), XamlValueHandle(Of T))
+- uid: Forma.Xaml.XamlValueHandle`1.op_Equality*
+  name: operator ==
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_op_Equality_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.op_Equality
+  name.vb: =
+  fullName: Forma.Xaml.XamlValueHandle<T>.operator ==
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).=
+  nameWithType: XamlValueHandle<T>.operator ==
+  nameWithType.vb: XamlValueHandle(Of T).=
+- uid: Forma.Xaml.XamlValueHandle`1.op_Inequality(Forma.Xaml.XamlValueHandle{`0},Forma.Xaml.XamlValueHandle{`0})
+  name: operator !=(XamlValueHandle<T>?, XamlValueHandle<T>?)
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_op_Inequality_Forma_Xaml_XamlValueHandle__0__Forma_Xaml_XamlValueHandle__0__
+  commentId: M:Forma.Xaml.XamlValueHandle`1.op_Inequality(Forma.Xaml.XamlValueHandle{`0},Forma.Xaml.XamlValueHandle{`0})
+  name.vb: <>(XamlValueHandle(Of T), XamlValueHandle(Of T))
+  fullName: Forma.Xaml.XamlValueHandle<T>.operator !=(Forma.Xaml.XamlValueHandle<T>?, Forma.Xaml.XamlValueHandle<T>?)
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).<>(Forma.Xaml.XamlValueHandle(Of T), Forma.Xaml.XamlValueHandle(Of T))
+  nameWithType: XamlValueHandle<T>.operator !=(XamlValueHandle<T>?, XamlValueHandle<T>?)
+  nameWithType.vb: XamlValueHandle(Of T).<>(XamlValueHandle(Of T), XamlValueHandle(Of T))
+- uid: Forma.Xaml.XamlValueHandle`1.op_Inequality*
+  name: operator !=
+  href: api/Forma.Xaml.XamlValueHandle-1.html#Forma_Xaml_XamlValueHandle_1_op_Inequality_
+  commentId: Overload:Forma.Xaml.XamlValueHandle`1.op_Inequality
+  name.vb: <>
+  fullName: Forma.Xaml.XamlValueHandle<T>.operator !=
+  fullName.vb: Forma.Xaml.XamlValueHandle(Of T).<>
+  nameWithType: XamlValueHandle<T>.operator !=
+  nameWithType.vb: XamlValueHandle(Of T).<>
 - uid: Forma.Xaml.XamlValueLayer
   name: XamlValueLayer
   href: api/Forma.Xaml.XamlValueLayer.html
@@ -67311,6 +69728,21 @@ references:
   fullName.vb: Forma.Xaml.XamlValues.GetEffectiveValue(Of T)(Object, Forma.Xaml.XamlProperty(Of T))
   nameWithType: XamlValues.GetEffectiveValue<T>(object, XamlProperty<T>)
   nameWithType.vb: XamlValues.GetEffectiveValue(Of T)(Object, XamlProperty(Of T))
+- uid: Forma.Xaml.XamlValues.Inspect*
+  name: Inspect
+  href: api/Forma.Xaml.XamlValues.html#Forma_Xaml_XamlValues_Inspect_
+  commentId: Overload:Forma.Xaml.XamlValues.Inspect
+  fullName: Forma.Xaml.XamlValues.Inspect
+  nameWithType: XamlValues.Inspect
+- uid: Forma.Xaml.XamlValues.Inspect``1(System.Object,System.String)
+  name: Inspect<T>(object, string)
+  href: api/Forma.Xaml.XamlValues.html#Forma_Xaml_XamlValues_Inspect__1_System_Object_System_String_
+  commentId: M:Forma.Xaml.XamlValues.Inspect``1(System.Object,System.String)
+  name.vb: Inspect(Of T)(Object, String)
+  fullName: Forma.Xaml.XamlValues.Inspect<T>(object, string)
+  fullName.vb: Forma.Xaml.XamlValues.Inspect(Of T)(Object, String)
+  nameWithType: XamlValues.Inspect<T>(object, string)
+  nameWithType.vb: XamlValues.Inspect(Of T)(Object, String)
 - uid: Forma.Xaml.XamlValues.RefreshBaseValue*
   name: RefreshBaseValue
   href: api/Forma.Xaml.XamlValues.html#Forma_Xaml_XamlValues_RefreshBaseValue_

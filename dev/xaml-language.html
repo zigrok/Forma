@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/8088b838e131ee70be9923fb08936d2dd232e4e6/docs/xaml-language.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/docs/xaml-language.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -138,7 +138,12 @@ Release output.</li>
 intermediate and Debug source-copy locations.</li>
 </ul>
 <p>Compilation is incremental over XAML, references, the target assembly, and compiler task. Release
-outputs are deterministic and portable-PDB diagnostics retain source file, line, and column.</p>
+outputs are deterministic and portable-PDB diagnostics retain source file, line, and column.
+XAML edits and additions/removals participate in C# compilation inputs, as do the XAML build
+options. Referenced implementation assemblies also participate, even when a dependency's
+public reference assembly is unchanged. Changed inputs regenerate a pristine assembly
+before Cecil injection; an unchanged rebuild does not append another set of generated
+types or registrations.</p>
 <h2 id="object-construction-and-content">Object Construction and Content</h2>
 <p>An element names a public CLR type in its XML namespace. Attribute syntax sets public properties
 or subscribes public events. Property-element syntax uses <code>Owner.Property</code>. Child elements are
@@ -661,7 +666,7 @@ trigger, and storyboard examples remain canonical where they do not conflict wit
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/8088b838e131ee70be9923fb08936d2dd232e4e6/docs/xaml-language.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/docs/xaml-language.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -678,7 +683,7 @@ trigger, and storyboard examples remain canonical where they do not conflict wit
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 8088b838e131 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · feb6f8daee6b · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

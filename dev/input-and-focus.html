@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/8088b838e131ee70be9923fb08936d2dd232e4e6/docs/input-and-focus.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/docs/input-and-focus.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -128,7 +128,32 @@ internal static class QuickStartView
         return root;
     }
 }
-</code></pre><h2 id="focus-and-keyboard">Focus and keyboard</h2>
+</code></pre><h2 id="system-cursors">System cursors</h2>
+<p><code>UIComponent</code> routes <code>Control.EffectiveCursor</code> to the runtime's system cursor. <code>LineEdit</code> and
+<code>TextEdit</code> default to <code>Cursor.IBeam</code>, including selectable read-only text. Set <code>Cursor</code> explicitly
+to override that default, or set <code>Cursor.Inherited</code> to use the parent's cursor. Other controls
+continue to inherit, falling back to <code>Cursor.Arrow</code>.</p>
+<p><code>UIContext.EffectiveCursor</code> resolves the eligible pointer capture first (so a text selection keeps
+its I-beam across other controls), then the current hit target, then Arrow. Keyboard focus does
+not select a cursor. Modal boundaries, hidden/disabled/detached subtrees and hit-test filtering
+are respected. Input positions are converted through <code>DisplayScale</code> exactly once by the existing
+input path; cursor resolution uses logical coordinates. Custom hosts can consume this property
+without invoking native APIs.</p>
+<p><code>UIComponent.SupportsSystemCursor</code> reports the adapter capability. MonoGame DesktopGL uses
+<code>Mouse.SetCursor</code>; the native SDL runtime uses the same public API and obtains ownership checks
+from its loaded <code>mgruntime</code> library. FNA.NET 2.2.11.2602 supplies <code>MouseCursorEXT.SetCursor</code> and
+built-in cursors for its SDL2/SDL3 desktop backends. Browser builds, non-SDL MonoGame windows and
+unavailable native focus APIs report unsupported rather than changing a global cursor blindly.
+This path uses typed native delegates, not dynamic code generation, and does not own/dispose the
+runtime's shared built-in cursors.</p>
+<p>Routing requires an active game, a visible system mouse, the runtime's primary mouse window,
+matching native mouse <strong>and</strong> keyboard focus, and a pointer inside the physical drawable area.
+Capture does not authorize writes outside that window. Leaving or deactivating forgets the last
+cursor without writing to another window; reentry reapplies it. Empty UI space restores Arrow.
+Disabling/hiding or disposing the component restores Arrow only if it previously applied a cursor
+and still owns the pointer. Native focus changes and cursor appearance still require a visible
+platform acceptance test; deterministic context/router tests do not open a game window.</p>
+<h2 id="focus-and-keyboard">Focus and keyboard</h2>
 <p>Base <code>Control</code> defaults to <code>FocusMode.None</code>; interactive controls choose stronger defaults, and
 <code>BaseButton</code> defaults to <code>FocusMode.All</code>. <code>Click</code> accepts pointer focus but is omitted from tab
 traversal. <code>All</code> participates in both. Use <code>FocusNext</code>/<code>FocusPrevious</code> for explicit tab order and the
@@ -144,6 +169,36 @@ other editing controls. A host with a custom platform layer can replace that cap
 single <code>LineEdit</code> can override paste through <code>ClipboardTextProvider</code>.</p>
 <p>Run the peer-specific fixture described in <a href="getting-started/csharp-first-ui.html">Build your first UI in C#</a>
 to validate the full adapter rather than invoking control internals directly.</p>
+<p>Desktop text editors support Command+C/X/V/A/Z on macOS and Control+C/X/V/A/Z on
+Windows/Linux, including either side's modifier key and Shift+Command/Control+Z
+for redo. Existing Control/Command aliases are retained; Alt/AltGr combinations
+do not invoke editing shortcuts or interfere with printable text.</p>
+<p><code>UIComponent</code> binds the default clipboard to its actual runtime without replacing
+an injected <code>IClipboard</code>. Native MonoGame resolves the SDL exports from its
+assembly-relative <code>mgruntime</code>; DesktopGL resolves its SDL2 library on Windows,
+macOS and Linux. A Native window never falls back to an unrelated SDL instance.
+Access is retried after early initialization failure. SDL2's zero-success integer
+and SDL3's one-byte success boolean are marshalled separately, and returned UTF-8
+buffers are freed by that same SDL module. FNA uses its SDL2/SDL3 managed wrappers.
+Non-SDL MonoGame windows require a host-provided clipboard.</p>
+<p>Cut removes selections or whole caret lines only after <code>IClipboard.SetText</code>
+acknowledges the write. Unavailable/rejected copy, cut or paste reports
+<code>LineEdit.ClipboardOperationFailed</code> (also inherited by <code>TextEdit</code>) and a trace
+warning, without changing text, selections or undo history. <code>CopyRequested</code>
+remains a notification of the attempted write, not an acknowledgement: custom
+hosts should supply <code>IClipboard</code>, not rely on that event to authorize deletion.
+Readonly editors may copy/cut-as-copy but do not read the clipboard for paste;
+password fields never export their secret. An empty available clipboard is
+distinct from unavailable access.</p>
+<p>The synchronous default clipboard contract does not implement browser permission/
+asynchronous clipboard APIs. Browser hosts must supply an appropriate host bridge;
+unsupported access must not pretend to succeed or discard selected text.</p>
+<p><code>ClipboardShortcutTest</code>, <code>UIContextClipboardTest</code> and <code>RuntimeClipboardTransportTest</code>
+exercise isolated memory/native doubles, not the machine's clipboard. The optional
+C ABI cases use <code>tests/Forma.Tests/RuntimeClipboardAbiFixture.c</code>: compile it as a
+shared library for the runner's architecture and set <code>FORMA_CLIPBOARD_ABI_FIXTURE</code>
+to its absolute path. It neither links SDL nor accesses a window or OS clipboard;
+without that explicit fixture only those two ABI cases are skipped.</p>
 <h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li><code>MouseFilter.Ignore</code> does not disable hit testing for descendants; disable or restructure the
@@ -159,7 +214,7 @@ shows keyboard-reachable fields, toggles, and sliders in a complete application 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/8088b838e131ee70be9923fb08936d2dd232e4e6/docs/input-and-focus.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/docs/input-and-focus.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -176,7 +231,7 @@ shows keyboard-reachable fields, toggles, and sliders in a complete application 
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 8088b838e131 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · feb6f8daee6b · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

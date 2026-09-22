@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Class XamlValueHandle&lt;T&gt; | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class XamlValueHandle&lt;T&gt; | Forma Documentation ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Forma.Xaml.XamlValueHandle`1">
+
+
+
+  <h1 id="Forma_Xaml_XamlValueHandle_1" data-uid="Forma.Xaml.XamlValueHandle`1" class="text-break">
+Class XamlValueHandle&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Forma.html">Forma</a>.<a class="xref" href="Forma.Xaml.html">Xaml</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Forma.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed record XamlValueHandle&lt;T&gt; : IEquatable&lt;XamlValueHandle&lt;T&gt;&gt;</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">XamlValueHandle&lt;T&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Forma.Xaml.XamlValueHandle-1.html">XamlValueHandle</a>&lt;T&gt;&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1__ctor_" data-uid="Forma.Xaml.XamlValueHandle`1.#ctor*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1__ctor_Forma_Xaml_XamlProperty__0__System_Collections_Generic_IReadOnlyList_Forma_Xaml_XamlValueContribution__0___" data-uid="Forma.Xaml.XamlValueHandle`1.#ctor(Forma.Xaml.XamlProperty{`0},System.Collections.Generic.IReadOnlyList{Forma.Xaml.XamlValueContribution{`0}})">
+  XamlValueHandle(XamlProperty&lt;T&gt;, IReadOnlyList&lt;XamlValueContribution&lt;T&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public XamlValueHandle(XamlProperty&lt;T&gt; Property, IReadOnlyList&lt;XamlValueContribution&lt;T&gt;&gt; Contributions)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>Property</code> <a class="xref" href="Forma.Xaml.XamlProperty-1.html">XamlProperty</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>Contributions</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Forma.Xaml.XamlValueContribution-1.html">XamlValueContribution</a>&lt;T&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_Contributions_" data-uid="Forma.Xaml.XamlValueHandle`1.Contributions*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_Contributions" data-uid="Forma.Xaml.XamlValueHandle`1.Contributions">
+  Contributions
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;XamlValueContribution&lt;T&gt;&gt; Contributions { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Forma.Xaml.XamlValueContribution-1.html">XamlValueContribution</a>&lt;T&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_Property_" data-uid="Forma.Xaml.XamlValueHandle`1.Property*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_Property" data-uid="Forma.Xaml.XamlValueHandle`1.Property">
+  Property
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public XamlProperty&lt;T&gt; Property { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Forma.Xaml.XamlProperty-1.html">XamlProperty</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_Deconstruct_" data-uid="Forma.Xaml.XamlValueHandle`1.Deconstruct*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_Deconstruct_Forma_Xaml_XamlProperty__0___System_Collections_Generic_IReadOnlyList_Forma_Xaml_XamlValueContribution__0____" data-uid="Forma.Xaml.XamlValueHandle`1.Deconstruct(Forma.Xaml.XamlProperty{`0}@,System.Collections.Generic.IReadOnlyList{Forma.Xaml.XamlValueContribution{`0}}@)">
+  Deconstruct(out XamlProperty&lt;T&gt;, out IReadOnlyList&lt;XamlValueContribution&lt;T&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Deconstruct(out XamlProperty&lt;T&gt; Property, out IReadOnlyList&lt;XamlValueContribution&lt;T&gt;&gt; Contributions)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>Property</code> <a class="xref" href="Forma.Xaml.XamlProperty-1.html">XamlProperty</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>Contributions</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Forma.Xaml.XamlValueContribution-1.html">XamlValueContribution</a>&lt;T&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_Equals_" data-uid="Forma.Xaml.XamlValueHandle`1.Equals*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_Equals_Forma_Xaml_XamlValueHandle__0__" data-uid="Forma.Xaml.XamlValueHandle`1.Equals(Forma.Xaml.XamlValueHandle{`0})">
+  Equals(XamlValueHandle&lt;T&gt;?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(XamlValueHandle&lt;T&gt;? other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Forma.Xaml.XamlValueHandle-1.html">XamlValueHandle</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_Equals_" data-uid="Forma.Xaml.XamlValueHandle`1.Equals*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_Equals_System_Object_" data-uid="Forma.Xaml.XamlValueHandle`1.Equals(System.Object)">
+  Equals(object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object? obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_GetHashCode_" data-uid="Forma.Xaml.XamlValueHandle`1.GetHashCode*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_GetHashCode" data-uid="Forma.Xaml.XamlValueHandle`1.GetHashCode">
+  GetHashCode()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_ToString_" data-uid="Forma.Xaml.XamlValueHandle`1.ToString*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_ToString" data-uid="Forma.Xaml.XamlValueHandle`1.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_op_Equality_" data-uid="Forma.Xaml.XamlValueHandle`1.op_Equality*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_op_Equality_Forma_Xaml_XamlValueHandle__0__Forma_Xaml_XamlValueHandle__0__" data-uid="Forma.Xaml.XamlValueHandle`1.op_Equality(Forma.Xaml.XamlValueHandle{`0},Forma.Xaml.XamlValueHandle{`0})">
+  operator ==(XamlValueHandle&lt;T&gt;?, XamlValueHandle&lt;T&gt;?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(XamlValueHandle&lt;T&gt;? left, XamlValueHandle&lt;T&gt;? right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="Forma.Xaml.XamlValueHandle-1.html">XamlValueHandle</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="Forma.Xaml.XamlValueHandle-1.html">XamlValueHandle</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_Xaml_XamlValueHandle_1_op_Inequality_" data-uid="Forma.Xaml.XamlValueHandle`1.op_Inequality*"></a>
+
+  <h3 id="Forma_Xaml_XamlValueHandle_1_op_Inequality_Forma_Xaml_XamlValueHandle__0__Forma_Xaml_XamlValueHandle__0__" data-uid="Forma.Xaml.XamlValueHandle`1.op_Inequality(Forma.Xaml.XamlValueHandle{`0},Forma.Xaml.XamlValueHandle{`0})">
+  operator !=(XamlValueHandle&lt;T&gt;?, XamlValueHandle&lt;T&gt;?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(XamlValueHandle&lt;T&gt;? left, XamlValueHandle&lt;T&gt;? right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="Forma.Xaml.XamlValueHandle-1.html">XamlValueHandle</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="Forma.Xaml.XamlValueHandle-1.html">XamlValueHandle</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/feb6f8daee6b46c2673c0c623deb1b3e1fb11f38/src/Forma/Xaml/XamlValues.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · feb6f8daee6b · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -345,6 +345,31 @@ anchors and offsets are resolved during layout.</p>
       <dd></dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Forma.DockPane.html">DockPane</a></dt>
+      <dd><p>A tabbed group of dock sections. Accepts dropped sections and reports which
+<a class="xref" href="Forma.DockZone.html">DockZone</a> the pointer is over so the workspace can either merge the section in
+as a tab or split this pane.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.DockSection.html">DockSection</a></dt>
+      <dd><p>A dockable panel: a stable id, a tab title, and the content shown when it is active.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.DockTab.html">DockTab</a></dt>
+      <dd><p>One tab in a <a class="xref" href="Forma.DockPane.html">DockPane</a>'s header. Dragging it hands a <span class="xref">Forma.DockDragPayload</span>
+to <a class="xref" href="Forma.UIContext.html">UIContext</a>'s drag system, which resolves the drop target by walking ancestors
+and asking each for <a class="xref" href="Forma.Control.html#Forma_Control_CanDropData_Microsoft_Xna_Framework_Point_System_Object_">CanDropData(Point, object)</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.DockWorkspace.html">DockWorkspace</a></dt>
+      <dd><p>Root of a docking workspace. Holds a logical tree of panes and splits, and rebuilds the
+control tree from it whenever the layout changes.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Forma.Drawing.html">Drawing</a></dt>
       <dd></dd>
     </dl>
@@ -695,6 +720,28 @@ anchors and offsets are resolved during layout.</p>
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.MenuButton.html">MenuButton</a></dt>
       <dd><p>A button that opens its owned <a class="xref" href="Forma.PopupMenu.html">PopupMenu</a> underneath itself.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.ModalOutcome-1.html">ModalOutcome&lt;T&gt;</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.ModalOutcome-1.Accepted.html">ModalOutcome&lt;T&gt;.Accepted</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.ModalOutcome-1.Cancelled.html">ModalOutcome&lt;T&gt;.Cancelled</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.ModalSession-1.html">ModalSession&lt;T&gt;</a></dt>
+      <dd><p>Owns one detached popup and its compiled control lifetime. Construct, open, accept, cancel and dispose
+on the context's creation thread. Token callbacks only latch; Update drains cancellation.
+Acceptance linearizes under the same lock as cancellation, after result validation.
+A cancellation already signalled at that point wins. Cleanup precedes completion; cleanup failure faults it.
+Context disposal terminates even an unopened session and prevents further session reservations.
+The caller supplies result validation and is responsible for immutable result ownership.</p>
 </dd>
     </dl>
     <dl class="jumplist">
@@ -1542,6 +1589,11 @@ Enums
 </dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Forma.ClipboardOperation.html">ClipboardOperation</a></dt>
+      <dd><p>An editor clipboard operation that the platform could not complete.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Forma.CodeCompletionKind.html">CodeCompletionKind</a></dt>
       <dd></dd>
     </dl>
@@ -1578,6 +1630,11 @@ Enums
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.DataGridSortDirection.html">DataGridSortDirection</a></dt>
       <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.DockZone.html">DockZone</a></dt>
+      <dd><p>Where a dropped section lands relative to the pane under the pointer.</p>
+</dd>
     </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.DrawingPathCommandKind.html">DrawingPathCommandKind</a></dt>
@@ -1744,6 +1801,10 @@ Enums
     </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.LinkButtonUnderlineMode.html">LinkButtonUnderlineMode</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.ModalCancelReason.html">ModalCancelReason</a></dt>
       <dd></dd>
     </dl>
     <dl class="jumplist">
@@ -2051,7 +2112,7 @@ Delegates
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 8088b838e131 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · feb6f8daee6b · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>
