@@ -93,6 +93,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Forma.DynamicText" />
+    <InternalsVisibleTo Include="Forma.Testing" />
     <InternalsVisibleTo Include="Forma.Media" />
     <InternalsVisibleTo Include="Forma.Svg.Skia" />
     <InternalsVisibleTo Include="Forma.Svg.ThorVG" />

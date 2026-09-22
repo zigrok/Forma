@@ -44,6 +44,7 @@ namespace Forma
         /// <summary><see cref="Id"/> of the containing node, or 0 for a root.</summary>
         public int ParentId { get; }
 
+        /// <summary>What kind of element this is, which is how a locator finds it by role.</summary>
         public AccessibilityRole Role { get; }
 
         /// <summary>What assistive technology announces. Changes when a control is relabelled.</summary>
@@ -52,15 +53,19 @@ namespace Forma
         /// <summary>Author-assigned identifier, empty when unset. Stable across relabelling.</summary>
         public string AutomationId { get; }
 
+        /// <summary>The element's current value, where it has one: a field's text, a slider's number.</summary>
         public string Value { get; }
 
+        /// <summary>What this element can be asked to do. See <see cref="AccessibilityPeer.Invoke"/>.</summary>
         public AccessibilityActions Actions { get; }
 
+        /// <summary>Disabled, focused, offscreen and the rest, used for actionability decisions.</summary>
         public AccessibilityStates States { get; }
 
         /// <summary>Bounds in global coordinates, matching what pointer input uses.</summary>
         public Rectangle Bounds { get; }
 
+        /// <summary>Whether this node sits directly under the context, with no parent node.</summary>
         public bool IsRoot => ParentId == 0;
     }
 
@@ -99,6 +104,7 @@ namespace Forma
         /// </summary>
         public bool IsModalActive { get; }
 
+        /// <summary>Finds a node by id without scanning, which is what makes diffing cheap.</summary>
         public bool TryGetNode(int id, out AccessibilityNode node)
         {
             if (_indexById.TryGetValue(id, out var index))
@@ -165,6 +171,7 @@ namespace Forma
             return builder.ToString();
         }
 
+        /// <summary>A short summary for logs; use <see cref="ToText"/> for the tree itself.</summary>
         public override string ToString() =>
             string.Create(CultureInfo.InvariantCulture, $"AccessibilityTreeSnapshot({Nodes.Count} nodes, focus={FocusedId})");
     }
@@ -348,15 +355,19 @@ namespace Forma
             FocusChanged = focusChanged;
         }
 
+        /// <summary>Nodes that were not in the previous snapshot.</summary>
         public IReadOnlyList<AccessibilityNode> Added { get; }
 
+        /// <summary>Nodes whose reported detail changed. Identity is stable, so these are not re-adds.</summary>
         public IReadOnlyList<AccessibilityNode> Updated { get; }
 
         /// <summary>Ids of nodes that are gone, so a consumer can drop them without a search.</summary>
         public IReadOnlyList<int> Removed { get; }
 
+        /// <summary>Where focus is now, or 0 for nothing focused.</summary>
         public int FocusedId { get; }
 
+        /// <summary>Whether focus moved, which is reported even when no node's detail changed.</summary>
         public bool FocusChanged { get; }
 
         /// <summary>True when nothing moved, so a caller can skip the push entirely.</summary>
@@ -379,6 +390,7 @@ namespace Forma
         private readonly List<Control> _subscribed = new List<Control>();
         private bool _disposed;
 
+        /// <summary>Starts watching a context. Dispose to unsubscribe.</summary>
         public AccessibilityTreeWatcher(UIContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -412,6 +424,7 @@ namespace Forma
         /// <summary>Forces the next <see cref="Update"/> to re-capture.</summary>
         public void Invalidate() => IsDirty = true;
 
+        /// <summary>Unsubscribes from the context and every control it was listening to.</summary>
         public void Dispose()
         {
             if (_disposed) return;

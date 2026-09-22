@@ -276,6 +276,9 @@ namespace Forma
             return matches.Count == 1 && Matches(matches[0].Value, value, exact);
         }
 
+        /// <summary>The tree this locator searches, as text. Used by failure messages.</summary>
+        public string CaptureTreeText() => AccessibilityTree.Capture(_context).ToText();
+
         public override string ToString() => $"Locator({Description})";
 
         // --- internals --------------------------------------------------------------------------
