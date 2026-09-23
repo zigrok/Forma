@@ -653,7 +653,12 @@ Generic
 48 px raster"
 === DockPane
 Generic "DockPane"
-  Generic
+  ScrollView
+    Generic
+      Generic "PART_ScrollPresenter"
+        Generic
+      Generic
+      Generic
 === DockWorkspace
 Generic "DockWorkspace"
 === Dynamic Sizes

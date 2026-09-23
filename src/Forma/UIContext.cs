@@ -627,6 +627,23 @@ namespace Forma
             _previousKeyboard = keyboard;
         }
 
+        /// <summary>
+        /// Converts a logical position -- the space <see cref="Control.Bounds"/> is reported in --
+        /// into the physical one the <c>Inject</c> methods take.
+        /// </summary>
+        /// <remarks>
+        /// The two spaces coincide at <see cref="DisplayScale"/> 1, which is every headless test,
+        /// so a test that feeds a control's own Bounds straight to InjectPointerPress passes in CI
+        /// and then misses the control entirely on a Retina display. Nothing warns you: the click
+        /// lands somewhere, just not there. Anything deriving a pointer position from a control's
+        /// geometry should go through this.
+        /// </remarks>
+        public Point ToPhysicalPointerPosition(Point logicalPosition) => Math.Abs(DisplayScale - 1f) <= .0001f
+            ? logicalPosition
+            : new Point(
+                (int)MathF.Round(logicalPosition.X * DisplayScale),
+                (int)MathF.Round(logicalPosition.Y * DisplayScale));
+
         private Point ToLogicalPointerPosition(Point physicalPosition) => Math.Abs(DisplayScale - 1f) <= .0001f
             ? physicalPosition
             : new Point(

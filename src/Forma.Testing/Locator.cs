@@ -216,6 +216,8 @@ namespace Forma
 
         private void Perform(AccessibilityActions action, object argument, string verb)
         {
+            ScrollIntoViewBeforeActing();
+
             var node = ResolveActionable();
 
             // The node is a value snapshot, so the live control has to be found again to act on it.
@@ -370,6 +372,31 @@ namespace Forma
 
             detail = null;
             return ActionabilityFailure.None;
+        }
+
+        /// <summary>
+        /// Scrolls the element into view before an action, the way Playwright does.
+        /// </summary>
+        /// <remarks>
+        /// Something that needs scrolling to reach is still something the user can click, so a
+        /// test that has to scroll first is a test encoding a scroll position instead of an
+        /// intent -- and one that breaks the day a strip gets one tab wider. Without this, a dock
+        /// tab scrolled past the end of its header fails as "nothing is hit-testable", which
+        /// describes the symptom and not the cause.
+        ///
+        /// Best effort on purpose: if the element cannot be resolved to exactly one control there
+        /// is nothing to scroll, and ResolveActionable is about to give the better error anyway.
+        /// </remarks>
+        private void ScrollIntoViewBeforeActing()
+        {
+            var matches = ResolveAll();
+            if (matches.Count != 1) return;
+
+            var control = FindControl(matches[0].Id);
+            if (control == null) return;
+
+            control.BringIntoView();
+            _context.Layout();
         }
 
         private static bool IsSelfOrDescendant(Control hit, int id)

@@ -42,7 +42,13 @@ namespace Forma
         private int _hoveredTab = -1;
         private Popup _popup;
         private bool _deselectEnabled;
+        private int _tabScroll;
+        private bool _scrollCurrentIntoView;
         private const int PopupButtonWidth = 20;
+
+        /// How far a wheel notch moves the strip. Roughly a narrow tab, so a notch is a visible
+        /// step without skipping past a tab you were looking for.
+        private const int TabScrollWheelStep = 48;
         public int CurrentTab
         {
             get => _currentTab;
@@ -65,11 +71,59 @@ namespace Forma
                 _previousTab = _currentTab;
                 TabSelected?.Invoke(this, next);
                 if (_currentTab == next) return;
-                _currentTab = next; UpdateVisibility(); TabChanged?.Invoke(this, next);
+                _currentTab = next; UpdateVisibility(); ScrollTabIntoView(next); TabChanged?.Invoke(this, next);
             }
         }
         /// <summary>The tab selected immediately before the current one, matching Godot's get_previous_tab.</summary>
         public int GetPreviousTab() => _previousTab;
+
+        /// <summary>
+        /// How far the tab strip is scrolled sideways, in pixels. Zero unless the tabs overflow.
+        /// </summary>
+        /// <remarks>
+        /// Tabs keep their natural width and the strip scrolls, rather than the tabs shrinking to
+        /// fit: a strip of twenty documents squeezed into the window is a strip of twenty titles
+        /// nobody can read. The tab clipped at the edge is what says there is more, which is what
+        /// VS Code does and costs none of an already short strip's height.
+        /// </remarks>
+        public int TabScrollOffset
+        {
+            get => _tabScroll;
+            set
+            {
+                var clamped = Math.Max(0, value);
+                if (_tabScroll == clamped) return;
+                _tabScroll = clamped;
+                QueueLayout();
+            }
+        }
+
+        /// <summary>The largest useful <see cref="TabScrollOffset"/>: zero when every tab fits.</summary>
+        public int MaxTabScroll
+        {
+            get
+            {
+                var visible = GetVisibleTabs();
+                if (visible.Count == 0) return 0;
+
+                var strip = GetTabStripRectangle();
+                GetTabWidths(visible, strip.Width, out var total);
+                return Math.Max(0, total - strip.Width);
+            }
+        }
+
+        /// <summary>Scrolls until a tab is fully visible, if it is not already.</summary>
+        /// <remarks>
+        /// Selecting a tab you cannot see -- with Ctrl+Tab, by opening a document, or by closing
+        /// the one in front -- has to bring it into view, or the strip shows one tab as active
+        /// while a different one is on screen.
+        /// </remarks>
+        public void ScrollTabIntoView(int tab)
+        {
+            if (tab < 0) return;
+            _scrollCurrentIntoView = true;
+            QueueLayout();
+        }
         /// <summary>Allows CurrentTab to become -1, matching Godot's deselect_enabled property.</summary>
         public bool DeselectEnabled { get => _deselectEnabled; set => _deselectEnabled = value; }
         public void SetDeselectEnabled(bool enabled) => DeselectEnabled = enabled;
@@ -296,6 +350,25 @@ namespace Forma
         internal override void PointerExited() { _hoveredTab = -1; base.PointerExited(); }
         protected internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
         internal override void CancelInput() { _draggedTab = -1; base.CancelInput(); }
+
+        internal override bool PointerWheel(int delta)
+        {
+            // A vertical wheel scrolls the strip sideways: a tab strip has no vertical extent to
+            // scroll, and a mouse without a horizontal wheel is the common case.
+            var maxScroll = MaxTabScroll;
+            if (delta == 0 || maxScroll <= 0) return base.PointerWheel(delta);
+
+            // Only over the strip. The wheel bubbles up from whatever is inside the active tab, so
+            // without this, scrolling a document's contents would drag the tab strip along with it.
+            if (!GetTabStripRectangle().Contains(Context?.PointerPosition ?? Point.Zero)) return base.PointerWheel(delta);
+
+            var next = Math.Max(0, Math.Min(_tabScroll - Math.Sign(delta) * TabScrollWheelStep, maxScroll));
+            if (next == _tabScroll) return false;
+
+            _tabScroll = next;
+            QueueLayout();
+            return true;
+        }
         internal void DrawTabContainerChrome(UIRenderContext context)
         {
             var headerHeight = EffectiveTabHeight;
@@ -305,35 +378,47 @@ namespace Forma
             // The same rectangles hit testing and the close button use. This loop used to compute
             // its own equal split, which is how the strip ended up painting half-width tabs with
             // their close buttons somewhere else entirely.
-            foreach (var (i, rect) in GetTabLayouts())
+            // Scrolled tabs run past both ends of the strip, and the popup button sits just past
+            // the right one. Without a clip the first casualty is the button, painted over by
+            // whichever tab happens to be scrolled under it.
+            context.PushClip(GetTabStripRectangle());
+            try
             {
-                var state = GetState(i);
-                var drawRect = i == CurrentTab ? GetSelectedTabRectangle(rect, context.Theme) : rect;
-                var fill = i == CurrentTab
-                    ? context.Theme.TabSelectedColor
-                    : i == _hoveredTab && !state.Disabled
-                        ? context.Theme.HoverColor
-                        : context.Theme.BackgroundColor;
-                context.Fill(drawRect, fill); context.Border(drawRect, context.Theme.PanelBorderColor);
-                if (i == CurrentTab)
-                    context.Fill(GetSelectedTabIndicatorRectangle(rect, context.Theme), context.Theme.TabSelectedIndicatorColor);
-                var textX = drawRect.X + 6;
-                if (state.Icon != null)
+                foreach (var (i, rect) in GetTabLayouts())
                 {
-                    var iconHeight = Math.Max(1, Math.Min(16, drawRect.Height - 4));
-                    var iconWidth = Math.Max(1, (int)MathF.Round(iconHeight * state.Icon.Width / (float)Math.Max(1, state.Icon.Height)));
-                    if (state.IconMaxWidth > 0) iconWidth = Math.Min(iconWidth, state.IconMaxWidth);
-                    var icon = new Rectangle(textX, drawRect.Y + (drawRect.Height - iconHeight) / 2, iconWidth, iconHeight);
-                    context.SpriteBatch.Draw(state.Icon, icon, Color.White); textX = icon.Right + 4;
+                    var state = GetState(i);
+                    var drawRect = i == CurrentTab ? GetSelectedTabRectangle(rect, context.Theme) : rect;
+                    var fill = i == CurrentTab
+                        ? context.Theme.TabSelectedColor
+                        : i == _hoveredTab && !state.Disabled
+                            ? context.Theme.HoverColor
+                            : context.Theme.BackgroundColor;
+                    context.Fill(drawRect, fill); context.Border(drawRect, context.Theme.PanelBorderColor);
+                    if (i == CurrentTab)
+                        context.Fill(GetSelectedTabIndicatorRectangle(rect, context.Theme), context.Theme.TabSelectedIndicatorColor);
+                    var textX = drawRect.X + 6;
+                    if (state.Icon != null)
+                    {
+                        var iconHeight = Math.Max(1, Math.Min(16, drawRect.Height - 4));
+                        var iconWidth = Math.Max(1, (int)MathF.Round(iconHeight * state.Icon.Width / (float)Math.Max(1, state.Icon.Height)));
+                        if (state.IconMaxWidth > 0) iconWidth = Math.Min(iconWidth, state.IconMaxWidth);
+                        var icon = new Rectangle(textX, drawRect.Y + (drawRect.Height - iconHeight) / 2, iconWidth, iconHeight);
+                        context.SpriteBatch.Draw(state.Icon, icon, Color.White); textX = icon.Right + 4;
+                    }
+                    if (EffectiveUIFont != null)
+                    {
+                        var title = GetTabTitle(i);
+                        var layout = TextMetrics.Layout(EffectiveUIFont, title);
+                        context.Text(layout, new Vector2(textX, GetTabTitleY(layout, drawRect)), state.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
+                    }
+                    if (state.ButtonIcon != null) context.SpriteBatch.Draw(state.ButtonIcon, GetTabButtonRectangle(i), Color.White);
                 }
-                if (EffectiveUIFont != null)
-                {
-                    var title = GetTabTitle(i);
-                    var layout = TextMetrics.Layout(EffectiveUIFont, title);
-                    context.Text(layout, new Vector2(textX, GetTabTitleY(layout, drawRect)), state.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
-                }
-                if (state.ButtonIcon != null) context.SpriteBatch.Draw(state.ButtonIcon, GetTabButtonRectangle(i), Color.White);
             }
+            finally
+            {
+                context.PopClip();
+            }
+
             if (_popup != null)
             {
                 var button = GetPopupButtonRectangle();
@@ -368,7 +453,7 @@ namespace Forma
         {
             if (Children.Count == 0 || IsTabAvailable(_currentTab)) { UpdateVisibility(); return; }
             for (var i = 0; i < Children.Count; i++)
-                if (IsTabAvailable(i)) { _currentTab = i; UpdateVisibility(); return; }
+                if (IsTabAvailable(i)) { _currentTab = i; UpdateVisibility(); ScrollTabIntoView(i); return; }
             UpdateVisibility();
         }
         private bool SelectAvailableTab(int direction)
@@ -437,8 +522,15 @@ namespace Forma
             var strip = GetTabStripRectangle();
             var widths = GetTabWidths(visible, strip.Width, out var total);
 
-            var x = strip.X;
-            if (total < strip.Width && TabSizing != TabBarSizingMode.Justify)
+            // Scrolling and alignment are alternatives, not a pair: alignment distributes slack,
+            // and a strip that overflows has none. Justify and Expand fill the strip by
+            // construction, so they can never overflow and never scroll.
+            var maxScroll = Math.Max(0, total - strip.Width);
+            ApplyPendingTabScroll(visible, widths, strip.Width, maxScroll);
+            _tabScroll = Math.Max(0, Math.Min(_tabScroll, maxScroll));
+
+            var x = strip.X - _tabScroll;
+            if (maxScroll == 0 && TabSizing != TabBarSizingMode.Justify)
             {
                 x += TabAlignment switch
                 {
@@ -455,6 +547,34 @@ namespace Forma
             }
 
             return layouts;
+        }
+
+        /// <summary>
+        /// Honours a pending <see cref="ScrollTabIntoView"/> now that the widths are known.
+        /// </summary>
+        /// <remarks>
+        /// Deferred rather than done in the setter because selecting a tab does not need layout to
+        /// have run -- a document can be opened and made current before the strip has ever been
+        /// measured, and at that point every width is zero and the answer would be nonsense.
+        /// </remarks>
+        private void ApplyPendingTabScroll(List<int> visible, List<int> widths, int stripWidth, int maxScroll)
+        {
+            if (!_scrollCurrentIntoView) return;
+            _scrollCurrentIntoView = false;
+            if (maxScroll <= 0) { _tabScroll = 0; return; }
+
+            var target = visible.IndexOf(CurrentTab);
+            if (target < 0) return;
+
+            var start = 0;
+            for (var index = 0; index < target; index++) start += widths[index];
+            var end = start + widths[target];
+
+            // Nearest edge: a tab off the left scrolls to sit against the left, one off the right
+            // scrolls just far enough to show its trailing edge. Centring it instead would move
+            // the strip under the pointer on every ordinary click near an edge.
+            if (start < _tabScroll) _tabScroll = start;
+            else if (end > _tabScroll + stripWidth) _tabScroll = end - stripWidth;
         }
 
         /// The width of each visible tab under the current sizing mode. Mirrors TabBar's.

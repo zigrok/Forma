@@ -4566,6 +4566,208 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void DockPane_ScrollsItsHeaderWhenTheTabsStopFitting()
+        {
+            // The same behaviour as the document strip, reached a different way: this header holds
+            // real child controls, so it scrolls in a ScrollContainer rather than by arithmetic of
+            // its own. What has to match is what the user sees -- tabs at their natural width, the
+            // header scrolling sideways on the wheel, and no scroll bar eating the 28px header.
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var pane = new DockPane { Size = new Vector2(220, 300) };
+            for (var section = 0; section < 10; section++)
+                pane.Add(new DockSection($"section-{section}", $"Panel Number {section}", new Control()));
+
+            // The tabs need a font or they measure zero wide, and a header of zero-width tabs
+            // cannot overflow anything.
+            using var context = new UIContext
+            {
+                ViewportSize = new Vector2(220, 300),
+                Theme = new Theme { FontFamily = new UIFontFamily(new[] { new DynamicUIFont(face, 13) }) },
+            };
+            context.Add(pane);
+            context.Layout();
+
+            var viewport = pane.HeaderViewport;
+            Assert.That(viewport.Extent.X, Is.GreaterThan(viewport.Viewport.X), "Ten titles in 220px must overflow the header.");
+
+            var over = new Point(110, 14);
+            context.InjectPointerMove(over);
+            context.InjectPointerWheel(over, -120);
+            context.Layout();
+
+            Assert.That(viewport.HorizontalScroll, Is.GreaterThan(0), "A wheel over the header should scroll it sideways.");
+        }
+
+        [Test]
+        public void TabContainer_ScrollsSidewaysWhenTheTabsStopFitting()
+        {
+            // VS Code's bargain, and the one asked for here: tabs keep the width their titles need
+            // and the strip scrolls, rather than twenty documents each shrinking to an unreadable
+            // sliver. The tab clipped at the edge is what says there is more.
+            using var fixture = new TabStripFixture(tabCount: 20, width: 400);
+
+            Assert.That(fixture.Tabs.MaxTabScroll, Is.GreaterThan(0), "Twenty tabs in 400px must overflow.");
+            Assert.That(fixture.Tabs.TabScrollOffset, Is.Zero);
+
+            var before = fixture.Tabs.GetTabRect(0);
+            fixture.WheelOverStrip(-1);
+
+            Assert.That(fixture.Tabs.TabScrollOffset, Is.GreaterThan(0), "A wheel notch should scroll the strip.");
+            Assert.That(fixture.Tabs.GetTabRect(0).Left, Is.LessThan(before.Left), "Scrolling moves the tabs left.");
+
+            fixture.WheelOverStrip(1);
+            Assert.That(fixture.Tabs.TabScrollOffset, Is.Zero, "Scrolling back should reach the start again.");
+        }
+
+        [Test]
+        public void TabContainer_DoesNotScrollWhenEveryTabFits()
+        {
+            using var fixture = new TabStripFixture(tabCount: 2, width: 600);
+
+            Assert.That(fixture.Tabs.MaxTabScroll, Is.Zero);
+            fixture.WheelOverStrip(-1);
+            Assert.That(fixture.Tabs.TabScrollOffset, Is.Zero, "There is nothing to scroll to.");
+        }
+
+        [Test]
+        public void TabContainer_StopsAtBothEndsOfTheStrip()
+        {
+            using var fixture = new TabStripFixture(tabCount: 20, width: 400);
+
+            for (var notch = 0; notch < 60; notch++) fixture.WheelOverStrip(-1);
+            Assert.That(fixture.Tabs.TabScrollOffset, Is.EqualTo(fixture.Tabs.MaxTabScroll), "Scrolling right stops at the last tab.");
+
+            // Scrolled fully right, the final tab's trailing edge should be at the strip's, so
+            // there is never a band of empty strip past the end.
+            Assert.That(fixture.Tabs.GetTabRect(19).Right, Is.EqualTo(400));
+
+            for (var notch = 0; notch < 60; notch++) fixture.WheelOverStrip(1);
+            Assert.That(fixture.Tabs.TabScrollOffset, Is.Zero);
+            Assert.That(fixture.Tabs.GetTabRect(0).Left, Is.Zero);
+        }
+
+        [Test]
+        public void TabContainer_HitTestingFollowsTheScroll()
+        {
+            // The property the painted strip keeps getting wrong: one layout feeds drawing, hit
+            // testing and the close button. A scroll offset applied to only some of them puts a
+            // click on the tab that used to be drawn where the pointer is.
+            using var fixture = new TabStripFixture(tabCount: 20, width: 400);
+            fixture.WheelOverStrip(-1);
+            fixture.WheelOverStrip(-1);
+
+            for (var tab = 0; tab < 20; tab++)
+            {
+                var rect = fixture.Tabs.GetTabRect(tab);
+                if (rect.Left < 0 || rect.Right > 400) continue;
+
+                fixture.Context.InjectPointerPress(rect.Center);
+                fixture.Context.InjectPointerRelease(rect.Center);
+                Assert.That(fixture.Tabs.CurrentTab, Is.EqualTo(tab), $"pressing inside tab {tab} should select tab {tab}.");
+            }
+        }
+
+        [Test]
+        public void TabContainer_ScrollsASelectedTabIntoView()
+        {
+            // Selecting a tab you cannot see -- Ctrl+Tab, opening a document, closing the one in
+            // front -- has to bring it into view, or the strip marks one tab active while a
+            // different one is on screen.
+            using var fixture = new TabStripFixture(tabCount: 20, width: 400);
+
+            fixture.Tabs.CurrentTab = 19;
+            fixture.Context.Layout();
+
+            var last = fixture.Tabs.GetTabRect(19);
+            Assert.That(last.Left, Is.GreaterThanOrEqualTo(0));
+            Assert.That(last.Right, Is.LessThanOrEqualTo(400));
+
+            fixture.Tabs.CurrentTab = 0;
+            fixture.Context.Layout();
+
+            var first = fixture.Tabs.GetTabRect(0);
+            Assert.That(first.Left, Is.EqualTo(0), "Going back to the first tab scrolls back to the start.");
+        }
+
+        [Test]
+        public void TabContainer_LeavesTheDocumentBodyToScrollItself()
+        {
+            // The wheel bubbles up from whatever is inside the active tab. Without a check that
+            // the pointer is over the strip, scrolling a document would drag the tabs along too.
+            using var fixture = new TabStripFixture(tabCount: 20, width: 400);
+
+            var body = new Point(200, (int)fixture.Tabs.EffectiveTabHeight + 40);
+            fixture.Context.InjectPointerMove(body);
+            fixture.Context.InjectPointerWheel(body, -120);
+            fixture.Context.Layout();
+
+            Assert.That(fixture.Tabs.TabScrollOffset, Is.Zero, "A wheel over the page is not a wheel over the strip.");
+        }
+
+        [Test]
+        public void TabContainer_ForgetsItsScrollWhenTheTabsFitAgain()
+        {
+            // Closing documents until the rest fit must not leave the strip scrolled, which would
+            // show a band of empty strip with the first tabs hidden off the left.
+            var fixture = new TabStripFixture(tabCount: 20, width: 400);
+            try
+            {
+                for (var notch = 0; notch < 60; notch++) fixture.WheelOverStrip(-1);
+                Assert.That(fixture.Tabs.TabScrollOffset, Is.GreaterThan(0));
+
+                for (var tab = 19; tab >= 2; tab--) fixture.Tabs.RemoveChild(fixture.Tabs.Children[tab]);
+                fixture.Context.Layout();
+
+                Assert.That(fixture.Tabs.MaxTabScroll, Is.Zero);
+                Assert.That(fixture.Tabs.GetTabRect(0).Left, Is.Zero, "With everything fitting, the strip starts at the left edge again.");
+            }
+            finally
+            {
+                fixture.Dispose();
+            }
+        }
+
+        /// A tab strip too narrow for its tabs, with a context that can click and scroll it.
+        private sealed class TabStripFixture : IDisposable
+        {
+            private readonly UIFontFace _face;
+
+            internal TabStripFixture(int tabCount, int width)
+            {
+                _face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+                Tabs = new TabContainer { UIFont = new DynamicUIFont(_face, 15), Size = new Vector2(width, 200) };
+                for (var tab = 0; tab < tabCount; tab++) Tabs.AddChild(new Control());
+
+                Context = new UIContext { ViewportSize = new Vector2(width, 200) };
+                Context.Add(Tabs);
+                Context.Layout();
+
+                for (var tab = 0; tab < tabCount; tab++) Tabs.SetTabTitle(tab, $"document-{tab:D2}.prm");
+                Context.Layout();
+            }
+
+            internal TabContainer Tabs { get; }
+
+            internal UIContext Context { get; }
+
+            /// One wheel notch with the pointer over the tab strip. Positive scrolls back towards
+            /// the first tab, matching a wheel pushed away from the user.
+            internal void WheelOverStrip(int notches)
+            {
+                var over = new Point((int)(Tabs.Size.X / 2), (int)(Tabs.EffectiveTabHeight / 2));
+                Context.InjectPointerMove(over);
+                Context.InjectPointerWheel(over, notches * 120);
+                Context.Layout();
+            }
+
+            public void Dispose()
+            {
+                Context.Dispose();
+                _face.Dispose();
+            }
+        }
+
+        [Test]
         public void TabContainer_SizesTabsToTheirTitlesByDefault()
         {
             // The default used to be Justify with no way out: two tabs took half the window each

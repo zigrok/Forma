@@ -82,16 +82,39 @@ namespace Forma
 
         private readonly List<DockSection> _sections = new List<DockSection>();
         private readonly StackPanel _header = new StackPanel { Orientation = Orientation.Horizontal, Gap = 2 };
+
+        /// <summary>
+        /// The header's viewport, which scrolls sideways once the tabs stop fitting.
+        /// </summary>
+        /// <remarks>
+        /// A ScrollContainer rather than scrolling arithmetic of its own: the header holds real
+        /// child controls, and clipping, wheel handling and clamping for exactly that already
+        /// exist here. The scroll bar is hidden (Never, which still scrolls) because a 28px header
+        /// has no room for one -- the tab clipped at the edge is the signal there is more, the
+        /// same bargain VS Code makes.
+        /// </remarks>
+        private readonly ScrollContainer _headerViewport = new ScrollContainer
+        {
+            HorizontalScrollMode = ScrollBarVisibility.Never,
+            VerticalScrollMode = ScrollBarVisibility.Disabled,
+            ScrollHorizontalByDefault = true,
+        };
+
         private Control _body;
         private int _activeIndex = -1;
         private bool _pointerInside;
 
         public DockPane()
         {
-            AddChild(_header);
+            _headerViewport.AddChild(_header);
+            AddChild(_headerViewport);
             MouseEntered += (_, _) => { _pointerInside = true; };
             MouseExited += (_, _) => { _pointerInside = false; };
         }
+
+        /// The header's scrolling viewport. Internal because which control does the scrolling is
+        /// an implementation detail, but a test has to be able to see that it scrolled.
+        internal ScrollContainer HeaderViewport => _headerViewport;
 
         internal DockWorkspace Workspace { get; set; }
 
@@ -193,6 +216,16 @@ namespace Forma
 
         public override Vector2 GetMinimumSize()
         {
+            // The header still asks for its full width, so a pane is never narrower than its own
+            // tabs by default. Dropping that is the natural companion to scrolling them -- the
+            // tabs should not be what decides how wide a panel is -- but it cannot be done from
+            // here alone: the workspace divides the available width using these minimums, and a
+            // body that reports no minimum of its own then gets laid out past the window's edge.
+            // The header width has been standing in for a minimum the panels never declared.
+            //
+            // So scrolling engages when the workspace squeezes a pane below this anyway, which is
+            // what happens when the window is too small for every pane's minimum at once. Making
+            // it engage on a roomy window needs the panels to say how much width they need first.
             var header = _header.GetMinimumSize();
             var body = _body?.GetMinimumSize() ?? Vector2.Zero;
             return Vector2.Max(
@@ -203,7 +236,7 @@ namespace Forma
         protected override void ArrangeChildren()
         {
             var rtl = IsLayoutRtl();
-            FitChildInRect(_header, Vector2.Zero, new Vector2(Size.X, HeaderHeight), rtl);
+            FitChildInRect(_headerViewport, Vector2.Zero, new Vector2(Size.X, HeaderHeight), rtl);
             if (_body != null)
                 FitChildInRect(_body, new Vector2(0, HeaderHeight), new Vector2(Size.X, MathF.Max(0, Size.Y - HeaderHeight)), rtl);
         }
