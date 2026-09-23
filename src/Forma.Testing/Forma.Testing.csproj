@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.111" PrivateAssets="All" />
     <!-- The runtime project path is forwarded, matching Forma.DynamicText. Without it an app that
          builds Forma against a MonoGame/FNA *project* rather than the package gets a second
          Forma.csproj instance resolved against the package, and the build fails with two

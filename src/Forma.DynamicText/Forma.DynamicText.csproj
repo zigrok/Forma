@@ -33,7 +33,7 @@
     <Compile Include="../Forma/DynamicFont.cs" Link="DynamicFont.cs" />
     <Compile Include="../Forma/DynamicTextNativeBackend.cs" Link="DynamicTextNativeBackend.cs" />
     <Compile Include="$(FormaDynamicTextBackendSource)" Link="PlatformDynamicTextBackend.cs" Condition="'$(FormaDynamicTextBackend)' == 'External' and '$(FormaDynamicTextBackendSource)' != ''" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.111" PrivateAssets="All" />
     <PackageReference Include="FreeTypeSharp" Version="$(FreeTypeSharpVersion)" Condition="'$(FormaDynamicTextBackend)' == 'FreeTypeHarfBuzz'" />
     <PackageReference Include="HarfBuzzSharp" Version="$(HarfBuzzSharpVersion)" Condition="'$(FormaDynamicTextBackend)' == 'FreeTypeHarfBuzz'" />
     <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="$(HarfBuzzSharpVersion)" Condition="'$(FormaDynamicTextBackend)' == 'FreeTypeHarfBuzz'" />
