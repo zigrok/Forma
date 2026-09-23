@@ -918,6 +918,90 @@ namespace Forma
         {
             return 1 + (IsSearchBarVisible ? (int)SearchBarContentHeight : 0) + ItemContentTop(index) - _scrollOffset;
         }
+        /// <summary>
+        /// One peer per visible, non-separator entry. A menu draws its entries rather than building
+        /// a control for each, so this is the only way they reach the accessibility tree.
+        /// </summary>
+        public override IReadOnlyList<AccessibilityPeer> GetAccessibilityChildren()
+        {
+            if (_items.Count == 0) return Array.Empty<AccessibilityPeer>();
+
+            var peers = new List<AccessibilityPeer>(_items.Count);
+            for (var index = 0; index < _items.Count; index++)
+            {
+                var item = _items[index];
+                // Separators are decoration, and a hidden entry is one the search filter removed.
+                // Publishing either would give an assistive technology something to announce that a
+                // person cannot see or act on.
+                if (item.Separator || !item.Visible) continue;
+
+                while (_accessibilityPeers.Count <= index) _accessibilityPeers.Add(null);
+                peers.Add(_accessibilityPeers[index] ??= new MenuItemAccessibilityPeer(this, index));
+            }
+
+            return peers;
+        }
+
+        private readonly List<MenuItemAccessibilityPeer> _accessibilityPeers = new List<MenuItemAccessibilityPeer>();
+
+        internal string GetAccessibilityItemText(int index) =>
+            index >= 0 && index < _items.Count ? _items[index].Text ?? string.Empty : string.Empty;
+
+        internal bool IsAccessibilityItemCheckable(int index) =>
+            index >= 0 && index < _items.Count && _items[index].CheckableType != PopupMenuCheckableType.None;
+
+        internal AccessibilityStates GetAccessibilityItemStates(int index)
+        {
+            if (index < 0 || index >= _items.Count) return AccessibilityStates.Offscreen;
+
+            var item = _items[index];
+            var states = AccessibilityStates.None;
+            if (item.Disabled) states |= AccessibilityStates.Disabled;
+            if (item.Checked) states |= AccessibilityStates.Checked;
+            if (_highlighted == index) states |= AccessibilityStates.Current;
+            if (item.Kind == PopupMenuItemKind.Submenu)
+                states |= _activeSubmenuIndex == index ? AccessibilityStates.Expanded : AccessibilityStates.Collapsed;
+            return states;
+        }
+
+        /// <summary>
+        /// Where the entry is on screen, in the same global coordinates pointer input uses — which
+        /// is what an assistive technology hit-tests with.
+        /// </summary>
+        internal Rectangle GetAccessibilityItemBounds(int index)
+        {
+            if (index < 0 || index >= _items.Count) return Rectangle.Empty;
+
+            var height = (int)(_items[index].Separator ? 7 : EffectiveItemHeight);
+            return new Rectangle(Bounds.X, Bounds.Y + ItemTop(index), Bounds.Width, height);
+        }
+
+        /// <summary>
+        /// Runs an action on one entry. Routed through the same <c>Activate</c> a click takes, so an
+        /// assistive technology cannot reach an entry a person cannot — a disabled item, a hidden
+        /// one, a separator.
+        /// </summary>
+        internal bool PerformAccessibilityItemAction(int index, AccessibilityActions action)
+        {
+            if (index < 0 || index >= _items.Count) return false;
+
+            var item = _items[index];
+            if (item.Separator || !item.Visible || item.Disabled) return false;
+
+            switch (action)
+            {
+                case AccessibilityActions.Focus:
+                    FocusIndex(index);
+                    return true;
+                case AccessibilityActions.Press:
+                case AccessibilityActions.Toggle:
+                    Activate(index, Point.Zero);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private int ItemContentTop(int index)
         {
             var y = 0;

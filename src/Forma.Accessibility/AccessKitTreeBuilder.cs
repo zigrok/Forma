@@ -230,6 +230,7 @@ namespace Forma.Accessibility
                 case AccessibilityRole.MenuBar: return AccessKitRole.MenuBar;
                 case AccessibilityRole.List: return AccessKitRole.List;
                 case AccessibilityRole.ListItem: return AccessKitRole.ListItem;
+                case AccessibilityRole.MenuItem: return AccessKitRole.MenuItem;
                 case AccessibilityRole.Tree: return AccessKitRole.Tree;
                 case AccessibilityRole.TreeItem: return AccessKitRole.TreeItem;
                 case AccessibilityRole.Grid: return AccessKitRole.Grid;

@@ -274,13 +274,22 @@ namespace Forma
 
             foreach (var control in EnumerateControls(context))
             {
-                if (control.AccessibilityId != nodeId) continue;
-                var peer = control.AccessibilityPeer;
-                if ((peer.Actions & action) == 0) return false;
-                return peer.Invoke(action, argument);
+                if (control.AccessibilityId == nodeId) return Perform(control.AccessibilityPeer, action, argument);
+
+                // Virtual peers — a virtualized list's rows, a menu's entries — have no control of
+                // their own, so an id lookup that only walked controls would report every one of
+                // them as missing. Menus in particular would be readable and completely inert.
+                foreach (var peer in control.GetAccessibilityChildren())
+                {
+                    if (!peer.IsVirtual || peer.Id != nodeId) continue;
+                    return Perform(peer, action, argument);
+                }
             }
 
             return false;
+
+            static bool Perform(AccessibilityPeer peer, AccessibilityActions action, object argument) =>
+                (peer.Actions & action) != 0 && peer.Invoke(action, argument);
         }
 
         internal static IEnumerable<Control> EnumerateControls(UIContext context)
@@ -342,13 +351,13 @@ namespace Forma
 
             var id = peer.Id;
 
-            // A virtualized list's rows are not visual children, so they exist only as peers and
-            // would otherwise be missed. Everything else GetAccessibilityChildren returns is the
-            // peer of a visual child, which the recursion below reaches on its own — adding those
-            // here as well would list every control twice.
+            // A virtualized list's rows and a menu's entries are not visual children, so they exist
+            // only as peers and would otherwise be missed. Everything else GetAccessibilityChildren
+            // returns is the peer of a visual child, which the recursion below reaches on its own —
+            // adding those here as well would list every control twice.
             foreach (var itemPeer in control.GetAccessibilityChildren())
             {
-                if (itemPeer is not ItemAccessibilityPeer) continue;
+                if (!itemPeer.IsVirtual) continue;
 
                 nodes.Add(new AccessibilityNode(
                     itemPeer.Id,

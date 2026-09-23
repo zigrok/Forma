@@ -198,6 +198,104 @@ public sealed class AccessibilityTreeSnapshotTest
         // and would make every unrelated change look like a golden-file regression.
         Assert.That(text, Does.Not.Contain(root.AccessibilityId.ToString()));
     }
+
+    /// <summary>
+    /// A menu's entries reach the tree. A menu draws them rather than building a control for each,
+    /// so before this the whole command surface of an application was one empty node: a screen
+    /// reader announced "menu" and stopped, and an automation client saw a container with nothing
+    /// in it.
+    /// </summary>
+    [Test]
+    public void AMenusEntriesAreInTheTree()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var menu = new PopupMenu();
+        menu.AddItem("Open");
+        menu.AddItem("Save");
+        menu.AddSeparator();
+        menu.AddItem("Quit");
+        context.Add(menu);
+        menu.PopupAt(new Vector2(10, 10), null);
+        context.WaitForSettled();
+
+        var names = AccessibilityTree.Capture(context).Nodes.Select(node => node.Name).ToList();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(names, Does.Contain("Open"));
+            Assert.That(names, Does.Contain("Save"));
+            Assert.That(names, Does.Contain("Quit"));
+        });
+    }
+
+    /// <summary>
+    /// Separators and filtered-out entries stay out. Announcing something a person cannot see or
+    /// act on is worse than announcing nothing.
+    /// </summary>
+    [Test]
+    public void SeparatorsAndHiddenEntriesAreNotAnnounced()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var menu = new PopupMenu();
+        menu.AddItem("Open");
+        menu.AddSeparator();
+        menu.AddItem("Save");
+        context.Add(menu);
+        menu.PopupAt(new Vector2(10, 10), null);
+        context.WaitForSettled();
+
+        var entries = AccessibilityTree.Capture(context).Nodes
+            .Count(node => node.Role == AccessibilityRole.MenuItem);
+
+        Assert.That(entries, Is.EqualTo(2), "a separator is decoration, not an entry");
+    }
+
+    /// <summary>
+    /// Pressing an entry through its peer runs the same activation a click does, so an assistive
+    /// technology cannot reach an entry a person cannot.
+    /// </summary>
+    [Test]
+    public void PressingAnEntryActivatesIt()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var pressed = -1;
+        var menu = new PopupMenu();
+        menu.AddItem("Open");
+        menu.AddItem("Save");
+        menu.IndexPressed += (_, index) => pressed = index;
+        context.Add(menu);
+        menu.PopupAt(new Vector2(10, 10), null);
+        context.WaitForSettled();
+
+        var save = AccessibilityTree.Capture(context).Nodes.First(node => node.Name == "Save");
+
+        Assert.That(AccessibilityTree.TryPerformAction(context, save.Id, AccessibilityActions.Press), Is.True);
+        Assert.That(pressed, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void ADisabledEntryRefusesToBePressed()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var pressed = false;
+        var menu = new PopupMenu();
+        menu.AddItem("Open");
+        menu.SetItemDisabled(0, true);
+        menu.IndexPressed += (_, _) => pressed = true;
+        context.Add(menu);
+        menu.PopupAt(new Vector2(10, 10), null);
+        context.WaitForSettled();
+
+        var open = AccessibilityTree.Capture(context).Nodes.First(node => node.Name == "Open");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(open.States.HasFlag(AccessibilityStates.Disabled), Is.True);
+            Assert.That(AccessibilityTree.TryPerformAction(context, open.Id, AccessibilityActions.Press), Is.False);
+            Assert.That(pressed, Is.False);
+        });
+    }
+
 }
 
 /// <summary>

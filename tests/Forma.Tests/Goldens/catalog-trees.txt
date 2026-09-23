@@ -1479,6 +1479,9 @@ Window "Popup" [Modal]
   Generic
 === PopupMenu
 Menu "PopupMenu" [Modal]
+  MenuItem "New scene"
+  MenuItem "Show grid" [Checked]
+  MenuItem "Close"
   Generic
     Generic "PART_Items"
 === PopupPanel

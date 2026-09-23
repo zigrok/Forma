@@ -44,7 +44,14 @@ namespace Forma
         Canvas,
         ColorPicker,
         Viewport,
-        Joystick
+        Joystick,
+
+        // Appended rather than inserted: these are ordinals, and a snapshot or a golden tree
+        // recorded before a renumbering would silently mean something else afterwards.
+
+        /// <summary>One entry of a menu. Distinct from ListItem: an assistive technology announces
+        /// a menu entry differently, and a menu is not a list.</summary>
+        MenuItem
     }
 
     [Flags]
@@ -95,6 +102,17 @@ namespace Forma
         public virtual AccessibilityStates States => Owner.AccessibilityStates;
         public virtual Rectangle Bounds => Owner.AccessibilityBounds;
         public virtual bool IsOffscreen => (States & AccessibilityStates.Offscreen) != 0;
+
+        /// <summary>
+        /// Whether this peer describes something that is not a control — a virtualized list row, a
+        /// menu entry — and therefore has to be published by its owner.
+        /// <para>
+        /// The tree walk reaches real controls on its own, so publishing those twice would list
+        /// every control once as a child and once as a peer. Virtual peers are the ones with no
+        /// control to be reached through.
+        /// </para>
+        /// </summary>
+        public virtual bool IsVirtual => false;
         public virtual IReadOnlyList<AccessibilityPeer> Children => Owner.GetAccessibilityChildren();
 
         /// <summary>
@@ -127,6 +145,8 @@ namespace Forma
         /// Allocated once per slot, and slots outlive scrolling, so it is stable while realized.
         /// </summary>
         public override int Id => _id;
+        /// <inheritdoc />
+        public override bool IsVirtual => true;
         /// <summary>Always empty: an automation id is author-assigned to a control, and an item is
         /// data rather than a control. Items are addressed by role, name or index.</summary>
         public override string AutomationId => string.Empty;
@@ -153,5 +173,74 @@ namespace Forma
                 ? container.AccessibilityBounds
                 : Rectangle.Empty;
         public override IReadOnlyList<AccessibilityPeer> Children => Array.Empty<AccessibilityPeer>();
+    }
+
+    /// <summary>
+    /// One entry of a <see cref="PopupMenu"/>.
+    /// </summary>
+    /// <remarks>
+    /// A menu draws its entries rather than building a control for each, so without this a menu is
+    /// an empty node: a screen reader announces "menu" and stops, and an automation client sees a
+    /// container with nothing in it. That is the one place in a Forma application where the whole
+    /// command surface can go missing at once.
+    /// </remarks>
+    public sealed class MenuItemAccessibilityPeer : AccessibilityPeer
+    {
+        private readonly PopupMenu _menu;
+        private readonly int _id = Control.AllocateAccessibilityId();
+
+        internal MenuItemAccessibilityPeer(PopupMenu menu, int index) : base(menu)
+        {
+            _menu = menu;
+            Index = index;
+        }
+
+        /// <summary>Position in the menu's item list, including hidden entries and separators.</summary>
+        public int Index { get; }
+
+        /// <summary>This entry's own identity, distinct from the menu's.</summary>
+        public override int Id => _id;
+
+        /// <summary>Always true: an entry is drawn by the menu, not built as a control.</summary>
+        public override bool IsVirtual => true;
+
+        /// <summary>Always empty: an entry is data rather than a control, so it has no automation id.</summary>
+        public override string AutomationId => string.Empty;
+
+        /// <summary>Always <see cref="AccessibilityRole.MenuItem"/>.</summary>
+        public override AccessibilityRole Role => AccessibilityRole.MenuItem;
+
+        /// <summary>The entry's text, which is what an assistive technology announces.</summary>
+        public override string Name => _menu.GetAccessibilityItemText(Index);
+
+        /// <summary>Always empty: a menu entry is a command, not a value.</summary>
+        public override string Value => string.Empty;
+
+        /// <summary>Press and Focus, plus Toggle for a checkable entry.</summary>
+        public override AccessibilityActions Actions =>
+            AccessibilityActions.Press | AccessibilityActions.Focus |
+            (_menu.IsAccessibilityItemCheckable(Index) ? AccessibilityActions.Toggle : AccessibilityActions.None);
+
+        /// <summary>
+        /// Disabled, Checked, Current for the highlighted entry, and Expanded or Collapsed for one
+        /// that owns a submenu.
+        /// </summary>
+        public override AccessibilityStates States => _menu.GetAccessibilityItemStates(Index);
+
+        /// <summary>The entry's rectangle in global coordinates, matching what pointer input uses.</summary>
+        public override Rectangle Bounds => _menu.GetAccessibilityItemBounds(Index);
+
+        /// <summary>Always empty. A submenu is a separate menu, reached when it opens.</summary>
+        public override IReadOnlyList<AccessibilityPeer> Children => Array.Empty<AccessibilityPeer>();
+
+        /// <summary>
+        /// Activates this entry rather than the menu. The base implementation forwards to the
+        /// owning control, which for a menu would mean "press the menu" and do nothing useful.
+        /// </summary>
+        public override bool Invoke(AccessibilityActions action, object argument = null)
+        {
+            if ((Actions & action) == 0) return false;
+            return _menu.PerformAccessibilityItemAction(Index, action);
+        }
     }
 }
