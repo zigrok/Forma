@@ -505,19 +505,7 @@ public sealed class CatalogGame : Game
         if (difference >= 64) transitions++;
     }
 
-    private void WriteScreenshot()
-    {
-        var width = GraphicsDevice.PresentationParameters.BackBufferWidth;
-        var height = GraphicsDevice.PresentationParameters.BackBufferHeight;
-        var pixels = new Color[width * height];
-        GraphicsDevice.GetBackBufferData(pixels);
-        using var texture = new Texture2D(GraphicsDevice, width, height);
-        texture.SetData(pixels);
-        var outputPath = Path.GetFullPath(_metricsOptions.ScreenshotPath);
-        Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
-        using var stream = File.Create(outputPath);
-        texture.SaveAsPng(stream, width, height);
-    }
+    private void WriteScreenshot() => ScreenCapture.SaveBackBuffer(GraphicsDevice, _metricsOptions.ScreenshotPath);
 
     private Texture2D CreateCatalogTexture()
     {

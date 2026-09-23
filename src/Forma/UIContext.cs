@@ -61,6 +61,18 @@ namespace Forma
         public Point PointerPosition { get; private set; }
         /// <summary>Keyboard state for the input frame currently being dispatched, including modifier keys used by controls such as Tree.</summary>
         public KeyboardState CurrentKeyboardState { get; private set; }
+        /// <summary>
+        /// The laid-out UI as indented text with every control's bounds.
+        /// </summary>
+        /// <remarks>
+        /// The box model, for working out why something is the wrong size.
+        /// <see cref="AccessibilityTree.ToText"/> omits bounds so golden files do not churn with
+        /// window size; this is the other half of that trade, and belongs in assertions as well
+        /// as in diagnosis because it needs no window.
+        /// </remarks>
+        public string DescribeLayout() => AccessibilityTree.Capture(this).ToLayoutText();
+
+
         /// <summary>Game time for the input frame currently being dispatched, used by retained multi-click gestures.</summary>
         public TimeSpan CurrentTime { get; private set; }
 
