@@ -38,6 +38,16 @@ status label:
 to override that default, or set `Cursor.Inherited` to use the parent's cursor. Other controls
 continue to inherit, falling back to `Cursor.Arrow`.
 
+A control whose cursor changes across its own surface overrides `Control.GetCursorAt(position)`
+instead, which receives the same global pointer coordinates pointer events do and defaults to
+`EffectiveCursor`. `SplitContainer` (so also every `DockWorkspace` split) uses it to show
+`Cursor.SizeHorizontal` or `Cursor.SizeVertical` over a dragger, and to hold that cursor for the
+whole gesture once one is grabbed, because a drag routinely runs the pointer past the bar it is
+moving. The same region that changes the cursor is the one that starts a drag, so dividers with
+`DraggingEnabled` off, a collapsed split or a hidden dragger keep the ordinary cursor, and section
+content never inherits the resize cursor. Setting `Cursor` explicitly on the container wins.
+`SplitContainerDragger` and `SplitContainerMultiDragger` advertise their target's axis the same way.
+
 `UIContext.EffectiveCursor` resolves the eligible pointer capture first (so a text selection keeps
 its I-beam across other controls), then the current hit target, then Arrow. Keyboard focus does
 not select a cursor. Modal boundaries, hidden/disabled/detached subtrees and hit-test filtering
