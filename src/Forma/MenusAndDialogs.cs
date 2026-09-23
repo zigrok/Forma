@@ -2365,46 +2365,20 @@ namespace Forma
                 if (DisplayMode == FileDialogDisplayMode.Thumbnails)
                 {
                     var lineHeight = EffectiveUIFont != null ? TextMetrics.LineHeight(EffectiveUIFont) : 0;
+                    var cell = LayoutThumbnailCell(row, lineHeight);
 
-                    // The label band is a fixed height rather than one sized to this entry's line
-                    // count, so a one-line name and a two-line name in the same row start at the
-                    // same y. Sizing it per entry makes a row of mixed-length names read ragged.
-                    var labelTop = row.Bottom - lineHeight * ThumbnailLabelLines - ThumbnailLabelInset;
-
-                    if (icon.HasValue)
-                    {
-                        // Whatever the label leaves, rather than a constant that silently assumed
-                        // one line of text underneath it.
-                        var available = Math.Max(0, labelTop - row.Y - ThumbnailLabelInset * 2);
-                        var iconSize = Math.Min(ThumbnailIconSize, Math.Min(row.Width - 12, available));
-                        if (iconSize > 0)
-                        {
-                            context.Icon(
-                                icon.Value,
-                                new Rectangle(
-                                    row.Center.X - iconSize / 2,
-                                    row.Y + ThumbnailLabelInset + (available - iconSize) / 2,
-                                    iconSize,
-                                    iconSize),
-                                Color.White);
-                        }
-                    }
+                    if (icon.HasValue && cell.Icon.Width > 0) context.Icon(icon.Value, cell.Icon, Color.White);
 
                     if (EffectiveUIFont != null)
                     {
-                        var lines = FitThumbnailLabel(
-                            EffectiveUIFont,
-                            Path.GetFileName(entry),
-                            row.Width - ThumbnailLabelInset * 2,
-                            ThumbnailLabelLines);
-
+                        var lines = FitThumbnailLabel(EffectiveUIFont, Path.GetFileName(entry), cell.LabelWidth, ThumbnailLabelLines);
                         for (var line = 0; line < lines.Count; line++)
                         {
                             var width = TextMetrics.Measure(EffectiveUIFont, lines[line]).X;
                             context.Text(
                                 EffectiveUIFont,
                                 lines[line],
-                                new Vector2(row.Center.X - width / 2, labelTop + line * lineHeight),
+                                new Vector2(row.Center.X - width / 2, cell.LabelTop + line * lineHeight),
                                 context.Theme.TextColor);
                         }
                     }
@@ -2424,6 +2398,46 @@ namespace Forma
                 }
             }
         }
+        /// Where the icon and the label sit inside one thumbnail cell.
+        internal readonly struct ThumbnailCell
+        {
+            public ThumbnailCell(Rectangle icon, int labelTop, int labelWidth)
+            {
+                Icon = icon;
+                LabelTop = labelTop;
+                LabelWidth = labelWidth;
+            }
+
+            public Rectangle Icon { get; }
+
+            public int LabelTop { get; }
+
+            public int LabelWidth { get; }
+        }
+
+        /// <summary>
+        /// Divides a thumbnail cell into an icon area and a label band beneath it.
+        /// </summary>
+        /// <remarks>
+        /// The band is a fixed <see cref="ThumbnailLabelLines"/> tall rather than sized to the
+        /// entry being drawn, so a one-line name and a two-line name in the same row share a
+        /// baseline; sizing it per entry makes a row of mixed-length names read ragged. The icon
+        /// then takes whatever is left, instead of a constant that quietly assumed one line of
+        /// text underneath it.
+        /// </remarks>
+        internal static ThumbnailCell LayoutThumbnailCell(Rectangle row, int lineHeight)
+        {
+            var labelTop = row.Bottom - lineHeight * ThumbnailLabelLines - ThumbnailLabelInset;
+            var available = Math.Max(0, labelTop - row.Y - ThumbnailLabelInset * 2);
+            var size = Math.Max(0, Math.Min(ThumbnailIconSize, Math.Min(row.Width - 12, available)));
+
+            var icon = size == 0
+                ? Rectangle.Empty
+                : new Rectangle(row.Center.X - size / 2, row.Y + ThumbnailLabelInset + (available - size) / 2, size, size);
+
+            return new ThumbnailCell(icon, labelTop, Math.Max(0, row.Width - ThumbnailLabelInset * 2));
+        }
+
         /// <summary>
         /// Breaks a file name into at most <paramref name="maxLines"/> lines that each fit within
         /// <paramref name="maxWidth"/>, ellipsising the last one when the name is longer than that.

@@ -8692,6 +8692,40 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void FileDialog_ThumbnailCellKeepsTheIconClearOfTheLabel()
+        {
+            // The icon used to be sized from a constant that assumed one line of text below it.
+            // With two lines the two would meet, so the split is asserted rather than eyeballed:
+            // whatever the line height, the icon ends before the label starts and both stay
+            // inside the cell.
+            foreach (var lineHeight in new[] { 12, 15, 18, 24 })
+            {
+                var row = new Rectangle(10, 20, 106, 94);
+                var cell = FileDialog.LayoutThumbnailCell(row, lineHeight);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(cell.Icon.Bottom, Is.LessThanOrEqualTo(cell.LabelTop), $"icon overlaps the label at line height {lineHeight}.");
+                    Assert.That(cell.Icon.Y, Is.GreaterThanOrEqualTo(row.Y), $"icon starts above the cell at line height {lineHeight}.");
+                    Assert.That(cell.Icon.Right, Is.LessThanOrEqualTo(row.Right), $"icon exceeds the cell width at line height {lineHeight}.");
+                    Assert.That(cell.LabelTop + lineHeight * 2, Is.LessThanOrEqualTo(row.Bottom), $"label runs past the cell at line height {lineHeight}.");
+                    Assert.That(cell.LabelWidth, Is.LessThan(row.Width), "the label band should be inset from the cell edges.");
+                });
+            }
+        }
+
+        [Test]
+        public void FileDialog_ThumbnailCellSurvivesACellTooSmallForAnIcon()
+        {
+            // A dialog can be dragged smaller than one cell. Dropping the icon is the right
+            // answer there; a negative-sized rectangle is not.
+            var cell = FileDialog.LayoutThumbnailCell(new Rectangle(0, 0, 40, 30), 18);
+
+            Assert.That(cell.Icon, Is.EqualTo(Rectangle.Empty));
+            Assert.That(cell.LabelWidth, Is.GreaterThanOrEqualTo(0));
+        }
+
+        [Test]
         public void FileDialog_ThumbnailLabelNeverExceedsItsCell()
         {
             // The bug this replaces: thumbnail labels were measured only to centre them, never to
