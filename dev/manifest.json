@@ -86,6 +86,16 @@
       "version": ""
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "adr/0008-platform-accessibility-bridge.md",
+      "output": {
+        ".html": {
+          "relative_path": "adr/0008-platform-accessibility-bridge.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "ManagedReference",
       "source_relative_path": "api/Forma.AcceptDialog.yml",
       "output": {
@@ -98,6 +108,90 @@
       "IsMRef": true,
       "Title": "Forma.AcceptDialog",
       "Summary": "<p sourcefile=\"api/Forma.AcceptDialog.yml\" sourcestartlinenumber=\"1\">Popup dialog with explicit accepted/cancelled lifecycle events.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Accessibility.AccessibilityActionRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Accessibility.AccessibilityActionRequest.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Accessibility.AccessibilityActionRequest",
+      "Summary": "<p sourcefile=\"api/Forma.Accessibility.AccessibilityActionRequest.yml\" sourcestartlinenumber=\"1\">What an assistive technology asked the application to do, in Forma's own terms.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Accessibility.AccessibilityBridge.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Accessibility.AccessibilityBridge.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Accessibility.AccessibilityBridge",
+      "Summary": "<p sourcefile=\"api/Forma.Accessibility.AccessibilityBridge.yml\" sourcestartlinenumber=\"1\">Publishes a <xref href=\"Forma.UIContext\" data-throw-if-not-resolved=\"false\"></xref>'s accessibility tree to the operating system, so a screen\nreader or an automation client sees a tree of controls instead of one opaque rectangle.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Accessibility.IAccessibilityHost.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Accessibility.IAccessibilityHost.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Accessibility.IAccessibilityHost",
+      "Summary": "<p sourcefile=\"api/Forma.Accessibility.IAccessibilityHost.yml\" sourcestartlinenumber=\"1\">The platform half of the bridge: everything that knows what operating system this is.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Accessibility.MacAccessibilityHost.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Accessibility.MacAccessibilityHost.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Accessibility.MacAccessibilityHost",
+      "Summary": "<p sourcefile=\"api/Forma.Accessibility.MacAccessibilityHost.yml\" sourcestartlinenumber=\"1\">Exposes a Forma window's tree through <code>NSAccessibility</code>, using AccessKit's subclassing\nadapter.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Accessibility.NullAccessibilityHost.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Accessibility.NullAccessibilityHost.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Accessibility.NullAccessibilityHost",
+      "Summary": "<p sourcefile=\"api/Forma.Accessibility.NullAccessibilityHost.yml\" sourcestartlinenumber=\"1\">The host for platforms with no bridge. Answers &quot;no&quot; to everything and does nothing else.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Accessibility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Accessibility.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Accessibility",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -126,6 +220,20 @@
       "IsMRef": true,
       "Title": "Forma.AccessibilityChangedEventArgs",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.AccessibilityNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.AccessibilityNode.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.AccessibilityNode",
+      "Summary": "<p sourcefile=\"api/Forma.AccessibilityNode.yml\" sourcestartlinenumber=\"1\">One node of an <xref href=\"Forma.AccessibilityTreeSnapshot\" data-throw-if-not-resolved=\"false\"></xref>: everything a consumer needs about a\nsingle element, flattened so the tree can be transported, diffed or serialized without\nwalking live controls.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -168,6 +276,62 @@
       "IsMRef": true,
       "Title": "Forma.AccessibilityStates",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.AccessibilityTree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.AccessibilityTree.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.AccessibilityTree",
+      "Summary": "<p sourcefile=\"api/Forma.AccessibilityTree.yml\" sourcestartlinenumber=\"1\">Captures the accessibility tree of a <xref href=\"Forma.UIContext\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\nThe walk deliberately mirrors the rules input already follows — draw order, modal gating,\nrendered-only — rather than inventing its own. A tree that disagrees with input about what is\nreachable is worse than no tree: it tells a consumer to act on something that cannot be acted\non.\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.AccessibilityTreeDelta.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.AccessibilityTreeDelta.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.AccessibilityTreeDelta",
+      "Summary": "<p sourcefile=\"api/Forma.AccessibilityTreeDelta.yml\" sourcestartlinenumber=\"1\">What changed between two snapshots. This, not a whole tree, is what an OS bridge or a remote\nclient wants: pushing 500 unchanged nodes because one label moved is the difference between a\nusable bridge and an unusable one.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.AccessibilityTreeSnapshot.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.AccessibilityTreeSnapshot.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.AccessibilityTreeSnapshot",
+      "Summary": "<p sourcefile=\"api/Forma.AccessibilityTreeSnapshot.yml\" sourcestartlinenumber=\"1\">A flat, ordered, serializable projection of the accessibility tree at one instant.</p>\n<p>\nFlat rather than nested because every consumer wants it that way: a diff needs to find a node\nby id without a search, a transport wants no recursion, and a locator wants to filter. Order\nis depth-first in draw order, so reading the list top to bottom matches what a person sees.\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.AccessibilityTreeWatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.AccessibilityTreeWatcher.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.AccessibilityTreeWatcher",
+      "Summary": "<p sourcefile=\"api/Forma.AccessibilityTreeWatcher.yml\" sourcestartlinenumber=\"1\">Tracks whether the accessibility tree could have changed, so consumers re-capture on a signal\ninstead of walking the whole tree every frame.</p>\n<p>\nDeliberately conservative: it reports <em>possible</em> change, never certainty. A control\nraising <xref href=\"Forma.Control.AccessibilityChanged\" data-throw-if-not-resolved=\"false\"></xref> may have changed something the snapshot\ndoes not carry, in which case the diff simply comes back empty — cheap, and far safer than\nmissing a real change.\n</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -3251,6 +3415,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.MenuItemAccessibilityPeer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.MenuItemAccessibilityPeer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.MenuItemAccessibilityPeer",
+      "Summary": "<p sourcefile=\"api/Forma.MenuItemAccessibilityPeer.yml\" sourcestartlinenumber=\"1\">One entry of a <xref href=\"Forma.PopupMenu\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.ModalCancelReason.yml",
       "output": {
         ".html": {
@@ -5645,6 +5823,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.TreeItemAccessibilityPeer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.TreeItemAccessibilityPeer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.TreeItemAccessibilityPeer",
+      "Summary": "<p sourcefile=\"api/Forma.TreeItemAccessibilityPeer.yml\" sourcestartlinenumber=\"1\">One visible row of a <xref href=\"Forma.Tree\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.TreeItemButton.yml",
       "output": {
         ".html": {
@@ -7586,6 +7778,36 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "images/accessibility/cua-datagrid-task.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/accessibility/cua-datagrid-task.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/accessibility/inspector-after.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/accessibility/inspector-after.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/accessibility/inspector-before.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/accessibility/inspector-before.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "images/catalog-fna.png",
       "output": {
         "resource": {
@@ -7835,6 +8057,16 @@
       "version": ""
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "reference/accessibility.md",
+      "output": {
+        ".html": {
+          "relative_path": "reference/accessibility.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Resource",
       "source_relative_path": "reference/control-families.json",
       "output": {
@@ -7950,6 +8182,16 @@
       "output": {
         "resource": {
           "relative_path": "reference/documentation-baseline.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "reference/testing.md",
+      "output": {
+        ".html": {
+          "relative_path": "reference/testing.html"
         }
       },
       "version": ""

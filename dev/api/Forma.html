@@ -94,6 +94,39 @@ Classes
       <dd></dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Forma.AccessibilityTree.html">AccessibilityTree</a></dt>
+      <dd><p>Captures the accessibility tree of a <a class="xref" href="Forma.UIContext.html">UIContext</a>.</p>
+<p>
+The walk deliberately mirrors the rules input already follows — draw order, modal gating,
+rendered-only — rather than inventing its own. A tree that disagrees with input about what is
+reachable is worse than no tree: it tells a consumer to act on something that cannot be acted
+on.
+</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.AccessibilityTreeSnapshot.html">AccessibilityTreeSnapshot</a></dt>
+      <dd><p>A flat, ordered, serializable projection of the accessibility tree at one instant.</p>
+<p>
+Flat rather than nested because every consumer wants it that way: a diff needs to find a node
+by id without a search, a transport wants no recursion, and a locator wants to filter. Order
+is depth-first in draw order, so reading the list top to bottom matches what a person sees.
+</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.AccessibilityTreeWatcher.html">AccessibilityTreeWatcher</a></dt>
+      <dd><p>Tracks whether the accessibility tree could have changed, so consumers re-capture on a signal
+instead of walking the whole tree every frame.</p>
+<p>
+Deliberately conservative: it reports <em>possible</em> change, never certainty. A control
+raising <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityChanged">AccessibilityChanged</a> may have changed something the snapshot
+does not carry, in which case the diff simply comes back empty — cheap, and far safer than
+missing a real change.
+</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Forma.AspectRatioContainer.html">AspectRatioContainer</a></dt>
       <dd><p>Constrains visible children to a target aspect ratio using fit, cover, or axis-driven sizing and alignment.</p>
 </dd>
@@ -723,6 +756,11 @@ control tree from it whenever the layout changes.</p>
 </dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Forma.MenuItemAccessibilityPeer.html">MenuItemAccessibilityPeer</a></dt>
+      <dd><p>One entry of a <a class="xref" href="Forma.PopupMenu.html">PopupMenu</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Forma.ModalOutcome-1.html">ModalOutcome&lt;T&gt;</a></dt>
       <dd></dd>
     </dl>
@@ -1197,6 +1235,11 @@ Override <a class="xref" href="Forma.SyntaxHighlighter.html#Forma_SyntaxHighligh
 </dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Forma.TreeItemAccessibilityPeer.html">TreeItemAccessibilityPeer</a></dt>
+      <dd><p>One visible row of a <a class="xref" href="Forma.Tree.html">Tree</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Forma.TreeItemButton.html">TreeItemButton</a></dt>
       <dd><p>One action button displayed at the trailing edge of a <a class="xref" href="Forma.TreeItem.html">TreeItem</a> cell.</p>
 </dd>
@@ -1322,6 +1365,20 @@ Override <a class="xref" href="Forma.SyntaxHighlighter.html#Forma_SyntaxHighligh
     <h3 id="structs">
 Structs
 </h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.AccessibilityNode.html">AccessibilityNode</a></dt>
+      <dd><p>One node of an <a class="xref" href="Forma.AccessibilityTreeSnapshot.html">AccessibilityTreeSnapshot</a>: everything a consumer needs about a
+single element, flattened so the tree can be transported, diffed or serialized without
+walking live controls.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.AccessibilityTreeDelta.html">AccessibilityTreeDelta</a></dt>
+      <dd><p>What changed between two snapshots. This, not a whole tree, is what an OS bridge or a remote
+client wants: pushing 500 unchanged nodes because one label moved is the difference between a
+usable bridge and an unusable one.</p>
+</dd>
+    </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.BoxShadow.html">BoxShadow</a></dt>
       <dd></dd>
@@ -2112,7 +2169,7 @@ Delegates
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 488fa45d6bc7 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

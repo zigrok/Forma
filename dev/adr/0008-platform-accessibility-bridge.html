@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>ADR 0008: Platform Accessibility Bridge | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="ADR 0008: Platform Accessibility Bridge | Forma Documentation ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/docs/adr/0008-platform-accessibility-bridge.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="adr-0008-platform-accessibility-bridge">ADR 0008: Platform Accessibility Bridge</h1>
+
+<ul>
+<li>Status: Accepted for implementation, macOS only</li>
+<li>Date: 2026-09-22</li>
+<li>Owners: Forma maintainers</li>
+<li>Related plan: <code>.github/prompts/plan-agent-drivable-forma-accessibility.md</code> (Paramia), Track B</li>
+</ul>
+<h2 id="context">Context</h2>
+<p>Forma draws its own controls. To every operating system a Forma window is one opaque rectangle: a
+screen reader announces nothing, and an assistive technology or computer-use agent sees a picture
+rather than a tree. <code>AccessibilityTree.Capture</code> already produces a complete in-process description
+of that tree — roles, names, values, states, actions, bounds — and <code>Forma.Testing</code> drives it. What
+does not exist is a way for anything <em>outside</em> the process to see it.</p>
+<p>The first question is not &quot;which library&quot; but whether it is reachable at all. SDL owns the
+<code>NSWindow</code> and the <code>NSView</code>; Forma never sees either, and macOS accessibility works by the system
+calling <code>accessibilityChildren</code>, <code>accessibilityFocusedUIElement</code> and <code>accessibilityHitTest:</code> on the
+view. If answering those required owning an <code>NSView</code> subclass, this track would end here, because
+subclassing SDL's view from C# is not something to attempt.</p>
+<h2 id="decision">Decision</h2>
+<h3 id="use-accesskit-through-its-c-bindings">Use AccessKit through its C bindings</h3>
+<p><a href="https://accesskit.dev">AccessKit</a> is a cross-platform accessibility abstraction that implements
+<code>NSAccessibility</code> on macOS, UIAutomation on Windows and AT-SPI on Linux from a single tree model.
+Its model — a tree of nodes with roles, properties and supported actions, updated incrementally — is
+close enough to <code>AccessibilityTreeSnapshot</code> that the translation is a mapping rather than a design.</p>
+<ul>
+<li><strong>Bindings:</strong> <code>AccessKit/accesskit-c</code> (a separate repository from <code>AccessKit/accesskit</code>; the C
+bindings are no longer in the main repo). Version 0.23.0.</li>
+<li><strong>Distribution:</strong> consume the release zip, which ships <code>include/accesskit.h</code> plus prebuilt
+<code>libaccesskit.dylib</code>/<code>.a</code> for macOS arm64 and x86_64, Windows, Linux, Android and iOS. Building
+from source needs Rust plus CMake, and regenerating the header additionally needs a pinned nightly
+and cbindgen — so vendoring the prebuilt binary is both simpler and more reproducible than
+<code>native/dynamictext</code>'s build-from-source story. Two caveats recorded in Track B: the macOS
+binaries are <strong>thin, not universal</strong> (arm64 and x86_64 must be <code>lipo</code>'d or selected at runtime),
+and they are <strong>adhoc-signed</strong>, so a notarized app has to re-sign them.</li>
+<li><strong>Licensing:</strong> MIT OR Apache-2.0, matching Forma's MIT posture. Portions derive from Chromium
+under its BSD-style license (<code>LICENSE.chromium</code>, redistributed). The Meson build files are LGPL
+but are build tooling, not shipped code.</li>
+</ul>
+<h3 id="attach-with-the-subclassing-adapter-through-the-window">Attach with the subclassing adapter, through the window</h3>
+<p><code>accesskit_macos_subclassing_adapter_for_window(NSWindow*, ...)</code> installs a runtime Objective-C
+subclass on the window's content view, adds the three accessibility methods, and restores the
+original class when freed. That is what makes this viable: <strong>Forma never touches Objective-C, never
+subclasses anything, and never reaches into SDL.</strong> It hands over a pointer and gets a working tree.</p>
+<p>The pointer comes from <code>GameWindow.PlatformHandle</code>, added to the zigrok MonoGame fork for this —
+<code>Handle</code> is the <code>SDL_Window*</code>, which is the wrong thing to give a Cocoa API. It reads
+<code>SDL_PROP_WINDOW_COCOA_WINDOW_POINTER</code> from SDL3's window properties and is null under the headless
+runtime, where there is no window to attach to.</p>
+<p>SDL puts keyboard focus on the window rather than the content view, so
+<code>accesskit_macos_add_focus_forwarder_to_window_class</code> must also be called. The class name is
+<strong><code>SDL3Window</code></strong> — SDL2's was <code>SDLWindow</code>, and AccessKit's own SDL example still says the old name.
+Passing the wrong one breaks focus reporting silently.</p>
+<h3 id="split-the-bridge-at-a-platform-seam">Split the bridge at a platform seam</h3>
+<p>Two halves, per the plan's D6:</p>
+<ul>
+<li><strong>Neutral half</strong> — snapshot-to-<code>TreeUpdate</code> translation, role mapping, action dispatch, update
+scheduling. No platform types.</li>
+<li><strong>Platform half</strong> — <code>IAccessibilityHost</code>: obtain the window handle, attach and detach the adapter,
+push an update. <code>MacAccessibilityHost</code> is the only implementation in this pass.</li>
+</ul>
+<p>The seam has to accommodate two <em>shapes</em>, not just two platforms. On macOS the adapter is attached
+to a view and the platform calls into it. On Windows the adapter must answer <code>WM_GETOBJECT</code> from the
+window procedure — a callback, and SDL owns the window procedure. An interface modelled only on
+attachment would need rewriting at the first Windows attempt.</p>
+<h3 id="opt-in-and-failure-tolerant">Opt-in and failure-tolerant</h3>
+<p>Off unless asked for. A native library that is missing, incompatible, or fails to load degrades to
+today's behavior and never takes the application down. This is not defensive habit: AccessKit
+surfaces misuse — the wrong thread, a window with no content view, a view already subclassed — as
+<strong>Rust panics across the FFI boundary</strong>, which from C# aborts the process rather than raising an
+exception it could catch. The wrapper keeps those cases from arising instead of trying to recover
+from them.</p>
+<h2 id="consequences">Consequences</h2>
+<ul>
+<li>Forma gains an optional native dependency on a Rust-built library. It is not in the default build
+and nothing in <code>Forma</code> references it.</li>
+<li>Every adapter call happens on the main thread, which is where the game loop already is. Action
+callbacks arrive on the main thread too, so there is no marshalling — unlike the Linux adapter,
+whose handlers are called from another thread.</li>
+<li>Delegates handed to the adapter live as long as it does and must be rooted on the managed side, or
+the first assistive-technology interaction collects them and crashes the process.</li>
+<li>Nodes are replaced wholesale by an update, never patched, and every changed node's parent must be
+re-sent with it. The neutral half owns that bookkeeping so callers never see it.</li>
+<li>Windows and Linux are deliberately out of scope here. Linux is additionally weaker than
+&quot;unfinished&quot;: AccessKit documents that its AT-SPI adapter does not yet fully support text edit
+controls and is not yet usable with Orca, so Linux is automation support first and assistive
+technology later.</li>
+<li>The browser target is unaffected and cannot be served this way at all; it would need the tree
+mirrored into a hidden DOM overlay, which is a different project.</li>
+</ul>
+<h2 id="alternatives-considered">Alternatives considered</h2>
+<ul>
+<li><strong>Implement <code>NSAccessibility</code> directly from C#.</strong> Rejected. It means owning an <code>NSView</code> subclass —
+the thing SDL prevents — and then reimplementing per-platform for Windows and Linux.</li>
+<li><strong>Build <code>accesskit-c</code> from source, mirroring <code>native/dynamictext</code>.</strong> Rejected for now: it adds
+Rust and CMake to the build for a library that already publishes binaries for every platform
+Forma targets. Revisit if a fix is needed before an upstream release.</li>
+<li><strong>Use the plain <code>accesskit_macos_adapter</code>.</strong> Rejected: it requires the host to implement the three
+<code>NSView</code> accessibility methods, which is exactly what is not available here.</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/docs/adr/0008-platform-accessibility-bridge.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

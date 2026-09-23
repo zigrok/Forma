@@ -75,7 +75,7 @@
 
 
   <h1 id="Forma_ItemAccessibilityPeer" data-uid="Forma.ItemAccessibilityPeer" class="text-break">
-Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -107,6 +107,9 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_Invoke_Forma_AccessibilityActions_System_Object_">AccessibilityPeer.Invoke(AccessibilityActions, object)</a>
+    </div>
     <div>
       <a class="xref" href="Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_Owner">AccessibilityPeer.Owner</a>
     </div>
@@ -149,7 +152,7 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 
   <h3 id="Forma_ItemAccessibilityPeer_Actions" data-uid="Forma.ItemAccessibilityPeer.Actions">
   Actions
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -176,11 +179,44 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 
 
 
+  <a id="Forma_ItemAccessibilityPeer_AutomationId_" data-uid="Forma.ItemAccessibilityPeer.AutomationId*"></a>
+
+  <h3 id="Forma_ItemAccessibilityPeer_AutomationId" data-uid="Forma.ItemAccessibilityPeer.AutomationId">
+  AutomationId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Always empty: an automation id is author-assigned to a control, and an item is
+data rather than a control. Items are addressed by role, name or index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string AutomationId { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="Forma_ItemAccessibilityPeer_Bounds_" data-uid="Forma.ItemAccessibilityPeer.Bounds*"></a>
 
   <h3 id="Forma_ItemAccessibilityPeer_Bounds" data-uid="Forma.ItemAccessibilityPeer.Bounds">
   Bounds
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -211,7 +247,7 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 
   <h3 id="Forma_ItemAccessibilityPeer_Children" data-uid="Forma.ItemAccessibilityPeer.Children">
   Children
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -238,11 +274,45 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 
 
 
+  <a id="Forma_ItemAccessibilityPeer_Id_" data-uid="Forma.ItemAccessibilityPeer.Id*"></a>
+
+  <h3 id="Forma_ItemAccessibilityPeer_Id" data-uid="Forma.ItemAccessibilityPeer.Id">
+  Id
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>This item's own identity, not the owning items control's: every item is a distinct node,
+and a snapshot keyed by id would otherwise collapse them all onto the list itself.
+Allocated once per slot, and slots outlive scrolling, so it is stable while realized.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int Id { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="Forma_ItemAccessibilityPeer_Index_" data-uid="Forma.ItemAccessibilityPeer.Index*"></a>
 
   <h3 id="Forma_ItemAccessibilityPeer_Index" data-uid="Forma.ItemAccessibilityPeer.Index">
   Index
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -269,11 +339,49 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 
 
 
+  <a id="Forma_ItemAccessibilityPeer_IsVirtual_" data-uid="Forma.ItemAccessibilityPeer.IsVirtual*"></a>
+
+  <h3 id="Forma_ItemAccessibilityPeer_IsVirtual" data-uid="Forma.ItemAccessibilityPeer.IsVirtual">
+  IsVirtual
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Whether this peer describes something that is not a control — a virtualized list row, a
+menu entry — and therefore has to be published by its owner.</p>
+<p>
+The tree walk reaches real controls on its own, so publishing those twice would list
+every control once as a child and once as a peer. Virtual peers are the ones with no
+control to be reached through.
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool IsVirtual { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="Forma_ItemAccessibilityPeer_Item_" data-uid="Forma.ItemAccessibilityPeer.Item*"></a>
 
   <h3 id="Forma_ItemAccessibilityPeer_Item" data-uid="Forma.ItemAccessibilityPeer.Item">
   Item
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -304,7 +412,7 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 
   <h3 id="Forma_ItemAccessibilityPeer_Name" data-uid="Forma.ItemAccessibilityPeer.Name">
   Name
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -335,7 +443,7 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 
   <h3 id="Forma_ItemAccessibilityPeer_Role" data-uid="Forma.ItemAccessibilityPeer.Role">
   Role
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -366,7 +474,7 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 
   <h3 id="Forma_ItemAccessibilityPeer_States" data-uid="Forma.ItemAccessibilityPeer.States">
   States
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -397,7 +505,7 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Accessibility.cs" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Accessibility.cs" class="edit-link">Edit this page</a>
         </div>
 
 
@@ -413,7 +521,7 @@ Class ItemAccessibilityPeer  <a class="header-action link-secondary" title="View
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 488fa45d6bc7 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

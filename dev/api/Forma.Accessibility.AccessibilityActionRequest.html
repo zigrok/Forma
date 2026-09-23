@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Struct AccessibilityActionRequest | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct AccessibilityActionRequest | Forma Documentation ">
+      
+      <meta name="description" content="What an assistive technology asked the application to do, in Forma&#39;s own terms.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Forma.Accessibility.AccessibilityActionRequest">
+
+
+
+  <h1 id="Forma_Accessibility_AccessibilityActionRequest" data-uid="Forma.Accessibility.AccessibilityActionRequest" class="text-break">
+Struct AccessibilityActionRequest  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma.Accessibility/IAccessibilityHost.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Forma.html">Forma</a>.<a class="xref" href="Forma.Accessibility.html">Accessibility</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Forma.Accessibility.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>What an assistive technology asked the application to do, in Forma's own terms.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly struct AccessibilityActionRequest</code></pre>
+  </div>
+
+
+
+
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.equals">ValueType.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode">ValueType.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring">ValueType.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Forma_Accessibility_AccessibilityActionRequest__ctor_" data-uid="Forma.Accessibility.AccessibilityActionRequest.#ctor*"></a>
+
+  <h3 id="Forma_Accessibility_AccessibilityActionRequest__ctor_System_Int32_Forma_AccessibilityActions_System_Object_" data-uid="Forma.Accessibility.AccessibilityActionRequest.#ctor(System.Int32,Forma.AccessibilityActions,System.Object)">
+  AccessibilityActionRequest(int, AccessibilityActions, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma.Accessibility/IAccessibilityHost.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a request.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AccessibilityActionRequest(int nodeId, AccessibilityActions action, object argument = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>nodeId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>action</code> <a class="xref" href="Forma.AccessibilityActions.html">AccessibilityActions</a></dt>
+    <dd></dd>
+    <dt><code>argument</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Forma_Accessibility_AccessibilityActionRequest_Action_" data-uid="Forma.Accessibility.AccessibilityActionRequest.Action*"></a>
+
+  <h3 id="Forma_Accessibility_AccessibilityActionRequest_Action" data-uid="Forma.Accessibility.AccessibilityActionRequest.Action">
+  Action
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma.Accessibility/IAccessibilityHost.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>What was asked for. <a class="xref" href="Forma.AccessibilityActions.html#Forma_AccessibilityActions_None">None</a> when the platform requested
+something Forma has no equivalent for, which a handler should ignore rather than guess at.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AccessibilityActions Action { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Forma.AccessibilityActions.html">AccessibilityActions</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Accessibility_AccessibilityActionRequest_Argument_" data-uid="Forma.Accessibility.AccessibilityActionRequest.Argument*"></a>
+
+  <h3 id="Forma_Accessibility_AccessibilityActionRequest_Argument" data-uid="Forma.Accessibility.AccessibilityActionRequest.Argument">
+  Argument
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma.Accessibility/IAccessibilityHost.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>What the action was given, where it takes one: the new text or number for
+<a class="xref" href="Forma.AccessibilityActions.html#Forma_AccessibilityActions_SetValue">SetValue</a>. Null otherwise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object Argument { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_Accessibility_AccessibilityActionRequest_NodeId_" data-uid="Forma.Accessibility.AccessibilityActionRequest.NodeId*"></a>
+
+  <h3 id="Forma_Accessibility_AccessibilityActionRequest_NodeId" data-uid="Forma.Accessibility.AccessibilityActionRequest.NodeId">
+  NodeId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma.Accessibility/IAccessibilityHost.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <a class="xref" href="Forma.AccessibilityNode.html#Forma_AccessibilityNode_Id">Id</a> the request targets.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int NodeId { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma.Accessibility/IAccessibilityHost.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

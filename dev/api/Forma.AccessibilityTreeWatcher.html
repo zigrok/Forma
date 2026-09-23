@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Class AccessibilityTreeWatcher | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class AccessibilityTreeWatcher | Forma Documentation ">
+      
+      <meta name="description" content="Tracks whether the accessibility tree could have changed, so consumers re-capture on a signal instead of walking the whole tree every frame.  Deliberately conservative: it reports possible change, never certainty. A control raising  may have changed something the snapshot does not carry, in which case the diff simply comes back empty — cheap, and far safer than missing a real change.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Forma.AccessibilityTreeWatcher">
+
+
+
+  <h1 id="Forma_AccessibilityTreeWatcher" data-uid="Forma.AccessibilityTreeWatcher" class="text-break">
+Class AccessibilityTreeWatcher  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Forma.html">Forma</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Forma.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Tracks whether the accessibility tree could have changed, so consumers re-capture on a signal
+instead of walking the whole tree every frame.</p>
+<p>
+Deliberately conservative: it reports <em>possible</em> change, never certainty. A control
+raising <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityChanged">AccessibilityChanged</a> may have changed something the snapshot
+does not carry, in which case the diff simply comes back empty — cheap, and far safer than
+missing a real change.
+</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class AccessibilityTreeWatcher : IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">AccessibilityTreeWatcher</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Forma_AccessibilityTreeWatcher__ctor_" data-uid="Forma.AccessibilityTreeWatcher.#ctor*"></a>
+
+  <h3 id="Forma_AccessibilityTreeWatcher__ctor_Forma_UIContext_" data-uid="Forma.AccessibilityTreeWatcher.#ctor(Forma.UIContext)">
+  AccessibilityTreeWatcher(UIContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Starts watching a context. Dispose to unsubscribe.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AccessibilityTreeWatcher(UIContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>context</code> <a class="xref" href="Forma.UIContext.html">UIContext</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Forma_AccessibilityTreeWatcher_Current_" data-uid="Forma.AccessibilityTreeWatcher.Current*"></a>
+
+  <h3 id="Forma_AccessibilityTreeWatcher_Current" data-uid="Forma.AccessibilityTreeWatcher.Current">
+  Current
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The most recent snapshot, or null before the first <a class="xref" href="Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Update">Update()</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AccessibilityTreeSnapshot Current { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Forma.AccessibilityTreeSnapshot.html">AccessibilityTreeSnapshot</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_AccessibilityTreeWatcher_IsDirty_" data-uid="Forma.AccessibilityTreeWatcher.IsDirty*"></a>
+
+  <h3 id="Forma_AccessibilityTreeWatcher_IsDirty" data-uid="Forma.AccessibilityTreeWatcher.IsDirty">
+  IsDirty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Whether something may have changed since the last <a class="xref" href="Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Update">Update()</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsDirty { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Forma_AccessibilityTreeWatcher_Dispose_" data-uid="Forma.AccessibilityTreeWatcher.Dispose*"></a>
+
+  <h3 id="Forma_AccessibilityTreeWatcher_Dispose" data-uid="Forma.AccessibilityTreeWatcher.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Unsubscribes from the context and every control it was listening to.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_AccessibilityTreeWatcher_Invalidate_" data-uid="Forma.AccessibilityTreeWatcher.Invalidate*"></a>
+
+  <h3 id="Forma_AccessibilityTreeWatcher_Invalidate" data-uid="Forma.AccessibilityTreeWatcher.Invalidate">
+  Invalidate()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Forces the next <a class="xref" href="Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Update">Update()</a> to re-capture.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Invalidate()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_AccessibilityTreeWatcher_Update_" data-uid="Forma.AccessibilityTreeWatcher.Update*"></a>
+
+  <h3 id="Forma_AccessibilityTreeWatcher_Update" data-uid="Forma.AccessibilityTreeWatcher.Update">
+  Update()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Re-captures when dirty and returns what changed. When nothing is dirty this does no work
+and returns an empty delta, which is the whole point of the type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AccessibilityTreeDelta Update()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Forma.AccessibilityTreeDelta.html">AccessibilityTreeDelta</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

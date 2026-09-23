@@ -307,6 +307,21 @@ references:
   commentId: Overload:Forma.AcceptDialog.OnTemplateApplied
   fullName: Forma.AcceptDialog.OnTemplateApplied
   nameWithType: AcceptDialog.OnTemplateApplied
+- uid: Forma.AcceptDialog.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.AcceptDialog.html#Forma_AcceptDialog_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.AcceptDialog.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.AcceptDialog.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.AcceptDialog.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: AcceptDialog.PointerReleased(Point, bool)
+  nameWithType.vb: AcceptDialog.PointerReleased(Point, Boolean)
+- uid: Forma.AcceptDialog.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.AcceptDialog.html#Forma_AcceptDialog_PointerReleased_
+  commentId: Overload:Forma.AcceptDialog.PointerReleased
+  fullName: Forma.AcceptDialog.PointerReleased
+  nameWithType: AcceptDialog.PointerReleased
 - uid: Forma.AcceptDialog.RegisterTextEnter(Forma.LineEdit)
   name: RegisterTextEnter(LineEdit)
   href: api/Forma.AcceptDialog.html#Forma_AcceptDialog_RegisterTextEnter_Forma_LineEdit_
@@ -361,6 +376,435 @@ references:
   commentId: Overload:Forma.AcceptDialog.UIFont
   fullName: Forma.AcceptDialog.UIFont
   nameWithType: AcceptDialog.UIFont
+- uid: Forma.Accessibility
+  name: Forma.Accessibility
+  href: api/Forma.Accessibility.html
+  commentId: N:Forma.Accessibility
+  fullName: Forma.Accessibility
+  nameWithType: Forma.Accessibility
+- uid: Forma.Accessibility.AccessibilityActionRequest
+  name: AccessibilityActionRequest
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html
+  commentId: T:Forma.Accessibility.AccessibilityActionRequest
+  fullName: Forma.Accessibility.AccessibilityActionRequest
+  nameWithType: AccessibilityActionRequest
+- uid: Forma.Accessibility.AccessibilityActionRequest.#ctor(System.Int32,Forma.AccessibilityActions,System.Object)
+  name: AccessibilityActionRequest(int, AccessibilityActions, object)
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html#Forma_Accessibility_AccessibilityActionRequest__ctor_System_Int32_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.Accessibility.AccessibilityActionRequest.#ctor(System.Int32,Forma.AccessibilityActions,System.Object)
+  name.vb: New(Integer, AccessibilityActions, Object)
+  fullName: Forma.Accessibility.AccessibilityActionRequest.AccessibilityActionRequest(int, Forma.AccessibilityActions, object)
+  fullName.vb: Forma.Accessibility.AccessibilityActionRequest.New(Integer, Forma.AccessibilityActions, Object)
+  nameWithType: AccessibilityActionRequest.AccessibilityActionRequest(int, AccessibilityActions, object)
+  nameWithType.vb: AccessibilityActionRequest.New(Integer, AccessibilityActions, Object)
+- uid: Forma.Accessibility.AccessibilityActionRequest.#ctor*
+  name: AccessibilityActionRequest
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html#Forma_Accessibility_AccessibilityActionRequest__ctor_
+  commentId: Overload:Forma.Accessibility.AccessibilityActionRequest.#ctor
+  name.vb: New
+  fullName: Forma.Accessibility.AccessibilityActionRequest.AccessibilityActionRequest
+  fullName.vb: Forma.Accessibility.AccessibilityActionRequest.New
+  nameWithType: AccessibilityActionRequest.AccessibilityActionRequest
+  nameWithType.vb: AccessibilityActionRequest.New
+- uid: Forma.Accessibility.AccessibilityActionRequest.Action
+  name: Action
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html#Forma_Accessibility_AccessibilityActionRequest_Action
+  commentId: P:Forma.Accessibility.AccessibilityActionRequest.Action
+  fullName: Forma.Accessibility.AccessibilityActionRequest.Action
+  nameWithType: AccessibilityActionRequest.Action
+- uid: Forma.Accessibility.AccessibilityActionRequest.Action*
+  name: Action
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html#Forma_Accessibility_AccessibilityActionRequest_Action_
+  commentId: Overload:Forma.Accessibility.AccessibilityActionRequest.Action
+  fullName: Forma.Accessibility.AccessibilityActionRequest.Action
+  nameWithType: AccessibilityActionRequest.Action
+- uid: Forma.Accessibility.AccessibilityActionRequest.Argument
+  name: Argument
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html#Forma_Accessibility_AccessibilityActionRequest_Argument
+  commentId: P:Forma.Accessibility.AccessibilityActionRequest.Argument
+  fullName: Forma.Accessibility.AccessibilityActionRequest.Argument
+  nameWithType: AccessibilityActionRequest.Argument
+- uid: Forma.Accessibility.AccessibilityActionRequest.Argument*
+  name: Argument
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html#Forma_Accessibility_AccessibilityActionRequest_Argument_
+  commentId: Overload:Forma.Accessibility.AccessibilityActionRequest.Argument
+  fullName: Forma.Accessibility.AccessibilityActionRequest.Argument
+  nameWithType: AccessibilityActionRequest.Argument
+- uid: Forma.Accessibility.AccessibilityActionRequest.NodeId
+  name: NodeId
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html#Forma_Accessibility_AccessibilityActionRequest_NodeId
+  commentId: P:Forma.Accessibility.AccessibilityActionRequest.NodeId
+  fullName: Forma.Accessibility.AccessibilityActionRequest.NodeId
+  nameWithType: AccessibilityActionRequest.NodeId
+- uid: Forma.Accessibility.AccessibilityActionRequest.NodeId*
+  name: NodeId
+  href: api/Forma.Accessibility.AccessibilityActionRequest.html#Forma_Accessibility_AccessibilityActionRequest_NodeId_
+  commentId: Overload:Forma.Accessibility.AccessibilityActionRequest.NodeId
+  fullName: Forma.Accessibility.AccessibilityActionRequest.NodeId
+  nameWithType: AccessibilityActionRequest.NodeId
+- uid: Forma.Accessibility.AccessibilityBridge
+  name: AccessibilityBridge
+  href: api/Forma.Accessibility.AccessibilityBridge.html
+  commentId: T:Forma.Accessibility.AccessibilityBridge
+  fullName: Forma.Accessibility.AccessibilityBridge
+  nameWithType: AccessibilityBridge
+- uid: Forma.Accessibility.AccessibilityBridge.#ctor(Forma.UIContext)
+  name: AccessibilityBridge(UIContext)
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge__ctor_Forma_UIContext_
+  commentId: M:Forma.Accessibility.AccessibilityBridge.#ctor(Forma.UIContext)
+  name.vb: New(UIContext)
+  fullName: Forma.Accessibility.AccessibilityBridge.AccessibilityBridge(Forma.UIContext)
+  fullName.vb: Forma.Accessibility.AccessibilityBridge.New(Forma.UIContext)
+  nameWithType: AccessibilityBridge.AccessibilityBridge(UIContext)
+  nameWithType.vb: AccessibilityBridge.New(UIContext)
+- uid: Forma.Accessibility.AccessibilityBridge.#ctor(Forma.UIContext,Forma.Accessibility.IAccessibilityHost)
+  name: AccessibilityBridge(UIContext, IAccessibilityHost)
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge__ctor_Forma_UIContext_Forma_Accessibility_IAccessibilityHost_
+  commentId: M:Forma.Accessibility.AccessibilityBridge.#ctor(Forma.UIContext,Forma.Accessibility.IAccessibilityHost)
+  name.vb: New(UIContext, IAccessibilityHost)
+  fullName: Forma.Accessibility.AccessibilityBridge.AccessibilityBridge(Forma.UIContext, Forma.Accessibility.IAccessibilityHost)
+  fullName.vb: Forma.Accessibility.AccessibilityBridge.New(Forma.UIContext, Forma.Accessibility.IAccessibilityHost)
+  nameWithType: AccessibilityBridge.AccessibilityBridge(UIContext, IAccessibilityHost)
+  nameWithType.vb: AccessibilityBridge.New(UIContext, IAccessibilityHost)
+- uid: Forma.Accessibility.AccessibilityBridge.#ctor*
+  name: AccessibilityBridge
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge__ctor_
+  commentId: Overload:Forma.Accessibility.AccessibilityBridge.#ctor
+  name.vb: New
+  fullName: Forma.Accessibility.AccessibilityBridge.AccessibilityBridge
+  fullName.vb: Forma.Accessibility.AccessibilityBridge.New
+  nameWithType: AccessibilityBridge.AccessibilityBridge
+  nameWithType.vb: AccessibilityBridge.New
+- uid: Forma.Accessibility.AccessibilityBridge.Attach(System.IntPtr)
+  name: Attach(nint)
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_Attach_System_IntPtr_
+  commentId: M:Forma.Accessibility.AccessibilityBridge.Attach(System.IntPtr)
+  name.vb: Attach(IntPtr)
+  fullName: Forma.Accessibility.AccessibilityBridge.Attach(nint)
+  fullName.vb: Forma.Accessibility.AccessibilityBridge.Attach(System.IntPtr)
+  nameWithType: AccessibilityBridge.Attach(nint)
+  nameWithType.vb: AccessibilityBridge.Attach(IntPtr)
+- uid: Forma.Accessibility.AccessibilityBridge.Attach*
+  name: Attach
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_Attach_
+  commentId: Overload:Forma.Accessibility.AccessibilityBridge.Attach
+  fullName: Forma.Accessibility.AccessibilityBridge.Attach
+  nameWithType: AccessibilityBridge.Attach
+- uid: Forma.Accessibility.AccessibilityBridge.Dispose
+  name: Dispose()
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_Dispose
+  commentId: M:Forma.Accessibility.AccessibilityBridge.Dispose
+  fullName: Forma.Accessibility.AccessibilityBridge.Dispose()
+  nameWithType: AccessibilityBridge.Dispose()
+- uid: Forma.Accessibility.AccessibilityBridge.Dispose*
+  name: Dispose
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_Dispose_
+  commentId: Overload:Forma.Accessibility.AccessibilityBridge.Dispose
+  fullName: Forma.Accessibility.AccessibilityBridge.Dispose
+  nameWithType: AccessibilityBridge.Dispose
+- uid: Forma.Accessibility.AccessibilityBridge.IsAttached
+  name: IsAttached
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_IsAttached
+  commentId: P:Forma.Accessibility.AccessibilityBridge.IsAttached
+  fullName: Forma.Accessibility.AccessibilityBridge.IsAttached
+  nameWithType: AccessibilityBridge.IsAttached
+- uid: Forma.Accessibility.AccessibilityBridge.IsAttached*
+  name: IsAttached
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_IsAttached_
+  commentId: Overload:Forma.Accessibility.AccessibilityBridge.IsAttached
+  fullName: Forma.Accessibility.AccessibilityBridge.IsAttached
+  nameWithType: AccessibilityBridge.IsAttached
+- uid: Forma.Accessibility.AccessibilityBridge.SetWindowFocused(System.Boolean)
+  name: SetWindowFocused(bool)
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_SetWindowFocused_System_Boolean_
+  commentId: M:Forma.Accessibility.AccessibilityBridge.SetWindowFocused(System.Boolean)
+  name.vb: SetWindowFocused(Boolean)
+  fullName: Forma.Accessibility.AccessibilityBridge.SetWindowFocused(bool)
+  fullName.vb: Forma.Accessibility.AccessibilityBridge.SetWindowFocused(Boolean)
+  nameWithType: AccessibilityBridge.SetWindowFocused(bool)
+  nameWithType.vb: AccessibilityBridge.SetWindowFocused(Boolean)
+- uid: Forma.Accessibility.AccessibilityBridge.SetWindowFocused*
+  name: SetWindowFocused
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_SetWindowFocused_
+  commentId: Overload:Forma.Accessibility.AccessibilityBridge.SetWindowFocused
+  fullName: Forma.Accessibility.AccessibilityBridge.SetWindowFocused
+  nameWithType: AccessibilityBridge.SetWindowFocused
+- uid: Forma.Accessibility.AccessibilityBridge.Update
+  name: Update()
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_Update
+  commentId: M:Forma.Accessibility.AccessibilityBridge.Update
+  fullName: Forma.Accessibility.AccessibilityBridge.Update()
+  nameWithType: AccessibilityBridge.Update()
+- uid: Forma.Accessibility.AccessibilityBridge.Update*
+  name: Update
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_Update_
+  commentId: Overload:Forma.Accessibility.AccessibilityBridge.Update
+  fullName: Forma.Accessibility.AccessibilityBridge.Update
+  nameWithType: AccessibilityBridge.Update
+- uid: Forma.Accessibility.AccessibilityBridge.WindowTitle
+  name: WindowTitle
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_WindowTitle
+  commentId: P:Forma.Accessibility.AccessibilityBridge.WindowTitle
+  fullName: Forma.Accessibility.AccessibilityBridge.WindowTitle
+  nameWithType: AccessibilityBridge.WindowTitle
+- uid: Forma.Accessibility.AccessibilityBridge.WindowTitle*
+  name: WindowTitle
+  href: api/Forma.Accessibility.AccessibilityBridge.html#Forma_Accessibility_AccessibilityBridge_WindowTitle_
+  commentId: Overload:Forma.Accessibility.AccessibilityBridge.WindowTitle
+  fullName: Forma.Accessibility.AccessibilityBridge.WindowTitle
+  nameWithType: AccessibilityBridge.WindowTitle
+- uid: Forma.Accessibility.IAccessibilityHost
+  name: IAccessibilityHost
+  href: api/Forma.Accessibility.IAccessibilityHost.html
+  commentId: T:Forma.Accessibility.IAccessibilityHost
+  fullName: Forma.Accessibility.IAccessibilityHost
+  nameWithType: IAccessibilityHost
+- uid: Forma.Accessibility.IAccessibilityHost.Attach(System.IntPtr,System.Func{Forma.AccessibilityTreeSnapshot},System.Action{Forma.Accessibility.AccessibilityActionRequest})
+  name: Attach(nint, Func<AccessibilityTreeSnapshot>, Action<AccessibilityActionRequest>)
+  href: api/Forma.Accessibility.IAccessibilityHost.html#Forma_Accessibility_IAccessibilityHost_Attach_System_IntPtr_System_Func_Forma_AccessibilityTreeSnapshot__System_Action_Forma_Accessibility_AccessibilityActionRequest__
+  commentId: M:Forma.Accessibility.IAccessibilityHost.Attach(System.IntPtr,System.Func{Forma.AccessibilityTreeSnapshot},System.Action{Forma.Accessibility.AccessibilityActionRequest})
+  name.vb: Attach(IntPtr, Func(Of AccessibilityTreeSnapshot), Action(Of AccessibilityActionRequest))
+  fullName: Forma.Accessibility.IAccessibilityHost.Attach(nint, System.Func<Forma.AccessibilityTreeSnapshot>, System.Action<Forma.Accessibility.AccessibilityActionRequest>)
+  fullName.vb: Forma.Accessibility.IAccessibilityHost.Attach(System.IntPtr, System.Func(Of Forma.AccessibilityTreeSnapshot), System.Action(Of Forma.Accessibility.AccessibilityActionRequest))
+  nameWithType: IAccessibilityHost.Attach(nint, Func<AccessibilityTreeSnapshot>, Action<AccessibilityActionRequest>)
+  nameWithType.vb: IAccessibilityHost.Attach(IntPtr, Func(Of AccessibilityTreeSnapshot), Action(Of AccessibilityActionRequest))
+- uid: Forma.Accessibility.IAccessibilityHost.Attach*
+  name: Attach
+  href: api/Forma.Accessibility.IAccessibilityHost.html#Forma_Accessibility_IAccessibilityHost_Attach_
+  commentId: Overload:Forma.Accessibility.IAccessibilityHost.Attach
+  fullName: Forma.Accessibility.IAccessibilityHost.Attach
+  nameWithType: IAccessibilityHost.Attach
+- uid: Forma.Accessibility.IAccessibilityHost.IsSupported
+  name: IsSupported
+  href: api/Forma.Accessibility.IAccessibilityHost.html#Forma_Accessibility_IAccessibilityHost_IsSupported
+  commentId: P:Forma.Accessibility.IAccessibilityHost.IsSupported
+  fullName: Forma.Accessibility.IAccessibilityHost.IsSupported
+  nameWithType: IAccessibilityHost.IsSupported
+- uid: Forma.Accessibility.IAccessibilityHost.IsSupported*
+  name: IsSupported
+  href: api/Forma.Accessibility.IAccessibilityHost.html#Forma_Accessibility_IAccessibilityHost_IsSupported_
+  commentId: Overload:Forma.Accessibility.IAccessibilityHost.IsSupported
+  fullName: Forma.Accessibility.IAccessibilityHost.IsSupported
+  nameWithType: IAccessibilityHost.IsSupported
+- uid: Forma.Accessibility.IAccessibilityHost.SetWindowFocused(System.Boolean)
+  name: SetWindowFocused(bool)
+  href: api/Forma.Accessibility.IAccessibilityHost.html#Forma_Accessibility_IAccessibilityHost_SetWindowFocused_System_Boolean_
+  commentId: M:Forma.Accessibility.IAccessibilityHost.SetWindowFocused(System.Boolean)
+  name.vb: SetWindowFocused(Boolean)
+  fullName: Forma.Accessibility.IAccessibilityHost.SetWindowFocused(bool)
+  fullName.vb: Forma.Accessibility.IAccessibilityHost.SetWindowFocused(Boolean)
+  nameWithType: IAccessibilityHost.SetWindowFocused(bool)
+  nameWithType.vb: IAccessibilityHost.SetWindowFocused(Boolean)
+- uid: Forma.Accessibility.IAccessibilityHost.SetWindowFocused*
+  name: SetWindowFocused
+  href: api/Forma.Accessibility.IAccessibilityHost.html#Forma_Accessibility_IAccessibilityHost_SetWindowFocused_
+  commentId: Overload:Forma.Accessibility.IAccessibilityHost.SetWindowFocused
+  fullName: Forma.Accessibility.IAccessibilityHost.SetWindowFocused
+  nameWithType: IAccessibilityHost.SetWindowFocused
+- uid: Forma.Accessibility.IAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  name: Update(AccessibilityTreeSnapshot)
+  href: api/Forma.Accessibility.IAccessibilityHost.html#Forma_Accessibility_IAccessibilityHost_Update_Forma_AccessibilityTreeSnapshot_
+  commentId: M:Forma.Accessibility.IAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  fullName: Forma.Accessibility.IAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  nameWithType: IAccessibilityHost.Update(AccessibilityTreeSnapshot)
+- uid: Forma.Accessibility.IAccessibilityHost.Update*
+  name: Update
+  href: api/Forma.Accessibility.IAccessibilityHost.html#Forma_Accessibility_IAccessibilityHost_Update_
+  commentId: Overload:Forma.Accessibility.IAccessibilityHost.Update
+  fullName: Forma.Accessibility.IAccessibilityHost.Update
+  nameWithType: IAccessibilityHost.Update
+- uid: Forma.Accessibility.MacAccessibilityHost
+  name: MacAccessibilityHost
+  href: api/Forma.Accessibility.MacAccessibilityHost.html
+  commentId: T:Forma.Accessibility.MacAccessibilityHost
+  fullName: Forma.Accessibility.MacAccessibilityHost
+  nameWithType: MacAccessibilityHost
+- uid: Forma.Accessibility.MacAccessibilityHost.#ctor
+  name: MacAccessibilityHost()
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost__ctor
+  commentId: M:Forma.Accessibility.MacAccessibilityHost.#ctor
+  name.vb: New()
+  fullName: Forma.Accessibility.MacAccessibilityHost.MacAccessibilityHost()
+  fullName.vb: Forma.Accessibility.MacAccessibilityHost.New()
+  nameWithType: MacAccessibilityHost.MacAccessibilityHost()
+  nameWithType.vb: MacAccessibilityHost.New()
+- uid: Forma.Accessibility.MacAccessibilityHost.#ctor*
+  name: MacAccessibilityHost
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost__ctor_
+  commentId: Overload:Forma.Accessibility.MacAccessibilityHost.#ctor
+  name.vb: New
+  fullName: Forma.Accessibility.MacAccessibilityHost.MacAccessibilityHost
+  fullName.vb: Forma.Accessibility.MacAccessibilityHost.New
+  nameWithType: MacAccessibilityHost.MacAccessibilityHost
+  nameWithType.vb: MacAccessibilityHost.New
+- uid: Forma.Accessibility.MacAccessibilityHost.Attach(System.IntPtr,System.Func{Forma.AccessibilityTreeSnapshot},System.Action{Forma.Accessibility.AccessibilityActionRequest})
+  name: Attach(nint, Func<AccessibilityTreeSnapshot>, Action<AccessibilityActionRequest>)
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_Attach_System_IntPtr_System_Func_Forma_AccessibilityTreeSnapshot__System_Action_Forma_Accessibility_AccessibilityActionRequest__
+  commentId: M:Forma.Accessibility.MacAccessibilityHost.Attach(System.IntPtr,System.Func{Forma.AccessibilityTreeSnapshot},System.Action{Forma.Accessibility.AccessibilityActionRequest})
+  name.vb: Attach(IntPtr, Func(Of AccessibilityTreeSnapshot), Action(Of AccessibilityActionRequest))
+  fullName: Forma.Accessibility.MacAccessibilityHost.Attach(nint, System.Func<Forma.AccessibilityTreeSnapshot>, System.Action<Forma.Accessibility.AccessibilityActionRequest>)
+  fullName.vb: Forma.Accessibility.MacAccessibilityHost.Attach(System.IntPtr, System.Func(Of Forma.AccessibilityTreeSnapshot), System.Action(Of Forma.Accessibility.AccessibilityActionRequest))
+  nameWithType: MacAccessibilityHost.Attach(nint, Func<AccessibilityTreeSnapshot>, Action<AccessibilityActionRequest>)
+  nameWithType.vb: MacAccessibilityHost.Attach(IntPtr, Func(Of AccessibilityTreeSnapshot), Action(Of AccessibilityActionRequest))
+- uid: Forma.Accessibility.MacAccessibilityHost.Attach*
+  name: Attach
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_Attach_
+  commentId: Overload:Forma.Accessibility.MacAccessibilityHost.Attach
+  fullName: Forma.Accessibility.MacAccessibilityHost.Attach
+  nameWithType: MacAccessibilityHost.Attach
+- uid: Forma.Accessibility.MacAccessibilityHost.Dispose
+  name: Dispose()
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_Dispose
+  commentId: M:Forma.Accessibility.MacAccessibilityHost.Dispose
+  fullName: Forma.Accessibility.MacAccessibilityHost.Dispose()
+  nameWithType: MacAccessibilityHost.Dispose()
+- uid: Forma.Accessibility.MacAccessibilityHost.Dispose*
+  name: Dispose
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_Dispose_
+  commentId: Overload:Forma.Accessibility.MacAccessibilityHost.Dispose
+  fullName: Forma.Accessibility.MacAccessibilityHost.Dispose
+  nameWithType: MacAccessibilityHost.Dispose
+- uid: Forma.Accessibility.MacAccessibilityHost.IsSupported
+  name: IsSupported
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_IsSupported
+  commentId: P:Forma.Accessibility.MacAccessibilityHost.IsSupported
+  fullName: Forma.Accessibility.MacAccessibilityHost.IsSupported
+  nameWithType: MacAccessibilityHost.IsSupported
+- uid: Forma.Accessibility.MacAccessibilityHost.IsSupported*
+  name: IsSupported
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_IsSupported_
+  commentId: Overload:Forma.Accessibility.MacAccessibilityHost.IsSupported
+  fullName: Forma.Accessibility.MacAccessibilityHost.IsSupported
+  nameWithType: MacAccessibilityHost.IsSupported
+- uid: Forma.Accessibility.MacAccessibilityHost.SetWindowFocused(System.Boolean)
+  name: SetWindowFocused(bool)
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_SetWindowFocused_System_Boolean_
+  commentId: M:Forma.Accessibility.MacAccessibilityHost.SetWindowFocused(System.Boolean)
+  name.vb: SetWindowFocused(Boolean)
+  fullName: Forma.Accessibility.MacAccessibilityHost.SetWindowFocused(bool)
+  fullName.vb: Forma.Accessibility.MacAccessibilityHost.SetWindowFocused(Boolean)
+  nameWithType: MacAccessibilityHost.SetWindowFocused(bool)
+  nameWithType.vb: MacAccessibilityHost.SetWindowFocused(Boolean)
+- uid: Forma.Accessibility.MacAccessibilityHost.SetWindowFocused*
+  name: SetWindowFocused
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_SetWindowFocused_
+  commentId: Overload:Forma.Accessibility.MacAccessibilityHost.SetWindowFocused
+  fullName: Forma.Accessibility.MacAccessibilityHost.SetWindowFocused
+  nameWithType: MacAccessibilityHost.SetWindowFocused
+- uid: Forma.Accessibility.MacAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  name: Update(AccessibilityTreeSnapshot)
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_Update_Forma_AccessibilityTreeSnapshot_
+  commentId: M:Forma.Accessibility.MacAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  fullName: Forma.Accessibility.MacAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  nameWithType: MacAccessibilityHost.Update(AccessibilityTreeSnapshot)
+- uid: Forma.Accessibility.MacAccessibilityHost.Update*
+  name: Update
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_Update_
+  commentId: Overload:Forma.Accessibility.MacAccessibilityHost.Update
+  fullName: Forma.Accessibility.MacAccessibilityHost.Update
+  nameWithType: MacAccessibilityHost.Update
+- uid: Forma.Accessibility.MacAccessibilityHost.WindowTitle
+  name: WindowTitle
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_WindowTitle
+  commentId: P:Forma.Accessibility.MacAccessibilityHost.WindowTitle
+  fullName: Forma.Accessibility.MacAccessibilityHost.WindowTitle
+  nameWithType: MacAccessibilityHost.WindowTitle
+- uid: Forma.Accessibility.MacAccessibilityHost.WindowTitle*
+  name: WindowTitle
+  href: api/Forma.Accessibility.MacAccessibilityHost.html#Forma_Accessibility_MacAccessibilityHost_WindowTitle_
+  commentId: Overload:Forma.Accessibility.MacAccessibilityHost.WindowTitle
+  fullName: Forma.Accessibility.MacAccessibilityHost.WindowTitle
+  nameWithType: MacAccessibilityHost.WindowTitle
+- uid: Forma.Accessibility.NullAccessibilityHost
+  name: NullAccessibilityHost
+  href: api/Forma.Accessibility.NullAccessibilityHost.html
+  commentId: T:Forma.Accessibility.NullAccessibilityHost
+  fullName: Forma.Accessibility.NullAccessibilityHost
+  nameWithType: NullAccessibilityHost
+- uid: Forma.Accessibility.NullAccessibilityHost.#ctor
+  name: NullAccessibilityHost()
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost__ctor
+  commentId: M:Forma.Accessibility.NullAccessibilityHost.#ctor
+  name.vb: New()
+  fullName: Forma.Accessibility.NullAccessibilityHost.NullAccessibilityHost()
+  fullName.vb: Forma.Accessibility.NullAccessibilityHost.New()
+  nameWithType: NullAccessibilityHost.NullAccessibilityHost()
+  nameWithType.vb: NullAccessibilityHost.New()
+- uid: Forma.Accessibility.NullAccessibilityHost.#ctor*
+  name: NullAccessibilityHost
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost__ctor_
+  commentId: Overload:Forma.Accessibility.NullAccessibilityHost.#ctor
+  name.vb: New
+  fullName: Forma.Accessibility.NullAccessibilityHost.NullAccessibilityHost
+  fullName.vb: Forma.Accessibility.NullAccessibilityHost.New
+  nameWithType: NullAccessibilityHost.NullAccessibilityHost
+  nameWithType.vb: NullAccessibilityHost.New
+- uid: Forma.Accessibility.NullAccessibilityHost.Attach(System.IntPtr,System.Func{Forma.AccessibilityTreeSnapshot},System.Action{Forma.Accessibility.AccessibilityActionRequest})
+  name: Attach(nint, Func<AccessibilityTreeSnapshot>, Action<AccessibilityActionRequest>)
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_Attach_System_IntPtr_System_Func_Forma_AccessibilityTreeSnapshot__System_Action_Forma_Accessibility_AccessibilityActionRequest__
+  commentId: M:Forma.Accessibility.NullAccessibilityHost.Attach(System.IntPtr,System.Func{Forma.AccessibilityTreeSnapshot},System.Action{Forma.Accessibility.AccessibilityActionRequest})
+  name.vb: Attach(IntPtr, Func(Of AccessibilityTreeSnapshot), Action(Of AccessibilityActionRequest))
+  fullName: Forma.Accessibility.NullAccessibilityHost.Attach(nint, System.Func<Forma.AccessibilityTreeSnapshot>, System.Action<Forma.Accessibility.AccessibilityActionRequest>)
+  fullName.vb: Forma.Accessibility.NullAccessibilityHost.Attach(System.IntPtr, System.Func(Of Forma.AccessibilityTreeSnapshot), System.Action(Of Forma.Accessibility.AccessibilityActionRequest))
+  nameWithType: NullAccessibilityHost.Attach(nint, Func<AccessibilityTreeSnapshot>, Action<AccessibilityActionRequest>)
+  nameWithType.vb: NullAccessibilityHost.Attach(IntPtr, Func(Of AccessibilityTreeSnapshot), Action(Of AccessibilityActionRequest))
+- uid: Forma.Accessibility.NullAccessibilityHost.Attach*
+  name: Attach
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_Attach_
+  commentId: Overload:Forma.Accessibility.NullAccessibilityHost.Attach
+  fullName: Forma.Accessibility.NullAccessibilityHost.Attach
+  nameWithType: NullAccessibilityHost.Attach
+- uid: Forma.Accessibility.NullAccessibilityHost.Dispose
+  name: Dispose()
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_Dispose
+  commentId: M:Forma.Accessibility.NullAccessibilityHost.Dispose
+  fullName: Forma.Accessibility.NullAccessibilityHost.Dispose()
+  nameWithType: NullAccessibilityHost.Dispose()
+- uid: Forma.Accessibility.NullAccessibilityHost.Dispose*
+  name: Dispose
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_Dispose_
+  commentId: Overload:Forma.Accessibility.NullAccessibilityHost.Dispose
+  fullName: Forma.Accessibility.NullAccessibilityHost.Dispose
+  nameWithType: NullAccessibilityHost.Dispose
+- uid: Forma.Accessibility.NullAccessibilityHost.IsSupported
+  name: IsSupported
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_IsSupported
+  commentId: P:Forma.Accessibility.NullAccessibilityHost.IsSupported
+  fullName: Forma.Accessibility.NullAccessibilityHost.IsSupported
+  nameWithType: NullAccessibilityHost.IsSupported
+- uid: Forma.Accessibility.NullAccessibilityHost.IsSupported*
+  name: IsSupported
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_IsSupported_
+  commentId: Overload:Forma.Accessibility.NullAccessibilityHost.IsSupported
+  fullName: Forma.Accessibility.NullAccessibilityHost.IsSupported
+  nameWithType: NullAccessibilityHost.IsSupported
+- uid: Forma.Accessibility.NullAccessibilityHost.SetWindowFocused(System.Boolean)
+  name: SetWindowFocused(bool)
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_SetWindowFocused_System_Boolean_
+  commentId: M:Forma.Accessibility.NullAccessibilityHost.SetWindowFocused(System.Boolean)
+  name.vb: SetWindowFocused(Boolean)
+  fullName: Forma.Accessibility.NullAccessibilityHost.SetWindowFocused(bool)
+  fullName.vb: Forma.Accessibility.NullAccessibilityHost.SetWindowFocused(Boolean)
+  nameWithType: NullAccessibilityHost.SetWindowFocused(bool)
+  nameWithType.vb: NullAccessibilityHost.SetWindowFocused(Boolean)
+- uid: Forma.Accessibility.NullAccessibilityHost.SetWindowFocused*
+  name: SetWindowFocused
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_SetWindowFocused_
+  commentId: Overload:Forma.Accessibility.NullAccessibilityHost.SetWindowFocused
+  fullName: Forma.Accessibility.NullAccessibilityHost.SetWindowFocused
+  nameWithType: NullAccessibilityHost.SetWindowFocused
+- uid: Forma.Accessibility.NullAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  name: Update(AccessibilityTreeSnapshot)
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_Update_Forma_AccessibilityTreeSnapshot_
+  commentId: M:Forma.Accessibility.NullAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  fullName: Forma.Accessibility.NullAccessibilityHost.Update(Forma.AccessibilityTreeSnapshot)
+  nameWithType: NullAccessibilityHost.Update(AccessibilityTreeSnapshot)
+- uid: Forma.Accessibility.NullAccessibilityHost.Update*
+  name: Update
+  href: api/Forma.Accessibility.NullAccessibilityHost.html#Forma_Accessibility_NullAccessibilityHost_Update_
+  commentId: Overload:Forma.Accessibility.NullAccessibilityHost.Update
+  fullName: Forma.Accessibility.NullAccessibilityHost.Update
+  nameWithType: NullAccessibilityHost.Update
 - uid: Forma.AccessibilityActions
   name: AccessibilityActions
   href: api/Forma.AccessibilityActions.html
@@ -469,6 +913,132 @@ references:
   commentId: Overload:Forma.AccessibilityChangedEventArgs.PropertyName
   fullName: Forma.AccessibilityChangedEventArgs.PropertyName
   nameWithType: AccessibilityChangedEventArgs.PropertyName
+- uid: Forma.AccessibilityNode
+  name: AccessibilityNode
+  href: api/Forma.AccessibilityNode.html
+  commentId: T:Forma.AccessibilityNode
+  fullName: Forma.AccessibilityNode
+  nameWithType: AccessibilityNode
+- uid: Forma.AccessibilityNode.Actions
+  name: Actions
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Actions
+  commentId: P:Forma.AccessibilityNode.Actions
+  fullName: Forma.AccessibilityNode.Actions
+  nameWithType: AccessibilityNode.Actions
+- uid: Forma.AccessibilityNode.Actions*
+  name: Actions
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Actions_
+  commentId: Overload:Forma.AccessibilityNode.Actions
+  fullName: Forma.AccessibilityNode.Actions
+  nameWithType: AccessibilityNode.Actions
+- uid: Forma.AccessibilityNode.AutomationId
+  name: AutomationId
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_AutomationId
+  commentId: P:Forma.AccessibilityNode.AutomationId
+  fullName: Forma.AccessibilityNode.AutomationId
+  nameWithType: AccessibilityNode.AutomationId
+- uid: Forma.AccessibilityNode.AutomationId*
+  name: AutomationId
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_AutomationId_
+  commentId: Overload:Forma.AccessibilityNode.AutomationId
+  fullName: Forma.AccessibilityNode.AutomationId
+  nameWithType: AccessibilityNode.AutomationId
+- uid: Forma.AccessibilityNode.Bounds
+  name: Bounds
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Bounds
+  commentId: P:Forma.AccessibilityNode.Bounds
+  fullName: Forma.AccessibilityNode.Bounds
+  nameWithType: AccessibilityNode.Bounds
+- uid: Forma.AccessibilityNode.Bounds*
+  name: Bounds
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Bounds_
+  commentId: Overload:Forma.AccessibilityNode.Bounds
+  fullName: Forma.AccessibilityNode.Bounds
+  nameWithType: AccessibilityNode.Bounds
+- uid: Forma.AccessibilityNode.Id
+  name: Id
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Id
+  commentId: P:Forma.AccessibilityNode.Id
+  fullName: Forma.AccessibilityNode.Id
+  nameWithType: AccessibilityNode.Id
+- uid: Forma.AccessibilityNode.Id*
+  name: Id
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Id_
+  commentId: Overload:Forma.AccessibilityNode.Id
+  fullName: Forma.AccessibilityNode.Id
+  nameWithType: AccessibilityNode.Id
+- uid: Forma.AccessibilityNode.IsRoot
+  name: IsRoot
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_IsRoot
+  commentId: P:Forma.AccessibilityNode.IsRoot
+  fullName: Forma.AccessibilityNode.IsRoot
+  nameWithType: AccessibilityNode.IsRoot
+- uid: Forma.AccessibilityNode.IsRoot*
+  name: IsRoot
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_IsRoot_
+  commentId: Overload:Forma.AccessibilityNode.IsRoot
+  fullName: Forma.AccessibilityNode.IsRoot
+  nameWithType: AccessibilityNode.IsRoot
+- uid: Forma.AccessibilityNode.Name
+  name: Name
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Name
+  commentId: P:Forma.AccessibilityNode.Name
+  fullName: Forma.AccessibilityNode.Name
+  nameWithType: AccessibilityNode.Name
+- uid: Forma.AccessibilityNode.Name*
+  name: Name
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Name_
+  commentId: Overload:Forma.AccessibilityNode.Name
+  fullName: Forma.AccessibilityNode.Name
+  nameWithType: AccessibilityNode.Name
+- uid: Forma.AccessibilityNode.ParentId
+  name: ParentId
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_ParentId
+  commentId: P:Forma.AccessibilityNode.ParentId
+  fullName: Forma.AccessibilityNode.ParentId
+  nameWithType: AccessibilityNode.ParentId
+- uid: Forma.AccessibilityNode.ParentId*
+  name: ParentId
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_ParentId_
+  commentId: Overload:Forma.AccessibilityNode.ParentId
+  fullName: Forma.AccessibilityNode.ParentId
+  nameWithType: AccessibilityNode.ParentId
+- uid: Forma.AccessibilityNode.Role
+  name: Role
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Role
+  commentId: P:Forma.AccessibilityNode.Role
+  fullName: Forma.AccessibilityNode.Role
+  nameWithType: AccessibilityNode.Role
+- uid: Forma.AccessibilityNode.Role*
+  name: Role
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Role_
+  commentId: Overload:Forma.AccessibilityNode.Role
+  fullName: Forma.AccessibilityNode.Role
+  nameWithType: AccessibilityNode.Role
+- uid: Forma.AccessibilityNode.States
+  name: States
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_States
+  commentId: P:Forma.AccessibilityNode.States
+  fullName: Forma.AccessibilityNode.States
+  nameWithType: AccessibilityNode.States
+- uid: Forma.AccessibilityNode.States*
+  name: States
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_States_
+  commentId: Overload:Forma.AccessibilityNode.States
+  fullName: Forma.AccessibilityNode.States
+  nameWithType: AccessibilityNode.States
+- uid: Forma.AccessibilityNode.Value
+  name: Value
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Value
+  commentId: P:Forma.AccessibilityNode.Value
+  fullName: Forma.AccessibilityNode.Value
+  nameWithType: AccessibilityNode.Value
+- uid: Forma.AccessibilityNode.Value*
+  name: Value
+  href: api/Forma.AccessibilityNode.html#Forma_AccessibilityNode_Value_
+  commentId: Overload:Forma.AccessibilityNode.Value
+  fullName: Forma.AccessibilityNode.Value
+  nameWithType: AccessibilityNode.Value
 - uid: Forma.AccessibilityPeer
   name: AccessibilityPeer
   href: api/Forma.AccessibilityPeer.html
@@ -487,6 +1057,18 @@ references:
   commentId: Overload:Forma.AccessibilityPeer.Actions
   fullName: Forma.AccessibilityPeer.Actions
   nameWithType: AccessibilityPeer.Actions
+- uid: Forma.AccessibilityPeer.AutomationId
+  name: AutomationId
+  href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_AutomationId
+  commentId: P:Forma.AccessibilityPeer.AutomationId
+  fullName: Forma.AccessibilityPeer.AutomationId
+  nameWithType: AccessibilityPeer.AutomationId
+- uid: Forma.AccessibilityPeer.AutomationId*
+  name: AutomationId
+  href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_AutomationId_
+  commentId: Overload:Forma.AccessibilityPeer.AutomationId
+  fullName: Forma.AccessibilityPeer.AutomationId
+  nameWithType: AccessibilityPeer.AutomationId
 - uid: Forma.AccessibilityPeer.Bounds
   name: Bounds
   href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_Bounds
@@ -511,6 +1093,33 @@ references:
   commentId: Overload:Forma.AccessibilityPeer.Children
   fullName: Forma.AccessibilityPeer.Children
   nameWithType: AccessibilityPeer.Children
+- uid: Forma.AccessibilityPeer.Id
+  name: Id
+  href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_Id
+  commentId: P:Forma.AccessibilityPeer.Id
+  fullName: Forma.AccessibilityPeer.Id
+  nameWithType: AccessibilityPeer.Id
+- uid: Forma.AccessibilityPeer.Id*
+  name: Id
+  href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_Id_
+  commentId: Overload:Forma.AccessibilityPeer.Id
+  fullName: Forma.AccessibilityPeer.Id
+  nameWithType: AccessibilityPeer.Id
+- uid: Forma.AccessibilityPeer.Invoke(Forma.AccessibilityActions,System.Object)
+  name: Invoke(AccessibilityActions, object)
+  href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_Invoke_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.AccessibilityPeer.Invoke(Forma.AccessibilityActions,System.Object)
+  name.vb: Invoke(AccessibilityActions, Object)
+  fullName: Forma.AccessibilityPeer.Invoke(Forma.AccessibilityActions, object)
+  fullName.vb: Forma.AccessibilityPeer.Invoke(Forma.AccessibilityActions, Object)
+  nameWithType: AccessibilityPeer.Invoke(AccessibilityActions, object)
+  nameWithType.vb: AccessibilityPeer.Invoke(AccessibilityActions, Object)
+- uid: Forma.AccessibilityPeer.Invoke*
+  name: Invoke
+  href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_Invoke_
+  commentId: Overload:Forma.AccessibilityPeer.Invoke
+  fullName: Forma.AccessibilityPeer.Invoke
+  nameWithType: AccessibilityPeer.Invoke
 - uid: Forma.AccessibilityPeer.IsOffscreen
   name: IsOffscreen
   href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_IsOffscreen
@@ -523,6 +1132,18 @@ references:
   commentId: Overload:Forma.AccessibilityPeer.IsOffscreen
   fullName: Forma.AccessibilityPeer.IsOffscreen
   nameWithType: AccessibilityPeer.IsOffscreen
+- uid: Forma.AccessibilityPeer.IsVirtual
+  name: IsVirtual
+  href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_IsVirtual
+  commentId: P:Forma.AccessibilityPeer.IsVirtual
+  fullName: Forma.AccessibilityPeer.IsVirtual
+  nameWithType: AccessibilityPeer.IsVirtual
+- uid: Forma.AccessibilityPeer.IsVirtual*
+  name: IsVirtual
+  href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_IsVirtual_
+  commentId: Overload:Forma.AccessibilityPeer.IsVirtual
+  fullName: Forma.AccessibilityPeer.IsVirtual
+  nameWithType: AccessibilityPeer.IsVirtual
 - uid: Forma.AccessibilityPeer.Name
   name: Name
   href: api/Forma.AccessibilityPeer.html#Forma_AccessibilityPeer_Name
@@ -691,6 +1312,12 @@ references:
   commentId: F:Forma.AccessibilityRole.MenuBar
   fullName: Forma.AccessibilityRole.MenuBar
   nameWithType: AccessibilityRole.MenuBar
+- uid: Forma.AccessibilityRole.MenuItem
+  name: MenuItem
+  href: api/Forma.AccessibilityRole.html#Forma_AccessibilityRole_MenuItem
+  commentId: F:Forma.AccessibilityRole.MenuItem
+  fullName: Forma.AccessibilityRole.MenuItem
+  nameWithType: AccessibilityRole.MenuItem
 - uid: Forma.AccessibilityRole.ProgressBar
   name: ProgressBar
   href: api/Forma.AccessibilityRole.html#Forma_AccessibilityRole_ProgressBar
@@ -841,6 +1468,294 @@ references:
   commentId: F:Forma.AccessibilityStates.Selected
   fullName: Forma.AccessibilityStates.Selected
   nameWithType: AccessibilityStates.Selected
+- uid: Forma.AccessibilityTree
+  name: AccessibilityTree
+  href: api/Forma.AccessibilityTree.html
+  commentId: T:Forma.AccessibilityTree
+  fullName: Forma.AccessibilityTree
+  nameWithType: AccessibilityTree
+- uid: Forma.AccessibilityTree.Capture(Forma.UIContext)
+  name: Capture(UIContext)
+  href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_Capture_Forma_UIContext_
+  commentId: M:Forma.AccessibilityTree.Capture(Forma.UIContext)
+  fullName: Forma.AccessibilityTree.Capture(Forma.UIContext)
+  nameWithType: AccessibilityTree.Capture(UIContext)
+- uid: Forma.AccessibilityTree.Capture*
+  name: Capture
+  href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_Capture_
+  commentId: Overload:Forma.AccessibilityTree.Capture
+  fullName: Forma.AccessibilityTree.Capture
+  nameWithType: AccessibilityTree.Capture
+- uid: Forma.AccessibilityTree.Diff(Forma.AccessibilityTreeSnapshot,Forma.AccessibilityTreeSnapshot)
+  name: Diff(AccessibilityTreeSnapshot, AccessibilityTreeSnapshot)
+  href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_Diff_Forma_AccessibilityTreeSnapshot_Forma_AccessibilityTreeSnapshot_
+  commentId: M:Forma.AccessibilityTree.Diff(Forma.AccessibilityTreeSnapshot,Forma.AccessibilityTreeSnapshot)
+  fullName: Forma.AccessibilityTree.Diff(Forma.AccessibilityTreeSnapshot, Forma.AccessibilityTreeSnapshot)
+  nameWithType: AccessibilityTree.Diff(AccessibilityTreeSnapshot, AccessibilityTreeSnapshot)
+- uid: Forma.AccessibilityTree.Diff*
+  name: Diff
+  href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_Diff_
+  commentId: Overload:Forma.AccessibilityTree.Diff
+  fullName: Forma.AccessibilityTree.Diff
+  nameWithType: AccessibilityTree.Diff
+- uid: Forma.AccessibilityTree.TryPerformAction(Forma.UIContext,System.Int32,Forma.AccessibilityActions,System.Object)
+  name: TryPerformAction(UIContext, int, AccessibilityActions, object)
+  href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_TryPerformAction_Forma_UIContext_System_Int32_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.AccessibilityTree.TryPerformAction(Forma.UIContext,System.Int32,Forma.AccessibilityActions,System.Object)
+  name.vb: TryPerformAction(UIContext, Integer, AccessibilityActions, Object)
+  fullName: Forma.AccessibilityTree.TryPerformAction(Forma.UIContext, int, Forma.AccessibilityActions, object)
+  fullName.vb: Forma.AccessibilityTree.TryPerformAction(Forma.UIContext, Integer, Forma.AccessibilityActions, Object)
+  nameWithType: AccessibilityTree.TryPerformAction(UIContext, int, AccessibilityActions, object)
+  nameWithType.vb: AccessibilityTree.TryPerformAction(UIContext, Integer, AccessibilityActions, Object)
+- uid: Forma.AccessibilityTree.TryPerformAction*
+  name: TryPerformAction
+  href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_TryPerformAction_
+  commentId: Overload:Forma.AccessibilityTree.TryPerformAction
+  fullName: Forma.AccessibilityTree.TryPerformAction
+  nameWithType: AccessibilityTree.TryPerformAction
+- uid: Forma.AccessibilityTreeDelta
+  name: AccessibilityTreeDelta
+  href: api/Forma.AccessibilityTreeDelta.html
+  commentId: T:Forma.AccessibilityTreeDelta
+  fullName: Forma.AccessibilityTreeDelta
+  nameWithType: AccessibilityTreeDelta
+- uid: Forma.AccessibilityTreeDelta.Added
+  name: Added
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_Added
+  commentId: P:Forma.AccessibilityTreeDelta.Added
+  fullName: Forma.AccessibilityTreeDelta.Added
+  nameWithType: AccessibilityTreeDelta.Added
+- uid: Forma.AccessibilityTreeDelta.Added*
+  name: Added
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_Added_
+  commentId: Overload:Forma.AccessibilityTreeDelta.Added
+  fullName: Forma.AccessibilityTreeDelta.Added
+  nameWithType: AccessibilityTreeDelta.Added
+- uid: Forma.AccessibilityTreeDelta.FocusChanged
+  name: FocusChanged
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_FocusChanged
+  commentId: P:Forma.AccessibilityTreeDelta.FocusChanged
+  fullName: Forma.AccessibilityTreeDelta.FocusChanged
+  nameWithType: AccessibilityTreeDelta.FocusChanged
+- uid: Forma.AccessibilityTreeDelta.FocusChanged*
+  name: FocusChanged
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_FocusChanged_
+  commentId: Overload:Forma.AccessibilityTreeDelta.FocusChanged
+  fullName: Forma.AccessibilityTreeDelta.FocusChanged
+  nameWithType: AccessibilityTreeDelta.FocusChanged
+- uid: Forma.AccessibilityTreeDelta.FocusedId
+  name: FocusedId
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_FocusedId
+  commentId: P:Forma.AccessibilityTreeDelta.FocusedId
+  fullName: Forma.AccessibilityTreeDelta.FocusedId
+  nameWithType: AccessibilityTreeDelta.FocusedId
+- uid: Forma.AccessibilityTreeDelta.FocusedId*
+  name: FocusedId
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_FocusedId_
+  commentId: Overload:Forma.AccessibilityTreeDelta.FocusedId
+  fullName: Forma.AccessibilityTreeDelta.FocusedId
+  nameWithType: AccessibilityTreeDelta.FocusedId
+- uid: Forma.AccessibilityTreeDelta.IsEmpty
+  name: IsEmpty
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_IsEmpty
+  commentId: P:Forma.AccessibilityTreeDelta.IsEmpty
+  fullName: Forma.AccessibilityTreeDelta.IsEmpty
+  nameWithType: AccessibilityTreeDelta.IsEmpty
+- uid: Forma.AccessibilityTreeDelta.IsEmpty*
+  name: IsEmpty
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_IsEmpty_
+  commentId: Overload:Forma.AccessibilityTreeDelta.IsEmpty
+  fullName: Forma.AccessibilityTreeDelta.IsEmpty
+  nameWithType: AccessibilityTreeDelta.IsEmpty
+- uid: Forma.AccessibilityTreeDelta.Removed
+  name: Removed
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_Removed
+  commentId: P:Forma.AccessibilityTreeDelta.Removed
+  fullName: Forma.AccessibilityTreeDelta.Removed
+  nameWithType: AccessibilityTreeDelta.Removed
+- uid: Forma.AccessibilityTreeDelta.Removed*
+  name: Removed
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_Removed_
+  commentId: Overload:Forma.AccessibilityTreeDelta.Removed
+  fullName: Forma.AccessibilityTreeDelta.Removed
+  nameWithType: AccessibilityTreeDelta.Removed
+- uid: Forma.AccessibilityTreeDelta.Updated
+  name: Updated
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_Updated
+  commentId: P:Forma.AccessibilityTreeDelta.Updated
+  fullName: Forma.AccessibilityTreeDelta.Updated
+  nameWithType: AccessibilityTreeDelta.Updated
+- uid: Forma.AccessibilityTreeDelta.Updated*
+  name: Updated
+  href: api/Forma.AccessibilityTreeDelta.html#Forma_AccessibilityTreeDelta_Updated_
+  commentId: Overload:Forma.AccessibilityTreeDelta.Updated
+  fullName: Forma.AccessibilityTreeDelta.Updated
+  nameWithType: AccessibilityTreeDelta.Updated
+- uid: Forma.AccessibilityTreeSnapshot
+  name: AccessibilityTreeSnapshot
+  href: api/Forma.AccessibilityTreeSnapshot.html
+  commentId: T:Forma.AccessibilityTreeSnapshot
+  fullName: Forma.AccessibilityTreeSnapshot
+  nameWithType: AccessibilityTreeSnapshot
+- uid: Forma.AccessibilityTreeSnapshot.FocusedId
+  name: FocusedId
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_FocusedId
+  commentId: P:Forma.AccessibilityTreeSnapshot.FocusedId
+  fullName: Forma.AccessibilityTreeSnapshot.FocusedId
+  nameWithType: AccessibilityTreeSnapshot.FocusedId
+- uid: Forma.AccessibilityTreeSnapshot.FocusedId*
+  name: FocusedId
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_FocusedId_
+  commentId: Overload:Forma.AccessibilityTreeSnapshot.FocusedId
+  fullName: Forma.AccessibilityTreeSnapshot.FocusedId
+  nameWithType: AccessibilityTreeSnapshot.FocusedId
+- uid: Forma.AccessibilityTreeSnapshot.IsModalActive
+  name: IsModalActive
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_IsModalActive
+  commentId: P:Forma.AccessibilityTreeSnapshot.IsModalActive
+  fullName: Forma.AccessibilityTreeSnapshot.IsModalActive
+  nameWithType: AccessibilityTreeSnapshot.IsModalActive
+- uid: Forma.AccessibilityTreeSnapshot.IsModalActive*
+  name: IsModalActive
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_IsModalActive_
+  commentId: Overload:Forma.AccessibilityTreeSnapshot.IsModalActive
+  fullName: Forma.AccessibilityTreeSnapshot.IsModalActive
+  nameWithType: AccessibilityTreeSnapshot.IsModalActive
+- uid: Forma.AccessibilityTreeSnapshot.Nodes
+  name: Nodes
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_Nodes
+  commentId: P:Forma.AccessibilityTreeSnapshot.Nodes
+  fullName: Forma.AccessibilityTreeSnapshot.Nodes
+  nameWithType: AccessibilityTreeSnapshot.Nodes
+- uid: Forma.AccessibilityTreeSnapshot.Nodes*
+  name: Nodes
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_Nodes_
+  commentId: Overload:Forma.AccessibilityTreeSnapshot.Nodes
+  fullName: Forma.AccessibilityTreeSnapshot.Nodes
+  nameWithType: AccessibilityTreeSnapshot.Nodes
+- uid: Forma.AccessibilityTreeSnapshot.ToString
+  name: ToString()
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_ToString
+  commentId: M:Forma.AccessibilityTreeSnapshot.ToString
+  fullName: Forma.AccessibilityTreeSnapshot.ToString()
+  nameWithType: AccessibilityTreeSnapshot.ToString()
+- uid: Forma.AccessibilityTreeSnapshot.ToString*
+  name: ToString
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_ToString_
+  commentId: Overload:Forma.AccessibilityTreeSnapshot.ToString
+  fullName: Forma.AccessibilityTreeSnapshot.ToString
+  nameWithType: AccessibilityTreeSnapshot.ToString
+- uid: Forma.AccessibilityTreeSnapshot.ToText
+  name: ToText()
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_ToText
+  commentId: M:Forma.AccessibilityTreeSnapshot.ToText
+  fullName: Forma.AccessibilityTreeSnapshot.ToText()
+  nameWithType: AccessibilityTreeSnapshot.ToText()
+- uid: Forma.AccessibilityTreeSnapshot.ToText*
+  name: ToText
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_ToText_
+  commentId: Overload:Forma.AccessibilityTreeSnapshot.ToText
+  fullName: Forma.AccessibilityTreeSnapshot.ToText
+  nameWithType: AccessibilityTreeSnapshot.ToText
+- uid: Forma.AccessibilityTreeSnapshot.TryGetNode(System.Int32,Forma.AccessibilityNode@)
+  name: TryGetNode(int, out AccessibilityNode)
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_TryGetNode_System_Int32_Forma_AccessibilityNode__
+  commentId: M:Forma.AccessibilityTreeSnapshot.TryGetNode(System.Int32,Forma.AccessibilityNode@)
+  name.vb: TryGetNode(Integer, AccessibilityNode)
+  fullName: Forma.AccessibilityTreeSnapshot.TryGetNode(int, out Forma.AccessibilityNode)
+  fullName.vb: Forma.AccessibilityTreeSnapshot.TryGetNode(Integer, Forma.AccessibilityNode)
+  nameWithType: AccessibilityTreeSnapshot.TryGetNode(int, out AccessibilityNode)
+  nameWithType.vb: AccessibilityTreeSnapshot.TryGetNode(Integer, AccessibilityNode)
+- uid: Forma.AccessibilityTreeSnapshot.TryGetNode*
+  name: TryGetNode
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_TryGetNode_
+  commentId: Overload:Forma.AccessibilityTreeSnapshot.TryGetNode
+  fullName: Forma.AccessibilityTreeSnapshot.TryGetNode
+  nameWithType: AccessibilityTreeSnapshot.TryGetNode
+- uid: Forma.AccessibilityTreeWatcher
+  name: AccessibilityTreeWatcher
+  href: api/Forma.AccessibilityTreeWatcher.html
+  commentId: T:Forma.AccessibilityTreeWatcher
+  fullName: Forma.AccessibilityTreeWatcher
+  nameWithType: AccessibilityTreeWatcher
+- uid: Forma.AccessibilityTreeWatcher.#ctor(Forma.UIContext)
+  name: AccessibilityTreeWatcher(UIContext)
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher__ctor_Forma_UIContext_
+  commentId: M:Forma.AccessibilityTreeWatcher.#ctor(Forma.UIContext)
+  name.vb: New(UIContext)
+  fullName: Forma.AccessibilityTreeWatcher.AccessibilityTreeWatcher(Forma.UIContext)
+  fullName.vb: Forma.AccessibilityTreeWatcher.New(Forma.UIContext)
+  nameWithType: AccessibilityTreeWatcher.AccessibilityTreeWatcher(UIContext)
+  nameWithType.vb: AccessibilityTreeWatcher.New(UIContext)
+- uid: Forma.AccessibilityTreeWatcher.#ctor*
+  name: AccessibilityTreeWatcher
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher__ctor_
+  commentId: Overload:Forma.AccessibilityTreeWatcher.#ctor
+  name.vb: New
+  fullName: Forma.AccessibilityTreeWatcher.AccessibilityTreeWatcher
+  fullName.vb: Forma.AccessibilityTreeWatcher.New
+  nameWithType: AccessibilityTreeWatcher.AccessibilityTreeWatcher
+  nameWithType.vb: AccessibilityTreeWatcher.New
+- uid: Forma.AccessibilityTreeWatcher.Current
+  name: Current
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Current
+  commentId: P:Forma.AccessibilityTreeWatcher.Current
+  fullName: Forma.AccessibilityTreeWatcher.Current
+  nameWithType: AccessibilityTreeWatcher.Current
+- uid: Forma.AccessibilityTreeWatcher.Current*
+  name: Current
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Current_
+  commentId: Overload:Forma.AccessibilityTreeWatcher.Current
+  fullName: Forma.AccessibilityTreeWatcher.Current
+  nameWithType: AccessibilityTreeWatcher.Current
+- uid: Forma.AccessibilityTreeWatcher.Dispose
+  name: Dispose()
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Dispose
+  commentId: M:Forma.AccessibilityTreeWatcher.Dispose
+  fullName: Forma.AccessibilityTreeWatcher.Dispose()
+  nameWithType: AccessibilityTreeWatcher.Dispose()
+- uid: Forma.AccessibilityTreeWatcher.Dispose*
+  name: Dispose
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Dispose_
+  commentId: Overload:Forma.AccessibilityTreeWatcher.Dispose
+  fullName: Forma.AccessibilityTreeWatcher.Dispose
+  nameWithType: AccessibilityTreeWatcher.Dispose
+- uid: Forma.AccessibilityTreeWatcher.Invalidate
+  name: Invalidate()
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Invalidate
+  commentId: M:Forma.AccessibilityTreeWatcher.Invalidate
+  fullName: Forma.AccessibilityTreeWatcher.Invalidate()
+  nameWithType: AccessibilityTreeWatcher.Invalidate()
+- uid: Forma.AccessibilityTreeWatcher.Invalidate*
+  name: Invalidate
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Invalidate_
+  commentId: Overload:Forma.AccessibilityTreeWatcher.Invalidate
+  fullName: Forma.AccessibilityTreeWatcher.Invalidate
+  nameWithType: AccessibilityTreeWatcher.Invalidate
+- uid: Forma.AccessibilityTreeWatcher.IsDirty
+  name: IsDirty
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_IsDirty
+  commentId: P:Forma.AccessibilityTreeWatcher.IsDirty
+  fullName: Forma.AccessibilityTreeWatcher.IsDirty
+  nameWithType: AccessibilityTreeWatcher.IsDirty
+- uid: Forma.AccessibilityTreeWatcher.IsDirty*
+  name: IsDirty
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_IsDirty_
+  commentId: Overload:Forma.AccessibilityTreeWatcher.IsDirty
+  fullName: Forma.AccessibilityTreeWatcher.IsDirty
+  nameWithType: AccessibilityTreeWatcher.IsDirty
+- uid: Forma.AccessibilityTreeWatcher.Update
+  name: Update()
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Update
+  commentId: M:Forma.AccessibilityTreeWatcher.Update
+  fullName: Forma.AccessibilityTreeWatcher.Update()
+  nameWithType: AccessibilityTreeWatcher.Update()
+- uid: Forma.AccessibilityTreeWatcher.Update*
+  name: Update
+  href: api/Forma.AccessibilityTreeWatcher.html#Forma_AccessibilityTreeWatcher_Update_
+  commentId: Overload:Forma.AccessibilityTreeWatcher.Update
+  fullName: Forma.AccessibilityTreeWatcher.Update
+  nameWithType: AccessibilityTreeWatcher.Update
 - uid: Forma.AspectRatioAlignment
   name: AspectRatioAlignment
   href: api/Forma.AspectRatioAlignment.html
@@ -1510,6 +2425,48 @@ references:
   commentId: Overload:Forma.BaseButton.Padding
   fullName: Forma.BaseButton.Padding
   nameWithType: BaseButton.Padding
+- uid: Forma.BaseButton.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name: PerformAccessibilityAction(AccessibilityActions, object)
+  href: api/Forma.BaseButton.html#Forma_BaseButton_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.BaseButton.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name.vb: PerformAccessibilityAction(AccessibilityActions, Object)
+  fullName: Forma.BaseButton.PerformAccessibilityAction(Forma.AccessibilityActions, object)
+  fullName.vb: Forma.BaseButton.PerformAccessibilityAction(Forma.AccessibilityActions, Object)
+  nameWithType: BaseButton.PerformAccessibilityAction(AccessibilityActions, object)
+  nameWithType.vb: BaseButton.PerformAccessibilityAction(AccessibilityActions, Object)
+- uid: Forma.BaseButton.PerformAccessibilityAction*
+  name: PerformAccessibilityAction
+  href: api/Forma.BaseButton.html#Forma_BaseButton_PerformAccessibilityAction_
+  commentId: Overload:Forma.BaseButton.PerformAccessibilityAction
+  fullName: Forma.BaseButton.PerformAccessibilityAction
+  nameWithType: BaseButton.PerformAccessibilityAction
+- uid: Forma.BaseButton.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.BaseButton.html#Forma_BaseButton_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.BaseButton.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.BaseButton.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: BaseButton.PointerPressed(Point)
+- uid: Forma.BaseButton.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.BaseButton.html#Forma_BaseButton_PointerPressed_
+  commentId: Overload:Forma.BaseButton.PointerPressed
+  fullName: Forma.BaseButton.PointerPressed
+  nameWithType: BaseButton.PointerPressed
+- uid: Forma.BaseButton.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.BaseButton.html#Forma_BaseButton_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.BaseButton.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.BaseButton.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.BaseButton.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: BaseButton.PointerReleased(Point, bool)
+  nameWithType.vb: BaseButton.PointerReleased(Point, Boolean)
+- uid: Forma.BaseButton.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.BaseButton.html#Forma_BaseButton_PointerReleased_
+  commentId: Overload:Forma.BaseButton.PointerReleased
+  fullName: Forma.BaseButton.PointerReleased
+  nameWithType: BaseButton.PointerReleased
 - uid: Forma.BaseButton.Pressed
   name: Pressed
   href: api/Forma.BaseButton.html#Forma_BaseButton_Pressed
@@ -4291,6 +5248,45 @@ references:
   commentId: Overload:Forma.CodeEdit.MoveLinesUp
   fullName: Forma.CodeEdit.MoveLinesUp
   nameWithType: CodeEdit.MoveLinesUp
+- uid: Forma.CodeEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.CodeEdit.html#Forma_CodeEdit_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.CodeEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.CodeEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: CodeEdit.PointerMoved(Point)
+- uid: Forma.CodeEdit.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.CodeEdit.html#Forma_CodeEdit_PointerMoved_
+  commentId: Overload:Forma.CodeEdit.PointerMoved
+  fullName: Forma.CodeEdit.PointerMoved
+  nameWithType: CodeEdit.PointerMoved
+- uid: Forma.CodeEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.CodeEdit.html#Forma_CodeEdit_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.CodeEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.CodeEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: CodeEdit.PointerPressed(Point)
+- uid: Forma.CodeEdit.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.CodeEdit.html#Forma_CodeEdit_PointerPressed_
+  commentId: Overload:Forma.CodeEdit.PointerPressed
+  fullName: Forma.CodeEdit.PointerPressed
+  nameWithType: CodeEdit.PointerPressed
+- uid: Forma.CodeEdit.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.CodeEdit.html#Forma_CodeEdit_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.CodeEdit.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.CodeEdit.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.CodeEdit.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: CodeEdit.PointerReleased(Point, bool)
+  nameWithType.vb: CodeEdit.PointerReleased(Point, Boolean)
+- uid: Forma.CodeEdit.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.CodeEdit.html#Forma_CodeEdit_PointerReleased_
+  commentId: Overload:Forma.CodeEdit.PointerReleased
+  fullName: Forma.CodeEdit.PointerReleased
+  nameWithType: CodeEdit.PointerReleased
 - uid: Forma.CodeEdit.RemoveCommentDelimiter(System.String)
   name: RemoveCommentDelimiter(string)
   href: api/Forma.CodeEdit.html#Forma_CodeEdit_RemoveCommentDelimiter_System_String_
@@ -5884,6 +6880,45 @@ references:
   commentId: Overload:Forma.ColorPicker.PickerShape
   fullName: Forma.ColorPicker.PickerShape
   nameWithType: ColorPicker.PickerShape
+- uid: Forma.ColorPicker.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.ColorPicker.html#Forma_ColorPicker_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.ColorPicker.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.ColorPicker.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: ColorPicker.PointerMoved(Point)
+- uid: Forma.ColorPicker.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.ColorPicker.html#Forma_ColorPicker_PointerMoved_
+  commentId: Overload:Forma.ColorPicker.PointerMoved
+  fullName: Forma.ColorPicker.PointerMoved
+  nameWithType: ColorPicker.PointerMoved
+- uid: Forma.ColorPicker.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.ColorPicker.html#Forma_ColorPicker_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.ColorPicker.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.ColorPicker.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: ColorPicker.PointerPressed(Point)
+- uid: Forma.ColorPicker.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.ColorPicker.html#Forma_ColorPicker_PointerPressed_
+  commentId: Overload:Forma.ColorPicker.PointerPressed
+  fullName: Forma.ColorPicker.PointerPressed
+  nameWithType: ColorPicker.PointerPressed
+- uid: Forma.ColorPicker.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.ColorPicker.html#Forma_ColorPicker_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.ColorPicker.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.ColorPicker.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.ColorPicker.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: ColorPicker.PointerReleased(Point, bool)
+  nameWithType.vb: ColorPicker.PointerReleased(Point, Boolean)
+- uid: Forma.ColorPicker.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.ColorPicker.html#Forma_ColorPicker_PointerReleased_
+  commentId: Overload:Forma.ColorPicker.PointerReleased
+  fullName: Forma.ColorPicker.PointerReleased
+  nameWithType: ColorPicker.PointerReleased
 - uid: Forma.ColorPicker.PresetSelected
   name: PresetSelected
   href: api/Forma.ColorPicker.html#Forma_ColorPicker_PresetSelected
@@ -6337,6 +7372,21 @@ references:
   commentId: Overload:Forma.ColorPickerButton.Picker
   fullName: Forma.ColorPickerButton.Picker
   nameWithType: ColorPickerButton.Picker
+- uid: Forma.ColorPickerButton.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.ColorPickerButton.html#Forma_ColorPickerButton_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.ColorPickerButton.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.ColorPickerButton.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.ColorPickerButton.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: ColorPickerButton.PointerReleased(Point, bool)
+  nameWithType.vb: ColorPickerButton.PointerReleased(Point, Boolean)
+- uid: Forma.ColorPickerButton.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.ColorPickerButton.html#Forma_ColorPickerButton_PointerReleased_
+  commentId: Overload:Forma.ColorPickerButton.PointerReleased
+  fullName: Forma.ColorPickerButton.PointerReleased
+  nameWithType: ColorPickerButton.PointerReleased
 - uid: Forma.ColorPickerButton.Popup
   name: Popup
   href: api/Forma.ColorPickerButton.html#Forma_ColorPickerButton_Popup
@@ -7252,6 +8302,18 @@ references:
   commentId: E:Forma.Control.AccessibilityChanged
   fullName: Forma.Control.AccessibilityChanged
   nameWithType: Control.AccessibilityChanged
+- uid: Forma.Control.AccessibilityId
+  name: AccessibilityId
+  href: api/Forma.Control.html#Forma_Control_AccessibilityId
+  commentId: P:Forma.Control.AccessibilityId
+  fullName: Forma.Control.AccessibilityId
+  nameWithType: Control.AccessibilityId
+- uid: Forma.Control.AccessibilityId*
+  name: AccessibilityId
+  href: api/Forma.Control.html#Forma_Control_AccessibilityId_
+  commentId: Overload:Forma.Control.AccessibilityId
+  fullName: Forma.Control.AccessibilityId
+  nameWithType: Control.AccessibilityId
 - uid: Forma.Control.AccessibilityLabel
   name: AccessibilityLabel
   href: api/Forma.Control.html#Forma_Control_AccessibilityLabel
@@ -7444,6 +8506,18 @@ references:
   commentId: E:Forma.Control.Attached
   fullName: Forma.Control.Attached
   nameWithType: Control.Attached
+- uid: Forma.Control.AutomationId
+  name: AutomationId
+  href: api/Forma.Control.html#Forma_Control_AutomationId
+  commentId: P:Forma.Control.AutomationId
+  fullName: Forma.Control.AutomationId
+  nameWithType: Control.AutomationId
+- uid: Forma.Control.AutomationId*
+  name: AutomationId
+  href: api/Forma.Control.html#Forma_Control_AutomationId_
+  commentId: Overload:Forma.Control.AutomationId
+  fullName: Forma.Control.AutomationId
+  nameWithType: Control.AutomationId
 - uid: Forma.Control.Bounds
   name: Bounds
   href: api/Forma.Control.html#Forma_Control_Bounds
@@ -7981,6 +9055,18 @@ references:
   commentId: Overload:Forma.Control.GetCombinedMaximumSize
   fullName: Forma.Control.GetCombinedMaximumSize
   nameWithType: Control.GetCombinedMaximumSize
+- uid: Forma.Control.GetCursorAt(Microsoft.Xna.Framework.Point)
+  name: GetCursorAt(Point)
+  href: api/Forma.Control.html#Forma_Control_GetCursorAt_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.Control.GetCursorAt(Microsoft.Xna.Framework.Point)
+  fullName: Forma.Control.GetCursorAt(Microsoft.Xna.Framework.Point)
+  nameWithType: Control.GetCursorAt(Point)
+- uid: Forma.Control.GetCursorAt*
+  name: GetCursorAt
+  href: api/Forma.Control.html#Forma_Control_GetCursorAt_
+  commentId: Overload:Forma.Control.GetCursorAt
+  fullName: Forma.Control.GetCursorAt
+  nameWithType: Control.GetCursorAt
 - uid: Forma.Control.GetDesiredSize
   name: GetDesiredSize()
   href: api/Forma.Control.html#Forma_Control_GetDesiredSize
@@ -8545,6 +9631,21 @@ references:
   commentId: E:Forma.Control.ParentChanged
   fullName: Forma.Control.ParentChanged
   nameWithType: Control.ParentChanged
+- uid: Forma.Control.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name: PerformAccessibilityAction(AccessibilityActions, object)
+  href: api/Forma.Control.html#Forma_Control_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.Control.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name.vb: PerformAccessibilityAction(AccessibilityActions, Object)
+  fullName: Forma.Control.PerformAccessibilityAction(Forma.AccessibilityActions, object)
+  fullName.vb: Forma.Control.PerformAccessibilityAction(Forma.AccessibilityActions, Object)
+  nameWithType: Control.PerformAccessibilityAction(AccessibilityActions, object)
+  nameWithType.vb: Control.PerformAccessibilityAction(AccessibilityActions, Object)
+- uid: Forma.Control.PerformAccessibilityAction*
+  name: PerformAccessibilityAction
+  href: api/Forma.Control.html#Forma_Control_PerformAccessibilityAction_
+  commentId: Overload:Forma.Control.PerformAccessibilityAction
+  fullName: Forma.Control.PerformAccessibilityAction
+  nameWithType: Control.PerformAccessibilityAction
 - uid: Forma.Control.PixelSnapping
   name: PixelSnapping
   href: api/Forma.Control.html#Forma_Control_PixelSnapping
@@ -8557,6 +9658,45 @@ references:
   commentId: Overload:Forma.Control.PixelSnapping
   fullName: Forma.Control.PixelSnapping
   nameWithType: Control.PixelSnapping
+- uid: Forma.Control.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.Control.html#Forma_Control_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.Control.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.Control.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: Control.PointerMoved(Point)
+- uid: Forma.Control.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.Control.html#Forma_Control_PointerMoved_
+  commentId: Overload:Forma.Control.PointerMoved
+  fullName: Forma.Control.PointerMoved
+  nameWithType: Control.PointerMoved
+- uid: Forma.Control.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.Control.html#Forma_Control_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.Control.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.Control.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: Control.PointerPressed(Point)
+- uid: Forma.Control.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.Control.html#Forma_Control_PointerPressed_
+  commentId: Overload:Forma.Control.PointerPressed
+  fullName: Forma.Control.PointerPressed
+  nameWithType: Control.PointerPressed
+- uid: Forma.Control.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.Control.html#Forma_Control_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.Control.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.Control.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.Control.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: Control.PointerReleased(Point, bool)
+  nameWithType.vb: Control.PointerReleased(Point, Boolean)
+- uid: Forma.Control.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.Control.html#Forma_Control_PointerReleased_
+  commentId: Overload:Forma.Control.PointerReleased
+  fullName: Forma.Control.PointerReleased
+  nameWithType: Control.PointerReleased
 - uid: Forma.Control.Position
   name: Position
   href: api/Forma.Control.html#Forma_Control_Position
@@ -10374,6 +11514,18 @@ references:
   fullName.vb: Forma.DataGridCell.New
   nameWithType: DataGridCell.DataGridCell
   nameWithType.vb: DataGridCell.New
+- uid: Forma.DataGridCell.AccessibilityRole
+  name: AccessibilityRole
+  href: api/Forma.DataGridCell.html#Forma_DataGridCell_AccessibilityRole
+  commentId: P:Forma.DataGridCell.AccessibilityRole
+  fullName: Forma.DataGridCell.AccessibilityRole
+  nameWithType: DataGridCell.AccessibilityRole
+- uid: Forma.DataGridCell.AccessibilityRole*
+  name: AccessibilityRole
+  href: api/Forma.DataGridCell.html#Forma_DataGridCell_AccessibilityRole_
+  commentId: Overload:Forma.DataGridCell.AccessibilityRole
+  fullName: Forma.DataGridCell.AccessibilityRole
+  nameWithType: DataGridCell.AccessibilityRole
 - uid: Forma.DataGridCell.Column
   name: Column
   href: api/Forma.DataGridCell.html#Forma_DataGridCell_Column
@@ -10806,6 +11958,21 @@ references:
   commentId: Overload:Forma.DataGridColumnHeader.Padding
   fullName: Forma.DataGridColumnHeader.Padding
   nameWithType: DataGridColumnHeader.Padding
+- uid: Forma.DataGridColumnHeader.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.DataGridColumnHeader.html#Forma_DataGridColumnHeader_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.DataGridColumnHeader.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.DataGridColumnHeader.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.DataGridColumnHeader.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: DataGridColumnHeader.PointerReleased(Point, bool)
+  nameWithType.vb: DataGridColumnHeader.PointerReleased(Point, Boolean)
+- uid: Forma.DataGridColumnHeader.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.DataGridColumnHeader.html#Forma_DataGridColumnHeader_PointerReleased_
+  commentId: Overload:Forma.DataGridColumnHeader.PointerReleased
+  fullName: Forma.DataGridColumnHeader.PointerReleased
+  nameWithType: DataGridColumnHeader.PointerReleased
 - uid: Forma.DataGridColumnHeader.SortDirection
   name: SortDirection
   href: api/Forma.DataGridColumnHeader.html#Forma_DataGridColumnHeader_SortDirection
@@ -11063,6 +12230,18 @@ references:
   fullName.vb: Forma.DataGridRow.New
   nameWithType: DataGridRow.DataGridRow
   nameWithType.vb: DataGridRow.New
+- uid: Forma.DataGridRow.AccessibilityRole
+  name: AccessibilityRole
+  href: api/Forma.DataGridRow.html#Forma_DataGridRow_AccessibilityRole
+  commentId: P:Forma.DataGridRow.AccessibilityRole
+  fullName: Forma.DataGridRow.AccessibilityRole
+  nameWithType: DataGridRow.AccessibilityRole
+- uid: Forma.DataGridRow.AccessibilityRole*
+  name: AccessibilityRole
+  href: api/Forma.DataGridRow.html#Forma_DataGridRow_AccessibilityRole_
+  commentId: Overload:Forma.DataGridRow.AccessibilityRole
+  fullName: Forma.DataGridRow.AccessibilityRole
+  nameWithType: DataGridRow.AccessibilityRole
 - uid: Forma.DataGridRow.Cells
   name: Cells
   href: api/Forma.DataGridRow.html#Forma_DataGridRow_Cells
@@ -15443,6 +16622,33 @@ references:
   commentId: Overload:Forma.FileDialog.PendingOverwritePath
   fullName: Forma.FileDialog.PendingOverwritePath
   nameWithType: FileDialog.PendingOverwritePath
+- uid: Forma.FileDialog.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.FileDialog.html#Forma_FileDialog_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.FileDialog.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.FileDialog.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: FileDialog.PointerPressed(Point)
+- uid: Forma.FileDialog.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.FileDialog.html#Forma_FileDialog_PointerPressed_
+  commentId: Overload:Forma.FileDialog.PointerPressed
+  fullName: Forma.FileDialog.PointerPressed
+  nameWithType: FileDialog.PointerPressed
+- uid: Forma.FileDialog.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.FileDialog.html#Forma_FileDialog_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.FileDialog.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.FileDialog.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.FileDialog.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: FileDialog.PointerReleased(Point, bool)
+  nameWithType.vb: FileDialog.PointerReleased(Point, Boolean)
+- uid: Forma.FileDialog.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.FileDialog.html#Forma_FileDialog_PointerReleased_
+  commentId: Overload:Forma.FileDialog.PointerReleased
+  fullName: Forma.FileDialog.PointerReleased
+  nameWithType: FileDialog.PointerReleased
 - uid: Forma.FileDialog.PopupFileDialog
   name: PopupFileDialog()
   href: api/Forma.FileDialog.html#Forma_FileDialog_PopupFileDialog
@@ -16922,6 +18128,18 @@ references:
   commentId: Overload:Forma.FoldableContainer.HeaderHeight
   fullName: Forma.FoldableContainer.HeaderHeight
   nameWithType: FoldableContainer.HeaderHeight
+- uid: Forma.FoldableContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.FoldableContainer.html#Forma_FoldableContainer_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.FoldableContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.FoldableContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: FoldableContainer.PointerPressed(Point)
+- uid: Forma.FoldableContainer.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.FoldableContainer.html#Forma_FoldableContainer_PointerPressed_
+  commentId: Overload:Forma.FoldableContainer.PointerPressed
+  fullName: Forma.FoldableContainer.PointerPressed
+  nameWithType: FoldableContainer.PointerPressed
 - uid: Forma.FoldableContainer.SetFoldableGroup(Forma.FoldableGroup)
   name: SetFoldableGroup(FoldableGroup)
   href: api/Forma.FoldableContainer.html#Forma_FoldableContainer_SetFoldableGroup_Forma_FoldableGroup_
@@ -18917,6 +20135,45 @@ references:
   commentId: E:Forma.GraphEdit.PasteNodesRequest
   fullName: Forma.GraphEdit.PasteNodesRequest
   nameWithType: GraphEdit.PasteNodesRequest
+- uid: Forma.GraphEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.GraphEdit.html#Forma_GraphEdit_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphEdit.PointerMoved(Point)
+- uid: Forma.GraphEdit.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.GraphEdit.html#Forma_GraphEdit_PointerMoved_
+  commentId: Overload:Forma.GraphEdit.PointerMoved
+  fullName: Forma.GraphEdit.PointerMoved
+  nameWithType: GraphEdit.PointerMoved
+- uid: Forma.GraphEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.GraphEdit.html#Forma_GraphEdit_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphEdit.PointerPressed(Point)
+- uid: Forma.GraphEdit.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.GraphEdit.html#Forma_GraphEdit_PointerPressed_
+  commentId: Overload:Forma.GraphEdit.PointerPressed
+  fullName: Forma.GraphEdit.PointerPressed
+  nameWithType: GraphEdit.PointerPressed
+- uid: Forma.GraphEdit.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.GraphEdit.html#Forma_GraphEdit_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.GraphEdit.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.GraphEdit.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.GraphEdit.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: GraphEdit.PointerReleased(Point, bool)
+  nameWithType.vb: GraphEdit.PointerReleased(Point, Boolean)
+- uid: Forma.GraphEdit.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.GraphEdit.html#Forma_GraphEdit_PointerReleased_
+  commentId: Overload:Forma.GraphEdit.PointerReleased
+  fullName: Forma.GraphEdit.PointerReleased
+  nameWithType: GraphEdit.PointerReleased
 - uid: Forma.GraphEdit.RaiseElement(Forma.GraphElement)
   name: RaiseElement(GraphElement)
   href: api/Forma.GraphEdit.html#Forma_GraphEdit_RaiseElement_Forma_GraphElement_
@@ -19913,6 +21170,33 @@ references:
   commentId: E:Forma.GraphEditFilter.CanvasReleased
   fullName: Forma.GraphEditFilter.CanvasReleased
   nameWithType: GraphEditFilter.CanvasReleased
+- uid: Forma.GraphEditFilter.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.GraphEditFilter.html#Forma_GraphEditFilter_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphEditFilter.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphEditFilter.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphEditFilter.PointerPressed(Point)
+- uid: Forma.GraphEditFilter.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.GraphEditFilter.html#Forma_GraphEditFilter_PointerPressed_
+  commentId: Overload:Forma.GraphEditFilter.PointerPressed
+  fullName: Forma.GraphEditFilter.PointerPressed
+  nameWithType: GraphEditFilter.PointerPressed
+- uid: Forma.GraphEditFilter.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.GraphEditFilter.html#Forma_GraphEditFilter_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.GraphEditFilter.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.GraphEditFilter.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.GraphEditFilter.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: GraphEditFilter.PointerReleased(Point, bool)
+  nameWithType.vb: GraphEditFilter.PointerReleased(Point, Boolean)
+- uid: Forma.GraphEditFilter.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.GraphEditFilter.html#Forma_GraphEditFilter_PointerReleased_
+  commentId: Overload:Forma.GraphEditFilter.PointerReleased
+  fullName: Forma.GraphEditFilter.PointerReleased
+  nameWithType: GraphEditFilter.PointerReleased
 - uid: Forma.GraphEditGridPattern
   name: GraphEditGridPattern
   href: api/Forma.GraphEditGridPattern.html
@@ -20063,6 +21347,45 @@ references:
   commentId: Overload:Forma.GraphEditMinimap.NodeColor
   fullName: Forma.GraphEditMinimap.NodeColor
   nameWithType: GraphEditMinimap.NodeColor
+- uid: Forma.GraphEditMinimap.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.GraphEditMinimap.html#Forma_GraphEditMinimap_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphEditMinimap.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphEditMinimap.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphEditMinimap.PointerMoved(Point)
+- uid: Forma.GraphEditMinimap.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.GraphEditMinimap.html#Forma_GraphEditMinimap_PointerMoved_
+  commentId: Overload:Forma.GraphEditMinimap.PointerMoved
+  fullName: Forma.GraphEditMinimap.PointerMoved
+  nameWithType: GraphEditMinimap.PointerMoved
+- uid: Forma.GraphEditMinimap.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.GraphEditMinimap.html#Forma_GraphEditMinimap_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphEditMinimap.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphEditMinimap.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphEditMinimap.PointerPressed(Point)
+- uid: Forma.GraphEditMinimap.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.GraphEditMinimap.html#Forma_GraphEditMinimap_PointerPressed_
+  commentId: Overload:Forma.GraphEditMinimap.PointerPressed
+  fullName: Forma.GraphEditMinimap.PointerPressed
+  nameWithType: GraphEditMinimap.PointerPressed
+- uid: Forma.GraphEditMinimap.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.GraphEditMinimap.html#Forma_GraphEditMinimap_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.GraphEditMinimap.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.GraphEditMinimap.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.GraphEditMinimap.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: GraphEditMinimap.PointerReleased(Point, bool)
+  nameWithType.vb: GraphEditMinimap.PointerReleased(Point, Boolean)
+- uid: Forma.GraphEditMinimap.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.GraphEditMinimap.html#Forma_GraphEditMinimap_PointerReleased_
+  commentId: Overload:Forma.GraphEditMinimap.PointerReleased
+  fullName: Forma.GraphEditMinimap.PointerReleased
+  nameWithType: GraphEditMinimap.PointerReleased
 - uid: Forma.GraphEditMinimap.ViewportColor
   name: ViewportColor
   href: api/Forma.GraphEditMinimap.html#Forma_GraphEditMinimap_ViewportColor
@@ -20306,6 +21629,45 @@ references:
   commentId: E:Forma.GraphElement.NodeSelected
   fullName: Forma.GraphElement.NodeSelected
   nameWithType: GraphElement.NodeSelected
+- uid: Forma.GraphElement.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.GraphElement.html#Forma_GraphElement_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphElement.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphElement.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphElement.PointerMoved(Point)
+- uid: Forma.GraphElement.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.GraphElement.html#Forma_GraphElement_PointerMoved_
+  commentId: Overload:Forma.GraphElement.PointerMoved
+  fullName: Forma.GraphElement.PointerMoved
+  nameWithType: GraphElement.PointerMoved
+- uid: Forma.GraphElement.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.GraphElement.html#Forma_GraphElement_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphElement.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphElement.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphElement.PointerPressed(Point)
+- uid: Forma.GraphElement.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.GraphElement.html#Forma_GraphElement_PointerPressed_
+  commentId: Overload:Forma.GraphElement.PointerPressed
+  fullName: Forma.GraphElement.PointerPressed
+  nameWithType: GraphElement.PointerPressed
+- uid: Forma.GraphElement.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.GraphElement.html#Forma_GraphElement_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.GraphElement.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.GraphElement.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.GraphElement.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: GraphElement.PointerReleased(Point, bool)
+  nameWithType.vb: GraphElement.PointerReleased(Point, Boolean)
+- uid: Forma.GraphElement.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.GraphElement.html#Forma_GraphElement_PointerReleased_
+  commentId: Overload:Forma.GraphElement.PointerReleased
+  fullName: Forma.GraphElement.PointerReleased
+  nameWithType: GraphElement.PointerReleased
 - uid: Forma.GraphElement.Position
   name: Position
   href: api/Forma.GraphElement.html#Forma_GraphElement_Position
@@ -20714,6 +22076,18 @@ references:
   commentId: Overload:Forma.GraphFrame.IsTintColorEnabled
   fullName: Forma.GraphFrame.IsTintColorEnabled
   nameWithType: GraphFrame.IsTintColorEnabled
+- uid: Forma.GraphFrame.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.GraphFrame.html#Forma_GraphFrame_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphFrame.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphFrame.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphFrame.PointerMoved(Point)
+- uid: Forma.GraphFrame.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.GraphFrame.html#Forma_GraphFrame_PointerMoved_
+  commentId: Overload:Forma.GraphFrame.PointerMoved
+  fullName: Forma.GraphFrame.PointerMoved
+  nameWithType: GraphFrame.PointerMoved
 - uid: Forma.GraphFrame.SetAutoshrinkEnabled(System.Boolean)
   name: SetAutoshrinkEnabled(bool)
   href: api/Forma.GraphFrame.html#Forma_GraphFrame_SetAutoshrinkEnabled_System_Boolean_
@@ -21374,6 +22748,45 @@ references:
   commentId: Overload:Forma.GraphNode.OutputPorts
   fullName: Forma.GraphNode.OutputPorts
   nameWithType: GraphNode.OutputPorts
+- uid: Forma.GraphNode.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.GraphNode.html#Forma_GraphNode_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphNode.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphNode.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphNode.PointerMoved(Point)
+- uid: Forma.GraphNode.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.GraphNode.html#Forma_GraphNode_PointerMoved_
+  commentId: Overload:Forma.GraphNode.PointerMoved
+  fullName: Forma.GraphNode.PointerMoved
+  nameWithType: GraphNode.PointerMoved
+- uid: Forma.GraphNode.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.GraphNode.html#Forma_GraphNode_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.GraphNode.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.GraphNode.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: GraphNode.PointerPressed(Point)
+- uid: Forma.GraphNode.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.GraphNode.html#Forma_GraphNode_PointerPressed_
+  commentId: Overload:Forma.GraphNode.PointerPressed
+  fullName: Forma.GraphNode.PointerPressed
+  nameWithType: GraphNode.PointerPressed
+- uid: Forma.GraphNode.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.GraphNode.html#Forma_GraphNode_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.GraphNode.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.GraphNode.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.GraphNode.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: GraphNode.PointerReleased(Point, bool)
+  nameWithType.vb: GraphNode.PointerReleased(Point, Boolean)
+- uid: Forma.GraphNode.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.GraphNode.html#Forma_GraphNode_PointerReleased_
+  commentId: Overload:Forma.GraphNode.PointerReleased
+  fullName: Forma.GraphNode.PointerReleased
+  nameWithType: GraphNode.PointerReleased
 - uid: Forma.GraphNode.SetSlot(System.Int32,System.Boolean,System.Int32,Microsoft.Xna.Framework.Color,System.Boolean,System.Int32,Microsoft.Xna.Framework.Color)
   name: SetSlot(int, bool, int, Color, bool, int, Color)
   href: api/Forma.GraphNode.html#Forma_GraphNode_SetSlot_System_Int32_System_Boolean_System_Int32_Microsoft_Xna_Framework_Color_System_Boolean_System_Int32_Microsoft_Xna_Framework_Color_
@@ -24209,6 +25622,18 @@ references:
   commentId: Overload:Forma.ItemAccessibilityPeer.Actions
   fullName: Forma.ItemAccessibilityPeer.Actions
   nameWithType: ItemAccessibilityPeer.Actions
+- uid: Forma.ItemAccessibilityPeer.AutomationId
+  name: AutomationId
+  href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_AutomationId
+  commentId: P:Forma.ItemAccessibilityPeer.AutomationId
+  fullName: Forma.ItemAccessibilityPeer.AutomationId
+  nameWithType: ItemAccessibilityPeer.AutomationId
+- uid: Forma.ItemAccessibilityPeer.AutomationId*
+  name: AutomationId
+  href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_AutomationId_
+  commentId: Overload:Forma.ItemAccessibilityPeer.AutomationId
+  fullName: Forma.ItemAccessibilityPeer.AutomationId
+  nameWithType: ItemAccessibilityPeer.AutomationId
 - uid: Forma.ItemAccessibilityPeer.Bounds
   name: Bounds
   href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_Bounds
@@ -24233,6 +25658,18 @@ references:
   commentId: Overload:Forma.ItemAccessibilityPeer.Children
   fullName: Forma.ItemAccessibilityPeer.Children
   nameWithType: ItemAccessibilityPeer.Children
+- uid: Forma.ItemAccessibilityPeer.Id
+  name: Id
+  href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_Id
+  commentId: P:Forma.ItemAccessibilityPeer.Id
+  fullName: Forma.ItemAccessibilityPeer.Id
+  nameWithType: ItemAccessibilityPeer.Id
+- uid: Forma.ItemAccessibilityPeer.Id*
+  name: Id
+  href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_Id_
+  commentId: Overload:Forma.ItemAccessibilityPeer.Id
+  fullName: Forma.ItemAccessibilityPeer.Id
+  nameWithType: ItemAccessibilityPeer.Id
 - uid: Forma.ItemAccessibilityPeer.Index
   name: Index
   href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_Index
@@ -24245,6 +25682,18 @@ references:
   commentId: Overload:Forma.ItemAccessibilityPeer.Index
   fullName: Forma.ItemAccessibilityPeer.Index
   nameWithType: ItemAccessibilityPeer.Index
+- uid: Forma.ItemAccessibilityPeer.IsVirtual
+  name: IsVirtual
+  href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_IsVirtual
+  commentId: P:Forma.ItemAccessibilityPeer.IsVirtual
+  fullName: Forma.ItemAccessibilityPeer.IsVirtual
+  nameWithType: ItemAccessibilityPeer.IsVirtual
+- uid: Forma.ItemAccessibilityPeer.IsVirtual*
+  name: IsVirtual
+  href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_IsVirtual_
+  commentId: Overload:Forma.ItemAccessibilityPeer.IsVirtual
+  fullName: Forma.ItemAccessibilityPeer.IsVirtual
+  nameWithType: ItemAccessibilityPeer.IsVirtual
 - uid: Forma.ItemAccessibilityPeer.Item
   name: Item
   href: api/Forma.ItemAccessibilityPeer.html#Forma_ItemAccessibilityPeer_Item
@@ -25286,6 +26735,33 @@ references:
   commentId: E:Forma.ItemList.MultiSelected
   fullName: Forma.ItemList.MultiSelected
   nameWithType: ItemList.MultiSelected
+- uid: Forma.ItemList.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.ItemList.html#Forma_ItemList_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.ItemList.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.ItemList.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: ItemList.PointerPressed(Point)
+- uid: Forma.ItemList.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.ItemList.html#Forma_ItemList_PointerPressed_
+  commentId: Overload:Forma.ItemList.PointerPressed
+  fullName: Forma.ItemList.PointerPressed
+  nameWithType: ItemList.PointerPressed
+- uid: Forma.ItemList.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.ItemList.html#Forma_ItemList_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.ItemList.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.ItemList.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.ItemList.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: ItemList.PointerReleased(Point, bool)
+  nameWithType.vb: ItemList.PointerReleased(Point, Boolean)
+- uid: Forma.ItemList.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.ItemList.html#Forma_ItemList_PointerReleased_
+  commentId: Overload:Forma.ItemList.PointerReleased
+  fullName: Forma.ItemList.PointerReleased
+  nameWithType: ItemList.PointerReleased
 - uid: Forma.ItemList.RemoveItem(System.Int32)
   name: RemoveItem(int)
   href: api/Forma.ItemList.html#Forma_ItemList_RemoveItem_System_Int32_
@@ -26798,6 +28274,18 @@ references:
   fullName.vb: Forma.Label.New
   nameWithType: Label.Label
   nameWithType.vb: Label.New
+- uid: Forma.Label.AccessibilityName
+  name: AccessibilityName
+  href: api/Forma.Label.html#Forma_Label_AccessibilityName
+  commentId: P:Forma.Label.AccessibilityName
+  fullName: Forma.Label.AccessibilityName
+  nameWithType: Label.AccessibilityName
+- uid: Forma.Label.AccessibilityName*
+  name: AccessibilityName
+  href: api/Forma.Label.html#Forma_Label_AccessibilityName_
+  commentId: Overload:Forma.Label.AccessibilityName
+  fullName: Forma.Label.AccessibilityName
+  nameWithType: Label.AccessibilityName
 - uid: Forma.Label.AdjustTextLayout(Forma.TextLayout)
   name: AdjustTextLayout(TextLayout)
   href: api/Forma.Label.html#Forma_Label_AdjustTextLayout_Forma_TextLayout_
@@ -28907,6 +30395,21 @@ references:
   commentId: Overload:Forma.LineEdit.Paste
   fullName: Forma.LineEdit.Paste
   nameWithType: LineEdit.Paste
+- uid: Forma.LineEdit.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name: PerformAccessibilityAction(AccessibilityActions, object)
+  href: api/Forma.LineEdit.html#Forma_LineEdit_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.LineEdit.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name.vb: PerformAccessibilityAction(AccessibilityActions, Object)
+  fullName: Forma.LineEdit.PerformAccessibilityAction(Forma.AccessibilityActions, object)
+  fullName.vb: Forma.LineEdit.PerformAccessibilityAction(Forma.AccessibilityActions, Object)
+  nameWithType: LineEdit.PerformAccessibilityAction(AccessibilityActions, object)
+  nameWithType.vb: LineEdit.PerformAccessibilityAction(AccessibilityActions, Object)
+- uid: Forma.LineEdit.PerformAccessibilityAction*
+  name: PerformAccessibilityAction
+  href: api/Forma.LineEdit.html#Forma_LineEdit_PerformAccessibilityAction_
+  commentId: Overload:Forma.LineEdit.PerformAccessibilityAction
+  fullName: Forma.LineEdit.PerformAccessibilityAction
+  nameWithType: LineEdit.PerformAccessibilityAction
 - uid: Forma.LineEdit.PlaceholderText
   name: PlaceholderText
   href: api/Forma.LineEdit.html#Forma_LineEdit_PlaceholderText
@@ -28919,6 +30422,45 @@ references:
   commentId: Overload:Forma.LineEdit.PlaceholderText
   fullName: Forma.LineEdit.PlaceholderText
   nameWithType: LineEdit.PlaceholderText
+- uid: Forma.LineEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.LineEdit.html#Forma_LineEdit_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.LineEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.LineEdit.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: LineEdit.PointerMoved(Point)
+- uid: Forma.LineEdit.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.LineEdit.html#Forma_LineEdit_PointerMoved_
+  commentId: Overload:Forma.LineEdit.PointerMoved
+  fullName: Forma.LineEdit.PointerMoved
+  nameWithType: LineEdit.PointerMoved
+- uid: Forma.LineEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.LineEdit.html#Forma_LineEdit_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.LineEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.LineEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: LineEdit.PointerPressed(Point)
+- uid: Forma.LineEdit.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.LineEdit.html#Forma_LineEdit_PointerPressed_
+  commentId: Overload:Forma.LineEdit.PointerPressed
+  fullName: Forma.LineEdit.PointerPressed
+  nameWithType: LineEdit.PointerPressed
+- uid: Forma.LineEdit.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.LineEdit.html#Forma_LineEdit_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.LineEdit.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.LineEdit.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.LineEdit.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: LineEdit.PointerReleased(Point, bool)
+  nameWithType.vb: LineEdit.PointerReleased(Point, Boolean)
+- uid: Forma.LineEdit.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.LineEdit.html#Forma_LineEdit_PointerReleased_
+  commentId: Overload:Forma.LineEdit.PointerReleased
+  fullName: Forma.LineEdit.PointerReleased
+  nameWithType: LineEdit.PointerReleased
 - uid: Forma.LineEdit.ReadClipboardText
   name: ReadClipboardText()
   href: api/Forma.LineEdit.html#Forma_LineEdit_ReadClipboardText
@@ -30161,6 +31703,33 @@ references:
   commentId: Overload:Forma.ListBox.OnTemplateApplied
   fullName: Forma.ListBox.OnTemplateApplied
   nameWithType: ListBox.OnTemplateApplied
+- uid: Forma.ListBox.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.ListBox.html#Forma_ListBox_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.ListBox.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.ListBox.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: ListBox.PointerPressed(Point)
+- uid: Forma.ListBox.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.ListBox.html#Forma_ListBox_PointerPressed_
+  commentId: Overload:Forma.ListBox.PointerPressed
+  fullName: Forma.ListBox.PointerPressed
+  nameWithType: ListBox.PointerPressed
+- uid: Forma.ListBox.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.ListBox.html#Forma_ListBox_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.ListBox.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.ListBox.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.ListBox.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: ListBox.PointerReleased(Point, bool)
+  nameWithType.vb: ListBox.PointerReleased(Point, Boolean)
+- uid: Forma.ListBox.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.ListBox.html#Forma_ListBox_PointerReleased_
+  commentId: Overload:Forma.ListBox.PointerReleased
+  fullName: Forma.ListBox.PointerReleased
+  nameWithType: ListBox.PointerReleased
 - uid: Forma.ListBox.PrepareContainerForItem(Forma.Control,System.Object,System.Int32)
   name: PrepareContainerForItem(Control, object, int)
   href: api/Forma.ListBox.html#Forma_ListBox_PrepareContainerForItem_Forma_Control_System_Object_System_Int32_
@@ -30368,6 +31937,18 @@ references:
   fullName.vb: Forma.ListBoxItem.New
   nameWithType: ListBoxItem.ListBoxItem
   nameWithType.vb: ListBoxItem.New
+- uid: Forma.ListBoxItem.AccessibilityRole
+  name: AccessibilityRole
+  href: api/Forma.ListBoxItem.html#Forma_ListBoxItem_AccessibilityRole
+  commentId: P:Forma.ListBoxItem.AccessibilityRole
+  fullName: Forma.ListBoxItem.AccessibilityRole
+  nameWithType: ListBoxItem.AccessibilityRole
+- uid: Forma.ListBoxItem.AccessibilityRole*
+  name: AccessibilityRole
+  href: api/Forma.ListBoxItem.html#Forma_ListBoxItem_AccessibilityRole_
+  commentId: Overload:Forma.ListBoxItem.AccessibilityRole
+  fullName: Forma.ListBoxItem.AccessibilityRole
+  nameWithType: ListBoxItem.AccessibilityRole
 - uid: Forma.ListBoxItem.IsCurrent
   name: IsCurrent
   href: api/Forma.ListBoxItem.html#Forma_ListBoxItem_IsCurrent
@@ -30824,6 +32405,159 @@ references:
   commentId: Overload:Forma.MenuButton.SwitchOnHover
   fullName: Forma.MenuButton.SwitchOnHover
   nameWithType: MenuButton.SwitchOnHover
+- uid: Forma.MenuItemAccessibilityPeer
+  name: MenuItemAccessibilityPeer
+  href: api/Forma.MenuItemAccessibilityPeer.html
+  commentId: T:Forma.MenuItemAccessibilityPeer
+  fullName: Forma.MenuItemAccessibilityPeer
+  nameWithType: MenuItemAccessibilityPeer
+- uid: Forma.MenuItemAccessibilityPeer.Actions
+  name: Actions
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Actions
+  commentId: P:Forma.MenuItemAccessibilityPeer.Actions
+  fullName: Forma.MenuItemAccessibilityPeer.Actions
+  nameWithType: MenuItemAccessibilityPeer.Actions
+- uid: Forma.MenuItemAccessibilityPeer.Actions*
+  name: Actions
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Actions_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Actions
+  fullName: Forma.MenuItemAccessibilityPeer.Actions
+  nameWithType: MenuItemAccessibilityPeer.Actions
+- uid: Forma.MenuItemAccessibilityPeer.AutomationId
+  name: AutomationId
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_AutomationId
+  commentId: P:Forma.MenuItemAccessibilityPeer.AutomationId
+  fullName: Forma.MenuItemAccessibilityPeer.AutomationId
+  nameWithType: MenuItemAccessibilityPeer.AutomationId
+- uid: Forma.MenuItemAccessibilityPeer.AutomationId*
+  name: AutomationId
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_AutomationId_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.AutomationId
+  fullName: Forma.MenuItemAccessibilityPeer.AutomationId
+  nameWithType: MenuItemAccessibilityPeer.AutomationId
+- uid: Forma.MenuItemAccessibilityPeer.Bounds
+  name: Bounds
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Bounds
+  commentId: P:Forma.MenuItemAccessibilityPeer.Bounds
+  fullName: Forma.MenuItemAccessibilityPeer.Bounds
+  nameWithType: MenuItemAccessibilityPeer.Bounds
+- uid: Forma.MenuItemAccessibilityPeer.Bounds*
+  name: Bounds
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Bounds_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Bounds
+  fullName: Forma.MenuItemAccessibilityPeer.Bounds
+  nameWithType: MenuItemAccessibilityPeer.Bounds
+- uid: Forma.MenuItemAccessibilityPeer.Children
+  name: Children
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Children
+  commentId: P:Forma.MenuItemAccessibilityPeer.Children
+  fullName: Forma.MenuItemAccessibilityPeer.Children
+  nameWithType: MenuItemAccessibilityPeer.Children
+- uid: Forma.MenuItemAccessibilityPeer.Children*
+  name: Children
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Children_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Children
+  fullName: Forma.MenuItemAccessibilityPeer.Children
+  nameWithType: MenuItemAccessibilityPeer.Children
+- uid: Forma.MenuItemAccessibilityPeer.Id
+  name: Id
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Id
+  commentId: P:Forma.MenuItemAccessibilityPeer.Id
+  fullName: Forma.MenuItemAccessibilityPeer.Id
+  nameWithType: MenuItemAccessibilityPeer.Id
+- uid: Forma.MenuItemAccessibilityPeer.Id*
+  name: Id
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Id_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Id
+  fullName: Forma.MenuItemAccessibilityPeer.Id
+  nameWithType: MenuItemAccessibilityPeer.Id
+- uid: Forma.MenuItemAccessibilityPeer.Index
+  name: Index
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Index
+  commentId: P:Forma.MenuItemAccessibilityPeer.Index
+  fullName: Forma.MenuItemAccessibilityPeer.Index
+  nameWithType: MenuItemAccessibilityPeer.Index
+- uid: Forma.MenuItemAccessibilityPeer.Index*
+  name: Index
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Index_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Index
+  fullName: Forma.MenuItemAccessibilityPeer.Index
+  nameWithType: MenuItemAccessibilityPeer.Index
+- uid: Forma.MenuItemAccessibilityPeer.Invoke(Forma.AccessibilityActions,System.Object)
+  name: Invoke(AccessibilityActions, object)
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Invoke_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.MenuItemAccessibilityPeer.Invoke(Forma.AccessibilityActions,System.Object)
+  name.vb: Invoke(AccessibilityActions, Object)
+  fullName: Forma.MenuItemAccessibilityPeer.Invoke(Forma.AccessibilityActions, object)
+  fullName.vb: Forma.MenuItemAccessibilityPeer.Invoke(Forma.AccessibilityActions, Object)
+  nameWithType: MenuItemAccessibilityPeer.Invoke(AccessibilityActions, object)
+  nameWithType.vb: MenuItemAccessibilityPeer.Invoke(AccessibilityActions, Object)
+- uid: Forma.MenuItemAccessibilityPeer.Invoke*
+  name: Invoke
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Invoke_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Invoke
+  fullName: Forma.MenuItemAccessibilityPeer.Invoke
+  nameWithType: MenuItemAccessibilityPeer.Invoke
+- uid: Forma.MenuItemAccessibilityPeer.IsVirtual
+  name: IsVirtual
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_IsVirtual
+  commentId: P:Forma.MenuItemAccessibilityPeer.IsVirtual
+  fullName: Forma.MenuItemAccessibilityPeer.IsVirtual
+  nameWithType: MenuItemAccessibilityPeer.IsVirtual
+- uid: Forma.MenuItemAccessibilityPeer.IsVirtual*
+  name: IsVirtual
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_IsVirtual_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.IsVirtual
+  fullName: Forma.MenuItemAccessibilityPeer.IsVirtual
+  nameWithType: MenuItemAccessibilityPeer.IsVirtual
+- uid: Forma.MenuItemAccessibilityPeer.Name
+  name: Name
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Name
+  commentId: P:Forma.MenuItemAccessibilityPeer.Name
+  fullName: Forma.MenuItemAccessibilityPeer.Name
+  nameWithType: MenuItemAccessibilityPeer.Name
+- uid: Forma.MenuItemAccessibilityPeer.Name*
+  name: Name
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Name_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Name
+  fullName: Forma.MenuItemAccessibilityPeer.Name
+  nameWithType: MenuItemAccessibilityPeer.Name
+- uid: Forma.MenuItemAccessibilityPeer.Role
+  name: Role
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Role
+  commentId: P:Forma.MenuItemAccessibilityPeer.Role
+  fullName: Forma.MenuItemAccessibilityPeer.Role
+  nameWithType: MenuItemAccessibilityPeer.Role
+- uid: Forma.MenuItemAccessibilityPeer.Role*
+  name: Role
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Role_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Role
+  fullName: Forma.MenuItemAccessibilityPeer.Role
+  nameWithType: MenuItemAccessibilityPeer.Role
+- uid: Forma.MenuItemAccessibilityPeer.States
+  name: States
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_States
+  commentId: P:Forma.MenuItemAccessibilityPeer.States
+  fullName: Forma.MenuItemAccessibilityPeer.States
+  nameWithType: MenuItemAccessibilityPeer.States
+- uid: Forma.MenuItemAccessibilityPeer.States*
+  name: States
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_States_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.States
+  fullName: Forma.MenuItemAccessibilityPeer.States
+  nameWithType: MenuItemAccessibilityPeer.States
+- uid: Forma.MenuItemAccessibilityPeer.Value
+  name: Value
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Value
+  commentId: P:Forma.MenuItemAccessibilityPeer.Value
+  fullName: Forma.MenuItemAccessibilityPeer.Value
+  nameWithType: MenuItemAccessibilityPeer.Value
+- uid: Forma.MenuItemAccessibilityPeer.Value*
+  name: Value
+  href: api/Forma.MenuItemAccessibilityPeer.html#Forma_MenuItemAccessibilityPeer_Value_
+  commentId: Overload:Forma.MenuItemAccessibilityPeer.Value
+  fullName: Forma.MenuItemAccessibilityPeer.Value
+  nameWithType: MenuItemAccessibilityPeer.Value
 - uid: Forma.ModalCancelReason
   name: ModalCancelReason
   href: api/Forma.ModalCancelReason.html
@@ -33796,6 +35530,18 @@ references:
   commentId: Overload:Forma.PopupMenu.Font
   fullName: Forma.PopupMenu.Font
   nameWithType: PopupMenu.Font
+- uid: Forma.PopupMenu.GetAccessibilityChildren
+  name: GetAccessibilityChildren()
+  href: api/Forma.PopupMenu.html#Forma_PopupMenu_GetAccessibilityChildren
+  commentId: M:Forma.PopupMenu.GetAccessibilityChildren
+  fullName: Forma.PopupMenu.GetAccessibilityChildren()
+  nameWithType: PopupMenu.GetAccessibilityChildren()
+- uid: Forma.PopupMenu.GetAccessibilityChildren*
+  name: GetAccessibilityChildren
+  href: api/Forma.PopupMenu.html#Forma_PopupMenu_GetAccessibilityChildren_
+  commentId: Overload:Forma.PopupMenu.GetAccessibilityChildren
+  fullName: Forma.PopupMenu.GetAccessibilityChildren
+  nameWithType: PopupMenu.GetAccessibilityChildren
 - uid: Forma.PopupMenu.GetAllowSearch
   name: GetAllowSearch()
   href: api/Forma.PopupMenu.html#Forma_PopupMenu_GetAllowSearch
@@ -35965,6 +37711,33 @@ references:
   commentId: Overload:Forma.PopupMenuItems.GetTooltip
   fullName: Forma.PopupMenuItems.GetTooltip
   nameWithType: PopupMenuItems.GetTooltip
+- uid: Forma.PopupMenuItems.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.PopupMenuItems.html#Forma_PopupMenuItems_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.PopupMenuItems.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.PopupMenuItems.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: PopupMenuItems.PointerPressed(Point)
+- uid: Forma.PopupMenuItems.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.PopupMenuItems.html#Forma_PopupMenuItems_PointerPressed_
+  commentId: Overload:Forma.PopupMenuItems.PointerPressed
+  fullName: Forma.PopupMenuItems.PointerPressed
+  nameWithType: PopupMenuItems.PointerPressed
+- uid: Forma.PopupMenuItems.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.PopupMenuItems.html#Forma_PopupMenuItems_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.PopupMenuItems.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.PopupMenuItems.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.PopupMenuItems.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: PopupMenuItems.PointerReleased(Point, bool)
+  nameWithType.vb: PopupMenuItems.PointerReleased(Point, Boolean)
+- uid: Forma.PopupMenuItems.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.PopupMenuItems.html#Forma_PopupMenuItems_PointerReleased_
+  commentId: Overload:Forma.PopupMenuItems.PointerReleased
+  fullName: Forma.PopupMenuItems.PointerReleased
+  nameWithType: PopupMenuItems.PointerReleased
 - uid: Forma.PopupMenuItems.Popup
   name: Popup
   href: api/Forma.PopupMenuItems.html#Forma_PopupMenuItems_Popup
@@ -36685,6 +38458,21 @@ references:
   commentId: Overload:Forma.Range.Page
   fullName: Forma.Range.Page
   nameWithType: Range.Page
+- uid: Forma.Range.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name: PerformAccessibilityAction(AccessibilityActions, object)
+  href: api/Forma.Range.html#Forma_Range_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.Range.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name.vb: PerformAccessibilityAction(AccessibilityActions, Object)
+  fullName: Forma.Range.PerformAccessibilityAction(Forma.AccessibilityActions, object)
+  fullName.vb: Forma.Range.PerformAccessibilityAction(Forma.AccessibilityActions, Object)
+  nameWithType: Range.PerformAccessibilityAction(AccessibilityActions, object)
+  nameWithType.vb: Range.PerformAccessibilityAction(AccessibilityActions, Object)
+- uid: Forma.Range.PerformAccessibilityAction*
+  name: PerformAccessibilityAction
+  href: api/Forma.Range.html#Forma_Range_PerformAccessibilityAction_
+  commentId: Overload:Forma.Range.PerformAccessibilityAction
+  fullName: Forma.Range.PerformAccessibilityAction
+  nameWithType: Range.PerformAccessibilityAction
 - uid: Forma.Range.Ratio
   name: Ratio
   href: api/Forma.Range.html#Forma_Range_Ratio
@@ -38080,6 +39868,45 @@ references:
   commentId: Overload:Forma.RichTextLabel.ParseBbcode
   fullName: Forma.RichTextLabel.ParseBbcode
   nameWithType: RichTextLabel.ParseBbcode
+- uid: Forma.RichTextLabel.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.RichTextLabel.html#Forma_RichTextLabel_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.RichTextLabel.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.RichTextLabel.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: RichTextLabel.PointerMoved(Point)
+- uid: Forma.RichTextLabel.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.RichTextLabel.html#Forma_RichTextLabel_PointerMoved_
+  commentId: Overload:Forma.RichTextLabel.PointerMoved
+  fullName: Forma.RichTextLabel.PointerMoved
+  nameWithType: RichTextLabel.PointerMoved
+- uid: Forma.RichTextLabel.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.RichTextLabel.html#Forma_RichTextLabel_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.RichTextLabel.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.RichTextLabel.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: RichTextLabel.PointerPressed(Point)
+- uid: Forma.RichTextLabel.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.RichTextLabel.html#Forma_RichTextLabel_PointerPressed_
+  commentId: Overload:Forma.RichTextLabel.PointerPressed
+  fullName: Forma.RichTextLabel.PointerPressed
+  nameWithType: RichTextLabel.PointerPressed
+- uid: Forma.RichTextLabel.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.RichTextLabel.html#Forma_RichTextLabel_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.RichTextLabel.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.RichTextLabel.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.RichTextLabel.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: RichTextLabel.PointerReleased(Point, bool)
+  nameWithType.vb: RichTextLabel.PointerReleased(Point, Boolean)
+- uid: Forma.RichTextLabel.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.RichTextLabel.html#Forma_RichTextLabel_PointerReleased_
+  commentId: Overload:Forma.RichTextLabel.PointerReleased
+  fullName: Forma.RichTextLabel.PointerReleased
+  nameWithType: RichTextLabel.PointerReleased
 - uid: Forma.RichTextLabel.Pop
   name: Pop()
   href: api/Forma.RichTextLabel.html#Forma_RichTextLabel_Pop
@@ -39583,6 +41410,45 @@ references:
   commentId: Overload:Forma.ScrollBar.Orientation
   fullName: Forma.ScrollBar.Orientation
   nameWithType: ScrollBar.Orientation
+- uid: Forma.ScrollBar.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.ScrollBar.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.ScrollBar.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: ScrollBar.PointerMoved(Point)
+- uid: Forma.ScrollBar.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_PointerMoved_
+  commentId: Overload:Forma.ScrollBar.PointerMoved
+  fullName: Forma.ScrollBar.PointerMoved
+  nameWithType: ScrollBar.PointerMoved
+- uid: Forma.ScrollBar.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.ScrollBar.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.ScrollBar.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: ScrollBar.PointerPressed(Point)
+- uid: Forma.ScrollBar.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_PointerPressed_
+  commentId: Overload:Forma.ScrollBar.PointerPressed
+  fullName: Forma.ScrollBar.PointerPressed
+  nameWithType: ScrollBar.PointerPressed
+- uid: Forma.ScrollBar.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.ScrollBar.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.ScrollBar.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.ScrollBar.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: ScrollBar.PointerReleased(Point, bool)
+  nameWithType.vb: ScrollBar.PointerReleased(Point, Boolean)
+- uid: Forma.ScrollBar.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.ScrollBar.html#Forma_ScrollBar_PointerReleased_
+  commentId: Overload:Forma.ScrollBar.PointerReleased
+  fullName: Forma.ScrollBar.PointerReleased
+  nameWithType: ScrollBar.PointerReleased
 - uid: Forma.ScrollBar.Scrolling
   name: Scrolling
   href: api/Forma.ScrollBar.html#Forma_ScrollBar_Scrolling
@@ -42106,6 +43972,45 @@ references:
   commentId: Overload:Forma.Slider.Orientation
   fullName: Forma.Slider.Orientation
   nameWithType: Slider.Orientation
+- uid: Forma.Slider.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.Slider.html#Forma_Slider_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.Slider.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.Slider.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: Slider.PointerMoved(Point)
+- uid: Forma.Slider.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.Slider.html#Forma_Slider_PointerMoved_
+  commentId: Overload:Forma.Slider.PointerMoved
+  fullName: Forma.Slider.PointerMoved
+  nameWithType: Slider.PointerMoved
+- uid: Forma.Slider.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.Slider.html#Forma_Slider_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.Slider.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.Slider.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: Slider.PointerPressed(Point)
+- uid: Forma.Slider.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.Slider.html#Forma_Slider_PointerPressed_
+  commentId: Overload:Forma.Slider.PointerPressed
+  fullName: Forma.Slider.PointerPressed
+  nameWithType: Slider.PointerPressed
+- uid: Forma.Slider.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.Slider.html#Forma_Slider_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.Slider.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.Slider.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.Slider.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: Slider.PointerReleased(Point, bool)
+  nameWithType.vb: Slider.PointerReleased(Point, Boolean)
+- uid: Forma.Slider.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.Slider.html#Forma_Slider_PointerReleased_
+  commentId: Overload:Forma.Slider.PointerReleased
+  fullName: Forma.Slider.PointerReleased
+  nameWithType: Slider.PointerReleased
 - uid: Forma.Slider.Scrollable
   name: Scrollable
   href: api/Forma.Slider.html#Forma_Slider_Scrollable
@@ -42550,6 +44455,45 @@ references:
   commentId: Overload:Forma.SpinBox.LineEdit
   fullName: Forma.SpinBox.LineEdit
   nameWithType: SpinBox.LineEdit
+- uid: Forma.SpinBox.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.SpinBox.html#Forma_SpinBox_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SpinBox.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SpinBox.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: SpinBox.PointerMoved(Point)
+- uid: Forma.SpinBox.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.SpinBox.html#Forma_SpinBox_PointerMoved_
+  commentId: Overload:Forma.SpinBox.PointerMoved
+  fullName: Forma.SpinBox.PointerMoved
+  nameWithType: SpinBox.PointerMoved
+- uid: Forma.SpinBox.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.SpinBox.html#Forma_SpinBox_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SpinBox.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SpinBox.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: SpinBox.PointerPressed(Point)
+- uid: Forma.SpinBox.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.SpinBox.html#Forma_SpinBox_PointerPressed_
+  commentId: Overload:Forma.SpinBox.PointerPressed
+  fullName: Forma.SpinBox.PointerPressed
+  nameWithType: SpinBox.PointerPressed
+- uid: Forma.SpinBox.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.SpinBox.html#Forma_SpinBox_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.SpinBox.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.SpinBox.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.SpinBox.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: SpinBox.PointerReleased(Point, bool)
+  nameWithType.vb: SpinBox.PointerReleased(Point, Boolean)
+- uid: Forma.SpinBox.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.SpinBox.html#Forma_SpinBox_PointerReleased_
+  commentId: Overload:Forma.SpinBox.PointerReleased
+  fullName: Forma.SpinBox.PointerReleased
+  nameWithType: SpinBox.PointerReleased
 - uid: Forma.SpinBox.Prefix
   name: Prefix
   href: api/Forma.SpinBox.html#Forma_SpinBox_Prefix
@@ -42886,6 +44830,18 @@ references:
   commentId: Overload:Forma.SplitContainer.DraggingNestedIntersections
   fullName: Forma.SplitContainer.DraggingNestedIntersections
   nameWithType: SplitContainer.DraggingNestedIntersections
+- uid: Forma.SplitContainer.GetCursorAt(Microsoft.Xna.Framework.Point)
+  name: GetCursorAt(Point)
+  href: api/Forma.SplitContainer.html#Forma_SplitContainer_GetCursorAt_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainer.GetCursorAt(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainer.GetCursorAt(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainer.GetCursorAt(Point)
+- uid: Forma.SplitContainer.GetCursorAt*
+  name: GetCursorAt
+  href: api/Forma.SplitContainer.html#Forma_SplitContainer_GetCursorAt_
+  commentId: Overload:Forma.SplitContainer.GetCursorAt
+  fullName: Forma.SplitContainer.GetCursorAt
+  nameWithType: SplitContainer.GetCursorAt
 - uid: Forma.SplitContainer.GetMinimumSize
   name: GetMinimumSize()
   href: api/Forma.SplitContainer.html#Forma_SplitContainer_GetMinimumSize
@@ -42976,6 +44932,45 @@ references:
   commentId: Overload:Forma.SplitContainer.Orientation
   fullName: Forma.SplitContainer.Orientation
   nameWithType: SplitContainer.Orientation
+- uid: Forma.SplitContainer.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.SplitContainer.html#Forma_SplitContainer_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainer.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainer.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainer.PointerMoved(Point)
+- uid: Forma.SplitContainer.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.SplitContainer.html#Forma_SplitContainer_PointerMoved_
+  commentId: Overload:Forma.SplitContainer.PointerMoved
+  fullName: Forma.SplitContainer.PointerMoved
+  nameWithType: SplitContainer.PointerMoved
+- uid: Forma.SplitContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.SplitContainer.html#Forma_SplitContainer_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainer.PointerPressed(Point)
+- uid: Forma.SplitContainer.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.SplitContainer.html#Forma_SplitContainer_PointerPressed_
+  commentId: Overload:Forma.SplitContainer.PointerPressed
+  fullName: Forma.SplitContainer.PointerPressed
+  nameWithType: SplitContainer.PointerPressed
+- uid: Forma.SplitContainer.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.SplitContainer.html#Forma_SplitContainer_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.SplitContainer.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.SplitContainer.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.SplitContainer.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: SplitContainer.PointerReleased(Point, bool)
+  nameWithType.vb: SplitContainer.PointerReleased(Point, Boolean)
+- uid: Forma.SplitContainer.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.SplitContainer.html#Forma_SplitContainer_PointerReleased_
+  commentId: Overload:Forma.SplitContainer.PointerReleased
+  fullName: Forma.SplitContainer.PointerReleased
+  nameWithType: SplitContainer.PointerReleased
 - uid: Forma.SplitContainer.ResolvedSplitOffset
   name: ResolvedSplitOffset
   href: api/Forma.SplitContainer.html#Forma_SplitContainer_ResolvedSplitOffset
@@ -43120,6 +45115,57 @@ references:
   fullName.vb: Forma.SplitContainerDragger.New
   nameWithType: SplitContainerDragger.SplitContainerDragger
   nameWithType.vb: SplitContainerDragger.New
+- uid: Forma.SplitContainerDragger.GetCursorAt(Microsoft.Xna.Framework.Point)
+  name: GetCursorAt(Point)
+  href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_GetCursorAt_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainerDragger.GetCursorAt(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainerDragger.GetCursorAt(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainerDragger.GetCursorAt(Point)
+- uid: Forma.SplitContainerDragger.GetCursorAt*
+  name: GetCursorAt
+  href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_GetCursorAt_
+  commentId: Overload:Forma.SplitContainerDragger.GetCursorAt
+  fullName: Forma.SplitContainerDragger.GetCursorAt
+  nameWithType: SplitContainerDragger.GetCursorAt
+- uid: Forma.SplitContainerDragger.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainerDragger.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainerDragger.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainerDragger.PointerMoved(Point)
+- uid: Forma.SplitContainerDragger.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_PointerMoved_
+  commentId: Overload:Forma.SplitContainerDragger.PointerMoved
+  fullName: Forma.SplitContainerDragger.PointerMoved
+  nameWithType: SplitContainerDragger.PointerMoved
+- uid: Forma.SplitContainerDragger.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainerDragger.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainerDragger.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainerDragger.PointerPressed(Point)
+- uid: Forma.SplitContainerDragger.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_PointerPressed_
+  commentId: Overload:Forma.SplitContainerDragger.PointerPressed
+  fullName: Forma.SplitContainerDragger.PointerPressed
+  nameWithType: SplitContainerDragger.PointerPressed
+- uid: Forma.SplitContainerDragger.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.SplitContainerDragger.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.SplitContainerDragger.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.SplitContainerDragger.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: SplitContainerDragger.PointerReleased(Point, bool)
+  nameWithType.vb: SplitContainerDragger.PointerReleased(Point, Boolean)
+- uid: Forma.SplitContainerDragger.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_PointerReleased_
+  commentId: Overload:Forma.SplitContainerDragger.PointerReleased
+  fullName: Forma.SplitContainerDragger.PointerReleased
+  nameWithType: SplitContainerDragger.PointerReleased
 - uid: Forma.SplitContainerDragger.Target
   name: Target
   href: api/Forma.SplitContainerDragger.html#Forma_SplitContainerDragger_Target
@@ -43192,6 +45238,57 @@ references:
   commentId: Overload:Forma.SplitContainerMultiDragger.ActiveIndex
   fullName: Forma.SplitContainerMultiDragger.ActiveIndex
   nameWithType: SplitContainerMultiDragger.ActiveIndex
+- uid: Forma.SplitContainerMultiDragger.GetCursorAt(Microsoft.Xna.Framework.Point)
+  name: GetCursorAt(Point)
+  href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_GetCursorAt_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainerMultiDragger.GetCursorAt(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainerMultiDragger.GetCursorAt(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainerMultiDragger.GetCursorAt(Point)
+- uid: Forma.SplitContainerMultiDragger.GetCursorAt*
+  name: GetCursorAt
+  href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_GetCursorAt_
+  commentId: Overload:Forma.SplitContainerMultiDragger.GetCursorAt
+  fullName: Forma.SplitContainerMultiDragger.GetCursorAt
+  nameWithType: SplitContainerMultiDragger.GetCursorAt
+- uid: Forma.SplitContainerMultiDragger.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainerMultiDragger.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainerMultiDragger.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainerMultiDragger.PointerMoved(Point)
+- uid: Forma.SplitContainerMultiDragger.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_PointerMoved_
+  commentId: Overload:Forma.SplitContainerMultiDragger.PointerMoved
+  fullName: Forma.SplitContainerMultiDragger.PointerMoved
+  nameWithType: SplitContainerMultiDragger.PointerMoved
+- uid: Forma.SplitContainerMultiDragger.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SplitContainerMultiDragger.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SplitContainerMultiDragger.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: SplitContainerMultiDragger.PointerPressed(Point)
+- uid: Forma.SplitContainerMultiDragger.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_PointerPressed_
+  commentId: Overload:Forma.SplitContainerMultiDragger.PointerPressed
+  fullName: Forma.SplitContainerMultiDragger.PointerPressed
+  nameWithType: SplitContainerMultiDragger.PointerPressed
+- uid: Forma.SplitContainerMultiDragger.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.SplitContainerMultiDragger.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.SplitContainerMultiDragger.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.SplitContainerMultiDragger.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: SplitContainerMultiDragger.PointerReleased(Point, bool)
+  nameWithType.vb: SplitContainerMultiDragger.PointerReleased(Point, Boolean)
+- uid: Forma.SplitContainerMultiDragger.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_PointerReleased_
+  commentId: Overload:Forma.SplitContainerMultiDragger.PointerReleased
+  fullName: Forma.SplitContainerMultiDragger.PointerReleased
+  nameWithType: SplitContainerMultiDragger.PointerReleased
 - uid: Forma.SplitContainerMultiDragger.Targets
   name: Targets
   href: api/Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_Targets
@@ -43948,6 +46045,33 @@ references:
   commentId: Overload:Forma.SubViewportContainer.MouseTarget
   fullName: Forma.SubViewportContainer.MouseTarget
   nameWithType: SubViewportContainer.MouseTarget
+- uid: Forma.SubViewportContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.SubViewportContainer.html#Forma_SubViewportContainer_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.SubViewportContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.SubViewportContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: SubViewportContainer.PointerPressed(Point)
+- uid: Forma.SubViewportContainer.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.SubViewportContainer.html#Forma_SubViewportContainer_PointerPressed_
+  commentId: Overload:Forma.SubViewportContainer.PointerPressed
+  fullName: Forma.SubViewportContainer.PointerPressed
+  nameWithType: SubViewportContainer.PointerPressed
+- uid: Forma.SubViewportContainer.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.SubViewportContainer.html#Forma_SubViewportContainer_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.SubViewportContainer.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.SubViewportContainer.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.SubViewportContainer.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: SubViewportContainer.PointerReleased(Point, bool)
+  nameWithType.vb: SubViewportContainer.PointerReleased(Point, Boolean)
+- uid: Forma.SubViewportContainer.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.SubViewportContainer.html#Forma_SubViewportContainer_PointerReleased_
+  commentId: Overload:Forma.SubViewportContainer.PointerReleased
+  fullName: Forma.SubViewportContainer.PointerReleased
+  nameWithType: SubViewportContainer.PointerReleased
 - uid: Forma.SubViewportContainer.SetMouseTarget(System.Boolean)
   name: SetMouseTarget(bool)
   href: api/Forma.SubViewportContainer.html#Forma_SubViewportContainer_SetMouseTarget_System_Boolean_
@@ -46159,6 +48283,45 @@ references:
   commentId: Overload:Forma.TabBar.OffsetButtonsVisible
   fullName: Forma.TabBar.OffsetButtonsVisible
   nameWithType: TabBar.OffsetButtonsVisible
+- uid: Forma.TabBar.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.TabBar.html#Forma_TabBar_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.TabBar.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.TabBar.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: TabBar.PointerMoved(Point)
+- uid: Forma.TabBar.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.TabBar.html#Forma_TabBar_PointerMoved_
+  commentId: Overload:Forma.TabBar.PointerMoved
+  fullName: Forma.TabBar.PointerMoved
+  nameWithType: TabBar.PointerMoved
+- uid: Forma.TabBar.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.TabBar.html#Forma_TabBar_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.TabBar.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.TabBar.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: TabBar.PointerPressed(Point)
+- uid: Forma.TabBar.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.TabBar.html#Forma_TabBar_PointerPressed_
+  commentId: Overload:Forma.TabBar.PointerPressed
+  fullName: Forma.TabBar.PointerPressed
+  nameWithType: TabBar.PointerPressed
+- uid: Forma.TabBar.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.TabBar.html#Forma_TabBar_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.TabBar.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.TabBar.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.TabBar.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: TabBar.PointerReleased(Point, bool)
+  nameWithType.vb: TabBar.PointerReleased(Point, Boolean)
+- uid: Forma.TabBar.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.TabBar.html#Forma_TabBar_PointerReleased_
+  commentId: Overload:Forma.TabBar.PointerReleased
+  fullName: Forma.TabBar.PointerReleased
+  nameWithType: TabBar.PointerReleased
 - uid: Forma.TabBar.PreviousTab
   name: PreviousTab
   href: api/Forma.TabBar.html#Forma_TabBar_PreviousTab
@@ -47299,6 +49462,45 @@ references:
   commentId: Overload:Forma.TabContainer.NextTab
   fullName: Forma.TabContainer.NextTab
   nameWithType: TabContainer.NextTab
+- uid: Forma.TabContainer.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.TabContainer.html#Forma_TabContainer_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.TabContainer.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.TabContainer.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: TabContainer.PointerMoved(Point)
+- uid: Forma.TabContainer.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.TabContainer.html#Forma_TabContainer_PointerMoved_
+  commentId: Overload:Forma.TabContainer.PointerMoved
+  fullName: Forma.TabContainer.PointerMoved
+  nameWithType: TabContainer.PointerMoved
+- uid: Forma.TabContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.TabContainer.html#Forma_TabContainer_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.TabContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.TabContainer.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: TabContainer.PointerPressed(Point)
+- uid: Forma.TabContainer.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.TabContainer.html#Forma_TabContainer_PointerPressed_
+  commentId: Overload:Forma.TabContainer.PointerPressed
+  fullName: Forma.TabContainer.PointerPressed
+  nameWithType: TabContainer.PointerPressed
+- uid: Forma.TabContainer.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.TabContainer.html#Forma_TabContainer_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.TabContainer.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.TabContainer.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.TabContainer.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: TabContainer.PointerReleased(Point, bool)
+  nameWithType.vb: TabContainer.PointerReleased(Point, Boolean)
+- uid: Forma.TabContainer.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.TabContainer.html#Forma_TabContainer_PointerReleased_
+  commentId: Overload:Forma.TabContainer.PointerReleased
+  fullName: Forma.TabContainer.PointerReleased
+  nameWithType: TabContainer.PointerReleased
 - uid: Forma.TabContainer.PrePopupPressed
   name: PrePopupPressed
   href: api/Forma.TabContainer.html#Forma_TabContainer_PrePopupPressed
@@ -48370,6 +50572,18 @@ references:
   commentId: E:Forma.TextBlock.MetaClicked
   fullName: Forma.TextBlock.MetaClicked
   nameWithType: TextBlock.MetaClicked
+- uid: Forma.TextBlock.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.TextBlock.html#Forma_TextBlock_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.TextBlock.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.TextBlock.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: TextBlock.PointerPressed(Point)
+- uid: Forma.TextBlock.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.TextBlock.html#Forma_TextBlock_PointerPressed_
+  commentId: Overload:Forma.TextBlock.PointerPressed
+  fullName: Forma.TextBlock.PointerPressed
+  nameWithType: TextBlock.PointerPressed
 - uid: Forma.TextBlock.Text
   name: Text
   href: api/Forma.TextBlock.html#Forma_TextBlock_Text
@@ -49909,6 +52123,18 @@ references:
   commentId: Overload:Forma.TextEdit.Paste
   fullName: Forma.TextEdit.Paste
   nameWithType: TextEdit.Paste
+- uid: Forma.TextEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.TextEdit.html#Forma_TextEdit_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.TextEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.TextEdit.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: TextEdit.PointerPressed(Point)
+- uid: Forma.TextEdit.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.TextEdit.html#Forma_TextEdit_PointerPressed_
+  commentId: Overload:Forma.TextEdit.PointerPressed
+  fullName: Forma.TextEdit.PointerPressed
+  nameWithType: TextEdit.PointerPressed
 - uid: Forma.TextEdit.Redo
   name: Redo()
   href: api/Forma.TextEdit.html#Forma_TextEdit_Redo
@@ -56002,6 +58228,18 @@ references:
   commentId: Overload:Forma.Tree.Font
   fullName: Forma.Tree.Font
   nameWithType: Tree.Font
+- uid: Forma.Tree.GetAccessibilityChildren
+  name: GetAccessibilityChildren()
+  href: api/Forma.Tree.html#Forma_Tree_GetAccessibilityChildren
+  commentId: M:Forma.Tree.GetAccessibilityChildren
+  fullName: Forma.Tree.GetAccessibilityChildren()
+  nameWithType: Tree.GetAccessibilityChildren()
+- uid: Forma.Tree.GetAccessibilityChildren*
+  name: GetAccessibilityChildren
+  href: api/Forma.Tree.html#Forma_Tree_GetAccessibilityChildren_
+  commentId: Overload:Forma.Tree.GetAccessibilityChildren
+  fullName: Forma.Tree.GetAccessibilityChildren
+  nameWithType: Tree.GetAccessibilityChildren
 - uid: Forma.Tree.GetButtonIdAtPosition(Microsoft.Xna.Framework.Point)
   name: GetButtonIdAtPosition(Point)
   href: api/Forma.Tree.html#Forma_Tree_GetButtonIdAtPosition_Microsoft_Xna_Framework_Point_
@@ -56854,6 +59092,45 @@ references:
   commentId: Overload:Forma.Tree.OnTemplateApplied
   fullName: Forma.Tree.OnTemplateApplied
   nameWithType: Tree.OnTemplateApplied
+- uid: Forma.Tree.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.Tree.html#Forma_Tree_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.Tree.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.Tree.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: Tree.PointerMoved(Point)
+- uid: Forma.Tree.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.Tree.html#Forma_Tree_PointerMoved_
+  commentId: Overload:Forma.Tree.PointerMoved
+  fullName: Forma.Tree.PointerMoved
+  nameWithType: Tree.PointerMoved
+- uid: Forma.Tree.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.Tree.html#Forma_Tree_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.Tree.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.Tree.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: Tree.PointerPressed(Point)
+- uid: Forma.Tree.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.Tree.html#Forma_Tree_PointerPressed_
+  commentId: Overload:Forma.Tree.PointerPressed
+  fullName: Forma.Tree.PointerPressed
+  nameWithType: Tree.PointerPressed
+- uid: Forma.Tree.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.Tree.html#Forma_Tree_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.Tree.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.Tree.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.Tree.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: Tree.PointerReleased(Point, bool)
+  nameWithType.vb: Tree.PointerReleased(Point, Boolean)
+- uid: Forma.Tree.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.Tree.html#Forma_Tree_PointerReleased_
+  commentId: Overload:Forma.Tree.PointerReleased
+  fullName: Forma.Tree.PointerReleased
+  nameWithType: Tree.PointerReleased
 - uid: Forma.Tree.RangeStepRepeatDelay
   name: RangeStepRepeatDelay
   href: api/Forma.Tree.html#Forma_Tree_RangeStepRepeatDelay
@@ -59362,6 +61639,159 @@ references:
   commentId: Overload:Forma.TreeItem.Visible
   fullName: Forma.TreeItem.Visible
   nameWithType: TreeItem.Visible
+- uid: Forma.TreeItemAccessibilityPeer
+  name: TreeItemAccessibilityPeer
+  href: api/Forma.TreeItemAccessibilityPeer.html
+  commentId: T:Forma.TreeItemAccessibilityPeer
+  fullName: Forma.TreeItemAccessibilityPeer
+  nameWithType: TreeItemAccessibilityPeer
+- uid: Forma.TreeItemAccessibilityPeer.Actions
+  name: Actions
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Actions
+  commentId: P:Forma.TreeItemAccessibilityPeer.Actions
+  fullName: Forma.TreeItemAccessibilityPeer.Actions
+  nameWithType: TreeItemAccessibilityPeer.Actions
+- uid: Forma.TreeItemAccessibilityPeer.Actions*
+  name: Actions
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Actions_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Actions
+  fullName: Forma.TreeItemAccessibilityPeer.Actions
+  nameWithType: TreeItemAccessibilityPeer.Actions
+- uid: Forma.TreeItemAccessibilityPeer.AutomationId
+  name: AutomationId
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_AutomationId
+  commentId: P:Forma.TreeItemAccessibilityPeer.AutomationId
+  fullName: Forma.TreeItemAccessibilityPeer.AutomationId
+  nameWithType: TreeItemAccessibilityPeer.AutomationId
+- uid: Forma.TreeItemAccessibilityPeer.AutomationId*
+  name: AutomationId
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_AutomationId_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.AutomationId
+  fullName: Forma.TreeItemAccessibilityPeer.AutomationId
+  nameWithType: TreeItemAccessibilityPeer.AutomationId
+- uid: Forma.TreeItemAccessibilityPeer.Bounds
+  name: Bounds
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Bounds
+  commentId: P:Forma.TreeItemAccessibilityPeer.Bounds
+  fullName: Forma.TreeItemAccessibilityPeer.Bounds
+  nameWithType: TreeItemAccessibilityPeer.Bounds
+- uid: Forma.TreeItemAccessibilityPeer.Bounds*
+  name: Bounds
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Bounds_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Bounds
+  fullName: Forma.TreeItemAccessibilityPeer.Bounds
+  nameWithType: TreeItemAccessibilityPeer.Bounds
+- uid: Forma.TreeItemAccessibilityPeer.Children
+  name: Children
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Children
+  commentId: P:Forma.TreeItemAccessibilityPeer.Children
+  fullName: Forma.TreeItemAccessibilityPeer.Children
+  nameWithType: TreeItemAccessibilityPeer.Children
+- uid: Forma.TreeItemAccessibilityPeer.Children*
+  name: Children
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Children_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Children
+  fullName: Forma.TreeItemAccessibilityPeer.Children
+  nameWithType: TreeItemAccessibilityPeer.Children
+- uid: Forma.TreeItemAccessibilityPeer.Id
+  name: Id
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Id
+  commentId: P:Forma.TreeItemAccessibilityPeer.Id
+  fullName: Forma.TreeItemAccessibilityPeer.Id
+  nameWithType: TreeItemAccessibilityPeer.Id
+- uid: Forma.TreeItemAccessibilityPeer.Id*
+  name: Id
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Id_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Id
+  fullName: Forma.TreeItemAccessibilityPeer.Id
+  nameWithType: TreeItemAccessibilityPeer.Id
+- uid: Forma.TreeItemAccessibilityPeer.Invoke(Forma.AccessibilityActions,System.Object)
+  name: Invoke(AccessibilityActions, object)
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Invoke_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.TreeItemAccessibilityPeer.Invoke(Forma.AccessibilityActions,System.Object)
+  name.vb: Invoke(AccessibilityActions, Object)
+  fullName: Forma.TreeItemAccessibilityPeer.Invoke(Forma.AccessibilityActions, object)
+  fullName.vb: Forma.TreeItemAccessibilityPeer.Invoke(Forma.AccessibilityActions, Object)
+  nameWithType: TreeItemAccessibilityPeer.Invoke(AccessibilityActions, object)
+  nameWithType.vb: TreeItemAccessibilityPeer.Invoke(AccessibilityActions, Object)
+- uid: Forma.TreeItemAccessibilityPeer.Invoke*
+  name: Invoke
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Invoke_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Invoke
+  fullName: Forma.TreeItemAccessibilityPeer.Invoke
+  nameWithType: TreeItemAccessibilityPeer.Invoke
+- uid: Forma.TreeItemAccessibilityPeer.IsVirtual
+  name: IsVirtual
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_IsVirtual
+  commentId: P:Forma.TreeItemAccessibilityPeer.IsVirtual
+  fullName: Forma.TreeItemAccessibilityPeer.IsVirtual
+  nameWithType: TreeItemAccessibilityPeer.IsVirtual
+- uid: Forma.TreeItemAccessibilityPeer.IsVirtual*
+  name: IsVirtual
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_IsVirtual_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.IsVirtual
+  fullName: Forma.TreeItemAccessibilityPeer.IsVirtual
+  nameWithType: TreeItemAccessibilityPeer.IsVirtual
+- uid: Forma.TreeItemAccessibilityPeer.Item
+  name: Item
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Item
+  commentId: P:Forma.TreeItemAccessibilityPeer.Item
+  fullName: Forma.TreeItemAccessibilityPeer.Item
+  nameWithType: TreeItemAccessibilityPeer.Item
+- uid: Forma.TreeItemAccessibilityPeer.Item*
+  name: Item
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Item_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Item
+  fullName: Forma.TreeItemAccessibilityPeer.Item
+  nameWithType: TreeItemAccessibilityPeer.Item
+- uid: Forma.TreeItemAccessibilityPeer.Name
+  name: Name
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Name
+  commentId: P:Forma.TreeItemAccessibilityPeer.Name
+  fullName: Forma.TreeItemAccessibilityPeer.Name
+  nameWithType: TreeItemAccessibilityPeer.Name
+- uid: Forma.TreeItemAccessibilityPeer.Name*
+  name: Name
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Name_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Name
+  fullName: Forma.TreeItemAccessibilityPeer.Name
+  nameWithType: TreeItemAccessibilityPeer.Name
+- uid: Forma.TreeItemAccessibilityPeer.Role
+  name: Role
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Role
+  commentId: P:Forma.TreeItemAccessibilityPeer.Role
+  fullName: Forma.TreeItemAccessibilityPeer.Role
+  nameWithType: TreeItemAccessibilityPeer.Role
+- uid: Forma.TreeItemAccessibilityPeer.Role*
+  name: Role
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Role_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Role
+  fullName: Forma.TreeItemAccessibilityPeer.Role
+  nameWithType: TreeItemAccessibilityPeer.Role
+- uid: Forma.TreeItemAccessibilityPeer.States
+  name: States
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_States
+  commentId: P:Forma.TreeItemAccessibilityPeer.States
+  fullName: Forma.TreeItemAccessibilityPeer.States
+  nameWithType: TreeItemAccessibilityPeer.States
+- uid: Forma.TreeItemAccessibilityPeer.States*
+  name: States
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_States_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.States
+  fullName: Forma.TreeItemAccessibilityPeer.States
+  nameWithType: TreeItemAccessibilityPeer.States
+- uid: Forma.TreeItemAccessibilityPeer.Value
+  name: Value
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Value
+  commentId: P:Forma.TreeItemAccessibilityPeer.Value
+  fullName: Forma.TreeItemAccessibilityPeer.Value
+  nameWithType: TreeItemAccessibilityPeer.Value
+- uid: Forma.TreeItemAccessibilityPeer.Value*
+  name: Value
+  href: api/Forma.TreeItemAccessibilityPeer.html#Forma_TreeItemAccessibilityPeer_Value_
+  commentId: Overload:Forma.TreeItemAccessibilityPeer.Value
+  fullName: Forma.TreeItemAccessibilityPeer.Value
+  nameWithType: TreeItemAccessibilityPeer.Value
 - uid: Forma.TreeItemButton
   name: TreeItemButton
   href: api/Forma.TreeItemButton.html
@@ -60001,6 +62431,33 @@ references:
   commentId: Overload:Forma.UIContext.HitTest
   fullName: Forma.UIContext.HitTest
   nameWithType: UIContext.HitTest
+- uid: Forma.UIContext.InjectKeyPress(Microsoft.Xna.Framework.Input.Keys,Microsoft.Xna.Framework.Input.Keys[])
+  name: InjectKeyPress(Keys, params Keys[])
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectKeyPress_Microsoft_Xna_Framework_Input_Keys_Microsoft_Xna_Framework_Input_Keys___
+  commentId: M:Forma.UIContext.InjectKeyPress(Microsoft.Xna.Framework.Input.Keys,Microsoft.Xna.Framework.Input.Keys[])
+  name.vb: InjectKeyPress(Keys, ParamArray Keys())
+  fullName: Forma.UIContext.InjectKeyPress(Microsoft.Xna.Framework.Input.Keys, params Microsoft.Xna.Framework.Input.Keys[])
+  fullName.vb: Forma.UIContext.InjectKeyPress(Microsoft.Xna.Framework.Input.Keys, ParamArray Microsoft.Xna.Framework.Input.Keys())
+  nameWithType: UIContext.InjectKeyPress(Keys, params Keys[])
+  nameWithType.vb: UIContext.InjectKeyPress(Keys, ParamArray Keys())
+- uid: Forma.UIContext.InjectKeyPress*
+  name: InjectKeyPress
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectKeyPress_
+  commentId: Overload:Forma.UIContext.InjectKeyPress
+  fullName: Forma.UIContext.InjectKeyPress
+  nameWithType: UIContext.InjectKeyPress
+- uid: Forma.UIContext.InjectKeyRelease(Microsoft.Xna.Framework.Input.Keys)
+  name: InjectKeyRelease(Keys)
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectKeyRelease_Microsoft_Xna_Framework_Input_Keys_
+  commentId: M:Forma.UIContext.InjectKeyRelease(Microsoft.Xna.Framework.Input.Keys)
+  fullName: Forma.UIContext.InjectKeyRelease(Microsoft.Xna.Framework.Input.Keys)
+  nameWithType: UIContext.InjectKeyRelease(Keys)
+- uid: Forma.UIContext.InjectKeyRelease*
+  name: InjectKeyRelease
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectKeyRelease_
+  commentId: Overload:Forma.UIContext.InjectKeyRelease
+  fullName: Forma.UIContext.InjectKeyRelease
+  nameWithType: UIContext.InjectKeyRelease
 - uid: Forma.UIContext.InjectPointerMove(Microsoft.Xna.Framework.Point)
   name: InjectPointerMove(Point)
   href: api/Forma.UIContext.html#Forma_UIContext_InjectPointerMove_Microsoft_Xna_Framework_Point_
@@ -60052,6 +62509,21 @@ references:
   commentId: Overload:Forma.UIContext.InjectPointerWheel
   fullName: Forma.UIContext.InjectPointerWheel
   nameWithType: UIContext.InjectPointerWheel
+- uid: Forma.UIContext.InjectText(System.String)
+  name: InjectText(string)
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectText_System_String_
+  commentId: M:Forma.UIContext.InjectText(System.String)
+  name.vb: InjectText(String)
+  fullName: Forma.UIContext.InjectText(string)
+  fullName.vb: Forma.UIContext.InjectText(String)
+  nameWithType: UIContext.InjectText(string)
+  nameWithType.vb: UIContext.InjectText(String)
+- uid: Forma.UIContext.InjectText*
+  name: InjectText
+  href: api/Forma.UIContext.html#Forma_UIContext_InjectText_
+  commentId: Overload:Forma.UIContext.InjectText
+  fullName: Forma.UIContext.InjectText
+  nameWithType: UIContext.InjectText
 - uid: Forma.UIContext.InputModality
   name: InputModality
   href: api/Forma.UIContext.html#Forma_UIContext_InputModality
@@ -60076,6 +62548,18 @@ references:
   commentId: Overload:Forma.UIContext.IsDragging
   fullName: Forma.UIContext.IsDragging
   nameWithType: UIContext.IsDragging
+- uid: Forma.UIContext.IsSettled
+  name: IsSettled
+  href: api/Forma.UIContext.html#Forma_UIContext_IsSettled
+  commentId: P:Forma.UIContext.IsSettled
+  fullName: Forma.UIContext.IsSettled
+  nameWithType: UIContext.IsSettled
+- uid: Forma.UIContext.IsSettled*
+  name: IsSettled
+  href: api/Forma.UIContext.html#Forma_UIContext_IsSettled_
+  commentId: Overload:Forma.UIContext.IsSettled
+  fullName: Forma.UIContext.IsSettled
+  nameWithType: UIContext.IsSettled
 - uid: Forma.UIContext.IsTooltipVisible
   name: IsTooltipVisible
   href: api/Forma.UIContext.html#Forma_UIContext_IsTooltipVisible
@@ -60199,6 +62683,18 @@ references:
   commentId: Overload:Forma.UIContext.SetFocus
   fullName: Forma.UIContext.SetFocus
   nameWithType: UIContext.SetFocus
+- uid: Forma.UIContext.SuppressPolledInput
+  name: SuppressPolledInput
+  href: api/Forma.UIContext.html#Forma_UIContext_SuppressPolledInput
+  commentId: P:Forma.UIContext.SuppressPolledInput
+  fullName: Forma.UIContext.SuppressPolledInput
+  nameWithType: UIContext.SuppressPolledInput
+- uid: Forma.UIContext.SuppressPolledInput*
+  name: SuppressPolledInput
+  href: api/Forma.UIContext.html#Forma_UIContext_SuppressPolledInput_
+  commentId: Overload:Forma.UIContext.SuppressPolledInput
+  fullName: Forma.UIContext.SuppressPolledInput
+  nameWithType: UIContext.SuppressPolledInput
 - uid: Forma.UIContext.SvgRasterDiagnostics
   name: SvgRasterDiagnostics
   href: api/Forma.UIContext.html#Forma_UIContext_SvgRasterDiagnostics
@@ -60448,6 +62944,21 @@ references:
   commentId: Overload:Forma.UIContext.ViewportSize
   fullName: Forma.UIContext.ViewportSize
   nameWithType: UIContext.ViewportSize
+- uid: Forma.UIContext.WaitForSettled(System.Int32)
+  name: WaitForSettled(int)
+  href: api/Forma.UIContext.html#Forma_UIContext_WaitForSettled_System_Int32_
+  commentId: M:Forma.UIContext.WaitForSettled(System.Int32)
+  name.vb: WaitForSettled(Integer)
+  fullName: Forma.UIContext.WaitForSettled(int)
+  fullName.vb: Forma.UIContext.WaitForSettled(Integer)
+  nameWithType: UIContext.WaitForSettled(int)
+  nameWithType.vb: UIContext.WaitForSettled(Integer)
+- uid: Forma.UIContext.WaitForSettled*
+  name: WaitForSettled
+  href: api/Forma.UIContext.html#Forma_UIContext_WaitForSettled_
+  commentId: Overload:Forma.UIContext.WaitForSettled
+  fullName: Forma.UIContext.WaitForSettled
+  nameWithType: UIContext.WaitForSettled
 - uid: Forma.UIFont
   name: UIFont
   href: api/Forma.UIFont.html
@@ -63604,6 +66115,60 @@ references:
   commentId: Overload:Forma.VirtualJoystick.KnobColor
   fullName: Forma.VirtualJoystick.KnobColor
   nameWithType: VirtualJoystick.KnobColor
+- uid: Forma.VirtualJoystick.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name: PerformAccessibilityAction(AccessibilityActions, object)
+  href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_
+  commentId: M:Forma.VirtualJoystick.PerformAccessibilityAction(Forma.AccessibilityActions,System.Object)
+  name.vb: PerformAccessibilityAction(AccessibilityActions, Object)
+  fullName: Forma.VirtualJoystick.PerformAccessibilityAction(Forma.AccessibilityActions, object)
+  fullName.vb: Forma.VirtualJoystick.PerformAccessibilityAction(Forma.AccessibilityActions, Object)
+  nameWithType: VirtualJoystick.PerformAccessibilityAction(AccessibilityActions, object)
+  nameWithType.vb: VirtualJoystick.PerformAccessibilityAction(AccessibilityActions, Object)
+- uid: Forma.VirtualJoystick.PerformAccessibilityAction*
+  name: PerformAccessibilityAction
+  href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_PerformAccessibilityAction_
+  commentId: Overload:Forma.VirtualJoystick.PerformAccessibilityAction
+  fullName: Forma.VirtualJoystick.PerformAccessibilityAction
+  nameWithType: VirtualJoystick.PerformAccessibilityAction
+- uid: Forma.VirtualJoystick.PointerMoved(Microsoft.Xna.Framework.Point)
+  name: PointerMoved(Point)
+  href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_PointerMoved_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.VirtualJoystick.PointerMoved(Microsoft.Xna.Framework.Point)
+  fullName: Forma.VirtualJoystick.PointerMoved(Microsoft.Xna.Framework.Point)
+  nameWithType: VirtualJoystick.PointerMoved(Point)
+- uid: Forma.VirtualJoystick.PointerMoved*
+  name: PointerMoved
+  href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_PointerMoved_
+  commentId: Overload:Forma.VirtualJoystick.PointerMoved
+  fullName: Forma.VirtualJoystick.PointerMoved
+  nameWithType: VirtualJoystick.PointerMoved
+- uid: Forma.VirtualJoystick.PointerPressed(Microsoft.Xna.Framework.Point)
+  name: PointerPressed(Point)
+  href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_PointerPressed_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.VirtualJoystick.PointerPressed(Microsoft.Xna.Framework.Point)
+  fullName: Forma.VirtualJoystick.PointerPressed(Microsoft.Xna.Framework.Point)
+  nameWithType: VirtualJoystick.PointerPressed(Point)
+- uid: Forma.VirtualJoystick.PointerPressed*
+  name: PointerPressed
+  href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_PointerPressed_
+  commentId: Overload:Forma.VirtualJoystick.PointerPressed
+  fullName: Forma.VirtualJoystick.PointerPressed
+  nameWithType: VirtualJoystick.PointerPressed
+- uid: Forma.VirtualJoystick.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name: PointerReleased(Point, bool)
+  href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_
+  commentId: M:Forma.VirtualJoystick.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)
+  name.vb: PointerReleased(Point, Boolean)
+  fullName: Forma.VirtualJoystick.PointerReleased(Microsoft.Xna.Framework.Point, bool)
+  fullName.vb: Forma.VirtualJoystick.PointerReleased(Microsoft.Xna.Framework.Point, Boolean)
+  nameWithType: VirtualJoystick.PointerReleased(Point, bool)
+  nameWithType.vb: VirtualJoystick.PointerReleased(Point, Boolean)
+- uid: Forma.VirtualJoystick.PointerReleased*
+  name: PointerReleased
+  href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_PointerReleased_
+  commentId: Overload:Forma.VirtualJoystick.PointerReleased
+  fullName: Forma.VirtualJoystick.PointerReleased
+  nameWithType: VirtualJoystick.PointerReleased
 - uid: Forma.VirtualJoystick.Pressed
   name: Pressed
   href: api/Forma.VirtualJoystick.html#Forma_VirtualJoystick_Pressed

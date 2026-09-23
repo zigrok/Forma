@@ -75,7 +75,7 @@
 
 
   <h1 id="Forma_SplitContainerMultiDragger" data-uid="Forma.SplitContainerMultiDragger" class="text-break">
-Class SplitContainerMultiDragger  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
+Class SplitContainerMultiDragger  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -124,6 +124,9 @@ Class SplitContainerMultiDragger  <a class="header-action link-secondary" title=
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_AddChild_Forma_Control_">Control.AddChild(Control)</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_">Control.PerformAccessibilityAction(AccessibilityActions, object)</a>
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_GetAccessibilityChildren">Control.GetAccessibilityChildren()</a>
@@ -465,6 +468,12 @@ Class SplitContainerMultiDragger  <a class="header-action link-secondary" title=
       <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityPeer">Control.AccessibilityPeer</a>
     </div>
     <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityId">Control.AccessibilityId</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_AutomationId">Control.AutomationId</a>
+    </div>
+    <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityLabel">Control.AccessibilityLabel</a>
     </div>
     <div>
@@ -575,7 +584,7 @@ Class SplitContainerMultiDragger  <a class="header-action link-secondary" title=
 
   <h3 id="Forma_SplitContainerMultiDragger__ctor" data-uid="Forma.SplitContainerMultiDragger.#ctor">
   SplitContainerMultiDragger()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -605,7 +614,7 @@ Class SplitContainerMultiDragger  <a class="header-action link-secondary" title=
 
   <h3 id="Forma_SplitContainerMultiDragger_ActiveIndex" data-uid="Forma.SplitContainerMultiDragger.ActiveIndex">
   ActiveIndex
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -636,7 +645,7 @@ Class SplitContainerMultiDragger  <a class="header-action link-secondary" title=
 
   <h3 id="Forma_SplitContainerMultiDragger_Targets" data-uid="Forma.SplitContainerMultiDragger.Targets">
   Targets
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -663,11 +672,156 @@ Class SplitContainerMultiDragger  <a class="header-action link-secondary" title=
 
 
 
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Forma_SplitContainerMultiDragger_GetCursorAt_" data-uid="Forma.SplitContainerMultiDragger.GetCursorAt*"></a>
+
+  <h3 id="Forma_SplitContainerMultiDragger_GetCursorAt_Microsoft_Xna_Framework_Point_" data-uid="Forma.SplitContainerMultiDragger.GetCursorAt(Microsoft.Xna.Framework.Point)">
+  GetCursorAt(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Advertises the resize axis of the handle currently selected by <a class="xref" href="Forma.SplitContainerMultiDragger.html#Forma_SplitContainerMultiDragger_ActiveIndex">ActiveIndex</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Cursor GetCursorAt(Point position)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>position</code> <span class="xref">Point</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Forma.Cursor.html">Cursor</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_SplitContainerMultiDragger_PointerMoved_" data-uid="Forma.SplitContainerMultiDragger.PointerMoved*"></a>
+
+  <h3 id="Forma_SplitContainerMultiDragger_PointerMoved_Microsoft_Xna_Framework_Point_" data-uid="Forma.SplitContainerMultiDragger.PointerMoved(Microsoft.Xna.Framework.Point)">
+  PointerMoved(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The pointer moved over this control, in global coordinates.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void PointerMoved(Point position)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>position</code> <span class="xref">Point</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_SplitContainerMultiDragger_PointerPressed_" data-uid="Forma.SplitContainerMultiDragger.PointerPressed*"></a>
+
+  <h3 id="Forma_SplitContainerMultiDragger_PointerPressed_Microsoft_Xna_Framework_Point_" data-uid="Forma.SplitContainerMultiDragger.PointerPressed(Microsoft.Xna.Framework.Point)">
+  PointerPressed(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A pointer press landed on this control, in global coordinates.</p>
+<p>
+Protected as well as internal so a control defined outside this assembly can take part in
+pointer input. Without that, an app hosting its own drawing surface has to read raw mouse
+state instead, which bypasses hit-testing, modal gating and the injection side-channel —
+so such a surface cannot be driven by a test at all.
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void PointerPressed(Point position)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>position</code> <span class="xref">Point</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_SplitContainerMultiDragger_PointerReleased_" data-uid="Forma.SplitContainerMultiDragger.PointerReleased*"></a>
+
+  <h3 id="Forma_SplitContainerMultiDragger_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_" data-uid="Forma.SplitContainerMultiDragger.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)">
+  PointerReleased(Point, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The pointer was released, with whether it was still inside this control.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void PointerReleased(Point position, bool isInside)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>position</code> <span class="xref">Point</span></dt>
+    <dd></dd>
+    <dt><code>isInside</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/GraphOverlays.cs" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/GraphOverlays.cs" class="edit-link">Edit this page</a>
         </div>
 
 
@@ -683,7 +837,7 @@ Class SplitContainerMultiDragger  <a class="header-action link-secondary" title=
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 488fa45d6bc7 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

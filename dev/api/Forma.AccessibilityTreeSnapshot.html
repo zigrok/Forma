@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Class AccessibilityTreeSnapshot | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class AccessibilityTreeSnapshot | Forma Documentation ">
+      
+      <meta name="description" content="A flat, ordered, serializable projection of the accessibility tree at one instant.  Flat rather than nested because every consumer wants it that way: a diff needs to find a node by id without a search, a transport wants no recursion, and a locator wants to filter. Order is depth-first in draw order, so reading the list top to bottom matches what a person sees.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Forma.AccessibilityTreeSnapshot">
+
+
+
+  <h1 id="Forma_AccessibilityTreeSnapshot" data-uid="Forma.AccessibilityTreeSnapshot" class="text-break">
+Class AccessibilityTreeSnapshot  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Forma.html">Forma</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Forma.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A flat, ordered, serializable projection of the accessibility tree at one instant.</p>
+<p>
+Flat rather than nested because every consumer wants it that way: a diff needs to find a node
+by id without a search, a transport wants no recursion, and a locator wants to filter. Order
+is depth-first in draw order, so reading the list top to bottom matches what a person sees.
+</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class AccessibilityTreeSnapshot</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">AccessibilityTreeSnapshot</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Forma_AccessibilityTreeSnapshot_FocusedId_" data-uid="Forma.AccessibilityTreeSnapshot.FocusedId*"></a>
+
+  <h3 id="Forma_AccessibilityTreeSnapshot_FocusedId" data-uid="Forma.AccessibilityTreeSnapshot.FocusedId">
+  FocusedId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p><a class="xref" href="Forma.AccessibilityNode.html#Forma_AccessibilityNode_Id">Id</a> of the focused node, or 0 when nothing has focus.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int FocusedId { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_AccessibilityTreeSnapshot_IsModalActive_" data-uid="Forma.AccessibilityTreeSnapshot.IsModalActive*"></a>
+
+  <h3 id="Forma_AccessibilityTreeSnapshot_IsModalActive" data-uid="Forma.AccessibilityTreeSnapshot.IsModalActive">
+  IsModalActive
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Whether a modal popup was up. When it is, the snapshot contains only that popup's subtree,
+matching what input does — anything behind a modal is unreachable, so reporting it would
+invite a consumer to act on something a person could not.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsModalActive { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Forma_AccessibilityTreeSnapshot_Nodes_" data-uid="Forma.AccessibilityTreeSnapshot.Nodes*"></a>
+
+  <h3 id="Forma_AccessibilityTreeSnapshot_Nodes" data-uid="Forma.AccessibilityTreeSnapshot.Nodes">
+  Nodes
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Every visible node, depth-first in draw order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;AccessibilityNode&gt; Nodes { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Forma.AccessibilityNode.html">AccessibilityNode</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Forma_AccessibilityTreeSnapshot_ToString_" data-uid="Forma.AccessibilityTreeSnapshot.ToString*"></a>
+
+  <h3 id="Forma_AccessibilityTreeSnapshot_ToString" data-uid="Forma.AccessibilityTreeSnapshot.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A short summary for logs; use <a class="xref" href="Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_ToText">ToText()</a> for the tree itself.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_AccessibilityTreeSnapshot_ToText_" data-uid="Forma.AccessibilityTreeSnapshot.ToText*"></a>
+
+  <h3 id="Forma_AccessibilityTreeSnapshot_ToText" data-uid="Forma.AccessibilityTreeSnapshot.ToText">
+  ToText()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indented <code>role &quot;name&quot;</code> lines, one per node. Stable enough to commit as a golden file:
+bounds and ids are deliberately omitted, because they churn with window size and
+allocation order and would make every unrelated change look like a regression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ToText()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_AccessibilityTreeSnapshot_TryGetNode_" data-uid="Forma.AccessibilityTreeSnapshot.TryGetNode*"></a>
+
+  <h3 id="Forma_AccessibilityTreeSnapshot_TryGetNode_System_Int32_Forma_AccessibilityNode__" data-uid="Forma.AccessibilityTreeSnapshot.TryGetNode(System.Int32,Forma.AccessibilityNode@)">
+  TryGetNode(int, out AccessibilityNode)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Finds a node by id without scanning, which is what makes diffing cheap.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetNode(int id, out AccessibilityNode node)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>node</code> <a class="xref" href="Forma.AccessibilityNode.html">AccessibilityNode</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/AccessibilityTree.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

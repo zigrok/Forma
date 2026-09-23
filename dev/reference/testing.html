@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Testing Forma applications | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Testing Forma applications | Forma Documentation ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/docs/reference/testing.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="testing-forma-applications">Testing Forma applications</h1>
+
+<p><code>Forma.Testing</code> drives a Forma UI by <strong>role, name and automation id</strong> instead of pixel coordinates,
+in the style of Playwright. It runs headless — <code>new UIContext()</code> needs no <code>GraphicsDevice</code> — so an
+app's UI tests run in CI with no window and no GPU.</p>
+<h2 id="why-not-coordinates">Why not coordinates</h2>
+<p>Driving a self-drawn UI by coordinate means deriving them from a screenshot and re-deriving them
+whenever layout changes, with no failure when they drift — the click simply lands somewhere else.
+A locator refers to <em>what</em> an element is, so it survives layout changes and says something useful
+when it cannot find its target.</p>
+<h2 id="a-first-test">A first test</h2>
+<pre><code class="lang-csharp">using var context = new UIContext { ViewportSize = new Vector2(900, 700) };
+context.Add(BuildMyUi());
+
+context.ByAutomationId(&quot;field.name&quot;).Fill(&quot;Ada Lovelace&quot;);
+context.ByRole(AccessibilityRole.Button).ByName(&quot;Submit&quot;).Click();
+
+UiAssert.HasValue(context.ByAutomationId(&quot;field.name&quot;), &quot;Ada Lovelace&quot;);
+</code></pre>
+<p>No <code>Layout()</code> call, no frame count. Every resolution settles the UI first.</p>
+<h2 id="finding-elements">Finding elements</h2>
+<table>
+<thead>
+<tr>
+<th>Locator</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ByRole(role)</code></td>
+<td>the accessibility role</td>
+</tr>
+<tr>
+<td><code>ByName(name, exact: true)</code></td>
+<td>the accessible name — what a screen reader announces</td>
+</tr>
+<tr>
+<td><code>ByAutomationId(id)</code></td>
+<td>the author-assigned id, stable across relabelling</td>
+</tr>
+<tr>
+<td><code>ByText(text, exact: false)</code></td>
+<td>name or value, substring and case-insensitive by default</td>
+</tr>
+<tr>
+<td><code>Nth(i)</code> / <code>First</code> / <code>Last</code></td>
+<td>one of several matches; negative counts from the end</td>
+</tr>
+<tr>
+<td><code>Within()</code></td>
+<td>restricts the search to descendants of the current match</td>
+</tr>
+</tbody>
+</table>
+<p>Locators are <strong>lazy</strong>. Building one resolves nothing; it re-resolves when used. A locator created
+before an element exists works once it appears, and never holds a stale reference to something that
+has been recycled or re-laid-out.</p>
+<p>Prefer <code>AutomationId</code> for anything a test binds to. <code>Name</code> doubles as the accessible name, so it
+changes when a control is relabelled or localized — an automation id is a contract that does not.</p>
+<h2 id="acting">Acting</h2>
+<p><code>Click()</code>, <code>Fill(text)</code>, <code>SetValue(value)</code>, <code>Focus()</code>, <code>Select()</code>, <code>Increment()</code>, <code>Decrement()</code>.</p>
+<p>Every action routes through the same code real input runs, so an invoked press is the same event
+sequence as a click rather than a parallel implementation that happens to raise the right event.</p>
+<p>Actions are <strong>gated by actionability</strong> first. An element must be present, enabled, on screen,
+non-empty, and actually hit-testable at its own bounds:</p>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NotPresent</code></td>
+<td>no match, or behind a modal that makes it unreachable</td>
+</tr>
+<tr>
+<td><code>Disabled</code></td>
+<td>the control is disabled</td>
+</tr>
+<tr>
+<td><code>Offscreen</code></td>
+<td>scrolled out of view — bring it into view first</td>
+</tr>
+<tr>
+<td><code>ZeroSized</code></td>
+<td>no area, so there is nowhere to act</td>
+</tr>
+<tr>
+<td><code>Obscured</code></td>
+<td>something else is on top at that point</td>
+</tr>
+</tbody>
+</table>
+<p><code>Obscured</code> is the one no state flag reports: it comes from hit-testing the element's own centre and
+confirming what comes back is the element or something inside it. Without that check a test can
+&quot;click&quot; a button covered by an overlay and pass, which is worse than having no test.</p>
+<h2 id="asserting">Asserting</h2>
+<p><code>UiAssert</code> throws rather than depending on NUnit, xUnit or MSTest, so the same package works
+whichever a project uses: <code>IsVisible</code>, <code>IsNotVisible</code>, <code>IsEnabled</code>, <code>IsFocused</code>, <code>HasText</code>,
+<code>HasValue</code>, <code>HasCount</code>, <code>IsActionable</code>.</p>
+<p>Every failure carries the accessibility tree as it stood. A UI test that fails with
+&quot;expected true but was false&quot; forces you to reproduce it locally; one that prints the tree usually
+does not.</p>
+<h2 id="waiting">Waiting</h2>
+<p><code>UIContext.IsSettled</code> reports whether the UI has stopped moving — every rendered control has had its
+layout pass and no frame-boundary work is outstanding — and <code>WaitForSettled(maxPasses)</code> pumps layout
+until it has. Locators call it before resolving <em>and</em> before acting.</p>
+<p>The budget is <strong>passes, not wall-clock time</strong>, on purpose: a time budget behaves differently on a
+loaded machine, which is exactly the flakiness this removes.</p>
+<h3 id="when-it-never-settles">When it never settles</h3>
+<p><code>Quiescence.Describe(context)</code> names the controls still owing a layout pass, deepest first, as
+<code>Type#AutomationId</code> paths. <code>Quiescence.UnsettledControls(context)</code> returns the same list, and
+<code>Quiescence.HasPendingFrameWork(context)</code> says whether frame-boundary callbacks rather than layout
+are what is keeping it busy — different causes, different fixes.</p>
+<p>Use it in the failure message of any wait you write. &quot;The UI never settled&quot; tells a caller nothing;
+&quot;<code>ScrollContainer &gt; ScrollContainerChromePresenter</code> is still dirty&quot; points straight at the control
+that queued the pass.</p>
+<p>The usual cause is a control writing a property during its own layout without checking whether the
+value changed. <code>QueueLayout</code> walks up to the root, and <code>LayoutTree</code> clears a control's flag <em>before</em>
+laying out its children, so one such write re-dirties every ancestor after they have cleared — and
+the tree never settles again. Idempotent setters are not a style preference here; they are what
+makes auto-waiting work at all.</p>
+<h2 id="authoring-rules-for-app-developers">Authoring rules for app developers</h2>
+<ul>
+<li>Give anything a test targets an <code>AutomationId</code>.</li>
+<li>Give controls meaningful names; the accessible name is what <code>ByName</code> and <code>ByText</code> match.</li>
+<li>Prefer <code>ByRole</code> + <code>ByName</code> over <code>ByText</code> when both work — it is closer to how a person describes
+the element.</li>
+</ul>
+<h2 id="extending-it-for-your-own-app">Extending it for your own app</h2>
+<p><code>Forma.Testing</code> stops at roles, names and bounds. It deliberately does not know what a &quot;mesh vertex&quot;
+or a &quot;timeline keyframe&quot; is — and it should not. An app adds its own vocabulary as <strong>extension
+methods</strong> over <code>Locator.Where</code>, the same primitive every built-in filter uses:</p>
+<pre><code class="lang-csharp">internal static class MyAppLocators
+{
+    public static Locator ByTestRegion(this Locator locator, string region) =&gt;
+        locator.Where($&quot;region={region}&quot;, node =&gt; node.AutomationId.StartsWith($&quot;{region}.&quot;));
+}
+</code></pre>
+<p>These compose with the built-ins rather than living in a parallel API:</p>
+<pre><code class="lang-csharp">context.Query().ByTestRegion(&quot;inspector&quot;).ByRole(AccessibilityRole.Button).Click();
+</code></pre>
+<p>The description string matters — it appears in failure messages, so a custom filter explains itself
+when it fails to match.</p>
+<p>For an app with a surface Forma cannot see into — a rendering canvas, say — the same pattern applies:
+resolve the app-specific entity to a point yourself, then drive Forma's injection primitives. Do not
+build a second input path; the value of routing through the real one is that the test exercises what
+a person would.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/docs/reference/testing.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

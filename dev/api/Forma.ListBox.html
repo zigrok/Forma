@@ -75,7 +75,7 @@
 
 
   <h1 id="Forma_ListBox" data-uid="Forma.ListBox" class="text-break">
-Class ListBox  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+Class ListBox  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -233,6 +233,9 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
       <a class="xref" href="Forma.Control.html#Forma_Control_IsPseudoStateActive_System_String_">Control.IsPseudoStateActive(string)</a>
     </div>
     <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_GetCursorAt_Microsoft_Xna_Framework_Point_">Control.GetCursorAt(Point)</a>
+    </div>
+    <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_IsLayoutRtl">Control.IsLayoutRtl()</a>
     </div>
     <div>
@@ -240,6 +243,9 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_CreateAccessibilityPeer">Control.CreateAccessibilityPeer()</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_">Control.PerformAccessibilityAction(AccessibilityActions, object)</a>
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_RemoveChild_Forma_Control_">Control.RemoveChild(Control)</a>
@@ -336,6 +342,9 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_NotifyPseudoStateChanged_System_String_">Control.NotifyPseudoStateChanged(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_PointerMoved_Microsoft_Xna_Framework_Point_">Control.PointerMoved(Point)</a>
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_GetDragData_Microsoft_Xna_Framework_Point_">Control.GetDragData(Point)</a>
@@ -590,6 +599,12 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
       <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityPeer">Control.AccessibilityPeer</a>
     </div>
     <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityId">Control.AccessibilityId</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_AutomationId">Control.AutomationId</a>
+    </div>
+    <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityLabel">Control.AccessibilityLabel</a>
     </div>
     <div>
@@ -700,7 +715,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox__ctor" data-uid="Forma.ListBox.#ctor">
   ListBox()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -729,7 +744,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_ItemsPresenterPartName" data-uid="Forma.ListBox.ItemsPresenterPartName">
   ItemsPresenterPartName
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -759,7 +774,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_ScrollPresenterPartName" data-uid="Forma.ListBox.ScrollPresenterPartName">
   ScrollPresenterPartName
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -794,7 +809,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_ActivateOnSingleClick" data-uid="Forma.ListBox.ActivateOnSingleClick">
   ActivateOnSingleClick
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets or sets whether one pointer click selects and activates an item.</p>
@@ -826,7 +841,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_AllowReselect" data-uid="Forma.ListBox.AllowReselect">
   AllowReselect
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -857,7 +872,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_AllowRightMouseSelect" data-uid="Forma.ListBox.AllowRightMouseSelect">
   AllowRightMouseSelect
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -888,7 +903,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_CurrentIndex" data-uid="Forma.ListBox.CurrentIndex">
   CurrentIndex
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -919,7 +934,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_CurrentItem" data-uid="Forma.ListBox.CurrentItem">
   CurrentItem
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -950,7 +965,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_Extent" data-uid="Forma.ListBox.Extent">
   Extent
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -981,7 +996,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_HasSelection" data-uid="Forma.ListBox.HasSelection">
   HasSelection
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1012,7 +1027,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_IncrementalSearchTimeout" data-uid="Forma.ListBox.IncrementalSearchTimeout">
   IncrementalSearchTimeout
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1043,7 +1058,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_IsTextSearchEnabled" data-uid="Forma.ListBox.IsTextSearchEnabled">
   IsTextSearchEnabled
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1074,7 +1089,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_ScrollOffset" data-uid="Forma.ListBox.ScrollOffset">
   ScrollOffset
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1105,7 +1120,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_SelectedIndex" data-uid="Forma.ListBox.SelectedIndex">
   SelectedIndex
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1136,7 +1151,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_SelectedIndices" data-uid="Forma.ListBox.SelectedIndices">
   SelectedIndices
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1167,7 +1182,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_SelectedItem" data-uid="Forma.ListBox.SelectedItem">
   SelectedItem
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1198,7 +1213,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_SelectedItems" data-uid="Forma.ListBox.SelectedItems">
   SelectedItems
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1229,7 +1244,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_SelectionMode" data-uid="Forma.ListBox.SelectionMode">
   SelectionMode
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1260,7 +1275,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_Viewport" data-uid="Forma.ListBox.Viewport">
   Viewport
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1291,7 +1306,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_WrapNavigation" data-uid="Forma.ListBox.WrapNavigation">
   WrapNavigation
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1326,7 +1341,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_Activate_System_Int32_" data-uid="Forma.ListBox.Activate(System.Int32)">
   Activate(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1357,7 +1372,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_BringIndexIntoView_System_Int32_" data-uid="Forma.ListBox.BringIndexIntoView(System.Int32)">
   BringIndexIntoView(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1393,7 +1408,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_ClearContainerForItem_Forma_Control_System_Object_" data-uid="Forma.ListBox.ClearContainerForItem(Forma.Control,System.Object)">
   ClearContainerForItem(Control, object)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1426,7 +1441,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_ClearSelection" data-uid="Forma.ListBox.ClearSelection">
   ClearSelection()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1452,7 +1467,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_FindNextItem_System_String_System_Int32_System_Boolean_" data-uid="Forma.ListBox.FindNextItem(System.String,System.Int32,System.Boolean)">
   FindNextItem(string, int, bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1492,7 +1507,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_GetContainerForItem_System_Object_" data-uid="Forma.ListBox.GetContainerForItem(System.Object)">
   GetContainerForItem(object)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1528,7 +1543,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_GetPageStep" data-uid="Forma.ListBox.GetPageStep">
   GetPageStep()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1559,7 +1574,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_IsContainerCompatibleForItem_Forma_Control_System_Object_" data-uid="Forma.ListBox.IsContainerCompatibleForItem(Forma.Control,System.Object)">
   IsContainerCompatibleForItem(Control, object)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1597,7 +1612,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_OnItemsChanged" data-uid="Forma.ListBox.OnItemsChanged">
   OnItemsChanged()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1623,7 +1638,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_OnScrollMetricsChanged_Forma_ScrollMetrics_" data-uid="Forma.ListBox.OnScrollMetricsChanged(Forma.ScrollMetrics)">
   OnScrollMetricsChanged(ScrollMetrics)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1654,7 +1669,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_OnTemplateApplied" data-uid="Forma.ListBox.OnTemplateApplied">
   OnTemplateApplied()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1676,11 +1691,83 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
 
 
+  <a id="Forma_ListBox_PointerPressed_" data-uid="Forma.ListBox.PointerPressed*"></a>
+
+  <h3 id="Forma_ListBox_PointerPressed_Microsoft_Xna_Framework_Point_" data-uid="Forma.ListBox.PointerPressed(Microsoft.Xna.Framework.Point)">
+  PointerPressed(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A pointer press landed on this control, in global coordinates.</p>
+<p>
+Protected as well as internal so a control defined outside this assembly can take part in
+pointer input. Without that, an app hosting its own drawing surface has to read raw mouse
+state instead, which bypasses hit-testing, modal gating and the injection side-channel —
+so such a surface cannot be driven by a test at all.
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void PointerPressed(Point point)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <span class="xref">Point</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_ListBox_PointerReleased_" data-uid="Forma.ListBox.PointerReleased*"></a>
+
+  <h3 id="Forma_ListBox_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_" data-uid="Forma.ListBox.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)">
+  PointerReleased(Point, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The pointer was released, with whether it was still inside this control.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void PointerReleased(Point point, bool isInside)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <span class="xref">Point</span></dt>
+    <dd></dd>
+    <dt><code>isInside</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="Forma_ListBox_PrepareContainerForItem_" data-uid="Forma.ListBox.PrepareContainerForItem*"></a>
 
   <h3 id="Forma_ListBox_PrepareContainerForItem_Forma_Control_System_Object_System_Int32_" data-uid="Forma.ListBox.PrepareContainerForItem(Forma.Control,System.Object,System.Int32)">
   PrepareContainerForItem(Control, object, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1715,7 +1802,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_Select_System_Int32_System_Boolean_" data-uid="Forma.ListBox.Select(System.Int32,System.Boolean)">
   Select(int, bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1748,7 +1835,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_SelectItemFromPointer_System_Int32_Microsoft_Xna_Framework_Point_" data-uid="Forma.ListBox.SelectItemFromPointer(System.Int32,Microsoft.Xna.Framework.Point)">
   SelectItemFromPointer(int, Point)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1781,7 +1868,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_SelectRange_System_Int32_System_Int32_" data-uid="Forma.ListBox.SelectRange(System.Int32,System.Int32)">
   SelectRange(int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1814,7 +1901,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_ToggleSelection_System_Int32_" data-uid="Forma.ListBox.ToggleSelection(System.Int32)">
   ToggleSelection(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1848,7 +1935,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_ItemActivated" data-uid="Forma.ListBox.ItemActivated">
   ItemActivated
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1878,7 +1965,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 
   <h3 id="Forma_ListBox_SelectionChanged" data-uid="Forma.ListBox.SelectionChanged">
   SelectionChanged
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1909,7 +1996,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/ListBox.cs" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/ListBox.cs" class="edit-link">Edit this page</a>
         </div>
 
 
@@ -1925,7 +2012,7 @@ public class ListBox : ItemsControl, IAddChild&lt;Control&gt;, IAddChild, INotif
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 488fa45d6bc7 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

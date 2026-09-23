@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Accessibility | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Accessibility | Forma Documentation ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/docs/reference/accessibility.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="accessibility">Accessibility</h1>
+
+<p>Forma draws its own controls, so to the operating system a Forma window is one opaque rectangle. A
+screen reader announces nothing; an automation client or computer-use agent sees a picture. This
+page is about closing that gap.</p>
+<p>There are two layers, and most readers want the first one only:</p>
+<ul>
+<li><strong>The tree</strong> — <code>AccessibilityTree.Capture(context)</code> describes every visible control: role, name,
+automation id, value, states, actions, bounds. It works everywhere, needs no native library, and
+is what <a href="testing.html"><code>Forma.Testing</code></a> drives. If your interest is testing, stop here and read that
+page instead.</li>
+<li><strong>The bridge</strong> — <code>Forma.Accessibility</code> publishes that tree through the operating system's own
+accessibility API, so processes <em>outside</em> your application can see it. macOS only today.</li>
+</ul>
+<h2 id="the-tree">The tree</h2>
+<p>Every control has an <code>AccessibilityPeer</code> reporting a role, a name, its supported actions and its
+state. <code>AccessibilityTree.Capture</code> walks the visible tree and returns a flat, ordered
+<code>AccessibilityTreeSnapshot</code> — depth-first in draw order, so reading it top to bottom matches what a
+person sees.</p>
+<p>Two things make a control findable:</p>
+<ul>
+<li><strong><code>AutomationId</code></strong> — a stable author-assigned handle. Invisible to the operating system; used by
+locators and by your own tooling.</li>
+<li><strong>The accessible name</strong> — what a screen reader announces, and what an agent addresses the control
+by. It comes from <code>AccessibilityLabel</code> if set, otherwise from the control's own text (a button's
+label, a label's text), otherwise from <code>Control.Name</code>.</li>
+</ul>
+<p>A control with an <code>AutomationId</code> and no name is reachable from your tests and invisible to the
+operating system. Sliders are the usual casualty: they have no text of their own, so unless you set
+<code>AccessibilityLabel</code> they arrive as an unnamed slider that nothing outside the process can address.</p>
+<p><code>AccessibilityTree.TryPerformAction(context, nodeId, action, argument)</code> runs an action through the
+control's own peer. The action must be one the control advertises — an external caller must not be
+able to reach behavior a person cannot, which is the point of describing the tree in the first
+place.</p>
+<h2 id="the-bridge">The bridge</h2>
+<pre><code class="lang-csharp">_accessibility = new AccessibilityBridge(_ui) { WindowTitle = Window.Title };
+_accessibility.Attach(Window.PlatformHandle);
+
+// each frame, after layout has settled:
+_accessibility.Update();
+</code></pre>
+<p><code>Attach</code> returning false is a normal outcome, not an error: this platform has no host, there is no
+window (a headless runtime), or the native library is missing. The application carries on exactly as
+before. Nothing costs anything until an assistive technology actually activates the tree — until
+then <code>Update</code> is one native call per frame.</p>
+<p><strong>The handle must be the operating system's window, not the windowing backend's.</strong> In MonoGame that
+is <code>GameWindow.PlatformHandle</code>; <code>GameWindow.Handle</code> is the <code>SDL_Window*</code> and is the wrong thing to
+hand to a Cocoa API.</p>
+<h3 id="scope">Scope</h3>
+<p>macOS, through <a href="https://accesskit.dev">AccessKit</a>. Windows and Linux adapters exist upstream but are
+not wired up here; see <a href="../adr/0008-platform-accessibility-bridge.html">ADR 0008</a> for why the platform
+seam is shaped the way it is, and why Linux is a weaker proposition than &quot;not yet done&quot;. The browser
+target cannot be served this way at all.</p>
+<h3 id="role-mapping">Role mapping</h3>
+<p><code>AccessibilityRole</code> maps onto AccessKit's much larger role set. Three mappings are lossy, and they
+are lossy in the direction of announcing <em>something</em> rather than nothing:</p>
+<table>
+<thead>
+<tr>
+<th>Forma role</th>
+<th>AccessKit role</th>
+<th>Why it is lossy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ColorPicker</code></td>
+<td><code>ColorWell</code></td>
+<td>A well is a single swatch; the picker is a composite. It is what a native color control reports, so it announces correctly.</td>
+</tr>
+<tr>
+<td><code>Viewport</code></td>
+<td><code>Group</code></td>
+<td>An embedded scene is not a document or an image. Group at least announces a container with children.</td>
+</tr>
+<tr>
+<td><code>Joystick</code></td>
+<td><code>Slider</code></td>
+<td>A two-axis continuous input announced as one axis. Closer than a generic container, which would announce nothing about its value.</td>
+</tr>
+</tbody>
+</table>
+<p><code>Press</code> and <code>Toggle</code> both map to AccessKit's <code>Click</code>: macOS has one <code>AXPress</code>, and the distinction
+Forma draws is about what the control does with it rather than about what was asked.</p>
+<h2 id="what-it-looks-like">What it looks like</h2>
+<p>With no bridge, the operating system sees a Forma application as its window and nothing else — the
+whole UI is one rectangle:</p>
+<p><img src="../images/accessibility/inspector-before.png" alt="Accessibility Inspector showing the Catalog with no bridge: the application contains one window
+and a menu bar, and nothing inside the window"></p>
+<p>With the bridge attached, the same application's controls are elements the system can name, locate
+and act on. Here Accessibility Inspector is pointed at the Catalog's search field:</p>
+<p><img src="../images/accessibility/inspector-after.png" alt="Accessibility Inspector showing the Catalog's search field as a text field, with its title,
+frame and enabled state"></p>
+<p>Both were produced by <code>tools/a11y-probe/capture_inspector.py</code>, which drives Accessibility Inspector
+rather than asking someone to take a screenshot:</p>
+<pre><code class="lang-sh">python3 tools/a11y-probe/capture_inspector.py --pid $PID --out before.png
+python3 tools/a11y-probe/capture_inspector.py --pid $PID --out after.png --element &quot;Search&quot;
+</code></pre>
+<h2 id="driving-it-with-a-computer-use-agent">Driving it with a computer-use agent</h2>
+<p><a href="https://cua.ai/docs">Cua Driver</a> is an agent driver whose primary perception path on macOS is an
+AX tree walk, with pixels as the documented fallback for &quot;canvas, video, WebGL or custom-drawn
+surfaces that don't appear in the AX tree&quot;. Before this bridge, a Forma application <em>was</em> that
+fallback case. After it, the same driver sees the UI:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Elements Cua Driver finds in the Catalog</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No bridge</td>
+<td><strong>11</strong> — the window, three title-bar buttons, the menu bar</td>
+</tr>
+<tr>
+<td>Bridge attached</td>
+<td><strong>180</strong> — the whole UI, each actionable element indexed</td>
+</tr>
+</tbody>
+</table>
+<p>With the tree in place an agent can complete a stated task by naming elements. Opening the DataGrid
+story and turning off its alternating-row background, both by element name:</p>
+<pre><code class="lang-sh">cua-driver call get_window_state '{&quot;pid&quot;:PID,&quot;window_id&quot;:WID,&quot;query&quot;:&quot;DataGrid&quot;}'
+#   - [65] AXRow &quot;DataGrid&quot;
+cua-driver call click '{&quot;pid&quot;:PID,&quot;window_id&quot;:WID,&quot;element_index&quot;:65}'
+#   ✅ Performed AXPress on [65] AXRow &quot;DataGrid&quot;.
+</code></pre>
+<p><img src="../images/accessibility/cua-datagrid-task.png" alt="The Catalog with the DataGrid story open and its alternating-row-background setting turned off,
+captured by Cua Driver's trajectory recorder with the click point
+marked"></p>
+<p>Not a coordinate anywhere: the row is found by name and pressed by index into the same snapshot.
+<code>set_recording</code> writes a turn folder per action — the post-action AX snapshot, a screenshot, the
+click point, and the arguments — which is what makes a run like this reviewable afterwards.</p>
+<h2 id="checking-it-from-outside">Checking it from outside</h2>
+<p>In-process tests prove the tree is built. They do not prove anyone else can see it — and &quot;anyone
+else&quot; is the whole point. <code>tools/a11y-probe</code> reads the real macOS accessibility API against a live
+process:</p>
+<pre><code class="lang-sh">python3 tools/a11y-probe/a11y_probe.py --pid $PID dump
+python3 tools/a11y-probe/a11y_probe.py --pid $PID press --name &quot;Save&quot;
+python3 tools/a11y-probe/a11y_probe.py --pid $PID set --name &quot;Volume&quot; --value 12
+</code></pre>
+<p>It needs <code>pyobjc</code> and Accessibility permission for whatever runs it (System Settings → Privacy &amp;
+Security → Accessibility). Without the permission every query fails with an API-disabled error
+rather than returning an empty tree, and the script says so rather than reporting an empty tree.</p>
+<h2 id="authoring-rules">Authoring rules</h2>
+<ul>
+<li>Give anything an assistive technology should reach a <strong>name</strong>, not just an <code>AutomationId</code>.</li>
+<li>Set <code>AccessibilityLabel</code> on controls with no text of their own — sliders, icon-only buttons,
+custom-drawn surfaces.</li>
+<li>Call <code>Update()</code> after layout, not before: bounds are what an assistive technology hit-tests with,
+and a tree captured mid-layout reports bounds that are about to change.</li>
+<li>Report window focus with <code>SetWindowFocused</code>, or nothing will be announced as focused.</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/docs/reference/accessibility.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

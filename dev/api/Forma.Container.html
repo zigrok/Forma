@@ -75,7 +75,7 @@
 
 
   <h1 id="Forma_Container" data-uid="Forma.Container" class="text-break">
-Class Container  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Containers.cs"><i class="bi bi-code-slash"></i></a>
+Class Container  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Containers.cs"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -144,6 +144,9 @@ Class Container  <a class="header-action link-secondary" title="View source" hre
       <a class="xref" href="Forma.Control.html#Forma_Control_IsPseudoStateActive_System_String_">Control.IsPseudoStateActive(string)</a>
     </div>
     <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_GetCursorAt_Microsoft_Xna_Framework_Point_">Control.GetCursorAt(Point)</a>
+    </div>
+    <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_IsLayoutRtl">Control.IsLayoutRtl()</a>
     </div>
     <div>
@@ -151,6 +154,9 @@ Class Container  <a class="header-action link-secondary" title="View source" hre
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_CreateAccessibilityPeer">Control.CreateAccessibilityPeer()</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_">Control.PerformAccessibilityAction(AccessibilityActions, object)</a>
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_GetAccessibilityChildren">Control.GetAccessibilityChildren()</a>
@@ -262,6 +268,15 @@ Class Container  <a class="header-action link-secondary" title="View source" hre
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_NotifyPseudoStateChanged_System_String_">Control.NotifyPseudoStateChanged(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_PointerPressed_Microsoft_Xna_Framework_Point_">Control.PointerPressed(Point)</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_PointerMoved_Microsoft_Xna_Framework_Point_">Control.PointerMoved(Point)</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_">Control.PointerReleased(Point, bool)</a>
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_GetDragData_Microsoft_Xna_Framework_Point_">Control.GetDragData(Point)</a>
@@ -516,6 +531,12 @@ Class Container  <a class="header-action link-secondary" title="View source" hre
       <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityPeer">Control.AccessibilityPeer</a>
     </div>
     <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityId">Control.AccessibilityId</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_AutomationId">Control.AutomationId</a>
+    </div>
+    <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityLabel">Control.AccessibilityLabel</a>
     </div>
     <div>
@@ -629,7 +650,7 @@ Class Container  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="Forma_Container__ctor" data-uid="Forma.Container.#ctor">
   Container()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Containers.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Containers.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -659,7 +680,7 @@ Class Container  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="Forma_Container_FitChildInRect_Forma_Control_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_System_Boolean_" data-uid="Forma.Container.FitChildInRect(Forma.Control,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Boolean)">
   FitChildInRect(Control, Vector2, Vector2, bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Containers.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Containers.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Sizes and positions a child within a rectangle honoring its size flags, matching Godot's Container::fit_child_in_rect. A non-Fill axis sizes the child to its own minimum and aligns it within the span; horizontal (X) alignment flips under RTL, vertical (Y) never does, matching Godot exactly. This port has no desired-size/maximum-size layer, so a non-Fill axis always resolves to the child's plain minimum size.</p>
@@ -697,7 +718,7 @@ Class Container  <a class="header-action link-secondary" title="View source" hre
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/Containers.cs" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/Containers.cs" class="edit-link">Edit this page</a>
         </div>
 
 
@@ -713,7 +734,7 @@ Class Container  <a class="header-action link-secondary" title="View source" hre
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 488fa45d6bc7 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

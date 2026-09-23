@@ -75,7 +75,7 @@
 
 
   <h1 id="Forma_PopupMenuItems" data-uid="Forma.PopupMenuItems" class="text-break">
-Class PopupMenuItems  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/MenusAndDialogs.cs"><i class="bi bi-code-slash"></i></a>
+Class PopupMenuItems  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/MenusAndDialogs.cs"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -122,10 +122,16 @@ collection of transient button controls.</p>
       <a class="xref" href="Forma.Control.html#Forma_Control_IsPseudoStateActive_System_String_">Control.IsPseudoStateActive(string)</a>
     </div>
     <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_GetCursorAt_Microsoft_Xna_Framework_Point_">Control.GetCursorAt(Point)</a>
+    </div>
+    <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_IsLayoutRtl">Control.IsLayoutRtl()</a>
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_AddChild_Forma_Control_">Control.AddChild(Control)</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_PerformAccessibilityAction_Forma_AccessibilityActions_System_Object_">Control.PerformAccessibilityAction(AccessibilityActions, object)</a>
     </div>
     <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_GetAccessibilityChildren">Control.GetAccessibilityChildren()</a>
@@ -464,6 +470,12 @@ collection of transient button controls.</p>
       <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityPeer">Control.AccessibilityPeer</a>
     </div>
     <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityId">Control.AccessibilityId</a>
+    </div>
+    <div>
+      <a class="xref" href="Forma.Control.html#Forma_Control_AutomationId">Control.AutomationId</a>
+    </div>
+    <div>
       <a class="xref" href="Forma.Control.html#Forma_Control_AccessibilityLabel">Control.AccessibilityLabel</a>
     </div>
     <div>
@@ -574,7 +586,7 @@ collection of transient button controls.</p>
 
   <h3 id="Forma_PopupMenuItems_Popup" data-uid="Forma.PopupMenuItems.Popup">
   Popup
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/MenusAndDialogs.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/MenusAndDialogs.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -609,7 +621,7 @@ collection of transient button controls.</p>
 
   <h3 id="Forma_PopupMenuItems_GetTooltip_Microsoft_Xna_Framework_Point_" data-uid="Forma.PopupMenuItems.GetTooltip(Microsoft.Xna.Framework.Point)">
   GetTooltip(Point)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/MenusAndDialogs.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/MenusAndDialogs.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Returns the tooltip at a global pointer position. Override to provide dynamic help text.</p>
@@ -642,11 +654,83 @@ collection of transient button controls.</p>
 
 
 
+  <a id="Forma_PopupMenuItems_PointerPressed_" data-uid="Forma.PopupMenuItems.PointerPressed*"></a>
+
+  <h3 id="Forma_PopupMenuItems_PointerPressed_Microsoft_Xna_Framework_Point_" data-uid="Forma.PopupMenuItems.PointerPressed(Microsoft.Xna.Framework.Point)">
+  PointerPressed(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/MenusAndDialogs.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A pointer press landed on this control, in global coordinates.</p>
+<p>
+Protected as well as internal so a control defined outside this assembly can take part in
+pointer input. Without that, an app hosting its own drawing surface has to read raw mouse
+state instead, which bypasses hit-testing, modal gating and the injection side-channel —
+so such a surface cannot be driven by a test at all.
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void PointerPressed(Point point)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <span class="xref">Point</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Forma_PopupMenuItems_PointerReleased_" data-uid="Forma.PopupMenuItems.PointerReleased*"></a>
+
+  <h3 id="Forma_PopupMenuItems_PointerReleased_Microsoft_Xna_Framework_Point_System_Boolean_" data-uid="Forma.PopupMenuItems.PointerReleased(Microsoft.Xna.Framework.Point,System.Boolean)">
+  PointerReleased(Point, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/MenusAndDialogs.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The pointer was released, with whether it was still inside this control.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void PointerReleased(Point point, bool isInside)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <span class="xref">Point</span></dt>
+    <dd></dd>
+    <dt><code>isInside</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/488fa45d6bc765dbb4e1a0a08b3c26fbb6822ba9/src/Forma/MenusAndDialogs.cs" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/ff75503197c31c32d30d4f860977def534802e77/src/Forma/MenusAndDialogs.cs" class="edit-link">Edit this page</a>
         </div>
 
 
@@ -662,7 +746,7 @@ collection of transient button controls.</p>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 488fa45d6bc7 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · ff75503197c3 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>
