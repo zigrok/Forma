@@ -292,6 +292,14 @@ namespace Forma
             }
         }
         public Cursor EffectiveCursor => Cursor == Cursor.Inherited ? InheritanceParent?.EffectiveCursor ?? Cursor.Arrow : Cursor;
+        /// <summary>
+        /// Cursor for one pointer position, in the same global coordinates pointer events receive.
+        /// Controls with a sub-region that behaves differently from the rest of their surface - a
+        /// split container's dragger, a resize grip - override this so the pointer advertises that
+        /// region before it is pressed; everything else applies <see cref="EffectiveCursor"/> across
+        /// its whole extent. Mirrors Godot's <c>Control._get_cursor_shape</c>.
+        /// </summary>
+        public virtual Cursor GetCursorAt(Point position) => EffectiveCursor;
         public object ToolTip { get => _toolTip; set => SetValue(ref _toolTip, value, nameof(ToolTip)); }
         public Color? Foreground { get => _foreground ?? InheritanceParent?.Foreground; set { if (_foreground == value) return; var previous = CaptureInheritedValues(control => control.Foreground); _foreground = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.Foreground, nameof(Foreground)); } }
         public UIFontFamily FontFamily { get => _fontFamily ?? InheritanceParent?.FontFamily; set { if (ReferenceEquals(_fontFamily, value)) return; var previous = CaptureInheritedValues(control => control.FontFamily); _fontFamily = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.FontFamily, nameof(FontFamily)); } }
