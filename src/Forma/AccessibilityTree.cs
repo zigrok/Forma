@@ -251,6 +251,38 @@ namespace Forma
         }
 
         /// <summary>Walks the same controls <see cref="Capture"/> would, without building a snapshot.</summary>
+        /// <summary>
+        /// Performs an accessibility action on the node with this id, as an external caller — a
+        /// platform accessibility bridge, an automation client — would name it.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// A snapshot node is a value, so the live control has to be found again to act on it. The
+        /// node may also have left the tree since the snapshot was taken, which is not an error:
+        /// the answer is false, the same as for an action the control does not support.
+        /// </para>
+        /// <para>
+        /// The action must be one the control advertises. Invoking something unadvertised would let
+        /// an outside caller reach behaviour a person cannot, which is exactly what an accessibility
+        /// tree is supposed to rule out.
+        /// </para>
+        /// </remarks>
+        /// <returns>Whether the action was found, supported and accepted.</returns>
+        public static bool TryPerformAction(UIContext context, int nodeId, AccessibilityActions action, object argument = null)
+        {
+            if (context == null) throw new ArgumentNullException(nameof(context));
+
+            foreach (var control in EnumerateControls(context))
+            {
+                if (control.AccessibilityId != nodeId) continue;
+                var peer = control.AccessibilityPeer;
+                if ((peer.Actions & action) == 0) return false;
+                return peer.Invoke(action, argument);
+            }
+
+            return false;
+        }
+
         internal static IEnumerable<Control> EnumerateControls(UIContext context)
         {
             var modal = context.GetActiveModalPopup();

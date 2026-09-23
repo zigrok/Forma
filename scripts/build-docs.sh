@@ -26,7 +26,7 @@ if [[ "$mode" == "check" ]]; then
   bash scripts/check-runtime-parity.sh
 fi
 
-projects=(Forma Forma.DynamicText Forma.Media Forma.Svg Forma.Svg.ThorVG Forma.Xaml.HotReload)
+projects=(Forma Forma.Accessibility Forma.DynamicText Forma.Media Forma.Svg Forma.Svg.ThorVG Forma.Xaml.HotReload)
 for project in "${projects[@]}"; do
   dotnet build "src/$project/$project.csproj" \
     --configuration Release -p:FormaRuntime=MonoGame -p:SourceRevisionId="$docs_revision" \

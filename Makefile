@@ -34,7 +34,7 @@ DOTNET_ARGS := --configuration "$(CONFIGURATION)" --nologo
 	xaml-game-monogame xaml-game-fna smoke smoke-monogame smoke-fna render-parity video-smoke \
 	text-spike text-spike-local text-baseline xaml-spike \
 	format-xaml format-xaml-check \
-	docs docs-quality docs-check docs-serve \
+	docs docs-quality docs-check docs-serve a11y-probe \
 	compliance backend-references parity api-review packages aot-analyzers native-font-failures static-font-backend nativeaot check check-all check-before-push \
 	svg-selection svg-benchmark svg-compare svg-packages thorvg-catalog thorvg-render thorvg-spike thorvg-linux thorvg-nativeaot thorvg-static-host icons icons-import icons-verify unicode unicode-verify track clean
 
@@ -94,6 +94,15 @@ format-xaml: tools ## Format all repository XAML files.
 
 format-xaml-check: tools ## Check all repository XAML formatting without changing files.
 	DOTNET="$(DOTNET)" bash scripts/format-xaml.sh --check
+
+a11y-probe: ## Read a running app's accessibility tree from outside it (PID=... ARGS='press --name Save').
+	@if [ -z "$(PID)" ]; then echo "PID is required: make a11y-probe PID=1234"; exit 1; fi
+	@if [ ! -x tools/a11y-probe/.venv/bin/python ]; then \
+		python3 -m venv tools/a11y-probe/.venv && \
+		tools/a11y-probe/.venv/bin/pip install --quiet \
+			pyobjc-framework-ApplicationServices pyobjc-framework-Quartz; \
+	fi
+	tools/a11y-probe/.venv/bin/python tools/a11y-probe/a11y_probe.py --pid $(PID) $(if $(ARGS),$(ARGS),dump)
 
 docs: ## Build the Docfx guide and API site.
 	bash scripts/build-docs.sh build

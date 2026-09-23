@@ -1,9 +1,11 @@
+accesskit
 autoshrink
 Avalonia
 backbuffer
 backgrounding
 Bidi
 callsite
+cbindgen
 combinators
 DBUILD
 DCMAKE
@@ -20,6 +22,7 @@ FNA
 Forma
 freetype
 FXAML
+GETOBJECT
 grayscale
 Harf
 harfbuzz
@@ -27,8 +30,10 @@ headlessly
 HLSL
 idempotently
 inlines
+libaccesskit
 libforma
 liga
+lipo
 longjmp
 malloc
 MGCB
@@ -47,8 +52,10 @@ notdef
 Noto
 obsoletion
 overbright
+Paramia
 poolable
 preedit
+pyobjc
 rasterizations
 rasterizes
 readback
@@ -70,6 +77,7 @@ slnx
 snupkg
 spritefont
 styleable
+subclassing
 symbolication
 Textus
 Theora
