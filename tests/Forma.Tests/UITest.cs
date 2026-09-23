@@ -9050,6 +9050,216 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void FileDialog_ScrollsWhenAFolderHoldsMoreThanFits()
+        {
+            // A folder with more entries than the panel shows used to stop drawing at the bottom
+            // edge and offer nothing to scroll with, so the rest of the files were unreachable and
+            // there was no sign they existed.
+            using var fixture = new FileDialogFixture(fileCount: 80);
+
+            Assert.That(fixture.Dialog.EntryScrollBarRectangle, Is.Not.EqualTo(Rectangle.Empty), "A folder that overflows needs a scroll bar.");
+            Assert.That(fixture.Dialog.EntryScrollOffset, Is.Zero);
+
+            var firstRowBefore = fixture.Dialog.EntryRectangle(0);
+            fixture.Wheel(-3);
+
+            Assert.That(fixture.Dialog.EntryScrollOffset, Is.GreaterThan(0), "The wheel should scroll the entries.");
+            Assert.That(fixture.Dialog.EntryRectangle(0).Y, Is.LessThan(firstRowBefore.Y), "Scrolling moves the entries up.");
+
+            // Scrolling has to move hit testing with the drawing, or a click lands on the file that
+            // used to be under the pointer rather than the one now drawn there.
+            var visible = fixture.Dialog.EntryRectangle(fixture.FirstVisibleIndex());
+            fixture.Click(visible.Center);
+            Assert.That(Path.GetFileName(fixture.Dialog.CurrentFile), Is.EqualTo(fixture.NameAt(fixture.FirstVisibleIndex())));
+        }
+
+        [Test]
+        public void FileDialog_ScrollBarStaysAwayWhenEverythingFits()
+        {
+            using var fixture = new FileDialogFixture(fileCount: 2);
+
+            Assert.That(fixture.Dialog.EntryScrollBarRectangle, Is.EqualTo(Rectangle.Empty));
+            fixture.Wheel(-3);
+            Assert.That(fixture.Dialog.EntryScrollOffset, Is.Zero, "There is nothing to scroll to.");
+        }
+
+        [Test]
+        public void FileDialog_ArrowKeysWalkTheEntriesAndSelectThem()
+        {
+            // The dialog handled Backspace, Delete, F5 and Enter and nothing else: a list of files
+            // could only be reached with the mouse.
+            using var fixture = new FileDialogFixture(fileCount: 80, mode: FileDialogDisplayMode.List);
+
+            fixture.Dialog.KeyPressed(Keys.Down);
+            Assert.That(fixture.Dialog.FocusedEntryIndex, Is.Zero, "The first press lands on the first entry, not a row further in.");
+            Assert.That(Path.GetFileName(fixture.Dialog.CurrentFile), Is.EqualTo(fixture.NameAt(0)), "Moving the cursor selects, so OK acts on what is highlighted.");
+
+            fixture.Dialog.KeyPressed(Keys.Down);
+            Assert.That(Path.GetFileName(fixture.Dialog.CurrentFile), Is.EqualTo(fixture.NameAt(1)));
+
+            fixture.Dialog.KeyPressed(Keys.Up);
+            Assert.That(Path.GetFileName(fixture.Dialog.CurrentFile), Is.EqualTo(fixture.NameAt(0)));
+
+            fixture.Dialog.KeyPressed(Keys.End);
+            Assert.That(fixture.Dialog.FocusedEntryIndex, Is.EqualTo(fixture.EntryCount - 1));
+            Assert.That(fixture.Dialog.EntryScrollOffset, Is.GreaterThan(0), "Arrowing off the bottom scrolls to follow the cursor.");
+            Assert.That(fixture.Dialog.EntryRectangle(fixture.EntryCount - 1).Bottom, Is.LessThanOrEqualTo(fixture.EntriesBottom()), "The focused entry has to be on screen.");
+
+            fixture.Dialog.KeyPressed(Keys.Home);
+            Assert.That(fixture.Dialog.FocusedEntryIndex, Is.Zero);
+            Assert.That(fixture.Dialog.EntryScrollOffset, Is.Zero, "Going back to the top scrolls back to the top.");
+        }
+
+        [Test]
+        public void FileDialog_ArrowKeysStepAColumnAtATimeInThumbnails()
+        {
+            // Down means the entry below, which in a grid is a whole row away. Stepping one index
+            // would walk along the row instead, which is what Right is for.
+            using var fixture = new FileDialogFixture(fileCount: 80, mode: FileDialogDisplayMode.Thumbnails);
+
+            fixture.Dialog.KeyPressed(Keys.Right);
+            Assert.That(fixture.Dialog.FocusedEntryIndex, Is.Zero);
+            fixture.Dialog.KeyPressed(Keys.Right);
+            Assert.That(fixture.Dialog.FocusedEntryIndex, Is.EqualTo(1));
+
+            var beforeDown = fixture.Dialog.FocusedEntryIndex;
+            fixture.Dialog.KeyPressed(Keys.Down);
+            Assert.That(fixture.Dialog.FocusedEntryIndex - beforeDown, Is.GreaterThan(1), "Down in a grid moves by a row, not by one entry.");
+            Assert.That(fixture.Dialog.EntryRectangle(fixture.Dialog.FocusedEntryIndex).X, Is.EqualTo(fixture.Dialog.EntryRectangle(beforeDown).X), "And it stays in its column.");
+        }
+
+        [Test]
+        public void FileDialog_ArrowKeysStopAtTheEndsRatherThanRunningOff()
+        {
+            using var fixture = new FileDialogFixture(fileCount: 5, mode: FileDialogDisplayMode.List);
+
+            for (var press = 0; press < 20; press++) fixture.Dialog.KeyPressed(Keys.Down);
+            Assert.That(fixture.Dialog.FocusedEntryIndex, Is.EqualTo(fixture.EntryCount - 1));
+
+            for (var press = 0; press < 20; press++) fixture.Dialog.KeyPressed(Keys.Up);
+            Assert.That(fixture.Dialog.FocusedEntryIndex, Is.Zero);
+        }
+
+        [Test]
+        public void FileDialog_DoubleClickOpensAFile()
+        {
+            // Double clicking a file selected it and waited for the OK button, which is exactly what
+            // a single click already did -- so the gesture every other file dialog opens files with
+            // did nothing here.
+            using var fixture = new FileDialogFixture(fileCount: 4, mode: FileDialogDisplayMode.List);
+
+            string chosen = null;
+            fixture.Dialog.FileSelected += (_, path) => chosen = path;
+
+            fixture.DoubleClick(fixture.Dialog.EntryRectangle(0).Center);
+
+            Assert.That(chosen, Is.Not.Null, "A double click on a file should open it.");
+            Assert.That(Path.GetFileName(chosen), Is.EqualTo(fixture.NameAt(0)));
+        }
+
+        [Test]
+        public void FileDialog_EnterOpensTheEntryTheKeyboardIsOn()
+        {
+            using var fixture = new FileDialogFixture(fileCount: 4, mode: FileDialogDisplayMode.List);
+
+            string chosen = null;
+            fixture.Dialog.FileSelected += (_, path) => chosen = path;
+
+            fixture.Dialog.KeyPressed(Keys.Down);
+            fixture.Dialog.KeyPressed(Keys.Down);
+            fixture.Dialog.KeyPressed(Keys.Enter);
+
+            Assert.That(Path.GetFileName(chosen), Is.EqualTo(fixture.NameAt(1)));
+        }
+
+        /// <summary>A dialog over a throwaway folder of files, wired to a context that can click.</summary>
+        private sealed class FileDialogFixture : IDisposable
+        {
+            private readonly string _root;
+            private readonly UIContext _context;
+            private readonly string[] _names;
+            private int _milliseconds;
+
+            internal FileDialogFixture(int fileCount, FileDialogDisplayMode mode = FileDialogDisplayMode.Thumbnails)
+            {
+                _root = Path.Combine(Path.GetTempPath(), "MonoGameUiFileDialog_" + Guid.NewGuid().ToString("N"));
+                Directory.CreateDirectory(_root);
+
+                _names = new string[fileCount];
+                for (var index = 0; index < fileCount; index++)
+                {
+                    _names[index] = $"entry-{index:D3}.txt";
+                    File.WriteAllText(Path.Combine(_root, _names[index]), "x");
+                }
+
+                Dialog = new FileDialog { FileMode = FileDialogMode.OpenFile, Visible = true, Size = new Vector2(640, 460), DisplayMode = mode };
+                Dialog.SetCurrentDir(_root);
+
+                _context = new UIContext { ViewportSize = new Vector2(640, 460) };
+                _context.Add(Dialog);
+
+                // One update so layout runs: every rectangle here is nonsense until it has.
+                Step(Mouse(0, 0));
+            }
+
+            internal FileDialog Dialog { get; }
+
+            internal int EntryCount => _names.Length;
+
+            internal string NameAt(int index) => _names[index];
+
+            internal int EntriesBottom() => Dialog.EntriesRectangle.Bottom;
+
+            /// The first entry drawn wholly inside the panel, which is the first one safe to click.
+            internal int FirstVisibleIndex()
+            {
+                var panel = Dialog.EntriesRectangle;
+                for (var index = 0; index < _names.Length; index++)
+                {
+                    var rect = Dialog.EntryRectangle(index);
+                    if (rect.Top >= panel.Top && rect.Bottom <= panel.Bottom) return index;
+                }
+
+                return 0;
+            }
+
+            internal void Wheel(int notches)
+            {
+                Step(Mouse(320, 240, scrollWheel: notches * 120));
+                Step(Mouse(320, 240, scrollWheel: notches * 120));
+            }
+
+            internal void Click(Point at)
+            {
+                Step(Mouse(at.X, at.Y));
+                Step(Mouse(at.X, at.Y, ButtonState.Pressed));
+                Step(Mouse(at.X, at.Y));
+            }
+
+            internal void DoubleClick(Point at)
+            {
+                Click(at);
+                Step(Mouse(at.X, at.Y, ButtonState.Pressed));
+                Step(Mouse(at.X, at.Y));
+            }
+
+            private void Step(MouseState mouse)
+            {
+                _milliseconds += 10;
+                _context.Update(
+                    new GameTime(TimeSpan.FromMilliseconds(_milliseconds), TimeSpan.FromMilliseconds(10)),
+                    mouse,
+                    new KeyboardState());
+            }
+
+            public void Dispose()
+            {
+                _context.Dispose();
+                try { Directory.Delete(_root, recursive: true); } catch (IOException) { }
+            }
+        }
+
+        [Test]
         public void FileDialog_DoubleClickNavigatesDirectoriesAndExposesNavigationButtons()
         {
             var tempRoot = Path.Combine(Path.GetTempPath(), "MonoGameUiFileDialog_" + Guid.NewGuid().ToString("N"));

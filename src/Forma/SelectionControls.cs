@@ -2024,35 +2024,62 @@ namespace Forma
         internal void DrawItemList(UIRenderContext context)
         {
             context.Fill(Bounds, context.Theme.BackgroundColor); context.Border(Bounds, context.Theme.PanelBorderColor);
-            for (var index = 0; index < _entries.Count; index++)
+
+            // Nothing here was bounded by the control: an item wider or lower than the list drew
+            // straight over whatever sat beside it. A folder favourited by its full path is enough
+            // to do it, and in the file dialog that painted the path across the file grid.
+            context.PushClip(Bounds);
+            try
             {
-                var entry = _entries[index]; var rect = GetItemRect(index);
-                if (rect.Bottom < Bounds.Top || rect.Top > Bounds.Bottom) continue;
-                if (entry.CustomBackgroundColor.HasValue) context.Fill(rect, entry.CustomBackgroundColor.Value); else if (entry.Selected) context.Fill(rect, context.Theme.AccentColor);
-                var textX = rect.X + 5;
-                if (entry.Icon != null)
+                for (var index = 0; index < _entries.Count; index++)
                 {
-                    var source = entry.IconRegion ?? new Rectangle(0, 0, entry.Icon.Width, entry.Icon.Height);
-                    var iconSize = FixedIconSize == Vector2.Zero ? new Vector2(source.Width, source.Height) : FixedIconSize;
-                    iconSize *= IconScale;
-                    var displayWidth = Math.Max(1, (int)iconSize.X); var displayHeight = Math.Max(1, (int)iconSize.Y);
-                    var iconRect = new Rectangle(rect.X + 3, IconMode == ItemListIconMode.Left ? rect.Y + Math.Max(1, (rect.Height - (entry.IconTransposed ? displayWidth : displayHeight)) / 2) : rect.Y + 3, entry.IconTransposed ? displayHeight : displayWidth, entry.IconTransposed ? displayWidth : displayHeight);
-                    if (entry.IconTransposed)
+                    var entry = _entries[index]; var rect = GetItemRect(index);
+                    if (rect.Bottom < Bounds.Top || rect.Top > Bounds.Bottom) continue;
+                    if (entry.CustomBackgroundColor.HasValue) context.Fill(rect, entry.CustomBackgroundColor.Value); else if (entry.Selected) context.Fill(rect, context.Theme.AccentColor);
+                    var textX = rect.X + 5;
+                    if (entry.Icon != null)
                     {
-                        var position = new Vector2(iconRect.Center.X, iconRect.Center.Y);
-                        var origin = new Vector2(source.Width / 2f, source.Height / 2f);
-                        var scale = new Vector2(displayWidth / (float)source.Width, displayHeight / (float)source.Height);
-                        context.SpriteBatch.Draw(entry.Icon, position, source, entry.IconModulate, MathHelper.PiOver2, origin, scale, SpriteEffects.None, 0);
+                        var source = entry.IconRegion ?? new Rectangle(0, 0, entry.Icon.Width, entry.Icon.Height);
+                        var iconSize = FixedIconSize == Vector2.Zero ? new Vector2(source.Width, source.Height) : FixedIconSize;
+                        iconSize *= IconScale;
+                        var displayWidth = Math.Max(1, (int)iconSize.X); var displayHeight = Math.Max(1, (int)iconSize.Y);
+                        var iconRect = new Rectangle(rect.X + 3, IconMode == ItemListIconMode.Left ? rect.Y + Math.Max(1, (rect.Height - (entry.IconTransposed ? displayWidth : displayHeight)) / 2) : rect.Y + 3, entry.IconTransposed ? displayHeight : displayWidth, entry.IconTransposed ? displayWidth : displayHeight);
+                        if (entry.IconTransposed)
+                        {
+                            var position = new Vector2(iconRect.Center.X, iconRect.Center.Y);
+                            var origin = new Vector2(source.Width / 2f, source.Height / 2f);
+                            var scale = new Vector2(displayWidth / (float)source.Width, displayHeight / (float)source.Height);
+                            context.SpriteBatch.Draw(entry.Icon, position, source, entry.IconModulate, MathHelper.PiOver2, origin, scale, SpriteEffects.None, 0);
+                        }
+                        else context.SpriteBatch.Draw(entry.Icon, iconRect, source, entry.IconModulate);
+                        if (IconMode == ItemListIconMode.Left) textX = iconRect.Right + 4;
                     }
-                    else context.SpriteBatch.Draw(entry.Icon, iconRect, source, entry.IconModulate);
-                    if (IconMode == ItemListIconMode.Left) textX = iconRect.Right + 4;
+                    if (entry.TagIcon != null)
+                    {
+                        var tagSize = Math.Max(8, Math.Min(14, Math.Min(rect.Width, rect.Height) / 2));
+                        context.SpriteBatch.Draw(entry.TagIcon, new Rectangle(rect.Right - tagSize - 3, rect.Y + 3, tagSize, tagSize), Color.White);
+                    }
+                    if (EffectiveUIFont != null && !string.IsNullOrEmpty(entry.Text))
+                    {
+                        // Trimmed to the room actually left after the icons, so a long entry ends in an
+                        // ellipsis that says there is more name. Clipping alone would cut a glyph in
+                        // half and leave no sign the text had been shortened at all.
+                        var textRight = rect.Right - 3 - (entry.TagIcon != null ? Math.Max(8, Math.Min(14, Math.Min(rect.Width, rect.Height) / 2)) + 3 : 0);
+                        var available = textRight - textX;
+                        var color = entry.Disabled ? context.Theme.DisabledTextColor : entry.CustomForegroundColor ?? context.Theme.TextColor;
+                        var textY = rect.Y + Math.Max(2, (rect.Height - TextMetrics.LineHeight(EffectiveUIFont)) / 2);
+
+                        if (available > 0)
+                        {
+                            var layout = TextMetrics.Layout(EffectiveUIFont, entry.Text, new TextLayoutOptions(maxWidth: available, trimming: TextTrimming.CharacterEllipsis));
+                            context.Text(layout, new Vector2(textX, textY), color);
+                        }
+                    }
                 }
-                if (entry.TagIcon != null)
-                {
-                    var tagSize = Math.Max(8, Math.Min(14, Math.Min(rect.Width, rect.Height) / 2));
-                    context.SpriteBatch.Draw(entry.TagIcon, new Rectangle(rect.Right - tagSize - 3, rect.Y + 3, tagSize, tagSize), Color.White);
-                }
-                if (EffectiveUIFont != null && !string.IsNullOrEmpty(entry.Text)) context.Text(EffectiveUIFont, entry.Text, new Vector2(textX, rect.Y + Math.Max(2, (rect.Height - TextMetrics.LineHeight(EffectiveUIFont)) / 2)), entry.Disabled ? context.Theme.DisabledTextColor : entry.CustomForegroundColor ?? context.Theme.TextColor);
+            }
+            finally
+            {
+                context.PopClip();
             }
         }
         private void SelectFromPointer(int index)
