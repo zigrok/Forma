@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-      <title>Class TemplatePartMetadata | Forma Documentation </title>
+      <title>Class ScreenCapture | Forma Documentation </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class TemplatePartMetadata | Forma Documentation ">
+      <meta name="title" content="Class ScreenCapture | Forma Documentation ">
       
-      
+      <meta name="description" content="Saves what was drawn to a PNG.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -70,12 +70,12 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Forma.TemplatePartMetadata">
+        <article data-uid="Forma.ScreenCapture">
 
 
 
-  <h1 id="Forma_TemplatePartMetadata" data-uid="Forma.TemplatePartMetadata" class="text-break">
-Class TemplatePartMetadata  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/Xaml/Templates.cs"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Forma_ScreenCapture" data-uid="Forma.ScreenCapture" class="text-break">
+Class ScreenCapture  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/ScreenCapture.cs"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -83,11 +83,12 @@ Class TemplatePartMetadata  <a class="header-action link-secondary" title="View 
   <dl><dt>Assembly</dt><dd>Forma.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"></div>
+  <div class="markdown summary"><p>Saves what was drawn to a PNG.</p>
+</div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class TemplatePartMetadata</code></pre>
+    <pre><code class="lang-csharp hljs">public static class ScreenCapture</code></pre>
   </div>
 
 
@@ -97,7 +98,7 @@ Class TemplatePartMetadata  <a class="header-action link-secondary" title="View 
     <dt>Inheritance</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-      <div><span class="xref">TemplatePartMetadata</span></div>
+      <div><span class="xref">ScreenCapture</span></div>
     </dd>
   </dl>
 
@@ -108,6 +109,9 @@ Class TemplatePartMetadata  <a class="header-action link-secondary" title="View 
     <dd>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
@@ -129,33 +133,38 @@ Class TemplatePartMetadata  <a class="header-action link-secondary" title="View 
 
 
 
+  <h2 id="Forma_ScreenCapture_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>Here rather than in each application because every one of them ends up writing it: a
+sample's <code>--screenshot</code> flag, a test harness capturing a failure, a tool exporting a
+preview. They were all the same ten lines, and each copy re-learned the timing rule below
+the hard way.</p>
+</div>
 
 
-  <h2 class="section" id="constructors">Constructors
+  <h2 class="section" id="methods">Methods
 </h2>
 
 
-  <a id="Forma_TemplatePartMetadata__ctor_" data-uid="Forma.TemplatePartMetadata.#ctor*"></a>
+  <a id="Forma_ScreenCapture_SaveBackBuffer_" data-uid="Forma.ScreenCapture.SaveBackBuffer*"></a>
 
-  <h3 id="Forma_TemplatePartMetadata__ctor_System_String_System_Type_System_Boolean_" data-uid="Forma.TemplatePartMetadata.#ctor(System.String,System.Type,System.Boolean)">
-  TemplatePartMetadata(string, Type, bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/Xaml/Templates.cs"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Forma_ScreenCapture_SaveBackBuffer_Microsoft_Xna_Framework_Graphics_GraphicsDevice_System_String_" data-uid="Forma.ScreenCapture.SaveBackBuffer(Microsoft.Xna.Framework.Graphics.GraphicsDevice,System.String)">
+  SaveBackBuffer(GraphicsDevice, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/ScreenCapture.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the current back buffer to <code class="paramref">path</code> as a PNG.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TemplatePartMetadata(string name, Type partType, bool isRequired = true)</code></pre>
+    <pre><code class="lang-csharp hljs">public static void SaveBackBuffer(GraphicsDevice device, string path)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dt><code>device</code> <span class="xref">GraphicsDevice</span></dt>
     <dd></dd>
-    <dt><code>partType</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.type">Type</a></dt>
-    <dd></dd>
-    <dt><code>isRequired</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dt><code>path</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
     <dd></dd>
   </dl>
 
@@ -166,103 +175,19 @@ Class TemplatePartMetadata  <a class="header-action link-secondary" title="View 
 
 
 
-
-
-
-
-  <h2 class="section" id="properties">Properties
-</h2>
-
-
-  <a id="Forma_TemplatePartMetadata_IsRequired_" data-uid="Forma.TemplatePartMetadata.IsRequired*"></a>
-
-  <h3 id="Forma_TemplatePartMetadata_IsRequired" data-uid="Forma.TemplatePartMetadata.IsRequired">
-  IsRequired
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/Xaml/Templates.cs"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsRequired { get; }</code></pre>
-  </div>
-
-
-
-
-
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-  <a id="Forma_TemplatePartMetadata_Name_" data-uid="Forma.TemplatePartMetadata.Name*"></a>
-
-  <h3 id="Forma_TemplatePartMetadata_Name" data-uid="Forma.TemplatePartMetadata.Name">
-  Name
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/Xaml/Templates.cs"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
-  </div>
-
-
-
-
-
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-  <a id="Forma_TemplatePartMetadata_PartType_" data-uid="Forma.TemplatePartMetadata.PartType*"></a>
-
-  <h3 id="Forma_TemplatePartMetadata_PartType" data-uid="Forma.TemplatePartMetadata.PartType">
-  PartType
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/Xaml/Templates.cs"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Type PartType { get; }</code></pre>
-  </div>
-
-
-
-
-
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.type">Type</a></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
+  <h4 class="section" id="Forma_ScreenCapture_SaveBackBuffer_Microsoft_Xna_Framework_Graphics_GraphicsDevice_System_String__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>
+<b>Call this at the end of a draw, not from outside the loop.</b> A back buffer that
+has not been presented reads back cleared, so a capture taken from a test between
+frames produces a solid black image — one that looks like a real screenshot of a
+broken UI rather than like a mistake in the capture.
+</p>
+<p>
+A headless backend discards every draw call, so there is nothing to capture there
+either. Callers that can be run both ways should say which they are rather than
+writing a black rectangle.
+</p>
+</div>
 
 
 
@@ -271,7 +196,7 @@ Class TemplatePartMetadata  <a class="header-action link-secondary" title="View 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/Xaml/Templates.cs" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/168073fc173f95cff7c783c8be68e07f2187b763/src/Forma/ScreenCapture.cs" class="edit-link">Edit this page</a>
         </div>
 
 

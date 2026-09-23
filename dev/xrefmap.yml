@@ -1633,6 +1633,18 @@ references:
   commentId: Overload:Forma.AccessibilityTreeSnapshot.Nodes
   fullName: Forma.AccessibilityTreeSnapshot.Nodes
   nameWithType: AccessibilityTreeSnapshot.Nodes
+- uid: Forma.AccessibilityTreeSnapshot.ToLayoutText
+  name: ToLayoutText()
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_ToLayoutText
+  commentId: M:Forma.AccessibilityTreeSnapshot.ToLayoutText
+  fullName: Forma.AccessibilityTreeSnapshot.ToLayoutText()
+  nameWithType: AccessibilityTreeSnapshot.ToLayoutText()
+- uid: Forma.AccessibilityTreeSnapshot.ToLayoutText*
+  name: ToLayoutText
+  href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_ToLayoutText_
+  commentId: Overload:Forma.AccessibilityTreeSnapshot.ToLayoutText
+  fullName: Forma.AccessibilityTreeSnapshot.ToLayoutText
+  nameWithType: AccessibilityTreeSnapshot.ToLayoutText
 - uid: Forma.AccessibilityTreeSnapshot.ToString
   name: ToString()
   href: api/Forma.AccessibilityTreeSnapshot.html#Forma_AccessibilityTreeSnapshot_ToString
@@ -16040,6 +16052,12 @@ references:
   commentId: Overload:Forma.FileDialog.DeselectAll
   fullName: Forma.FileDialog.DeselectAll
   nameWithType: FileDialog.DeselectAll
+- uid: Forma.FileDialog.DirectoryListsChanged
+  name: DirectoryListsChanged
+  href: api/Forma.FileDialog.html#Forma_FileDialog_DirectoryListsChanged
+  commentId: E:Forma.FileDialog.DirectoryListsChanged
+  fullName: Forma.FileDialog.DirectoryListsChanged
+  nameWithType: FileDialog.DirectoryListsChanged
 - uid: Forma.FileDialog.DirectorySelected
   name: DirectorySelected
   href: api/Forma.FileDialog.html#Forma_FileDialog_DirectorySelected
@@ -41023,6 +41041,27 @@ references:
   commentId: Overload:Forma.ScaleTransform.Value
   fullName: Forma.ScaleTransform.Value
   nameWithType: ScaleTransform.Value
+- uid: Forma.ScreenCapture
+  name: ScreenCapture
+  href: api/Forma.ScreenCapture.html
+  commentId: T:Forma.ScreenCapture
+  fullName: Forma.ScreenCapture
+  nameWithType: ScreenCapture
+- uid: Forma.ScreenCapture.SaveBackBuffer(Microsoft.Xna.Framework.Graphics.GraphicsDevice,System.String)
+  name: SaveBackBuffer(GraphicsDevice, string)
+  href: api/Forma.ScreenCapture.html#Forma_ScreenCapture_SaveBackBuffer_Microsoft_Xna_Framework_Graphics_GraphicsDevice_System_String_
+  commentId: M:Forma.ScreenCapture.SaveBackBuffer(Microsoft.Xna.Framework.Graphics.GraphicsDevice,System.String)
+  name.vb: SaveBackBuffer(GraphicsDevice, String)
+  fullName: Forma.ScreenCapture.SaveBackBuffer(Microsoft.Xna.Framework.Graphics.GraphicsDevice, string)
+  fullName.vb: Forma.ScreenCapture.SaveBackBuffer(Microsoft.Xna.Framework.Graphics.GraphicsDevice, String)
+  nameWithType: ScreenCapture.SaveBackBuffer(GraphicsDevice, string)
+  nameWithType.vb: ScreenCapture.SaveBackBuffer(GraphicsDevice, String)
+- uid: Forma.ScreenCapture.SaveBackBuffer*
+  name: SaveBackBuffer
+  href: api/Forma.ScreenCapture.html#Forma_ScreenCapture_SaveBackBuffer_
+  commentId: Overload:Forma.ScreenCapture.SaveBackBuffer
+  fullName: Forma.ScreenCapture.SaveBackBuffer
+  nameWithType: ScreenCapture.SaveBackBuffer
 - uid: Forma.ScrollAnchor
   name: ScrollAnchor
   href: api/Forma.ScrollAnchor.html
@@ -49363,6 +49402,21 @@ references:
   commentId: Overload:Forma.TabContainer.GetTabMetadata
   fullName: Forma.TabContainer.GetTabMetadata
   nameWithType: TabContainer.GetTabMetadata
+- uid: Forma.TabContainer.GetTabRect(System.Int32)
+  name: GetTabRect(int)
+  href: api/Forma.TabContainer.html#Forma_TabContainer_GetTabRect_System_Int32_
+  commentId: M:Forma.TabContainer.GetTabRect(System.Int32)
+  name.vb: GetTabRect(Integer)
+  fullName: Forma.TabContainer.GetTabRect(int)
+  fullName.vb: Forma.TabContainer.GetTabRect(Integer)
+  nameWithType: TabContainer.GetTabRect(int)
+  nameWithType.vb: TabContainer.GetTabRect(Integer)
+- uid: Forma.TabContainer.GetTabRect*
+  name: GetTabRect
+  href: api/Forma.TabContainer.html#Forma_TabContainer_GetTabRect_
+  commentId: Overload:Forma.TabContainer.GetTabRect
+  fullName: Forma.TabContainer.GetTabRect
+  nameWithType: TabContainer.GetTabRect
 - uid: Forma.TabContainer.GetTabTitle(System.Int32)
   name: GetTabTitle(int)
   href: api/Forma.TabContainer.html#Forma_TabContainer_GetTabTitle_System_Int32_
@@ -49435,6 +49489,30 @@ references:
   commentId: Overload:Forma.TabContainer.IsTabHidden
   fullName: Forma.TabContainer.IsTabHidden
   nameWithType: TabContainer.IsTabHidden
+- uid: Forma.TabContainer.MaxTabScroll
+  name: MaxTabScroll
+  href: api/Forma.TabContainer.html#Forma_TabContainer_MaxTabScroll
+  commentId: P:Forma.TabContainer.MaxTabScroll
+  fullName: Forma.TabContainer.MaxTabScroll
+  nameWithType: TabContainer.MaxTabScroll
+- uid: Forma.TabContainer.MaxTabScroll*
+  name: MaxTabScroll
+  href: api/Forma.TabContainer.html#Forma_TabContainer_MaxTabScroll_
+  commentId: Overload:Forma.TabContainer.MaxTabScroll
+  fullName: Forma.TabContainer.MaxTabScroll
+  nameWithType: TabContainer.MaxTabScroll
+- uid: Forma.TabContainer.MaxTabWidth
+  name: MaxTabWidth
+  href: api/Forma.TabContainer.html#Forma_TabContainer_MaxTabWidth
+  commentId: P:Forma.TabContainer.MaxTabWidth
+  fullName: Forma.TabContainer.MaxTabWidth
+  nameWithType: TabContainer.MaxTabWidth
+- uid: Forma.TabContainer.MaxTabWidth*
+  name: MaxTabWidth
+  href: api/Forma.TabContainer.html#Forma_TabContainer_MaxTabWidth_
+  commentId: Overload:Forma.TabContainer.MaxTabWidth
+  fullName: Forma.TabContainer.MaxTabWidth
+  nameWithType: TabContainer.MaxTabWidth
 - uid: Forma.TabContainer.MoveTab(System.Int32,System.Int32)
   name: MoveTab(int, int)
   href: api/Forma.TabContainer.html#Forma_TabContainer_MoveTab_System_Int32_System_Int32_
@@ -49519,6 +49597,21 @@ references:
   commentId: Overload:Forma.TabContainer.PreviousTab
   fullName: Forma.TabContainer.PreviousTab
   nameWithType: TabContainer.PreviousTab
+- uid: Forma.TabContainer.ScrollTabIntoView(System.Int32)
+  name: ScrollTabIntoView(int)
+  href: api/Forma.TabContainer.html#Forma_TabContainer_ScrollTabIntoView_System_Int32_
+  commentId: M:Forma.TabContainer.ScrollTabIntoView(System.Int32)
+  name.vb: ScrollTabIntoView(Integer)
+  fullName: Forma.TabContainer.ScrollTabIntoView(int)
+  fullName.vb: Forma.TabContainer.ScrollTabIntoView(Integer)
+  nameWithType: TabContainer.ScrollTabIntoView(int)
+  nameWithType.vb: TabContainer.ScrollTabIntoView(Integer)
+- uid: Forma.TabContainer.ScrollTabIntoView*
+  name: ScrollTabIntoView
+  href: api/Forma.TabContainer.html#Forma_TabContainer_ScrollTabIntoView_
+  commentId: Overload:Forma.TabContainer.ScrollTabIntoView
+  fullName: Forma.TabContainer.ScrollTabIntoView
+  nameWithType: TabContainer.ScrollTabIntoView
 - uid: Forma.TabContainer.SelectNextAvailable
   name: SelectNextAvailable()
   href: api/Forma.TabContainer.html#Forma_TabContainer_SelectNextAvailable
@@ -49690,6 +49783,18 @@ references:
   commentId: Overload:Forma.TabContainer.SetTabTooltip
   fullName: Forma.TabContainer.SetTabTooltip
   nameWithType: TabContainer.SetTabTooltip
+- uid: Forma.TabContainer.TabAlignment
+  name: TabAlignment
+  href: api/Forma.TabContainer.html#Forma_TabContainer_TabAlignment
+  commentId: P:Forma.TabContainer.TabAlignment
+  fullName: Forma.TabContainer.TabAlignment
+  nameWithType: TabContainer.TabAlignment
+- uid: Forma.TabContainer.TabAlignment*
+  name: TabAlignment
+  href: api/Forma.TabContainer.html#Forma_TabContainer_TabAlignment_
+  commentId: Overload:Forma.TabContainer.TabAlignment
+  fullName: Forma.TabContainer.TabAlignment
+  nameWithType: TabContainer.TabAlignment
 - uid: Forma.TabContainer.TabButtonPressed
   name: TabButtonPressed
   href: api/Forma.TabContainer.html#Forma_TabContainer_TabButtonPressed
@@ -49726,12 +49831,36 @@ references:
   commentId: E:Forma.TabContainer.TabHovered
   fullName: Forma.TabContainer.TabHovered
   nameWithType: TabContainer.TabHovered
+- uid: Forma.TabContainer.TabScrollOffset
+  name: TabScrollOffset
+  href: api/Forma.TabContainer.html#Forma_TabContainer_TabScrollOffset
+  commentId: P:Forma.TabContainer.TabScrollOffset
+  fullName: Forma.TabContainer.TabScrollOffset
+  nameWithType: TabContainer.TabScrollOffset
+- uid: Forma.TabContainer.TabScrollOffset*
+  name: TabScrollOffset
+  href: api/Forma.TabContainer.html#Forma_TabContainer_TabScrollOffset_
+  commentId: Overload:Forma.TabContainer.TabScrollOffset
+  fullName: Forma.TabContainer.TabScrollOffset
+  nameWithType: TabContainer.TabScrollOffset
 - uid: Forma.TabContainer.TabSelected
   name: TabSelected
   href: api/Forma.TabContainer.html#Forma_TabContainer_TabSelected
   commentId: E:Forma.TabContainer.TabSelected
   fullName: Forma.TabContainer.TabSelected
   nameWithType: TabContainer.TabSelected
+- uid: Forma.TabContainer.TabSizing
+  name: TabSizing
+  href: api/Forma.TabContainer.html#Forma_TabContainer_TabSizing
+  commentId: P:Forma.TabContainer.TabSizing
+  fullName: Forma.TabContainer.TabSizing
+  nameWithType: TabContainer.TabSizing
+- uid: Forma.TabContainer.TabSizing*
+  name: TabSizing
+  href: api/Forma.TabContainer.html#Forma_TabContainer_TabSizing_
+  commentId: Overload:Forma.TabContainer.TabSizing
+  fullName: Forma.TabContainer.TabSizing
+  nameWithType: TabContainer.TabSizing
 - uid: Forma.TabContainer.TabsRearrangeGroup
   name: TabsRearrangeGroup
   href: api/Forma.TabContainer.html#Forma_TabContainer_TabsRearrangeGroup
@@ -62299,6 +62428,18 @@ references:
   commentId: Overload:Forma.UIContext.CurrentTime
   fullName: Forma.UIContext.CurrentTime
   nameWithType: UIContext.CurrentTime
+- uid: Forma.UIContext.DescribeLayout
+  name: DescribeLayout()
+  href: api/Forma.UIContext.html#Forma_UIContext_DescribeLayout
+  commentId: M:Forma.UIContext.DescribeLayout
+  fullName: Forma.UIContext.DescribeLayout()
+  nameWithType: UIContext.DescribeLayout()
+- uid: Forma.UIContext.DescribeLayout*
+  name: DescribeLayout
+  href: api/Forma.UIContext.html#Forma_UIContext_DescribeLayout_
+  commentId: Overload:Forma.UIContext.DescribeLayout
+  fullName: Forma.UIContext.DescribeLayout
+  nameWithType: UIContext.DescribeLayout
 - uid: Forma.UIContext.DisplayFontResolver
   name: DisplayFontResolver
   href: api/Forma.UIContext.html#Forma_UIContext_DisplayFontResolver
@@ -62818,6 +62959,18 @@ references:
   commentId: Overload:Forma.UIContext.ThemeVariant
   fullName: Forma.UIContext.ThemeVariant
   nameWithType: UIContext.ThemeVariant
+- uid: Forma.UIContext.ToPhysicalPointerPosition(Microsoft.Xna.Framework.Point)
+  name: ToPhysicalPointerPosition(Point)
+  href: api/Forma.UIContext.html#Forma_UIContext_ToPhysicalPointerPosition_Microsoft_Xna_Framework_Point_
+  commentId: M:Forma.UIContext.ToPhysicalPointerPosition(Microsoft.Xna.Framework.Point)
+  fullName: Forma.UIContext.ToPhysicalPointerPosition(Microsoft.Xna.Framework.Point)
+  nameWithType: UIContext.ToPhysicalPointerPosition(Point)
+- uid: Forma.UIContext.ToPhysicalPointerPosition*
+  name: ToPhysicalPointerPosition
+  href: api/Forma.UIContext.html#Forma_UIContext_ToPhysicalPointerPosition_
+  commentId: Overload:Forma.UIContext.ToPhysicalPointerPosition
+  fullName: Forma.UIContext.ToPhysicalPointerPosition
+  nameWithType: UIContext.ToPhysicalPointerPosition
 - uid: Forma.UIContext.TooltipDelay
   name: TooltipDelay
   href: api/Forma.UIContext.html#Forma_UIContext_TooltipDelay

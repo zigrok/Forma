@@ -4143,6 +4143,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.ScreenCapture.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.ScreenCapture.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.ScreenCapture",
+      "Summary": "<p sourcefile=\"api/Forma.ScreenCapture.yml\" sourcestartlinenumber=\"1\">Saves what was drawn to a PNG.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.ScrollAnchor.yml",
       "output": {
         ".html": {
