@@ -1659,8 +1659,15 @@ namespace Forma
         private const int FooterButtonGap = 8;
         private const int FooterInset = 10;
         private const int ThumbnailWidth = 112;
-        private const int ThumbnailHeight = 84;
+        // Tall enough for an icon plus two lines of label. One line is not enough for real file
+        // names: a directory of "Project.Editor.Native", "Project.Editor.Native.Browser" and
+        // "Project.Editor.Native.Testing" collapses to three identical entries when only the first
+        // line survives, which is a different kind of unusable from the overflow it replaced.
+        private const int ThumbnailHeight = 100;
         private const int ThumbnailIconSize = 48;
+        private const int ThumbnailLabelLines = 2;
+        /// Breathing room either side of a label, so two adjacent cells never appear to touch.
+        private const int ThumbnailLabelInset = 3;
         private static readonly TimeSpan DoubleClickTimeout = TimeSpan.FromMilliseconds(600);
         private const int DoubleClickTolerance = 5;
         private static readonly List<string> _favoriteList = new List<string>();
@@ -2357,17 +2364,51 @@ namespace Forma
                     : DisplayMode == FileDialogDisplayMode.Thumbnails ? "file_thumbnail" : "file");
                 if (DisplayMode == FileDialogDisplayMode.Thumbnails)
                 {
+                    var lineHeight = EffectiveUIFont != null ? TextMetrics.LineHeight(EffectiveUIFont) : 0;
+
+                    // The label band is a fixed height rather than one sized to this entry's line
+                    // count, so a one-line name and a two-line name in the same row start at the
+                    // same y. Sizing it per entry makes a row of mixed-length names read ragged.
+                    var labelTop = row.Bottom - lineHeight * ThumbnailLabelLines - ThumbnailLabelInset;
+
                     if (icon.HasValue)
                     {
-                        var iconSize = Math.Min(ThumbnailIconSize, Math.Min(row.Width - 12, row.Height - 30));
-                        context.Icon(icon.Value, new Rectangle(row.Center.X - iconSize / 2, row.Y + 6, iconSize, iconSize), Color.White);
+                        // Whatever the label leaves, rather than a constant that silently assumed
+                        // one line of text underneath it.
+                        var available = Math.Max(0, labelTop - row.Y - ThumbnailLabelInset * 2);
+                        var iconSize = Math.Min(ThumbnailIconSize, Math.Min(row.Width - 12, available));
+                        if (iconSize > 0)
+                        {
+                            context.Icon(
+                                icon.Value,
+                                new Rectangle(
+                                    row.Center.X - iconSize / 2,
+                                    row.Y + ThumbnailLabelInset + (available - iconSize) / 2,
+                                    iconSize,
+                                    iconSize),
+                                Color.White);
+                        }
                     }
+
                     if (EffectiveUIFont != null)
                     {
-                        var name = Path.GetFileName(entry);
-                        var textSize = TextMetrics.Measure(EffectiveUIFont, name);
-                        context.Text(EffectiveUIFont, name, new Vector2(Math.Max(row.X + 3, row.Center.X - textSize.X / 2), row.Bottom - TextMetrics.LineHeight(EffectiveUIFont) - 4), context.Theme.TextColor);
+                        var lines = FitThumbnailLabel(
+                            EffectiveUIFont,
+                            Path.GetFileName(entry),
+                            row.Width - ThumbnailLabelInset * 2,
+                            ThumbnailLabelLines);
+
+                        for (var line = 0; line < lines.Count; line++)
+                        {
+                            var width = TextMetrics.Measure(EffectiveUIFont, lines[line]).X;
+                            context.Text(
+                                EffectiveUIFont,
+                                lines[line],
+                                new Vector2(row.Center.X - width / 2, labelTop + line * lineHeight),
+                                context.Theme.TextColor);
+                        }
                     }
+
                     continue;
                 }
                 var textX = row.X + 4;
@@ -2383,6 +2424,75 @@ namespace Forma
                 }
             }
         }
+        /// <summary>
+        /// Breaks a file name into at most <paramref name="maxLines"/> lines that each fit within
+        /// <paramref name="maxWidth"/>, ellipsising the last one when the name is longer than that.
+        /// </summary>
+        /// <remarks>
+        /// Thumbnail labels were previously drawn unconstrained: the name was measured only to
+        /// centre it, so anything wider than its cell ran over its neighbours and, in the last
+        /// column, straight out of the dialog.
+        ///
+        /// Wrapping is character-level rather than word-level because file names are the one place
+        /// spaces cannot be relied on — <c>Project.Editor.Native.Browser</c> is a single "word" and
+        /// word wrapping leaves it exactly as unbreakable as no wrapping at all.
+        ///
+        /// Internal rather than private so the fitting can be tested without a render target; the
+        /// overflow it fixes is a measurement bug, and measurement is checkable without pixels.
+        /// </remarks>
+        internal static IReadOnlyList<string> FitThumbnailLabel(UIFont font, string name, int maxWidth, int maxLines)
+        {
+            if (font == null) throw new ArgumentNullException(nameof(font));
+            if (string.IsNullOrEmpty(name)) return Array.Empty<string>();
+            if (maxLines < 1 || maxWidth <= 0) return Array.Empty<string>();
+
+            // The common case, and worth not paying for a wrap pass: the name already fits.
+            if (TextMetrics.Measure(font, name).X <= maxWidth) return new[] { name };
+
+            var wrapped = TextMetrics.Layout(font, name, new TextLayoutOptions(maxWidth: maxWidth, wrapping: TextWrapping.Character));
+            var lines = new List<string>(Math.Min(maxLines, wrapped.Lines.Count));
+
+            for (var index = 0; index < wrapped.Lines.Count && lines.Count < maxLines; index++)
+            {
+                var line = wrapped.Lines[index];
+                var text = name.Substring(line.Start, Math.Min(line.Length, name.Length - line.Start));
+
+                // Everything that did not fit is folded onto the final line and trimmed, so the
+                // ellipsis says "there is more name here" rather than the name simply stopping.
+                var isLast = lines.Count == maxLines - 1 || index == wrapped.Lines.Count - 1;
+                if (isLast && line.Start + line.Length < name.Length)
+                {
+                    var remainder = name.Substring(line.Start);
+                    var trimmed = TextMetrics.Layout(
+                        font,
+                        remainder,
+                        new TextLayoutOptions(maxWidth: maxWidth, trimming: TextTrimming.CharacterEllipsis));
+                    text = VisibleText(trimmed, remainder);
+                }
+
+                lines.Add(text);
+            }
+
+            return lines;
+        }
+
+        /// <summary>
+        /// The text a trimmed single-line layout actually shows, ellipsis included.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="TextLayout"/> reports what it trimmed rather than handing back a shortened
+        /// string, because a layout is drawn from glyphs and never needs one. Here the caller
+        /// measures and draws each line separately, so it does.
+        /// </remarks>
+        private static string VisibleText(TextLayout layout, string source)
+        {
+            if (layout.Lines.Count == 0) return string.Empty;
+
+            var line = layout.Lines[0];
+            var visible = Math.Max(0, Math.Min(line.VisibleRange.Length, source.Length - line.Start));
+            return source.Substring(line.Start, visible) + line.Ellipsis;
+        }
+
         private Rectangle EntriesBounds
         {
             get

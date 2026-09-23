@@ -8692,6 +8692,97 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void FileDialog_ThumbnailLabelNeverExceedsItsCell()
+        {
+            // The bug this replaces: thumbnail labels were measured only to centre them, never to
+            // constrain them, so a name wider than its cell drew over the neighbouring cells and,
+            // in the last column, past the dialog's own border.
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var font = new DynamicUIFont(face, 15);
+            const int MaxWidth = 106;
+
+            foreach (var name in new[]
+                     {
+                         "Paramia.Core",
+                         "Paramia.Editor.Native.Browser",
+                         "a-name-with-no-break-opportunities-at-all-whatsoever",
+                         "Some Directory With Spaces In It",
+                     })
+            {
+                var lines = FileDialog.FitThumbnailLabel(font, name, MaxWidth, 2);
+
+                Assert.That(lines, Is.Not.Empty, $"'{name}' produced no label at all.");
+                Assert.That(lines.Count, Is.LessThanOrEqualTo(2), $"'{name}' wrapped past the cell's two lines.");
+                foreach (var line in lines)
+                {
+                    Assert.That(
+                        TextMetrics.Measure(font, line).X,
+                        Is.LessThanOrEqualTo(MaxWidth),
+                        $"'{line}' from '{name}' is wider than the {MaxWidth}px cell.");
+                }
+            }
+        }
+
+        [Test]
+        public void FileDialog_ThumbnailLabelKeepsShortNamesOnOneLineAndIntact()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var font = new DynamicUIFont(face, 15);
+
+            var lines = FileDialog.FitThumbnailLabel(font, "src", 106, 2);
+
+            // A name that fits is left exactly alone -- no wrap pass, no ellipsis, no second line.
+            Assert.That(lines, Is.EqualTo(new[] { "src" }));
+        }
+
+        [Test]
+        public void FileDialog_ThumbnailLabelWrapsInsideAWordBecauseFileNamesHaveNoSpaces()
+        {
+            // Word wrapping would leave "Paramia.Editor.Native.Browser" exactly as unbreakable as
+            // no wrapping at all: it is one "word". Character wrapping is what makes the second
+            // line useful, and the second line is what keeps sibling directories distinguishable.
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var font = new DynamicUIFont(face, 15);
+
+            var browser = FileDialog.FitThumbnailLabel(font, "Paramia.Editor.Native.Browser", 106, 2);
+            var testing = FileDialog.FitThumbnailLabel(font, "Paramia.Editor.Native.Testing", 106, 2);
+
+            Assert.That(browser.Count, Is.EqualTo(2), "A long dotted name should use both lines.");
+
+            // The point of the whole exercise: two directories sharing a 21-character prefix still
+            // read differently. With a single ellipsised line they would both be "Paramia.Edito...".
+            Assert.That(string.Concat(browser), Is.Not.EqualTo(string.Concat(testing)));
+        }
+
+        [Test]
+        public void FileDialog_ThumbnailLabelEllipsisesWhatItCannotShow()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var font = new DynamicUIFont(face, 15);
+
+            var lines = FileDialog.FitThumbnailLabel(font, new string('W', 400), 106, 2);
+
+            Assert.That(lines.Count, Is.EqualTo(2));
+            Assert.That(lines[^1], Does.EndWith("…"), "A truncated name should say so rather than simply stopping.");
+        }
+
+        [Test]
+        public void FileDialog_ThumbnailLabelHandlesDegenerateCells()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var font = new DynamicUIFont(face, 15);
+
+            // A dialog can be resized smaller than one cell mid-layout; returning nothing to draw
+            // is correct there, and is what the draw loop is written to expect.
+            Assert.Multiple(() =>
+            {
+                Assert.That(FileDialog.FitThumbnailLabel(font, "name", 0, 2), Is.Empty);
+                Assert.That(FileDialog.FitThumbnailLabel(font, "name", 106, 0), Is.Empty);
+                Assert.That(FileDialog.FitThumbnailLabel(font, string.Empty, 106, 2), Is.Empty);
+            });
+        }
+
+        [Test]
         public void FileDialog_DefaultOkTextSurvivesButCustomOkTextSurvivesFileModeChange()
         {
             // Godot's FileDialog changes only default_ok_text per mode via set_default_ok_text; a
