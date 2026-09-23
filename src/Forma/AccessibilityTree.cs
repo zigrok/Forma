@@ -171,6 +171,46 @@ namespace Forma
             return builder.ToString();
         }
 
+        /// <summary>
+        /// The same tree as <see cref="ToText"/> with each node's bounds, for working out why
+        /// something is laid out the way it is.
+        /// </summary>
+        /// <remarks>
+        /// Deliberately not what <see cref="ToText"/> produces, and deliberately not for goldens:
+        /// bounds churn with window size and would make every unrelated change look like a
+        /// regression. This is the other half of that trade -- a view you reach for when a control
+        /// is the wrong size and you need to know which ancestor decided that, which is the
+        /// question a golden tree cannot answer.
+        /// </remarks>
+        public string ToLayoutText()
+        {
+            var depthById = new Dictionary<int, int>(Nodes.Count);
+            var builder = new StringBuilder();
+
+            foreach (var node in Nodes)
+            {
+                var depth = node.IsRoot || !depthById.TryGetValue(node.ParentId, out var parentDepth)
+                    ? 0
+                    : parentDepth + 1;
+                depthById[node.Id] = depth;
+
+                builder.Append(' ', depth * 2);
+                builder.Append(node.Role.ToString());
+
+                if (node.Name.Length > 0) builder.Append(" \"").Append(node.Name).Append('"');
+                if (node.AutomationId.Length > 0) builder.Append(" #").Append(node.AutomationId);
+
+                builder.Append("  [")
+                    .Append(node.Bounds.X).Append(',').Append(node.Bounds.Y)
+                    .Append(' ').Append(node.Bounds.Width).Append('x').Append(node.Bounds.Height)
+                    .Append(']');
+
+                builder.Append('\n');
+            }
+
+            return builder.ToString();
+        }
+
         /// <summary>A short summary for logs; use <see cref="ToText"/> for the tree itself.</summary>
         public override string ToString() =>
             string.Create(CultureInfo.InvariantCulture, $"AccessibilityTreeSnapshot({Nodes.Count} nodes, focus={FocusedId})");

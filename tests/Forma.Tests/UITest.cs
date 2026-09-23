@@ -4523,6 +4523,49 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void TabContainer_DrawsTabsWhereItHitTestsThem()
+        {
+            // The bug this guards: the draw loop kept its own equal-split width after hit testing
+            // and the close button moved to content sizing. The strip painted half-width tabs with
+            // their close buttons somewhere else entirely, and every unit test passed, because
+            // each asked the geometry rather than the painter.
+            //
+            // Nothing here reads pixels. What it checks is the property that was violated -- that
+            // one layout is shared -- through its observable consequences: tabs tile the strip
+            // from the left with no gaps, and pressing inside a tab's own rectangle selects that
+            // tab and not a neighbour.
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var tabs = new TabContainer { UIFont = new DynamicUIFont(face, 15), Size = new Vector2(600, 120) };
+            tabs.AddChild(new Control());
+            tabs.AddChild(new Control());
+            tabs.AddChild(new Control());
+            using var context = new UIContext();
+            context.Add(tabs);
+            context.Layout();
+            tabs.SetTabTitle(0, "Home");
+            tabs.SetTabTitle(1, "a-considerably-longer-document-name");
+            tabs.SetTabTitle(2, "third");
+            context.Layout();
+
+            var rects = new[] { tabs.GetTabRect(0), tabs.GetTabRect(1), tabs.GetTabRect(2) };
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(rects[0].Left, Is.EqualTo(0), "the strip should start at the left edge.");
+                Assert.That(rects[1].Left, Is.EqualTo(rects[0].Right), "tabs should tile without gaps.");
+                Assert.That(rects[2].Left, Is.EqualTo(rects[1].Right), "tabs should tile without gaps.");
+            });
+
+            for (var tab = 0; tab < 3; tab++)
+            {
+                var rect = rects[tab];
+                context.InjectPointerPress(new Point(rect.Center.X, rect.Center.Y));
+                context.InjectPointerRelease(new Point(rect.Center.X, rect.Center.Y));
+                Assert.That(tabs.CurrentTab, Is.EqualTo(tab), $"pressing inside tab {tab} should select tab {tab}.");
+            }
+        }
+
+        [Test]
         public void TabContainer_SizesTabsToTheirTitlesByDefault()
         {
             // The default used to be Justify with no way out: two tabs took half the window each

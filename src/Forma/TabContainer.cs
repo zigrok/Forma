@@ -302,13 +302,12 @@ namespace Forma
             var body = new Rectangle(Bounds.X, Bounds.Y + (int)headerHeight - 1, Bounds.Width, Math.Max(0, Bounds.Height - (int)headerHeight + 1));
             context.Border(body, context.Theme.PanelBorderColor);
             context.Fill(new Rectangle(Bounds.X, Bounds.Y, Bounds.Width, (int)headerHeight), context.Theme.BackgroundColor);
-            var strip = GetTabStripRectangle();
-            var visible = GetVisibleTabs();
-            var width = visible.Count == 0 ? strip.Width : Math.Max(1, strip.Width / visible.Count);
-            for (var order = 0; order < visible.Count; order++)
+            // The same rectangles hit testing and the close button use. This loop used to compute
+            // its own equal split, which is how the strip ended up painting half-width tabs with
+            // their close buttons somewhere else entirely.
+            foreach (var (i, rect) in GetTabLayouts())
             {
-                var i = visible[order]; var state = GetState(i);
-                var rect = new Rectangle(strip.X + width * order, Bounds.Y, order == visible.Count - 1 ? strip.Right - (strip.X + width * order) : width, (int)headerHeight);
+                var state = GetState(i);
                 var drawRect = i == CurrentTab ? GetSelectedTabRectangle(rect, context.Theme) : rect;
                 var fill = i == CurrentTab
                     ? context.Theme.TabSelectedColor
