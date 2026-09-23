@@ -18,7 +18,18 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    <ProjectReference Include="../Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" />
+    <!-- The runtime project path is forwarded, matching Forma.DynamicText. Without it an app that
+         builds Forma against a MonoGame/FNA *project* rather than the package gets a second
+         Forma.csproj instance resolved against the package, and the build fails with two
+         assemblies named MonoGame.Framework. -->
+    <ProjectReference Include="../Forma/Forma.csproj"
+              AdditionalProperties="FormaRuntime=$(FormaRuntime);MonoGameProjectPath=$(MonoGameProjectPath)"
+              Condition="'$(FormaRuntime)' == 'MonoGame'" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+              AdditionalProperties="FormaRuntime=$(FormaRuntime);FnaProjectPath=$(FnaProjectPath)"
+              Condition="'$(FormaRuntime)' == 'FNA'" />
+    <ProjectReference Include="../Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)"
+              Condition="'$(FormaRuntime)' != 'MonoGame' And '$(FormaRuntime)' != 'FNA'" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' == ''">

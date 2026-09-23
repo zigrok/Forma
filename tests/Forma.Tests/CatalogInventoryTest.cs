@@ -147,11 +147,29 @@ public sealed class CatalogInventoryTest
         Assert.That(dialog.Entries.Select(Path.GetFileName), Is.EqualTo(new[] { "PlayerController.cs", "WorldLoader.cs" }));
     }
 
+    /// <summary>
+    /// Found by walking up to the repository rather than by counting "..". The output path carries
+    /// the runtime, the runtime source and the configuration, so a fixed depth breaks whenever any
+    /// of those gains a segment - and it breaks as a missing-file assertion listing every story,
+    /// which reads like a catastrophe rather than a moved directory.
+    /// </summary>
+    private static string CatalogDirectory()
+    {
+        var directory = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
+        while (directory != null && !Directory.Exists(Path.Combine(directory.FullName, "samples", "Forma.Catalog")))
+            directory = directory.Parent;
+
+        if (directory == null)
+            throw new InvalidOperationException("Could not locate samples/Forma.Catalog above the test directory.");
+
+        return Path.Combine(directory.FullName, "samples", "Forma.Catalog");
+    }
+
     [Test]
     public void EveryCatalogStoryHasItsOwnXamlFile()
     {
         var stories = StoryCatalog.Create(null);
-        var catalogDirectory = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../../../samples/Forma.Catalog"));
+        var catalogDirectory = CatalogDirectory();
         var missingPaths = stories
             .Where(story => string.IsNullOrWhiteSpace(story.XamlPath))
             .Select(story => $"{story.Category} / {story.Name}")

@@ -26,12 +26,21 @@
     <FormaRuntime Condition="'$(FormaRuntime)' == ''">MonoGame</FormaRuntime>
     <FormaBuildTarget Condition="'$(FormaBuildTarget)' == ''">Desktop</FormaBuildTarget>
     <FormaVersion>0.1.0-alpha.2</FormaVersion>
-    <BaseIntermediateOutputPath>obj/$(FormaRuntime)/</BaseIntermediateOutputPath>
-    <BaseOutputPath>bin/$(FormaRuntime)/</BaseOutputPath>
-    <BaseIntermediateOutputPath Condition="'$(FormaDynamicTextBackend)' == 'External'">obj/$(FormaRuntime)/External/</BaseIntermediateOutputPath>
-    <BaseOutputPath Condition="'$(FormaDynamicTextBackend)' == 'External'">bin/$(FormaRuntime)/External/</BaseOutputPath>
-    <BaseIntermediateOutputPath Condition="'$(FormaBuildTarget)' == 'Browser'">obj/$(FormaRuntime)/Browser/</BaseIntermediateOutputPath>
-    <BaseOutputPath Condition="'$(FormaBuildTarget)' == 'Browser'">bin/$(FormaRuntime)/Browser/</BaseOutputPath>
+    <!-- A consumer that supplies its own MonoGame/FNA *project* resolves the runtime differently
+         from a standalone build, which takes the package. Both used to share obj/$(FormaRuntime),
+         so whichever restored last won and the other inherited its project.assets.json - producing
+         two assemblies named MonoGame.Framework and a CS1704 that points at an innocent project.
+         Keeping the two restores apart is what makes "build Forma, then build the app that embeds
+         it" work in one checkout. -->
+    <FormaRuntimeSource Condition="'$(FormaRuntime)' == 'MonoGame' And '$(MonoGameProjectPath)' != ''">Project</FormaRuntimeSource>
+    <FormaRuntimeSource Condition="'$(FormaRuntime)' == 'FNA' And '$(FnaProjectPath)' != ''">Project</FormaRuntimeSource>
+    <FormaRuntimeSource Condition="'$(FormaRuntimeSource)' == ''">Package</FormaRuntimeSource>
+    <BaseIntermediateOutputPath>obj/$(FormaRuntime)/$(FormaRuntimeSource)/</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin/$(FormaRuntime)/$(FormaRuntimeSource)/</BaseOutputPath>
+    <BaseIntermediateOutputPath Condition="'$(FormaDynamicTextBackend)' == 'External'">obj/$(FormaRuntime)/$(FormaRuntimeSource)/External/</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(FormaDynamicTextBackend)' == 'External'">bin/$(FormaRuntime)/$(FormaRuntimeSource)/External/</BaseOutputPath>
+    <BaseIntermediateOutputPath Condition="'$(FormaBuildTarget)' == 'Browser'">obj/$(FormaRuntime)/$(FormaRuntimeSource)/Browser/</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(FormaBuildTarget)' == 'Browser'">bin/$(FormaRuntime)/$(FormaRuntimeSource)/Browser/</BaseOutputPath>
     <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
     <PackageOutputPath>$(MSBuildThisFileDirectory)Artifacts/packages/$(FormaRuntime)</PackageOutputPath>
     <MonoGameVersion>3.8.5</MonoGameVersion>
