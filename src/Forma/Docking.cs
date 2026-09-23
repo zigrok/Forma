@@ -216,21 +216,17 @@ namespace Forma
 
         public override Vector2 GetMinimumSize()
         {
-            // The header still asks for its full width, so a pane is never narrower than its own
-            // tabs by default. Dropping that is the natural companion to scrolling them -- the
-            // tabs should not be what decides how wide a panel is -- but it cannot be done from
-            // here alone: the workspace divides the available width using these minimums, and a
-            // body that reports no minimum of its own then gets laid out past the window's edge.
-            // The header width has been standing in for a minimum the panels never declared.
+            // Deliberately not the header's width: that is the whole point of scrolling the tabs.
+            // Five sections tabbed together used to set the pane's minimum from five titles, so a
+            // panel was wide because "Mesh Vertices" is a long phrase rather than because
+            // anything inside it needed the room, and adding a section made the pane grow.
             //
-            // So scrolling engages when the workspace squeezes a pane below this anyway, which is
-            // what happens when the window is too small for every pane's minimum at once. Making
-            // it engage on a roomy window needs the panels to say how much width they need first.
-            var header = _header.GetMinimumSize();
+            // The body has to mean it, though. The workspace divides the available width using
+            // these minimums, so a body that reports nothing now gets nothing, and a
+            // ScrollContainer with both axes enabled reports exactly that. Disable the axis whose
+            // width matters, or set CustomMinimumSize.
             var body = _body?.GetMinimumSize() ?? Vector2.Zero;
-            return Vector2.Max(
-                CustomMinimumSize,
-                new Vector2(MathF.Max(header.X, body.X), HeaderHeight + body.Y));
+            return Vector2.Max(CustomMinimumSize, new Vector2(body.X, HeaderHeight + body.Y));
         }
 
         protected override void ArrangeChildren()

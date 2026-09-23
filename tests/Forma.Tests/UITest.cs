@@ -4566,6 +4566,51 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void DockPane_StopsLettingItsTabsDictateHowNarrowItCanBe()
+        {
+            // The header used to feed the pane's minimum width, so every tab title made the panel
+            // wider and a pane could not be narrowed past its own tab strip -- which is exactly
+            // the room scrolling needs in order to ever happen.
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var pane = new DockPane { Size = new Vector2(220, 300) };
+            for (var section = 0; section < 10; section++)
+                pane.Add(new DockSection($"section-{section}", $"Panel Number {section}", new Control()));
+
+            using var context = new UIContext
+            {
+                ViewportSize = new Vector2(220, 300),
+                Theme = new Theme { FontFamily = new UIFontFamily(new[] { new DynamicUIFont(face, 13) }) },
+            };
+            context.Add(pane);
+            context.Layout();
+
+            Assert.That(pane.GetMinimumSize().X, Is.LessThan(pane.HeaderViewport.Extent.X),
+                "A pane should be allowed to be narrower than the full width of its tabs.");
+        }
+
+        [Test]
+        public void DockPane_StillHonoursWhatItsBodyAsksFor()
+        {
+            // The other half of the same contract: the minimum comes from the body now, so a body
+            // that does ask for width must still get it. A ScrollContainer only asks when the axis
+            // in question cannot scroll, which is the trap this replaced.
+            var body = new ScrollContainer
+            {
+                Content = new Control { CustomMinimumSize = new Vector2(320, 40) },
+                HorizontalScrollMode = ScrollBarVisibility.Disabled,
+            };
+
+            var pane = new DockPane { Size = new Vector2(220, 300) };
+            pane.Add(new DockSection("wide", "Wide", body));
+
+            using var context = new UIContext { ViewportSize = new Vector2(220, 300) };
+            context.Add(pane);
+            context.Layout();
+
+            Assert.That(pane.GetMinimumSize().X, Is.GreaterThanOrEqualTo(320));
+        }
+
+        [Test]
         public void DockPane_ScrollsItsHeaderWhenTheTabsStopFitting()
         {
             // The same behaviour as the document strip, reached a different way: this header holds
