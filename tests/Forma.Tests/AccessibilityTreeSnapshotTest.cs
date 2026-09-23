@@ -200,6 +200,93 @@ public sealed class AccessibilityTreeSnapshotTest
     }
 
     /// <summary>
+    /// A tree's rows reach the tree. A navigation tree that announces nothing does not merely go
+    /// unannounced — everything reachable only through it becomes unreachable too.
+    /// </summary>
+    [Test]
+    public void ATreesRowsAreInTheTree()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var tree = new Tree { CustomMinimumSize = new Vector2(200, 200) };
+        var root = tree.CreateItem();
+        root.SetText(0, "Controls");
+        var child = tree.CreateItem(root);
+        child.SetText(0, "Button");
+        context.Add(tree);
+        context.WaitForSettled();
+
+        var names = AccessibilityTree.Capture(context).Nodes.Select(node => node.Name).ToList();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(names, Does.Contain("Controls"));
+            Assert.That(names, Does.Contain("Button"));
+        });
+    }
+
+    /// <summary>A collapsed row's children are not drawn, so they are not announced either.</summary>
+    [Test]
+    public void ACollapsedRowsChildrenAreNotAnnounced()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var tree = new Tree { CustomMinimumSize = new Vector2(200, 200) };
+        var root = tree.CreateItem();
+        root.SetText(0, "Controls");
+        var child = tree.CreateItem(root);
+        child.SetText(0, "Button");
+        root.SetCollapsed(true);
+        context.Add(tree);
+        context.WaitForSettled();
+
+        var names = AccessibilityTree.Capture(context).Nodes.Select(node => node.Name).ToList();
+
+        Assert.That(names, Does.Contain("Controls"));
+        Assert.That(names, Does.Not.Contain("Button"));
+    }
+
+    [Test]
+    public void SelectingARowThroughItsPeerSelectsIt()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var tree = new Tree { CustomMinimumSize = new Vector2(200, 200) };
+        var first = tree.CreateItem();
+        first.SetText(0, "Controls");
+        var second = tree.CreateItem();
+        second.SetText(0, "Layout");
+        context.Add(tree);
+        context.WaitForSettled();
+
+        var node = AccessibilityTree.Capture(context).Nodes.First(candidate => candidate.Name == "Layout");
+
+        Assert.That(AccessibilityTree.TryPerformAction(context, node.Id, AccessibilityActions.Select), Is.True);
+        Assert.That(tree.SelectedItem, Is.SameAs(second));
+    }
+
+    [Test]
+    public void ExpandingARowThroughItsPeerRevealsItsChildren()
+    {
+        using var context = new UIContext { ViewportSize = new Vector2(400, 300) };
+        var tree = new Tree { CustomMinimumSize = new Vector2(200, 200) };
+        var root = tree.CreateItem();
+        root.SetText(0, "Controls");
+        var child = tree.CreateItem(root);
+        child.SetText(0, "Button");
+        root.SetCollapsed(true);
+        context.Add(tree);
+        context.WaitForSettled();
+
+        var collapsed = AccessibilityTree.Capture(context).Nodes.First(candidate => candidate.Name == "Controls");
+        Assert.That(collapsed.States.HasFlag(AccessibilityStates.Collapsed), Is.True);
+
+        Assert.That(AccessibilityTree.TryPerformAction(context, collapsed.Id, AccessibilityActions.Expand), Is.True);
+        context.WaitForSettled();
+
+        var names = AccessibilityTree.Capture(context).Nodes.Select(node => node.Name).ToList();
+        Assert.That(names, Does.Contain("Button"));
+    }
+
+
+    /// <summary>
     /// A menu's entries reach the tree. A menu draws them rather than building a control for each,
     /// so before this the whole command surface of an application was one empty node: a screen
     /// reader announced "menu" and stopped, and an automation client saw a container with nothing

@@ -145,6 +145,7 @@ namespace Forma.Accessibility
             });
 
             ApplyNumericValue(handle, node);
+            ApplyToggled(handle, node);
             ApplyActions(handle, node.Actions);
             ApplyStates(handle, node.States);
             if (children != null) SetChildren(handle, children);
@@ -193,14 +194,40 @@ namespace Forma.Accessibility
             if ((actions & AccessibilityActions.Collapse) != 0) AccessKit.accesskit_node_add_action(node, AccessKitAction.Collapse);
         }
 
+        /// <summary>
+        /// Reports a checkable node's state, including when it is *not* checked.
+        /// </summary>
+        /// <remarks>
+        /// Setting the toggled state only when checked is not the same as reporting it: a node that
+        /// says nothing is announced as not checkable at all, so an unchecked box and a label read
+        /// identically. Which nodes are checkable is decided by role, because that is the only
+        /// thing that distinguishes "unchecked" from "has no such concept".
+        /// </remarks>
+        private static void ApplyToggled(IntPtr node, AccessibilityNode described)
+        {
+            switch (described.Role)
+            {
+                case AccessibilityRole.CheckBox:
+                case AccessibilityRole.MenuItem:
+                    break;
+                default:
+                    // Anything else only reports a toggled state when it actually has one.
+                    if ((described.States & AccessibilityStates.Checked) != 0)
+                        AccessKit.accesskit_node_set_toggled(node, AccessKitToggled.True);
+                    return;
+            }
+
+            AccessKit.accesskit_node_set_toggled(
+                node,
+                (described.States & AccessibilityStates.Checked) != 0 ? AccessKitToggled.True : AccessKitToggled.False);
+        }
+
         private static void ApplyStates(IntPtr node, AccessibilityStates states)
         {
             if ((states & AccessibilityStates.Disabled) != 0) AccessKit.accesskit_node_set_disabled(node);
             if ((states & AccessibilityStates.ReadOnly) != 0) AccessKit.accesskit_node_set_read_only(node);
             if ((states & AccessibilityStates.Offscreen) != 0) AccessKit.accesskit_node_set_hidden(node);
             if ((states & AccessibilityStates.Selected) != 0) AccessKit.accesskit_node_set_selected(node, true);
-            if ((states & AccessibilityStates.Checked) != 0)
-                AccessKit.accesskit_node_set_toggled(node, AccessKitToggled.True);
         }
 
         /// <summary>

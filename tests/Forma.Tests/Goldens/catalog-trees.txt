@@ -1529,6 +1529,9 @@ Rasters 0 · pages 0 · 0.0 KB · hits 0 · misses 0 · atlas pending"
             Generic
               Generic "Tree hierarchy arrow"
               Tree "svgTree"
+                TreeItem "Source SVG" [Expanded]
+                TreeItem "Exact scale"
+                TreeItem "RTL"
                 Generic "PART_TreePresenter"
             Generic
               Generic "DataGrid hierarchy arrow"
@@ -1807,6 +1810,9 @@ Generic "ThemeIconRect"
 Generic "ThemeIconView"
 === Tree
 Tree "Tree"
+  TreeItem "World" [Expanded]
+  TreeItem "Player" [Expanded]
+  TreeItem "Camera2D"
   Generic "PART_TreePresenter"
 === TreePresenter
 Generic "TreePresenter"

@@ -243,4 +243,69 @@ namespace Forma
             return _menu.PerformAccessibilityItemAction(Index, action);
         }
     }
+
+    /// <summary>
+    /// One visible row of a <see cref="Tree"/>.
+    /// </summary>
+    /// <remarks>
+    /// A <see cref="TreeItem"/> is data the tree draws, not a control, so without this a tree is an
+    /// empty node with a scrollbar. That is worse than it sounds for a navigation tree, which is
+    /// usually the only way into the rest of an application: everything behind it becomes
+    /// unreachable rather than merely unannounced.
+    /// </remarks>
+    public sealed class TreeItemAccessibilityPeer : AccessibilityPeer
+    {
+        private readonly Tree _tree;
+        private readonly TreeItem _item;
+        private readonly int _id = Control.AllocateAccessibilityId();
+
+        internal TreeItemAccessibilityPeer(Tree tree, TreeItem item) : base(tree)
+        {
+            _tree = tree;
+            _item = item;
+        }
+
+        /// <summary>The row this peer describes.</summary>
+        public TreeItem Item => _item;
+
+        /// <summary>This row's own identity, distinct from the tree's.</summary>
+        public override int Id => _id;
+
+        /// <summary>Always true: a row is drawn by the tree rather than built as a control.</summary>
+        public override bool IsVirtual => true;
+
+        /// <summary>Always empty: a row is data rather than a control.</summary>
+        public override string AutomationId => string.Empty;
+
+        /// <summary>Always <see cref="AccessibilityRole.TreeItem"/>.</summary>
+        public override AccessibilityRole Role => AccessibilityRole.TreeItem;
+
+        /// <summary>The row's text in the first column, which is what is announced.</summary>
+        public override string Name => _tree.GetAccessibilityItemText(_item);
+
+        /// <summary>Always empty: a row's text is its name, not a value.</summary>
+        public override string Value => string.Empty;
+
+        /// <summary>Select and Focus, plus Expand or Collapse for a row that has children.</summary>
+        public override AccessibilityActions Actions => _tree.GetAccessibilityItemActions(_item);
+
+        /// <summary>Selected, Current, Expanded or Collapsed, and Disabled for an unselectable row.</summary>
+        public override AccessibilityStates States => _tree.GetAccessibilityItemStates(_item);
+
+        /// <summary>The row's rectangle in global coordinates.</summary>
+        public override Rectangle Bounds => _tree.GetItemAreaRectangle(_item);
+
+        /// <summary>
+        /// Always empty. Child rows are published as siblings, because the tree already flattens
+        /// them into the order they are drawn and a snapshot is a flat list.
+        /// </summary>
+        public override IReadOnlyList<AccessibilityPeer> Children => Array.Empty<AccessibilityPeer>();
+
+        /// <summary>Acts on this row rather than on the tree.</summary>
+        public override bool Invoke(AccessibilityActions action, object argument = null)
+        {
+            if ((Actions & action) == 0) return false;
+            return _tree.PerformAccessibilityItemAction(_item, action);
+        }
+    }
 }

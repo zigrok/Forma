@@ -99,6 +99,36 @@ python3 tools/a11y-probe/capture_inspector.py --pid $PID --out before.png
 python3 tools/a11y-probe/capture_inspector.py --pid $PID --out after.png --element "Search"
 ```
 
+## Driving it with a computer-use agent
+
+[Cua Driver](https://cua.ai/docs) is an agent driver whose primary perception path on macOS is an
+AX tree walk, with pixels as the documented fallback for "canvas, video, WebGL or custom-drawn
+surfaces that don't appear in the AX tree". Before this bridge, a Forma application *was* that
+fallback case. After it, the same driver sees the UI:
+
+| | Elements Cua Driver finds in the Catalog |
+| --- | --- |
+| No bridge | **11** — the window, three title-bar buttons, the menu bar |
+| Bridge attached | **180** — the whole UI, each actionable element indexed |
+
+With the tree in place an agent can complete a stated task by naming elements. Opening the DataGrid
+story and turning off its alternating-row background, both by element name:
+
+```sh
+cua-driver call get_window_state '{"pid":PID,"window_id":WID,"query":"DataGrid"}'
+#   - [65] AXRow "DataGrid"
+cua-driver call click '{"pid":PID,"window_id":WID,"element_index":65}'
+#   ✅ Performed AXPress on [65] AXRow "DataGrid".
+```
+
+![The Catalog with the DataGrid story open and its alternating-row-background setting turned off,
+captured by Cua Driver's trajectory recorder with the click point
+marked](../images/accessibility/cua-datagrid-task.png)
+
+Not a coordinate anywhere: the row is found by name and pressed by index into the same snapshot.
+`set_recording` writes a turn folder per action — the post-action AX snapshot, a screenshot, the
+click point, and the arguments — which is what makes a run like this reviewable afterwards.
+
 ## Checking it from outside
 
 In-process tests prove the tree is built. They do not prove anyone else can see it — and "anyone
