@@ -11,12 +11,18 @@
     <FormaXamlHotReload Condition="'$(FormaXamlHotReload)' == ''">false</FormaXamlHotReload>
     <DefineConstants Condition="'$(FormaXamlHotReload)' == 'true'">$(DefineConstants);FORMA_XAML_HOT_RELOAD</DefineConstants>
     <DefineConstants Condition="'$(FormaRuntime)' == 'FNA'">$(DefineConstants);FORMA_CATALOG_FNA</DefineConstants>
+    <!-- GameWindow.PlatformHandle is an addition in the zigrok MonoGame fork, not stock MonoGame,
+         so the accessibility demo only compiles against it when a runtime *project* was supplied.
+         Built against the package the Catalog still runs; it reports that no native window handle
+         is available and carries on, which is the same path any unsupported backend takes. -->
+    <DefineConstants Condition="'$(MonoGameProjectPath)' != ''">$(DefineConstants);FORMA_CATALOG_PLATFORM_HANDLE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="$(MonoGamePackageId)" Version="$(MonoGameVersion)" Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' == ''" />
     <PackageReference Include="$(FnaPackageId)" Version="$(FnaVersion)" Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' == ''" />
     <ProjectReference Include="../../src/Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" />
+    <ProjectReference Include="../../src/Forma.Accessibility/Forma.Accessibility.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" />
     <ProjectReference Include="../../src/Forma.DynamicText/Forma.DynamicText.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" />
     <ProjectReference Include="../../src/Forma.Media/Forma.Media.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" />
     <ProjectReference Include="../../src/Forma.Xaml.Build/Forma.Xaml.Build.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)" GlobalPropertiesToRemove="CatalogBackend" ReferenceOutputAssembly="false" />

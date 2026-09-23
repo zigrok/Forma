@@ -77,6 +77,28 @@ are lossy in the direction of announcing *something* rather than nothing:
 `Press` and `Toggle` both map to AccessKit's `Click`: macOS has one `AXPress`, and the distinction
 Forma draws is about what the control does with it rather than about what was asked.
 
+## What it looks like
+
+With no bridge, the operating system sees a Forma application as its window and nothing else — the
+whole UI is one rectangle:
+
+![Accessibility Inspector showing the Catalog with no bridge: the application contains one window
+and a menu bar, and nothing inside the window](../images/accessibility/inspector-before.png)
+
+With the bridge attached, the same application's controls are elements the system can name, locate
+and act on. Here Accessibility Inspector is pointed at the Catalog's search field:
+
+![Accessibility Inspector showing the Catalog's search field as a text field, with its title,
+frame and enabled state](../images/accessibility/inspector-after.png)
+
+Both were produced by `tools/a11y-probe/capture_inspector.py`, which drives Accessibility Inspector
+rather than asking someone to take a screenshot:
+
+```sh
+python3 tools/a11y-probe/capture_inspector.py --pid $PID --out before.png
+python3 tools/a11y-probe/capture_inspector.py --pid $PID --out after.png --element "Search"
+```
+
 ## Checking it from outside
 
 In-process tests prove the tree is built. They do not prove anyone else can see it — and "anyone

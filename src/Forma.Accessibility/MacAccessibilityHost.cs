@@ -72,10 +72,16 @@ namespace Forma.Accessibility
 
             try
             {
-                // SDL puts keyboard focus on the window rather than on the content view, so without
-                // this the tree reports nothing as focused. The class name is SDL3's: SDL2's was
-                // "SDLWindow", and AccessKit's own SDL example still says the old one.
-                AddFocusForwarder("SDL3Window");
+                // Checked before anything is attached, because the adapter panics rather than
+                // fails if the window has no content view -- and a Rust panic across the FFI
+                // boundary aborts the process.
+                if (!HasContentView(windowHandle))
+                {
+                    Release();
+                    return false;
+                }
+
+                AddFocusForwarder();
 
                 _self = GCHandle.Alloc(this);
                 _adapter = AccessKit.accesskit_macos_subclassing_adapter_for_window(
@@ -170,7 +176,32 @@ namespace Forma.Accessibility
             AccessKit.accesskit_macos_queued_events_raise(events);
         }
 
-        private static unsafe void AddFocusForwarder(string className)
+        /// <summary>
+        /// Teaches the windowing library's <c>NSWindow</c> subclass to forward the focused element
+        /// to its content view. SDL puts keyboard focus on the window rather than the view, so
+        /// without this nothing is ever reported as focused.
+        /// </summary>
+        /// <remarks>
+        /// The class is looked up first rather than named and hoped for. AccessKit unwraps the
+        /// lookup, so passing a class that does not exist is a Rust panic and therefore a process
+        /// abort — and the name genuinely differs by backend: SDL2 (MonoGame's DesktopGL, FNA) uses
+        /// <c>SDLWindow</c> while SDL3 uses <c>SDL3Window</c>. A window class that matches neither
+        /// is not a failure: focus reporting is the only thing lost, and the tree still works.
+        /// </remarks>
+        private static void AddFocusForwarder()
+        {
+            foreach (var className in WindowClassNames)
+            {
+                if (objc_getClass(className) == IntPtr.Zero) continue;
+                AddFocusForwarderTo(className);
+                return;
+            }
+        }
+
+        /// <summary>NSWindow subclasses known to place focus on the window rather than the view.</summary>
+        private static readonly string[] WindowClassNames = { "SDL3Window", "SDLWindow" };
+
+        private static unsafe void AddFocusForwarderTo(string className)
         {
             var bytes = Encoding.UTF8.GetBytes(className);
             fixed (byte* pointer = bytes)
@@ -178,6 +209,33 @@ namespace Forma.Accessibility
                 AccessKit.accesskit_macos_add_focus_forwarder_to_window_class_with_length(pointer, (nuint)bytes.Length);
             }
         }
+
+        /// <summary>
+        /// Whether the window has a content view to attach to. The adapter subclasses that view, and
+        /// documents that it panics when there is not one.
+        /// </summary>
+        private static bool HasContentView(IntPtr window)
+        {
+            try
+            {
+                var selector = sel_registerName("contentView");
+                return selector != IntPtr.Zero && objc_msgSend_IntPtr(window, selector) != IntPtr.Zero;
+            }
+            catch (EntryPointNotFoundException)
+            {
+                // No Objective-C runtime to ask. Not macOS, so there is nothing to attach to.
+                return false;
+            }
+        }
+
+        [DllImport("/usr/lib/libobjc.dylib", CharSet = CharSet.Ansi)]
+        private static extern IntPtr objc_getClass(string name);
+
+        [DllImport("/usr/lib/libobjc.dylib", CharSet = CharSet.Ansi)]
+        private static extern IntPtr sel_registerName(string name);
+
+        [DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
+        private static extern IntPtr objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate IntPtr ActivationHandler(IntPtr userdata);

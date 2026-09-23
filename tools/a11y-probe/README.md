@@ -29,6 +29,24 @@ inspected. Without it every query fails with an API-disabled error; the script r
 than printing an empty tree, because an empty tree and a missing permission look identical
 otherwise.
 
+## Screenshots
+
+`capture_inspector.py` drives Xcode's Accessibility Inspector and photographs it, so the visual
+artifact does not depend on someone being at the machine:
+
+```sh
+python3 capture_inspector.py --pid 1234 --out before.png
+python3 capture_inspector.py --pid 1234 --out after.png --element "Search"
+```
+
+Without `--element` it shows the application node and its hierarchy, which is the telling picture
+when there is nothing inside the window. With it, the Inspector's point-to-inspect mode is aimed at
+that control and the screenshot shows its attributes.
+
+It relaunches the Inspector each time on purpose: the Inspector holds a reference from the moment
+you target an application, so one opened before the application published its tree keeps showing
+the application as it was — indistinguishable from a bridge that does not work.
+
 ## What a good result looks like
 
 An application with no accessibility support still reports a handful of window-level elements — the
