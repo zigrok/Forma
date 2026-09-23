@@ -33,6 +33,9 @@ namespace Forma
         }
 
         private readonly Dictionary<Control, TabPageState> _tabStates = new Dictionary<Control, TabPageState>();
+        private TabBarSizingMode _tabSizing = TabBarSizingMode.FitContent;
+        private TabBarAlignment _tabAlignment = TabBarAlignment.Left;
+        private int _maxTabWidth;
         private int _currentTab;
         private int _previousTab = -1;
         private int _draggedTab = -1;
@@ -103,6 +106,45 @@ namespace Forma
             TabHeight,
             EffectiveUIFont == null ? DefaultTabHeight : TextMetrics.LineHeight(EffectiveUIFont) + DefaultTabVerticalPadding));
         /// <summary>Enables pointer drag reordering of tab pages, like Godot's TabContainer.</summary>
+        /// <summary>
+        /// How wide each tab is drawn. Defaults to <see cref="TabBarSizingMode.FitContent"/>, so a
+        /// tab is as wide as its title needs.
+        /// </summary>
+        /// <remarks>
+        /// This used to be <see cref="TabBarSizingMode.Justify"/> with no way out: every tab took
+        /// an equal share of the full width, so two tabs each took half the window however short
+        /// their titles. <see cref="TabBar"/> has offered the choice since it was written, and a
+        /// container that wraps the same idea should not answer differently.
+        ///
+        /// The modes match <see cref="TabBar.TabSizing"/>: fit to content, uniform at the widest
+        /// tab's size, justify to fill regardless of content, or expand -- fit to content, then
+        /// share out any leftover.
+        /// </remarks>
+        public TabBarSizingMode TabSizing
+        {
+            get => _tabSizing;
+            set { if (_tabSizing == value) return; _tabSizing = value; QueueLayout(); }
+        }
+
+        /// <summary>
+        /// Where the tabs sit when they do not fill the strip. Ignored when they do.
+        /// </summary>
+        public TabBarAlignment TabAlignment
+        {
+            get => _tabAlignment;
+            set { if (_tabAlignment == value) return; _tabAlignment = value; QueueLayout(); }
+        }
+
+        /// <summary>
+        /// A ceiling on any one tab's width, or zero for none. A long file name is truncated
+        /// rather than pushing every other tab off the strip.
+        /// </summary>
+        public int MaxTabWidth
+        {
+            get => _maxTabWidth;
+            set { var clamped = Math.Max(0, value); if (_maxTabWidth == clamped) return; _maxTabWidth = clamped; QueueLayout(); }
+        }
+
         public bool DragToRearrangeEnabled { get; set; }
         /// <summary>Optional group identifier reserved for compatibility with Godot tab-container rearrangement groups.</summary>
         public int TabsRearrangeGroup { get; set; } = -1;
@@ -351,22 +393,144 @@ namespace Forma
         }
         private int GetTabAt(Point point)
         {
-            var visible = GetVisibleTabs();
-            if (visible.Count == 0 || point.Y < Bounds.Top || point.Y >= Bounds.Top + EffectiveTabHeight) return -1;
-            var strip = GetTabStripRectangle();
-            var width = Math.Max(1, strip.Width / visible.Count);
-            var order = MathHelper.Clamp((point.X - strip.Left) / width, 0, visible.Count - 1);
-            return point.X < strip.Left || point.X >= strip.Right ? -1 : visible[order];
+            if (point.Y < Bounds.Top || point.Y >= Bounds.Top + EffectiveTabHeight) return -1;
+
+            // Walks the same rectangles that get drawn rather than recomputing a width. Deriving
+            // the index arithmetically only works while every tab is the same width, which is
+            // exactly what FitContent stops being true.
+            foreach (var (tab, rect) in GetTabLayouts())
+            {
+                if (rect.Contains(point)) return tab;
+            }
+
+            return -1;
         }
+        /// <summary>
+        /// Where a tab is drawn, in global coordinates, or <see cref="Rectangle.Empty"/> when it is
+        /// hidden or out of range. Public to match <see cref="TabBar.GetTabRect"/>.
+        /// </summary>
+        public Rectangle GetTabRect(int tab) => GetTabRectangle(tab);
+
         private Rectangle GetTabRectangle(int tab)
         {
+            foreach (var (candidate, rect) in GetTabLayouts())
+            {
+                if (candidate == tab) return rect;
+            }
+
+            return Rectangle.Empty;
+        }
+
+        /// <summary>
+        /// Every visible tab's rectangle, in strip order.
+        /// </summary>
+        /// <remarks>
+        /// One place, because drawing, hit testing and the close button's position all have to
+        /// agree. They were three separate width calculations, and they agreed only because every
+        /// tab was the same size.
+        /// </remarks>
+        private List<(int Tab, Rectangle Rect)> GetTabLayouts()
+        {
+            var layouts = new List<(int, Rectangle)>();
             var visible = GetVisibleTabs();
-            var order = visible.IndexOf(tab);
-            if (order < 0) return Rectangle.Empty;
+            if (visible.Count == 0) return layouts;
+
             var strip = GetTabStripRectangle();
-            var width = Math.Max(1, strip.Width / visible.Count);
-            var x = strip.X + width * order;
-            return new Rectangle(x, Bounds.Y, order == visible.Count - 1 ? strip.Right - x : width, (int)EffectiveTabHeight);
+            var widths = GetTabWidths(visible, strip.Width, out var total);
+
+            var x = strip.X;
+            if (total < strip.Width && TabSizing != TabBarSizingMode.Justify)
+            {
+                x += TabAlignment switch
+                {
+                    TabBarAlignment.Center => (strip.Width - total) / 2,
+                    TabBarAlignment.Right => strip.Width - total,
+                    _ => 0,
+                };
+            }
+
+            for (var index = 0; index < visible.Count; index++)
+            {
+                layouts.Add((visible[index], new Rectangle(x, Bounds.Y, widths[index], (int)EffectiveTabHeight)));
+                x += widths[index];
+            }
+
+            return layouts;
+        }
+
+        /// The width of each visible tab under the current sizing mode. Mirrors TabBar's.
+        private List<int> GetTabWidths(List<int> visible, int stripWidth, out int total)
+        {
+            var widths = new List<int>(visible.Count);
+            var widest = 0;
+            total = 0;
+
+            foreach (var tab in visible)
+            {
+                var width = GetDesiredTabWidth(tab);
+                widths.Add(width);
+                total += width;
+                widest = Math.Max(widest, width);
+            }
+
+            switch (TabSizing)
+            {
+                case TabBarSizingMode.Uniform:
+                    total = widest * widths.Count;
+                    for (var index = 0; index < widths.Count; index++) widths[index] = widest;
+                    break;
+
+                case TabBarSizingMode.Justify:
+                {
+                    var width = Math.Max(1, stripWidth / widths.Count);
+                    total = width * widths.Count;
+                    for (var index = 0; index < widths.Count; index++) widths[index] = width;
+
+                    // The last tab absorbs the rounding, so the strip is filled exactly rather
+                    // than leaving a sliver of background at the right edge.
+                    widths[^1] += stripWidth - total;
+                    total = stripWidth;
+                    break;
+                }
+
+                case TabBarSizingMode.Expand when total < stripWidth:
+                {
+                    var extra = (stripWidth - total) / widths.Count;
+                    total = 0;
+                    for (var index = 0; index < widths.Count; index++)
+                    {
+                        widths[index] += extra;
+                        total += widths[index];
+                    }
+
+                    // The last tab takes the remainder, as in Justify. Dividing the slack by the
+                    // tab count loses up to count-1 pixels, and a mode whose whole purpose is to
+                    // use the space should not leave a sliver of background at the right edge.
+                    widths[^1] += stripWidth - total;
+                    total = stripWidth;
+                    break;
+                }
+            }
+
+            return widths;
+        }
+
+        /// <summary>
+        /// How much room a tab's contents need: its title, plus whatever is drawn beside it.
+        /// </summary>
+        private int GetDesiredTabWidth(int tab)
+        {
+            var state = GetState(tab);
+            var title = state.Title ?? Children[tab].Name ?? string.Empty;
+
+            // The fallback matters on the frame before a font resolves: a zero-width tab cannot be
+            // clicked, and eight pixels a character is closer than nothing.
+            var text = EffectiveUIFont == null
+                ? title.Length * 8
+                : (int)MathF.Ceiling(TextMetrics.Measure(EffectiveUIFont, title).X);
+
+            var width = Math.Max(32, text + 12 + (state.Icon == null ? 0 : 20) + (state.ButtonIcon == null ? 0 : 18));
+            return MaxTabWidth > 0 ? Math.Min(width, MaxTabWidth) : width;
         }
         internal Rectangle GetSelectedTabRectangle()
         {

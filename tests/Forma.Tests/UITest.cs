@@ -4523,9 +4523,142 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void TabContainer_SizesTabsToTheirTitlesByDefault()
+        {
+            // The default used to be Justify with no way out: two tabs took half the window each
+            // however short their titles, which is what a document tab strip should not do.
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var tabs = new TabContainer { UIFont = new DynamicUIFont(face, 15), Size = new Vector2(600, 120) };
+            tabs.AddChild(new Control());
+            tabs.AddChild(new Control());
+            using var context = new UIContext();
+            context.Add(tabs);
+            context.Layout();
+
+            tabs.SetTabTitle(0, "Home");
+            tabs.SetTabTitle(1, "a-considerably-longer-document-name");
+            context.Layout();
+
+            Assert.That(tabs.TabSizing, Is.EqualTo(TabBarSizingMode.FitContent));
+
+            var home = tabs.GetTabRect(0);
+            var document = tabs.GetTabRect(1);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(home.Width, Is.LessThan(document.Width), "a short title should take less room than a long one.");
+                Assert.That(home.Width + document.Width, Is.LessThan(600), "together they should not fill a strip far wider than they need.");
+                Assert.That(document.Left, Is.EqualTo(home.Right), "tabs should sit flush against each other.");
+                Assert.That(home.Left, Is.EqualTo(0), "and start at the left edge.");
+            });
+        }
+
+        [Test]
+        public void TabContainer_HonoursEachSizingMode()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var tabs = new TabContainer { UIFont = new DynamicUIFont(face, 15), Size = new Vector2(600, 120) };
+            tabs.AddChild(new Control());
+            tabs.AddChild(new Control());
+            using var context = new UIContext();
+            context.Add(tabs);
+            context.Layout();
+            tabs.SetTabTitle(0, "Home");
+            tabs.SetTabTitle(1, "a-considerably-longer-document-name");
+            context.Layout();
+
+            tabs.TabSizing = TabBarSizingMode.Uniform;
+            context.Layout();
+            Assert.That(tabs.GetTabRect(0).Width, Is.EqualTo(tabs.GetTabRect(1).Width), "Uniform should give every tab the widest one's size.");
+
+            tabs.TabSizing = TabBarSizingMode.Justify;
+            context.Layout();
+            Assert.That(tabs.GetTabRect(0).Width + tabs.GetTabRect(1).Width, Is.EqualTo(600), "Justify should fill the strip exactly.");
+
+            tabs.TabSizing = TabBarSizingMode.Expand;
+            context.Layout();
+            Assert.Multiple(() =>
+            {
+                // Expand keeps the content ordering and shares out the slack, so the long tab
+                // stays the wider of the two while together they fill the strip.
+                Assert.That(tabs.GetTabRect(0).Width, Is.LessThan(tabs.GetTabRect(1).Width));
+                Assert.That(tabs.GetTabRect(0).Width + tabs.GetTabRect(1).Width, Is.EqualTo(600));
+            });
+        }
+
+        [Test]
+        public void TabContainer_AlignsTabsThatDoNotFillTheStrip()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var tabs = new TabContainer { UIFont = new DynamicUIFont(face, 15), Size = new Vector2(600, 120) };
+            tabs.AddChild(new Control());
+            using var context = new UIContext();
+            context.Add(tabs);
+            context.Layout();
+            tabs.SetTabTitle(0, "Home");
+            context.Layout();
+
+            var width = tabs.GetTabRect(0).Width;
+
+            tabs.TabAlignment = TabBarAlignment.Center;
+            context.Layout();
+            Assert.That(tabs.GetTabRect(0).Left, Is.EqualTo((600 - width) / 2));
+
+            tabs.TabAlignment = TabBarAlignment.Right;
+            context.Layout();
+            Assert.That(tabs.GetTabRect(0).Right, Is.EqualTo(600));
+        }
+
+        [Test]
+        public void TabContainer_CapsAnOverlongTitleAtMaxTabWidth()
+        {
+            // Without a ceiling one very long file name pushes every other tab off the strip.
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var tabs = new TabContainer { UIFont = new DynamicUIFont(face, 15), Size = new Vector2(600, 120), MaxTabWidth = 80 };
+            tabs.AddChild(new Control());
+            using var context = new UIContext();
+            context.Add(tabs);
+            context.Layout();
+            tabs.SetTabTitle(0, new string('W', 200));
+            context.Layout();
+
+            Assert.That(tabs.GetTabRect(0).Width, Is.EqualTo(80));
+        }
+
+        [Test]
+        public void TabContainer_HitTestsContentSizedTabsAtTheirOwnRectangles()
+        {
+            // Hit testing used to divide the strip by the tab count, which is only correct while
+            // every tab is the same width. Under the new default it is not, so clicking the
+            // second tab has to land on the second tab rather than on whatever is halfway across.
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var tabs = new TabContainer { UIFont = new DynamicUIFont(face, 15), Size = new Vector2(600, 120) };
+            tabs.AddChild(new Control());
+            tabs.AddChild(new Control());
+            using var context = new UIContext();
+            context.Add(tabs);
+            context.Layout();
+            tabs.SetTabTitle(0, "Home");
+            tabs.SetTabTitle(1, "a-considerably-longer-document-name");
+            context.Layout();
+
+            var second = tabs.GetTabRect(1);
+            context.InjectPointerPress(new Point(second.Center.X, second.Center.Y));
+            context.InjectPointerRelease(new Point(second.Center.X, second.Center.Y));
+
+            Assert.That(tabs.CurrentTab, Is.EqualTo(1));
+
+            // And the empty strip past the last tab selects nothing rather than the nearest one.
+            var before = tabs.CurrentTab;
+            context.InjectPointerPress(new Point(590, second.Center.Y));
+            context.InjectPointerRelease(new Point(590, second.Center.Y));
+            Assert.That(tabs.CurrentTab, Is.EqualTo(before));
+        }
+
+        [Test]
         public void TabContainer_SelectedTabGetsDefaultAccentIndicator()
         {
-            var tabs = new TabContainer { Size = new Vector2(200, 100), DeselectEnabled = true };
+            var tabs = new TabContainer { Size = new Vector2(200, 100), DeselectEnabled = true, TabSizing = TabBarSizingMode.Justify };
             tabs.AddChild(new Control());
             tabs.AddChild(new Control());
             using var context = new UIContext();
@@ -4599,7 +4732,7 @@ namespace Forma.Tests
         public void TabContainer_ForwardsTabHoverAndButtonIconPressWithoutSelecting()
         {
             var buttonIcon = (Texture2D)RuntimeHelpers.GetUninitializedObject(typeof(Texture2D));
-            var tabs = new TabContainer { Size = new Vector2(200, 100) };
+            var tabs = new TabContainer { Size = new Vector2(200, 100), TabSizing = TabBarSizingMode.Justify };
             tabs.AddChild(new Control { Name = "Scene" });
             tabs.AddChild(new Control { Name = "Inspector" });
             tabs.CurrentTab = 1;
@@ -7614,7 +7747,7 @@ namespace Forma.Tests
             context.Update(Time, Mouse(250, 10, ButtonState.Pressed), new KeyboardState());
             context.Update(Time, Mouse(250, 10), new KeyboardState());
 
-            var container = new TabContainer { Size = new Vector2(300, 120), DragToRearrangeEnabled = true, TabsRearrangeGroup = 4 };
+            var container = new TabContainer { Size = new Vector2(300, 120), DragToRearrangeEnabled = true, TabsRearrangeGroup = 4, TabSizing = TabBarSizingMode.Justify };
             var scene = new Control { Name = "Scene" }; var script = new Control { Name = "Script" }; var asset = new Control { Name = "Asset" };
             container.AddChild(scene); container.AddChild(script); container.AddChild(asset); container.CurrentTab = 1;
             var rearrangedContainer = -1; container.ActiveTabRearranged += (_, index) => rearrangedContainer = index;
