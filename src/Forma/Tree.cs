@@ -726,8 +726,8 @@ namespace Forma
         public string IncrementalSearchText => _incrementalSearch;
         public float ItemHeight { get; set; } = 24;
         public float Indent { get; set; } = 16;
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public TreeItem SelectedItem => _selected;
         public int SelectedColumn => _selected == null ? -1 : _selectedColumn;
@@ -1331,7 +1331,7 @@ namespace Forma
             if (_selected != null && !_selected.IsVisibleInTree()) { _selected.IsSelected = false; _selected = null; _selectedColumn = 0; }
             QueueLayout();
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             if (ColumnTitlesVisible && point.Y < RowOriginY)
@@ -1439,7 +1439,7 @@ namespace Forma
             }
             ItemMouseSelected?.Invoke(this, point, button);
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             _dragPointer = point;
             if (_dragAutoScrolling) UpdateDragUnfoldTarget(point);
@@ -1471,7 +1471,7 @@ namespace Forma
             QueueLayout();
             ColumnResized?.Invoke(this, _resizingColumn, width);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             ResetRangeStepRepeat();
             if (_stringEditPressItem != null)
@@ -2183,6 +2183,90 @@ namespace Forma
             return widths;
         }
         private static int Sum(List<int> values) { var total = 0; foreach (var value in values) total += value; return total; }
+        /// <summary>
+        /// One peer per visible row. A tree draws its rows rather than building a control for each,
+        /// so this is the only way they reach the accessibility tree — and a navigation tree that
+        /// announces nothing makes everything behind it unreachable, not merely unannounced.
+        /// </summary>
+        public override IReadOnlyList<AccessibilityPeer> GetAccessibilityChildren()
+        {
+            var rows = Flatten();
+            if (rows.Count == 0) return Array.Empty<AccessibilityPeer>();
+
+            var peers = new List<AccessibilityPeer>(rows.Count);
+            foreach (var item in rows)
+            {
+                if (!_accessibilityPeers.TryGetValue(item, out var peer))
+                {
+                    // Cached per item so a row keeps its identity across snapshots: a diff that saw
+                    // a new id for every row on every frame would report the whole tree as replaced.
+                    peer = new TreeItemAccessibilityPeer(this, item);
+                    _accessibilityPeers[item] = peer;
+                }
+
+                peers.Add(peer);
+            }
+
+            return peers;
+        }
+
+        private readonly Dictionary<TreeItem, TreeItemAccessibilityPeer> _accessibilityPeers =
+            new Dictionary<TreeItem, TreeItemAccessibilityPeer>();
+
+        internal string GetAccessibilityItemText(TreeItem item) =>
+            item == null || item.Owner != this ? string.Empty : item.GetText(0) ?? string.Empty;
+
+        internal AccessibilityActions GetAccessibilityItemActions(TreeItem item)
+        {
+            if (item == null || item.Owner != this) return AccessibilityActions.None;
+
+            var actions = AccessibilityActions.Focus;
+            if (item.Selectable) actions |= AccessibilityActions.Select;
+            if (item.Children.Count > 0)
+                actions |= item.Collapsed ? AccessibilityActions.Expand : AccessibilityActions.Collapse;
+            return actions;
+        }
+
+        internal AccessibilityStates GetAccessibilityItemStates(TreeItem item)
+        {
+            if (item == null || item.Owner != this) return AccessibilityStates.Offscreen;
+
+            var states = AccessibilityStates.None;
+            if (!item.Selectable) states |= AccessibilityStates.Disabled;
+            if (ReferenceEquals(SelectedItem, item)) states |= AccessibilityStates.Selected;
+            if (item.Children.Count > 0)
+                states |= item.Collapsed ? AccessibilityStates.Collapsed : AccessibilityStates.Expanded;
+            return states;
+        }
+
+        /// <summary>
+        /// Runs an action on one row, through the same selection and collapse paths a click takes,
+        /// so an assistive technology cannot reach a row a person cannot.
+        /// </summary>
+        internal bool PerformAccessibilityItemAction(TreeItem item, AccessibilityActions action)
+        {
+            if (item == null || item.Owner != this) return false;
+
+            switch (action)
+            {
+                case AccessibilityActions.Select:
+                case AccessibilityActions.Focus:
+                    if (!item.Selectable) return false;
+                    Select(item);
+                    return true;
+                case AccessibilityActions.Expand:
+                    if (item.Children.Count == 0) return false;
+                    item.SetCollapsed(false);
+                    return true;
+                case AccessibilityActions.Collapse:
+                    if (item.Children.Count == 0) return false;
+                    item.SetCollapsed(true);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private List<TreeItem> Flatten()
         {
             var result = new List<TreeItem>(); foreach (var root in _roots) Collect(root, result, !(HideRoot && root.Parent == null)); return result;

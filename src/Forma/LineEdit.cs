@@ -92,6 +92,22 @@ namespace Forma
         protected virtual bool MoveCaretToEndOnInitialTextAssignment => true;
         public string SecretCharacter { get; set; } = string.Empty;
         public bool Editable { get; set; } = true;
+
+        /// <summary>
+        /// SetValue assigns <see cref="Text"/>, the same property typing ultimately writes, so
+        /// validation and change notification behave identically. Refused when not editable,
+        /// because a read-only field cannot be typed into either.
+        /// </summary>
+        public override bool PerformAccessibilityAction(AccessibilityActions action, object argument = null)
+        {
+            if (action != AccessibilityActions.SetValue)
+                return base.PerformAccessibilityAction(action, argument);
+
+            if (!Editable || !IsEffectivelyEnabled) return false;
+
+            Text = argument?.ToString() ?? string.Empty;
+            return true;
+        }
         private int _maxLength;
         public int MaxLength
         {
@@ -146,8 +162,8 @@ namespace Forma
         public string SelectedText => HasSelection ? Text.Substring(SelectionFrom, SelectionTo - SelectionFrom) : string.Empty;
         public bool HasUndo => _undoStack.Count > 0;
         public bool HasRedo => _redoStack.Count > 0;
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public Thickness Padding { get; set; }
         public VerticalAlignment TextVerticalAlignment
@@ -432,7 +448,7 @@ namespace Forma
             ClipboardOperationFailed?.Invoke(this, operation);
         }
         public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, new Vector2(80, EffectiveUIFont == null ? 24 : TextMetrics.LineHeight(EffectiveUIFont) + Padding.Vertical));
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             CancelImeComposition();
             var hadSelectionBeforeFocus = HasSelection;
@@ -480,11 +496,11 @@ namespace Forma
             else if (_selectingByWord) SelectPointerRange(clickedColumn);
             else Deselect();
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (_selectingText) SelectPointerRange(GetCaretColumnAtPosition(position));
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (_selectingText) SelectPointerRange(GetCaretColumnAtPosition(position));
             _selectingText = false;

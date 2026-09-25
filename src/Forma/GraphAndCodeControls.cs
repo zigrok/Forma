@@ -100,7 +100,7 @@ namespace Forma
             var size = Math.Max(8, (int)MathF.Round(12 * (Parent is GraphEdit graph ? graph.Zoom : 1f)));
             return new Rectangle(Bounds.Right - size, Bounds.Bottom - size, size, size);
         }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             base.PointerPressed(position);
             if (Resizable && GetResizeHandleBounds().Contains(position))
@@ -119,7 +119,7 @@ namespace Forma
             _dragOffset = Parent is GraphEdit graph ? graph.ScreenToGraph(new Vector2(position.X, position.Y) - graph.GlobalPosition) - Position : new Vector2(position.X, position.Y) - GlobalPosition;
             if (Parent is GraphEdit dragGraph) dragGraph.BeginGraphElementDrag(this);
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (_resizing)
             {
@@ -137,7 +137,7 @@ namespace Forma
             }
             else Position = new Vector2(position.X, position.Y) - _dragOffset - (Parent?.GlobalPosition ?? Vector2.Zero);
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (_resizing)
             {
@@ -232,8 +232,8 @@ namespace Forma
         private string _title = string.Empty;
         public GraphNode() { CustomMinimumSize = new Vector2(140, 80); }
         public string Title { get => _title; set { value ??= string.Empty; if (_title == value) return; _title = value; QueueLayout(); } }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         /// <summary>Allows this node to accept an interactive connection whose type is not otherwise compatible.</summary>
         public bool IgnoreInvalidConnectionType { get; set; }
@@ -357,18 +357,18 @@ namespace Forma
         public event Action<GraphNode, int> SlotUpdated;
         /// <summary>Raised after child-backed slot rows are rearranged, matching Godot's slot_sizes_changed signal.</summary>
         public event Action<GraphNode> SlotSizesChanged;
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             if (Parent is GraphEdit graph && graph.TryBeginConnectionDrag(this, position)) return;
             if (Parent is GraphEdit selectionGraph && !Selected) selectionGraph.SelectNode(this);
             base.PointerPressed(position);
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (Parent is GraphEdit graph && graph.IsConnectionDragging) { graph.UpdateConnectionDrag(position); return; }
             base.PointerMoved(position);
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (Parent is GraphEdit graph && graph.IsConnectionDragging) { graph.EndConnectionDrag(position); return; }
             base.PointerReleased(position, isInside);
@@ -651,7 +651,7 @@ namespace Forma
             var margin = Math.Max(0, DragMargin);
             return margin > 0 && (local.X < margin || local.Y < margin || local.X >= Size.X - margin || local.Y >= Size.Y - margin);
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (AutoshrinkEnabled && IsResizing) return;
             base.PointerMoved(position);
@@ -1481,7 +1481,7 @@ namespace Forma
             if (element == null || element.Parent != this) return;
             MoveChild(element, Children.Count - 1);
         }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             base.PointerPressed(position);
             for (var index = Children.Count - 1; index >= 0; index--)
@@ -1490,13 +1490,13 @@ namespace Forma
             else if (BoxSelectionEnabled) BeginBoxSelection(position);
             else { _backgroundPanning = true; Panner.BeginPan(position); }
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (IsConnectionDragging) { UpdateConnectionDrag(position); return; }
             if (_boxSelecting) { UpdateBoxSelection(position); return; }
             if (_backgroundPanning) Panner.UpdatePan(position);
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (IsConnectionDragging) { EndConnectionDrag(position); return; }
             if (_boxSelecting) { UpdateBoxSelection(position); _boxSelecting = false; return; }
@@ -2345,7 +2345,7 @@ namespace Forma
             GetCommandLineRange(out var first, out var last);
             var lines = GetEditableLines(); var block = lines.GetRange(first, last - first + 1); lines.InsertRange(last + 1, block); SetEditableLines(lines, last + 1, last + block.Count);
         }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             _lastSymbolLookupPosition = position;
             if (DrawMinimap && GetMinimapBounds().Contains(position))
@@ -2382,12 +2382,12 @@ namespace Forma
                 if (!string.IsNullOrEmpty(_pendingSymbolLookupWord)) SymbolLookupRequested?.Invoke(this, _pendingSymbolLookupWord, CaretLine, CaretColumnInLine);
             }
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (_draggingMinimap) { ScrollMinimapTo(position.Y); return; }
             base.PointerMoved(position);
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             _draggingMinimap = false;
             base.PointerReleased(position, isInside);

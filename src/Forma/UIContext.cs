@@ -61,6 +61,17 @@ namespace Forma
         public Point PointerPosition { get; private set; }
         /// <summary>Keyboard state for the input frame currently being dispatched, including modifier keys used by controls such as Tree.</summary>
         public KeyboardState CurrentKeyboardState { get; private set; }
+        /// <summary>
+        /// The laid-out UI as indented text with every control's bounds.
+        /// </summary>
+        /// <remarks>
+        /// The box model, for working out why something is the wrong size.
+        /// <see cref="AccessibilityTreeSnapshot.ToText"/> omits bounds so golden files do not churn with
+        /// window size; this is the other half of that trade, and belongs in assertions as well
+        /// as in diagnosis because it needs no window.
+        /// </remarks>
+        public string DescribeLayout() => AccessibilityTree.Capture(this).ToLayoutText();
+
         /// <summary>Game time for the input frame currently being dispatched, used by retained multi-click gestures.</summary>
         public TimeSpan CurrentTime { get; private set; }
 
@@ -104,11 +115,18 @@ namespace Forma
             get
             {
                 if (IsDisposingOrDisposed) return Cursor.Arrow;
-                if (IsInputEligible(_captured)) return _captured.EffectiveCursor;
+                if (IsInputEligible(_captured)) return ResolveCursor(_captured);
                 var modal = GetActiveModalPopup();
                 var target = modal == null ? HitTest(PointerPosition) : HitTest(modal, PointerPosition);
-                return IsInputEligible(target) ? target.EffectiveCursor : Cursor.Arrow;
+                return IsInputEligible(target) ? ResolveCursor(target) : Cursor.Arrow;
             }
+        }
+        /// <summary>Asks a control which cursor belongs under the pointer, so a control whose cursor
+        /// varies across its surface can answer per position, and falls back to its resolved cursor.</summary>
+        private Cursor ResolveCursor(Control control)
+        {
+            var cursor = control.GetCursorAt(PointerPosition);
+            return cursor == Cursor.Inherited ? control.EffectiveCursor : cursor;
         }
         /// <summary>Whether retained touch-style interactions should be enabled for pointer input.</summary>
         public bool TouchscreenAvailable { get; set; }
@@ -399,6 +417,60 @@ namespace Forma
             DispatchInjectedPointerButton(target, point, button, pressed: true);
         }
 
+        /// <summary>
+        /// Whether <see cref="Update(GameTime, MouseState, KeyboardState)"/> ignores the mouse and
+        /// keyboard it is handed. Off by default; turn it on when a host drives this context purely
+        /// through the Inject methods, so the polled pass cannot overwrite what was injected.
+        /// </summary>
+        public bool SuppressPolledInput { get; set; }
+
+        /// <summary>
+        /// Delivers a key press to the focused control, including shortcut routing, as though it
+        /// arrived this frame.
+        /// <para>
+        /// Distinct from handing a <see cref="KeyboardState"/> to <c>Update</c>: that replaces the
+        /// whole keyboard, so it cannot express a chord arriving mid-frame and forces a caller to
+        /// model key state it does not own. Modifiers travel with the press instead.
+        /// </para>
+        /// <para>
+        /// Call on the update thread, between frames — the same contract the pointer injection
+        /// methods follow. Dispatch runs synchronously and reaches handlers that expect to be on the
+        /// thread that owns the tree.
+        /// </para>
+        /// </summary>
+        public void InjectKeyPress(Keys key, params Keys[] modifiers)
+        {
+            Layout();
+
+            var pressed = new List<Keys>(modifiers?.Length + 1 ?? 1) { key };
+            if (modifiers != null) pressed.AddRange(modifiers);
+
+            var state = new KeyboardState(pressed.ToArray());
+            CurrentKeyboardState = state;
+            DispatchKey(key, state);
+        }
+
+        /// <summary>Delivers a key release to the focused control. See <see cref="InjectKeyPress"/>.</summary>
+        public void InjectKeyRelease(Keys key)
+        {
+            Layout();
+            CurrentKeyboardState = new KeyboardState();
+            FocusedControl?.KeyReleased(key);
+        }
+
+        /// <summary>
+        /// Delivers committed text to the focused control, as a completed composition rather than a
+        /// preedit. This is the text-entry counterpart of <see cref="InjectKeyPress"/>; typing a
+        /// character through key injection alone would not produce text, because a key is not a
+        /// character until the platform's input method says so.
+        /// </summary>
+        public void InjectText(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+            Layout();
+            TextInput(text);
+        }
+
         /// <summary>Releases a pointer button at a position expressed in physical back-buffer pixels.</summary>
         public void InjectPointerRelease(Point physicalPosition, PointerButton button = PointerButton.Left)
         {
@@ -451,6 +523,20 @@ namespace Forma
             UpdateFrameBoundaryCallbacks(gameTime);
             UpdateXamlScopes(gameTime);
             ValidateInteractionState();
+
+            // With polled input suppressed, the frame still advances - layout settles, controls tick,
+            // animations run - but the mouse and keyboard passed in are ignored entirely. A host that
+            // is driving this context by injection needs that: an unfocused game is fed a default
+            // MouseState and KeyboardState every frame, which would otherwise yank the pointer back
+            // to (0,0) and release every key between one injected event and the next.
+            if (SuppressPolledInput)
+            {
+                Layout();
+                CurrentTime = gameTime?.TotalGameTime ?? TimeSpan.Zero;
+                foreach (var root in new List<Control>(_roots)) if (root.IsRendered) root.Process(gameTime);
+                return;
+            }
+
             if (Math.Abs(DisplayScale - 1f) > .0001f)
             {
                 mouse = new MouseState(
@@ -541,6 +627,23 @@ namespace Forma
             _previousKeyboard = keyboard;
         }
 
+        /// <summary>
+        /// Converts a logical position -- the space <see cref="Control.Bounds"/> is reported in --
+        /// into the physical one the <c>Inject</c> methods take.
+        /// </summary>
+        /// <remarks>
+        /// The two spaces coincide at <see cref="DisplayScale"/> 1, which is every headless test,
+        /// so a test that feeds a control's own Bounds straight to InjectPointerPress passes in CI
+        /// and then misses the control entirely on a Retina display. Nothing warns you: the click
+        /// lands somewhere, just not there. Anything deriving a pointer position from a control's
+        /// geometry should go through this.
+        /// </remarks>
+        public Point ToPhysicalPointerPosition(Point logicalPosition) => Math.Abs(DisplayScale - 1f) <= .0001f
+            ? logicalPosition
+            : new Point(
+                (int)MathF.Round(logicalPosition.X * DisplayScale),
+                (int)MathF.Round(logicalPosition.Y * DisplayScale));
+
         private Point ToLogicalPointerPosition(Point physicalPosition) => Math.Abs(DisplayScale - 1f) <= .0001f
             ? physicalPosition
             : new Point(
@@ -601,6 +704,59 @@ namespace Forma
             for (var control = target; control != null; control = control.VisualParent)
                 if (control.PointerWheel(delta)) return true;
             return false;
+        }
+
+        /// <summary>
+        /// Whether the UI has stopped moving: every control has had its layout pass and no
+        /// frame-boundary work is outstanding.
+        /// <para>
+        /// This is what removes fixed frame counts from tests. Advancing "enough" frames and hoping
+        /// is the single most common source of flakiness in UI tests — too few and the assertion
+        /// races the layout, too many and every test pays for the slowest case.
+        /// </para>
+        /// </summary>
+        public bool IsSettled
+        {
+            get
+            {
+                lock (_frameBoundaryCallbacks)
+                    if (_frameBoundaryCallbacks.Count > 0) return false;
+
+                foreach (var root in _roots)
+                    if (root.IsRendered && !root.IsSubtreeSettled()) return false;
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Runs layout passes until the UI settles, returning whether it did within
+        /// <paramref name="maxPasses"/>.
+        /// <para>
+        /// Bounded by passes rather than wall-clock time, deliberately: a time budget makes a test
+        /// behave differently on a loaded machine, which is exactly the flakiness this is meant to
+        /// remove. Layout converges in a handful of passes or it is not going to.
+        /// </para>
+        /// </summary>
+        public bool WaitForSettled(int maxPasses = 16)
+        {
+            for (var pass = 0; pass < maxPasses; pass++)
+            {
+                Layout();
+                if (IsSettled) return true;
+            }
+
+            return IsSettled;
+        }
+
+        /// <summary>
+        /// How many frame-boundary callbacks are outstanding. Non-zero keeps
+        /// <see cref="IsSettled"/> false for a reason unrelated to layout, which is worth telling
+        /// apart when a wait times out.
+        /// </summary>
+        internal int PendingFrameBoundaryCallbackCount
+        {
+            get { lock (_frameBoundaryCallbacks) return _frameBoundaryCallbacks.Count; }
         }
 
         public void Layout()
@@ -887,7 +1043,7 @@ namespace Forma
             return null;
         }
 
-        private Popup GetActiveModalPopup()
+        internal Popup GetActiveModalPopup()
         {
             var roots = GetRootsInDrawOrder();
             for (var index = roots.Count - 1; index >= 0; index--)
@@ -1036,7 +1192,7 @@ namespace Forma
             }
         }
 
-        private IReadOnlyList<Control> GetRootsInDrawOrder()
+        internal IReadOnlyList<Control> GetRootsInDrawOrder()
         {
             if (!_rootOrderDirty) return _rootsInDrawOrder;
             _rootsInDrawOrder.Clear();

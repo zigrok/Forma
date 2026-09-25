@@ -507,7 +507,7 @@ namespace Forma
             return null;
         }
 
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             var meta = GetMetaUnderPosition(position);
             if (meta != null) { MetaClicked?.Invoke(this, meta); return; }

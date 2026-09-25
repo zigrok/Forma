@@ -1,0 +1,74 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Forma.Accessibility</AssemblyName>
+    <RootNamespace>Forma.Accessibility</RootNamespace>
+    <PackageId Condition="'$(FormaRuntime)' == 'MonoGame'">Forma.Accessibility.MonoGame</PackageId>
+    <PackageId Condition="'$(FormaRuntime)' == 'FNA'">Forma.Accessibility.FNA</PackageId>
+    <VersionPrefix>$(FormaVersion)</VersionPrefix>
+    <Description>Publishes a Forma accessibility tree to the operating system through AccessKit.</Description>
+    <PackageTags>forma;$(FormaRuntime);accessibility;accesskit;automation;game-development</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>disable</Nullable>
+    <!-- The interop layer works in pointers and fixed buffers. Confined to this project rather
+         than enabled across Forma. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Not AOT- or trim-annotated yet: the native library is resolved by name at runtime and the
+         callbacks go through Marshal.GetFunctionPointerForDelegate, neither of which the analyzers
+         can see through. Revisit with [UnmanagedCallersOnly] and a NativeLibrary resolver. -->
+    <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>false</EnableAotAnalyzer>
+    <IsAotCompatible>false</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.111" PrivateAssets="All" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+              AdditionalProperties="FormaRuntime=$(FormaRuntime);MonoGameProjectPath=$(MonoGameProjectPath)"
+              Condition="'$(FormaRuntime)' == 'MonoGame'" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+              AdditionalProperties="FormaRuntime=$(FormaRuntime);FnaProjectPath=$(FnaProjectPath)"
+              Condition="'$(FormaRuntime)' == 'FNA'" />
+    <ProjectReference Include="../Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)"
+              Condition="'$(FormaRuntime)' != 'MonoGame' And '$(FormaRuntime)' != 'FNA'" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' == ''">
+    <PackageReference Include="$(MonoGamePackageId)" Version="$(MonoGameVersion)" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' != ''">
+    <ProjectReference Include="$(MonoGameProjectPath)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' == ''">
+    <PackageReference Include="$(FnaPackageId)" Version="$(FnaVersion)" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' != ''">
+    <ProjectReference Include="$(FnaProjectPath)" />
+  </ItemGroup>
+
+  <!-- Copied beside the application rather than resolved from a NuGet runtime folder, so the same
+       layout works for a project reference and for the package. Missing at runtime degrades to no
+       accessibility, which is why it is Content rather than a hard dependency. -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <Content Include="../../native/accesskit/macos/libaccesskit.dylib"
+             Link="libaccesskit.dylib"
+             CopyToOutputDirectory="PreserveNewest"
+             Pack="true"
+             PackagePath="runtimes/osx/native/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../LICENSE" Pack="true" PackagePath="" />
+    <None Include="../../NOTICE.md" Pack="true" PackagePath="" />
+    <None Include="../../README.md" Pack="true" PackagePath="" />
+    <None Include="../../THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="" />
+    <None Include="../../native/accesskit/LICENSE-MIT" Pack="true" PackagePath="third-party/accesskit/" />
+    <None Include="../../native/accesskit/LICENSE-APACHE" Pack="true" PackagePath="third-party/accesskit/" />
+    <None Include="../../native/accesskit/LICENSE.chromium" Pack="true" PackagePath="third-party/accesskit/" />
+  </ItemGroup>
+
+</Project>

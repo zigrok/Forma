@@ -455,7 +455,7 @@ namespace Forma
             if (index < 0 || index >= _splitOffsets.Count) throw new ArgumentOutOfRangeException(nameof(index));
             if (_splitOffsets[index] == offset) return;
             _splitOffsets[index] = offset;
-            QueueLayout();
+            QueueSplitLayout();
         }
         public float GetSplitOffset(int index = 0)
         {
@@ -468,7 +468,7 @@ namespace Forma
             _splitOffsets.Clear();
             _splitOffsets.AddRange(offsets);
             if (_splitOffsets.Count == 0) _splitOffsets.Add(0);
-            QueueLayout();
+            QueueSplitLayout();
         }
         public float[] GetSplitOffsets() => _splitOffsets.ToArray();
         public float GetResolvedSplitOffset(int index = 0)
@@ -476,13 +476,13 @@ namespace Forma
             if (index < 0 || index >= _resolvedDraggerPositions.Count || index >= _defaultDraggerPositions.Count) return 0;
             return _resolvedDraggerPositions[index] - _defaultDraggerPositions[index];
         }
-        public float DragAreaSize { get => _dragAreaSize; set { _dragAreaSize = Math.Max(0, value); QueueLayout(); } }
-        public bool Collapsed { get => _collapsed; set { _collapsed = value; QueueLayout(); } }
-        public bool DraggingEnabled { get => _draggingEnabled; set { _draggingEnabled = value; QueueLayout(); } }
+        public float DragAreaSize { get => _dragAreaSize; set { _dragAreaSize = Math.Max(0, value); QueueSplitLayout(); } }
+        public bool Collapsed { get => _collapsed; set { _collapsed = value; QueueSplitLayout(); } }
+        public bool DraggingEnabled { get => _draggingEnabled; set { _draggingEnabled = value; QueueSplitLayout(); } }
         public bool DraggingNestedIntersections { get => _draggingNestedIntersections; set => _draggingNestedIntersections = value; }
-        public bool TouchDraggerEnabled { get => _touchDraggerEnabled; set { _touchDraggerEnabled = value; QueueLayout(); } }
-        public float TouchDraggerSize { get => _touchDraggerSize; set { _touchDraggerSize = Math.Max(0, value); QueueLayout(); } }
-        public SplitContainerDraggerVisibility DraggerVisibility { get => _draggerVisibility; set { _draggerVisibility = value; QueueLayout(); } }
+        public bool TouchDraggerEnabled { get => _touchDraggerEnabled; set { _touchDraggerEnabled = value; QueueSplitLayout(); } }
+        public float TouchDraggerSize { get => _touchDraggerSize; set { _touchDraggerSize = Math.Max(0, value); QueueSplitLayout(); } }
+        public SplitContainerDraggerVisibility DraggerVisibility { get => _draggerVisibility; set { _draggerVisibility = value; QueueSplitLayout(); } }
         public void SetDraggingNestedIntersections(bool enabled) => DraggingNestedIntersections = enabled;
         public bool IsDraggingNestedIntersections() => DraggingNestedIntersections;
         public void SetTouchDraggerEnabled(bool enabled) => TouchDraggerEnabled = enabled;
@@ -500,11 +500,22 @@ namespace Forma
             }
             return Vector2.Max(CustomMinimumSize, Orientation == Orientation.Horizontal ? new Vector2(main, cross) : new Vector2(cross, main));
         }
-        protected override void ArrangeChildren()
+        /// <summary>
+        /// Marks both this container and the presenter that actually arranges the children.
+        /// <para>
+        /// Used wherever a split's geometry changes. It replaces an unconditional
+        /// <c>TemplateRoot.QueueLayout()</c> at the end of every arrange, which re-dirtied every
+        /// ancestor *after* they had cleared for the pass: a single split recovered on the next
+        /// pass, but nested ones - which is what any real dock layout is - never settled at all.
+        /// </para>
+        /// </summary>
+        private void QueueSplitLayout()
         {
-            base.ArrangeChildren();
             TemplateRoot?.QueueLayout();
+            QueueLayout();
         }
+
+        protected override void ArrangeChildren() => base.ArrangeChildren();
         /// <summary>Clamps the saved offset so both visible children retain their minimum main-axis size.</summary>
         public void ClampSplitOffset(int index = 0)
         {
@@ -513,7 +524,7 @@ namespace Forma
             if (index < 0 || index >= _splitOffsets.Count) throw new ArgumentOutOfRangeException(nameof(index));
             ResolveDraggerPositions();
             _splitOffsets[index] = _resolvedDraggerPositions[index] - _defaultDraggerPositions[index];
-            QueueLayout();
+            QueueSplitLayout();
         }
         internal void ArrangePresentedChildren(IReadOnlyList<ContentPresenter> presenters, Vector2 availableSize)
         {
@@ -548,7 +559,7 @@ namespace Forma
                 }
             }
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             _nestedIntersectionDraggers.Clear();
@@ -559,7 +570,21 @@ namespace Forma
                 if (nested.BeginDividerDrag(point, DragAreaSize)) _nestedIntersectionDraggers.Add(nested);
             }
         }
-        internal override bool HitTestBeforeChildren(Point point)
+        internal override bool HitTestBeforeChildren(Point point) => IsOverDragger(point);
+        /// <summary>
+        /// Shows the axis resize cursor over a dragger, which is the only affordance a thin divider has
+        /// before it is pressed, and holds it for the whole gesture once one is grabbed, since a drag
+        /// routinely runs the pointer past the bar it is moving. An explicit <see cref="Control.Cursor"/>
+        /// on this container wins, so a host that wants its own cursor still gets it.
+        /// </summary>
+        public override Cursor GetCursorAt(Point position)
+        {
+            if (Cursor != Cursor.Inherited || (_draggingIndex < 0 && !IsOverDragger(position))) return base.GetCursorAt(position);
+            return Orientation == Orientation.Horizontal ? Cursor.SizeHorizontal : Cursor.SizeVertical;
+        }
+        /// <summary>Whether a point lands on a grabbable dragger. Hit testing, the resize cursor and the
+        /// start of a drag share this, so the region that advertises a resize is the one that performs it.</summary>
+        private bool IsOverDragger(Point point)
         {
             if (!DraggingEnabled || Collapsed || DraggerVisibility != SplitContainerDraggerVisibility.Visible) return false;
             for (var index = 0; index < _resolvedDraggerPositions.Count; index++)
@@ -569,7 +594,7 @@ namespace Forma
             }
             return false;
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             if (_draggingIndex < 0) return;
             // Godot's SplitContainerDragger::gui_input tracks a relative delta from the press point
@@ -581,7 +606,7 @@ namespace Forma
             SetSplitOffset(_dragStartSplitOffset + delta, _draggingIndex);
             foreach (var nested in _nestedIntersectionDraggers) nested.MoveDividerDrag(point);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             _draggingIndex = -1;
             foreach (var nested in _nestedIntersectionDraggers) nested._draggingIndex = -1;

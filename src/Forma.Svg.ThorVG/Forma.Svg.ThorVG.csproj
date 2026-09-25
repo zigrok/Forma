@@ -25,7 +25,7 @@
     <ProjectReference Include="../Forma/Forma.csproj"
                       AdditionalProperties="FormaRuntime=$(FormaRuntime);FnaProjectPath=$(FnaProjectPath)"
                       Condition="'$(FormaRuntime)' == 'FNA'" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.111" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(FormaThorvgStaticLink)' != 'true' and $([MSBuild]::IsOSPlatform('OSX')) and ('$(RuntimeIdentifier)' == '' or '$(RuntimeIdentifier)' == 'osx-arm64') and Exists('$(ThorvgNativeRoot)/osx-arm64/output/libforma_thorvg.dylib')">

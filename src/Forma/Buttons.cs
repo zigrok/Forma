@@ -53,8 +53,8 @@ namespace Forma
                 QueueLayout();
             }
         }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public Thickness Padding { get; set; }
         /// <summary>Horizontal text placement for text-bearing buttons.</summary>
@@ -189,7 +189,7 @@ namespace Forma
         internal override bool HitTestBeforeChildren(Point point) => ContainsPoint(point);
         internal override void PointerEntered() { IsHovering = true; base.PointerEntered(); NotifyPseudoStateChanged("pressed"); }
         internal override void PointerExited() { IsHovering = false; base.PointerExited(); NotifyPseudoStateChanged("pressed"); }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             if (IsPointerButtonMasked(PointerButton.Left)) BeginPointerActivation(position, PointerButton.Left);
         }
@@ -199,7 +199,7 @@ namespace Forma
             if (!IsPointerButtonMasked(button)) { base.PointerButtonPressed(position, button); return; }
             BeginPointerActivation(position, button);
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (_activePointerButton == PointerButton.Left) EndPointerActivation(isInside);
         }
@@ -315,7 +315,7 @@ namespace Forma
             if (wasPressing) NotifyPseudoStateChanged("pressed");
             if (activate) Activate(true);
         }
-        private void Activate(bool fromPointer = false)
+        internal void Activate(bool fromPointer = false)
         {
             WasActivatedByPointer = fromPointer;
             try
@@ -336,6 +336,24 @@ namespace Forma
             }
             finally { WasActivatedByPointer = false; }
         }
+        /// <summary>
+        /// Press and Toggle both run <see cref="Activate"/> — the very method keyboard activation
+        /// uses — so an invoked press is the same event sequence as a real one, per D4.
+        /// </summary>
+        public override bool PerformAccessibilityAction(AccessibilityActions action, object argument = null)
+        {
+            switch (action)
+            {
+                case AccessibilityActions.Press:
+                case AccessibilityActions.Toggle:
+                    if (!IsEffectivelyEnabled) return false;
+                    Activate();
+                    return true;
+                default:
+                    return base.PerformAccessibilityAction(action, argument);
+            }
+        }
+
         private bool SetPressed(bool pressed, bool emitSignal)
         {
             if (!ToggleMode) return false;

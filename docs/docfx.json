@@ -6,6 +6,7 @@
           "src": "../",
           "files": [
             "src/Forma/bin/MonoGame/Release/net10.0/Forma.dll",
+            "src/Forma.Accessibility/bin/MonoGame/Release/net10.0/Forma.Accessibility.dll",
             "src/Forma.DynamicText/bin/MonoGame/Release/net10.0/Forma.DynamicText.dll",
             "src/Forma.Media/bin/MonoGame/Release/net10.0/Forma.Media.dll",
             "src/Forma.Svg/bin/MonoGame/Release/net10.0/Forma.Svg.Skia.dll",

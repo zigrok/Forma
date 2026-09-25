@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Forma.Testing</AssemblyName>
+    <RootNamespace>Forma</RootNamespace>
+    <PackageId Condition="'$(FormaRuntime)' == 'MonoGame'">Forma.Testing.MonoGame</PackageId>
+    <PackageId Condition="'$(FormaRuntime)' == 'FNA'">Forma.Testing.FNA</PackageId>
+    <VersionPrefix>$(FormaVersion)</VersionPrefix>
+    <Description>Locator-based UI testing for Forma applications.</Description>
+    <PackageTags>forma;$(FormaRuntime);ui;testing;automation;game-development</PackageTags>
+    <IsPackable>true</IsPackable>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.111" PrivateAssets="All" />
+    <!-- The runtime project path is forwarded, matching Forma.DynamicText. Without it an app that
+         builds Forma against a MonoGame/FNA *project* rather than the package gets a second
+         Forma.csproj instance resolved against the package, and the build fails with two
+         assemblies named MonoGame.Framework. -->
+    <ProjectReference Include="../Forma/Forma.csproj"
+              AdditionalProperties="FormaRuntime=$(FormaRuntime);MonoGameProjectPath=$(MonoGameProjectPath)"
+              Condition="'$(FormaRuntime)' == 'MonoGame'" />
+    <ProjectReference Include="../Forma/Forma.csproj"
+              AdditionalProperties="FormaRuntime=$(FormaRuntime);FnaProjectPath=$(FnaProjectPath)"
+              Condition="'$(FormaRuntime)' == 'FNA'" />
+    <ProjectReference Include="../Forma/Forma.csproj" AdditionalProperties="FormaRuntime=$(FormaRuntime)"
+              Condition="'$(FormaRuntime)' != 'MonoGame' And '$(FormaRuntime)' != 'FNA'" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' == ''">
+    <PackageReference Include="$(MonoGamePackageId)" Version="$(MonoGameVersion)" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FormaRuntime)' == 'MonoGame' and '$(MonoGameProjectPath)' != ''">
+    <ProjectReference Include="$(MonoGameProjectPath)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' == ''">
+    <PackageReference Include="$(FnaPackageId)" Version="$(FnaVersion)" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FormaRuntime)' == 'FNA' and '$(FnaProjectPath)' != ''">
+    <ProjectReference Include="$(FnaProjectPath)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../LICENSE" Pack="true" PackagePath="" />
+    <None Include="../../NOTICE.md" Pack="true" PackagePath="" />
+    <None Include="../../README.md" Pack="true" PackagePath="" />
+    <None Include="../../THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>

@@ -113,8 +113,8 @@ namespace Forma
             MouseFilter = MouseFilter.Stop;
         }
         public PopupMenu Popup { get; }
-        internal override void PointerPressed(Point point) => Popup.HandleItemsPressed(point);
-        internal override void PointerReleased(Point point, bool isInside) => Popup.HandleItemsReleased(point, isInside);
+        protected internal override void PointerPressed(Point point) => Popup.HandleItemsPressed(point);
+        protected internal override void PointerReleased(Point point, bool isInside) => Popup.HandleItemsReleased(point, isInside);
         internal override bool PointerWheel(int delta) => Popup.HandleItemsWheel(delta);
         public override string GetTooltip(Point position)
         {
@@ -157,8 +157,8 @@ namespace Forma
         }
         public IReadOnlyList<PopupMenuItem> Items => _items;
         public PopupMenuItems ItemsControl { get; }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public float ItemHeight { get; set; } = 24;
         internal float EffectiveItemHeight => MathF.Ceiling(Math.Max(
@@ -918,6 +918,90 @@ namespace Forma
         {
             return 1 + (IsSearchBarVisible ? (int)SearchBarContentHeight : 0) + ItemContentTop(index) - _scrollOffset;
         }
+        /// <summary>
+        /// One peer per visible, non-separator entry. A menu draws its entries rather than building
+        /// a control for each, so this is the only way they reach the accessibility tree.
+        /// </summary>
+        public override IReadOnlyList<AccessibilityPeer> GetAccessibilityChildren()
+        {
+            if (_items.Count == 0) return Array.Empty<AccessibilityPeer>();
+
+            var peers = new List<AccessibilityPeer>(_items.Count);
+            for (var index = 0; index < _items.Count; index++)
+            {
+                var item = _items[index];
+                // Separators are decoration, and a hidden entry is one the search filter removed.
+                // Publishing either would give an assistive technology something to announce that a
+                // person cannot see or act on.
+                if (item.Separator || !item.Visible) continue;
+
+                while (_accessibilityPeers.Count <= index) _accessibilityPeers.Add(null);
+                peers.Add(_accessibilityPeers[index] ??= new MenuItemAccessibilityPeer(this, index));
+            }
+
+            return peers;
+        }
+
+        private readonly List<MenuItemAccessibilityPeer> _accessibilityPeers = new List<MenuItemAccessibilityPeer>();
+
+        internal string GetAccessibilityItemText(int index) =>
+            index >= 0 && index < _items.Count ? _items[index].Text ?? string.Empty : string.Empty;
+
+        internal bool IsAccessibilityItemCheckable(int index) =>
+            index >= 0 && index < _items.Count && _items[index].CheckableType != PopupMenuCheckableType.None;
+
+        internal AccessibilityStates GetAccessibilityItemStates(int index)
+        {
+            if (index < 0 || index >= _items.Count) return AccessibilityStates.Offscreen;
+
+            var item = _items[index];
+            var states = AccessibilityStates.None;
+            if (item.Disabled) states |= AccessibilityStates.Disabled;
+            if (item.Checked) states |= AccessibilityStates.Checked;
+            if (_highlighted == index) states |= AccessibilityStates.Current;
+            if (item.Kind == PopupMenuItemKind.Submenu)
+                states |= _activeSubmenuIndex == index ? AccessibilityStates.Expanded : AccessibilityStates.Collapsed;
+            return states;
+        }
+
+        /// <summary>
+        /// Where the entry is on screen, in the same global coordinates pointer input uses — which
+        /// is what an assistive technology hit-tests with.
+        /// </summary>
+        internal Rectangle GetAccessibilityItemBounds(int index)
+        {
+            if (index < 0 || index >= _items.Count) return Rectangle.Empty;
+
+            var height = (int)(_items[index].Separator ? 7 : EffectiveItemHeight);
+            return new Rectangle(Bounds.X, Bounds.Y + ItemTop(index), Bounds.Width, height);
+        }
+
+        /// <summary>
+        /// Runs an action on one entry. Routed through the same <c>Activate</c> a click takes, so an
+        /// assistive technology cannot reach an entry a person cannot — a disabled item, a hidden
+        /// one, a separator.
+        /// </summary>
+        internal bool PerformAccessibilityItemAction(int index, AccessibilityActions action)
+        {
+            if (index < 0 || index >= _items.Count) return false;
+
+            var item = _items[index];
+            if (item.Separator || !item.Visible || item.Disabled) return false;
+
+            switch (action)
+            {
+                case AccessibilityActions.Focus:
+                    FocusIndex(index);
+                    return true;
+                case AccessibilityActions.Press:
+                case AccessibilityActions.Toggle:
+                    Activate(index, Point.Zero);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private int ItemContentTop(int index)
         {
             var y = 0;
@@ -1312,8 +1396,8 @@ namespace Forma
         }
         /// <summary>The fallback OK button text shown while no custom <see cref="OkText"/> override is set.</summary>
         protected string DefaultOkText { get => _defaultOkText; set => _defaultOkText = value ?? string.Empty; }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public float ButtonHeight { get; set; } = 24;
         /// <summary>Matches Godot's dialog_hide_on_ok option. Confirmation still emits when disabled.</summary>
@@ -1420,7 +1504,7 @@ namespace Forma
             SynchronizeTemplateParts();
             base.OnTemplateApplied();
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             if (!isInside) return;
             if (OkButtonBounds.Contains(point)) { if (!OkButtonDisabled) Confirm(); }
@@ -1575,10 +1659,35 @@ namespace Forma
         private const int FooterButtonGap = 8;
         private const int FooterInset = 10;
         private const int ThumbnailWidth = 112;
-        private const int ThumbnailHeight = 84;
+        // Tall enough for an icon plus two lines of label. One line is not enough for real file
+        // names: a directory of "Project.Editor.Native", "Project.Editor.Native.Browser" and
+        // "Project.Editor.Native.Testing" collapses to three identical entries when only the first
+        // line survives, which is a different kind of unusable from the overflow it replaced.
+        private const int ThumbnailHeight = 100;
         private const int ThumbnailIconSize = 48;
+        private const int ThumbnailLabelLines = 2;
+        /// Breathing room either side of a label, so two adjacent cells never appear to touch.
+        private const int ThumbnailLabelInset = 3;
         private static readonly TimeSpan DoubleClickTimeout = TimeSpan.FromMilliseconds(600);
         private const int DoubleClickTolerance = 5;
+        private const int EntryScrollBarWidth = 12;
+        /// <summary>
+        /// Raised whenever the favourite or recent directory lists change.
+        /// </summary>
+        /// <remarks>
+        /// The dialog keeps both lists in memory and does not decide where they are stored -- that
+        /// is the application's choice, and a UI toolkit writing to someone's home directory
+        /// uninvited would be worse than forgetting. But without a signal the only way to persist
+        /// them is to poll, so every application either polls or silently loses the user's
+        /// favourites, which is what happened here.
+        ///
+        /// Static because the lists are: favourites belong to the person, not to one dialog
+        /// instance, and a file dialog is usually constructed fresh each time it opens.
+        /// </remarks>
+        public static event Action DirectoryListsChanged;
+
+        private static void RaiseDirectoryListsChanged() => DirectoryListsChanged?.Invoke();
+
         private static readonly List<string> _favoriteList = new List<string>();
         private static readonly List<string> _recentList = new List<string>();
         private static bool _defaultShowHiddenFiles;
@@ -1623,6 +1732,15 @@ namespace Forma
         private string _pendingOverwritePath = string.Empty;
         private readonly List<string> _history = new List<string>();
         private int _historyPosition = -1;
+        /// How far the entry list is scrolled, in pixels. Entries past the bottom used to be
+        /// simply not drawn and not clickable, so a folder with more files than fit was a folder
+        /// whose remaining files did not exist as far as the dialog was concerned.
+        private int _entryScroll;
+
+        /// The entry the keyboard is on. Distinct from the selection: arrowing through a list
+        /// moves a cursor, and in OpenFiles mode the selection can hold several entries at once.
+        private int _focusedEntry = -1;
+
         private TimeSpan _lastClickTime = TimeSpan.MinValue;
         private Point _lastClickPosition;
         private int _lastClickIndex = -1;
@@ -1931,6 +2049,7 @@ namespace Forma
             _favoriteList.Clear();
             if (favorites == null) return;
             foreach (var favorite in favorites) _favoriteList.Add(NormalizeDirectoryListPath(favorite));
+            RaiseDirectoryListsChanged();
         }
         public static IReadOnlyList<string> GetFavoriteList() => _favoriteList.ToArray();
         public static void SetRecentList(IEnumerable<string> recents)
@@ -1938,6 +2057,7 @@ namespace Forma
             _recentList.Clear();
             if (recents == null) return;
             foreach (var recent in recents) _recentList.Add(NormalizeDirectoryListPath(recent));
+            RaiseDirectoryListsChanged();
         }
         public static IReadOnlyList<string> GetRecentList() => _recentList.ToArray();
         public void ToggleCurrentDirectoryFavorite()
@@ -1946,6 +2066,7 @@ namespace Forma
             var directory = NormalizeDirectoryListPath(CurrentPath);
             if (_favoriteList.Contains(directory)) _favoriteList.Remove(directory);
             else _favoriteList.Add(directory);
+            RaiseDirectoryListsChanged();
         }
         public string GetCurrentDir() => CurrentPath;
         public void SetCurrentDir(string path) => NavigateTo(path);
@@ -2055,6 +2176,10 @@ namespace Forma
         {
             if (index < 0 || index >= _entries.Count) throw new ArgumentOutOfRangeException(nameof(index));
             SelectFile(_entries[index], append && FileMode == FileDialogMode.OpenFiles);
+
+            // Keeps the keyboard cursor where the mouse just was, so arrowing after a click
+            // continues from the clicked entry rather than from wherever the cursor last sat.
+            _focusedEntry = index;
         }
         public void SelectFile(string path, bool append = false)
         {
@@ -2078,7 +2203,16 @@ namespace Forma
                 // navigated away from can't be silently confirmed.
                 if (FileMode != FileDialogMode.SaveFile) ClearSelection();
             }
-            else SelectEntry(index, FileMode == FileDialogMode.OpenFiles);
+            else
+            {
+                SelectEntry(index, FileMode == FileDialogMode.OpenFiles);
+
+                // Activating a file opens it. Selecting it and waiting for the OK button is what
+                // a single click already does, so a double click that did the same thing left the
+                // gesture doing nothing -- which is how this read to anyone trying to open a file
+                // the way every other file dialog opens one.
+                if (!OkButtonDisabled) Confirm();
+            }
         }
         public void ClearSelection()
         {
@@ -2184,7 +2318,7 @@ namespace Forma
                     return;
             }
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             var index = GetEntryIndexAt(point);
@@ -2198,7 +2332,7 @@ namespace Forma
             _lastClickIndex = index;
             SelectEntry(index, FileMode == FileDialogMode.OpenFiles);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             base.PointerReleased(point, isInside);
             var index = GetEntryIndexAt(point);
@@ -2222,8 +2356,19 @@ namespace Forma
             BuildItemMenu(index >= 0);
             _itemMenu.PopupAt(point.ToVector2());
         }
+        internal override bool PointerWheel(int delta)
+        {
+            if (MaxEntryScroll > 0)
+            {
+                SetEntryScroll(_entryScroll - Math.Sign(delta) * (int)EntryHeight * 3);
+                return true;
+            }
+
+            return base.PointerWheel(delta);
+        }
         internal override void KeyPressed(Keys key)
         {
+            if (MoveEntryFocus(key)) return;
             if (key == Keys.Back)
             {
                 GoUp();
@@ -2241,6 +2386,11 @@ namespace Forma
                 if (!string.IsNullOrEmpty(CurrentPath)) Refresh(CurrentPath);
                 return;
             }
+            if (key == Keys.Enter && _focusedEntry >= 0 && _focusedEntry < _entries.Count)
+            {
+                ActivateEntry(_focusedEntry);
+                return;
+            }
             if (key == Keys.Enter && !string.IsNullOrEmpty(CurrentFile) && FileSystem.DirectoryExists(CurrentFile))
             {
                 NavigateTo(CurrentFile);
@@ -2248,6 +2398,52 @@ namespace Forma
                 return;
             }
             base.KeyPressed(key);
+        }
+
+        /// <summary>
+        /// Moves the keyboard cursor through the entries, and returns whether the key was ours.
+        /// </summary>
+        /// <remarks>
+        /// The dialog handled Backspace, Delete, F5 and Enter and nothing else, so a list of files
+        /// could only be reached with the mouse. Left and Right step one entry in list mode and
+        /// one column in thumbnails, which is what the arrangement on screen implies.
+        /// </remarks>
+        private bool MoveEntryFocus(Keys key)
+        {
+            if (_entries.Count == 0) return false;
+
+            var columns = DisplayMode == FileDialogDisplayMode.Thumbnails ? EntryColumns : 1;
+            var step = key switch
+            {
+                Keys.Down => columns,
+                Keys.Up => -columns,
+                Keys.Right => 1,
+                Keys.Left => -1,
+                Keys.PageDown => Math.Max(1, EntriesBounds.Height / Math.Max(1, (int)EntryHeight)) * columns,
+                Keys.PageUp => -Math.Max(1, EntriesBounds.Height / Math.Max(1, (int)EntryHeight)) * columns,
+                _ => 0,
+            };
+
+            if (step == 0 && key != Keys.Home && key != Keys.End) return false;
+
+            var target = key switch
+            {
+                Keys.Home => 0,
+                Keys.End => _entries.Count - 1,
+
+                // From nothing, the first press lands on the first entry rather than jumping a
+                // whole row into the list.
+                _ when _focusedEntry < 0 => step > 0 ? 0 : _entries.Count - 1,
+                _ => _focusedEntry + step,
+            };
+
+            _focusedEntry = Math.Max(0, Math.Min(target, _entries.Count - 1));
+            ScrollEntryIntoView(_focusedEntry);
+
+            // Moving the cursor selects, so the filename field and the OK button follow along --
+            // otherwise Enter would confirm whatever the mouse last touched.
+            if (!FileSystem.DirectoryExists(_entries[_focusedEntry])) SelectEntry(_focusedEntry, append: false);
+            return true;
         }
         internal override void DrawDialogBody(UIRenderContext context)
         {
@@ -2259,46 +2455,213 @@ namespace Forma
                 if (EffectiveUIFont != null) context.Text(EffectiveUIFont, Message, new Vector2(entriesBounds.X + 8, entriesBounds.Y + 8), context.Theme.DisabledTextColor);
                 return;
             }
-            for (var index = 0; index < _entries.Count; index++)
+            // Scrolling means rows now exist above and below the panel, and a row straddling an
+            // edge has to stop at it. Before there was scrolling the loop simply stopped at the
+            // first row that did not fit, which clipped by accident and hid the rest by accident
+            // too; with the stop gone, the clipping has to be real.
+            context.PushClip(entriesBounds);
+            try
             {
-                var entry = _entries[index];
-                var row = GetEntryRectangle(index);
-                if (row == Rectangle.Empty || row.Bottom > entriesBounds.Bottom) break;
-                if (_selectedFiles.Contains(entry)) context.Fill(row, context.Theme.AccentColor);
-                var isDirectory = FileSystem.DirectoryExists(entry);
-                var icon = DisplayMode == FileDialogDisplayMode.Thumbnails ? GetThumbnailCallback?.Invoke(entry, ThumbnailIconSize) : null;
-                icon ??= GetIconCallback?.Invoke(entry);
-                icon ??= GetThemeIcon(isDirectory
-                    ? DisplayMode == FileDialogDisplayMode.Thumbnails ? "folder_thumbnail" : "folder"
-                    : DisplayMode == FileDialogDisplayMode.Thumbnails ? "file_thumbnail" : "file");
-                if (DisplayMode == FileDialogDisplayMode.Thumbnails)
+                for (var index = 0; index < _entries.Count; index++)
                 {
+                    var entry = _entries[index];
+                    var row = GetEntryRectangle(index);
+
+                    // Skip what is off-screen rather than stopping at it. Breaking here is what made
+                    // everything past the first screenful invisible even once scrolling existed.
+                    if (row == Rectangle.Empty || row.Bottom < entriesBounds.Top || row.Top > entriesBounds.Bottom) continue;
+
+                    if (_selectedFiles.Contains(entry)) context.Fill(row, context.Theme.AccentColor);
+                    else if (index == _focusedEntry) context.Border(row, context.Theme.AccentColor);
+                    var isDirectory = FileSystem.DirectoryExists(entry);
+                    var icon = DisplayMode == FileDialogDisplayMode.Thumbnails ? GetThumbnailCallback?.Invoke(entry, ThumbnailIconSize) : null;
+                    icon ??= GetIconCallback?.Invoke(entry);
+                    icon ??= GetThemeIcon(isDirectory
+                        ? DisplayMode == FileDialogDisplayMode.Thumbnails ? "folder_thumbnail" : "folder"
+                        : DisplayMode == FileDialogDisplayMode.Thumbnails ? "file_thumbnail" : "file");
+                    if (DisplayMode == FileDialogDisplayMode.Thumbnails)
+                    {
+                        var lineHeight = EffectiveUIFont != null ? TextMetrics.LineHeight(EffectiveUIFont) : 0;
+                        var cell = LayoutThumbnailCell(row, lineHeight);
+
+                        if (icon.HasValue && cell.Icon.Width > 0) context.Icon(icon.Value, cell.Icon, Color.White);
+
+                        if (EffectiveUIFont != null)
+                        {
+                            var lines = FitThumbnailLabel(EffectiveUIFont, Path.GetFileName(entry), cell.LabelWidth, ThumbnailLabelLines);
+                            for (var line = 0; line < lines.Count; line++)
+                            {
+                                var width = TextMetrics.Measure(EffectiveUIFont, lines[line]).X;
+                                context.Text(
+                                    EffectiveUIFont,
+                                    lines[line],
+                                    new Vector2(row.Center.X - width / 2, cell.LabelTop + line * lineHeight),
+                                    context.Theme.TextColor);
+                            }
+                        }
+
+                        continue;
+                    }
+                    var textX = row.X + 4;
                     if (icon.HasValue)
                     {
-                        var iconSize = Math.Min(ThumbnailIconSize, Math.Min(row.Width - 12, row.Height - 30));
-                        context.Icon(icon.Value, new Rectangle(row.Center.X - iconSize / 2, row.Y + 6, iconSize, iconSize), Color.White);
+                        context.Icon(icon.Value, new Vector2(textX, row.Center.Y - icon.Value.LogicalSize.Y / 2), Color.White);
+                        textX += icon.Value.LogicalSize.X + 4;
                     }
                     if (EffectiveUIFont != null)
                     {
-                        var name = Path.GetFileName(entry);
-                        var textSize = TextMetrics.Measure(EffectiveUIFont, name);
-                        context.Text(EffectiveUIFont, name, new Vector2(Math.Max(row.X + 3, row.Center.X - textSize.X / 2), row.Bottom - TextMetrics.LineHeight(EffectiveUIFont) - 4), context.Theme.TextColor);
+                        var label = icon.HasValue ? Path.GetFileName(entry) : (isDirectory ? "> " : "  ") + Path.GetFileName(entry);
+                        var available = row.Right - 3 - textX;
+                        if (available > 0)
+                        {
+                            // Trimmed for the same reason the thumbnail labels are: a name longer than
+                            // its row is a name that used to be drawn over the scroll bar and past the
+                            // panel. The clip would hide it mid-glyph, which reads as a rendering fault
+                            // rather than as a name that is too long.
+                            var layout = TextMetrics.Layout(EffectiveUIFont, label, new TextLayoutOptions(maxWidth: available, trimming: TextTrimming.CharacterEllipsis));
+                            context.Text(layout, new Vector2(textX, row.Y + Math.Max(1, (row.Height - TextMetrics.LineHeight(EffectiveUIFont)) / 2)), context.Theme.TextColor);
+                        }
                     }
-                    continue;
-                }
-                var textX = row.X + 4;
-                if (icon.HasValue)
-                {
-                    context.Icon(icon.Value, new Vector2(textX, row.Center.Y - icon.Value.LogicalSize.Y / 2), Color.White);
-                    textX += icon.Value.LogicalSize.X + 4;
-                }
-                if (EffectiveUIFont != null)
-                {
-                    var label = icon.HasValue ? Path.GetFileName(entry) : (isDirectory ? "> " : "  ") + Path.GetFileName(entry);
-                    context.Text(EffectiveUIFont, label, new Vector2(textX, row.Y + Math.Max(1, (row.Height - TextMetrics.LineHeight(EffectiveUIFont)) / 2)), context.Theme.TextColor);
                 }
             }
+            finally
+            {
+                context.PopClip();
+            }
+
+            DrawEntryScrollBar(context);
         }
+
+        /// <summary>
+        /// The scroll bar beside the entries, drawn only when there is something to scroll.
+        /// </summary>
+        /// <remarks>
+        /// Without one there is no sign that a folder holds more than fits, which is worse than
+        /// the scrolling being absent: the dialog looks like a complete listing of a short folder.
+        /// </remarks>
+        private void DrawEntryScrollBar(UIRenderContext context)
+        {
+            var track = EntryScrollBarBounds;
+            if (track.Width <= 0 || track.Height <= 0) return;
+
+            context.Fill(track, context.Theme.PanelColor);
+
+            var content = Math.Max(1, EntryContentHeight);
+            var thumbHeight = Math.Max(24, (int)(track.Height * (track.Height / (float)content)));
+            var travel = Math.Max(1, MaxEntryScroll);
+            var thumbY = track.Y + (int)((track.Height - thumbHeight) * (_entryScroll / (float)travel));
+
+            context.Fill(new Rectangle(track.X + 2, thumbY, Math.Max(1, track.Width - 4), thumbHeight), context.Theme.PanelBorderColor);
+        }
+        /// Where the icon and the label sit inside one thumbnail cell.
+        internal readonly struct ThumbnailCell
+        {
+            public ThumbnailCell(Rectangle icon, int labelTop, int labelWidth)
+            {
+                Icon = icon;
+                LabelTop = labelTop;
+                LabelWidth = labelWidth;
+            }
+
+            public Rectangle Icon { get; }
+
+            public int LabelTop { get; }
+
+            public int LabelWidth { get; }
+        }
+
+        /// <summary>
+        /// Divides a thumbnail cell into an icon area and a label band beneath it.
+        /// </summary>
+        /// <remarks>
+        /// The band is a fixed <see cref="ThumbnailLabelLines"/> tall rather than sized to the
+        /// entry being drawn, so a one-line name and a two-line name in the same row share a
+        /// baseline; sizing it per entry makes a row of mixed-length names read ragged. The icon
+        /// then takes whatever is left, instead of a constant that quietly assumed one line of
+        /// text underneath it.
+        /// </remarks>
+        internal static ThumbnailCell LayoutThumbnailCell(Rectangle row, int lineHeight)
+        {
+            var labelTop = row.Bottom - lineHeight * ThumbnailLabelLines - ThumbnailLabelInset;
+            var available = Math.Max(0, labelTop - row.Y - ThumbnailLabelInset * 2);
+            var size = Math.Max(0, Math.Min(ThumbnailIconSize, Math.Min(row.Width - 12, available)));
+
+            var icon = size == 0
+                ? Rectangle.Empty
+                : new Rectangle(row.Center.X - size / 2, row.Y + ThumbnailLabelInset + (available - size) / 2, size, size);
+
+            return new ThumbnailCell(icon, labelTop, Math.Max(0, row.Width - ThumbnailLabelInset * 2));
+        }
+
+        /// <summary>
+        /// Breaks a file name into at most <paramref name="maxLines"/> lines that each fit within
+        /// <paramref name="maxWidth"/>, ellipsising the last one when the name is longer than that.
+        /// </summary>
+        /// <remarks>
+        /// Thumbnail labels were previously drawn unconstrained: the name was measured only to
+        /// centre it, so anything wider than its cell ran over its neighbours and, in the last
+        /// column, straight out of the dialog.
+        ///
+        /// Wrapping is character-level rather than word-level because file names are the one place
+        /// spaces cannot be relied on — <c>Project.Editor.Native.Browser</c> is a single "word" and
+        /// word wrapping leaves it exactly as unbreakable as no wrapping at all.
+        ///
+        /// Internal rather than private so the fitting can be tested without a render target; the
+        /// overflow it fixes is a measurement bug, and measurement is checkable without pixels.
+        /// </remarks>
+        internal static IReadOnlyList<string> FitThumbnailLabel(UIFont font, string name, int maxWidth, int maxLines)
+        {
+            if (font == null) throw new ArgumentNullException(nameof(font));
+            if (string.IsNullOrEmpty(name)) return Array.Empty<string>();
+            if (maxLines < 1 || maxWidth <= 0) return Array.Empty<string>();
+
+            // The common case, and worth not paying for a wrap pass: the name already fits.
+            if (TextMetrics.Measure(font, name).X <= maxWidth) return new[] { name };
+
+            var wrapped = TextMetrics.Layout(font, name, new TextLayoutOptions(maxWidth: maxWidth, wrapping: TextWrapping.Character));
+            var lines = new List<string>(Math.Min(maxLines, wrapped.Lines.Count));
+
+            for (var index = 0; index < wrapped.Lines.Count && lines.Count < maxLines; index++)
+            {
+                var line = wrapped.Lines[index];
+                var text = name.Substring(line.Start, Math.Min(line.Length, name.Length - line.Start));
+
+                // Everything that did not fit is folded onto the final line and trimmed, so the
+                // ellipsis says "there is more name here" rather than the name simply stopping.
+                var isLast = lines.Count == maxLines - 1 || index == wrapped.Lines.Count - 1;
+                if (isLast && line.Start + line.Length < name.Length)
+                {
+                    var remainder = name.Substring(line.Start);
+                    var trimmed = TextMetrics.Layout(
+                        font,
+                        remainder,
+                        new TextLayoutOptions(maxWidth: maxWidth, trimming: TextTrimming.CharacterEllipsis));
+                    text = VisibleText(trimmed, remainder);
+                }
+
+                lines.Add(text);
+            }
+
+            return lines;
+        }
+
+        /// <summary>
+        /// The text a trimmed single-line layout actually shows, ellipsis included.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="TextLayout"/> reports what it trimmed rather than handing back a shortened
+        /// string, because a layout is drawn from glyphs and never needs one. Here the caller
+        /// measures and draws each line separately, so it does.
+        /// </remarks>
+        private static string VisibleText(TextLayout layout, string source)
+        {
+            if (layout.Lines.Count == 0) return string.Empty;
+
+            var line = layout.Lines[0];
+            var visible = Math.Max(0, Math.Min(line.VisibleRange.Length, source.Length - line.Start));
+            return source.Substring(line.Start, visible) + line.Ellipsis;
+        }
+
         private Rectangle EntriesBounds
         {
             get
@@ -2312,24 +2675,102 @@ namespace Forma
         private int GetEntryIndexAt(Point point)
         {
             if (!EntriesBounds.Contains(point)) return -1;
+            if (point.X >= EntryScrollBarBounds.Left) return -1;
+
             if (DisplayMode == FileDialogDisplayMode.Thumbnails)
             {
-                var columns = Math.Max(1, (EntriesBounds.Width - 2) / ThumbnailWidth);
+                var columns = EntryColumns;
                 var column = (point.X - EntriesBounds.X - 1) / ThumbnailWidth;
-                var row = (point.Y - EntriesBounds.Y - 1) / ThumbnailHeight;
+                var row = (point.Y - EntriesBounds.Y - 1 + _entryScroll) / ThumbnailHeight;
                 var index = row * columns + column;
                 return index >= 0 && index < _entries.Count && GetEntryRectangle(index).Contains(point) ? index : -1;
             }
-            var listIndex = (int)((point.Y - EntriesBounds.Top - 1) / EntryHeight);
+
+            var listIndex = (int)((point.Y - EntriesBounds.Top - 1 + _entryScroll) / EntryHeight);
             return listIndex >= 0 && listIndex < _entries.Count ? listIndex : -1;
         }
         private Rectangle GetEntryRectangle(int index)
         {
             var bounds = EntriesBounds;
             if (DisplayMode == FileDialogDisplayMode.List)
-                return new Rectangle(bounds.X + 1, bounds.Y + 1 + (int)(index * EntryHeight), Math.Max(0, bounds.Width - 2), (int)EntryHeight);
-            var columns = Math.Max(1, (bounds.Width - 2) / ThumbnailWidth);
-            return new Rectangle(bounds.X + 1 + index % columns * ThumbnailWidth, bounds.Y + 1 + index / columns * ThumbnailHeight, ThumbnailWidth - 6, ThumbnailHeight - 6);
+                return new Rectangle(bounds.X + 1, bounds.Y + 1 + (int)(index * EntryHeight) - _entryScroll, Math.Max(0, EntryViewportWidth - 2), (int)EntryHeight);
+
+            var columns = EntryColumns;
+            return new Rectangle(
+                bounds.X + 1 + index % columns * ThumbnailWidth,
+                bounds.Y + 1 + index / columns * ThumbnailHeight - _entryScroll,
+                ThumbnailWidth - 6,
+                ThumbnailHeight - 6);
+        }
+
+        /// How many thumbnail columns fit beside the scroll bar.
+        private int EntryColumns => Math.Max(1, (EntryViewportWidth - 2) / ThumbnailWidth);
+
+        /// The width available to entries, which is the panel less the scroll bar when one shows.
+        private int EntryViewportWidth => Math.Max(0, EntriesBounds.Width - (MaxEntryScroll > 0 ? EntryScrollBarWidth : 0));
+
+        /// The full height every entry would need, scrolled or not.
+        private int EntryContentHeight
+        {
+            get
+            {
+                if (_entries.Count == 0) return 0;
+                if (DisplayMode == FileDialogDisplayMode.List) return (int)(_entries.Count * EntryHeight) + 2;
+
+                // Recomputed rather than using EntryColumns, which depends on MaxEntryScroll and
+                // would recurse. One column narrower than the unscrolled fit is the safe answer:
+                // it can only ever overestimate the height, never hide a row.
+                var columns = Math.Max(1, (Math.Max(0, EntriesBounds.Width - EntryScrollBarWidth) - 2) / ThumbnailWidth);
+                return (_entries.Count + columns - 1) / columns * ThumbnailHeight + 2;
+            }
+        }
+
+        private int MaxEntryScroll => Math.Max(0, EntryContentHeight - EntriesBounds.Height);
+
+        /// How far the entries are scrolled. Internal so a test can see a scroll that happened,
+        /// which is otherwise only observable in pixels.
+        internal int EntryScrollOffset => _entryScroll;
+
+        /// The entry the keyboard is on, or -1.
+        internal int FocusedEntryIndex => _focusedEntry;
+
+        /// The scroll bar's rectangle, empty when everything fits.
+        internal Rectangle EntryScrollBarRectangle => MaxEntryScroll <= 0 ? Rectangle.Empty : EntryScrollBarBounds;
+
+        /// Where an entry is drawn, for tests that need to click one.
+        internal Rectangle EntryRectangle(int index) => GetEntryRectangle(index);
+
+        /// The panel the entries are drawn in and clipped to.
+        internal Rectangle EntriesRectangle => EntriesBounds;
+
+        private Rectangle EntryScrollBarBounds
+        {
+            get
+            {
+                var bounds = EntriesBounds;
+                return MaxEntryScroll <= 0
+                    ? new Rectangle(bounds.Right, bounds.Y, 0, bounds.Height)
+                    : new Rectangle(bounds.Right - EntryScrollBarWidth, bounds.Y, EntryScrollBarWidth, bounds.Height);
+            }
+        }
+
+        private void SetEntryScroll(int offset) => _entryScroll = Math.Max(0, Math.Min(offset, MaxEntryScroll));
+
+        /// Scrolls until an entry is fully visible, so arrowing off the bottom follows the cursor.
+        private void ScrollEntryIntoView(int index)
+        {
+            if (index < 0 || index >= _entries.Count) return;
+
+            // Against the inside of the border, not the border itself. Entries are laid out one
+            // pixel in, so aligning to Bounds.Top leaves the first row scrolled a pixel under the
+            // border and the offset stuck at 1 even at the very top of the list.
+            var bounds = EntriesBounds;
+            var contentTop = bounds.Top + 1;
+            var contentBottom = bounds.Bottom - 1;
+
+            var row = GetEntryRectangle(index);
+            if (row.Top < contentTop) SetEntryScroll(_entryScroll - (contentTop - row.Top));
+            else if (row.Bottom > contentBottom) SetEntryScroll(_entryScroll + (row.Bottom - contentBottom));
         }
         private void ClearSelectionAfterDirectoryNavigation()
         {
@@ -2510,6 +2951,7 @@ namespace Forma
             var value = _favoriteList[source];
             _favoriteList.RemoveAt(source);
             _favoriteList.Insert(target, value);
+            RaiseDirectoryListsChanged();
             UpdateDirectoryLists();
             _favoritesList.SetCurrent(target);
         }
@@ -2863,6 +3305,7 @@ namespace Forma
             for (var index = _recentList.Count - 1; index >= 0; index--)
                 if (_recentList[index] == directory || index >= MaxRecentDirectories) _recentList.RemoveAt(index);
             _recentList.Insert(0, directory);
+            RaiseDirectoryListsChanged();
         }
         private static string NormalizeDirectoryListPath(string path)
         {

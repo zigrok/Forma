@@ -86,8 +86,8 @@ namespace Forma
             }
         }
         public bool IsDraggingValue => _dragging;
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); LineEdit.Font = value; QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); LineEdit.UIFont = value; QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { var changed = _fontSelection.SetSpriteFont(value); LineEdit.Font = value; if (changed) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { var changed = _fontSelection.SetUIFont(value); LineEdit.UIFont = value; if (changed) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public SpinBoxLineEdit LineEdit { get; }
         public void SetHorizontalAlignment(HorizontalAlignment alignment) { if (!Enum.IsDefined(typeof(HorizontalAlignment), alignment)) throw new ArgumentOutOfRangeException(nameof(alignment)); _horizontalAlignment = alignment; }
@@ -113,7 +113,7 @@ namespace Forma
         public void Apply() => CommitText();
         public LineEdit GetLineEdit() => LineEdit;
         public override Vector2 GetMinimumSize() => Vector2.Max(CustomMinimumSize, new Vector2(72, 24));
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             _dragAllowed = IsEditable();
@@ -130,7 +130,7 @@ namespace Forma
             _heldArrowRepeating = false;
             _heldArrowActive = true;
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             _heldArrowPoint = point;
             if (!_dragAllowed) return;
@@ -152,7 +152,7 @@ namespace Forma
             var diff = -0.01f * MathF.Pow(MathF.Abs(_dragDiffY), 1.8f) * MathF.Sign(_dragDiffY);
             Value = _dragBaseValue + step * diff;
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             _dragAllowed = false;
             _dragging = false;

@@ -101,6 +101,8 @@ namespace Forma
         private GrowDirection _hGrowDirection = GrowDirection.End;
         private GrowDirection _vGrowDirection = GrowDirection.End;
         private AccessibilityPeer _accessibilityPeer;
+        private static int _nextAccessibilityId;
+        private string _automationId = string.Empty;
         private string _accessibilityLabel;
 
         public Control()
@@ -296,6 +298,14 @@ namespace Forma
             }
         }
         public Cursor EffectiveCursor => Cursor == Cursor.Inherited ? InheritanceParent?.EffectiveCursor ?? Cursor.Arrow : Cursor;
+        /// <summary>
+        /// Cursor for one pointer position, in the same global coordinates pointer events receive.
+        /// Controls with a sub-region that behaves differently from the rest of their surface - a
+        /// split container's dragger, a resize grip - override this so the pointer advertises that
+        /// region before it is pressed; everything else applies <see cref="EffectiveCursor"/> across
+        /// its whole extent. Mirrors Godot's <c>Control._get_cursor_shape</c>.
+        /// </summary>
+        public virtual Cursor GetCursorAt(Point position) => EffectiveCursor;
         public object ToolTip { get => _toolTip; set => SetValue(ref _toolTip, value, nameof(ToolTip)); }
         public Color? Foreground { get => _foreground ?? InheritanceParent?.Foreground; set { if (_foreground == value) return; var previous = CaptureInheritedValues(control => control.Foreground); _foreground = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.Foreground, nameof(Foreground)); } }
         public UIFontFamily FontFamily { get => _fontFamily ?? InheritanceParent?.FontFamily; set { if (ReferenceEquals(_fontFamily, value)) return; var previous = CaptureInheritedValues(control => control.FontFamily); _fontFamily = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.FontFamily, nameof(FontFamily)); } }
@@ -419,6 +429,35 @@ namespace Forma
         public Rectangle FocusBounds => VisualBounds;
         public Rectangle AccessibilityBounds => VisualBounds;
         public AccessibilityPeer AccessibilityPeer => _accessibilityPeer ??= CreateAccessibilityPeer();
+        /// <summary>
+        /// Identity for this control instance, unique within the process and stable for its whole
+        /// lifetime. Assigned at construction and never reassigned, so it survives a template reload:
+        /// reloading rebuilds a template's visual children, not the templated control itself.
+        /// <para>
+        /// This is what lets an accessibility tree be diffed rather than re-walked, and what lets an
+        /// out-of-process client refer to a node it saw earlier. It is deliberately not an
+        /// author-facing identifier - use <see cref="AutomationId"/> for that, since this value is
+        /// allocation-ordered and so differs between runs.
+        /// </para>
+        /// </summary>
+        public int AccessibilityId { get; } = AllocateAccessibilityId();
+        /// <summary>
+        /// Next value from the identity sequence. Peers that are not backed by a control of their
+        /// own - a virtualized item's peer, say - draw from the same sequence so every node in an
+        /// accessibility tree has a distinct id, which is what lets a snapshot be diffed by id.
+        /// </summary>
+        internal static int AllocateAccessibilityId() => System.Threading.Interlocked.Increment(ref _nextAccessibilityId);
+        /// <summary>
+        /// Stable, author-assigned identifier for tests and automation to target, independent of
+        /// anything the user sees. <see cref="Name"/> doubles as the accessible name and so changes
+        /// when a control is relabelled or localized; an automation id is a contract that does not.
+        /// Empty by default, in which case callers fall back to role and name.
+        /// </summary>
+        public string AutomationId
+        {
+            get => _automationId;
+            set => SetValue(ref _automationId, value, nameof(AutomationId));
+        }
         public string AccessibilityLabel
         {
             get => _accessibilityLabel;
@@ -474,6 +513,23 @@ namespace Forma
         }
 
         protected virtual AccessibilityPeer CreateAccessibilityPeer() => new AccessibilityPeer(this);
+
+        /// <summary>
+        /// Performs one advertised accessibility action, returning whether it was handled.
+        /// <para>
+        /// Overrides must route through the same code the corresponding real input runs, never a
+        /// parallel implementation. An invoked press that takes a shortcut would make a test pass
+        /// while telling you nothing about whether a person clicking the thing works.
+        /// </para>
+        /// </summary>
+        public virtual bool PerformAccessibilityAction(AccessibilityActions action, object argument = null)
+        {
+            if (action != AccessibilityActions.Focus) return false;
+            if (FocusMode == FocusMode.None || !IsEffectivelyEnabled || !IsRendered) return false;
+
+            GrabFocus();
+            return true;
+        }
 
         public virtual IReadOnlyList<AccessibilityPeer> GetAccessibilityChildren()
         {
@@ -993,6 +1049,21 @@ namespace Forma
                 control.BringIntoViewRequested?.Invoke(control, request);
         }
         /// <summary>Marks this control and every ancestor dirty, matching Godot's Control::update_minimum_size walking the full parent chain so a deeply nested size change reaches the root container.</summary>
+        /// <summary>
+        /// Whether this control still owes a layout pass. Part of the settle check: acting on a
+        /// tree mid-layout reads bounds that are about to change.
+        /// </summary>
+        internal bool IsLayoutDirty => _layoutDirty;
+
+        /// <summary>True when this control and everything under it have settled.</summary>
+        internal bool IsSubtreeSettled()
+        {
+            if (_layoutDirty) return false;
+            foreach (var child in _visualChildren)
+                if (!child.IsSubtreeSettled()) return false;
+            return true;
+        }
+
         public void QueueLayout()
         {
             for (var control = this; control != null; control = control.VisualParent)
@@ -1475,15 +1546,26 @@ namespace Forma
             for (var current = this; current != null; current = StyleBoundary.GetOrdinaryParent(current))
                 current.NotifyPseudoStateChanged("focus-within");
         }
-        internal virtual void PointerPressed(Point position) { if (FocusMode != FocusMode.None) GrabFocus(); }
+        /// <summary>
+        /// A pointer press landed on this control, in global coordinates.
+        /// <para>
+        /// Protected as well as internal so a control defined outside this assembly can take part in
+        /// pointer input. Without that, an app hosting its own drawing surface has to read raw mouse
+        /// state instead, which bypasses hit-testing, modal gating and the injection side-channel —
+        /// so such a surface cannot be driven by a test at all.
+        /// </para>
+        /// </summary>
+        protected internal virtual void PointerPressed(Point position) { if (FocusMode != FocusMode.None) GrabFocus(); }
         /// <summary>Receives a physical pointer press. The primary button additionally routes through <see cref="PointerPressed"/> for compatibility with existing controls.</summary>
         internal virtual void PointerButtonPressed(Point position, PointerButton button) { if (button == PointerButton.Right) PointerRightPressed(position); }
         /// <summary>Receives a secondary/right pointer press. Controls that present a context menu can override this independently of primary activation.</summary>
         internal virtual void PointerRightPressed(Point position) { }
         /// <summary>Receives a physical pointer release at the current hit-tested position.</summary>
         internal virtual void PointerButtonReleased(Point position, PointerButton button) { }
-        internal virtual void PointerMoved(Point position) { }
-        internal virtual void PointerReleased(Point position, bool isInside) { }
+        /// <summary>The pointer moved over this control, in global coordinates.</summary>
+        protected internal virtual void PointerMoved(Point position) { }
+        /// <summary>The pointer was released, with whether it was still inside this control.</summary>
+        protected internal virtual void PointerReleased(Point position, bool isInside) { }
         internal virtual bool PointerWheel(int delta) => false;
         internal virtual bool ShortcutInput(Keys key, KeyboardState keyboard) => false;
         internal virtual void KeyPressed(Keys key) { }

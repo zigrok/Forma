@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Forma;
+using Forma.Accessibility;
 #if FORMA_XAML_HOT_RELOAD
 using Forma.Xaml.HotReload;
 #endif
@@ -42,6 +43,7 @@ public sealed class CatalogGame : Game
         new(new Vector3(0.98f, -0.92f, 0), Color.White, new Vector2(1, 1)),
     };
     private CatalogEffectHotReloadService _hotReload;
+    private AccessibilityBridge _accessibility;
     private ILiveResizeAdapter _liveResize;
 #if FORMA_XAML_HOT_RELOAD
     private FormaXamlHotReloadService _xamlHotReload;
@@ -114,6 +116,7 @@ public sealed class CatalogGame : Game
         if (_metricsOptions?.LayoutDirection != null) _catalog.LayoutDirection = _metricsOptions.LayoutDirection.Value;
         _ui.Add(_catalog);
         _liveResize = LiveResizeAdapter.TryCreate(this);
+        StartAccessibility();
     #if FORMA_XAML_HOT_RELOAD
         StartXamlHotReload();
     #endif
@@ -126,6 +129,40 @@ public sealed class CatalogGame : Game
                 Path.GetFullPath(_metricsOptions.WatchedEffectPath));
         }
         base.LoadContent();
+    }
+
+    /// <summary>
+    /// Publishes the Catalog's tree to the operating system when <c>FORMA_ACCESSIBILITY=1</c> is
+    /// set, so a screen reader or an automation client sees the controls rather than one opaque
+    /// window.
+    /// </summary>
+    /// <remarks>
+    /// An environment variable rather than a flag: the Catalog's arguments are the metrics harness's,
+    /// and this has nothing to do with metrics. It says which of the two outcomes happened, because
+    /// "off" and "on but empty" are indistinguishable from outside.
+    /// </remarks>
+    private void StartAccessibility()
+    {
+        if (Environment.GetEnvironmentVariable("FORMA_ACCESSIBILITY") != "1") return;
+
+    #if FORMA_CATALOG_PLATFORM_HANDLE
+        var windowHandle = Window.PlatformHandle;
+    #else
+        var windowHandle = IntPtr.Zero;
+    #endif
+
+        _accessibility = new AccessibilityBridge(_ui) { WindowTitle = Window.Title };
+        if (_accessibility.Attach(windowHandle))
+        {
+            Console.WriteLine("accessibility: attached");
+            return;
+        }
+
+        Console.WriteLine(windowHandle == IntPtr.Zero
+            ? "accessibility: this runtime exposes no native window handle, so nothing was attached"
+            : "accessibility: the platform adapter could not be started");
+        _accessibility.Dispose();
+        _accessibility = null;
     }
 
     protected override void Update(GameTime gameTime)
@@ -180,6 +217,9 @@ public sealed class CatalogGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
+        // After layout has settled for the frame: bounds are what an assistive technology
+        // hit-tests with, so a tree captured mid-layout describes a UI that is about to move.
+        _accessibility?.Update();
         GraphicsDevice.Clear(_ui.Theme.BackgroundColor);
         try
         {
@@ -465,19 +505,7 @@ public sealed class CatalogGame : Game
         if (difference >= 64) transitions++;
     }
 
-    private void WriteScreenshot()
-    {
-        var width = GraphicsDevice.PresentationParameters.BackBufferWidth;
-        var height = GraphicsDevice.PresentationParameters.BackBufferHeight;
-        var pixels = new Color[width * height];
-        GraphicsDevice.GetBackBufferData(pixels);
-        using var texture = new Texture2D(GraphicsDevice, width, height);
-        texture.SetData(pixels);
-        var outputPath = Path.GetFullPath(_metricsOptions.ScreenshotPath);
-        Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
-        using var stream = File.Create(outputPath);
-        texture.SaveAsPng(stream, width, height);
-    }
+    private void WriteScreenshot() => ScreenCapture.SaveBackBuffer(GraphicsDevice, _metricsOptions.ScreenshotPath);
 
     private Texture2D CreateCatalogTexture()
     {

@@ -10,11 +10,17 @@ namespace Forma
 {
     internal static class Alpha8CoverageEffect
     {
+        // GraphicsBackend.Headless (6) exists only in the zigrok MonoGame fork. Forma builds against
+        // stock MonoGame by default, where naming the member outright is a compile error, so it is
+        // matched by value instead. Kept as a const so it still works in a pattern.
+        private const GraphicsBackend Headless = (GraphicsBackend)6;
+
         public static bool RequiresColorGlyphAtlas =>
 #if FORMA_BROWSER
             true;
 #else
-            PlatformInfo.GraphicsBackend is GraphicsBackend.OpenGL or GraphicsBackend.Vulkan or GraphicsBackend.Metal;
+            PlatformInfo.GraphicsBackend is GraphicsBackend.OpenGL or GraphicsBackend.Vulkan
+                or GraphicsBackend.Metal or Headless;
 #endif
 
         public static Effect Create(GraphicsDevice graphicsDevice)
@@ -32,7 +38,11 @@ namespace Forma
                 GraphicsBackend.OpenGL => "Forma.Alpha8Coverage.OpenGL.mgfxo.b64",
                 GraphicsBackend.DirectX => "Forma.Alpha8Coverage.DirectX11.mgfxo.b64",
                 GraphicsBackend.DirectX12 => "Forma.Alpha8Coverage.DirectX12.mgfxo.b64",
-                GraphicsBackend.Vulkan or GraphicsBackend.Metal => "Forma.Alpha8Coverage.Vulkan.mgfxo.b64",
+                // Headless reports the Vulkan shader profile (80) and never executes a shader, so it
+                // loads the same blob. Taking the real path rather than a null one keeps a headless
+                // run exercising the same effect-loading code the desktop backends do.
+                GraphicsBackend.Vulkan or GraphicsBackend.Metal or Headless
+                    => "Forma.Alpha8Coverage.Vulkan.mgfxo.b64",
                 _ => throw new NotSupportedException($"The {PlatformInfo.GraphicsBackend} graphics backend does not have an embedded Alpha8 coverage effect."),
             };
 #endif

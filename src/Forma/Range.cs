@@ -41,6 +41,41 @@ namespace Forma
                 _shared.Value = clamped; foreach (var owner in _shared.Owners) owner.ValueChanged?.Invoke(owner, clamped);
             }
         }
+        /// <summary>
+        /// All three route through the <see cref="Value"/> setter, which is what pointer and
+        /// keyboard input use, so clamping and change notification behave identically.
+        /// </summary>
+        public override bool PerformAccessibilityAction(AccessibilityActions action, object argument = null)
+        {
+            if (!IsEffectivelyEnabled) return false;
+
+            switch (action)
+            {
+                case AccessibilityActions.SetValue:
+                    if (argument == null) return false;
+                    try
+                    {
+                        Value = Convert.ToSingle(argument, System.Globalization.CultureInfo.InvariantCulture);
+                        return true;
+                    }
+                    catch (Exception exception) when (exception is FormatException or InvalidCastException or OverflowException)
+                    {
+                        return false;
+                    }
+
+                case AccessibilityActions.Increment:
+                    Value += Step;
+                    return true;
+
+                case AccessibilityActions.Decrement:
+                    Value -= Step;
+                    return true;
+
+                default:
+                    return base.PerformAccessibilityAction(action, argument);
+            }
+        }
+
         public float Ratio { get => GetAsRatio(); set => SetAsRatio(value); }
         public event Action<Range, float> ValueChanged;
         public void SetValueNoSignal(float value) => _shared.Value = CalculateValue(value);

@@ -229,6 +229,81 @@ public sealed class SystemCursorTest
         Assert.That(adapter.Applied, Is.EqualTo(new[] { Cursor.IBeam, Cursor.Arrow, Cursor.IBeam, Cursor.Arrow }));
     }
 
+    [TestCase(Orientation.Horizontal, Cursor.SizeHorizontal)]
+    [TestCase(Orientation.Vertical, Cursor.SizeVertical)]
+    public void SplitDividersAdvertiseTheirResizeAxisAndHoldItForTheWholeDrag(Orientation orientation, Cursor expected)
+    {
+        var split = new SplitContainer(orientation) { Size = new Vector2(200, 200), DragAreaSize = 6 };
+        split.AddChild(new Control());
+        split.AddChild(new Control());
+        using var context = CreateContext(split);
+        var divider = orientation == Orientation.Horizontal ? new Point(99, 40) : new Point(40, 99);
+        var offControl = new Point(320, 260);
+
+        context.InjectPointerMove(new Point(40, 40));
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.Arrow));
+        context.InjectPointerMove(divider);
+        Assert.That(context.EffectiveCursor, Is.EqualTo(expected));
+
+        // A divider drag routinely runs the pointer past the bar it is moving, so the resize cursor has
+        // to survive leaving the control entirely and only drop on release.
+        context.InjectPointerPress(divider);
+        context.InjectPointerMove(offControl);
+        Assert.That(context.EffectiveCursor, Is.EqualTo(expected));
+        context.InjectPointerRelease(offControl);
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.Arrow));
+    }
+
+    [Test]
+    public void DraggerCursorTracksDraggabilityAndYieldsToAnExplicitCursor()
+    {
+        var split = new HSplitContainer { Size = new Vector2(200, 100), DragAreaSize = 6 };
+        split.AddChild(new Control());
+        split.AddChild(new Control());
+        using var context = CreateContext(split);
+        context.InjectPointerMove(new Point(99, 50));
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.SizeHorizontal));
+
+        split.DraggingEnabled = false;
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.Arrow), "A divider that cannot be dragged must not promise a resize.");
+        split.DraggingEnabled = true;
+        split.Collapsed = true;
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.Arrow));
+        split.Collapsed = false;
+        split.DraggerVisibility = SplitContainerDraggerVisibility.Hidden;
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.Arrow));
+
+        split.DraggerVisibility = SplitContainerDraggerVisibility.Visible;
+        split.Cursor = Cursor.Hand;
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.Hand));
+    }
+
+    [Test]
+    public void DockWorkspaceSplitsResizeSectionsWithTheAxisCursorWithoutTintingTheirContent()
+    {
+        // An editor-shaped layout: a column beside a pane, with a panel docked under the column, so
+        // the two axes are nested and each divider has to answer for its own orientation.
+        var workspace = new DockWorkspace { Size = new Vector2(400, 300) };
+        var left = workspace.CreatePane();
+        left.Add(new DockSection("left", "Left", new Control()));
+        var right = workspace.CreatePane();
+        right.Add(new DockSection("right", "Right", new Control()));
+        workspace.Dock(right, left, DockZone.Right);
+        var bottom = workspace.CreatePane();
+        bottom.Add(new DockSection("bottom", "Bottom", new Control()));
+        workspace.Dock(bottom, left, DockZone.Bottom);
+        using var context = CreateContext(workspace);
+
+        context.InjectPointerMove(new Point(200, 150));
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.SizeHorizontal));
+        context.InjectPointerMove(new Point(60, 150));
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.SizeVertical));
+
+        // The resize cursor belongs to the dividers alone; it must not reach section content by inheritance.
+        context.InjectPointerMove(new Point(60, 60));
+        Assert.That(context.EffectiveCursor, Is.EqualTo(Cursor.Arrow));
+    }
+
     [Test]
     public void UnsupportedRuntimeAndNeverOwnedRouterDoNotChangeTheCursorOnDisposal()
     {

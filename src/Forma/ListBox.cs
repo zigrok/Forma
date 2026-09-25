@@ -48,6 +48,9 @@ namespace Forma
         private bool _isSelectable = true;
 
         public ListBoxItem() => FocusMode = FocusMode.All;
+        /// <summary>A row of a <see cref="ListBox"/>, which reports <see cref="AccessibilityRole.List"/>.
+        /// Without this the list announces itself but its rows are anonymous.</summary>
+        public override AccessibilityRole AccessibilityRole => AccessibilityRole.ListItem;
 
         public bool IsSelected => _isSelected;
         public bool IsCurrent => _isCurrent;
@@ -388,7 +391,7 @@ namespace Forma
             base.OnTemplateApplied();
         }
 
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             var index = GetIndexAtPosition(point);
@@ -412,7 +415,7 @@ namespace Forma
             if (index >= 0) SelectItemFromPointer(index, point);
         }
 
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             var index = GetIndexAtPosition(point);
             if (isInside && index >= 0 && index == _lastClickIndex && (ActivateOnSingleClick || _doubleClickPending)) Activate(index);

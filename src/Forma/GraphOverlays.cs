@@ -70,7 +70,7 @@ namespace Forma
             return points;
         }
         public (Color From, Color To) GetConnectionLineColors(GraphConnection connection, Theme theme) => Graph == null ? (Color.Transparent, Color.Transparent) : Graph.GetConnectionLineColors(connection, theme);
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             base.PointerPressed(position);
             _lastPointerPosition = position;
@@ -78,7 +78,7 @@ namespace Forma
             _panning = !_resizing;
             if (_panning) PanGraphTo(position);
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (_resizing && Graph != null)
             {
@@ -89,7 +89,7 @@ namespace Forma
             }
             else if (_panning) PanGraphTo(position);
         }
-        internal override void PointerReleased(Point position, bool isInside) { _panning = false; _resizing = false; }
+        protected internal override void PointerReleased(Point position, bool isInside) { _panning = false; _resizing = false; }
         internal override void CancelInput() { _panning = false; _resizing = false; base.CancelInput(); }
         internal override void Draw(UIRenderContext context)
         {
@@ -196,8 +196,8 @@ namespace Forma
         }
         public event Action<GraphEditFilter, Point> CanvasPressed;
         public event Action<GraphEditFilter, Point> CanvasReleased;
-        internal override void PointerPressed(Point position) { base.PointerPressed(position); CanvasPressed?.Invoke(this, position); }
-        internal override void PointerReleased(Point position, bool isInside) { CanvasReleased?.Invoke(this, position); }
+        protected internal override void PointerPressed(Point position) { base.PointerPressed(position); CanvasPressed?.Invoke(this, position); }
+        protected internal override void PointerReleased(Point position, bool isInside) { CanvasReleased?.Invoke(this, position); }
     }
 
     /// <summary>Visual drag handle that forwards pointer movement to a split container.</summary>
@@ -205,13 +205,18 @@ namespace Forma
     {
         private bool _dragging;
         public SplitContainer Target { get; set; }
-        internal override void PointerPressed(Point position) { _dragging = Target != null; GrabFocus(); }
-        internal override void PointerMoved(Point position)
+        /// <summary>The whole handle is a divider, so it advertises its target's resize axis unless a host
+        /// sets <see cref="Control.Cursor"/> explicitly.</summary>
+        public override Cursor GetCursorAt(Point position) =>
+            Cursor != Cursor.Inherited || Target == null ? base.GetCursorAt(position)
+                : Target.Orientation == Orientation.Horizontal ? Cursor.SizeHorizontal : Cursor.SizeVertical;
+        protected internal override void PointerPressed(Point position) { _dragging = Target != null; GrabFocus(); }
+        protected internal override void PointerMoved(Point position)
         {
             if (!_dragging || Target == null) return;
             Target.SplitOffset = Target.Orientation == Orientation.Horizontal ? position.X - Target.Bounds.X : position.Y - Target.Bounds.Y;
         }
-        internal override void PointerReleased(Point position, bool isInside) { _dragging = false; }
+        protected internal override void PointerReleased(Point position, bool isInside) { _dragging = false; }
         internal override void CancelInput() { _dragging = false; base.CancelInput(); }
     }
 
@@ -222,14 +227,18 @@ namespace Forma
         public System.Collections.Generic.IList<SplitContainer> Targets => _targets;
         public int ActiveIndex { get; set; }
         private bool _dragging;
-        internal override void PointerPressed(Point position) { _dragging = ActiveIndex >= 0 && ActiveIndex < _targets.Count; GrabFocus(); }
-        internal override void PointerMoved(Point position)
+        /// <summary>Advertises the resize axis of the handle currently selected by <see cref="ActiveIndex"/>.</summary>
+        public override Cursor GetCursorAt(Point position) =>
+            Cursor != Cursor.Inherited || ActiveIndex < 0 || ActiveIndex >= _targets.Count ? base.GetCursorAt(position)
+                : _targets[ActiveIndex].Orientation == Orientation.Horizontal ? Cursor.SizeHorizontal : Cursor.SizeVertical;
+        protected internal override void PointerPressed(Point position) { _dragging = ActiveIndex >= 0 && ActiveIndex < _targets.Count; GrabFocus(); }
+        protected internal override void PointerMoved(Point position)
         {
             if (!_dragging) return;
             var target = _targets[ActiveIndex];
             target.SplitOffset = target.Orientation == Orientation.Horizontal ? position.X - target.Bounds.X : position.Y - target.Bounds.Y;
         }
-        internal override void PointerReleased(Point position, bool isInside) { _dragging = false; }
+        protected internal override void PointerReleased(Point position, bool isInside) { _dragging = false; }
         internal override void CancelInput() { _dragging = false; base.CancelInput(); }
     }
 

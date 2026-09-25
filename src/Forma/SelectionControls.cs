@@ -444,7 +444,7 @@ namespace Forma
                 ? new Rectangle(start, 0, size, Math.Max(0, Bounds.Height))
                 : new Rectangle(0, start, Math.Max(0, Bounds.Width), size);
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             UpdateHighlight(point);
@@ -481,7 +481,7 @@ namespace Forma
             }
             PageBy(1);
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             if (_dragging)
             {
@@ -491,7 +491,7 @@ namespace Forma
             }
             else UpdateHighlight(point);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             _dragging = false;
             _decrementActive = false;
@@ -1119,8 +1119,8 @@ namespace Forma
         private bool _deselectEnabled;
         public IReadOnlyList<TabBarItem> TabItems => _tabs;
         public IReadOnlyList<string> Tabs { get { var result = new List<string>(_tabs.Count); foreach (var tab in _tabs) result.Add(tab.Title); return result; } }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public TabCloseDisplayPolicy CloseDisplayPolicy { get; set; }
         public TabBarAlignment TabAlignment { get; set; }
@@ -1382,7 +1382,7 @@ namespace Forma
             return Rectangle.Empty;
         }
         public override string GetTooltip(Point position) { var index = GetTabAt(position, out _); return index >= 0 && !string.IsNullOrEmpty(_tabs[index].Tooltip) ? _tabs[index].Tooltip : base.GetTooltip(position); }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point);
             UpdateHoveredTab(point);
@@ -1401,7 +1401,7 @@ namespace Forma
             }
             PressTabAt(position, button);
         }
-        internal override void PointerMoved(Point point)
+        protected internal override void PointerMoved(Point point)
         {
             UpdateHoveredTab(point);
             if (_draggedTab < 0) return;
@@ -1411,7 +1411,7 @@ namespace Forma
             _draggedTab = target;
             ActiveTabRearranged?.Invoke(this, target);
         }
-        internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
+        protected internal override void PointerReleased(Point point, bool isInside) { _draggedTab = -1; }
         internal override void CancelInput() { _draggedTab = -1; base.CancelInput(); }
         /// <summary>Scrolls the tab offset by one tab per wheel tick, matching Godot's TabBar::gui_input WHEEL_UP/WHEEL_DOWN handling.</summary>
         internal override bool PointerWheel(int delta)
@@ -1674,8 +1674,8 @@ namespace Forma
         public Vector2 FixedIconSize { get; set; }
         public float IconScale { get; set; } = 1f;
         public float ItemHeight { get; set; } = 24;
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
         public int Current { get => _current; set => SetCurrent(value); }
         public float ScrollOffsetY { get => _scrollOffsetY; set => _scrollOffsetY = MathHelper.Clamp(value, 0, GetMaxScrollOffsetY()); }
@@ -1888,7 +1888,7 @@ namespace Forma
             var index = GetItemAtPosition(position, true); if (index >= 0) { var entry = _entries[index]; if (!entry.TooltipEnabled) return string.Empty; if (!string.IsNullOrEmpty(entry.Tooltip)) return entry.Tooltip; if (!string.IsNullOrEmpty(entry.Text)) return entry.Text; }
             return base.GetTooltip(position);
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             base.PointerPressed(point); var index = GetItemAtPosition(point); if (index < 0) return;
             // Godot's item_activated only fires on an actual LEFT double-click, not every plain click -
@@ -1906,7 +1906,7 @@ namespace Forma
             if (button != PointerButton.Right || !AllowRightMouseSelect) return;
             var index = GetItemAtPosition(position); if (index >= 0) SelectFromPointer(index);
         }
-        internal override void PointerReleased(Point point, bool isInside)
+        protected internal override void PointerReleased(Point point, bool isInside)
         {
             var index = GetItemAtPosition(point); if (isInside && index >= 0 && index == _current && _isDoubleClick) ItemActivated?.Invoke(this, index);
         }
@@ -2024,35 +2024,62 @@ namespace Forma
         internal void DrawItemList(UIRenderContext context)
         {
             context.Fill(Bounds, context.Theme.BackgroundColor); context.Border(Bounds, context.Theme.PanelBorderColor);
-            for (var index = 0; index < _entries.Count; index++)
+
+            // Nothing here was bounded by the control: an item wider or lower than the list drew
+            // straight over whatever sat beside it. A folder favourited by its full path is enough
+            // to do it, and in the file dialog that painted the path across the file grid.
+            context.PushClip(Bounds);
+            try
             {
-                var entry = _entries[index]; var rect = GetItemRect(index);
-                if (rect.Bottom < Bounds.Top || rect.Top > Bounds.Bottom) continue;
-                if (entry.CustomBackgroundColor.HasValue) context.Fill(rect, entry.CustomBackgroundColor.Value); else if (entry.Selected) context.Fill(rect, context.Theme.AccentColor);
-                var textX = rect.X + 5;
-                if (entry.Icon != null)
+                for (var index = 0; index < _entries.Count; index++)
                 {
-                    var source = entry.IconRegion ?? new Rectangle(0, 0, entry.Icon.Width, entry.Icon.Height);
-                    var iconSize = FixedIconSize == Vector2.Zero ? new Vector2(source.Width, source.Height) : FixedIconSize;
-                    iconSize *= IconScale;
-                    var displayWidth = Math.Max(1, (int)iconSize.X); var displayHeight = Math.Max(1, (int)iconSize.Y);
-                    var iconRect = new Rectangle(rect.X + 3, IconMode == ItemListIconMode.Left ? rect.Y + Math.Max(1, (rect.Height - (entry.IconTransposed ? displayWidth : displayHeight)) / 2) : rect.Y + 3, entry.IconTransposed ? displayHeight : displayWidth, entry.IconTransposed ? displayWidth : displayHeight);
-                    if (entry.IconTransposed)
+                    var entry = _entries[index]; var rect = GetItemRect(index);
+                    if (rect.Bottom < Bounds.Top || rect.Top > Bounds.Bottom) continue;
+                    if (entry.CustomBackgroundColor.HasValue) context.Fill(rect, entry.CustomBackgroundColor.Value); else if (entry.Selected) context.Fill(rect, context.Theme.AccentColor);
+                    var textX = rect.X + 5;
+                    if (entry.Icon != null)
                     {
-                        var position = new Vector2(iconRect.Center.X, iconRect.Center.Y);
-                        var origin = new Vector2(source.Width / 2f, source.Height / 2f);
-                        var scale = new Vector2(displayWidth / (float)source.Width, displayHeight / (float)source.Height);
-                        context.SpriteBatch.Draw(entry.Icon, position, source, entry.IconModulate, MathHelper.PiOver2, origin, scale, SpriteEffects.None, 0);
+                        var source = entry.IconRegion ?? new Rectangle(0, 0, entry.Icon.Width, entry.Icon.Height);
+                        var iconSize = FixedIconSize == Vector2.Zero ? new Vector2(source.Width, source.Height) : FixedIconSize;
+                        iconSize *= IconScale;
+                        var displayWidth = Math.Max(1, (int)iconSize.X); var displayHeight = Math.Max(1, (int)iconSize.Y);
+                        var iconRect = new Rectangle(rect.X + 3, IconMode == ItemListIconMode.Left ? rect.Y + Math.Max(1, (rect.Height - (entry.IconTransposed ? displayWidth : displayHeight)) / 2) : rect.Y + 3, entry.IconTransposed ? displayHeight : displayWidth, entry.IconTransposed ? displayWidth : displayHeight);
+                        if (entry.IconTransposed)
+                        {
+                            var position = new Vector2(iconRect.Center.X, iconRect.Center.Y);
+                            var origin = new Vector2(source.Width / 2f, source.Height / 2f);
+                            var scale = new Vector2(displayWidth / (float)source.Width, displayHeight / (float)source.Height);
+                            context.SpriteBatch.Draw(entry.Icon, position, source, entry.IconModulate, MathHelper.PiOver2, origin, scale, SpriteEffects.None, 0);
+                        }
+                        else context.SpriteBatch.Draw(entry.Icon, iconRect, source, entry.IconModulate);
+                        if (IconMode == ItemListIconMode.Left) textX = iconRect.Right + 4;
                     }
-                    else context.SpriteBatch.Draw(entry.Icon, iconRect, source, entry.IconModulate);
-                    if (IconMode == ItemListIconMode.Left) textX = iconRect.Right + 4;
+                    if (entry.TagIcon != null)
+                    {
+                        var tagSize = Math.Max(8, Math.Min(14, Math.Min(rect.Width, rect.Height) / 2));
+                        context.SpriteBatch.Draw(entry.TagIcon, new Rectangle(rect.Right - tagSize - 3, rect.Y + 3, tagSize, tagSize), Color.White);
+                    }
+                    if (EffectiveUIFont != null && !string.IsNullOrEmpty(entry.Text))
+                    {
+                        // Trimmed to the room actually left after the icons, so a long entry ends in an
+                        // ellipsis that says there is more name. Clipping alone would cut a glyph in
+                        // half and leave no sign the text had been shortened at all.
+                        var textRight = rect.Right - 3 - (entry.TagIcon != null ? Math.Max(8, Math.Min(14, Math.Min(rect.Width, rect.Height) / 2)) + 3 : 0);
+                        var available = textRight - textX;
+                        var color = entry.Disabled ? context.Theme.DisabledTextColor : entry.CustomForegroundColor ?? context.Theme.TextColor;
+                        var textY = rect.Y + Math.Max(2, (rect.Height - TextMetrics.LineHeight(EffectiveUIFont)) / 2);
+
+                        if (available > 0)
+                        {
+                            var layout = TextMetrics.Layout(EffectiveUIFont, entry.Text, new TextLayoutOptions(maxWidth: available, trimming: TextTrimming.CharacterEllipsis));
+                            context.Text(layout, new Vector2(textX, textY), color);
+                        }
+                    }
                 }
-                if (entry.TagIcon != null)
-                {
-                    var tagSize = Math.Max(8, Math.Min(14, Math.Min(rect.Width, rect.Height) / 2));
-                    context.SpriteBatch.Draw(entry.TagIcon, new Rectangle(rect.Right - tagSize - 3, rect.Y + 3, tagSize, tagSize), Color.White);
-                }
-                if (EffectiveUIFont != null && !string.IsNullOrEmpty(entry.Text)) context.Text(EffectiveUIFont, entry.Text, new Vector2(textX, rect.Y + Math.Max(2, (rect.Height - TextMetrics.LineHeight(EffectiveUIFont)) / 2)), entry.Disabled ? context.Theme.DisabledTextColor : entry.CustomForegroundColor ?? context.Theme.TextColor);
+            }
+            finally
+            {
+                context.PopClip();
             }
         }
         private void SelectFromPointer(int index)
@@ -2230,8 +2257,8 @@ namespace Forma
             };
         }
         public string Text { get => _text; set { value ??= string.Empty; if (_text == value) return; _text = value; QueueLayout(); } }
-        public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
-        public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
+        public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
+        public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection, FontFamily, FontSize, FontWeight, FontStyle, FontStretch);
         public Color? FontColor { get => Foreground; set => Foreground = value; }
         public new HorizontalAlignment HorizontalAlignment { get; set; }
@@ -2670,7 +2697,7 @@ namespace Forma
         {
             context.Fill(new Rectangle((int)MathF.Floor(position.X + rectangle.X), (int)MathF.Floor(position.Y + rectangle.Y), Math.Max(1, (int)MathF.Ceiling(rectangle.Width)), Math.Max(1, (int)MathF.Ceiling(rectangle.Height))), color);
         }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             var meta = GetMetaUnderPosition(position);
             if (meta != null) { MetaClicked?.Invoke(this, meta); return; }
@@ -2699,14 +2726,14 @@ namespace Forma
             else SelectGestureRange(_selectionAnchor, _selectionAnchor);
             if (_selectionMode == RichTextSelectionMode.TripleClick) _textClickCount = 0;
         }
-        internal override void PointerMoved(Point position)
+        protected internal override void PointerMoved(Point position)
         {
             if (!_selectingText) return;
             _lastSelectionPointerPosition = position;
             var index = GetTextIndexAtPosition(position);
             if (index >= 0) SelectGestureRange(_selectionAnchor, index);
         }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (_selectionDragAttempt)
             {

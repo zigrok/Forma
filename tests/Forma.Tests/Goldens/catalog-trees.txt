@@ -1,0 +1,1946 @@
+=== AcceptDialog
+Dialog "AcceptDialog" [Modal]
+  Generic
+    Generic "AcceptDialog"
+    Generic "This is a modal message."
+    Button "PART_AcceptButton"
+      Generic
+        Generic "PART_ContentPresenter"
+=== AspectRatioContainer
+Generic "AspectRatioContainer"
+  Generic
+=== Atlas Inspector
+Generic
+  Generic
+    TextBox "atlasStress" =ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 مرحبا 你好 👩🏽‍💻
+      Generic "PART_EditorPresenter"
+    Button "atlasRefresh"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "atlasClear"
+      Generic
+        Generic "PART_ContentPresenter"
+  Generic "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 مرحبا 你好 👩🏽‍💻"
+  Generic "Pages 0 · Glyphs 0 · Occupancy 0.0% · Hits 0 · Misses 0 · Uploads 0 · Evictions 0 · Memory 0.0 KB / 32 MB"
+  Generic "atlasPages"
+    Generic "atlasPage0"
+    Generic "atlasPage1"
+    Generic "atlasPage2"
+    Generic "atlasPage3"
+=== Atlas diagnostics
+Generic
+  Generic "Density: 0x   Atlases: 0   Texture: 0.0 KB
+Generation: 0   Missing optional lookups: 0"
+  Generic
+    Button "one"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "two"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "refresh"
+      Generic
+        Generic "PART_ContentPresenter"
+=== BaseButton
+Button "BaseButton"
+  Generic
+    Generic "PART_ContentPresenter"
+=== Bidirectional Text
+Generic
+  Generic
+    TextBox "bidiText" =Forma שלום 123 مرحبا
+      Generic "PART_EditorPresenter"
+    ComboBox "bidiDirection"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+  Generic "Forma שלום 123 مرحبا"
+  Generic "Runtime bidi diagnostics unavailable."
+=== Border
+Generic "Border"
+  Generic
+=== BoxContainer
+Generic "BoxContainer"
+  Button "One"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Two"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Three"
+    Generic
+      Generic "PART_ContentPresenter"
+=== Button
+Button "Button" #catalog.button
+  Generic
+    Generic "PART_ContentPresenter"
+=== CanvasPanel
+Generic "CanvasPanel"
+  Generic
+    Generic
+    Generic "CanvasPanel"
+=== CenterContainer
+Generic "CenterContainer"
+  Generic
+    Generic
+    Generic "CenterContainer"
+=== CheckBox
+CheckBox "CheckBox" [Checked]
+  Generic
+    Generic
+      Generic "PART_ContentPresenter"
+=== CheckButton
+CheckBox "CheckButton" [Checked]
+  Generic
+    Generic
+      Generic "PART_ContentPresenter"
+=== CodeEdit
+TextBox "CodeEdit" =using Forma;
+
+var button = new Button
+{
+    Text = "Run game",
+};
+  Generic "PART_EditorPresenter"
+=== Collection Systems
+Generic "CollectionSystemsRoot"
+  Generic "Collection systems"
+  Generic
+    Button "AddItem"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "RemoveItem"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "MoveItem"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "ReplaceItem"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "ResetItems"
+      Generic
+        Generic "PART_ContentPresenter"
+    Generic "Ready"
+  Generic
+    List "SingleSelection"
+      ListItem "CatalogCollectionItem { Name = Item 01 }"
+      ListItem "CatalogCollectionItem { Name = Item 02 }"
+      ListItem "CatalogCollectionItem { Name = Item 03 }"
+      ListItem "CatalogCollectionItem { Name = Item 04 }"
+      ListItem "CatalogCollectionItem { Name = Item 05 }"
+      ListItem "CatalogCollectionItem { Name = Item 06 }"
+      Generic
+        Generic "PART_ScrollPresenter"
+          Generic "PART_ItemsPresenter"
+            Generic
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 01"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 02"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 03"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 04"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 05"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 06"
+    List "MultiSelection"
+      ListItem "CatalogCollectionItem { Name = Item 01 }"
+      ListItem "CatalogCollectionItem { Name = Item 02 }"
+      ListItem "CatalogCollectionItem { Name = Item 03 }"
+      ListItem "CatalogCollectionItem { Name = Item 04 }"
+      ListItem "CatalogCollectionItem { Name = Item 05 }"
+      ListItem "CatalogCollectionItem { Name = Item 06 }"
+      Generic
+        Generic "PART_ScrollPresenter"
+          Generic "PART_ItemsPresenter"
+            Generic
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 01"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 02"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 03"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 04"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 05"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 06"
+    List "ToggleSelection"
+      ListItem "CatalogCollectionItem { Name = Item 01 }"
+      ListItem "CatalogCollectionItem { Name = Item 02 }"
+      ListItem "CatalogCollectionItem { Name = Item 03 }"
+      ListItem "CatalogCollectionItem { Name = Item 04 }"
+      ListItem "CatalogCollectionItem { Name = Item 05 }"
+      ListItem "CatalogCollectionItem { Name = Item 06 }"
+      Generic
+        Generic "PART_ScrollPresenter"
+          Generic "PART_ItemsPresenter"
+            Generic
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 01"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 02"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 03"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 04"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 05"
+              ListItem
+                Generic "PART_ContentPresenter"
+                  Generic
+                    Generic "Item 06"
+  Generic "Eventful row x:Class"
+  List "EventRows"
+    ListItem "CatalogCollectionItem { Name = Item 01 }"
+    ListItem "CatalogCollectionItem { Name = Item 02 }"
+    ListItem "CatalogCollectionItem { Name = Item 03 }"
+    ListItem "CatalogCollectionItem { Name = Item 04 }"
+    ListItem "CatalogCollectionItem { Name = Item 05 }"
+    ListItem "CatalogCollectionItem { Name = Item 06 }"
+    Generic
+      Generic "PART_ScrollPresenter"
+        Generic "PART_ItemsPresenter"
+          Generic
+            ListItem
+              Generic "PART_ContentPresenter"
+                Generic
+                  Button "RowAction"
+                    Generic
+                      Generic "PART_ContentPresenter"
+            ListItem
+              Generic "PART_ContentPresenter"
+                Generic
+                  Button "RowAction"
+                    Generic
+                      Generic "PART_ContentPresenter"
+            ListItem
+              Generic "PART_ContentPresenter"
+                Generic
+                  Button "RowAction"
+                    Generic
+                      Generic "PART_ContentPresenter"
+            ListItem
+              Generic "PART_ContentPresenter"
+                Generic
+                  Button "RowAction"
+                    Generic
+                      Generic "PART_ContentPresenter"
+            ListItem
+              Generic "PART_ContentPresenter"
+                Generic
+                  Button "RowAction"
+                    Generic
+                      Generic "PART_ContentPresenter"
+            ListItem
+              Generic "PART_ContentPresenter"
+                Generic
+                  Button "RowAction"
+                    Generic
+                      Generic "PART_ContentPresenter"
+  Generic "Vertical / horizontal / grid virtualization"
+  List "VerticalVirtualList"
+    ListItem "CatalogCollectionItem { Name = Virtual 00000 }"
+    ListItem "CatalogCollectionItem { Name = Virtual 00001 }"
+    ListItem "CatalogCollectionItem { Name = Virtual 00002 }"
+    ListItem "CatalogCollectionItem { Name = Virtual 00003 }"
+    ListItem "CatalogCollectionItem { Name = Virtual 00004 }"
+    ListItem "CatalogCollectionItem { Name = Virtual 00005 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00006 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00007 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00008 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00009 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00010 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00011 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00012 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00013 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00014 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00015 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00016 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00017 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00018 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00019 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00020 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00021 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00022 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00023 }" [Offscreen]
+    ListItem "CatalogCollectionItem { Name = Virtual 00024 }" [Offscreen]
+... 30162 more line(s) not recorded (capped at 200)
+=== ColorPicker
+ColorPicker "ColorPicker"
+  Generic "PART_ColorField"
+=== ColorPickerButton
+Button "ColorPickerButton"
+  Generic
+    Generic
+      Generic "PART_ContentPresenter"
+=== ColorPickerDialog
+Dialog "ColorPickerDialog" [Modal]
+  Generic
+    ColorPicker
+      Generic "PART_ColorField"
+    Generic "ColorPickerDialog"
+    Generic "Continue with this action?"
+    Button "PART_AcceptButton"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "PART_CancelButton"
+      Generic
+        Generic "PART_ContentPresenter"
+=== ColorPickerPopupPanel
+Window "ColorPickerPopupPanel" [Modal]
+  Generic
+    ColorPicker
+      Generic "PART_ColorField"
+=== ColorPresetButton
+Button "ColorPresetButton"
+  Generic
+    Generic
+      Generic "PART_ContentPresenter"
+=== ColorRect
+Generic "ColorRect"
+=== Compiled Data Binding
+Generic "BindingRoot"
+  Generic "Compiled data binding"
+  Generic "Edit the model through two-way controls while one-way targets update from property notifications."
+  Generic
+    Generic "Project"
+    TextBox "ProjectNameEditor" =Aurora UI
+      Generic "PART_EditorPresenter"
+  Generic
+    Generic "Completion"
+    Slider "CompletionSlider" =64
+      Generic
+    Generic "Progress: 64%"
+  CheckBox "AutoSaveToggle" [Checked]
+    Generic
+      Generic
+        Generic "PART_ContentPresenter"
+  ProgressBar =64
+    Generic
+  Generic "Aurora UI is 64% complete · autosave on"
+  Button "Reset model"
+    Generic
+      Generic "PART_ContentPresenter"
+=== Complete icon inventory
+Generic
+  ScrollView
+    Generic
+      Generic "PART_ScrollPresenter"
+        Generic "iconFlow"
+          Generic
+            Generic
+            Generic "arrow_down"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:can_fold"
+            Generic "scene/theme/icons/arrow_down.svg"
+          Generic
+            Generic
+            Generic "arrow_left"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:back"
+            Generic "scene/theme/icons/arrow_left.svg"
+          Generic
+            Generic
+            Generic "arrow_right"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:executing_line"
+            Generic "scene/theme/icons/arrow_right.svg"
+          Generic
+            Generic
+            Generic "arrow_up"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:up"
+            Generic "scene/theme/icons/arrow_up.svg"
+          Generic
+            Generic
+            Generic "bookmark"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:bookmark"
+            Generic "scene/theme/icons/bookmark.svg"
+          Generic
+            Generic
+            Generic "breakpoint"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:breakpoint"
+            Generic "scene/theme/icons/breakpoint.svg"
+          Generic
+            Generic
+            Generic "checked"
+            Generic "16x16 @ 1x/2x"
+            Generic "CheckBox:checked"
+            Generic "scene/theme/icons/checked.svg"
+          Generic
+            Generic
+            Generic "checked_disabled"
+            Generic "16x16 @ 1x/2x"
+            Generic "CheckBox:checked_disabled"
+            Generic "scene/theme/icons/checked_disabled.svg"
+          Generic
+            Generic
+            Generic "close"
+            Generic "16x16 @ 1x/2x"
+            Generic "TabBar:close"
+            Generic "scene/theme/icons/close.svg"
+          Generic
+            Generic
+            Generic "color_picker_cursor"
+            Generic "12x12 @ 1x/2x"
+            Generic "ColorPicker:picker_cursor"
+            Generic "scene/theme/icons/color_picker_cursor.svg"
+          Generic
+            Generic
+            Generic "color_picker_cursor_bg"
+            Generic "12x12 @ 1x/2x"
+            Generic "ColorPicker:picker_cursor_bg"
+            Generic "scene/theme/icons/color_picker_cursor_bg.svg"
+          Generic
+            Generic
+            Generic "favorite"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:favorite"
+            Generic "scene/theme/icons/favorite.svg"
+          Generic
+            Generic
+            Generic "file"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:file"
+            Generic "scene/theme/icons/file.svg"
+          Generic
+            Generic
+            Generic "file_mode_list"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:list_mode"
+            Generic "scene/theme/icons/file_mode_list.svg"
+          Generic
+            Generic
+            Generic "file_mode_thumbnail"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:thumbnail_mode"
+            Generic "scene/theme/icons/file_mode_thumbnail.svg"
+          Generic
+            Generic
+            Generic "file_thumbnail"
+            Generic "64x64 @ 1x/2x"
+            Generic "FileDialog:file_thumbnail"
+            Generic "scene/theme/icons/file_thumbnail.svg"
+          Generic
+            Generic
+            Generic "folder"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:folder"
+            Generic "scene/theme/icons/folder.svg"
+          Generic
+            Generic
+            Generic "folder_create"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:create_folder"
+            Generic "scene/theme/icons/folder_create.svg"
+          Generic
+            Generic
+            Generic "folder_thumbnail"
+            Generic "64x64 @ 1x/2x"
+            Generic "FileDialog:folder_thumbnail"
+            Generic "scene/theme/icons/folder_thumbnail.svg"
+          Generic
+            Generic
+            Generic "graph_port"
+            Generic "10x10 @ 1x/2x"
+            Generic "GraphNode:port"
+            Generic "scene/theme/icons/graph_port.svg"
+          Generic
+            Generic
+            Generic "grid_layout"
+            Generic "16x16 @ 1x/2x"
+            Generic "GraphEdit:layout"
+            Generic "scene/theme/icons/grid_layout.svg"
+          Generic
+            Generic
+            Generic "grid_minimap"
+            Generic "16x16 @ 1x/2x"
+            Generic "GraphEdit:minimap_toggle"
+            Generic "scene/theme/icons/grid_minimap.svg"
+          Generic
+            Generic
+            Generic "grid_snap"
+            Generic "16x16 @ 1x/2x"
+            Generic "GraphEdit:snapping_toggle"
+            Generic "scene/theme/icons/grid_snap.svg"
+          Generic
+            Generic
+            Generic "grid_toggle"
+            Generic "16x16 @ 1x/2x"
+            Generic "GraphEdit:grid_toggle"
+            Generic "scene/theme/icons/grid_toggle.svg"
+          Generic
+            Generic
+            Generic "h_dragger"
+            Generic "30x60 @ 1x/2x"
+            Generic "SplitContainer:h_touch_dragger"
+            Generic "scene/theme/icons/h_dragger.svg"
+          Generic
+            Generic
+            Generic "hslider_tick"
+            Generic "4x8 @ 1x/2x"
+            Generic "HSlider:tick"
+            Generic "scene/theme/icons/hslider_tick.svg"
+          Generic
+            Generic
+            Generic "hsplitter"
+            Generic "8x48 @ 1x/2x"
+            Generic "SplitContainer:h_grabber"
+            Generic "scene/theme/icons/hsplitter.svg"
+          Generic
+            Generic
+            Generic "indeterminate"
+            Generic "16x16 @ 1x/2x"
+            Generic "PopupMenu:indeterminate"
+            Generic "scene/theme/icons/indeterminate.svg"
+          Generic
+            Generic
+            Generic "indeterminate_disabled"
+            Generic "16x16 @ 1x/2x"
+            Generic "PopupMenu:indeterminate_disabled"
+            Generic "scene/theme/icons/indeterminate_disabled.svg"
+          Generic
+            Generic
+            Generic "line_edit_clear"
+            Generic "16x16 @ 1x/2x"
+            Generic "LineEdit:clear"
+            Generic "scene/theme/icons/line_edit_clear.svg"
+          Generic
+            Generic
+            Generic "mini_checkerboard"
+            Generic "16x16 @ 1x/2x"
+            Generic "CodeEdit:completion_color_bg"
+            Generic "scene/theme/icons/mini_checkerboard.svg"
+          Generic
+            Generic
+            Generic "move_down"
+            Generic "16x16 @ 1x/2x"
+            Generic "FileDialog:favorite_down"
+            Generic "scene/theme/icons/move_down.svg"
+          Generic
+            Generic
+            Generic "move_up"
+... 284 more line(s) not recorded (capped at 200)
+=== Composition Systems
+Generic "CompositionRoot"
+  Generic "Composition systems"
+  Generic "ResponsiveLayout"
+    Generic "GradientSurface"
+      Generic "EffectShape"
+    Generic "ResponsiveGrid"
+      Generic
+        Generic "Grid A"
+      Generic
+        Generic "Grid B"
+      Generic
+        Generic "CompositionRoot"
+  Generic
+    Button "PartSelectorProbe"
+      Generic "PartChrome"
+        Generic "Styled across template boundary"
+    Generic "SelfRelative"
+    Button "ThemeProbe"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "ApplyThemeTemplate"
+      Generic
+        Generic "PART_ContentPresenter"
+=== ConfirmationDialog
+Dialog "ConfirmationDialog" [Modal]
+  Generic
+    Generic "ConfirmationDialog"
+    Generic "Continue with this action?"
+    Button "PART_AcceptButton"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "PART_CancelButton"
+      Generic
+        Generic "PART_ContentPresenter"
+=== Container
+Generic "Container"
+  Generic
+    Generic
+    Generic "Container"
+=== ContentControl
+Generic "ContentControl"
+  Generic "PART_ContentPresenter"
+=== ContentPresenter
+Generic "ContentPresenter"
+=== Control
+Generic "Control"
+=== DataGrid
+Grid "DataGrid"
+  Generic
+    Generic "PART_ColumnHeaders"
+    Generic "PART_ScrollPresenter"
+      Generic "PART_ItemsPresenter"
+        Generic
+=== DataGridCell
+Cell "DataGridCell"
+  Generic
+    Generic "PART_ContentPresenter"
+=== DataGridColumnHeader
+Generic "DataGridColumnHeader"
+  Generic
+    Generic "PART_ContentPresenter"
+=== DataGridRow
+Row "DataGridRow"
+  Generic
+    Generic "PART_ContentPresenter"
+=== Display Density
+Generic
+  Generic
+    Button "density1"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "density15"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "density2"
+      Generic
+        Generic "PART_ContentPresenter"
+  Generic "1.0x active · logical widths 190 / 190 / 190"
+  Generic
+    Generic "Forma
+24 px logical
+24 px raster"
+    Generic "Forma
+24 px logical
+36 px raster"
+    Generic "Forma
+24 px logical
+48 px raster"
+=== DockPane
+Generic "DockPane"
+  ScrollView
+    Generic
+      Generic "PART_ScrollPresenter"
+        Generic
+      Generic
+      Generic
+=== DockWorkspace
+Generic "DockWorkspace"
+=== Dynamic Sizes
+Generic
+  Generic
+    TextBox "liveText" =Forma office 你好
+      Generic "PART_EditorPresenter"
+    ComboBox "fontFamily"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+    Slider "fontSize" =28
+      Generic
+  Generic "28 px logical size"
+  Generic "Forma office 你好"
+  Generic "Forma office 你好"
+=== DynamicGlyphAtlasView
+Generic "DynamicGlyphAtlasView"
+=== EllipseShape
+Generic "EllipseShape"
+=== Failure States
+Generic
+  Button "runFailureProbes"
+    Generic
+      Generic "PART_ContentPresenter"
+  Generic "Missing face · FileNotFoundException: Could not find file '<test-dir>/Fonts/does-not-exist.ttf'."
+  Generic "Malformed asset · UnsupportedFormat: Font face is not a supported SFNT font."
+  Generic "Fallback exhaustion diagnostics unavailable."
+  Generic "Atlas budget · ready (32 MB hard limit); active-frame exhaustion is skipped and recorded"
+=== Fallback Chain
+Generic
+  TextBox "fallbackText" =Forma Ελληνικά Кириллица مرحبا क्ष 你好 ★ 👩🏽‍💻
+    Generic "PART_EditorPresenter"
+  Generic "Forma Ελληνικά Кириллица مرحبا क्ष 你好 ★ 👩🏽‍💻"
+  Generic "Runtime font diagnostics unavailable."
+=== FileDialog
+Dialog "FileDialog" [Modal]
+  Generic
+    Button "FileDialogBack" [Disabled]
+      Generic [Disabled]
+        Generic "PART_ContentPresenter" [Disabled]
+    Button "FileDialogForward" [Disabled]
+      Generic [Disabled]
+        Generic "PART_ContentPresenter" [Disabled]
+    Button "FileDialogUp" [Disabled]
+      Generic [Disabled]
+        Generic "PART_ContentPresenter" [Disabled]
+    Button "FileDialogRefresh"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "FileDialogFavorite"
+      Generic
+        Generic "PART_ContentPresenter"
+    TextBox "FileDialogPath" =/Forma Project
+      Generic "PART_EditorPresenter"
+    Button "FileDialogShowHidden"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "FileDialogThumbnails" [Checked]
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "FileDialogList"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "FileDialogFilenameFilterToggle"
+      Generic
+        Generic "PART_ContentPresenter"
+    ComboBox "FileDialogSort"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+    TextBox "FileDialogFilename"
+      Generic "PART_EditorPresenter"
+    ComboBox "FileDialogFilter"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+    Generic "Favorites"
+    Generic "Recent"
+    List "FileDialogFavorites"
+      Generic
+    List "FileDialogRecents"
+      Generic
+    Button "FileDialogFavoriteUp" [Disabled]
+      Generic [Disabled]
+        Generic "PART_ContentPresenter" [Disabled]
+    Button "FileDialogFavoriteDown" [Disabled]
+      Generic [Disabled]
+        Generic "PART_ContentPresenter" [Disabled]
+    Generic "Open project asset"
+    Button "PART_AcceptButton"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "PART_CancelButton"
+      Generic
+        Generic "PART_ContentPresenter"
+=== Flat Data Grid
+Generic
+  Generic
+    TextBox "GridFilter"
+      Generic "PART_EditorPresenter"
+    Button "Clear filter"
+      Generic
+        Generic "PART_ContentPresenter"
+  Grid "FlatGrid"
+    Row "CatalogGridRow { Name = Contributor 0001, Team = Team B, Score = 37 }"
+    Row "CatalogGridRow { Name = Contributor 0002, Team = Team C, Score = 74 }"
+    Row "CatalogGridRow { Name = Contributor 0003, Team = Team D, Score = 11 }"
+    Row "CatalogGridRow { Name = Contributor 0004, Team = Team E, Score = 48 }"
+    Row "CatalogGridRow { Name = Contributor 0005, Team = Team F, Score = 85 }"
+    Row "CatalogGridRow { Name = Contributor 0006, Team = Team G, Score = 22 }"
+    Row "CatalogGridRow { Name = Contributor 0007, Team = Team H, Score = 59 }"
+    Row "CatalogGridRow { Name = Contributor 0008, Team = Team A, Score = 96 }"
+    Row "CatalogGridRow { Name = Contributor 0009, Team = Team B, Score = 33 }"
+    Row "CatalogGridRow { Name = Contributor 0010, Team = Team C, Score = 70 }"
+    Row "CatalogGridRow { Name = Contributor 0011, Team = Team D, Score = 7 }"
+    Row "CatalogGridRow { Name = Contributor 0012, Team = Team E, Score = 44 }"
+    Row "CatalogGridRow { Name = Contributor 0013, Team = Team F, Score = 81 }"
+    Row "CatalogGridRow { Name = Contributor 0014, Team = Team G, Score = 18 }"
+    Row "CatalogGridRow { Name = Contributor 0015, Team = Team H, Score = 55 }"
+    Row "CatalogGridRow { Name = Contributor 0016, Team = Team A, Score = 92 }"
+    Row "CatalogGridRow { Name = Contributor 0017, Team = Team B, Score = 29 }"
+    Row "CatalogGridRow { Name = Contributor 0018, Team = Team C, Score = 66 }"
+    Row "CatalogGridRow { Name = Contributor 0019, Team = Team D, Score = 3 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0020, Team = Team E, Score = 40 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0021, Team = Team F, Score = 77 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0022, Team = Team G, Score = 14 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0023, Team = Team H, Score = 51 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0024, Team = Team A, Score = 88 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0025, Team = Team B, Score = 25 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0026, Team = Team C, Score = 62 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0027, Team = Team D, Score = 99 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0028, Team = Team E, Score = 36 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0029, Team = Team F, Score = 73 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0030, Team = Team G, Score = 10 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0031, Team = Team H, Score = 47 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0032, Team = Team A, Score = 84 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0033, Team = Team B, Score = 21 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0034, Team = Team C, Score = 58 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0035, Team = Team D, Score = 95 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0036, Team = Team E, Score = 32 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0037, Team = Team F, Score = 69 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0038, Team = Team G, Score = 6 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0039, Team = Team H, Score = 43 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0040, Team = Team A, Score = 80 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0041, Team = Team B, Score = 17 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0042, Team = Team C, Score = 54 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0043, Team = Team D, Score = 91 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0044, Team = Team E, Score = 28 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0045, Team = Team F, Score = 65 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0046, Team = Team G, Score = 2 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0047, Team = Team H, Score = 39 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0048, Team = Team A, Score = 76 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0049, Team = Team B, Score = 13 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0050, Team = Team C, Score = 50 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0051, Team = Team D, Score = 87 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0052, Team = Team E, Score = 24 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0053, Team = Team F, Score = 61 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0054, Team = Team G, Score = 98 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0055, Team = Team H, Score = 35 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0056, Team = Team A, Score = 72 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0057, Team = Team B, Score = 9 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0058, Team = Team C, Score = 46 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0059, Team = Team D, Score = 83 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0060, Team = Team E, Score = 20 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0061, Team = Team F, Score = 57 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0062, Team = Team G, Score = 94 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0063, Team = Team H, Score = 31 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0064, Team = Team A, Score = 68 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0065, Team = Team B, Score = 5 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0066, Team = Team C, Score = 42 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0067, Team = Team D, Score = 79 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0068, Team = Team E, Score = 16 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0069, Team = Team F, Score = 53 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0070, Team = Team G, Score = 90 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0071, Team = Team H, Score = 27 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0072, Team = Team A, Score = 64 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0073, Team = Team B, Score = 1 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0074, Team = Team C, Score = 38 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0075, Team = Team D, Score = 75 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0076, Team = Team E, Score = 12 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0077, Team = Team F, Score = 49 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0078, Team = Team G, Score = 86 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0079, Team = Team H, Score = 23 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0080, Team = Team A, Score = 60 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0081, Team = Team B, Score = 97 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0082, Team = Team C, Score = 34 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0083, Team = Team D, Score = 71 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0084, Team = Team E, Score = 8 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0085, Team = Team F, Score = 45 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0086, Team = Team G, Score = 82 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0087, Team = Team H, Score = 19 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0088, Team = Team A, Score = 56 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0089, Team = Team B, Score = 93 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0090, Team = Team C, Score = 30 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0091, Team = Team D, Score = 67 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0092, Team = Team E, Score = 4 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0093, Team = Team F, Score = 41 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0094, Team = Team G, Score = 78 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0095, Team = Team H, Score = 15 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0096, Team = Team A, Score = 52 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0097, Team = Team B, Score = 89 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0098, Team = Team C, Score = 26 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0099, Team = Team D, Score = 63 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0100, Team = Team E, Score = 0 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0101, Team = Team F, Score = 37 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0102, Team = Team G, Score = 74 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0103, Team = Team H, Score = 11 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0104, Team = Team A, Score = 48 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0105, Team = Team B, Score = 85 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0106, Team = Team C, Score = 22 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0107, Team = Team D, Score = 59 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0108, Team = Team E, Score = 96 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0109, Team = Team F, Score = 33 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0110, Team = Team G, Score = 70 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0111, Team = Team H, Score = 7 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0112, Team = Team A, Score = 44 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0113, Team = Team B, Score = 81 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0114, Team = Team C, Score = 18 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0115, Team = Team D, Score = 55 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0116, Team = Team E, Score = 92 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0117, Team = Team F, Score = 29 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0118, Team = Team G, Score = 66 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0119, Team = Team H, Score = 3 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0120, Team = Team A, Score = 40 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0121, Team = Team B, Score = 77 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0122, Team = Team C, Score = 14 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0123, Team = Team D, Score = 51 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0124, Team = Team E, Score = 88 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0125, Team = Team F, Score = 25 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0126, Team = Team G, Score = 62 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0127, Team = Team H, Score = 99 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0128, Team = Team A, Score = 36 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0129, Team = Team B, Score = 73 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0130, Team = Team C, Score = 10 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0131, Team = Team D, Score = 47 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0132, Team = Team E, Score = 84 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0133, Team = Team F, Score = 21 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0134, Team = Team G, Score = 58 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0135, Team = Team H, Score = 95 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0136, Team = Team A, Score = 32 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0137, Team = Team B, Score = 69 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0138, Team = Team C, Score = 6 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0139, Team = Team D, Score = 43 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0140, Team = Team E, Score = 80 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0141, Team = Team F, Score = 17 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0142, Team = Team G, Score = 54 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0143, Team = Team H, Score = 91 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0144, Team = Team A, Score = 28 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0145, Team = Team B, Score = 65 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0146, Team = Team C, Score = 2 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0147, Team = Team D, Score = 39 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0148, Team = Team E, Score = 76 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0149, Team = Team F, Score = 13 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0150, Team = Team G, Score = 50 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0151, Team = Team H, Score = 87 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0152, Team = Team A, Score = 24 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0153, Team = Team B, Score = 61 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0154, Team = Team C, Score = 98 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0155, Team = Team D, Score = 35 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0156, Team = Team E, Score = 72 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0157, Team = Team F, Score = 9 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0158, Team = Team G, Score = 46 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0159, Team = Team H, Score = 83 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0160, Team = Team A, Score = 20 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0161, Team = Team B, Score = 57 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0162, Team = Team C, Score = 94 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0163, Team = Team D, Score = 31 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0164, Team = Team E, Score = 68 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0165, Team = Team F, Score = 5 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0166, Team = Team G, Score = 42 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0167, Team = Team H, Score = 79 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0168, Team = Team A, Score = 16 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0169, Team = Team B, Score = 53 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0170, Team = Team C, Score = 90 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0171, Team = Team D, Score = 27 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0172, Team = Team E, Score = 64 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0173, Team = Team F, Score = 1 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0174, Team = Team G, Score = 38 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0175, Team = Team H, Score = 75 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0176, Team = Team A, Score = 12 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0177, Team = Team B, Score = 49 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0178, Team = Team C, Score = 86 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0179, Team = Team D, Score = 23 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0180, Team = Team E, Score = 60 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0181, Team = Team F, Score = 97 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0182, Team = Team G, Score = 34 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0183, Team = Team H, Score = 71 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0184, Team = Team A, Score = 8 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0185, Team = Team B, Score = 45 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0186, Team = Team C, Score = 82 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0187, Team = Team D, Score = 19 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0188, Team = Team E, Score = 56 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0189, Team = Team F, Score = 93 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0190, Team = Team G, Score = 30 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0191, Team = Team H, Score = 67 }" [Offscreen]
+    Row "CatalogGridRow { Name = Contributor 0192, Team = Team A, Score = 4 }" [Offscreen]
+... 5117 more line(s) not recorded (capped at 200)
+=== FlexPanel
+Generic "FlexPanel"
+  Generic
+    Generic
+    Generic "FlexPanel"
+=== FlowContainer
+Generic "FlowContainer"
+  Button "Item 1"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 2"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 3"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 4"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 5"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 6"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 7"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 8"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 9"
+    Generic
+      Generic "PART_ContentPresenter"
+=== FoldableContainer
+Group "FoldableContainer" [Expanded]
+  Generic
+    Generic
+      Generic "Position   120, 64"
+    Generic
+      Generic "Rotation   0 degrees"
+=== GraphEdit
+Canvas "GraphEdit"
+  Generic "PART_GraphCanvas"
+    Group "Input"
+      Generic
+    Group "Output"
+      Generic
+    Generic "_menu"
+      Generic
+        Button "-"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "1:1"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "+"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Grid" [Checked]
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Snap" [Checked]
+          Generic
+            Generic "PART_ContentPresenter"
+        SpinButton "_snapping_distance_spinbox" =20
+          Generic
+            Generic "PART_Editor"
+              TextBox "20" =20
+                Generic "PART_EditorPresenter"
+        Button "Map" [Checked]
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Arrange"
+          Generic
+            Generic "PART_ContentPresenter"
+    Generic "_minimap"
+=== GraphEditFilter
+Generic "GraphEditFilter"
+=== GraphEditMinimap
+Generic "GraphEditMinimap"
+=== GraphElement
+Group "GraphElement"
+  Generic
+=== GraphFrame
+Group "GraphFrame"
+  Generic
+    Generic "_titlebar_hbox"
+    Generic "Process value"
+=== GraphNode
+Group "GraphNode"
+  Generic
+    Generic "Process value"
+=== GridContainer
+Generic "GridContainer"
+  Button "1"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "2"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "3"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "4"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "5"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "6"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "7"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "8"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "9"
+    Generic
+      Generic "PART_ContentPresenter"
+=== GridPanel
+Generic "GridPanel"
+  Generic
+    Generic
+    Generic "GridPanel"
+=== GroupBox
+Group "Key bindings"
+  Generic
+    Generic "PART_ContentPresenter"
+      Generic
+        Generic "Turn left                                      A"
+        Generic "Turn right                                    D"
+        Generic "Accelerate                                   W"
+    Generic "Key bindings"
+=== HBoxContainer
+Generic "HBoxContainer"
+  Button "One"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Two"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Three"
+    Generic
+      Generic "PART_ContentPresenter"
+=== HFlowContainer
+Generic "HFlowContainer"
+  Button "Item 1"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 2"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 3"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 4"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 5"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 6"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 7"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 8"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 9"
+    Generic
+      Generic "PART_ContentPresenter"
+=== HScrollBar
+ScrollBar "HScrollBar" =40
+  Generic
+=== HSeparator
+Generic "HSeparator"
+=== HSlider
+Slider "HSlider" =62
+  Generic
+=== HSplitContainer
+Group "HSplitContainer"
+  Generic
+    Generic
+      Generic "PrimaryPane"
+        Generic "Primary pane"
+    Generic
+      Generic "SecondaryPane"
+        Generic "Secondary pane"
+=== Hierarchical Data Grid
+Generic
+  Generic
+    TextBox "TreeFilter"
+      Generic "PART_EditorPresenter"
+    Button "Expand all"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "Collapse all"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "AddChild"
+      Generic
+        Generic "PART_ContentPresenter"
+  Grid "TreeGrid"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow"
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+    Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+... 319 more line(s) not recorded (capped at 200)
+=== Image
+Generic "Image"
+=== ItemList
+List "ItemList"
+  Generic
+=== ItemsControl
+List "ItemsControl"
+  Generic
+    Generic
+=== ItemsPresenter
+Generic "ItemsPresenter"
+=== Label
+Generic "Label
+Forma"
+=== Letter Spacing
+Generic
+  TextBox "letterSpacingText" =runtime.
+    Generic "PART_EditorPresenter"
+  Generic
+    Slider "letterSpacing" =0.25
+      Generic
+    Button "resetLetterSpacing"
+      Generic
+        Generic "PART_ContentPresenter"
+  Generic "Tracking +0.25 px   Delta 0.00 px
+Natural 0.00 px   Tracked 0.00 px"
+  Document "naturalSpacingPreview"
+    Generic "PART_RichTextPresenter"
+  Document "trackedSpacingPreview"
+    Generic "PART_RichTextPresenter"
+=== LineEdit
+TextBox "LineEdit" =Editable component value
+  Generic "PART_EditorPresenter"
+=== LineEditPresenter
+Generic "LineEditPresenter"
+=== LineShape
+Generic "LineShape"
+=== LinkButton
+Button "LinkButton"
+  Generic
+    Generic
+      Generic "PART_ContentPresenter"
+=== ListBox
+List "ListBox"
+  Generic
+    Generic "PART_ScrollPresenter"
+      Generic "PART_ItemsPresenter"
+        Generic
+=== ListBoxItem
+ListItem "ListBoxItem"
+  Generic "PART_ContentPresenter"
+=== MarginContainer
+Generic "MarginContainer"
+  Generic
+    Generic
+    Generic "MarginContainer"
+=== MenuBar
+MenuBar "MenuBar"
+  Generic
+    Button "FileMenu"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "EditMenu"
+      Generic
+        Generic "PART_ContentPresenter"
+=== MenuButton
+Button "MenuButton"
+  Generic
+    Generic "PART_ContentPresenter"
+=== NinePatchRect
+Generic "NinePatchRect"
+=== NineSliceImage
+Generic "NineSliceImage"
+=== OptionButton
+ComboBox "OptionButton"
+  Generic
+    Generic
+      Generic "PART_ContentPresenter"
+=== OverlayPanel
+Generic "OverlayPanel"
+  Generic
+    Generic
+    Generic "OverlayPanel"
+=== Override and suppression
+Generic
+  Generic
+    Button "ltr"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "rtl"
+      Generic
+        Generic "PART_ContentPresenter"
+  Generic
+    Generic
+      Generic "Default"
+      ComboBox "default"
+        Generic
+          Generic
+            Generic "PART_ContentPresenter"
+    Generic
+      Generic "Overridden"
+      ComboBox "override"
+        Generic
+          Generic
+            Generic "PART_ContentPresenter"
+    Generic
+      Generic "Suppressed"
+      ComboBox "suppressed"
+        Generic
+          Generic
+            Generic "PART_ContentPresenter"
+    Button "contentIcon"
+      Generic
+        Generic "PART_ContentPresenter"
+=== Panel
+Generic "Panel"
+=== PanelContainer
+Generic "PanelContainer"
+  Generic
+    Generic
+    Generic "PanelContainer"
+=== PathShape
+Generic "PathShape"
+=== PolygonShape
+Generic "PolygonShape"
+=== PolylineShape
+Generic "PolylineShape"
+=== Popup
+Window "Popup" [Modal]
+  Generic
+=== PopupMenu
+Menu "PopupMenu" [Modal]
+  MenuItem "New scene"
+  MenuItem "Show grid" [Checked]
+  MenuItem "Close"
+  Generic
+    Generic "PART_Items"
+=== PopupPanel
+Window "PopupPanel" [Modal]
+  Generic
+=== ProgressBar
+ProgressBar "ProgressBar" =62
+  Generic
+=== RectangleShape
+Generic "RectangleShape"
+=== ReferenceRect
+Generic "ReferenceRect"
+=== RichTextDocument
+Document "RichTextDocument"
+  Generic "PART_RichTextPresenter"
+=== RichTextLabel
+Document "RichTextLabel"
+  Generic "PART_RichTextPresenter"
+=== Runtime SVG
+Generic
+  ScrollView "runtimeSvgScroll"
+    Generic
+      Generic "PART_ScrollPresenter"
+        Generic "runtimeSvgContent"
+          Generic "  · profile  · Managed/Unavailable
+BitmapAtlas · SVG icons 0 · PNG fallbacks 0
+Rasters 0 · pages 0 · 0.0 KB · hits 0 · misses 0 · atlas pending"
+          Generic
+            Button "runtimePolicy"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "bitmapPolicy"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "autoPolicy"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "ltr"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "rtl"
+              Generic
+                Generic "PART_ContentPresenter"
+          Generic
+            Generic
+              Generic "Tree hierarchy arrow"
+              Tree "svgTree"
+                TreeItem "Source SVG" [Expanded]
+                TreeItem "Exact scale"
+                TreeItem "RTL"
+                Generic "PART_TreePresenter"
+            Generic
+              Generic "DataGrid hierarchy arrow"
+              Grid "svgGrid"
+                Row "Forma.Catalog.CatalogTreeRow"
+                Row "Forma.Catalog.CatalogTreeRow"
+                Row "Forma.Catalog.CatalogTreeRow" [Offscreen]
+                Generic
+                  Generic "PART_ColumnHeaders"
+                    Generic
+                      Generic
+                        Generic "PART_ContentPresenter"
+                          Generic "Name"
+                  Generic "PART_ScrollPresenter"
+                    Generic "PART_ItemsPresenter"
+                      Generic
+                        Row
+                          Generic
+                            Generic "PART_ContentPresenter"
+                              Generic
+                                Cell
+                                  Generic
+                                    Generic "PART_ContentPresenter"
+                                      Generic
+                                        Button "Collapse row"
+                                          Generic
+                                            Generic "PART_ContentPresenter"
+                                        Generic "Source SVG"
+                        Row
+                          Generic
+                            Generic "PART_ContentPresenter"
+                              Generic
+                                Cell
+                                  Generic
+                                    Generic "PART_ContentPresenter"
+                                      Generic
+                                        Button "Expand row" [Disabled]
+                                          Generic [Disabled]
+                                            Generic "PART_ContentPresenter" [Disabled]
+                                        Generic "Exact scale"
+                  Generic "PART_VerticalScrollBarPresenter"
+                    ScrollBar =0
+                      Generic
+          Generic
+            Button "stretchContain"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "stretchCover"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "stretchFill"
+              Generic
+                Generic "PART_ContentPresenter"
+          Generic
+            Generic
+              Generic "Compiled · gradient·clip·xform"
+              Generic "compiledSvg"
+            Generic
+              Generic "File · cover · tinted"
+              Generic "fileSvg"
+            Generic
+              Generic "DrawingImage · gradient"
+              Generic "drawingImage"
+            Generic
+              Generic "Default arrow (policy)"
+              ComboBox "themeArrow"
+                Generic
+                  Generic
+                    Generic "PART_ContentPresenter"
+          Generic
+            Button "scale100"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "scale125"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "scale150"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "scale175"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "scale200"
+              Generic
+                Generic "PART_ContentPresenter"
+            Button "scale250"
+              Generic
+                Generic "PART_ContentPresenter"
+            Generic "atlasPreview"
+          Generic "Rejected external ref · UnsupportedFeature: SVG element 'image' is not supported.
+Backend absent: No SVG backend is registered. Reference and explicitly install a runtime-matched Forma SVG backend package."
+      Generic
+      Generic
+        ScrollBar =0
+          Generic
+=== ScrollBar
+ScrollBar "ScrollBar" =40
+  Generic
+=== ScrollContainer
+ScrollView "ScrollContainer"
+  Generic
+    Generic "PART_ScrollPresenter"
+      Generic
+        Button "Scrollable row 1"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 2"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 3"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 4"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 5"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 6"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 7"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 8"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 9"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 10"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 11"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 12"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 13"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "Scrollable row 14"
+          Generic
+            Generic "PART_ContentPresenter"
+    Generic
+    Generic
+=== ScrollPresenter
+Generic "ScrollPresenter"
+=== Selector Styles
+Generic "StylesRoot"
+  Generic "Selector styles"
+  Generic "Type and class selectors establish the card treatment; hover and name selectors override it by specificity."
+  Generic
+    Generic
+      Generic "BaseCard"
+      Generic "Class selector"
+    Generic
+      Generic "HoverCard"
+      Generic "Hover state"
+    Generic
+      Generic "SelectedCard"
+      Generic "Name specificity"
+=== Shaping and Features
+Generic
+  Generic
+    CheckBox "ligatures" [Checked]
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+    CheckBox "kerning" [Checked]
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+    Slider "weight" =400
+      Generic
+  Generic "office AV é"
+  Generic "مرحبا بالعالم"
+  Generic "Runtime shaping diagnostics unavailable."
+=== Slider
+Slider "Slider" =62
+  Generic
+=== SpinBox
+SpinButton "SpinBox" =24
+  Generic
+    Generic "PART_Editor"
+      TextBox "24" =24
+        Generic "PART_EditorPresenter"
+=== SplitContainer
+Group "SplitContainer"
+  Generic
+    Generic
+      Generic "PrimaryPane"
+        Generic "Primary pane"
+    Generic
+      Generic "SecondaryPane"
+        Generic "Secondary pane"
+=== SplitContainerDragger
+Generic "SplitContainerDragger"
+=== SplitContainerMultiDragger
+Generic "SplitContainerMultiDragger"
+=== SpriteFont Compatibility
+Generic
+  TextBox "compatibilityText" =Forma office AV
+    Generic "PART_EditorPresenter"
+  Generic "Dynamic  ·  Forma office AV"
+  Generic "SpriteFontAdapter  ·  Forma office AV"
+  Generic "Compatibility diagnostics unavailable."
+=== StackPanel
+Generic "StackPanel"
+  Generic
+    Generic
+    Generic "StackPanel"
+=== Storyboards and Triggers
+Generic "AnimationsRoot"
+  Generic "Storyboards and triggers"
+  Generic "An event trigger replays the size and color pulse. A typed property trigger owns the looping color clock."
+  Generic
+    Generic "EventTarget"
+    Button "ReplayButton"
+      Generic
+        Generic "PART_ContentPresenter"
+  Generic
+    Generic "LoopTarget"
+    CheckBox "LoopToggle"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+=== SubViewportContainer
+Viewport "SubViewportContainer"
+  Generic
+=== TabBar
+TabList "TabBar"
+  Generic
+=== TabContainer
+TabPanel "TabContainer"
+  Generic "Scene"
+    Generic "Scene"
+  Generic
+=== Template Systems
+Dialog "ReferenceDialog" [Modal]
+  Generic
+    Generic
+      Generic "Publish changes"
+      Generic "Ship the template-only composition?"
+      Generic
+        Button "PART_CancelButton"
+          Generic
+            Generic "PART_ContentPresenter"
+        Button "PART_AcceptButton"
+          Generic
+            Generic "PART_ContentPresenter"
+=== TemplatedControl
+Generic "TemplatedControl"
+=== TextBlock
+Generic "TextBlock
+Forma"
+=== TextEdit
+TextBox "TextEdit" =A multiline editor built with Forma.
+
+Select text, move the caret, and edit this document.
+  Generic "PART_EditorPresenter"
+=== TextureButton
+Button "TextureButton"
+  Generic
+    Generic
+      Generic "PART_ContentPresenter"
+=== TextureProgressBar
+ProgressBar "TextureProgressBar" =68
+  Generic
+=== TextureRect
+Generic "TextureRect"
+=== ThemeIconRect
+Generic "ThemeIconRect"
+=== ThemeIconView
+Generic "ThemeIconView"
+=== Tree
+Tree "Tree"
+  TreeItem "World" [Expanded]
+  TreeItem "Player" [Expanded]
+  TreeItem "Camera2D"
+  Generic "PART_TreePresenter"
+=== TreePresenter
+Generic "TreePresenter"
+  Generic
+    Generic
+    Generic "TreePresenter"
+=== VBoxContainer
+Generic "VBoxContainer"
+  Button "One"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Two"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Three"
+    Generic
+      Generic "PART_ContentPresenter"
+=== VFlowContainer
+Generic "VFlowContainer"
+  Button "Item 1"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 2"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 3"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 4"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 5"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 6"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 7"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 8"
+    Generic
+      Generic "PART_ContentPresenter"
+  Button "Item 9"
+    Generic
+      Generic "PART_ContentPresenter"
+=== VScrollBar
+ScrollBar "VScrollBar" =40
+  Generic
+=== VSeparator
+Generic "VSeparator"
+=== VSlider
+Slider "VSlider" =62
+  Generic
+=== VSplitContainer
+Group "VSplitContainer"
+  Generic
+    Generic
+      Generic "PrimaryPane"
+        Generic "Primary pane"
+    Generic
+      Generic "SecondaryPane"
+        Generic "Secondary pane"
+=== VideoStreamPlayer
+Generic "VideoStreamPlayer"
+  Generic
+  Generic "VIDEO
+NO STREAM"
+=== Viewbox
+Generic "Viewbox"
+  Generic "Scalable Viewbox content"
+=== VirtualJoystick
+Joystick "VirtualJoystick" =0,0
+  Generic
+=== VirtualizingGridPanel
+Generic "VirtualizingGridPanel"
+  Generic
+    Generic
+    Generic "VirtualizingGridPanel"
+=== VirtualizingStackPanel
+Generic "VirtualizingStackPanel"
+  Generic
+    Generic
+    Generic "VirtualizingStackPanel"
+=== WrapPanel
+Generic "WrapPanel"
+  Generic
+    Generic
+    Generic "WrapPanel"
+=== Wrapping and Selection
+Generic
+  TextBox "wrappingText" =Forma élan office שלום مرحبا
+नमस्ते สวัสดี 你好 — select this text with the mouse.
+    Generic "PART_EditorPresenter"
+  Generic
+    Slider "wrappingWidth" =460
+      Generic
+    ComboBox "wrappingMode"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+    CheckBox "wrappingEllipsis"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+    ComboBox "wrappingDirection"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+  Generic
+    ComboBox "caretMovement"
+      Generic
+        Generic
+          Generic "PART_ContentPresenter"
+    Button "caretPrevious"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "caretNext"
+      Generic
+        Generic "PART_ContentPresenter"
+    Button "inspectSelection"
+      Generic
+        Generic "PART_ContentPresenter"
+  Generic "Forma élan office שלום مرحبا
+नमस्ते สวัสดี 你好 — select this text with the mouse."
+  Generic "Runtime selection diagnostics unavailable."

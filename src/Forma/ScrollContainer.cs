@@ -147,8 +147,24 @@ namespace Forma
         }
         public Vector2 Viewport => _viewportController.Viewport;
         public Vector2 Extent => _viewportController.Extent;
-        internal Vector2 ScrollPresenterPosition => IsLayoutRtl() && _verticalScrollBar.Visible ? new Vector2(_verticalScrollBar.Size.X, 0) : Vector2.Zero;
+        internal Vector2 ScrollPresenterPosition => IsLayoutRtl() && _verticalScrollBar.Visible ? new Vector2(_verticalScrollBarSize.X, 0) : Vector2.Zero;
         internal Vector2 ScrollPresenterSize => _viewportSize;
+
+        // Where the scrollbars go, published for the chrome presenter rather than written onto the
+        // scrollbars themselves. The bars are the content of ContentPresenters, which position them
+        // in presenter-local space; writing container-local coordinates onto them as well meant the
+        // two arrange passes overwrote each other every frame, and each write queued another layout
+        // pass. The tree then never settled, which is invisible at 60fps and fatal to any test that
+        // waits for quiescence.
+        private Vector2 _horizontalScrollBarPosition;
+        private Vector2 _horizontalScrollBarSize;
+        private Vector2 _verticalScrollBarPosition;
+        private Vector2 _verticalScrollBarSize;
+
+        internal Vector2 HorizontalScrollBarPosition => _horizontalScrollBarPosition;
+        internal Vector2 HorizontalScrollBarSize => _horizontalScrollBarSize;
+        internal Vector2 VerticalScrollBarPosition => _verticalScrollBarPosition;
+        internal Vector2 VerticalScrollBarSize => _verticalScrollBarSize;
         public ScrollAnchor? ScrollAnchor => _viewportController.Anchor;
         // Matches Godot's set_h_scroll/set_v_scroll, which both call _cancel_drag() after applying the
         // value - unlike the shared internal ScrollOffset mutator, which the wheel/touch-drag machinery
@@ -498,16 +514,21 @@ namespace Forma
                 TemplateRoot.Size = TemplateRoot == _scrollPresenter ? _viewportSize : Size;
             }
             var max = MaxScrollOffset;
-            _horizontalScrollBar.Position = new Vector2(0, _viewportSize.Y);
-            _horizontalScrollBar.Size = new Vector2(_viewportSize.X, barHeight);
+            _horizontalScrollBarPosition = new Vector2(0, _viewportSize.Y);
+            _horizontalScrollBarSize = new Vector2(_viewportSize.X, barHeight);
             // Range's maximum includes its visible page; retain MaxScrollOffset as the public
             // content-relative maximum while configuring the scrollbar with the full content span.
             _horizontalScrollBar.MinValue = 0; _horizontalScrollBar.MaxValue = Math.Max(0, max.X + _viewportSize.X); _horizontalScrollBar.Page = _viewportSize.X; _horizontalScrollBar.Value = ScrollOffset.X;
-            _verticalScrollBar.Position = new Vector2(IsLayoutRtl() ? 0 : _viewportSize.X, 0);
-            _verticalScrollBar.Size = new Vector2(barWidth, _viewportSize.Y);
+            _verticalScrollBarPosition = new Vector2(IsLayoutRtl() ? 0 : _viewportSize.X, 0);
+            _verticalScrollBarSize = new Vector2(barWidth, _viewportSize.Y);
             _verticalScrollBar.MinValue = 0; _verticalScrollBar.MaxValue = Math.Max(0, max.Y + _viewportSize.Y); _verticalScrollBar.Page = _viewportSize.Y; _verticalScrollBar.Value = ScrollOffset.Y;
             _focusScrollDiff = Vector2.Zero;
-            TemplateRoot?.QueueLayout();
+            // Deliberately does not queue another layout pass. Everything the presenter reads is
+            // already covered: Position and Size queue on change, and the ScrollOffset setter
+            // queues the presenter directly. Queuing unconditionally here marked this control and
+            // every ancestor dirty on every arrange, so IsSettled could never become true in any
+            // tree containing a ScrollContainer - which silently turned auto-waiting into a
+            // fixed-timeout wait for whole applications.
         }
         private Vector2 ContentSize
         {

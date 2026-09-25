@@ -76,12 +76,12 @@ namespace Forma
             var local = new Vector2(position.X, position.Y) - GlobalPosition;
             return Stretch && StretchShrink > 1 ? local / StretchShrink : local;
         }
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             base.PointerPressed(position);
             _hostPointerPressed = true;
         }
-        internal override void PointerReleased(Point position, bool isInside) => _hostPointerPressed = false;
+        protected internal override void PointerReleased(Point position, bool isInside) => _hostPointerPressed = false;
         internal override void CancelInput()
         {
             _hostPointerPressed = false;
@@ -199,15 +199,59 @@ namespace Forma
         public Color? KnobColor { get; set; }
         public Vector2 Value { get => _value; private set { if (_value == value) return; _value = value; ValueChanged?.Invoke(this, value); } }
         public bool IsPressed => _active;
+
+        /// <summary>
+        /// Accepts a <see cref="Vector2"/> or the same <c>"x,y"</c> string this control reports as
+        /// its accessible value, so what it reports can be fed straight back in. The result is
+        /// normalized and dead-zoned by the same rule pointer input uses, rather than assigned raw —
+        /// otherwise an invoked value could sit outside the unit circle, which dragging can never
+        /// produce.
+        /// </summary>
+        public override bool PerformAccessibilityAction(AccessibilityActions action, object argument = null)
+        {
+            if (action != AccessibilityActions.SetValue)
+                return base.PerformAccessibilityAction(action, argument);
+
+            if (!IsEffectivelyEnabled || !TryParseValue(argument, out var requested)) return false;
+
+            if (requested.LengthSquared() > 1) requested.Normalize();
+            Value = requested.Length() < DeadZone ? Vector2.Zero : requested;
+            return true;
+        }
+
+        private static bool TryParseValue(object argument, out Vector2 value)
+        {
+            switch (argument)
+            {
+                case Vector2 vector:
+                    value = vector;
+                    return true;
+
+                case string text:
+                    var parts = text.Split(',');
+                    if (parts.Length == 2
+                        && float.TryParse(parts[0], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var x)
+                        && float.TryParse(parts[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var y))
+                    {
+                        value = new Vector2(x, y);
+                        return true;
+                    }
+
+                    break;
+            }
+
+            value = default;
+            return false;
+        }
         public event Action<VirtualJoystick, Vector2> ValueChanged;
         public event EventHandler Pressed;
         public event EventHandler Released;
-        internal override void PointerPressed(Point position)
+        protected internal override void PointerPressed(Point position)
         {
             base.PointerPressed(position); _active = true; SetFromPoint(position); Pressed?.Invoke(this, EventArgs.Empty);
         }
-        internal override void PointerMoved(Point position) { if (_active) SetFromPoint(position); }
-        internal override void PointerReleased(Point position, bool isInside)
+        protected internal override void PointerMoved(Point position) { if (_active) SetFromPoint(position); }
+        protected internal override void PointerReleased(Point position, bool isInside)
         {
             if (!_active) return;
             _active = false; Value = Vector2.Zero; Released?.Invoke(this, EventArgs.Empty);

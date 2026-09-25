@@ -147,7 +147,7 @@ namespace Forma
                 y += height;
             }
         }
-        internal override void PointerPressed(Point point)
+        protected internal override void PointerPressed(Point point)
         {
             if (point.Y >= Bounds.Top && point.Y < Bounds.Top + HeaderHeight) { GrabFocus(); Folded = !Folded; FoldedChanged?.Invoke(this, Folded); }
             else base.PointerPressed(point);

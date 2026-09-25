@@ -49,9 +49,9 @@ namespace Forma
         public BoxContainer(Orientation orientation) { Orientation = orientation; }
         public Orientation Orientation { get; }
         public float Separation { get; set; } = float.NaN;
-        public BoxAlignment Alignment { get => _alignment; set { _alignment = value; QueueLayout(); } }
+        public BoxAlignment Alignment { get => _alignment; set { if (_alignment == value) return; _alignment = value; QueueLayout(); } }
         /// <summary>Arranges visible children in reverse order while preserving their ownership order.</summary>
-        public bool ReverseSort { get => _reverseSort; set { _reverseSort = value; QueueLayout(); } }
+        public bool ReverseSort { get => _reverseSort; set { if (_reverseSort == value) return; _reverseSort = value; QueueLayout(); } }
         /// <summary>Appends a mouse-pass-through, expand-fill child that consumes leftover space along the box's axis, matching Godot's BoxContainer::add_spacer.</summary>
         public Control AddSpacer(bool begin = false)
         {

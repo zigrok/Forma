@@ -82,16 +82,39 @@ namespace Forma
 
         private readonly List<DockSection> _sections = new List<DockSection>();
         private readonly StackPanel _header = new StackPanel { Orientation = Orientation.Horizontal, Gap = 2 };
+
+        /// <summary>
+        /// The header's viewport, which scrolls sideways once the tabs stop fitting.
+        /// </summary>
+        /// <remarks>
+        /// A ScrollContainer rather than scrolling arithmetic of its own: the header holds real
+        /// child controls, and clipping, wheel handling and clamping for exactly that already
+        /// exist here. The scroll bar is hidden (Never, which still scrolls) because a 28px header
+        /// has no room for one -- the tab clipped at the edge is the signal there is more, the
+        /// same bargain VS Code makes.
+        /// </remarks>
+        private readonly ScrollContainer _headerViewport = new ScrollContainer
+        {
+            HorizontalScrollMode = ScrollBarVisibility.Never,
+            VerticalScrollMode = ScrollBarVisibility.Disabled,
+            ScrollHorizontalByDefault = true,
+        };
+
         private Control _body;
         private int _activeIndex = -1;
         private bool _pointerInside;
 
         public DockPane()
         {
-            AddChild(_header);
+            _headerViewport.AddChild(_header);
+            AddChild(_headerViewport);
             MouseEntered += (_, _) => { _pointerInside = true; };
             MouseExited += (_, _) => { _pointerInside = false; };
         }
+
+        /// The header's scrolling viewport. Internal because which control does the scrolling is
+        /// an implementation detail, but a test has to be able to see that it scrolled.
+        internal ScrollContainer HeaderViewport => _headerViewport;
 
         internal DockWorkspace Workspace { get; set; }
 
@@ -193,17 +216,23 @@ namespace Forma
 
         public override Vector2 GetMinimumSize()
         {
-            var header = _header.GetMinimumSize();
+            // Deliberately not the header's width: that is the whole point of scrolling the tabs.
+            // Five sections tabbed together used to set the pane's minimum from five titles, so a
+            // panel was wide because "Mesh Vertices" is a long phrase rather than because
+            // anything inside it needed the room, and adding a section made the pane grow.
+            //
+            // The body has to mean it, though. The workspace divides the available width using
+            // these minimums, so a body that reports nothing now gets nothing, and a
+            // ScrollContainer with both axes enabled reports exactly that. Disable the axis whose
+            // width matters, or set CustomMinimumSize.
             var body = _body?.GetMinimumSize() ?? Vector2.Zero;
-            return Vector2.Max(
-                CustomMinimumSize,
-                new Vector2(MathF.Max(header.X, body.X), HeaderHeight + body.Y));
+            return Vector2.Max(CustomMinimumSize, new Vector2(body.X, HeaderHeight + body.Y));
         }
 
         protected override void ArrangeChildren()
         {
             var rtl = IsLayoutRtl();
-            FitChildInRect(_header, Vector2.Zero, new Vector2(Size.X, HeaderHeight), rtl);
+            FitChildInRect(_headerViewport, Vector2.Zero, new Vector2(Size.X, HeaderHeight), rtl);
             if (_body != null)
                 FitChildInRect(_body, new Vector2(0, HeaderHeight), new Vector2(Size.X, MathF.Max(0, Size.Y - HeaderHeight)), rtl);
         }

@@ -3,5 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Name="Button"
     TooltipText="Forma.Button"
+    AutomationId="catalog.button"
     CustomMinimumSize="300,64"
     Text="Button" />
