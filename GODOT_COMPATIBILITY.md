@@ -9,6 +9,8 @@ Godot. This document records the text behavior backed by Forma's runtime shaping
   direction, language, OpenType features, tabs, alignment, and character bounds.
 - `LineEdit`, `TextEdit`, and `CodeEdit` use layout cluster maps for pointer hit testing, caret
   placement, selection geometry, grapheme movement, and word movement when a `UIFont` is active.
+- Unlike Godot, a `LineEdit` whose text starts with a right-to-left strong character right-aligns
+  it when it fits, like an HTML input with `dir="auto"`; an explicit `LeftToRight` direction opts out.
 - Buttons, menus, tabs, item lists, trees, graph controls, dialogs, tooltips, and rich text resolve
   through `UIFont`; packed `SpriteFont` values remain supported through `SpriteFontAdapter`.
 - `RichTextLabel` shapes styled text chunks and maps wrapping and interaction by grapheme rather

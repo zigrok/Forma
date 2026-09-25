@@ -118,7 +118,7 @@ internal sealed unsafe class BrowserTextFace : IDynamicTextFaceBackend
         }
     }
 
-    public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variations)
+    public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variations, UIFontSynthesis synthesis = UIFontSynthesis.None)
     {
         ValidateSize(logicalSize);
         ValidateGlyph(glyphId);
@@ -129,7 +129,7 @@ internal sealed unsafe class BrowserTextFace : IDynamicTextFaceBackend
         fixed (BrowserTextNative.Variation* values = coordinates)
         {
             var started = Stopwatch.GetTimestamp();
-            Check(BrowserTextNative.fdt_rasterize(Handle, glyphId, logicalSize, displayScale, (int)hinting, values, coordinates.Length, out var bitmap, out var source), "rasterize glyph");
+            Check(BrowserTextNative.fdt_rasterize(Handle, glyphId, logicalSize, displayScale, (int)hinting | (int)synthesis << 8, values, coordinates.Length, out var bitmap, out var source), "rasterize glyph");
             var pixels = new byte[checked(bitmap.Width * bitmap.Height)];
             for (var row = 0; row < bitmap.Height && bitmap.Width > 0; row++)
             {
@@ -281,7 +281,7 @@ internal static unsafe class BrowserTextNative
     [DllImport(Library, CallingConvention = CallingConvention.Cdecl)] internal static extern uint fdt_first_char(BrowserTextFaceHandle face, out uint glyph);
     [DllImport(Library, CallingConvention = CallingConvention.Cdecl)] internal static extern uint fdt_next_char(BrowserTextFaceHandle face, uint scalar, out uint glyph);
     [DllImport(Library, CallingConvention = CallingConvention.Cdecl)] internal static extern int fdt_glyph_metrics(BrowserTextFaceHandle face, uint glyph, float size, Variation* variations, int count, out Metrics metrics);
-    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)] internal static extern int fdt_rasterize(BrowserTextFaceHandle face, uint glyph, float size, float scale, int hinting, Variation* variations, int count, out Bitmap bitmap, out byte* pixels);
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)] internal static extern int fdt_rasterize(BrowserTextFaceHandle face, uint glyph, float size, float scale, int options, Variation* variations, int count, out Bitmap bitmap, out byte* pixels);
     [DllImport(Library, CallingConvention = CallingConvention.Cdecl)] internal static extern int fdt_shape(BrowserTextFaceHandle face, ShapeRequest* request, out ShapeResult result);
     [DllImport(Library, CallingConvention = CallingConvention.Cdecl)] internal static extern void fdt_shape_free(Glyph* glyphs);
 }

@@ -4,6 +4,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_MULTIPLE_MASTERS_H
+#include FT_SYNTHESIS_H
 #include <hb.h>
 #include <hb-ot.h>
 #include <math.h>
@@ -135,11 +136,14 @@ int32_t fdt_glyph_metrics(fdt_face *face, uint32_t glyph, float size, const fdt_
     return 0;
 }
 
-int32_t fdt_rasterize(fdt_face *face, uint32_t glyph, float size, float display_scale, int32_t hinting,
+int32_t fdt_rasterize(fdt_face *face, uint32_t glyph, float size, float display_scale, int32_t options,
                       const fdt_variation *variations, int32_t count, fdt_bitmap *result, const uint8_t **pixels)
 {
+    /* Low byte is the hinting mode; bits 8-9 request synthetic bold/oblique, keeping the ABI stable. */
+    int32_t hinting = options & 0xff, synthesis = options >> 8;
     if (!face || !result || !pixels || !isfinite(size) || size <= 0 ||
-        !isfinite(display_scale) || display_scale <= 0 || hinting < 0 || hinting > 3) return FDT_INVALID;
+        !isfinite(display_scale) || display_scale <= 0 || hinting < 0 || hinting > 3 ||
+        synthesis < 0 || synthesis > 3) return FDT_INVALID;
     *pixels = NULL;
     float physical_size = size * display_scale;
     if (!isfinite(physical_size) || physical_size > 4096) return FDT_RASTER_LIMIT;
@@ -153,6 +157,8 @@ int32_t fdt_rasterize(fdt_face *face, uint32_t glyph, float size, float display_
     error = load_glyph(face, &glyph, flags);
     if (error) return error;
     FT_GlyphSlot slot = face->ft->glyph;
+    if (synthesis & 1) FT_GlyphSlot_Embolden(slot);
+    if (synthesis & 2) FT_GlyphSlot_Oblique(slot);
     if (FT_Render_Glyph(slot, FT_RENDER_MODE_NORMAL)) return FDT_NATIVE;
     FT_Bitmap b = slot->bitmap;
     if (b.width > 4096 || b.rows > 4096 || (uint64_t)b.width * b.rows > 16 * 1024 * 1024) return FDT_RASTER_LIMIT;

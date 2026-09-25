@@ -30,8 +30,16 @@ namespace Forma
         }
 
         private DynamicUIFont(UIFontFace face, float size, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, IReadOnlyList<UIFontOpenTypeFeature> defaultOpenTypeFeatures, params UIFontFace[] fallbackFaces)
-            : base(CreateIdentity(face, hinting, variationCoordinates, fallbackFaces), size, defaultOpenTypeFeatures)
+            : this(face, size, hinting, variationCoordinates, defaultOpenTypeFeatures, UIFontSynthesis.None, fallbackFaces)
         {
+        }
+
+        private DynamicUIFont(UIFontFace face, float size, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, IReadOnlyList<UIFontOpenTypeFeature> defaultOpenTypeFeatures, UIFontSynthesis synthesis, params UIFontFace[] fallbackFaces)
+            : base(CreateIdentity(face, hinting, variationCoordinates, synthesis, fallbackFaces), size, defaultOpenTypeFeatures,
+                synthesis.HasFlag(UIFontSynthesis.Bold) ? UIFontWeight.Bold : UIFontWeight.Normal,
+                synthesis.HasFlag(UIFontSynthesis.Oblique) ? UIFontStyle.Oblique : UIFontStyle.Normal)
+        {
+            Synthesis = synthesis;
             Face = face;
             Hinting = hinting;
             _variationCoordinates = ValidateVariationCoordinates(face, variationCoordinates).AsReadOnly();
@@ -51,13 +59,21 @@ namespace Forma
 
         public UIFontFace Face { get; }
         public UIFontHinting Hinting { get; }
+        public UIFontSynthesis Synthesis { get; }
+
+        /// <summary>Returns this font with synthesized bold and/or oblique glyph outlines, including fallback faces.</summary>
+        public DynamicUIFont WithSynthesis(UIFontSynthesis synthesis)
+        {
+            if ((synthesis & ~(UIFontSynthesis.Bold | UIFontSynthesis.Oblique)) != 0) throw new ArgumentOutOfRangeException(nameof(synthesis));
+            return synthesis == Synthesis ? this : new DynamicUIFont(Face, Size, Hinting, VariationCoordinates, DefaultOpenTypeFeatures, synthesis, new List<UIFontFace>(FallbackFaces).ToArray());
+        }
         public IReadOnlyList<UIFontFace> FallbackFaces => _fallbackFaces;
         public IReadOnlyList<UIFontVariationCoordinate> VariationCoordinates => _variationCoordinates;
-        internal override UIFont Resize(float size) => new DynamicUIFont(Face, size, Hinting, VariationCoordinates, DefaultOpenTypeFeatures, new List<UIFontFace>(FallbackFaces).ToArray());
+        internal override UIFont Resize(float size) => new DynamicUIFont(Face, size, Hinting, VariationCoordinates, DefaultOpenTypeFeatures, Synthesis, new List<UIFontFace>(FallbackFaces).ToArray());
         internal override bool HasThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) =>
             Math.Abs(size - Size) < .0001f && hinting == Hinting && DefaultOpenTypeFeatures.SequenceEqual(features);
         internal override UIFont ApplyThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) =>
-            new DynamicUIFont(Face, size, hinting, VariationCoordinates, features, new List<UIFontFace>(FallbackFaces).ToArray());
+            new DynamicUIFont(Face, size, hinting, VariationCoordinates, features, Synthesis, new List<UIFontFace>(FallbackFaces).ToArray());
         internal override UIFontHinting RasterHinting => Hinting;
         internal override long ShapeTicks => Interlocked.Read(ref _shapeTicks);
         internal override bool SharesLayoutResources(UIFont other)
@@ -68,7 +84,9 @@ namespace Forma
                 if (!ReferenceEquals(FallbackFaces[index], font.FallbackFaces[index])) return false;
             return true;
         }
-        internal override UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float displayScale) => Face.RasterizeGlyph(glyphId, Size, displayScale, Hinting, VariationCoordinates);
+        internal override UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float displayScale) => Synthesis == UIFontSynthesis.None
+            ? Face.RasterizeGlyph(glyphId, Size, displayScale, Hinting, VariationCoordinates)
+            : Face.RasterizeGlyph(glyphId, Size, displayScale, Hinting, VariationCoordinates, Synthesis);
 
         internal override TextLayout CreateLayout(string text, TextLayoutOptions options)
         {
@@ -246,11 +264,12 @@ namespace Forma
             return length;
         }
 
-        private static UIFontIdentity CreateIdentity(UIFontFace face, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, UIFontFace[] fallbackFaces)
+        private static UIFontIdentity CreateIdentity(UIFontFace face, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, UIFontSynthesis synthesis, UIFontFace[] fallbackFaces)
         {
             if (face == null) throw new ArgumentNullException(nameof(face));
             if (!Enum.IsDefined(typeof(UIFontHinting), hinting)) throw new ArgumentOutOfRangeException(nameof(hinting));
             var value = $"{face.Identity.Value}:{hinting}";
+            if (synthesis != UIFontSynthesis.None) value += $":synthesis={(int)synthesis}";
             foreach (var variation in ValidateVariationCoordinates(face, variationCoordinates))
                 value += $":{variation.Tag}={BitConverter.SingleToInt32Bits(variation.Value):X8}";
             var identities = new HashSet<UIFontIdentity> { face.Identity };
@@ -437,7 +456,7 @@ namespace Forma
         {
             if (!_resolvedFonts.TryGetValue(face.Identity, out var font))
             {
-                font = new DynamicUIFont(face, Size, Hinting, GetApplicableVariations(face));
+                font = new DynamicUIFont(face, Size, Hinting, GetApplicableVariations(face), null, Synthesis);
                 _resolvedFonts.Add(face.Identity, font);
             }
             var direction = GetTextDirection(level);

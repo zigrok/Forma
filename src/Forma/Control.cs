@@ -233,6 +233,12 @@ namespace Forma
         }
         public MouseFilter MouseFilter { get => _mouseFilter; set => SetValue(ref _mouseFilter, value, nameof(MouseFilter)); }
         public FocusMode FocusMode { get => _focusMode; set => SetValue(ref _focusMode, value, nameof(FocusMode)); }
+        /// <summary>Whether focus may currently land here; content-dependent stops can decline while they have nothing to focus.</summary>
+        public bool AcceptsFocus => FocusMode != FocusMode.None && CanTakeFocus;
+        internal virtual bool CanTakeFocus => true;
+        /// <summary>Moves between stops inside this control on Tab; returns false when focus should leave it.</summary>
+        internal virtual bool MoveFocusWithin(bool backwards) => false;
+        internal virtual void EnterFocus(bool backwards) { }
         /// <summary>Optional explicit focus order used before tree traversal.</summary>
         public Control FocusNext { get => _focusNext; set => SetValue(ref _focusNext, value, nameof(FocusNext)); }
         /// <summary>Optional reverse focus order used before tree traversal.</summary>

@@ -16,6 +16,8 @@ namespace Forma
 {
     public enum UIFontWeight { Thin = 100, ExtraLight = 200, Light = 300, Normal = 400, Medium = 500, SemiBold = 600, Bold = 700, ExtraBold = 800, Black = 900 }
     public enum UIFontStyle { Normal, Italic, Oblique }
+    /// <summary>Glyph outline synthesis for faces without a real bold or italic variant.</summary>
+    [Flags] public enum UIFontSynthesis { None = 0, Bold = 1, Oblique = 2 }
     public enum UIFontStretch { UltraCondensed = 1, ExtraCondensed, Condensed, SemiCondensed, Normal, SemiExpanded, Expanded, ExtraExpanded, UltraExpanded }
 
     public enum TextWrapping { NoWrap, Character, Word }
@@ -87,6 +89,15 @@ namespace Forma
         public bool Equals(UIFont other) => other != null && Identity == other.Identity && Size.Equals(other.Size);
         public override bool Equals(object obj) => obj is UIFont other && Equals(other);
         public override int GetHashCode() => HashCode.Combine(Identity, Size);
+        public UIFont WithSize(float size)
+        {
+            if (!float.IsFinite(size) || size <= 0) throw new ArgumentOutOfRangeException(nameof(size));
+            if (size == Size) return this;
+            var resized = Resize(size);
+            if (resized == null || resized.Size != size)
+                throw new NotSupportedException($"{GetType().Name} does not support font resizing.");
+            return resized;
+        }
         internal virtual UIFont Resize(float size) => this;
         internal virtual bool HasThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) => Math.Abs(size - Size) < .0001f;
         internal virtual UIFont ApplyThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) => Resize(size);

@@ -31,3 +31,15 @@ Text can use an offline `SpriteFont` through existing `Font` properties or a run
 `DynamicUIFont` through parallel `UIFont` properties. Dynamic layout, fallback, DPI behavior,
 deployment, ownership, migration, and rollback are documented in
 [Dynamic Text](../../docs/dynamic-text.md).
+
+`Label.EffectiveUIFont` exposes the currently resolved explicit/family/theme font.
+`UIFont.WithSize(size)` derives a font using the same face/resources and fails
+explicitly for fonts that cannot resize; neither API uses reflection.
+`TextBlock.AlignInlineBaselines = true` aligns mixed-size text and inline images
+on a common baseline. It is opt-in so existing centered inline layouts stay
+unchanged. Font variants still require the corresponding installed faces.
+
+`LineEdit.MeasureTextWidth(text)` (also on `TextEdit`) measures the longest
+unwrapped line in logical pixels using the editor's resolved font, direction
+and language. It does not change the draft, selection or viewport, and fails
+explicitly if no font is available. DPI scaling is not applied twice.

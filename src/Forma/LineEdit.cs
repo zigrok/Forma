@@ -593,7 +593,7 @@ namespace Forma
             if (EffectiveUIFont == null) return Text.Length;
             var layout = GetEditingLayout();
             EnsureCaretVisible(layout);
-            var localX = position.X - GlobalPosition.X - Padding.Left + _scrollOffset;
+            var localX = position.X - GlobalPosition.X - Padding.Left - GetParagraphAlignmentOffset(layout) + _scrollOffset;
             return layout.HitTest(new Vector2(localX, 0));
         }
         private void SelectPointerRange(int column)
@@ -719,7 +719,7 @@ namespace Forma
                 if (string.IsNullOrEmpty(Text) && !HasImeComposition) _scrollOffset = 0;
                 else EnsureCaretVisible(layout, GetDisplayCaretColumn());
                 var viewport = GetTextViewport();
-                var origin = GlobalPosition + new Vector2(Padding.Left - _scrollOffset, Padding.Top + GetTextVerticalOffset(layout));
+                var origin = GlobalPosition + new Vector2(Padding.Left + GetParagraphAlignmentOffset(layout) - _scrollOffset, Padding.Top + GetTextVerticalOffset(layout));
                 context.PushClip(viewport);
                 try
                 {
@@ -760,6 +760,11 @@ namespace Forma
             var lineHeight = EffectiveUIFont == null ? 16 : TextMetrics.LineHeight(EffectiveUIFont);
             return Vector2.Max(CustomMinimumSize, new Vector2(64, Math.Max(24, lineHeight + 8)));
         }
+        public float MeasureTextWidth(string text)
+        {
+            if (text == null) throw new ArgumentNullException(nameof(text));
+            return GetEditingLayout(text).Size.X;
+        }
         internal TextLayout GetEditingLayout(string text = null)
         {
             text ??= Text;
@@ -790,7 +795,7 @@ namespace Forma
                 var layout = GetEditingLayout(shown);
                 var column = Math.Min(GetDisplayCaretColumn(), layout.Text.Length);
                 EnsureCaretVisible(layout, column);
-                origin += layout.GetCaretPosition(column) + new Vector2(-_scrollOffset, GetTextVerticalOffset(layout));
+                origin += layout.GetCaretPosition(column) + new Vector2(GetParagraphAlignmentOffset(layout) - _scrollOffset, GetTextVerticalOffset(layout));
                 height = Math.Max(1, TextMetrics.LineHeight(EffectiveUIFont));
             }
             var caret = new Rectangle((int)MathF.Floor(origin.X), (int)MathF.Floor(origin.Y), 1, height);
@@ -803,6 +808,17 @@ namespace Forma
         private int GetDisplayCaretColumn() => HasImeComposition
             ? _imeReplaceStart + _imeSelectionStart + _imeSelectionLength
             : CaretColumn;
+        /// <summary>Right-aligns a right-to-left paragraph that fits the viewport, like an HTML input with
+        /// dir="auto"; the paragraph direction is read from the shaped layout, whose logical start caret
+        /// sits on the right edge when the first strong character is right-to-left.</summary>
+        internal float GetParagraphAlignmentOffset(TextLayout layout)
+        {
+            if (layout == null) throw new ArgumentNullException(nameof(layout));
+            if (layout.Text.Length == 0 || TextDirection == TextDirection.LeftToRight) return 0;
+            var spare = GetTextViewport().Width - 1 - layout.Size.X;
+            if (spare <= 0) return 0;
+            return layout.GetCaretPosition(0).X > layout.Size.X * .5f ? spare : 0;
+        }
         private void EnsureCaretVisible(TextLayout layout, int? displayCaretColumn = null)
         {
             if (string.IsNullOrEmpty(Text) && !HasImeComposition) { _scrollOffset = 0; return; }

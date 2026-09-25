@@ -9,6 +9,39 @@ namespace Forma.Tests;
 
 public sealed class ModalSessionTest
 {
+    [Test]
+    public void CheckpointBoundaryIsReadOnlyAndRefusesCompositionCancellationAndRetirement()
+    {
+        using var context = ModalInputBoundaryTest.CreateContext();
+        using var token = new CancellationTokenSource();
+        var popup = new Popup { Visible = false };
+        var editor = new LineEdit { Text = "draft" };
+        popup.AddChild(editor);
+        using var session = new ModalSession<int>(context, popup, Validate, cancellationToken: token.Token);
+        Assert.That(session.Root, Is.SameAs(popup));
+        session.VerifyCheckpointBoundary();
+        Assert.That(session.CanInteract, Is.False);
+        session.Open(Vector2.Zero);
+        Assert.That(session.CanInteract, Is.True);
+        editor.SetImeComposition("に", 1, 0);
+        Assert.Throws<InvalidOperationException>(session.VerifyCheckpointBoundary);
+        Assert.That(editor.ImeCompositionText, Is.EqualTo("に"));
+        Assert.That(editor.Text, Is.EqualTo("draft"));
+        editor.CancelImeComposition();
+        session.VerifyCheckpointBoundary();
+        popup.Visible = false;
+        Assert.That(session.CanInteract, Is.False);
+        Assert.Throws<InvalidOperationException>(session.VerifyCheckpointBoundary);
+        popup.Visible = true;
+        session.VerifyCheckpointBoundary();
+        token.Cancel();
+        Assert.That(session.CanInteract, Is.False);
+        Assert.Throws<InvalidOperationException>(session.VerifyCheckpointBoundary);
+        Assert.That(session.Completion.IsCompleted, Is.False);
+        session.Dispose();
+        Assert.Throws<InvalidOperationException>(session.VerifyCheckpointBoundary);
+    }
+
     [TestCase(false)]
     [TestCase(true)]
     public void CancellationClearsButtonWithoutActivationAndFreshInputWorks(bool keyboard)

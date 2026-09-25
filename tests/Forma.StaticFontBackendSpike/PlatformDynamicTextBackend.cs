@@ -63,8 +63,9 @@ internal sealed class PlatformDynamicTextFaceBackend : IDynamicTextFaceBackend
         return new UIFontGlyphMetrics(logicalSize / 2, logicalSize, 0, logicalSize, logicalSize * 0.6f, logicalSize);
     }
 
-    public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variations)
+    public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variations, UIFontSynthesis synthesis = UIFontSynthesis.None)
     {
+        if (synthesis != UIFontSynthesis.None) throw new NotSupportedException("The platform spike does not synthesize glyph outlines.");
         ThrowIfDisposed();
         ValidateSize(logicalSize);
         if (!float.IsFinite(displayScale) || displayScale <= 0) throw new ArgumentOutOfRangeException(nameof(displayScale));

@@ -55,6 +55,23 @@ instances instead support explicit deactivate/activate recycling and final idemp
 The [template lifetime ADR](adr/0005-template-first-compatibility-and-lifetime.md)
 is canonical for that distinction.
 
+## Owned modal checkpoints
+
+`ModalSession<T>` owns a detached popup, its compiled bindings and an optional application
+lifetime. Open, accept, cancel and dispose it on the context's creation thread. Completion
+follows cleanup; a cleanup failure faults completion rather than acknowledging retirement.
+Reconstruction must create a fresh compiled root, not reattach a disposed instance.
+
+`Root` identifies the owned popup. `CanInteract` is false before opening, after closing,
+when hidden/detached, or as soon as cancellation is latched. A host staging a reconstructed
+view must also gate its action callbacks until its own transaction is published.
+
+`VerifyCheckpointBoundary()` is a read-only, UI-thread check for a live, correctly attached
+modal with no pending cancellation or IME composition. It includes generated visual children.
+It never commits/cancels composition, moves selection or changes focus to obtain a snapshot.
+The host still owns local-state serialization, source identity, result/continuation policy,
+and any external media lifetimes; this check does not serialize an arbitrary control tree.
+
 ## Common mistakes
 
 - Do not dispose a context twice through competing host owners; decide whether `UIComponent` or a

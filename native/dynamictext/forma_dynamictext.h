@@ -50,7 +50,8 @@ uint32_t fdt_glyph_id(fdt_face *face, uint32_t scalar);
 uint32_t fdt_next_char(fdt_face *face, uint32_t current, uint32_t *glyph);
 uint32_t fdt_first_char(fdt_face *face, uint32_t *glyph);
 int32_t fdt_glyph_metrics(fdt_face *face, uint32_t glyph, float size, const fdt_variation *variations, int32_t count, fdt_metrics *result);
-int32_t fdt_rasterize(fdt_face *face, uint32_t glyph, float size, float display_scale, int32_t hinting,
+/* options: hinting in bits 0-7, synthesis (1 bold, 2 oblique) in bits 8-9. */
+int32_t fdt_rasterize(fdt_face *face, uint32_t glyph, float size, float display_scale, int32_t options,
                       const fdt_variation *variations, int32_t count, fdt_bitmap *result, const uint8_t **pixels);
 int32_t fdt_shape(fdt_face *face, const fdt_shape_request *request, fdt_shape_result *result);
 void fdt_shape_free(fdt_glyph *glyphs);

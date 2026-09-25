@@ -54,7 +54,7 @@ namespace Forma
         }
         public SpriteFont Font { get => _fontSelection.SpriteFont; set { _fontSelection.SetSpriteFont(value); QueueLayout(); } }
         public UIFont UIFont { get => _fontSelection.UIFont; set { _fontSelection.SetUIFont(value); QueueLayout(); } }
-        internal UIFont EffectiveUIFont => ResolveFont(_fontSelection, FontFamily, FontSize, FontWeight, FontStyle, FontStretch);
+        public UIFont EffectiveUIFont => ResolveFont(_fontSelection, FontFamily, FontSize, FontWeight, FontStyle, FontStretch);
         public Color? FontColor { get => Foreground; set => Foreground = value; }
         public new HorizontalAlignment HorizontalAlignment { get; set; }
         public new VerticalAlignment VerticalAlignment { get; set; }

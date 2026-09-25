@@ -749,10 +749,12 @@ namespace Forma
             if (key == Keys.Tab)
             {
                 var backwards = keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift);
+                if (FocusedControl?.MoveFocusWithin(backwards) == true) return;
                 var explicitTarget = backwards ? FocusedControl?.FocusPrevious : FocusedControl?.FocusNext;
                 if (CanFocus(explicitTarget))
                 {
                     SetFocus(explicitTarget);
+                    explicitTarget.EnterFocus(backwards);
                     return;
                 }
                 var focusable = new List<Control>();
@@ -761,7 +763,9 @@ namespace Forma
                 if (focusable.Count > 0)
                 {
                     var current = focusable.IndexOf(FocusedControl);
-                    SetFocus(focusable[(current + (backwards ? focusable.Count - 1 : 1)) % focusable.Count]);
+                    var target = focusable[(current + (backwards ? focusable.Count - 1 : 1)) % focusable.Count];
+                    SetFocus(target);
+                    target.EnterFocus(backwards);
                 }
                 return;
             }
@@ -795,7 +799,7 @@ namespace Forma
             return control.ShortcutInput(key, keyboard);
         }
 
-        internal bool CanFocus(Control control) => IsInputEligible(control) && control.FocusMode != FocusMode.None;
+        internal bool CanFocus(Control control) => IsInputEligible(control) && control.AcceptsFocus;
 
         /// <summary>Forwards one platform text-input character to the focused retained control.</summary>
         public void TextInput(char character)
@@ -959,7 +963,7 @@ namespace Forma
         private static void CollectFocusable(Control control, List<Control> result)
         {
             if (!control.IsRendered || !control.IsEffectivelyEnabled) return;
-            if (control.FocusMode == FocusMode.All) result.Add(control);
+            if (control.FocusMode == FocusMode.All && control.CanTakeFocus) result.Add(control);
             foreach (var child in control.VisualChildren) CollectFocusable(child, result);
         }
 

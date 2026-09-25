@@ -193,6 +193,12 @@ namespace Forma
         public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale = 1, UIFontHinting hinting = UIFontHinting.Default, IReadOnlyList<UIFontVariationCoordinate> variations = null)
             => _backend.RasterizeGlyph(glyphId, logicalSize, displayScale, hinting, variations);
 
+        public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variations, UIFontSynthesis synthesis)
+        {
+            if ((synthesis & ~(UIFontSynthesis.Bold | UIFontSynthesis.Oblique)) != 0) throw new ArgumentOutOfRangeException(nameof(synthesis));
+            return _backend.RasterizeGlyph(glyphId, logicalSize, displayScale, hinting, variations, synthesis);
+        }
+
         public UIFontShapedRun Shape(string text, float logicalSize, TextDirection direction = TextDirection.Auto, string locale = null, string script = null, IReadOnlyList<UIFontOpenTypeFeature> features = null, IReadOnlyList<UIFontVariationCoordinate> variations = null)
             => _backend.Shape(text, logicalSize, direction, locale, script, features, variations);
 
@@ -387,7 +393,7 @@ namespace Forma
         public UIFontGlyphBitmap RasterizeCharacter(int unicodeScalar, float logicalSize, float displayScale = 1, UIFontHinting hinting = UIFontHinting.Default, IReadOnlyList<UIFontVariationCoordinate> variations = null)
             => RasterizeGlyph(GetGlyphId(unicodeScalar), logicalSize, displayScale, hinting, variations);
 
-        public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale = 1, UIFontHinting hinting = UIFontHinting.Default, IReadOnlyList<UIFontVariationCoordinate> variations = null)
+        public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale = 1, UIFontHinting hinting = UIFontHinting.Default, IReadOnlyList<UIFontVariationCoordinate> variations = null, UIFontSynthesis synthesis = UIFontSynthesis.None)
         {
             ValidateLogicalSize(logicalSize);
             if (!float.IsFinite(displayScale) || displayScale <= 0) throw new ArgumentOutOfRangeException(nameof(displayScale));
@@ -412,6 +418,8 @@ namespace Forma
                     _ => FT_LOAD.FT_LOAD_DEFAULT
                 };
                 var actualGlyphId = LoadGlyphOrNotdef(glyphId, flags);
+                if ((synthesis & UIFontSynthesis.Bold) != 0) FreeTypeVariations.Embolden(Pointer->glyph);
+                if ((synthesis & UIFontSynthesis.Oblique) != 0) FreeTypeVariations.Oblique(Pointer->glyph);
                 ThrowNative(FT_Render_Glyph(Pointer->glyph, FT_Render_Mode_.FT_RENDER_MODE_NORMAL), $"render glyph {actualGlyphId}");
                 var bitmap = Pointer->glyph->bitmap;
                 var width = checked((int)bitmap.width);
@@ -552,6 +560,10 @@ namespace Forma
         {
             [DllImport(FT.LibName, EntryPoint = "FT_Set_Var_Design_Coordinates", CallingConvention = CallingConvention.Cdecl)]
             internal static extern FT_Error SetDesignCoordinates(FT_FaceRec_* face, uint coordinateCount, nint* coordinates);
+            [DllImport(FT.LibName, EntryPoint = "FT_GlyphSlot_Embolden", CallingConvention = CallingConvention.Cdecl)]
+            internal static extern void Embolden(FT_GlyphSlotRec_* slot);
+            [DllImport(FT.LibName, EntryPoint = "FT_GlyphSlot_Oblique", CallingConvention = CallingConvention.Cdecl)]
+            internal static extern void Oblique(FT_GlyphSlotRec_* slot);
         }
 
         private uint LoadGlyphOrNotdef(uint glyphId, FT_LOAD flags)

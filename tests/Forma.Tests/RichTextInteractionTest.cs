@@ -8,6 +8,35 @@ namespace Forma.Tests;
 
 public sealed class RichTextInteractionTest
 {
+    [Test]
+    public void PublicSizingUsesRealMetricsAndBaselineAlignmentIsExplicit()
+    {
+        using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+        var small = new DynamicUIFont(face, 18);
+        var large = small.WithSize(48);
+        Assert.That(large.Size, Is.EqualTo(48));
+        Assert.That(small.WithSize(18), Is.SameAs(small));
+        Assert.That(() => small.WithSize(0), Throws.TypeOf<ArgumentOutOfRangeException>());
+        Assert.That(() => small.WithSize(float.NaN), Throws.TypeOf<ArgumentOutOfRangeException>());
+        var block = Block(small);
+        block.AlignInlineBaselines = true;
+        block.Inlines.Add(new Run("A"));
+        block.Inlines.Add(new Run("A") { Font = large });
+        var smallBounds = block.GetCharacterBounds(0);
+        var largeBounds = block.GetCharacterBounds(1);
+        var engine = new TextLayoutEngine();
+        var smallBaseline = engine.Layout(small, "A").Lines[0].Baseline;
+        var largeBaseline = engine.Layout(large, "A").Lines[0].Baseline;
+        Assert.That(smallBounds.Top + smallBaseline, Is.EqualTo(largeBounds.Top + largeBaseline).Within(1));
+        Assert.That(largeBounds.Height, Is.GreaterThan(smallBounds.Height * 2));
+        Assert.That(block.EffectiveUIFont, Is.EqualTo(small));
+        block.VisibleCharacters = 1;
+        Assert.That(block.GetCharacterBounds(0), Is.EqualTo(smallBounds));
+        Assert.That(block.GetCharacterBounds(1), Is.EqualTo(Rectangle.Empty));
+        var centered = Block(small);
+        Assert.That(centered.AlignInlineBaselines, Is.False);
+    }
+
     private static TextBlock Block(UIFont font) => new()
     {
         UIFont = font, Padding = Thickness.Zero, Position = new Vector2(20, 30), Size = new Vector2(240, 100),

@@ -68,6 +68,36 @@ public sealed class ModalSession<T> : IDisposable
     }
 
     public Task<ModalOutcome<T>> Completion => _completion.Task;
+    public Popup Root => _popup;
+    public bool CanInteract
+    {
+        get { lock (_gate) return _state == State.Active && !CancellationPending() &&
+            _popup.Visible && ReferenceEquals(_popup.Context, _context); }
+    }
+
+    public void VerifyCheckpointBoundary()
+    {
+        VerifyThread();
+        lock (_gate)
+        {
+            if (_state >= State.Closing || CancellationPending())
+                throw new InvalidOperationException("A closing or cancelled modal cannot be checkpointed.");
+            if (_state == State.Created && (_popup.Context != null || _popup.Visible) ||
+                _state == State.Active && (!_popup.Visible || !ReferenceEquals(_popup.Context, _context)) ||
+                _popup.Parent != null || _popup.VisualParent != null)
+                throw new InvalidOperationException("Modal attachment or visibility changed outside its lifetime owner.");
+        }
+        var visited = new HashSet<Control>();
+        void Visit(Control control)
+        {
+            if (!visited.Add(control)) return;
+            if (control is LineEdit { HasImeComposition: true })
+                throw new InvalidOperationException("Finish IME composition before checkpointing a modal.");
+            foreach (var child in control.Children) Visit(child);
+            foreach (var child in control.VisualChildren) Visit(child);
+        }
+        Visit(_popup);
+    }
 
     public void Open(Vector2 position, Control initialFocus = null)
     {

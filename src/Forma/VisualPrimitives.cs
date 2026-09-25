@@ -8,6 +8,7 @@ using System.Text;
 using Clipper2Lib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using ClipperFillRule = Clipper2Lib.FillRule;
 
 namespace Forma
@@ -262,6 +263,21 @@ namespace Forma
         internal override void AppendText(StringBuilder builder) => builder.Append(AlternativeText);
     }
 
+    /// <summary>Base text with a smaller annotation centered above it; only the base belongs to the label text.</summary>
+    public sealed class Ruby : Inline
+    {
+        private string _text = string.Empty;
+        private string _annotation = string.Empty;
+        private UIFont _annotationFont;
+        public Ruby() { }
+        public Ruby(string text, string annotation) { _text = text ?? string.Empty; _annotation = annotation ?? string.Empty; }
+        public string Text { get => _text; set { value ??= string.Empty; if (_text == value) return; _text = value; Invalidate(); } }
+        public string Annotation { get => _annotation; set { value ??= string.Empty; if (_annotation == value) return; _annotation = value; Invalidate(); } }
+        /// <summary>Annotation font; defaults to the resolved base font at half size.</summary>
+        public UIFont AnnotationFont { get => _annotationFont; set { if (ReferenceEquals(_annotationFont, value)) return; _annotationFont = value; Invalidate(); } }
+        internal override void AppendText(StringBuilder builder) => builder.Append(Text);
+    }
+
     public sealed class Span : Inline
     {
         private readonly InlineCollection _inlines;
@@ -318,6 +334,12 @@ namespace Forma
         private float _lineHeight;
         private TextDecoration _decoration;
         public TextBlock() => _inlines = new InlineCollection(RebuildText);
+        private bool _alignInlineBaselines;
+        public bool AlignInlineBaselines
+        {
+            get => _alignInlineBaselines;
+            set { if (_alignInlineBaselines == value) return; _alignInlineBaselines = value; QueueLayout(); }
+        }
         public new string Text
         {
             get => _plainText;
@@ -332,6 +354,77 @@ namespace Forma
         public IList<Inline> Inlines => _inlines;
         public bool UsesInlineContent => _inlines.Count != 0;
         public event Action<TextBlock, object> MetaClicked;
+        private bool _metaFocusable;
+        private int _focusedMetaStop;
+        /// <summary>Makes each revealed meta range a Tab stop that Enter or Space activates through <see cref="MetaClicked"/>.</summary>
+        public bool MetaFocusable
+        {
+            get => _metaFocusable;
+            set
+            {
+                if (_metaFocusable == value) return;
+                _metaFocusable = value;
+                _focusedMetaStop = 0;
+            }
+        }
+        /// <summary>The meta of the focused stop, or null when this block is not focused.</summary>
+        public object FocusedMeta
+        {
+            get
+            {
+                if (!_metaFocusable || Context?.FocusedControl != this) return null;
+                var stops = GetMetaStops();
+                return stops.Count == 0 ? null : stops[Math.Clamp(_focusedMetaStop, 0, stops.Count - 1)].Meta;
+            }
+        }
+        /// <summary>Local bounds of every revealed meta range in reading order; one entry per contiguous range.</summary>
+        public IReadOnlyList<(object Meta, IReadOnlyList<Rectangle> Bounds)> GetMetaStops()
+        {
+            var stops = new List<(object Meta, IReadOnlyList<Rectangle> Bounds)>();
+            if (_inlines.Count == 0) return stops;
+            object previous = null;
+            foreach (var placement in GetInlinePlacements())
+            {
+                var box = placement.Box;
+                var meta = box.IsEllipsis ? null : box.Style.Meta;
+                if (meta == null) { previous = null; continue; }
+                var bounds = new List<Rectangle>();
+                if (box.Image != null) bounds.Add(placement.Bounds);
+                else
+                    foreach (var rectangle in VisibleRectangles(box))
+                    {
+                        var origin = placement.Position + box.BaseOffset;
+                        bounds.Add(new Rectangle((int)MathF.Floor(origin.X + rectangle.X), (int)MathF.Floor(origin.Y + rectangle.Y),
+                            Math.Max(1, (int)MathF.Ceiling(rectangle.Width)), Math.Max(1, (int)MathF.Ceiling(rectangle.Height))));
+                    }
+                if (bounds.Count == 0) continue;
+                if (previous != null && Equals(previous, meta)) ((List<Rectangle>)stops[^1].Bounds).AddRange(bounds);
+                else stops.Add((meta, bounds));
+                previous = meta;
+            }
+            return stops;
+        }
+        internal override bool CanTakeFocus => !_metaFocusable || Enabled && GetMetaStops().Count > 0;
+        internal override bool MoveFocusWithin(bool backwards)
+        {
+            if (!_metaFocusable) return false;
+            var count = GetMetaStops().Count;
+            var next = Math.Clamp(_focusedMetaStop, 0, Math.Max(0, count - 1)) + (backwards ? -1 : 1);
+            if (next < 0 || next >= count) return false;
+            _focusedMetaStop = next;
+            return true;
+        }
+        internal override void EnterFocus(bool backwards) =>
+            _focusedMetaStop = backwards ? Math.Max(0, GetMetaStops().Count - 1) : 0;
+        internal override void KeyPressed(Keys key)
+        {
+            if (_metaFocusable && Enabled && key is Keys.Enter or Keys.Space && FocusedMeta is { } meta)
+            {
+                MetaClicked?.Invoke(this, meta);
+                return;
+            }
+            base.KeyPressed(key);
+        }
         public float LetterSpacing
         {
             get => _letterSpacing;
@@ -382,8 +475,8 @@ namespace Forma
                 {
                     if (localIndex < cluster.Start || localIndex >= cluster.Start + cluster.Length) continue;
                     return new Rectangle(
-                        (int)MathF.Floor(placement.Position.X + cluster.Bounds.X),
-                        (int)MathF.Floor(placement.Position.Y + cluster.Bounds.Y),
+                        (int)MathF.Floor(placement.Position.X + box.BaseOffset.X + cluster.Bounds.X),
+                        (int)MathF.Floor(placement.Position.Y + box.BaseOffset.Y + cluster.Bounds.Y),
                         Math.Max(1, (int)MathF.Ceiling(cluster.Bounds.Width)),
                         Math.Max(1, (int)MathF.Ceiling(cluster.Bounds.Height)));
                 }
@@ -406,7 +499,7 @@ namespace Forma
                         local.Y >= placement.Bounds.Top && local.Y < placement.Bounds.Bottom) return box.Style.Meta;
                     continue;
                 }
-                var point = local - placement.Position;
+                var point = local - placement.Position - box.BaseOffset;
                 foreach (var rectangle in VisibleRectangles(box))
                     if (point.X >= rectangle.X && point.X < rectangle.Right &&
                         point.Y >= rectangle.Y && point.Y < rectangle.Bottom) return box.Style.Meta;
@@ -418,6 +511,8 @@ namespace Forma
         {
             var meta = GetMetaUnderPosition(position);
             if (meta != null) { MetaClicked?.Invoke(this, meta); return; }
+            // Clicking prose must not move keyboard focus onto a link stop.
+            if (_metaFocusable) return;
             base.PointerPressed(position);
         }
 
@@ -440,7 +535,7 @@ namespace Forma
             foreach (var placement in GetInlinePlacements())
             {
                 var box = placement.Box;
-                var position = GlobalPosition + placement.Position;
+                var position = GlobalPosition + placement.Position + box.BaseOffset;
                 if (box.Image != null)
                 {
                     var rectangle = new Rectangle((int)MathF.Round(position.X), (int)MathF.Round(position.Y), Math.Max(1, (int)MathF.Ceiling(box.Size.X)), Math.Max(1, (int)MathF.Ceiling(box.Size.Y)));
@@ -457,9 +552,16 @@ namespace Forma
                                 Math.Max(1, (int)MathF.Ceiling(rectangle.Width)), Math.Max(1, (int)MathF.Ceiling(rectangle.Height))), box.Style.Background.Value);
                     var color = Enabled ? box.Style.Foreground ?? FontColor ?? context.Theme.TextColor : context.Theme.DisabledTextColor;
                     context.Text(box.TextLayout, position, color);
+                    if (box.Annotation != null && box.TextLayout.VisibleRanges.Count > 0)
+                        context.Text(box.Annotation, GlobalPosition + placement.Position + new Vector2(box.AnnotationX, 0), color);
                     DrawDecorations(context, box, position, color);
                 }
             }
+            if (FocusedMeta == null) return;
+            var focused = GetMetaStops()[Math.Clamp(_focusedMetaStop, 0, GetMetaStops().Count - 1)];
+            foreach (var bounds in focused.Bounds)
+                context.Border(new Rectangle((int)MathF.Round(GlobalPosition.X) + bounds.X - 2, (int)MathF.Round(GlobalPosition.Y) + bounds.Y - 1,
+                    bounds.Width + 4, bounds.Height + 2), context.Theme.FocusColor, 2);
         }
 
         private int InlineVisibleEnd => TextReveal.VisibleEnd(base.Text, VisibleCharacters, VisibleRatio);
@@ -483,7 +585,8 @@ namespace Forma
                 {
                     if (box.SourceStart >= visibleEnd && !(InlineFullyVisible && (box.IsEllipsis || box.SourceLength == 0))) continue;
                     yield return new InlinePlacement(box, new Vector2(Padding.Left + offsetX + box.X,
-                        Padding.Top + offsetY + line.Y + MathF.Max(0, (line.Height - box.Size.Y) * .5f)));
+                        Padding.Top + offsetY + line.Y + (AlignInlineBaselines
+                            ? line.Baseline - box.Baseline : MathF.Max(0, (line.Height - box.Size.Y) * .5f))));
                 }
             }
         }
@@ -516,7 +619,7 @@ namespace Forma
             while (line.Boxes.Count > 0 && line.Width + ellipsisLayout.Size.X > layout.AvailableWidth)
             {
                 var removed = line.Boxes[line.Boxes.Count - 1];
-                if (removed.TextLayout != null && !string.IsNullOrEmpty(removed.Text))
+                if (removed.TextLayout != null && removed.Annotation == null && !string.IsNullOrEmpty(removed.Text))
                 {
                     var boundaries = UnicodeGraphemeSegmenter.GetUtf16Boundaries(removed.Text);
                     var available = layout.AvailableWidth - removed.X - ellipsisLayout.Size.X;
@@ -607,11 +710,88 @@ namespace Forma
             base.Text = builder.ToString();
         }
 
+        private string _bidiText;
+        private TextDirection _bidiDirection;
+        private byte[] _bidiLevels;
+        private byte _bidiParagraphLevel;
+
+        // Resolves UAX #9 levels across every inline so direction runs can span styled boxes; null when the text is unidirectional LTR.
+        private byte[] GetBidiLevels(out byte paragraphLevel)
+        {
+            var text = base.Text;
+            var direction = TextDirection == TextDirection.Inherited ? TextDirection.Auto : TextDirection;
+            if (!ReferenceEquals(text, _bidiText) || direction != _bidiDirection)
+            {
+                _bidiText = text;
+                _bidiDirection = direction;
+                _bidiLevels = null;
+                _bidiParagraphLevel = 0;
+                if (direction == TextDirection.RightToLeft || NeedsBidi(text))
+                {
+                    var result = UnicodeBidiResolver.Resolve(text, direction switch
+                    {
+                        TextDirection.LeftToRight => BidiParagraphDirection.LeftToRight,
+                        TextDirection.RightToLeft => BidiParagraphDirection.RightToLeft,
+                        _ => BidiParagraphDirection.AutoLeftToRight
+                    });
+                    var levels = new byte[text.Length];
+                    var last = result.ParagraphLevel;
+                    var mixed = result.ParagraphLevel != 0;
+                    for (int index = 0, scalar = 0; index < text.Length; scalar++)
+                    {
+                        var width = char.IsHighSurrogate(text[index]) && index + 1 < text.Length && char.IsLowSurrogate(text[index + 1]) ? 2 : 1;
+                        var level = result.Levels[scalar] ?? last;
+                        last = level;
+                        mixed |= level != 0;
+                        for (var unit = 0; unit < width; unit++) levels[index + unit] = level;
+                        index += width;
+                    }
+                    if (mixed)
+                    {
+                        _bidiLevels = levels;
+                        _bidiParagraphLevel = result.ParagraphLevel;
+                    }
+                }
+            }
+            paragraphLevel = _bidiParagraphLevel;
+            return _bidiLevels;
+        }
+
+        private static bool NeedsBidi(string text)
+        {
+            foreach (var c in text)
+                if (c >= '\u0590' && c <= '\u08FF' || c >= '\uFB1D' && c <= '\uFDFF' || c >= '\uFE70' && c <= '\uFEFF' ||
+                    c is '\u200F' or '\u061C' or >= '\u202A' and <= '\u202E' or >= '\u2066' and <= '\u2069' or
+                    '\uD802' or '\uD803' or '\uD83A' or '\uD83B') return true;
+            return false;
+        }
+
+        private static IEnumerable<string> SplitByLevel(string source, int sourceStart, byte[] levels)
+        {
+            if (levels == null || source.Length < 2) { yield return source; yield break; }
+            var start = 0;
+            for (var index = 1; index < source.Length; index++)
+            {
+                if (char.IsLowSurrogate(source[index]) || levels[sourceStart + index] == levels[sourceStart + start]) continue;
+                yield return source.Substring(start, index - start);
+                start = index;
+            }
+            yield return source.Substring(start);
+        }
+
+        private static TextDirection BoxDirection(InlineStyle style, byte[] levels, int sourceOffset)
+        {
+            if (style.Direction is not (TextDirection.Auto or TextDirection.Inherited)) return style.Direction;
+            if (levels == null || sourceOffset >= levels.Length) return TextDirection.Auto;
+            return (levels[sourceOffset] & 1) != 0 ? TextDirection.RightToLeft : TextDirection.LeftToRight;
+        }
+
         private InlineLayout BuildInlineLayout(bool useAvailableWidth)
         {
             var defaultFont = EffectiveUIFont;
             var availableWidth = useAvailableWidth && Size.X > Padding.Horizontal ? Size.X - Padding.Horizontal : float.PositiveInfinity;
-            var layout = new InlineLayout(availableWidth);
+            var levels = GetBidiLevels(out var paragraphLevel);
+            var layout = new InlineLayout(availableWidth, AlignInlineBaselines, levels, paragraphLevel);
             var style = new InlineStyle(defaultFont, FontColor, null, Language, TextDirection, Decoration, LetterSpacing);
             var sourceOffset = 0;
             var visibleEnd = InlineVisibleEnd;
@@ -645,8 +825,14 @@ namespace Forma
                 sourceOffset += image.AlternativeText.Length;
                 return;
             }
+            if (inline is Ruby ruby)
+            {
+                AppendRuby(target, ruby, style, ref sourceOffset, visibleEnd, beforeShaping);
+                return;
+            }
             if (inline is not Run run || string.IsNullOrEmpty(run.Text)) return;
-            foreach (var source in SplitInlineText(run.Text))
+            foreach (var part in SplitInlineText(run.Text))
+            foreach (var source in SplitByLevel(part, sourceOffset, target.Levels))
             {
                 var localEnd = Math.Clamp(visibleEnd - sourceOffset, 0, source.Length);
                 if (beforeShaping && localEnd == 0) { sourceOffset += source.Length; continue; }
@@ -656,7 +842,7 @@ namespace Forma
                 var visibleCount = beforeShaping ? int.MaxValue
                     : UnicodeGraphemeSegmenter.GetUtf16Boundaries(text).Count(boundary => boundary <= localEnd) - 1;
                 var options = new TextLayoutOptions(
-                    direction: style.Direction == TextDirection.Inherited ? TextDirection.Auto : style.Direction,
+                    direction: BoxDirection(style, target.Levels, sourceOffset),
                     lineSpacing: LineHeight > 0 ? LineHeight / style.Font.Size : 1,
                     maxVisibleCharacters: visibleCount,
                     locale: style.Language);
@@ -665,6 +851,27 @@ namespace Forma
                 target.Add(new InlineBox(text, textLayout, style, sourceOffset), AutowrapMode != LabelAutowrapMode.Off);
                 sourceOffset += source.Length;
             }
+        }
+
+        private void AppendRuby(InlineLayout target, Ruby ruby, InlineStyle style, ref int sourceOffset, int visibleEnd, bool beforeShaping)
+        {
+            var source = ruby.Text;
+            if (string.IsNullOrEmpty(source) || style.Font == null) { sourceOffset += source.Length; return; }
+            var localEnd = Math.Clamp(visibleEnd - sourceOffset, 0, source.Length);
+            if (beforeShaping && localEnd == 0) { sourceOffset += source.Length; return; }
+            var text = beforeShaping ? source.Substring(0, localEnd) : source;
+            var visibleCount = beforeShaping ? int.MaxValue
+                : UnicodeGraphemeSegmenter.GetUtf16Boundaries(text).Count(boundary => boundary <= localEnd) - 1;
+            var direction = BoxDirection(style, target.Levels, sourceOffset);
+            var engine = Context?.TextLayoutEngine ?? InlineLayoutEngine;
+            var baseLayout = engine.Layout(style.Font, text, new TextLayoutOptions(direction: direction,
+                lineSpacing: LineHeight > 0 ? LineHeight / style.Font.Size : 1, maxVisibleCharacters: visibleCount, locale: style.Language));
+            if (style.LetterSpacing != 0) baseLayout = TextLayoutAdjuster.Apply(baseLayout, style.LetterSpacing);
+            var annotationFont = ruby.AnnotationFont ?? style.Font.WithSize(MathF.Max(1, style.Font.Size * .5f));
+            var annotation = string.IsNullOrEmpty(ruby.Annotation) ? null
+                : engine.Layout(annotationFont, ruby.Annotation, new TextLayoutOptions(direction: direction, locale: style.Language));
+            target.Add(new InlineBox(text, baseLayout, annotation, style, sourceOffset), AutowrapMode != LabelAutowrapMode.Off);
+            sourceOffset += source.Length;
         }
 
         private float GetInlineLineHeight(UIFont font) => LineHeight > 0 ? LineHeight : font?.Size ?? 16;
@@ -729,6 +936,18 @@ namespace Forma
         {
             public InlineBox(string text, TextLayout textLayout, InlineStyle style, int sourceStart) { Text = text; TextLayout = textLayout; Size = textLayout.Size; Style = style; SourceStart = sourceStart; SourceLength = text.Length; }
             public InlineBox(InlineImage image, Vector2 size, InlineStyle style, int sourceStart, int sourceLength) { Image = image; Size = size; Style = style; SourceStart = sourceStart; SourceLength = sourceLength; }
+            public InlineBox(string text, TextLayout baseLayout, TextLayout annotation, InlineStyle style, int sourceStart) : this(text, baseLayout, style, sourceStart)
+            {
+                if (annotation == null) return;
+                Annotation = annotation;
+                var width = MathF.Max(baseLayout.Size.X, annotation.Size.X);
+                BaseOffset = new Vector2((width - baseLayout.Size.X) * .5f, annotation.Size.Y);
+                AnnotationX = (width - annotation.Size.X) * .5f;
+                Size = new Vector2(width, annotation.Size.Y + baseLayout.Size.Y);
+            }
+            public TextLayout Annotation { get; }
+            public Vector2 BaseOffset { get; }
+            public float AnnotationX { get; }
             public string Text { get; }
             public TextLayout TextLayout { get; }
             public InlineImage Image { get; }
@@ -737,7 +956,9 @@ namespace Forma
             public int SourceStart { get; }
             public int SourceLength { get; }
             public float X { get; set; }
+            public byte Level { get; set; }
             public bool IsEllipsis { get; set; }
+            public float Baseline => BaseOffset.Y + (TextLayout?.Lines.FirstOrDefault()?.Baseline ?? Size.Y - BaseOffset.Y);
         }
 
         private sealed class InlineLine
@@ -746,17 +967,23 @@ namespace Forma
             public float Y { get; set; }
             public float Width { get; set; }
             public float Height { get; set; }
+            public float Baseline => Boxes.Count == 0 ? 0 : Boxes.Max(box => box.Baseline);
         }
 
         private sealed class InlineLayout
         {
             private InlineLine _line = new InlineLine();
-            public InlineLayout(float availableWidth) => AvailableWidth = availableWidth;
+            private readonly bool _alignBaselines;
+            public InlineLayout(float availableWidth, bool alignBaselines, byte[] levels = null, byte paragraphLevel = 0)
+            { AvailableWidth = availableWidth; _alignBaselines = alignBaselines; Levels = levels; ParagraphLevel = paragraphLevel; }
             public List<InlineLine> Lines { get; } = new List<InlineLine>();
             public float AvailableWidth { get; }
+            public byte[] Levels { get; }
+            public byte ParagraphLevel { get; }
             public Vector2 Size { get; private set; }
             public void Add(InlineBox box, bool wrap)
             {
+                if (Levels != null && box.SourceStart < Levels.Length) box.Level = Levels[box.SourceStart];
                 if (wrap && _line.Boxes.Count > 0 && _line.Width + box.Size.X > AvailableWidth) FinishLine(box.Size.Y);
                 box.X = _line.Width;
                 _line.Boxes.Add(box);
@@ -765,13 +992,38 @@ namespace Forma
             }
             public void FinishLine(float fallbackHeight)
             {
+                if (Levels != null && _line.Boxes.Count > 1) ReorderLine(_line.Boxes);
                 if (_line.Boxes.Count == 0 && Lines.Count > 0) _line.Height = fallbackHeight;
                 if (_line.Boxes.Count == 0 && Lines.Count == 0 && fallbackHeight <= 0) return;
                 _line.Height = MathF.Max(_line.Height, fallbackHeight);
+                if (_alignBaselines && _line.Boxes.Count > 0)
+                    _line.Height = MathF.Max(_line.Height, _line.Baseline + _line.Boxes.Max(box => box.Size.Y - box.Baseline));
                 _line.Y = Size.Y;
                 Lines.Add(_line);
                 Size = new Vector2(MathF.Max(Size.X, _line.Width), Size.Y + _line.Height);
                 _line = new InlineLine();
+            }
+
+            // UAX #9 L1 (trailing whitespace takes the paragraph level) and L2 (reverse runs from the highest level down) over boxes.
+            private void ReorderLine(List<InlineBox> boxes)
+            {
+                var levels = boxes.Select(box => box.Level).ToArray();
+                for (var index = boxes.Count - 1; index >= 0 && boxes[index].Image == null && boxes[index].Annotation == null &&
+                    string.IsNullOrWhiteSpace(boxes[index].Text); index--) levels[index] = ParagraphLevel;
+                var highest = levels.Max();
+                var lowestOdd = (byte)(levels.Min() | 1);
+                for (int level = highest; level >= lowestOdd; level--)
+                    for (var start = 0; start < boxes.Count;)
+                    {
+                        if (levels[start] < level) { start++; continue; }
+                        var end = start;
+                        while (end < boxes.Count && levels[end] >= level) end++;
+                        boxes.Reverse(start, end - start);
+                        Array.Reverse(levels, start, end - start);
+                        start = end;
+                    }
+                var x = 0f;
+                foreach (var box in boxes) { box.X = x; x += box.Size.X; }
             }
         }
     }

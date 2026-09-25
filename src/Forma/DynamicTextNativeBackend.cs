@@ -19,7 +19,7 @@ namespace Forma
         uint GetGlyphId(int unicodeScalar);
         IReadOnlyList<int> GetSupportedCodePoints();
         UIFontGlyphMetrics GetGlyphMetrics(uint glyphId, float logicalSize, IReadOnlyList<UIFontVariationCoordinate> variations);
-        UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variations);
+        UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variations, UIFontSynthesis synthesis = UIFontSynthesis.None);
         UIFontShapedRun Shape(string text, float logicalSize, TextDirection direction, string locale, string script, IReadOnlyList<UIFontOpenTypeFeature> features, IReadOnlyList<UIFontVariationCoordinate> variations);
     }
 

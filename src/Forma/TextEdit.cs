@@ -928,7 +928,7 @@ namespace Forma
             }
         }
         private TextLayout GetSegmentLayout(string source, int start, int length) => GetEditingLayout(source.Substring(start, length));
-        private float MeasureTextWidth(string text) => EffectiveUIFont == null ? text.Length * 8 : TextMetrics.Measure(EffectiveUIFont, text).X;
+        private new float MeasureTextWidth(string text) => EffectiveUIFont == null ? text.Length * 8 : TextMetrics.Measure(EffectiveUIFont, text).X;
         private void MoveCarets(TextNavigationAction movement, bool shift)
         {
             _caretMergeSuspension++;
