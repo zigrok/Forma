@@ -69,6 +69,27 @@ namespace Forma
         public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         public UIFont EffectiveUIFont => ResolveFont(_fontSelection, FontFamily, FontSize, FontWeight, FontStyle, FontStretch);
         public Color? FontColor { get => Foreground; set => Foreground = value; }
+        /// <summary>An offset text shadow's colour and displacement (Ren'Py's <c>what_shadow</c>). Null draws none.</summary>
+        public Color? TextShadowColor { get; set; }
+        /// <summary>Balance wrapped lines to nearly equal widths (Ren'Py's subtitle layout).</summary>
+        public bool BalanceLines { get; set; }        public Vector2 TextShadowOffset { get; set; }
+        /// <summary>A text outline's colour and width in pixels (Ren'Py's <c>what_outlines</c>). Null or zero draws none.</summary>
+        public Color? TextOutlineColor { get; set; }
+        public int TextOutlineWidth { get; set; }
+        /// <summary>The shadow and outline passes, in draw order, before the fill.</summary>
+        protected IEnumerable<(Vector2 Offset, Color Color)> TextEffectPasses()
+        {
+            if (TextOutlineColor is { } outline && TextOutlineWidth > 0)
+                for (var dy = -TextOutlineWidth; dy <= TextOutlineWidth; dy++)
+                    for (var dx = -TextOutlineWidth; dx <= TextOutlineWidth; dx++)
+                    {
+                        if (dx == 0 && dy == 0) continue;
+                        if (Math.Max(Math.Abs(dx), Math.Abs(dy)) != TextOutlineWidth) continue;
+                        yield return (new Vector2(dx, dy), outline);
+                    }
+            if (TextShadowColor is { } shadow && TextShadowOffset != Vector2.Zero)
+                yield return (TextShadowOffset, shadow);
+        }
         public new HorizontalAlignment HorizontalAlignment { get; set; }
         public new VerticalAlignment VerticalAlignment { get; set; }
         /// <summary>Legacy convenience switch; true maps to Godot's WordSmart mode.</summary>
@@ -241,7 +262,10 @@ namespace Forma
             if (dynamicLayout != null)
             {
                 var color = Enabled ? FontColor ?? context.Theme.TextColor : context.Theme.DisabledTextColor;
-                context.Text(dynamicLayout, GlobalPosition + new Vector2(Padding.Left, Padding.Top + GetDynamicVerticalOffset(dynamicLayout)), color);
+                var dynamicPosition = GlobalPosition + new Vector2(Padding.Left, Padding.Top + GetDynamicVerticalOffset(dynamicLayout));
+                foreach (var (offset, effectColor) in TextEffectPasses())
+                    context.Text(dynamicLayout, dynamicPosition + offset, effectColor);
+                context.Text(dynamicLayout, dynamicPosition, color);
                 return;
             }
             if (Font != null && !string.IsNullOrEmpty(Text))
@@ -260,6 +284,8 @@ namespace Forma
                     var lineWidth = MeasureLineAdvance(line, line.Length, extraSpace, justificationStart);
                     if (HorizontalAlignment == HorizontalAlignment.Center) linePosition.X += MathF.Max(0, (content.X - lineWidth) / 2);
                     else if (HorizontalAlignment == HorizontalAlignment.Right) linePosition.X += MathF.Max(0, content.X - lineWidth);
+                    foreach (var (offset, effectColor) in TextEffectPasses())
+                        DrawLine(context, line, linePosition + offset, effectColor, extraSpace, justificationStart);
                     DrawLine(context, line, linePosition, color, extraSpace, justificationStart);
                 }
             }
@@ -380,18 +406,35 @@ namespace Forma
                 lines.Add(currentCharacters);
                 return lines;
             }
-            var current = string.Empty;
-            foreach (var word in paragraph.Split(' '))
+            List<string> Wrap(float target)
             {
-                var candidate = string.IsNullOrEmpty(current) ? word : current + " " + word;
-                if (!string.IsNullOrEmpty(current) && MeasureTextWidth(candidate) > width)
+                var wrapped = new List<string>();
+                var buffer = string.Empty;
+                foreach (var word in paragraph.Split(' '))
                 {
-                    lines.Add(current);
-                    current = word;
+                    var candidate = string.IsNullOrEmpty(buffer) ? word : buffer + " " + word;
+                    if (!string.IsNullOrEmpty(buffer) && MeasureTextWidth(candidate) > target)
+                    {
+                        wrapped.Add(buffer);
+                        buffer = word;
+                    }
+                    else buffer = candidate;
                 }
-                else current = candidate;
+                wrapped.Add(buffer);
+                return wrapped;
             }
-            lines.Add(current);
+            var greedy = Wrap(width);
+            if (!BalanceLines || greedy.Count <= 1) { lines.AddRange(greedy); return lines; }
+            // Balance: the smallest wrap width that still fits the same line count, found by binary
+            // search, so every line is as close to the others' width as the words allow.
+            var low = 1f;
+            var high = width;
+            while (high - low > 1f)
+            {
+                var mid = MathF.Floor((low + high) / 2);
+                if (Wrap(mid).Count <= greedy.Count) high = mid; else low = mid;
+            }
+            lines.AddRange(Wrap(high));
             return lines;
         }
         private IEnumerable<string> SplitParagraphs(string text)
@@ -475,7 +518,27 @@ namespace Forma
                 ellipsis: EllipsisCharacter,
                 paragraphSpacing: ParagraphSpacing,
                 justificationFlags: MapJustificationFlags());
-            return AdjustTextLayout((Context?.TextLayoutEngine ?? DynamicLayoutEngine).Layout(font, text, options));
+            var engine = Context?.TextLayoutEngine ?? DynamicLayoutEngine;
+            var layout = engine.Layout(font, text, options);
+            // Ren'Py's subtitle layout: balance wrapped lines by wrapping at the smallest width that
+            // still fits the same line count, found by binary search over the wrap width.
+            if (BalanceLines && layout.Lines.Count > 1 && float.IsFinite(options.MaxWidth) && options.Wrapping != TextWrapping.NoWrap)
+            {
+                var greedy = layout.Lines.Count;
+                TextLayoutOptions Copy(float maxWidth) => new(maxWidth, options.Wrapping, options.Alignment, options.Direction,
+                    options.LineSpacing, options.TabSize, options.Trimming, options.MaxVisibleCharacters, options.Locale,
+                    options.ParagraphSeparator, options.TabStops, options.OpenTypeFeatures, options.Ellipsis,
+                    options.ParagraphSpacing, options.JustificationFlags);
+                var low = 1f;
+                var high = options.MaxWidth;
+                while (high - low > 1f)
+                {
+                    var mid = MathF.Floor((low + high) / 2);
+                    if (engine.Layout(font, text, Copy(mid)).Lines.Count <= greedy) high = mid; else low = mid;
+                }
+                if (high + 0.5f < options.MaxWidth) layout = engine.Layout(font, text, Copy(high));
+            }
+            return AdjustTextLayout(layout);
         }
         protected virtual float GetTextLineSpacing(UIFont font) => 1;
         protected virtual TextLayout AdjustTextLayout(TextLayout layout) => layout;

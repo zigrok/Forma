@@ -551,6 +551,8 @@ namespace Forma
                             context.Fill(new Rectangle((int)MathF.Floor(position.X + rectangle.X), (int)MathF.Floor(position.Y + rectangle.Y),
                                 Math.Max(1, (int)MathF.Ceiling(rectangle.Width)), Math.Max(1, (int)MathF.Ceiling(rectangle.Height))), box.Style.Background.Value);
                     var color = Enabled ? box.Style.Foreground ?? FontColor ?? context.Theme.TextColor : context.Theme.DisabledTextColor;
+                    foreach (var (offset, effectColor) in TextEffectPasses())
+                        context.Text(box.TextLayout, position + offset, effectColor);
                     context.Text(box.TextLayout, position, color);
                     if (box.Annotation != null && box.TextLayout.VisibleRanges.Count > 0)
                         context.Text(box.Annotation, GlobalPosition + placement.Position + new Vector2(box.AnnotationX, 0), color);
