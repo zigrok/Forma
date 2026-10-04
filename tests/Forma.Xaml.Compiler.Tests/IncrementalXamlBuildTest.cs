@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MIT
 
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using Forma.Xaml.Build;
 using Microsoft.Xna.Framework;
@@ -105,8 +104,21 @@ public class IncrementalXamlBuildTest
         }
     }
 
-    private static string TargetsPath([CallerFilePath] string source = "") =>
-        Path.GetFullPath(Path.Combine(Path.GetDirectoryName(source)!, "../../src/Forma.Xaml.Build/buildTransitive/Forma.Xaml.Build.targets"));
+    // Resolved from the running assembly rather than CallerFilePath: a CI build rewrites source
+    // paths to the deterministic root (/_/), so the compile-time path names a file that does not
+    // exist on the machine running the test.
+    private static string TargetsPath()
+    {
+        for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory is not null;
+             directory = directory.Parent)
+        {
+            var candidate = Path.Combine(directory.FullName, "src", "Forma.Xaml.Build",
+                "buildTransitive", "Forma.Xaml.Build.targets");
+            if (File.Exists(candidate)) return candidate;
+        }
+        throw new FileNotFoundException(
+            "Forma.Xaml.Build.targets was not found above the test assembly.");
+    }
 
     private static async Task<string> Run(string directory, params string[] arguments)
     {
