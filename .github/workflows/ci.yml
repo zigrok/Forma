@@ -42,6 +42,7 @@ jobs:
           dotnet test tests/Forma.Xaml.Tests/Forma.Xaml.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
           dotnet test tests/Forma.Xaml.Tool.Tests/Forma.Xaml.Tool.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
           dotnet test tests/Forma.Xaml.Game.Tests/Forma.Xaml.Game.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
+          dotnet test tests/Forma.Xaml.Compiler.Tests/Forma.Xaml.Compiler.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
           dotnet build tests/Forma.Xaml.Build.Integration/Forma.Xaml.Build.Integration.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
           test -f "tests/Forma.Xaml.Build.Integration/obj/$FORMA_RUNTIME/Release/net10.0/FormaXaml/compile.stamp"
           dotnet build "samples/Forma.Xaml.Game.$FORMA_RUNTIME/Forma.Xaml.Game.$FORMA_RUNTIME.csproj" --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
@@ -215,6 +216,65 @@ jobs:
           CatalogBackend: Metal
           NativeRuntimePath: ${{ github.workspace }}/.native/MonoGame/Artifacts/native/mgruntime/desktopmetal/macosx/Release/libmgruntime.dylib
         run: SvgBackend=Skia bash scripts/check-catalog-smoke.sh
+
+  # The browser probe is Forma's own proof: it compiles Forma XAML and renders seven locales
+  # through the browser runtime. It lives here rather than in a consumer so the proof belongs
+  # with the code it exercises. The MonoGame browser framework is checked out from the fork;
+  # only a browser-capable ref has MonoGame.Framework.Browser.csproj.
+  browser-probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - name: Install the browser workload
+        run: dotnet workload install wasm-tools --version 10.0.110
+      - name: Check out the MonoGame browser runtime source
+        uses: actions/checkout@v7
+        with:
+          repository: zigrok/MonoGame
+          ref: dea990e6fbc02dd034c9801c6c9b85eb03d74e60
+          path: .native/MonoGame
+          submodules: false
+      - name: Initialize MonoGame submodules
+        working-directory: .native/MonoGame
+        shell: bash
+        run: |
+          git submodule sync --recursive
+          git config submodule.external/MonoGame.Templates.url https://github.com/MonoGame/MonoGame.Templates.git
+          git submodule update --init --recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install the probe browser
+        shell: bash
+        run: |
+          npm install --no-save @playwright/test@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Build and run the browser probe
+        shell: bash
+        env:
+          MonoGameProjectPath: ${{ github.workspace }}/.native/MonoGame/MonoGame.Framework/MonoGame.Framework.Browser.csproj
+          PLAYWRIGHT_MODULE: ${{ github.workspace }}/node_modules/@playwright/test/index.mjs
+          # A headless Linux runner has no WebGL for Firefox or WebKit; chromium renders through
+          # SwiftShader, and a desktop machine still runs all three by default.
+          FORMA_PROBE_BROWSERS: chromium
+        run: |
+          bash tests/Forma.Browser.Probe/prepare.sh
+          bash tests/Forma.Browser.Probe/run.sh
+      - name: Upload browser probe evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: forma-browser-probe
+          path: |
+            artifacts/browser/probe-*.png
+            artifacts/browser/probe-results.json
+            artifacts/browser/frozen-platform-sha256.json
+          if-no-files-found: warn
 
   parity:
     runs-on: ubuntu-latest
