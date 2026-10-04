@@ -101,7 +101,7 @@ public sealed class CatalogGoldenTreeTest
             return;
         }
 
-        var expected = File.ReadAllText(path);
+        var expected = File.ReadAllText(path).ReplaceLineEndings("\n");
         if (string.Equals(expected, actual, StringComparison.Ordinal)) return;
 
         // Written beside the golden so the diff can be inspected directly instead of reconstructed
