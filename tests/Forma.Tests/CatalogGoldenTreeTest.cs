@@ -82,9 +82,9 @@ public sealed class CatalogGoldenTreeTest
     {
         var directory = TestContext.CurrentContext.TestDirectory;
         if (!string.IsNullOrEmpty(directory)) text = text.Replace(directory, "<test-dir>");
-        // A tree is text in source control, so it is compared and stored with one line ending;
-        // otherwise a Windows run reports every line as changed against an LF golden.
-        return text.ReplaceLineEndings("\n");
+        // A tree is text in source control, so it is compared and stored with one line ending and
+        // one path separator; otherwise a Windows run reports lines as changed over CRLF and `\`.
+        return text.Replace('\\', '/').ReplaceLineEndings("\n");
     }
 
     [Test]
