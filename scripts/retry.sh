@@ -6,7 +6,10 @@ set -uo pipefail
 # Usage: `bash scripts/retry.sh <command> [args...]`. Override attempts with RETRY_ATTEMPTS.
 
 attempts="${RETRY_ATTEMPTS:-2}"
-transient='MSB3491|MSB3371|MSB4018|being used by another process|Could not write lines to file'
+# MSB3030/MSB3073 join the lock signatures: a parallel node can copy or invoke against an output
+# another node is still writing, and MGCB (MSB3073) can be killed with 137 mid-write. All are the
+# same race seen from different targets, and a real failure still fails fast.
+transient='MSB3491|MSB3371|MSB4018|MSB3030|MSB3073|being used by another process|Could not write lines to file|Could not copy the file|exited with code 137'
 log="$(mktemp "${TMPDIR:-/tmp}/forma-retry.XXXXXX")"
 trap 'rm -f "$log"' EXIT
 

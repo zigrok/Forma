@@ -39,14 +39,14 @@ jobs:
       - name: Forma XAML tests and sample host
         shell: bash
         run: |
-          dotnet test tests/Forma.Xaml.Tests/Forma.Xaml.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
-          dotnet test tests/Forma.Xaml.Tool.Tests/Forma.Xaml.Tool.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
-          dotnet test tests/Forma.Xaml.Game.Tests/Forma.Xaml.Game.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
-          dotnet test tests/Forma.Xaml.Compiler.Tests/Forma.Xaml.Compiler.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
-          dotnet build tests/Forma.Xaml.Build.Integration/Forma.Xaml.Build.Integration.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
+          bash scripts/retry.sh dotnet test tests/Forma.Xaml.Tests/Forma.Xaml.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
+          bash scripts/retry.sh dotnet test tests/Forma.Xaml.Tool.Tests/Forma.Xaml.Tool.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
+          bash scripts/retry.sh dotnet test tests/Forma.Xaml.Game.Tests/Forma.Xaml.Game.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
+          bash scripts/retry.sh dotnet test tests/Forma.Xaml.Compiler.Tests/Forma.Xaml.Compiler.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
+          bash scripts/retry.sh dotnet build tests/Forma.Xaml.Build.Integration/Forma.Xaml.Build.Integration.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
           test -f "tests/Forma.Xaml.Build.Integration/obj/$FORMA_RUNTIME/Package/Release/net10.0/FormaXaml/compile.stamp"
-          dotnet build "samples/Forma.Xaml.Game.$FORMA_RUNTIME/Forma.Xaml.Game.$FORMA_RUNTIME.csproj" --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
-          dotnet build "samples/Forma.QuickStart.$FORMA_RUNTIME/Forma.QuickStart.$FORMA_RUNTIME.csproj" --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
+          bash scripts/retry.sh dotnet build "samples/Forma.Xaml.Game.$FORMA_RUNTIME/Forma.Xaml.Game.$FORMA_RUNTIME.csproj" --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
+          bash scripts/retry.sh dotnet build "samples/Forma.QuickStart.$FORMA_RUNTIME/Forma.QuickStart.$FORMA_RUNTIME.csproj" --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
       - name: Compile render tests
         shell: bash
         run: dotnet build tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
@@ -116,15 +116,15 @@ jobs:
         shell: bash
         run: |
           if [[ "$FORMA_RUNTIME" == "MonoGame" ]]; then
-            SvgBackend=Skia MonoGamePlatform=Windows CatalogBackend=WindowsDX FormaRuntime=MonoGame bash scripts/check-catalog-smoke.sh
-            MonoGamePlatform=Windows bash scripts/check-quick-start.sh
-            dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=Windows --nologo
-            dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=Windows -p:SvgBackend=Skia
+            bash scripts/retry.sh env SvgBackend=Skia MonoGamePlatform=Windows CatalogBackend=WindowsDX FormaRuntime=MonoGame bash scripts/check-catalog-smoke.sh
+            bash scripts/retry.sh env MonoGamePlatform=Windows bash scripts/check-quick-start.sh
+            bash scripts/retry.sh dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=Windows --nologo
+            bash scripts/retry.sh dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=Windows -p:SvgBackend=Skia
           else
-            SvgBackend=Skia FormaRuntime=FNA bash scripts/check-catalog-smoke.sh
-            bash scripts/check-quick-start.sh
+            bash scripts/retry.sh env SvgBackend=Skia FormaRuntime=FNA bash scripts/check-catalog-smoke.sh
+            bash scripts/retry.sh bash scripts/check-quick-start.sh
             dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=FNA --no-build --nologo
-            dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=FNA -p:SvgBackend=Skia
+            bash scripts/retry.sh dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=FNA -p:SvgBackend=Skia
           fi
       - name: Validate Windows FNA video
         if: runner.os == 'Windows' && matrix.runtime == 'FNA'
@@ -146,9 +146,9 @@ jobs:
           FormaCatalogViewportWidth: 1440
           FormaCatalogViewportHeight: 900
         run: |
-          SvgBackend=Skia FormaRuntime="$FORMA_RUNTIME" bash scripts/check-catalog-smoke.sh
-          bash scripts/check-quick-start.sh
-          dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" -p:SvgBackend=Skia
+          bash scripts/retry.sh env SvgBackend=Skia FormaRuntime="$FORMA_RUNTIME" bash scripts/check-catalog-smoke.sh
+          bash scripts/retry.sh bash scripts/check-quick-start.sh
+          bash scripts/retry.sh dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" -p:SvgBackend=Skia
       - name: Validate macOS render-test isolation
         if: runner.os == 'macOS'
         shell: bash
@@ -252,7 +252,7 @@ jobs:
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
           SDL_VIDEODRIVER: x11
-        run: env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/test-package-consumer.sh
+        run: bash scripts/retry.sh env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/test-package-consumer.sh
       - uses: actions/upload-artifact@v7
         with:
           name: forma-peer-packages
@@ -269,7 +269,7 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - name: Validate packed trim-only and NativeAOT consumers
-        run: make nativeaot
+        run: bash scripts/retry.sh make nativeaot
 
   thorvg-linux:
     runs-on: ubuntu-latest
@@ -278,7 +278,7 @@ jobs:
         with:
           submodules: recursive
       - name: Validate Linux x64 ThorVG matrix
-        run: make thorvg-linux
+        run: bash scripts/retry.sh make thorvg-linux
       - name: Upload ThorVG Linux evidence
         if: always()
         uses: actions/upload-artifact@v7
