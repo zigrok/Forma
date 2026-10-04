@@ -28,7 +28,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.103
       - run: dotnet tool restore
       - run: bash scripts/check-compliance.sh
       - name: Verify deterministic default theme icons
@@ -293,7 +293,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.103
       - run: bash scripts/check-runtime-parity.sh
       - name: Review release public API
         run: bash scripts/check-release-api.sh
@@ -306,7 +306,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.103
       - name: Install Linux graphics dependencies
         run: |
           sudo apt-get update
@@ -335,7 +335,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.103
       - name: Validate packed trim-only and NativeAOT consumers
         run: make nativeaot
 
@@ -368,7 +368,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.103
       - name: Build and validate native ThorVG
         run: |
           make thorvg-spike
