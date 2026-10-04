@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Forma.Catalog;
 using Microsoft.Xna.Framework;
 
@@ -82,9 +83,12 @@ public sealed class CatalogGoldenTreeTest
     {
         var directory = TestContext.CurrentContext.TestDirectory;
         if (!string.IsNullOrEmpty(directory)) text = text.Replace(directory, "<test-dir>");
+        text = text.Replace('\\', '/');
         // A tree is text in source control, so it is compared and stored with one line ending and
-        // one path separator; otherwise a Windows run reports lines as changed over CRLF and `\`.
-        return text.Replace('\\', '/').ReplaceLineEndings("\n");
+        // one path separator, and without the current drive: the file-dialog story roots its path
+        // at the running drive, which is true of the machine and not of the UI.
+        text = Regex.Replace(text, "[A-Za-z]:(?=/)", string.Empty);
+        return text.ReplaceLineEndings("\n");
     }
 
     [Test]
