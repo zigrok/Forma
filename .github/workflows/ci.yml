@@ -44,7 +44,7 @@ jobs:
           dotnet test tests/Forma.Xaml.Game.Tests/Forma.Xaml.Game.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
           dotnet test tests/Forma.Xaml.Compiler.Tests/Forma.Xaml.Compiler.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
           dotnet build tests/Forma.Xaml.Build.Integration/Forma.Xaml.Build.Integration.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
-          test -f "tests/Forma.Xaml.Build.Integration/obj/$FORMA_RUNTIME/Release/net10.0/FormaXaml/compile.stamp"
+          test -f "tests/Forma.Xaml.Build.Integration/obj/$FORMA_RUNTIME/Package/Release/net10.0/FormaXaml/compile.stamp"
           dotnet build "samples/Forma.Xaml.Game.$FORMA_RUNTIME/Forma.Xaml.Game.$FORMA_RUNTIME.csproj" --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
           dotnet build "samples/Forma.QuickStart.$FORMA_RUNTIME/Forma.QuickStart.$FORMA_RUNTIME.csproj" --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
       - name: Compile render tests
@@ -229,7 +229,9 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          # The browser build's emsdk-env.sh requires exactly the matched 10.0.103 / wasm-tools
+          # 10.0.110 toolchain, so this job pins it rather than following the 10.0.x channel.
+          dotnet-version: 10.0.103
       - name: Install the browser workload
         run: dotnet workload install wasm-tools --version 10.0.110
       - name: Check out the MonoGame browser runtime source
@@ -246,6 +248,12 @@ jobs:
           git submodule sync --recursive
           git config submodule.external/MonoGame.Templates.url https://github.com/MonoGame/MonoGame.Templates.git
           git submodule update --init --recursive
+      # The probe compiles against the MonoGame browser framework and its effect compiler, which
+      # the fork's native browser build produces; without it build-browser-effect.sh finds no
+      # mggl-shader or mgfxc.dll.
+      - name: Build the MonoGame browser runtime
+        shell: bash
+        run: bash .native/MonoGame/native/browser/build.sh
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -257,6 +265,7 @@ jobs:
       - name: Build and run the browser probe
         shell: bash
         env:
+          MonoGameRoot: ${{ github.workspace }}/.native/MonoGame
           MonoGameProjectPath: ${{ github.workspace }}/.native/MonoGame/MonoGame.Framework/MonoGame.Framework.Browser.csproj
           PLAYWRIGHT_MODULE: ${{ github.workspace }}/node_modules/@playwright/test/index.mjs
           # A headless Linux runner has no WebGL for Firefox or WebKit; chromium renders through
