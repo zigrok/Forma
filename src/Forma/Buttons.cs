@@ -236,6 +236,23 @@ namespace Forma
             NotifyPseudoStateChanged("pressed");
             if (activate) Activate();
         }
+        /// <summary>
+        /// Drops a pending keyboard press when focus moves elsewhere, as Godot's BaseButton does on focus exit. The key release
+        /// goes to whichever control is focused by then, so without this the button would stay pressed, look dimmed, and ignore
+        /// every later pointer press. A pointer press is left alone: the pointer capture still delivers its release.
+        /// </summary>
+        internal override void FocusLost()
+        {
+            if (_activeKey != null)
+            {
+                _activeKey = null;
+                _pressed = false;
+                _activationHandled = false;
+                ButtonUp?.Invoke(this, EventArgs.Empty);
+                NotifyPseudoStateChanged("pressed");
+            }
+            base.FocusLost();
+        }
         internal override void CancelInput()
         {
             var wasPressed = _pressed;

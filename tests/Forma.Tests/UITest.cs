@@ -4970,6 +4970,58 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void Button_KeyboardPress_IsCancelledWhenFocusMovesAndPointerPressesStillWork()
+        {
+            var host = new Control { Size = new Vector2(300, 100) };
+            var first = new Button { Position = new Vector2(0, 0), Size = new Vector2(100, 40), FocusMode = FocusMode.All };
+            var second = new Button { Position = new Vector2(150, 0), Size = new Vector2(100, 40), FocusMode = FocusMode.All };
+            host.AddChild(first);
+            host.AddChild(second);
+            var activations = 0;
+            first.Pressed += (_, _) => activations++;
+            using var context = new UIContext { ViewportSize = new Vector2(300, 100) };
+            context.Add(host);
+            context.Layout();
+            context.SetFocus(first);
+            var time = new GameTime(TimeSpan.Zero, TimeSpan.Zero);
+
+            context.Update(time, new MouseState(), new KeyboardState(Keys.Enter));
+            Assert.That(first.IsPressing, Is.True);
+            context.SetFocus(second);
+            Assert.That(first.IsPressing, Is.False);
+            Assert.That(first.IsPseudoStateActive("pressed"), Is.False);
+            context.Update(time, new MouseState(), new KeyboardState());
+
+            context.InjectPointerMove(new Point(50, 20));
+            context.InjectPointerPress(new Point(50, 20));
+            context.InjectPointerRelease(new Point(50, 20));
+
+            Assert.That(activations, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Button_KeyboardPress_IsCancelledWhenItsScreenIsHidden()
+        {
+            var host = new Control { Size = new Vector2(200, 100) };
+            var button = new Button { Size = new Vector2(100, 40), FocusMode = FocusMode.All };
+            host.AddChild(button);
+            using var context = new UIContext { ViewportSize = new Vector2(200, 100) };
+            context.Add(host);
+            context.Layout();
+            context.SetFocus(button);
+            var time = new GameTime(TimeSpan.Zero, TimeSpan.Zero);
+
+            context.Update(time, new MouseState(), new KeyboardState(Keys.Enter));
+            Assert.That(button.IsPressing, Is.True);
+            host.Visible = false;
+            context.Update(time, new MouseState(), new KeyboardState());
+            host.Visible = true;
+            context.Update(time, new MouseState(), new KeyboardState());
+
+            Assert.That(button.IsPressing, Is.False);
+        }
+
+        [Test]
         public void Theme_HighlightedFontWeight_DefaultsToNoChangeInheritsAndValidates()
         {
             var parent = new Theme();
