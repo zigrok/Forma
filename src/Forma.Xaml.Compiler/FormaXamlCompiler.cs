@@ -718,7 +718,8 @@ public sealed class FormaXamlCompiler
         var targetProperty = Expression.Property(Expression.Convert(target, targetType), property);
         var xamlProperty = new XamlProperty<T>(propertyName,
             Expression.Lambda<Func<object, T>>(targetProperty, target).Compile(),
-            Expression.Lambda<Action<object, T>>(Expression.Assign(targetProperty, value), target, value).Compile());
+            Expression.Lambda<Action<object, T>>(Expression.Assign(targetProperty, value), target, value).Compile(),
+            CompiledPropertyIdentity(property));
         var timeline = CompiledTimeline.Create(timelineNode.TypeName, targetName, xamlProperty);
         foreach (var keyFrameId in timelineNode.Children)
         {
@@ -932,6 +933,9 @@ public sealed class FormaXamlCompiler
     private static float ParseInvariantSingle(string value) =>
         float.Parse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture);
 
+    private static string CompiledPropertyIdentity(PropertyInfo property) =>
+        $"{property.DeclaringType!.FullName}::{property.Name}";
+
     private static IStyleSetter CreateSreStyleSetter(Type targetType, PropertyInfo property, string valueText)
     {
         var create = typeof(FormaXamlCompiler).GetMethod(nameof(CreateSreStyleSetterCore), BindingFlags.NonPublic | BindingFlags.Static)!
@@ -947,7 +951,8 @@ public sealed class FormaXamlCompiler
         var targetProperty = Expression.Property(Expression.Convert(targetObject, targetType), property);
         var xamlProperty = new XamlProperty<T>(property.Name,
             Expression.Lambda<Func<object, T>>(targetProperty, targetObject).Compile(),
-            Expression.Lambda<Action<object, T>>(Expression.Assign(targetProperty, value), targetObject, value).Compile());
+            Expression.Lambda<Action<object, T>>(Expression.Assign(targetProperty, value), targetObject, value).Compile(),
+            CompiledPropertyIdentity(property));
         if (TryParseSreResource(valueText, out var resource))
         {
             if (resource.IsDynamic) throw new InvalidOperationException("DynamicResource is not supported in a style setter; use StaticResource or a control-local DynamicResource.");
@@ -979,7 +984,8 @@ public sealed class FormaXamlCompiler
         var targetProperty = Expression.Property(Expression.Convert(targetObject, targetType), property);
         var xamlProperty = new XamlProperty<T>(property.Name,
             Expression.Lambda<Func<object, T>>(targetProperty, targetObject).Compile(),
-            Expression.Lambda<Action<object, T>>(Expression.Assign(targetProperty, value), targetObject, value).Compile());
+            Expression.Lambda<Action<object, T>>(Expression.Assign(targetProperty, value), targetObject, value).Compile(),
+            CompiledPropertyIdentity(property));
         var duration = TimeSpan.Parse(durationText, System.Globalization.CultureInfo.InvariantCulture);
         var easing = Enum.Parse<Easing>(easingText, false);
         var runtimeType = transitionType switch

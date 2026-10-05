@@ -88,6 +88,7 @@ namespace Forma
             base.OnTemplateApplied();
         }
         public string PlaceholderText { get; set; } = string.Empty;
+        public bool Flat { get; set; }
         /// <summary>Gets whether the first programmatic text assignment moves the caret to the end.</summary>
         protected virtual bool MoveCaretToEndOnInitialTextAssignment => true;
         public string SecretCharacter { get; set; } = string.Empty;
@@ -727,7 +728,11 @@ namespace Forma
         }
         internal virtual void DrawEditor(UIRenderContext context)
         {
-            context.Fill(Bounds, context.Theme.BackgroundColor); context.Border(Bounds, Context?.FocusedControl == this ? context.Theme.FocusColor : context.Theme.PanelBorderColor);
+            if (!Flat)
+            {
+                context.Fill(Bounds, context.Theme.BackgroundColor);
+                context.Border(Bounds, Context?.FocusedControl == this ? context.Theme.FocusColor : context.Theme.PanelBorderColor);
+            }
             if (EffectiveUIFont != null)
             {
                 var shown = string.IsNullOrEmpty(Text) && !HasImeComposition ? PlaceholderText : string.IsNullOrEmpty(SecretCharacter) ? GetComposedDisplayText() : new string(SecretCharacter[0], Text.Length);

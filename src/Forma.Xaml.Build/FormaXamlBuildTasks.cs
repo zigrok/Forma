@@ -148,11 +148,15 @@ public sealed class CompileFormaXaml : FormaXamlTask
                 CompileDocument(compiler, typeSystem, module, item.Item.ItemSpec, lowered, Authoring);
             }
             var writeSymbols = !string.IsNullOrWhiteSpace(TargetPdb) && File.Exists(TargetPdb);
-            assembly.Write(TargetAssembly, new WriterParameters
-            {
-                WriteSymbols = writeSymbols,
-                SymbolWriterProvider = writeSymbols ? new PortablePdbWriterProvider() : null,
-            });
+            FormaXamlAssemblyWriter.WriteWithRetry(
+                () => assembly.Write(TargetAssembly, new WriterParameters
+                {
+                    WriteSymbols = writeSymbols,
+                    SymbolWriterProvider = writeSymbols ? new PortablePdbWriterProvider() : null,
+                }),
+                retrying: (attempt, delay, exception) => Log.LogMessage(
+                    MessageImportance.Low,
+                    $"Forma XAML output is temporarily unavailable ({exception.Message}); retrying write after {delay.TotalMilliseconds:0} ms (attempt {attempt + 1}/{FormaXamlAssemblyWriter.MaxAttempts})."));
             Log.LogMessage(MessageImportance.High, $"Compiled {documents.Count} Forma XAML document(s) into {TargetAssembly}.");
             return true;
         }
@@ -630,7 +634,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
                 var actionTarget = MakeDelegateType(module, typeof(Action<,>), module.TypeSystem.Object, valueType);
                 var xamlPropertyType = new GenericInstanceType(module.ImportReference(xamlPropertyDefinition));
                 xamlPropertyType.GenericArguments.Add(valueType);
-                var propertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && !method.IsStatic), xamlPropertyType);
+                var propertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 3), xamlPropertyType);
                 var attachResource = new GenericInstanceMethod(attachResourceDefinition);
                 attachResource.GenericArguments.Add(valueType);
                 body.Emit(OpCodes.Ldarg_1);
@@ -679,13 +683,14 @@ public sealed class CompileFormaXaml : FormaXamlTask
                     var actionTarget = MakeDelegateType(module, typeof(Action<,>), module.TypeSystem.Object, valueType);
                     var xamlPropertyType = new GenericInstanceType(module.ImportReference(xamlPropertyDefinition));
                     xamlPropertyType.GenericArguments.Add(valueType);
-                    var xamlPropertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && !method.IsStatic), xamlPropertyType);
+                    var xamlPropertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 4), xamlPropertyType);
                     var styleSetterType = new GenericInstanceType(module.ImportReference(styleSetterDefinition));
                     styleSetterType.GenericArguments.Add(valueType);
                     body.Emit(OpCodes.Ldloc, styleVariable);
                     body.Emit(OpCodes.Ldstr, propertyName);
                     EmitDelegate(body, funcTarget, getTarget);
                     EmitDelegate(body, actionTarget, setTarget);
+                    body.Emit(OpCodes.Ldstr, CompiledPropertyIdentity(property));
                     body.Emit(OpCodes.Newobj, xamlPropertyConstructor);
                     EmitStyleValue(body, module, formaAssembly, valueType, valueMember.Value.RawText);
                     var setterConstructor = styleSetterDefinition.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 2 && method.Parameters[1].ParameterType is GenericParameter);
@@ -985,7 +990,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
                 var actionTarget = MakeDelegateType(module, typeof(Action<,>), module.TypeSystem.Object, valueType);
                 var xamlPropertyType = new GenericInstanceType(module.ImportReference(xamlPropertyDefinition));
                 xamlPropertyType.GenericArguments.Add(valueType);
-                var xamlPropertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor), xamlPropertyType);
+                var xamlPropertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 4), xamlPropertyType);
                 var timelineType = formaAssembly.MainModule.GetType($"Forma.Xaml.{timelineNode.TypeName}");
                 var timelineVariable = new VariableDefinition(module.ImportReference(timelineType));
                 wrapper.Body.Variables.Add(timelineVariable);
@@ -993,6 +998,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
                 body.Emit(OpCodes.Ldstr, propertyName);
                 EmitDelegate(body, funcTarget, getTarget);
                 EmitDelegate(body, actionTarget, setTarget);
+                body.Emit(OpCodes.Ldstr, CompiledPropertyIdentity(property));
                 body.Emit(OpCodes.Newobj, xamlPropertyConstructor);
                 body.Emit(OpCodes.Newobj, module.ImportReference(timelineType.Methods.Single(method => method.IsConstructor)));
                 body.Emit(OpCodes.Stloc, timelineVariable);
@@ -1210,7 +1216,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
             var actionTarget = MakeDelegateType(module, typeof(Action<,>), module.TypeSystem.Object, valueType);
             var xamlPropertyType = new GenericInstanceType(module.ImportReference(xamlPropertyDefinition));
             xamlPropertyType.GenericArguments.Add(valueType);
-            var propertyConstructorDefinition = xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && !method.IsStatic);
+            var propertyConstructorDefinition = xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 3);
             var propertyConstructor = new MethodReference(".ctor", module.TypeSystem.Void, xamlPropertyType) { HasThis = true };
             foreach (var parameter in propertyConstructorDefinition.Parameters)
                 propertyConstructor.Parameters.Add(new ParameterDefinition(module.ImportReference(parameter.ParameterType, propertyConstructor)));
@@ -1551,13 +1557,14 @@ public sealed class CompileFormaXaml : FormaXamlTask
                     var actionTarget = MakeDelegateType(module, typeof(Action<,>), module.TypeSystem.Object, valueType);
                     var xamlPropertyType = new GenericInstanceType(module.ImportReference(xamlPropertyDefinition));
                     xamlPropertyType.GenericArguments.Add(valueType);
-                    var xamlPropertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && !method.IsStatic), xamlPropertyType);
+                    var xamlPropertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 4), xamlPropertyType);
                     var styleSetterType = new GenericInstanceType(module.ImportReference(styleSetterDefinition));
                     styleSetterType.GenericArguments.Add(valueType);
                     body.Emit(OpCodes.Ldloc, styleVariable);
                     body.Emit(OpCodes.Ldstr, propertyName);
                     EmitDelegate(body, funcTarget, getTarget);
                     EmitDelegate(body, actionTarget, setTarget);
+                    body.Emit(OpCodes.Ldstr, CompiledPropertyIdentity(property));
                     body.Emit(OpCodes.Newobj, xamlPropertyConstructor);
                     if (authoring)
                     {
@@ -1604,7 +1611,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
                     var actionTarget = MakeDelegateType(module, typeof(Action<,>), module.TypeSystem.Object, valueType);
                     var xamlPropertyType = new GenericInstanceType(module.ImportReference(xamlPropertyDefinition));
                     xamlPropertyType.GenericArguments.Add(valueType);
-                    var xamlPropertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && !method.IsStatic), xamlPropertyType);
+                    var xamlPropertyConstructor = MakeClosedMethod(module, xamlPropertyDefinition.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 4), xamlPropertyType);
                     var transitionType = formaAssembly.MainModule.GetType("Forma.Xaml." + transition.TypeName)
                         ?? throw new InvalidOperationException($"Style transition type '{transition.TypeName}' was not found.");
                     var transitionConstructor = module.ImportReference(transitionType.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 3));
@@ -1612,6 +1619,7 @@ public sealed class CompileFormaXaml : FormaXamlTask
                     body.Emit(OpCodes.Ldstr, propertyName);
                     EmitDelegate(body, funcTarget, getTarget);
                     EmitDelegate(body, actionTarget, setTarget);
+                    body.Emit(OpCodes.Ldstr, CompiledPropertyIdentity(property));
                     body.Emit(OpCodes.Newobj, xamlPropertyConstructor);
                     EmitTimeSpan(body, module, duration);
                     var easing = Enum.TryParse<Easing>(transition.FindMember("Easing"), true, out var parsedEasing) ? parsedEasing : Easing.Linear;
@@ -1694,6 +1702,9 @@ public sealed class CompileFormaXaml : FormaXamlTask
         var node = NodeForId(lowered, operation.NodeId);
         return node.Members.Single(member => !member.IsDirective && member.SymbolId == operation.MemberSymbolId);
     }
+
+    private static string CompiledPropertyIdentity(PropertyDefinition property) =>
+        $"{property.DeclaringType.FullName}::{property.Name}";
 
     private static (TypeDefinition TargetType, PropertyDefinition Property) ResolveStyleTargetProperty(
         CecilTypeSystem typeSystem,
@@ -2023,6 +2034,14 @@ public sealed class CompileFormaXaml : FormaXamlTask
             case "System.Single": body.Emit(OpCodes.Ldc_R4, float.Parse(value, System.Globalization.CultureInfo.InvariantCulture)); return;
             case "System.Double": body.Emit(OpCodes.Ldc_R8, double.Parse(value, System.Globalization.CultureInfo.InvariantCulture)); return;
         }
+        var resolvedType = valueType.Resolve() ?? formaAssembly.MainModule.GetType(valueType.FullName);
+        if (resolvedType?.IsEnum == true)
+        {
+            var field = resolvedType.Fields.SingleOrDefault(candidate => candidate.IsStatic && candidate.Name == value)
+                ?? throw new InvalidOperationException($"'{value}' is not a member of enum '{valueType.FullName}'.");
+            body.Emit(OpCodes.Ldc_I4, Convert.ToInt32(field.Constant, System.Globalization.CultureInfo.InvariantCulture));
+            return;
+        }
         var converterType = formaAssembly.MainModule.GetType("Forma.Xaml.XamlValueConverter");
         var methodName = valueType.FullName switch
         {
@@ -2285,6 +2304,36 @@ public sealed class CompileFormaXaml : FormaXamlTask
         il.Emit(OpCodes.Ldnull);
         il.Emit(OpCodes.Ldftn, method);
         il.Emit(OpCodes.Newobj, constructor);
+    }
+}
+
+internal static class FormaXamlAssemblyWriter
+{
+    internal const int MaxAttempts = 5;
+    private const int InitialDelayMilliseconds = 50;
+
+    internal static void WriteWithRetry(
+        Action write,
+        Action<TimeSpan>? delay = null,
+        Action<int, TimeSpan, IOException>? retrying = null)
+    {
+        ArgumentNullException.ThrowIfNull(write);
+        delay ??= Thread.Sleep;
+
+        for (var attempt = 1; ; attempt++)
+        {
+            try
+            {
+                write();
+                return;
+            }
+            catch (IOException exception) when (attempt < MaxAttempts)
+            {
+                var retryDelay = TimeSpan.FromMilliseconds(InitialDelayMilliseconds * (1 << (attempt - 1)));
+                retrying?.Invoke(attempt, retryDelay, exception);
+                delay(retryDelay);
+            }
+        }
     }
 }
 

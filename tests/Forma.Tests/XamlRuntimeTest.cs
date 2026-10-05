@@ -1441,6 +1441,25 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void XamlValues_StableIdentityMergesCompiledPropertyContributions()
+        {
+            var target = new ValueTarget { Value = 10 };
+            var identity = typeof(ValueTarget).GetProperty(nameof(ValueTarget.Value));
+            var normal = new XamlProperty<int>(nameof(ValueTarget.Value), value => ((ValueTarget)value).Value,
+                (value, current) => ((ValueTarget)value).Value = current, identity);
+            var selected = new XamlProperty<int>(nameof(ValueTarget.Value), value => ((ValueTarget)value).Value,
+                (value, current) => ((ValueTarget)value).Value = current, identity);
+
+            using var normalValue = XamlValues.Set(target, normal, XamlValueLayer.Style, 20, priority: 1);
+            var selectedValue = XamlValues.Set(target, selected, XamlValueLayer.Style, 24, priority: 2);
+            Assert.That(target.Value, Is.EqualTo(24));
+
+            selectedValue.Dispose();
+
+            Assert.That(target.Value, Is.EqualTo(20));
+        }
+
+        [Test]
         public void XamlValues_UsePriorityThenDeclarationOrderAndExplicitBaseRefresh()
         {
             var target = new ValueTarget { Value = 1 };

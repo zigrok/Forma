@@ -281,6 +281,13 @@ label.SetOpenTypeFeatures(new[]
 });
 ```
 
+Set `Control.FontVariationWeight` to drive a dynamic font's `wght` axis independently of the
+semantic `FontWeight`. The value is inherited and can use a XAML `FloatTransition`; DynamicText
+quantizes it to 25-unit steps and caches the derived fonts so animated weights have a bounded
+number of glyph identities. Fonts without a `wght` axis ignore the variation value. Before a
+dynamic text layout is drawn, its visible cold glyphs are rasterized and batch-uploaded once so
+first-use variable-weight frames render atomically rather than appearing one frame late.
+
 ## Cache Budget and Recovery
 
 Each `UIContext` owns a glyph cache per `GraphicsDevice`. The default hard limits are eight

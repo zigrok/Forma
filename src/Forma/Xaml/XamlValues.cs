@@ -17,13 +17,18 @@ namespace Forma.Xaml
     public sealed class XamlProperty<T>
     {
         public XamlProperty(string name, Func<object, T> getValue, Action<object, T> setValue)
+            : this(name, getValue, setValue, null) { }
+
+        public XamlProperty(string name, Func<object, T> getValue, Action<object, T> setValue, object identity)
         {
             Name = string.IsNullOrWhiteSpace(name) ? throw new ArgumentException("A property name is required.", nameof(name)) : name;
             GetValue = getValue ?? throw new ArgumentNullException(nameof(getValue));
             SetValue = setValue ?? throw new ArgumentNullException(nameof(setValue));
+            Identity = identity ?? this;
         }
 
         public string Name { get; }
+        internal object Identity { get; }
         internal Func<object, T> GetValue { get; }
         internal Action<object, T> SetValue { get; }
     }
@@ -129,9 +134,9 @@ namespace Forma.Xaml
         private static XamlValueEntry<T> GetEntry<T>(object target, XamlProperty<T> property)
         {
             var entries = Values.GetOrCreateValue(target).Entries;
-            if (entries.TryGetValue(property, out var existing)) return (XamlValueEntry<T>)existing;
+            if (entries.TryGetValue(property.Identity, out var existing)) return (XamlValueEntry<T>)existing;
             var created = new XamlValueEntry<T>(target, property);
-            entries.Add(property, created);
+            entries.Add(property.Identity, created);
             return created;
         }
     }

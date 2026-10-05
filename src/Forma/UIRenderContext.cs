@@ -268,11 +268,27 @@ namespace Forma
                 baselinePosition.X + bearingX / rasterScale,
                 MathF.Round(baselinePosition.Y * displayScale) / displayScale - bearingY / rasterScale);
         }
-        internal void BeginDynamicGlyphs()
+        internal void BeginDynamicGlyphs(TextLayout layout)
         {
             if (!_begun) throw new InvalidOperationException("Begin must be called before drawing dynamic glyphs.");
-            if (_dynamicGlyphsUseColorTexture) return;
+            if (layout == null) throw new ArgumentNullException(nameof(layout));
             _spriteBatch.End();
+            for (var runIndex = 0; runIndex < layout.Runs.Count; runIndex++)
+            {
+                var run = layout.Runs[runIndex];
+                for (var glyphIndex = 0; glyphIndex < run.Glyphs.Count; glyphIndex++)
+                {
+                    var glyph = run.Glyphs[glyphIndex];
+                    if (layout.IsVisible(glyph))
+                        _dynamicGlyphCache.GetOrAdd(run.Font, glyph.GlyphId, GetDynamicGlyphRasterScale(DisplayScale));
+                }
+            }
+            _dynamicGlyphCache.FlushUploads();
+            if (_dynamicGlyphsUseColorTexture)
+            {
+                BeginBatch();
+                return;
+            }
             var transform = Math.Abs(DisplayScale - 1f) < .0001f ? Matrix.Identity : Matrix.CreateScale(DisplayScale, DisplayScale, 1f);
             var viewport = GraphicsDevice.Viewport;
             var projection = Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height, 0, 0, -1);

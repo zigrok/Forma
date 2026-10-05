@@ -101,6 +101,7 @@ namespace Forma
         internal virtual UIFont Resize(float size) => this;
         internal virtual bool HasThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) => Math.Abs(size - Size) < .0001f;
         internal virtual UIFont ApplyThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) => Resize(size);
+        internal virtual UIFont ApplyVariationWeight(float weight) => this;
         internal virtual UIFontHinting RasterHinting => UIFontHinting.Default;
         internal virtual long ShapeTicks => 0;
         internal virtual bool SharesLayoutResources(UIFont other) => true;
@@ -1264,6 +1265,7 @@ namespace Forma
         private Theme _resolvedTheme;
         private UIFont _resolvedThemeFont;
         private float _resolvedThemeSize;
+        private float _resolvedVariationWeight = float.NaN;
         private UIFontHinting _resolvedThemeHinting;
         private IReadOnlyList<UIFontOpenTypeFeature> _resolvedThemeFeatures;
         private UIFont _resolved;
@@ -1272,8 +1274,11 @@ namespace Forma
         public UIFont UIFont { get; private set; }
         public UIFont Effective { get; private set; }
         public UIFont Resolve(Theme theme, UIFontFamily fontFamily = null, float fontSize = 0,
-            UIFontWeight weight = UIFontWeight.Normal, UIFontStyle style = UIFontStyle.Normal, UIFontStretch stretch = UIFontStretch.Normal)
+            UIFontWeight weight = UIFontWeight.Normal, UIFontStyle style = UIFontStyle.Normal, UIFontStretch stretch = UIFontStretch.Normal,
+            float variationWeight = float.NaN)
         {
+            if (!float.IsNaN(variationWeight) && (!float.IsFinite(variationWeight) || variationWeight < 1 || variationWeight > 1000))
+                throw new ArgumentOutOfRangeException(nameof(variationWeight));
             var family = fontFamily ?? theme?.FontFamily;
             var localFont = Effective;
             var font = localFont ?? family?.Match(weight, style, stretch);
@@ -1281,12 +1286,14 @@ namespace Forma
             var size = fontSize > 0 ? fontSize : localFont != null ? font.Size : theme?.FontSize > 0 ? theme.FontSize : font.Size;
             var features = localFont?.DefaultOpenTypeFeatures ?? theme?.FontOpenTypeFeatures ?? Array.Empty<UIFontOpenTypeFeature>();
             var hinting = localFont?.RasterHinting ?? theme?.FontHinting ?? UIFontHinting.Default;
-            if (ReferenceEquals(theme, _resolvedTheme) && ReferenceEquals(font, _resolvedThemeFont) && size == _resolvedThemeSize && hinting == _resolvedThemeHinting && ReferenceEquals(features, _resolvedThemeFeatures)) return _resolved;
+            if (ReferenceEquals(theme, _resolvedTheme) && ReferenceEquals(font, _resolvedThemeFont) && size == _resolvedThemeSize && variationWeight.Equals(_resolvedVariationWeight) && hinting == _resolvedThemeHinting && ReferenceEquals(features, _resolvedThemeFeatures)) return _resolved;
             _resolvedTheme = theme;
             _resolvedThemeFont = font;
             _resolvedThemeSize = size;
+            _resolvedVariationWeight = variationWeight;
             _resolvedThemeHinting = hinting;
             _resolvedThemeFeatures = features;
+            if (!float.IsNaN(variationWeight)) font = font.ApplyVariationWeight(variationWeight);
             _resolved = font.HasThemeDefaults(size, hinting, features) ? font : font.ApplyThemeDefaults(size, hinting, features);
             return _resolved;
         }

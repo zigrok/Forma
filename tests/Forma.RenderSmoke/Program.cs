@@ -1374,6 +1374,7 @@ static TimeSpan ValidateWarmDrawing(GraphicsDevice graphicsDevice, UIFontFace fa
 
     DrawFrame(graphicsDevice, context, target, layout, glyphTint);
     var firstFrame = ReadPixels(target);
+    var cold = context.DynamicGlyphDiagnostics;
     DrawFrame(graphicsDevice, context, target, layout, glyphTint);
     var populatedFrame = ReadPixels(target);
     var populated = context.DynamicGlyphDiagnostics;
@@ -1381,7 +1382,9 @@ static TimeSpan ValidateWarmDrawing(GraphicsDevice graphicsDevice, UIFontFace fa
     var warmFrame = ReadPixels(target);
     var warm = context.DynamicGlyphDiagnostics;
 
-    Require(firstFrame.All(pixel => pixel == Color.Transparent), "Cold glyphs must wait for their batched upload.");
+    Require(firstFrame.Any(pixel => pixel != Color.Transparent), "Cold glyphs must batch-upload before their first draw.");
+    Require(firstFrame.SequenceEqual(populatedFrame), "Cold drawing must match the next warm frame.");
+    Require(cold.Uploads == 1 && cold.PendingUploads == 0, "A cold layout must complete one batched page upload before drawing.");
     Require(populatedFrame.Any(pixel => pixel != Color.Transparent), "Uploaded glyphs must render visible pixels.");
     Require(populatedFrame.Any(pixel => pixel.G > pixel.R * 4 && pixel.B > pixel.R * 3), "Dynamic glyphs must preserve the requested RGB tint.");
     Require(warmFrame.SequenceEqual(populatedFrame), "Warm drawing must preserve pixel output.");

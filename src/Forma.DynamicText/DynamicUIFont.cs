@@ -17,6 +17,7 @@ namespace Forma
         private readonly ReadOnlyCollection<UIFontFace> _fallbackFaces;
         private readonly ReadOnlyCollection<UIFontVariationCoordinate> _variationCoordinates;
         private readonly Dictionary<UIFontIdentity, DynamicUIFont> _resolvedFonts = new Dictionary<UIFontIdentity, DynamicUIFont>();
+        private readonly Dictionary<float, DynamicUIFont> _weightVariants = new Dictionary<float, DynamicUIFont>();
         private long _shapeTicks;
 
         public DynamicUIFont(UIFontFace face, float size, UIFontHinting hinting = UIFontHinting.Default, params UIFontFace[] fallbackFaces)
@@ -29,14 +30,25 @@ namespace Forma
         {
         }
 
-        private DynamicUIFont(UIFontFace face, float size, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, IReadOnlyList<UIFontOpenTypeFeature> defaultOpenTypeFeatures, params UIFontFace[] fallbackFaces)
-            : this(face, size, hinting, variationCoordinates, defaultOpenTypeFeatures, UIFontSynthesis.None, fallbackFaces)
+        public DynamicUIFont(UIFontFace face, float size, UIFontWeight weight, UIFontHinting hinting = UIFontHinting.Default, params UIFontFace[] fallbackFaces)
+            : this(face, size, weight, hinting, Array.Empty<UIFontVariationCoordinate>(), fallbackFaces)
         {
         }
 
-        private DynamicUIFont(UIFontFace face, float size, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, IReadOnlyList<UIFontOpenTypeFeature> defaultOpenTypeFeatures, UIFontSynthesis synthesis, params UIFontFace[] fallbackFaces)
-            : base(CreateIdentity(face, hinting, variationCoordinates, synthesis, fallbackFaces), size, defaultOpenTypeFeatures,
-                synthesis.HasFlag(UIFontSynthesis.Bold) ? UIFontWeight.Bold : UIFontWeight.Normal,
+        public DynamicUIFont(UIFontFace face, float size, UIFontWeight weight, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, params UIFontFace[] fallbackFaces)
+            : this(face, size, hinting, variationCoordinates, Array.Empty<UIFontOpenTypeFeature>(), UIFontSynthesis.None, weight, fallbackFaces)
+        {
+            if (!Enum.IsDefined(typeof(UIFontWeight), weight)) throw new ArgumentOutOfRangeException(nameof(weight));
+        }
+
+        private DynamicUIFont(UIFontFace face, float size, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, IReadOnlyList<UIFontOpenTypeFeature> defaultOpenTypeFeatures, params UIFontFace[] fallbackFaces)
+            : this(face, size, hinting, variationCoordinates, defaultOpenTypeFeatures, UIFontSynthesis.None, null, fallbackFaces)
+        {
+        }
+
+        private DynamicUIFont(UIFontFace face, float size, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, IReadOnlyList<UIFontOpenTypeFeature> defaultOpenTypeFeatures, UIFontSynthesis synthesis, UIFontWeight? weight, params UIFontFace[] fallbackFaces)
+            : base(CreateIdentity(face, hinting, variationCoordinates, synthesis, weight, fallbackFaces), size, defaultOpenTypeFeatures,
+                weight ?? (synthesis.HasFlag(UIFontSynthesis.Bold) ? UIFontWeight.Bold : UIFontWeight.Normal),
                 synthesis.HasFlag(UIFontSynthesis.Oblique) ? UIFontStyle.Oblique : UIFontStyle.Normal)
         {
             Synthesis = synthesis;
@@ -65,15 +77,40 @@ namespace Forma
         public DynamicUIFont WithSynthesis(UIFontSynthesis synthesis)
         {
             if ((synthesis & ~(UIFontSynthesis.Bold | UIFontSynthesis.Oblique)) != 0) throw new ArgumentOutOfRangeException(nameof(synthesis));
-            return synthesis == Synthesis ? this : new DynamicUIFont(Face, Size, Hinting, VariationCoordinates, DefaultOpenTypeFeatures, synthesis, new List<UIFontFace>(FallbackFaces).ToArray());
+            return synthesis == Synthesis ? this : new DynamicUIFont(Face, Size, Hinting, VariationCoordinates, DefaultOpenTypeFeatures, synthesis, null, new List<UIFontFace>(FallbackFaces).ToArray());
         }
         public IReadOnlyList<UIFontFace> FallbackFaces => _fallbackFaces;
         public IReadOnlyList<UIFontVariationCoordinate> VariationCoordinates => _variationCoordinates;
-        internal override UIFont Resize(float size) => new DynamicUIFont(Face, size, Hinting, VariationCoordinates, DefaultOpenTypeFeatures, Synthesis, new List<UIFontFace>(FallbackFaces).ToArray());
+        internal override UIFont Resize(float size) => new DynamicUIFont(Face, size, Hinting, VariationCoordinates, DefaultOpenTypeFeatures, Synthesis, Weight, new List<UIFontFace>(FallbackFaces).ToArray());
         internal override bool HasThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) =>
             Math.Abs(size - Size) < .0001f && hinting == Hinting && DefaultOpenTypeFeatures.SequenceEqual(features);
         internal override UIFont ApplyThemeDefaults(float size, UIFontHinting hinting, IReadOnlyList<UIFontOpenTypeFeature> features) =>
-            new DynamicUIFont(Face, size, hinting, VariationCoordinates, features, Synthesis, new List<UIFontFace>(FallbackFaces).ToArray());
+            new DynamicUIFont(Face, size, hinting, VariationCoordinates, features, Synthesis, Weight, new List<UIFontFace>(FallbackFaces).ToArray());
+        internal override UIFont ApplyVariationWeight(float weight)
+        {
+            UIFontVariationAxis? weightAxis = null;
+            foreach (var axis in Face.VariationAxes)
+                if (string.Equals(axis.Tag, "wght", StringComparison.Ordinal))
+                {
+                    weightAxis = axis;
+                    break;
+                }
+            if (weightAxis == null) return this;
+
+            var quantized = MathF.Round(MathHelper.Clamp(weight, weightAxis.Value.Minimum, weightAxis.Value.Maximum) / 25f) * 25f;
+            if (_weightVariants.TryGetValue(quantized, out var cached)) return cached;
+            foreach (var coordinate in VariationCoordinates)
+                if (coordinate.Tag == "wght" && coordinate.Value.Equals(quantized)) return this;
+
+            var coordinates = new List<UIFontVariationCoordinate>();
+            foreach (var coordinate in VariationCoordinates)
+                if (coordinate.Tag != "wght") coordinates.Add(coordinate);
+            coordinates.Add(new UIFontVariationCoordinate("wght", quantized));
+            var semanticWeight = (UIFontWeight)MathHelper.Clamp((int)MathF.Round(quantized / 100f) * 100, 100, 900);
+            var font = new DynamicUIFont(Face, Size, Hinting, coordinates, DefaultOpenTypeFeatures, Synthesis, semanticWeight, new List<UIFontFace>(FallbackFaces).ToArray());
+            _weightVariants.Add(quantized, font);
+            return font;
+        }
         internal override UIFontHinting RasterHinting => Hinting;
         internal override long ShapeTicks => Interlocked.Read(ref _shapeTicks);
         internal override bool SharesLayoutResources(UIFont other)
@@ -175,7 +212,7 @@ namespace Forma
 
         internal override void Draw(UIRenderContext context, TextLayout layout, Vector2 position, Color color)
         {
-            context.BeginDynamicGlyphs();
+            context.BeginDynamicGlyphs(layout);
             try
             {
                 for (var runIndex = 0; runIndex < layout.Runs.Count; runIndex++)
@@ -264,12 +301,18 @@ namespace Forma
             return length;
         }
 
-        private static UIFontIdentity CreateIdentity(UIFontFace face, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, UIFontSynthesis synthesis, UIFontFace[] fallbackFaces)
+        private static UIFontIdentity CreateIdentity(UIFontFace face, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, UIFontSynthesis synthesis, UIFontWeight? weight, UIFontFace[] fallbackFaces)
         {
             if (face == null) throw new ArgumentNullException(nameof(face));
             if (!Enum.IsDefined(typeof(UIFontHinting), hinting)) throw new ArgumentOutOfRangeException(nameof(hinting));
             var value = $"{face.Identity.Value}:{hinting}";
             if (synthesis != UIFontSynthesis.None) value += $":synthesis={(int)synthesis}";
+            if (weight.HasValue)
+            {
+                if (!Enum.IsDefined(typeof(UIFontWeight), weight.Value)) throw new ArgumentOutOfRangeException(nameof(weight));
+                var implied = synthesis.HasFlag(UIFontSynthesis.Bold) ? UIFontWeight.Bold : UIFontWeight.Normal;
+                if (weight.Value != implied) value += $":weight={(int)weight.Value}";
+            }
             foreach (var variation in ValidateVariationCoordinates(face, variationCoordinates))
                 value += $":{variation.Tag}={BitConverter.SingleToInt32Bits(variation.Value):X8}";
             var identities = new HashSet<UIFontIdentity> { face.Identity };
@@ -456,7 +499,7 @@ namespace Forma
         {
             if (!_resolvedFonts.TryGetValue(face.Identity, out var font))
             {
-                font = new DynamicUIFont(face, Size, Hinting, GetApplicableVariations(face), null, Synthesis);
+                font = new DynamicUIFont(face, Size, Hinting, GetApplicableVariations(face), null, Synthesis, Weight);
                 _resolvedFonts.Add(face.Identity, font);
             }
             var direction = GetTextDirection(level);

@@ -215,11 +215,13 @@ internal static class Program
             throw new InvalidOperationException("Compiled dynamic resource did not resolve its initial value.");
         var styleTarget = scope?.Find<ResourceTarget>("StyleTarget");
         if (styleTarget?.TooltipText != "Styled" || styleTarget.Margins != new Thickness(1, 2, 3, 4) ||
+            styleTarget.FontWeight != UIFontWeight.Bold ||
             styleTarget.Background is not SolidColorBrush { Color: var background } || background != new Color(22, 70, 92) ||
             styleTarget.Value.Name != "Static")
             throw new InvalidOperationException("Compiled selector style did not apply its typed setter.");
         styleTarget.Classes.Remove("styled");
-        if (styleTarget.TooltipText != "Underlying" || styleTarget.Margins != new Thickness(0) || styleTarget.Value.Name != "Underlying")
+        if (styleTarget.TooltipText != "Underlying" || styleTarget.Margins != new Thickness(0) ||
+            styleTarget.FontWeight != UIFontWeight.Normal || styleTarget.Value.Name != "Underlying")
             throw new InvalidOperationException("Compiled selector style did not restore the underlying value.");
         styleTarget.Classes.Add("styled");
         var adaptiveButton = scope?.Find<Button>("AdaptiveButton");

@@ -202,6 +202,43 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void DynamicFont_PreservesExplicitWeightWhenFamilyResizesIt()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var regular = new DynamicUIFont(face, 16, UIFontWeight.Normal);
+            var bold = new DynamicUIFont(face, 16, UIFontWeight.Bold);
+            var text = new TextBlock
+            {
+                FontFamily = new UIFontFamily(new UIFont[] { regular, bold }),
+                FontWeight = UIFontWeight.Bold,
+                FontSize = 24,
+                Text = "A",
+            };
+
+            Assert.That(text.EffectiveUIFont.Weight, Is.EqualTo(UIFontWeight.Bold));
+            Assert.That(text.EffectiveUIFont.Size, Is.EqualTo(24));
+            Assert.That(bold.Identity, Is.Not.EqualTo(regular.Identity));
+        }
+
+        [Test]
+        public void DynamicFont_DerivesQuantizedVariableWeight()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/NotoSansArabic_Variable.ttf");
+            var font = new DynamicUIFont(
+                face,
+                16,
+                UIFontWeight.Bold,
+                UIFontHinting.Default,
+                new[] { new UIFontVariationCoordinate("wght", 700) });
+
+            var weighted = (DynamicUIFont)font.ApplyVariationWeight(812);
+
+            Assert.That(weighted.Weight, Is.EqualTo(UIFontWeight.ExtraBold));
+            Assert.That(weighted.VariationCoordinates.Single(coordinate => coordinate.Tag == "wght").Value, Is.EqualTo(800));
+            Assert.That(font.ApplyVariationWeight(812), Is.SameAs(weighted));
+        }
+
+        [Test]
         public void TextBlock_InlineCharacterBoundsMatchVisibleBoxes()
         {
             var text = new TextBlock { UIFont = new SpriteFontAdapter(CreateTestFont()), Padding = new Thickness(), Size = new Vector2(64, 32), MaxLinesVisible = 1 };

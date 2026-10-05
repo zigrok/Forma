@@ -51,6 +51,7 @@ namespace Forma
         private UIFontFamily _fontFamily;
         private float? _fontSize;
         private UIFontWeight? _fontWeight;
+        private float? _fontVariationWeight;
         private UIFontStyle? _fontStyle;
         private UIFontStretch? _fontStretch;
         private string _language;
@@ -323,6 +324,28 @@ namespace Forma
             }
         }
         public UIFontWeight FontWeight { get => _fontWeight ?? InheritanceParent?.FontWeight ?? UIFontWeight.Normal; set { if (!Enum.IsDefined(typeof(UIFontWeight), value)) throw new ArgumentOutOfRangeException(nameof(value)); if (_fontWeight == value) return; var previous = CaptureInheritedValues(control => control.FontWeight); _fontWeight = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.FontWeight, nameof(FontWeight)); } }
+        public float FontVariationWeight
+        {
+            get => _fontVariationWeight ?? InheritanceParent?.FontVariationWeight ?? float.NaN;
+            set
+            {
+                if (!float.IsNaN(value) && (!float.IsFinite(value) || value < 1 || value > 1000)) throw new ArgumentOutOfRangeException(nameof(value));
+                if (float.IsNaN(value))
+                {
+                    if (!_fontVariationWeight.HasValue) return;
+                    var inheritedPrevious = CaptureInheritedValues(control => control.FontVariationWeight);
+                    _fontVariationWeight = null;
+                    QueueLayout();
+                    NotifyInheritedValueChanges(inheritedPrevious, control => control.FontVariationWeight, nameof(FontVariationWeight));
+                    return;
+                }
+                if (_fontVariationWeight == value) return;
+                var previous = CaptureInheritedValues(control => control.FontVariationWeight);
+                _fontVariationWeight = value;
+                QueueLayout();
+                NotifyInheritedValueChanges(previous, control => control.FontVariationWeight, nameof(FontVariationWeight));
+            }
+        }
         public UIFontStyle FontStyle { get => _fontStyle ?? InheritanceParent?.FontStyle ?? UIFontStyle.Normal; set { if (!Enum.IsDefined(typeof(UIFontStyle), value)) throw new ArgumentOutOfRangeException(nameof(value)); if (_fontStyle == value) return; var previous = CaptureInheritedValues(control => control.FontStyle); _fontStyle = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.FontStyle, nameof(FontStyle)); } }
         public UIFontStretch FontStretch { get => _fontStretch ?? InheritanceParent?.FontStretch ?? UIFontStretch.Normal; set { if (!Enum.IsDefined(typeof(UIFontStretch), value)) throw new ArgumentOutOfRangeException(nameof(value)); if (_fontStretch == value) return; var previous = CaptureInheritedValues(control => control.FontStretch); _fontStretch = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.FontStretch, nameof(FontStretch)); } }
         public string Language { get => _language ?? InheritanceParent?.Language ?? string.Empty; set { value ??= string.Empty; if (_language == value) return; var previous = CaptureInheritedValues(control => control.Language); _language = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.Language, nameof(Language)); } }
@@ -1332,7 +1355,7 @@ namespace Forma
                 if (theme.Parent == null && effective != null) { theme.SetInheritedParent(effective); inherited.Add(theme); }
                 effective = theme;
             }
-            try { return selection.Resolve(effective, fontFamily, fontSize, weight, style, stretch); }
+            try { return selection.Resolve(effective, fontFamily, fontSize, weight, style, stretch, FontVariationWeight); }
             finally
             {
                 for (var index = inherited.Count - 1; index >= 0; index--) inherited[index].SetInheritedParent(null);
