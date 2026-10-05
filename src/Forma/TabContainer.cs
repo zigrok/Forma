@@ -373,15 +373,21 @@ namespace Forma
         {
             var headerHeight = EffectiveTabHeight;
             var body = new Rectangle(Bounds.X, Bounds.Y + (int)headerHeight - 1, Bounds.Width, Math.Max(0, Bounds.Height - (int)headerHeight + 1));
-            context.Border(body, context.Theme.PanelBorderColor);
             context.Fill(new Rectangle(Bounds.X, Bounds.Y, Bounds.Width, (int)headerHeight), context.Theme.BackgroundColor);
+            // Painted after the header fill: the body's top edge shares the header's last row, so the
+            // other order erased that edge everywhere a tab did not cover it.
+            context.Border(body, context.Theme.PanelBorderColor);
             // The same rectangles hit testing and the close button use. This loop used to compute
             // its own equal split, which is how the strip ended up painting half-width tabs with
             // their close buttons somewhere else entirely.
             // Scrolled tabs run past both ends of the strip, and the popup button sits just past
             // the right one. Without a clip the first casualty is the button, painted over by
             // whichever tab happens to be scrolled under it.
-            context.PushClip(GetTabStripRectangle());
+            // The selected tab is lifted above the strip; clipping to the strip alone cut off its top
+            // border and its indicator bar.
+            var strip = GetTabStripRectangle();
+            var lift = Math.Max(0, (int)MathF.Ceiling(context.Theme.TabSelectedLift));
+            context.PushClip(new Rectangle(strip.X, strip.Y - lift, strip.Width, strip.Height + lift));
             try
             {
                 foreach (var (i, rect) in GetTabLayouts())
