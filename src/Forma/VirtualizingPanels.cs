@@ -123,6 +123,9 @@ namespace Forma
             get => _generator;
             set
             {
+                // Disposal already released the generator, so detaching a disposed panel (its owner is disposed after its
+                // visual children) has nothing left to do.
+                if (value == null && _disposed) return;
                 ThrowIfDisposed();
                 if (ReferenceEquals(_generator, value)) return;
                 RecycleAll();

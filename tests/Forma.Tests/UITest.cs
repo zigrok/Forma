@@ -4970,6 +4970,44 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void UIContext_Dispose_SurvivesADataGridWhoseItemsPanelIsDisposedFirst()
+        {
+            var grid = new DataGrid { Size = new Vector2(300, 200) };
+            grid.Columns.Add(new DataGridTextColumn { Header = "Name", Binding = DataGridBinding<string>.Create<string>(item => item) });
+            grid.ItemsSource = new List<string> { "a", "bb", "ccc" };
+            var context = new UIContext { ViewportSize = new Vector2(300, 200) };
+            context.Add(grid);
+            context.Layout();
+
+            Assert.DoesNotThrow(() => context.Dispose());
+        }
+
+        [Test]
+        public void DataGrid_Dispose_SurvivesItsVirtualizingPanelBeingDisposedFirst()
+        {
+            var grid = new DataGrid { Size = new Vector2(300, 200) };
+            grid.Columns.Add(new DataGridTextColumn { Header = "Name", Binding = DataGridBinding<string>.Create<string>(item => item) });
+            grid.ItemsSource = new List<string> { "a", "bb", "ccc" };
+            using var context = new UIContext { ViewportSize = new Vector2(300, 200) };
+            context.Add(grid);
+            context.Layout();
+            var panel = FindVirtualizingPanel(grid);
+            Assert.That(panel, Is.Not.Null);
+
+            panel.Dispose();
+
+            Assert.DoesNotThrow(() => grid.Dispose());
+        }
+
+        private static VirtualizingPanel FindVirtualizingPanel(Control control)
+        {
+            if (control is VirtualizingPanel panel) return panel;
+            foreach (var child in control.VisualChildren)
+                if (FindVirtualizingPanel(child) is { } nested) return nested;
+            return null;
+        }
+
+        [Test]
         public void Button_KeyboardPress_IsCancelledWhenFocusMovesAndPointerPressesStillWork()
         {
             var host = new Control { Size = new Vector2(300, 100) };
