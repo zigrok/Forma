@@ -1341,6 +1341,17 @@ namespace Forma
             QueueLayout();
         }
 
+        /// <summary>
+        /// The font for a highlighted state of toolkit-drawn text, or <paramref name="normal"/> when the theme asks for no change
+        /// or the control carries its own font.
+        /// </summary>
+        internal UIFont ResolveHighlightedFont(UIFontSelection local, UIFontSelection highlighted, UIFont normal)
+        {
+            var weight = Context?.Theme.HighlightedFontWeight;
+            if (!weight.HasValue || normal == null || local.UIFont != null || local.SpriteFont != null) return normal;
+            return ResolveFont(highlighted, null, 0, weight.Value) ?? normal;
+        }
+
         internal UIFont ResolveFont(UIFontSelection selection, UIFontFamily fontFamily = null, float fontSize = 0,
             UIFontWeight weight = UIFontWeight.Normal, UIFontStyle style = UIFontStyle.Normal, UIFontStretch stretch = UIFontStretch.Normal)
         {

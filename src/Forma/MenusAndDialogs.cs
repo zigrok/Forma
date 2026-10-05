@@ -133,6 +133,7 @@ namespace Forma
         private readonly UIFontSelection _fontSelection = new UIFontSelection();
         private readonly List<PopupMenuItem> _items = new List<PopupMenuItem>();
         private int _highlighted = -1;
+        private readonly UIFontSelection _highlightedFontSelection = new UIFontSelection();
         private int _activeSubmenuIndex = -1;
         private int _pendingSubmenuIndex = -1;
         private TimeSpan _pendingSubmenuStarted;
@@ -160,6 +161,7 @@ namespace Forma
         public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
         public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
+        internal UIFont HighlightedUIFont => ResolveHighlightedFont(_fontSelection, _highlightedFontSelection, EffectiveUIFont);
         public float ItemHeight { get; set; } = 24;
         internal float EffectiveItemHeight => MathF.Ceiling(Math.Max(
             ItemHeight,
@@ -575,7 +577,7 @@ namespace Forma
                     // Mirrors the draw pass: content starts past the check/icon gutter, and the
                     // shortcut is right-aligned inside a trailing inset.
                     var itemWidth = (float)ItemContentInset + (item.Indent * 16);
-                    if (!string.IsNullOrEmpty(item.Text)) itemWidth += TextMetrics.Measure(font, item.Text).X;
+                    if (!string.IsNullOrEmpty(item.Text)) itemWidth += Math.Max(TextMetrics.Measure(font, item.Text).X, TextMetrics.Measure(HighlightedUIFont, item.Text).X);
                     var shortcutText = ItemShortcutText(item);
                     if (!string.IsNullOrEmpty(shortcutText))
                         itemWidth += ItemShortcutGap + TextMetrics.Measure(font, shortcutText).X;
@@ -1186,7 +1188,7 @@ namespace Forma
                     var rect = new Rectangle(Bounds.X + 1, y, Math.Max(0, Bounds.Width - 2), (int)itemHeight);
                     var itemTextLayout = EffectiveUIFont == null || string.IsNullOrEmpty(item.Text)
                         ? null
-                        : TextMetrics.Layout(EffectiveUIFont, item.Text);
+                        : TextMetrics.Layout(index == _highlighted ? HighlightedUIFont : EffectiveUIFont, item.Text);
                     var itemTextY = EffectiveUIFont == null ? rect.Y : rect.Y + Math.Max(2, (itemHeight - TextMetrics.LineHeight(EffectiveUIFont)) / 2);
                     if (index == _highlighted) context.Fill(rect, context.Theme.HoverColor);
                     if (item.CheckableType != PopupMenuCheckableType.None)

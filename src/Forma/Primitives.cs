@@ -139,6 +139,7 @@ namespace Forma
         private readonly Dictionary<Type, ControlTemplate> _controlTemplates = new Dictionary<Type, ControlTemplate>();
         private Color? _panelColor, _panelBorderColor, _textColor, _disabledTextColor, _accentColor, _hoverColor, _pressedColor, _focusColor, _backgroundColor, _connectionActivityColor, _tabSelectedColor, _tabSelectedIndicatorColor;
         private float? _separation, _borderWidth, _tabSelectedIndicatorHeight, _tabSelectedLift;
+        private UIFontWeight? _highlightedFontWeight;
         private UIFontFamily _fontFamily;
         private float? _fontSize;
         private IReadOnlyList<UIFontOpenTypeFeature> _fontOpenTypeFeatures;
@@ -172,6 +173,19 @@ namespace Forma
         public float TabSelectedIndicatorHeight { get => _tabSelectedIndicatorHeight ?? Parent?.TabSelectedIndicatorHeight ?? 3; set => SetNonNegativeThemeValue(ref _tabSelectedIndicatorHeight, value); }
         /// <summary>Distance the selected tab projects beyond the normal tab strip.</summary>
         public float TabSelectedLift { get => _tabSelectedLift ?? Parent?.TabSelectedLift ?? 3; set => SetNonNegativeThemeValue(ref _tabSelectedLift, value); }
+        /// <summary>
+        /// Weight used for text the toolkit draws itself when it is highlighted: the selected or hovered tab title and the
+        /// highlighted popup-menu item. <see langword="null"/> keeps the normal font for every state.
+        /// </summary>
+        public UIFontWeight? HighlightedFontWeight
+        {
+            get => _highlightedFontWeight ?? Parent?.HighlightedFontWeight;
+            set
+            {
+                if (value.HasValue && !Enum.IsDefined(typeof(UIFontWeight), value.Value)) throw new ArgumentOutOfRangeException(nameof(value));
+                SetThemeValue(ref _highlightedFontWeight, value);
+            }
+        }
         public float Separation { get => _separation ?? Parent?.Separation ?? 4; set => SetThemeValue(ref _separation, value); }
         public float BorderWidth { get => _borderWidth ?? Parent?.BorderWidth ?? 1; set => SetThemeValue(ref _borderWidth, value); }
         /// <summary>Inherited default font family used by text controls without a local font override.</summary>

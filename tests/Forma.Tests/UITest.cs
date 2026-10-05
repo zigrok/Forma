@@ -4970,6 +4970,51 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void Theme_HighlightedFontWeight_DefaultsToNoChangeInheritsAndValidates()
+        {
+            var parent = new Theme();
+            var child = new Theme { Parent = parent };
+
+            Assert.That(parent.HighlightedFontWeight, Is.Null);
+            parent.HighlightedFontWeight = UIFontWeight.Bold;
+            Assert.That(child.HighlightedFontWeight, Is.EqualTo(UIFontWeight.Bold));
+            child.HighlightedFontWeight = UIFontWeight.Black;
+            Assert.That(child.HighlightedFontWeight, Is.EqualTo(UIFontWeight.Black));
+            child.HighlightedFontWeight = null;
+            Assert.That(child.HighlightedFontWeight, Is.EqualTo(UIFontWeight.Bold));
+            Assert.Throws<ArgumentOutOfRangeException>(() => parent.HighlightedFontWeight = (UIFontWeight)123);
+        }
+
+        [Test]
+        public void TabContainerAndPopupMenu_ResolveTheThemeHighlightedWeight()
+        {
+            using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
+            var family = new UIFontFamily(new UIFont[]
+            {
+                new DynamicUIFont(face, 16, UIFontWeight.Normal),
+                new DynamicUIFont(face, 16, UIFontWeight.Bold),
+            });
+            var tabs = new TabContainer { Size = new Vector2(200, 100) };
+            tabs.AddChild(new Control());
+            var menu = new PopupMenu();
+            menu.AddItem("Item");
+            using var context = new UIContext { Theme = new Theme { FontFamily = family } };
+            context.Add(tabs);
+            context.Add(menu);
+            context.Layout();
+
+            Assert.That(tabs.HighlightedUIFont.Weight, Is.EqualTo(UIFontWeight.Normal));
+            Assert.That(menu.HighlightedUIFont.Weight, Is.EqualTo(UIFontWeight.Normal));
+
+            context.Theme.HighlightedFontWeight = UIFontWeight.Bold;
+
+            Assert.That(tabs.EffectiveUIFont.Weight, Is.EqualTo(UIFontWeight.Normal));
+            Assert.That(tabs.HighlightedUIFont.Weight, Is.EqualTo(UIFontWeight.Bold));
+            Assert.That(menu.EffectiveUIFont.Weight, Is.EqualTo(UIFontWeight.Normal));
+            Assert.That(menu.HighlightedUIFont.Weight, Is.EqualTo(UIFontWeight.Bold));
+        }
+
+        [Test]
         public void TabContainer_PreservesChildNamesAsTabTitles()
         {
             var tabs = new TabContainer();

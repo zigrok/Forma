@@ -155,7 +155,9 @@ namespace Forma
         }
         public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
         public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
+        private readonly UIFontSelection _highlightedFontSelection = new UIFontSelection();
         internal UIFont EffectiveUIFont => ResolveFont(_fontSelection);
+        internal UIFont HighlightedUIFont => ResolveHighlightedFont(_fontSelection, _highlightedFontSelection, EffectiveUIFont);
         internal float EffectiveTabHeight => MathF.Ceiling(Math.Max(
             TabHeight,
             EffectiveUIFont == null ? DefaultTabHeight : TextMetrics.LineHeight(EffectiveUIFont) + DefaultTabVerticalPadding));
@@ -411,10 +413,11 @@ namespace Forma
                         var icon = new Rectangle(textX, drawRect.Y + (drawRect.Height - iconHeight) / 2, iconWidth, iconHeight);
                         context.SpriteBatch.Draw(state.Icon, icon, Color.White); textX = icon.Right + 4;
                     }
-                    if (EffectiveUIFont != null)
+                    var titleFont = i == CurrentTab || i == _hoveredTab && !state.Disabled ? HighlightedUIFont : EffectiveUIFont;
+                    if (titleFont != null)
                     {
                         var title = GetTabTitle(i);
-                        var layout = TextMetrics.Layout(EffectiveUIFont, title);
+                        var layout = TextMetrics.Layout(titleFont, title);
                         context.Text(layout, new Vector2(textX, GetTabTitleY(layout, drawRect)), state.Disabled ? context.Theme.DisabledTextColor : context.Theme.TextColor);
                     }
                     if (state.ButtonIcon != null) context.SpriteBatch.Draw(state.ButtonIcon, GetTabButtonRectangle(i), Color.White);
@@ -652,7 +655,7 @@ namespace Forma
             // clicked, and eight pixels a character is closer than nothing.
             var text = EffectiveUIFont == null
                 ? title.Length * 8
-                : (int)MathF.Ceiling(TextMetrics.Measure(EffectiveUIFont, title).X);
+                : (int)MathF.Ceiling(Math.Max(TextMetrics.Measure(EffectiveUIFont, title).X, TextMetrics.Measure(HighlightedUIFont, title).X));
 
             var width = Math.Max(32, text + 12 + (state.Icon == null ? 0 : 20) + (state.ButtonIcon == null ? 0 : 18));
             return MaxTabWidth > 0 ? Math.Min(width, MaxTabWidth) : width;
