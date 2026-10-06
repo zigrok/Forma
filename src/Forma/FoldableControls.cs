@@ -57,7 +57,7 @@ namespace Forma
     public sealed class FoldableContainer : TemplatedControl
     {
         public override AccessibilityRole AccessibilityRole => AccessibilityRole.Group;
-        public override string AccessibilityName => string.IsNullOrEmpty(base.AccessibilityName) ? Title ?? string.Empty : base.AccessibilityName;
+        public override string AccessibilityName => !string.IsNullOrEmpty(AccessibilityLabel) ? AccessibilityLabel : !string.IsNullOrEmpty(Title) ? Title : base.AccessibilityName;
         public override AccessibilityActions AccessibilityActions => base.AccessibilityActions |
             (Folded ? AccessibilityActions.Expand : AccessibilityActions.Collapse);
         public override AccessibilityStates AccessibilityStates => base.AccessibilityStates |

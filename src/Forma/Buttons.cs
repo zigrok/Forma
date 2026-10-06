@@ -22,7 +22,7 @@ namespace Forma
     public class BaseButton : ContentControl
     {
         public override AccessibilityRole AccessibilityRole => AccessibilityRole.Button;
-        public override string AccessibilityName => string.IsNullOrEmpty(base.AccessibilityName) ? Text ?? string.Empty : base.AccessibilityName;
+        public override string AccessibilityName => !string.IsNullOrEmpty(AccessibilityLabel) ? AccessibilityLabel : !string.IsNullOrEmpty(Text) ? Text : base.AccessibilityName;
         public override AccessibilityActions AccessibilityActions => base.AccessibilityActions | AccessibilityActions.Press |
             (ToggleMode ? AccessibilityActions.Toggle : AccessibilityActions.None);
         public override AccessibilityStates AccessibilityStates => base.AccessibilityStates |

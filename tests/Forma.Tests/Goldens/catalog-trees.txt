@@ -3,7 +3,7 @@ Dialog "AcceptDialog" [Modal]
   Generic
     Generic "AcceptDialog"
     Generic "This is a modal message."
-    Button "PART_AcceptButton"
+    Button "OK"
       Generic
         Generic "PART_ContentPresenter"
 === AspectRatioContainer
@@ -14,10 +14,10 @@ Generic
   Generic
     TextBox "atlasStress" =ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 مرحبا 你好 👩🏽‍💻
       Generic "PART_EditorPresenter"
-    Button "atlasRefresh"
+    Button "Refresh"
       Generic
         Generic "PART_ContentPresenter"
-    Button "atlasClear"
+    Button "Clear"
       Generic
         Generic "PART_ContentPresenter"
   Generic "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 مرحبا 你好 👩🏽‍💻"
@@ -32,13 +32,13 @@ Generic
   Generic "Density: 0x   Atlases: 0   Texture: 0.0 KB
 Generation: 0   Missing optional lookups: 0"
   Generic
-    Button "one"
+    Button "Use 1x"
       Generic
         Generic "PART_ContentPresenter"
-    Button "two"
+    Button "Use 2x"
       Generic
         Generic "PART_ContentPresenter"
-    Button "refresh"
+    Button "Refresh"
       Generic
         Generic "PART_ContentPresenter"
 === BaseButton
@@ -106,19 +106,19 @@ var button = new Button
 Generic "CollectionSystemsRoot"
   Generic "Collection systems"
   Generic
-    Button "AddItem"
+    Button "Add"
       Generic
         Generic "PART_ContentPresenter"
-    Button "RemoveItem"
+    Button "Remove"
       Generic
         Generic "PART_ContentPresenter"
-    Button "MoveItem"
+    Button "Move"
       Generic
         Generic "PART_ContentPresenter"
-    Button "ReplaceItem"
+    Button "Replace"
       Generic
         Generic "PART_ContentPresenter"
-    Button "ResetItems"
+    Button "Reset"
       Generic
         Generic "PART_ContentPresenter"
     Generic "Ready"
@@ -243,37 +243,37 @@ Generic "CollectionSystemsRoot"
             ListItem
               Generic "PART_ContentPresenter"
                 Generic
-                  Button "RowAction"
+                  Button "Item 01"
                     Generic
                       Generic "PART_ContentPresenter"
             ListItem
               Generic "PART_ContentPresenter"
                 Generic
-                  Button "RowAction"
+                  Button "Item 02"
                     Generic
                       Generic "PART_ContentPresenter"
             ListItem
               Generic "PART_ContentPresenter"
                 Generic
-                  Button "RowAction"
+                  Button "Item 03"
                     Generic
                       Generic "PART_ContentPresenter"
             ListItem
               Generic "PART_ContentPresenter"
                 Generic
-                  Button "RowAction"
+                  Button "Item 04"
                     Generic
                       Generic "PART_ContentPresenter"
             ListItem
               Generic "PART_ContentPresenter"
                 Generic
-                  Button "RowAction"
+                  Button "Item 05"
                     Generic
                       Generic "PART_ContentPresenter"
             ListItem
               Generic "PART_ContentPresenter"
                 Generic
-                  Button "RowAction"
+                  Button "Item 06"
                     Generic
                       Generic "PART_ContentPresenter"
   Generic "Vertical / horizontal / grid virtualization"
@@ -319,10 +319,10 @@ Dialog "ColorPickerDialog" [Modal]
       Generic "PART_ColorField"
     Generic "ColorPickerDialog"
     Generic "Continue with this action?"
-    Button "PART_AcceptButton"
+    Button "OK"
       Generic
         Generic "PART_ContentPresenter"
-    Button "PART_CancelButton"
+    Button "Cancel"
       Generic
         Generic "PART_ContentPresenter"
 === ColorPickerPopupPanel
@@ -350,7 +350,7 @@ Generic "BindingRoot"
     Slider "CompletionSlider" =64
       Generic
     Generic "Progress: 64%"
-  CheckBox "AutoSaveToggle" [Checked]
+  CheckBox "Autosave enabled" [Checked]
     Generic
       Generic
         Generic "PART_ContentPresenter"
@@ -576,14 +576,14 @@ Generic "CompositionRoot"
       Generic
         Generic "CompositionRoot"
   Generic
-    Button "PartSelectorProbe"
+    Button "Styled across template boundary"
       Generic "PartChrome"
         Generic "Styled across template boundary"
     Generic "SelfRelative"
-    Button "ThemeProbe"
+    Button "Theme-owned template"
       Generic
         Generic "PART_ContentPresenter"
-    Button "ApplyThemeTemplate"
+    Button "Replace theme template"
       Generic
         Generic "PART_ContentPresenter"
 === ConfirmationDialog
@@ -591,10 +591,10 @@ Dialog "ConfirmationDialog" [Modal]
   Generic
     Generic "ConfirmationDialog"
     Generic "Continue with this action?"
-    Button "PART_AcceptButton"
+    Button "OK"
       Generic
         Generic "PART_ContentPresenter"
-    Button "PART_CancelButton"
+    Button "Cancel"
       Generic
         Generic "PART_ContentPresenter"
 === Container
@@ -631,13 +631,13 @@ Row "DataGridRow"
 === Display Density
 Generic
   Generic
-    Button "density1"
+    Button "1x"
       Generic
         Generic "PART_ContentPresenter"
-    Button "density15"
+    Button "1.5x"
       Generic
         Generic "PART_ContentPresenter"
-    Button "density2"
+    Button "2x"
       Generic
         Generic "PART_ContentPresenter"
   Generic "1.0x active · logical widths 190 / 190 / 190"
@@ -681,7 +681,7 @@ Generic "DynamicGlyphAtlasView"
 Generic "EllipseShape"
 === Failure States
 Generic
-  Button "runFailureProbes"
+  Button "Run failure probes"
     Generic
       Generic "PART_ContentPresenter"
   Generic "Missing face · FileNotFoundException: Could not find file '<test-dir>/Fonts/does-not-exist.ttf'."
@@ -697,33 +697,33 @@ Generic
 === FileDialog
 Dialog "FileDialog" [Modal]
   Generic
-    Button "FileDialogBack" [Disabled]
+    Button "<" [Disabled]
       Generic [Disabled]
         Generic "PART_ContentPresenter" [Disabled]
-    Button "FileDialogForward" [Disabled]
+    Button ">" [Disabled]
       Generic [Disabled]
         Generic "PART_ContentPresenter" [Disabled]
-    Button "FileDialogUp" [Disabled]
+    Button "^" [Disabled]
       Generic [Disabled]
         Generic "PART_ContentPresenter" [Disabled]
-    Button "FileDialogRefresh"
+    Button "R"
       Generic
         Generic "PART_ContentPresenter"
-    Button "FileDialogFavorite"
+    Button "*"
       Generic
         Generic "PART_ContentPresenter"
     TextBox "FileDialogPath" =/Forma Project
       Generic "PART_EditorPresenter"
-    Button "FileDialogShowHidden"
+    Button "Hidden"
       Generic
         Generic "PART_ContentPresenter"
-    Button "FileDialogThumbnails" [Checked]
+    Button "Grid" [Checked]
       Generic
         Generic "PART_ContentPresenter"
-    Button "FileDialogList"
+    Button "List"
       Generic
         Generic "PART_ContentPresenter"
-    Button "FileDialogFilenameFilterToggle"
+    Button "Find"
       Generic
         Generic "PART_ContentPresenter"
     ComboBox "FileDialogSort"
@@ -742,17 +742,17 @@ Dialog "FileDialog" [Modal]
       Generic
     List "FileDialogRecents"
       Generic
-    Button "FileDialogFavoriteUp" [Disabled]
+    Button "^" [Disabled]
       Generic [Disabled]
         Generic "PART_ContentPresenter" [Disabled]
-    Button "FileDialogFavoriteDown" [Disabled]
+    Button "v" [Disabled]
       Generic [Disabled]
         Generic "PART_ContentPresenter" [Disabled]
     Generic "Open project asset"
-    Button "PART_AcceptButton"
+    Button "Open"
       Generic
         Generic "PART_ContentPresenter"
-    Button "PART_CancelButton"
+    Button "Cancel"
       Generic
         Generic "PART_ContentPresenter"
 === Flat Data Grid
@@ -992,7 +992,7 @@ Generic "FlowContainer"
     Generic
       Generic "PART_ContentPresenter"
 === FoldableContainer
-Group "FoldableContainer" [Expanded]
+Group "Transform" [Expanded]
   Generic
     Generic
       Generic "Position   120, 64"
@@ -1161,7 +1161,7 @@ Generic
     Button "Collapse all"
       Generic
         Generic "PART_ContentPresenter"
-    Button "AddChild"
+    Button "Add child"
       Generic
         Generic "PART_ContentPresenter"
   Grid "TreeGrid"
@@ -1373,7 +1373,7 @@ Generic
   Generic
     Slider "letterSpacing" =0.25
       Generic
-    Button "resetLetterSpacing"
+    Button "Reset to zero"
       Generic
         Generic "PART_ContentPresenter"
   Generic "Tracking +0.25 px   Delta 0.00 px
@@ -1411,14 +1411,14 @@ Generic "MarginContainer"
 === MenuBar
 MenuBar "MenuBar"
   Generic
-    Button "FileMenu"
+    Button "File"
       Generic
         Generic "PART_ContentPresenter"
-    Button "EditMenu"
+    Button "Edit"
       Generic
         Generic "PART_ContentPresenter"
 === MenuButton
-Button "MenuButton"
+Button "Build"
   Generic
     Generic "PART_ContentPresenter"
 === NinePatchRect
@@ -1438,10 +1438,10 @@ Generic "OverlayPanel"
 === Override and suppression
 Generic
   Generic
-    Button "ltr"
+    Button "LTR"
       Generic
         Generic "PART_ContentPresenter"
-    Button "rtl"
+    Button "RTL"
       Generic
         Generic "PART_ContentPresenter"
   Generic
@@ -1463,7 +1463,7 @@ Generic
         Generic
           Generic
             Generic "PART_ContentPresenter"
-    Button "contentIcon"
+    Button "Content"
       Generic
         Generic "PART_ContentPresenter"
 === Panel
@@ -1515,19 +1515,19 @@ Generic
 BitmapAtlas · SVG icons 0 · PNG fallbacks 0
 Rasters 0 · pages 0 · 0.0 KB · hits 0 · misses 0 · atlas pending"
           Generic
-            Button "runtimePolicy"
+            Button "Runtime SVG"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "bitmapPolicy"
+            Button "PNG atlas"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "autoPolicy"
+            Button "Auto"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "ltr"
+            Button "LTR"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "rtl"
+            Button "RTL"
               Generic
                 Generic "PART_ContentPresenter"
           Generic
@@ -1581,13 +1581,13 @@ Rasters 0 · pages 0 · 0.0 KB · hits 0 · misses 0 · atlas pending"
                     ScrollBar =0
                       Generic
           Generic
-            Button "stretchContain"
+            Button "Contain"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "stretchCover"
+            Button "Cover"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "stretchFill"
+            Button "Fill"
               Generic
                 Generic "PART_ContentPresenter"
           Generic
@@ -1607,22 +1607,22 @@ Rasters 0 · pages 0 · 0.0 KB · hits 0 · misses 0 · atlas pending"
                   Generic
                     Generic "PART_ContentPresenter"
           Generic
-            Button "scale100"
+            Button "1x"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "scale125"
+            Button "1.25x"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "scale150"
+            Button "1.5x"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "scale175"
+            Button "1.75x"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "scale200"
+            Button "2x"
               Generic
                 Generic "PART_ContentPresenter"
-            Button "scale250"
+            Button "2.5x"
               Generic
                 Generic "PART_ContentPresenter"
             Generic "atlasPreview"
@@ -1703,11 +1703,11 @@ Generic "StylesRoot"
 === Shaping and Features
 Generic
   Generic
-    CheckBox "ligatures" [Checked]
+    CheckBox "Standard ligatures" [Checked]
       Generic
         Generic
           Generic "PART_ContentPresenter"
-    CheckBox "kerning" [Checked]
+    CheckBox "Kerning" [Checked]
       Generic
         Generic
           Generic "PART_ContentPresenter"
@@ -1756,12 +1756,12 @@ Generic "AnimationsRoot"
   Generic "An event trigger replays the size and color pulse. A typed property trigger owns the looping color clock."
   Generic
     Generic "EventTarget"
-    Button "ReplayButton"
+    Button "Replay event animation"
       Generic
         Generic "PART_ContentPresenter"
   Generic
     Generic "LoopTarget"
-    CheckBox "LoopToggle"
+    CheckBox "Loop property animation"
       Generic
         Generic
           Generic "PART_ContentPresenter"
@@ -1783,10 +1783,10 @@ Dialog "ReferenceDialog" [Modal]
       Generic "Publish changes"
       Generic "Ship the template-only composition?"
       Generic
-        Button "PART_CancelButton"
+        Button "Cancel"
           Generic
             Generic "PART_ContentPresenter"
-        Button "PART_AcceptButton"
+        Button "OK"
           Generic
             Generic "PART_ContentPresenter"
 === TemplatedControl
@@ -1919,7 +1919,7 @@ Generic
       Generic
         Generic
           Generic "PART_ContentPresenter"
-    CheckBox "wrappingEllipsis"
+    CheckBox "Ellipsis"
       Generic
         Generic
           Generic "PART_ContentPresenter"
@@ -1932,13 +1932,13 @@ Generic
       Generic
         Generic
           Generic "PART_ContentPresenter"
-    Button "caretPrevious"
+    Button "Previous"
       Generic
         Generic "PART_ContentPresenter"
-    Button "caretNext"
+    Button "Next"
       Generic
         Generic "PART_ContentPresenter"
-    Button "inspectSelection"
+    Button "Inspect selection"
       Generic
         Generic "PART_ContentPresenter"
   Generic "Forma élan office שלום مرحبا

@@ -4970,6 +4970,19 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void Button_AccessibleName_PrefersLabelThenTextThenName()
+        {
+            var button = new Button { Name = "PlayButton", Text = "Play" };
+            Assert.That(button.AccessibilityName, Is.EqualTo("Play"));
+
+            button.AccessibilityLabel = "Start a game";
+            Assert.That(button.AccessibilityName, Is.EqualTo("Start a game"));
+
+            var unnamed = new Button { Name = "PlayButton" };
+            Assert.That(unnamed.AccessibilityName, Is.EqualTo("PlayButton"));
+        }
+
+        [Test]
         public void UIContext_Dispose_SurvivesADataGridWhoseItemsPanelIsDisposedFirst()
         {
             var grid = new DataGrid { Size = new Vector2(300, 200) };

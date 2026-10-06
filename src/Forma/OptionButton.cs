@@ -29,6 +29,10 @@ namespace Forma
     /// <summary>Opens a popup menu of choices and reflects the selected item's text and icon.</summary>
     public sealed class OptionButton : BaseButton
     {
+        // Text is the selected item, which is the control's value rather than its name: a field is announced by its
+        // label, then by its name, and the current selection is reported through AccessibilityValue.
+        public override string AccessibilityName => !string.IsNullOrEmpty(AccessibilityLabel) ? AccessibilityLabel : Name ?? string.Empty;
+
         public override AccessibilityRole AccessibilityRole => AccessibilityRole.ComboBox;
         private readonly List<OptionButtonItem> _items = new List<OptionButtonItem>();
         public OptionButton()
