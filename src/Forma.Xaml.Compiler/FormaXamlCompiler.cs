@@ -955,7 +955,6 @@ public sealed class FormaXamlCompiler
             CompiledPropertyIdentity(property));
         if (TryParseSreResource(valueText, out var resource))
         {
-            if (resource.IsDynamic) throw new InvalidOperationException("DynamicResource is not supported in a style setter; use StaticResource or a control-local DynamicResource.");
             return new StyleSetter<T>(xamlProperty, control => StaticResource.Resolve<T>(control, resource.Key));
         }
 

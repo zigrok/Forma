@@ -652,6 +652,28 @@ public class FormaXamlCompilerTest
     }
 
     [Test]
+    public void SreEmitter_ResolvesDynamicResourceInStyleSetter()
+    {
+        const string source = """
+            <Control xmlns="https://forma.dev/xaml" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                <Control.Resources>
+                    <ResourceDictionary>
+                        <x:String x:Key="Label">FromToken</x:String>
+                        <Style x:Key="Styled" Selector="Control.styled">
+                            <Setter Property="TooltipText" Value="{DynamicResource Label}" />
+                        </Style>
+                    </ResourceDictionary>
+                </Control.Resources>
+                <Control x:Name="Target" Classes="styled" />
+            </Control>
+            """;
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(source, "SreDynamicStyle.xaml").Build(null);
+        var target = (Control)NameScope.GetNameScope(root)!.Find("Target")!;
+
+        Assert.That(target.TooltipText, Is.EqualTo("FromToken"));
+    }
+
+    [Test]
     public void SreEmitter_AttachesComplexAdaptiveStyleFromLoweredIr()
     {
         const string source = """

@@ -1577,7 +1577,6 @@ public sealed class CompileFormaXaml : FormaXamlTask
                     MethodDefinition styleSetterConstructorDefinition;
                     if (valueMember.Value is FormaResourceValue resource)
                     {
-                        if (resource.IsDynamic) throw new InvalidOperationException("DynamicResource is not supported in a style setter; use StaticResource or a control-local DynamicResource.");
                         var resolve = new GenericInstanceMethod(module.ImportReference(staticResourceType.Methods.Single(method => method.Name == "Resolve")));
                         resolve.GenericArguments.Add(valueType);
                         var resourceGetter = DefineStyleResourceGetter(module, generatedType, styleIndex, setterIndex, controlType, valueType, resource.Key, resolve);
