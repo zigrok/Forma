@@ -57,6 +57,51 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void StyleEngine_AttachFrom_GivesATemplateScopedViewTheStylesOfASource()
+        {
+            var source = new Control();
+            var merged = new ResourceDictionary();
+            merged.Add("Row", CreateStyle("Control.row-label", "styled"));
+            source.Resources.MergedDictionaries.Add(merged);
+            source.Resources.Add("NotAStyle", 42);
+
+            var root = new Control { Size = new Vector2(300, 200) };
+            var items = new ItemsControl
+            {
+                Size = new Vector2(300, 200),
+                ItemTemplate = DataTemplate.Create<string>((context, item) =>
+                {
+                    var row = new Control();
+                    var label = new Control();
+                    label.Classes.Add("row-label");
+                    row.AddChild(label);
+                    StyleEngine.AttachFrom(row, source);
+                    return row;
+                }),
+                ItemsSource = new[] { "a" },
+            };
+            root.AddChild(items);
+            using var context = new UIContext { ViewportSize = new Vector2(300, 200) };
+            context.Add(root);
+            StyleEngine.Attach(root, new[] { CreateStyle("Control.row-label", "root") });
+            context.Layout();
+
+            var label2 = FindClass(items.GetRealizedContainer(0), "row-label");
+
+            Assert.That(label2.TooltipText, Is.EqualTo("styled"));
+            Assert.That(FindClass(items.GetRealizedContainer(0), "row-label").TryFindResource("NotAStyle", out var shared), Is.True);
+            Assert.That(shared, Is.EqualTo(42));
+        }
+
+        private static Control FindClass(Control control, string className)
+        {
+            if (control.Classes.Contains(className)) return control;
+            foreach (var child in control.VisualChildren)
+                if (FindClass(child, className) is { } found) return found;
+            return null;
+        }
+
+        [Test]
         public void Styles_ResolveSpecificityOrderAndLocalPrecedence()
         {
             var button = new Button { Name = "Action", TooltipText = "base" };

@@ -644,6 +644,32 @@ namespace Forma.Xaml
             var snapshot = styles?.ToArray() ?? throw new ArgumentNullException(nameof(styles));
             return XamlAttachment.RegisterReactivatable(root, () => new StyleAttachment(root, snapshot));
         }
+
+        /// <summary>
+        /// Attaches every <see cref="Style"/> found in <paramref name="source"/>'s resources, including merged dictionaries,
+        /// to <paramref name="root"/> and makes the source's resources visible to it. A data template, item row or compiled view is its own style boundary, so styles
+        /// attached higher in the tree never reach it; calling this from the view opts it in to a shared style set.
+        /// </summary>
+        public static IDisposable AttachFrom(Control root, Control source)
+        {
+            if (root == null) throw new ArgumentNullException(nameof(root));
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            var styles = new List<Style>();
+            CollectStyles(source.Resources, styles, new HashSet<ResourceDictionary>());
+            // The styles' StaticResource setters resolve lexically from the styled control, and a template-built view is
+            // not yet under the source, so its resources must be reachable from the view itself.
+            if (!ReferenceEquals(root.Resources, source.Resources) && !root.Resources.MergedDictionaries.Contains(source.Resources))
+                root.Resources.MergedDictionaries.Add(source.Resources);
+            return Attach(root, styles);
+        }
+
+        private static void CollectStyles(ResourceDictionary dictionary, List<Style> styles, HashSet<ResourceDictionary> seen)
+        {
+            if (!seen.Add(dictionary)) return;
+            foreach (var merged in dictionary.MergedDictionaries) CollectStyles(merged, styles, seen);
+            foreach (var value in dictionary.Values)
+                if (value is Style style) styles.Add(style);
+        }
     }
 
     internal sealed class StyleControlState
