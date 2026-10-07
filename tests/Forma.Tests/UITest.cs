@@ -4970,6 +4970,20 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void ControlClassList_Add_AcceptsAWhitespaceSeparatedList()
+        {
+            var control = new Control();
+
+            control.Classes.Add("a b\tc");
+
+            Assert.That(control.Classes.Contains("a"), Is.True);
+            Assert.That(control.Classes.Contains("b"), Is.True);
+            Assert.That(control.Classes.Contains("c"), Is.True);
+            Assert.That(control.Classes.Count, Is.EqualTo(3));
+            Assert.Throws<ArgumentException>(() => control.Classes.Add("   "));
+        }
+
+        [Test]
         public void Button_AccessibleName_PrefersLabelThenTextThenName()
         {
             var button = new Button { Name = "PlayButton", Text = "Play" };

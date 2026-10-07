@@ -280,8 +280,21 @@ namespace Forma.Xaml
         public int Count => _classes.Count;
         public bool IsReadOnly => false;
 
+        /// <summary>
+        /// Adds a class name, or several when <paramref name="item"/> is a whitespace-separated list, which is how the
+        /// <c>Classes</c> XAML attribute is written. Returns whether any new class was added.
+        /// </summary>
         public bool Add(string item)
         {
+            if (!string.IsNullOrWhiteSpace(item) && item.IndexOfAny(new[] { ' ', '\t', '\r', '\n' }) >= 0)
+            {
+                var added = false;
+                foreach (var name in item.Split((char[])null, StringSplitOptions.RemoveEmptyEntries))
+                    added |= _classes.Add(name);
+                if (added) Changed?.Invoke(this, EventArgs.Empty);
+                return added;
+            }
+
             Validate(item);
             if (!_classes.Add(item)) return false;
             Changed?.Invoke(this, EventArgs.Empty);
