@@ -57,6 +57,20 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void StyleEngine_CodeBuiltControl_ReceivesClassStyleAndStatePseudoRules()
+        {
+            var root = new Control();
+            StyleEngine.Attach(root, new[] { CreateStyle("Button.primary", "styled"), CreateStyle("Button.primary:hover", "hovered") });
+
+            var button = new Button();
+            button.Classes.Add("primary");
+            root.AddChild(button);
+
+            Assert.That(button.TooltipText, Is.EqualTo("styled"));
+            Assert.That(StyleInspector.Inspect(button).Rules.Single(rule => rule.Selector == "Button.primary:hover").Reason, Does.Contain(":hover"));
+        }
+
+        [Test]
         public void StyleEngine_AttachFrom_GivesATemplateScopedViewTheStylesOfASource()
         {
             var source = new Control();
