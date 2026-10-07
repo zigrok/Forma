@@ -16,6 +16,8 @@
       href: input-and-focus.md
     - name: Styling and themes
       href: styling-and-themes.md
+    - name: Designing screens with an agent
+      href: agent-design-guide.md
     - name: Data binding
       href: data-binding.md
     - name: Resource lifetime
