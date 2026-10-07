@@ -63,6 +63,7 @@ the shared classes reach it.
 | `StyleSelector` descendant rules do not cross a style boundary. | Attach the style set inside the boundary. |
 | Layout never shrinks a control below its minimum size, so an over-long translation runs off the screen instead of clipping inside its parent. | The design lint's offscreen check catches it; shorten the text or lower the minimum. |
 | Headless tests cannot measure glyphs. | Rely on gallery frames for pt-BR and ja to catch glyph-level clipping. |
+| A data-template row view cannot match the `:selected` or `:hover` state of the container that realizes it. | Trace keeps `HighlightedRowWeights`, which sets the bold weight on the container and its presented row; buttons inside rows no longer need a workaround because the row view opts in with `AttachFrom` and style rules key off the `keyboard-selected` and `gamepad-selected` classes. |
 | Code-built controls are not reached by tree styles until attached to a styled tree. | Give them a class and attach them under a styled root. |
 
 ## Troubleshooting
