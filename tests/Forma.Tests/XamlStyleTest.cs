@@ -102,6 +102,42 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void StyleInspector_ExplainsMatchedWinningAndUnmatchedRules()
+        {
+            var root = new Control();
+            var target = new Control();
+            target.Classes.Add("card");
+            root.AddChild(target);
+            StyleEngine.Attach(root, new[]
+            {
+                CreateStyle("Control.card", "base"),
+                CreateStyle("Control.card:hover", "hovered"),
+                CreateStyle("Control.missing", "never"),
+            });
+
+            var inspection = StyleInspector.Inspect(target);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(inspection.Classes, Is.EqualTo(new[] { "card" }));
+                Assert.That(inspection.Rules.Count(rule => rule.Matched), Is.EqualTo(1));
+                var winner = inspection.Winners.Single(w => w.Property == "TooltipText");
+                Assert.That(winner.Value, Is.EqualTo("base"));
+                Assert.That(winner.Source, Is.EqualTo("Control.card"));
+                Assert.That(inspection.Rules.Single(r => r.Selector == "Control.card:hover").Reason, Does.Contain(":hover"));
+                Assert.That(inspection.Rules.Single(r => r.Selector == "Control.missing").Reason, Does.Contain("'missing'"));
+            });
+        }
+
+        [Test]
+        public void StyleInspector_ReportsMissingScopeForUnattachedStyleBoundary()
+        {
+            var inspection = StyleInspector.Inspect(new Control());
+
+            Assert.That(inspection.Rules.Single().Reason, Does.Contain("AttachFrom"));
+        }
+
+        [Test]
         public void Styles_ResolveSpecificityOrderAndLocalPrecedence()
         {
             var button = new Button { Name = "Action", TooltipText = "base" };

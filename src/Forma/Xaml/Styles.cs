@@ -104,7 +104,13 @@ namespace Forma.Xaml
         IDisposable Apply(Control control, IStyleSetter setter, long priority);
     }
 
-    public sealed class StyleSetter<T> : IStyleSetter
+    internal interface IStyleSetterInfo
+    {
+        string PropertyName { get; }
+        object ValueFor(Control control);
+    }
+
+    public sealed class StyleSetter<T> : IStyleSetter, IStyleSetterInfo
     {
         private readonly XamlProperty<T> _property;
         private readonly Func<Control, T> _value;
@@ -115,6 +121,9 @@ namespace Forma.Xaml
             _property = property ?? throw new ArgumentNullException(nameof(property));
             _value = value ?? throw new ArgumentNullException(nameof(value));
         }
+
+        string IStyleSetterInfo.PropertyName => _property.Name;
+        object IStyleSetterInfo.ValueFor(Control control) => _value(control);
 
         public IDisposable Apply(Control control, long priority) =>
             XamlValues.Set(control, _property, XamlValueLayer.Style, _value(control), priority);
@@ -361,6 +370,36 @@ namespace Forma.Xaml
         public IReadOnlyList<string> Classes => Arms.Count == 1 ? Arms[0].Subject.Classes : Array.Empty<string>();
         public IReadOnlyList<string> PseudoStates => Arms.Count == 1 ? Arms[0].Subject.PseudoStates : Array.Empty<string>();
         public int Specificity { get; }
+        /// <summary>The selector as written, when it was produced by <see cref="Parse"/>.</summary>
+        public string Text { get; internal set; }
+        public override string ToString() => Text ?? string.Join(", ", Arms.Select(FormatArm));
+
+        private static string FormatArm(StyleSelectorArm arm)
+        {
+            var builder = new System.Text.StringBuilder();
+            for (var index = 0; index < arm.Compounds.Count; index++)
+            {
+                if (index > 0)
+                    builder.Append(arm.Combinators[index - 1] switch
+                    {
+                        StyleSelectorCombinator.Child => " > ",
+                        StyleSelectorCombinator.TemplateChild => " >> ",
+                        _ => " ",
+                    });
+                builder.Append(FormatCompound(arm.Compounds[index]));
+            }
+            return builder.ToString();
+        }
+
+        private static string FormatCompound(StyleSelectorCompound compound)
+        {
+            var text = compound.TypeName ?? (compound.IsUniversal ? "*" : string.Empty);
+            if (compound.Name != null) text += "#" + compound.Name;
+            foreach (var className in compound.Classes) text += "." + className;
+            foreach (var pseudo in compound.PseudoStates) text += ":" + pseudo;
+            foreach (var negation in compound.Negations) text += ":not(" + FormatCompound(negation) + ")";
+            return text;
+        }
         internal bool HasAncestorDependencies => Arms.Any(arm => arm.Compounds.Count > 1);
 
         internal bool CouldMatchSubject(Control control) =>
@@ -468,7 +507,7 @@ namespace Forma.Xaml
                     SkipWhitespace();
                     if (_index == _source.Length || _source[_index] == ',') throw Error("contains an empty selector-list arm");
                 }
-                return new StyleSelector(arms);
+                return new StyleSelector(arms) { Text = _source.Trim() };
             }
 
             private StyleSelectorArm ParseArm()
@@ -678,6 +717,21 @@ namespace Forma.Xaml
 
     internal sealed class StyleAttachment : IDisposable
     {
+        internal static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Control, List<StyleAttachment>> Registry =
+            new System.Runtime.CompilerServices.ConditionalWeakTable<Control, List<StyleAttachment>>();
+        internal Control Root => _root;
+        internal Style[] Styles => _styles;
+        internal bool Contains(Control control) => _controls.ContainsKey(control);
+        internal bool IsApplied(Control control, int styleIndex) =>
+            _controls.TryGetValue(control, out var registration) && registration.Applied.ContainsKey(styleIndex);
+        internal bool Disposed => _disposed;
+        internal bool Matches(Control control, int styleIndex, out int specificity)
+        {
+            specificity = -1;
+            var style = _styles[styleIndex];
+            return (style.Condition == null || style.Condition.Matches(_root.Context)) && style.Selector.TryMatch(control, _root, StateFor, out specificity);
+        }
+
         private sealed class ControlRegistration
         {
             public readonly StyleControlState State = new StyleControlState();
@@ -707,6 +761,7 @@ namespace Forma.Xaml
         {
             _root = root;
             _styles = styles;
+            Registry.GetOrCreateValue(root).Add(this);
             try
             {
                 AttachTree(root);
@@ -869,6 +924,7 @@ namespace Forma.Xaml
         {
             if (_disposed) return;
             _disposed = true;
+            if (Registry.TryGetValue(_root, out var registered)) registered.Remove(this);
             if (_context != null) _context.AdaptiveEnvironmentChanged -= AdaptiveEnvironmentChanged;
             ExceptionDispatchInfo failure = null;
             foreach (var control in _controls.Keys.ToArray())
