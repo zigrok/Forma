@@ -62,21 +62,32 @@ HTML and CSS, because they are already well trained on both. Every decision in t
 - **Tooling parity grows with the dialect.** Formatter, hot reload, source maps, the inspector origin, the lints and the release
   artifact checks cover every new construct.
 
-## Inventory (to be audited in Phase 0)
+## Inventory (Phase 0 audit, 2026-10-08)
 
-Today Trace has 20 view XAML files plus the root view that is already `.fhtml`, and three `.fhtml` sources (main menu, settings
-controls page, root). The XAML that remains, with the constructs that are not yet expressible in the dialect:
+Trace has 20 view XAML files left (about 1,200 lines) plus three `.fhtml` sources (main menu, settings controls page, root view with
+`theme.fcss`). Constructs found by scanning every file:
 
-| Area | Files (approx.) | Constructs still needed |
+| File | Lines | Constructs beyond containers, labels, buttons, borders and bindings |
 | --- | --- | --- |
-| Menus, pause, play menu, match over, scoreboard, standings, quick match, local game | about 8 | containers, labels, buttons, bindings: expressible today; some `ScrollContainer`, `LineEdit`, `ColorRect` |
-| Settings: view, general page, sound page, binding row | 4 | `TabContainer`, `CheckBox`, `LineEdit`, spin box custom control, `ScrollContainer`, `GroupBox`, row view as a data template |
-| Map editor and map browser | 4 | `ListBox` with data-template rows, dialogs, `ColorRect` |
-| Server browser | 1 | `DataGrid` with templated columns, dialogs |
-| Round settings, debug console, probe | 3 | rows as data templates, probe view with a trigger |
-| Root view | 1 (fhtml) | control templates with template parts, storyboards, tokens, styles for `ColorRect`, `CheckBox`, `ListBox`, `DataGrid`, `TabContainer`, field chrome |
+| BrowserView | 232 | `DataGrid` with 6 `DataGridTemplateColumn`s and `DataTemplate` cells, `LineEdit`, dialog, `PromptHintBar` |
+| MapEditorView | 226 | two `ListBox`es with `DataTemplate` rows, `LineEdit`, `ScrollContainer`, dialog, `PromptHintBar` |
+| SettingsGeneralPageView | 120 | `ColorRect`, `LineEdit`, `ScrollContainer`, `TraceSpinBox` |
+| MapBrowserView | 105 | `ListBox` with `DataTemplate` row view, `LineEdit`, dialog |
+| LocalGameView | 93 | `OptionButton`, `TraceSpinBox`, `PromptHintBar` |
+| ScoreboardView, StandingsView | 67, 63 | `ItemsControl` with `ItemsPanelTemplate` and `DataTemplate`, `ColorRect`, `ScrollContainer` |
+| SettingsSoundPageView | 64 | `HSlider`, `ScrollContainer` |
+| PlayMenuView, PauseView, MatchOverView | 55, 45, 46 | containers, buttons, labels, `PromptHintBar`, embedded `StandingsView` |
+| RoundSettingsView, RoundSettingRowView | 46, 51 | `ItemsControl` with `ItemsPanelTemplate` and `DataTemplate` row view, `CheckBox`, `OptionButton`, `ColorRect`, `TraceSpinBox` |
+| ManagedQuickMatchView, SettingsView | 37, 28 | `PromptHintBar`; `TabContainer` |
+| MapBrowserRowView, MapEditorRowView, SettingsBindingRowView | 42, 19, 33 | row views: containers, labels, buttons |
+| DebugConsoleView, FormaProbeView | 8, 8 | an `OverlaySurfaceView`; a `BoxContainer` probe |
+| TraceRootView (already `.fhtml`) | | `<f-resources>`: tokens, three `ControlTemplate`s, three `Storyboard`s, about 20 `>>`/typed styles |
 
-Phase 0 produces the exact per-file list of constructs (a script over the XAML plus a hand check), and this table is replaced by it.
+Distinct element types still to express (counts are files using them): `DataTemplate` 5, `ScrollContainer` 5, `LineEdit` 4,
+`ColorRect` 3, `TraceSpinBox` 3, `ListBox` 2, `ItemsControl` 2, `ItemsPanelTemplate` 2, `OptionButton` 2, `CheckBox`, `HSlider`,
+`DataGrid` (+ columns), `TabContainer`, `BoxContainer` (probe), and the application controls `PromptHintBar`, `OverlaySurfaceView`,
+`StandingsView` and the row views. Everything else is already expressible. Refinements to the decisions from this audit are in the
+decision log.
 
 ## Decisions
 
@@ -425,3 +436,8 @@ preview and query tools in every scenario and converge in fewer iterations than 
   `.fhtml`, `.fcss` and the tooling (the preview command in particular) to iterate quickly, and suggested installable skills. Decided:
   ship a skill, an `AGENTS.md`/`CLAUDE.md` block, an MCP server and CLI help from one generated source, install them with
   `forma-xaml agent install`, surface them at the point of need, and prove the behavior with agent evaluations.
+- **Phase 0 audit refinements.** `ItemsPanelTemplate` (2 files) is the items panel of an `ItemsControl`; D2 covers it as `<ul>`
+  with a `style="display: flex"` (the panel follows the list's own display type), so no extra element is added. `OptionButton`,
+  `CheckBox` and `HSlider` map to `select`, `input type=checkbox` and `input type=range` (D6). `PromptHintBar`, `OverlaySurfaceView`,
+  `StandingsView` and the row views are application controls, registered with `<meta name="f-element">` (D6) or converted into their
+  own `.fhtml` views. The probe view (`BoxContainer`) is retired per D7 unless a test depends on it.
