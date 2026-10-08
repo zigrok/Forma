@@ -181,6 +181,8 @@ public sealed class FormaHtmlConverter
     {
         ["button"] = "Button", ["span"] = "Label", ["p"] = "Label", ["label"] = "Label", ["h1"] = "Label", ["h2"] = "Label", ["h3"] = "Label",
         ["input"] = "LineEdit", ["div"] = "Control", ["f-border"] = "Border", ["f-group-box"] = "GroupBox", ["f-scroll"] = "ScrollContainer", ["f-hbox"] = "HBoxContainer", ["f-vbox"] = "VBoxContainer",
+        ["select"] = "OptionButton", ["textarea"] = "TextEdit", ["ul"] = "ItemsControl", ["ol"] = "ItemsControl", ["table"] = "DataGrid",
+        ["f-color-rect"] = "ColorRect", ["f-tab-container"] = "TabContainer",
     };
 
     private readonly string _path;
@@ -613,7 +615,12 @@ public sealed class FormaHtmlConverter
             case "name" when element.Name == "meta":
                 return;
             case "id": Add("x:Name", value); return;
-            case "class": Add("Classes", value); return;
+            case "class": AddClass(target, value, attribute); return;
+            case "part":
+                if (value.Length == 0 || !value.All(ch => char.IsLetterOrDigit(ch) || ch is '-' or '_')) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "part names a template part: part=\"chrome\". Help: use letters, digits, '-' and '_'.", attribute); return; }
+                AddClass(target, "part-" + value, attribute);
+                if (!target.Attrs.Any(a => a.Name == "x:Name")) Add("x:Name", "PART_" + Pascal(value));
+                return;
             case "hidden": Add("Visible", "False"); return;
             case "disabled": Add("Enabled", "False"); return;
             case "aria-label": Add("AccessibilityLabel", Escape(value)); return;
@@ -660,6 +667,13 @@ public sealed class FormaHtmlConverter
         }
 
         Error(FormaHtmlDiagnosticCodes.UnknownAttribute, $"Attribute '{name}' is not part of the dialect. Use f:{Pascal(name)}=\"…\" to set a Forma property directly.", attribute);
+    }
+
+    private static void AddClass(XNode target, string value, HtmlAttribute attribute)
+    {
+        var existing = target.Attrs.FirstOrDefault(a => a.Name == "Classes");
+        if (existing == null) target.Attrs.Add(new Attr("Classes", value, attribute.Line, attribute.Column));
+        else existing.Value += " " + value;
     }
 
     private string BindingText(string value, HtmlAttribute attribute)
@@ -1043,6 +1057,12 @@ public sealed class FormaHtmlConverter
             var last = string.Empty;
             foreach (var token in tokens)
             {
+                if (token == ">>")
+                {
+                    Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "The template-child combinator '>>' is XAML syntax. Help: mark the template element with part=\"name\" and select it with ::part(name), for example button.x:hover::part(chrome).", rule);
+                    return null;
+                }
+
                 if (token is ">" or "+" or "~")
                 {
                     if (token != ">") { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Combinator '{token}' is not supported; use descendant or child (>).", rule); return null; }
@@ -1051,9 +1071,27 @@ public sealed class FormaHtmlConverter
                 }
 
                 if (lowered.Length > 0 && !lowered.ToString().EndsWith("> ", StringComparison.Ordinal)) lowered.Append(' ');
-                var compound = LowerCompound(token, rule, out last);
+                // ::part(name) selects a part inside the matched control's template: it lowers to Forma's template-child combinator.
+                var partIndex = token.IndexOf("::part(", StringComparison.Ordinal);
+                string? partName = null;
+                var host = token;
+                if (partIndex >= 0)
+                {
+                    var close = token.IndexOf(')', partIndex);
+                    if (close < 0 || close != token.Length - 1) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "::part(name) must end the compound selector. Help: write button.x:hover::part(chrome), with the part name last.", rule); return null; }
+                    partName = token.Substring(partIndex + 7, close - partIndex - 7).Trim();
+                    if (partName.Length == 0 || !partName.All(ch => char.IsLetterOrDigit(ch) || ch is '-' or '_')) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"'{partName}' is not a part name. Help: use the value of the part attribute, for example ::part(chrome).", rule); return null; }
+                    host = token.Substring(0, partIndex);
+                }
+
+                var compound = LowerCompound(host, rule, out last);
                 if (compound == null) return null;
                 lowered.Append(compound);
+                if (partName != null)
+                {
+                    lowered.Append(" >> Control.part-").Append(partName);
+                    last = "Control";
+                }
             }
 
             if (last.Length > 0) subjectType = last;
@@ -1073,7 +1111,12 @@ public sealed class FormaHtmlConverter
             if (ch == '(') depth++;
             if (ch == ')') depth--;
             if (depth == 0 && char.IsWhiteSpace(ch)) { if (current.Length > 0) { tokens.Add(current.ToString()); current.Clear(); } continue; }
-            if (depth == 0 && ch == '>') { if (current.Length > 0) { tokens.Add(current.ToString()); current.Clear(); } tokens.Add(">"); continue; }
+            if (depth == 0 && ch == '>')
+            {
+                if (current.Length > 0) { tokens.Add(current.ToString()); current.Clear(); }
+                if (tokens.Count > 0 && tokens[^1] == ">") tokens[^1] = ">>"; else tokens.Add(">");
+                continue;
+            }
             current.Append(ch);
         }
 
@@ -1100,7 +1143,30 @@ public sealed class FormaHtmlConverter
         {
             var kind = compound[i++];
             var start = i;
-            if (kind == ':' && i < compound.Length && compound[i] == ':') { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "Pseudo-elements are not supported.", rule); return null; }
+            if (kind == ':' && i < compound.Length && compound[i] == ':') { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "Pseudo-elements other than ::part() are not supported. Help: style the element itself, or mark a template element with part=\"name\" and use ::part(name).", rule); return null; }
+            if (kind == '[')
+            {
+                var close = compound.IndexOf(']', i);
+                if (close < 0) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "Unterminated attribute selector.", rule); return null; }
+                var attribute = compound.Substring(i, close - i).Replace("\"", string.Empty, StringComparison.Ordinal).Replace("'", string.Empty, StringComparison.Ordinal);
+                i = close + 1;
+                var mapped = attribute switch
+                {
+                    "type=checkbox" => "CheckBox",
+                    "type=range" => "HSlider",
+                    "type=text" => "LineEdit",
+                    "role=tablist" => "TabContainer",
+                    _ => null,
+                };
+                if (mapped == null) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Attribute selector [{attribute}] is not supported yet. Help: supported are [type=checkbox], [type=range], [type=text] and [role=tablist]; use a class for other variants.", rule); return null; }
+                if (output.Length > 0 && type is not ("LineEdit" or "Control" or "")) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"[{attribute}] cannot be combined with the '{type}' type selector.", rule); return null; }
+                var previous = type;
+                var text = output.ToString();
+                var tail = previous.Length > 0 && text.StartsWith(previous, StringComparison.Ordinal) ? text.Substring(previous.Length) : text;
+                type = mapped;
+                output.Clear().Append(mapped).Append(tail);
+                continue;
+            }
             while (i < compound.Length && (char.IsLetterOrDigit(compound[i]) || compound[i] is '-' or '_')) i++;
             var name = compound.Substring(start, i - start);
             switch (kind)
@@ -1116,6 +1182,7 @@ public sealed class FormaHtmlConverter
                         output.Append(":not(").Append(inner).Append(')');
                         i = close + 1;
                     }
+                    else if (name == "host") { if (i < compound.Length && compound[i] == '(') { var close = compound.IndexOf(')', i); var inner = LowerCompound(compound.Substring(i + 1, close - i - 1), rule, out _); if (inner == null) return null; output.Append(inner); i = close + 1; } }
                     else if (name is "hover" or "focus" or "disabled" or "checked" or "selected") output.Append(':').Append(name);
                     else if (name == "active") output.Append(":pressed");
                     else { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Pseudo-class ':{name}' is not supported (hover, active, focus, disabled, checked, selected, not).", rule); return null; }

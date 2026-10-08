@@ -307,4 +307,61 @@ public sealed class FormaHtmlConverterTest
         Assert.That(once, Does.Contain("Selector=\"Button.a &gt;&gt; Border.b\""));
         Assert.That(once, Does.Contain("<Setter Property=\"Opacity\" Value=\"1\" />"));
     }
+
+    [Test]
+    public void PartSelector_LowersToTheTemplateChildCombinator_AndPartMarksTheElement()
+    {
+        var result = Convert("<style>button.x:hover::part(chrome) { opacity: 0.5; }</style><div><span part=\"chrome\" class=\"a\">t</span></div>");
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("Selector=\"Button.x:hover &gt;&gt; Control.part-chrome\""));
+        Assert.That(result.Xaml, Does.Contain("Classes=\"part-chrome a\""));
+        Assert.That(result.Xaml, Does.Contain("x:Name=\"PART_Chrome\""));
+    }
+
+    [Test]
+    public void HostAndAttributeSelectors_LowerToTypedSelectors()
+    {
+        var result = Convert("<style>:host(.k) { opacity: 1; } input[type=checkbox].c { opacity: 0.5; } table.t { opacity: 1; } [role=tablist] { opacity: 1; } select { opacity: 1; }</style><div></div>");
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        foreach (var selector in new[] { "Selector=\".k\"", "Selector=\"CheckBox.c\"", "Selector=\"DataGrid.t\"", "Selector=\"TabContainer\"", "Selector=\"OptionButton\"" })
+            Assert.That(result.Xaml, Does.Contain(selector));
+    }
+
+    [TestCase("<style>button.x >> f-border.y { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "::part(")]
+    [TestCase("<style>button::before { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "Help:")]
+    [TestCase("<style>[data-x=y] { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "Help:")]
+    [TestCase("<style>button::part() { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "Help:")]
+    public void PartAndSelectorRejections_CarryACodeAndAHelpLine(string html, string code, string fragment)
+    {
+        var result = Convert(html);
+
+        var error = result.Diagnostics.First(d => d.Code == code);
+        Assert.That(error.Message, Does.Contain(fragment));
+        Assert.That(error.Location.Line, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void PartSelector_AppliesToTheNamedPartOfATemplate()
+    {
+        const string xaml = """
+            <Control xmlns="https://forma.dev/xaml" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+              <Control.Resources><ResourceDictionary>
+                <ControlTemplate x:Key="T" TargetType="Button"><Border x:Name="PART_Chrome" Classes="part-chrome" /></ControlTemplate>
+              </ResourceDictionary></Control.Resources>
+              <Button x:Name="B" Classes="x" Template="{StaticResource T}" />
+            </Control>
+            """;
+        var css = Convert("<style>button.x::part(chrome) { opacity: 0.4; }</style><div></div>");
+        var style = System.Xml.Linq.XDocument.Parse(css.Xaml).Descendants().First(e => e.Name.LocalName == "Style");
+        var combined = xaml.Replace("</Control.Resources>", style.ToString().Replace(" xmlns=\"https://forma.dev/xaml\"", string.Empty).Replace("<Style", "<Style").Replace("Style>", "Style>") + "</Control.Resources>");
+        combined = combined.Replace("</ResourceDictionary></Control.Resources>", "</ResourceDictionary></Control.Resources>");
+
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(xaml.Replace("</ResourceDictionary>", style.ToString().Replace(" xmlns=\"https://forma.dev/xaml\"", string.Empty) + "</ResourceDictionary>"), "t.xaml").Build(null);
+        var button = (Button)NameScope.GetNameScope(root)!.Find("B")!;
+        var chrome = (Border)button.GetTemplateChild("PART_Chrome")!;
+
+        Assert.That(chrome.Opacity, Is.EqualTo(0.4f));
+    }
 }
