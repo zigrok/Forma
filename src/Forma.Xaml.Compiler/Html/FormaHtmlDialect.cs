@@ -56,6 +56,8 @@ public static class FormaHtmlDialect
         new("theme overrides :root[data-theme]", "<style>:root { --a: #112233; } :root[data-theme=\"dark\"] { --a: #000000; } f-border.c { background-color: var(--a); }</style><div><f-border class=\"c\"><span>x</span></f-border></div>", "Container"),
         new("dir and lang", "<div dir=\"rtl\" lang=\"ar\"><span>x</span></div>", "Container"),
         new("data-i18n", "<div><span data-i18n=\"menu.play\"></span></div>", "Container"),
+        new("box-shadow, gradient, transform, radius", "<div><f-border style=\"box-shadow: 0 2px 4px #80000000; background: linear-gradient(180deg, #000000, #FFFFFF); border-radius: 3px; transform: scale(1.1)\"><span>x</span></f-border></div>", "Container"),
+        new("text effects", "<div><span style=\"text-shadow: 1px 1px #000000; text-transform: uppercase; white-space: nowrap; font-style: italic\">x</span></div>", "Container"),
         new("-f-Property and resource()", "<style>span.c { -f-Opacity: 0.5; color: resource(External.Color); }</style><div><span class=\"c\">x</span></div>", "Container"),
     ];
 }

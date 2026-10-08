@@ -177,7 +177,7 @@ public sealed class FormaFcssTest
     public void LinkErrors_AreRejectedWithCodesAndLocations()
     {
         Write("theme.fcss", "span { color: #000000; }");
-        Write("broken.fcss", "span {\n  box-shadow: 0 0 2px #000000;\n}");
+        Write("broken.fcss", "span {\n  outline: 1px solid #000000;\n}");
         var project = new FormaHtmlProject(_directory);
 
         FormaDiagnostic First(string html, string code) => FormaHtmlConverter.Convert(html, "a.fhtml", project).Diagnostics.First(d => d.Code == code);
@@ -393,7 +393,7 @@ public sealed class FormaFcssBuildTaskTest
     [Test]
     public void ABrokenSheetAndAMissingLinkTarget_FailTheTaskWithFcssAndFhtmlLocations()
     {
-        File.WriteAllText(Path.Combine(_directory, "broken.fcss"), "span {\n  box-shadow: 0 0 2px #000000;\n}");
+        File.WriteAllText(Path.Combine(_directory, "broken.fcss"), "span {\n  outline: 1px solid #000000;\n}");
         File.WriteAllText(Path.Combine(_directory, "a.fhtml"), "<link rel=\"stylesheet\" href=\"broken.fcss\">\n<link rel=\"stylesheet\" href=\"nope.fcss\">\n<div></div>");
 
         var (success, engine) = Run();

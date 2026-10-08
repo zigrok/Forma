@@ -122,8 +122,8 @@ public sealed class FormaHtmlConverterTest
     [TestCase("""<div style="position: absolute"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty, 1, 13)]
     [TestCase("""<div style="width: calc(1px + 2px)"></div>""", FormaHtmlDiagnosticCodes.UnsupportedUnit, 1, 13)]
     [TestCase("""<div style="min-width: 2em"></div>""", FormaHtmlDiagnosticCodes.UnsupportedUnit, 1, 13)]
-    [TestCase("""<div style="box-shadow: 0 0 4px #000"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty, 1, 13)]
-    [TestCase("""<div style="background: linear-gradient(red, blue)"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty, 1, 13)]
+    [TestCase("""<div style="filter: blur(2px)"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty, 1, 13)]
+    [TestCase("""<div style="background: url(x.png)"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty, 1, 13)]
     [TestCase("""<div foo="bar"></div>""", FormaHtmlDiagnosticCodes.UnknownAttribute, 1, 6)]
     [TestCase("""<div><button onclick="doIt()"></button></div>""", FormaHtmlDiagnosticCodes.InvalidValue, 1, 14)]
     [TestCase("""<div><blink></blink></div>""", FormaHtmlDiagnosticCodes.UnknownElement, 1, 6)]
@@ -710,6 +710,38 @@ public sealed class FormaHtmlConverterTest
     public void SiblingCombinatorsAndFocusVisibleInMedia_AreRejectedWithHelp(string html)
     {
         var error = Convert(html).Diagnostics.First(d => d.Code == FormaHtmlDiagnosticCodes.UnsupportedSelector);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
+    }
+
+    [Test]
+    public void Effects_ShadowGradientTransformRadiusAndText_LowerToTheRenderer()
+    {
+        var result = Convert("""
+            <div><f-border id="B" style="box-shadow: 0 2px 4px 1px #80000000; background: linear-gradient(180deg, #000000, #FFFFFF); border-radius: 3px 4px; transform: scale(1.5)"><span id="T" style="text-shadow: 1px 1px #000000; text-transform: uppercase; white-space: nowrap; font-style: italic">x</span></f-border></div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var border = (Border)NameScope.GetNameScope(root)!.Find("B")!;
+        Assert.That(border.Shadows.Count, Is.EqualTo(1));
+        Assert.That(border.Shadows[0].BlurRadius, Is.EqualTo(4f));
+        Assert.That(border.Background, Is.TypeOf<LinearGradientBrush>());
+        Assert.That(((LinearGradientBrush)border.Background!).GradientStops.Count, Is.EqualTo(2));
+        Assert.That(border.RenderTransform, Is.TypeOf<ScaleTransform>());
+        Assert.That(border.CornerRadius, Is.EqualTo(new CornerRadius(3, 4, 3, 4)));
+        var label = (Label)NameScope.GetNameScope(root)!.Find("T")!;
+        Assert.That(label.TextShadowOffset, Is.EqualTo(new Microsoft.Xna.Framework.Vector2(1, 1)));
+        Assert.That(label.FontStyle, Is.EqualTo(UIFontStyle.Italic));
+    }
+
+    [TestCase("""<div style="outline: 1px solid #000000"></div>""")]
+    [TestCase("""<div style="mix-blend-mode: multiply"></div>""")]
+    [TestCase("""<div style="line-height: 1.4"></div>""")]
+    [TestCase("""<div style="transform: skew(4deg)"></div>""")]
+    [TestCase("""<div style="background: url(a.png)"></div>""")]
+    public void UnsupportedEffects_AreRejectedWithHelp(string html)
+    {
+        var error = Convert(html).Diagnostics.First(d => d.Code is FormaHtmlDiagnosticCodes.RejectedProperty);
 
         Assert.That(error.Message, Does.Contain("Help:"));
     }

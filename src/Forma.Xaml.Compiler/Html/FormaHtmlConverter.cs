@@ -403,7 +403,7 @@ public sealed class FormaHtmlConverter
         // CSS box semantics: padding, border and background on a flex or grid container belong to a box around it, so the container is
         // wrapped in a Border that takes the decoration, sizing and margin, and the inner container keeps the layout properties.
         if (declared.TryGetValue("display", out var layoutDisplay) && layoutDisplay.Value is "flex" or "grid" &&
-            declared.Keys.Any(k => k is "padding" or "border-width" or "border-radius" or "background-color" or "border-color"))
+            declared.Keys.Any(k => k is "padding" or "border-width" or "border-radius" or "background-color" or "border-color" or "box-shadow" or "background"))
         {
             var innerNames = new HashSet<string>(StringComparer.Ordinal) { "display", "flex-direction", "gap", "justify-content", "align-items", "flex-wrap", "grid-template-columns", "grid-template-rows" };
             var outer = new HtmlNode { Name = "div", Line = element.Line, Column = element.Column };
@@ -870,7 +870,7 @@ public sealed class FormaHtmlConverter
         if (name == "div" && !element.Children.Any(c => !c.IsText || !string.IsNullOrWhiteSpace(c.Text)) && declared.ContainsKey("background-color") &&
             declared.Keys.All(k => k is "background-color" or "min-width" or "min-height" or "opacity")) return "ColorRect";
         var display = declared.TryGetValue("display", out var d) ? d.Value : null;
-        var decorated = declared.Keys.Any(k => k is "padding" or "border-width" or "border-radius" or "background-color" or "border-color") && display is not ("flex" or "grid");
+        var decorated = declared.Keys.Any(k => k is "padding" or "border-width" or "border-radius" or "background-color" or "border-color" or "box-shadow" or "background") && display is not ("flex" or "grid");
         if (decorated) return "Border";
         if (display == "flex")
         {
@@ -1052,7 +1052,11 @@ public sealed class FormaHtmlConverter
     private void ApplyDeclarations(IReadOnlyList<CssDeclaration> declarations, string type, XNode target, string? parentDirection, HtmlNode source)
     {
         foreach (var (property, value, declaration) in Lower(declarations, type, parentDirection))
+        {
+            if (property == "Background.Gradient") { AddGradient(target, value, declaration); continue; }
+            if (property == "RenderTransform.Spec") { AddTransform(target, value, declaration); continue; }
             target.Attrs.Add(new Attr(property, value, declaration.Line, declaration.Column));
+        }
     }
 
     private IEnumerable<(string Property, string Value, CssDeclaration Source)> Lower(IReadOnlyList<CssDeclaration> declarations, string type, string? parentDirection)
@@ -1137,7 +1141,45 @@ public sealed class FormaHtmlConverter
                     Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' is not supported: Forma boxes never shrink below their minimum size. Help: set min-width/min-height, and reorder the markup instead of using order.", d);
                     break;
                 case "border-width": yield return ("BorderThickness", Thickness(value, d), d); break;
-                case "border-radius": yield return ("CornerRadius", Thickness(value, d), d); break;
+                case "border-radius": yield return ("CornerRadius", Radius(value, d), d); break;
+                case "box-shadow":
+                    if (type is not ("Border" or "ColorRect") && !string.IsNullOrEmpty(type)) { /* only Border draws shadows; reported below */ }
+                    yield return ("ShadowsText", BoxShadow(value, d), d);
+                    break;
+                case "background" or "background-image":
+                    if (value.StartsWith("linear-gradient(", StringComparison.Ordinal) || value.StartsWith("radial-gradient(", StringComparison.Ordinal)) yield return ("Background.Gradient", value, d);
+                    else if (value.StartsWith('#')) yield return (type == "ColorRect" ? "Color" : "Background", Color(value, d), d);
+                    else Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}: {value}' is not supported. Help: use background-color or linear-gradient()/radial-gradient(); images use <img> or <svg>.", d);
+                    break;
+                case "transform": yield return ("RenderTransform.Spec", value, d); break;
+                case "transform-origin": yield return ("TransformOrigin", TransformOrigin(value, d), d); break;
+                case "text-shadow":
+                    {
+                        var parts = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length < 3 || !parts[^1].StartsWith('#')) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "text-shadow is 'x y [blur] #color'. Help: example text-shadow: 1px 1px #000000 (blur is not drawn).", d); break; }
+                        yield return ("TextShadowOffset", $"{Px(parts[0], d)},{Px(parts[1], d)}", d);
+                        yield return ("TextShadowColor", Color(parts[^1], d), d);
+                    }
+                    break;
+                case "text-transform":
+                    if (value == "uppercase") yield return ("Uppercase", "True", d);
+                    else if (value != "none") Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"text-transform: {value} is not supported. Help: only uppercase and none exist; write the text in the wanted case.", d);
+                    break;
+                case "text-overflow":
+                    if (value == "ellipsis") yield return ("TextOverrunBehavior", "Ellipsis", d);
+                    else if (value != "clip") Error(FormaHtmlDiagnosticCodes.InvalidValue, "text-overflow supports ellipsis and clip.", d);
+                    break;
+                case "white-space":
+                    if (value == "nowrap") yield return ("Autowrap", "False", d);
+                    else if (value == "normal") yield return ("Autowrap", "True", d);
+                    else Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"white-space: {value} is not supported. Help: use nowrap or normal.", d);
+                    break;
+                case "font-style":
+                    yield return ("FontStyle", value switch { "normal" => "Normal", "italic" => "Italic", "oblique" => "Oblique", _ => Invalid(d, "font-style supports normal, italic and oblique.") }, d);
+                    break;
+                case "outline" or "outline-offset" or "outline-width" or "outline-color" or "mix-blend-mode" or "clip-path" or "mask" or "line-height" or "letter-spacing" or "text-decoration" or "word-spacing" or "cursor" when true:
+                    Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' is not supported: {UnsupportedEffect(d.Name)}", d);
+                    break;
                 case "border-color": yield return ("BorderBrush", Color(value, d), d); break;
                 case "background-color": yield return (type == "ColorRect" ? "Color" : "Background", Color(value, d), d); break;
                 case "color": yield return ("FontColor", Color(value, d), d); break;
@@ -1171,7 +1213,7 @@ public sealed class FormaHtmlConverter
                     break;
                 case "grid-template-columns" or "grid-template-rows" or "grid-column" or "grid-row":
                     break; // read by the grid lowering
-                case "position" or "float" or "filter" or "backdrop-filter" or "box-shadow" or "text-shadow" or "background" or "background-image" or "transform":
+                case "position" or "float" or "filter" or "backdrop-filter":
                     Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' is not supported: {RejectionReason(d.Name)}.{(RejectionReason(d.Name).Contains("Help:") ? string.Empty : " Help: see the support matrix for the nearest supported alternative.")}", d);
                     break;
                 case "transition":
@@ -1192,6 +1234,153 @@ public sealed class FormaHtmlConverter
             yield return ("CustomMinimumSize", $"{Len(width ?? minWidth, "0")},{Len(height ?? minHeight, "0")}", (width ?? height ?? minWidth ?? minHeight)!);
         if (maxWidth != null || maxHeight != null || width != null || height != null)
             yield return ("CustomMaximumSize", $"{Len(width ?? maxWidth, "-1")},{Len(height ?? maxHeight, "-1")}", (width ?? height ?? maxWidth ?? maxHeight)!);
+    }
+
+    private static string UnsupportedEffect(string property) => property switch
+    {
+        "outline" or "outline-offset" or "outline-width" or "outline-color" => "the renderer has no outline. Help: use border-width and border-color; focus rings are drawn by the :focus style.",
+        "mix-blend-mode" or "clip-path" or "mask" => "the renderer has no blending or masking. Help: use opacity, or overflow: hidden to clip to the box.",
+        "line-height" or "letter-spacing" or "word-spacing" or "text-decoration" => "the text engine has no such control. Help: size the box with min-height and font-size instead.",
+        "cursor" => "cursors are set by the control. Help: remove cursor.",
+        _ => "not part of the dialect. Help: see the support matrix.",
+    };
+
+    private string Radius(string value, CssDeclaration d)
+    {
+        var parts = value.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(p => Px(p, d)).ToArray();
+        if (parts.Length is < 1 or > 4) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "Expected one to four radii.", d); return "0"; }
+        // CSS order is top-left, top-right, bottom-right, bottom-left, the same as Forma's CornerRadius.
+        string tl = parts[0], tr = parts.Length > 1 ? parts[1] : parts[0], br = parts.Length > 2 ? parts[2] : parts[0], bl = parts.Length > 3 ? parts[3] : tr;
+        return tl == tr && tr == br && br == bl ? tl : $"{tl},{tr},{br},{bl}";
+    }
+
+    private string BoxShadow(string value, CssDeclaration d)
+    {
+        var entries = new List<string>();
+        foreach (var layer in SplitTopLevel(value, ','))
+        {
+            var lengths = new List<string>();
+            var color = "#FF000000";
+            var inset = false;
+            foreach (var part in layer.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (part == "inset") inset = true;
+                else if (part.StartsWith('#')) color = Color(part, d);
+                else lengths.Add(Px(part, d));
+            }
+
+            if (lengths.Count is < 2 or > 4) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "box-shadow is 'x y [blur [spread]] #color [inset]'.", d); continue; }
+            while (lengths.Count < 4) lengths.Add("0");
+            entries.Add(string.Join(",", lengths) + "," + color + (inset ? ",inset" : string.Empty));
+        }
+
+        return string.Join(";", entries);
+    }
+
+    private static IEnumerable<string> SplitTopLevel(string value, char separator)
+    {
+        var depth = 0;
+        var start = 0;
+        for (var i = 0; i < value.Length; i++)
+        {
+            if (value[i] == '(') depth++;
+            else if (value[i] == ')') depth--;
+            else if (value[i] == separator && depth == 0) { yield return value.Substring(start, i - start).Trim(); start = i + 1; }
+        }
+
+        yield return value.Substring(start).Trim();
+    }
+
+    private string TransformOrigin(string value, CssDeclaration d)
+    {
+        var parts = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        double Axis(string part, bool horizontal) => part switch
+        {
+            "left" or "top" => 0, "center" => 0.5, "right" or "bottom" => 1,
+            var pct when pct.EndsWith('%') && double.TryParse(pct[..^1], NumberStyles.Float, CultureInfo.InvariantCulture, out var v) => v / 100.0,
+            _ => double.NaN,
+        };
+        var x = Axis(parts.ElementAtOrDefault(0) ?? "center", true);
+        var y = Axis(parts.ElementAtOrDefault(1) ?? "center", false);
+        if (double.IsNaN(x) || double.IsNaN(y)) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "transform-origin supports left/center/right, top/center/bottom and percentages. Help: example transform-origin: 50% 50%.", d); return "0.5,0.5"; }
+        return $"{FormatNumber(x)},{FormatNumber(y)}";
+    }
+
+    private void AddTransform(XNode target, string spec, CssDeclaration d)
+    {
+        var transforms = new List<XNode>();
+        foreach (Match m in Regex.Matches(spec, "([a-z]+)\\(([^)]*)\\)"))
+        {
+            var args = m.Groups[2].Value.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var node = new XNode { Line = d.Line, Column = d.Column };
+            switch (m.Groups[1].Value)
+            {
+                case "translate":
+                    node.Type = "TranslateTransform";
+                    node.Attrs.Add(new Attr("X", Px(args.ElementAtOrDefault(0) ?? "0", d), d.Line, d.Column));
+                    node.Attrs.Add(new Attr("Y", Px(args.ElementAtOrDefault(1) ?? "0", d), d.Line, d.Column));
+                    break;
+                case "scale":
+                    node.Type = "ScaleTransform";
+                    node.Attrs.Add(new Attr("ScaleX", Number(args.ElementAtOrDefault(0) ?? "1", d), d.Line, d.Column));
+                    node.Attrs.Add(new Attr("ScaleY", Number(args.ElementAtOrDefault(1) ?? args.ElementAtOrDefault(0) ?? "1", d), d.Line, d.Column));
+                    break;
+                case "rotate":
+                    node.Type = "RotateTransform";
+                    node.Attrs.Add(new Attr("Angle", Number((args.ElementAtOrDefault(0) ?? "0").Replace("deg", string.Empty, StringComparison.Ordinal), d), d.Line, d.Column));
+                    break;
+                default:
+                    Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"transform function '{m.Groups[1].Value}' is not supported. Help: use translate(), scale() or rotate().", d);
+                    continue;
+            }
+
+            transforms.Add(node);
+        }
+
+        if (transforms.Count == 0) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"'{spec}' is not a transform. Help: example transform: translate(4px, 0) scale(1.1) rotate(10deg).", d); return; }
+        XNode value;
+        if (transforms.Count == 1) value = transforms[0];
+        else { value = new XNode { Type = "TransformGroup", Line = d.Line, Column = d.Column }; value.PropertyElements.Add(("TransformGroup.Children", new XNode { Type = "TransformGroup.Children", Children = transforms })); }
+        target.PropertyElements.Add(("Control.RenderTransform", value));
+    }
+
+    private void AddGradient(XNode target, string spec, CssDeclaration d)
+    {
+        var radial = spec.StartsWith("radial-gradient(", StringComparison.Ordinal);
+        var inner = spec.Substring(spec.IndexOf('(') + 1).TrimEnd(')');
+        var parts = SplitTopLevel(inner, ',').ToList();
+        var brush = new XNode { Type = radial ? "RadialGradientBrush" : "LinearGradientBrush", Line = d.Line, Column = d.Column };
+        if (!radial)
+        {
+            var angle = 180.0;
+            if (parts[0].EndsWith("deg", StringComparison.Ordinal) && double.TryParse(parts[0][..^3], NumberStyles.Float, CultureInfo.InvariantCulture, out var degrees)) { angle = degrees; parts.RemoveAt(0); }
+            else if (parts[0].StartsWith("to ", StringComparison.Ordinal))
+            {
+                angle = parts[0] switch { "to top" => 0, "to right" => 90, "to bottom" => 180, "to left" => 270, _ => double.NaN };
+                if (double.IsNaN(angle)) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "linear-gradient direction supports to top|right|bottom|left and an angle. Help: example linear-gradient(180deg, #000000, #FFFFFF).", d); return; }
+                parts.RemoveAt(0);
+            }
+
+            var radians = angle * Math.PI / 180.0;
+            double vx = Math.Sin(radians), vy = -Math.Cos(radians);
+            brush.Attrs.Add(new Attr("StartPoint", $"{FormatNumber(0.5 - vx / 2)},{FormatNumber(0.5 - vy / 2)}", d.Line, d.Column));
+            brush.Attrs.Add(new Attr("EndPoint", $"{FormatNumber(0.5 + vx / 2)},{FormatNumber(0.5 + vy / 2)}", d.Line, d.Column));
+        }
+        else if (parts.Count > 0 && (parts[0] is "circle" or "ellipse" || parts[0].StartsWith("circle ", StringComparison.Ordinal))) parts.RemoveAt(0);
+
+        var stops = new List<(string Color, double? Offset)>();
+        foreach (var part in parts)
+        {
+            var bits = part.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (bits.Length == 0 || !bits[0].StartsWith('#')) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"Gradient stop '{part}' must start with a #RRGGBB color. Help: example linear-gradient(#000000, #FFFFFF 80%).", d); return; }
+            double? offset = bits.Length > 1 && bits[1].EndsWith('%') && double.TryParse(bits[1][..^1], NumberStyles.Float, CultureInfo.InvariantCulture, out var pct) ? pct / 100.0 : null;
+            stops.Add((Color(bits[0], d), offset));
+        }
+
+        if (stops.Count < 2) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "A gradient needs at least two color stops.", d); return; }
+        var text = string.Join(";", stops.Select((stop, index) => FormatNumber(stop.Offset ?? index / (double)(stops.Count - 1)) + ":" + stop.Color));
+        brush.Attrs.Add(new Attr("StopsText", text, d.Line, d.Column));
+        target.PropertyElements.Add(("Border.Background", brush));
     }
 
     private static string RejectionReason(string property) => property switch
@@ -1519,6 +1708,12 @@ public sealed class FormaHtmlConverter
 
             foreach (var (property, value, source) in Lower(rule.Declarations.Where(d => d.Name != "transition").ToList(), subjectType, parentDirection: null))
             {
+                if (property is "Background.Gradient" or "RenderTransform.Spec")
+                {
+                    Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"{(property == "Background.Gradient" ? "A gradient" : "transform")} cannot be set from a style rule. Help: put it in the element's style attribute.", source);
+                    continue;
+                }
+
                 var setter = new XNode { Type = "Setter", Line = source.Line, Column = source.Column, Path = source.Path };
                 setter.Attrs.Add(new Attr("Property", property, source.Line, source.Column, source.Path));
                 setter.Attrs.Add(new Attr("Value", value, source.Line, source.Column, source.Path));

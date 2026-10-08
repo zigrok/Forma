@@ -90,6 +90,34 @@ namespace Forma
         public CornerRadius CornerRadius { get; set; }
         public IList<BoxShadow> Shadows => _shadows;
 
+        /// <summary>
+        /// Shadows as markup text: <c>x,y,blur,spread,#AARRGGBB[,inset]</c> entries separated by semicolons. Setting replaces
+        /// <see cref="Shadows"/>; the HTML and CSS dialect lowers <c>box-shadow</c> to it.
+        /// </summary>
+        public string ShadowsText
+        {
+            get => string.Join(";", _shadows.Select(shadow => string.Join(",", new[]
+            {
+                shadow.Offset.X.ToString(System.Globalization.CultureInfo.InvariantCulture), shadow.Offset.Y.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                shadow.BlurRadius.ToString(System.Globalization.CultureInfo.InvariantCulture), shadow.SpreadRadius.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                "#" + shadow.Color.A.ToString("X2") + shadow.Color.R.ToString("X2") + shadow.Color.G.ToString("X2") + shadow.Color.B.ToString("X2"),
+            }) + (shadow.Inset ? ",inset" : string.Empty)));
+            set
+            {
+                _shadows.Clear();
+                foreach (var entry in (value ?? string.Empty).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var parts = entry.Split(',');
+                    if (parts.Length < 5) throw new FormatException($"Shadow '{entry}' must be x,y,blur,spread,#AARRGGBB[,inset].");
+                    float Number(string text) => float.Parse(text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture);
+                    var hex = parts[4].Trim().TrimStart('#');
+                    var packed = uint.Parse(hex, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
+                    var color = new Color((int)((packed >> 16) & 0xFF), (int)((packed >> 8) & 0xFF), (int)(packed & 0xFF), (int)((packed >> 24) & 0xFF));
+                    _shadows.Add(new BoxShadow(color, new Vector2(Number(parts[0]), Number(parts[1])), Number(parts[2]), Number(parts[3]), parts.Length > 5 && parts[5].Trim() == "inset"));
+                }
+            }
+        }
+
         public override void AddChild(Control child)
         {
             if (VisualChildren.Count != 0) throw new InvalidOperationException("Border accepts one child.");
@@ -1337,6 +1365,25 @@ namespace Forma
 
     public abstract class GradientBrush : Brush
     {
+        /// <summary>Stops as markup text: <c>offset:#AARRGGBB</c> entries separated by semicolons (offsets 0 to 1).</summary>
+        public string StopsText
+        {
+            get => string.Join(";", GradientStops.Select(stop => stop.Offset.ToString(System.Globalization.CultureInfo.InvariantCulture) + ":#" + stop.Color.A.ToString("X2") + stop.Color.R.ToString("X2") + stop.Color.G.ToString("X2") + stop.Color.B.ToString("X2")));
+            set
+            {
+                var stops = new List<GradientStop>();
+                foreach (var entry in (value ?? string.Empty).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var colon = entry.IndexOf(':');
+                    if (colon <= 0) throw new FormatException($"Gradient stop '{entry}' must be offset:#AARRGGBB.");
+                    var packed = uint.Parse(entry.Substring(colon + 1).Trim().TrimStart('#'), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
+                    stops.Add(new GradientStop(float.Parse(entry.Substring(0, colon), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture),
+                        new Color((int)((packed >> 16) & 0xFF), (int)((packed >> 8) & 0xFF), (int)(packed & 0xFF), (int)((packed >> 24) & 0xFF))));
+                }
+                GradientStops = stops;
+            }
+        }
+
         private IReadOnlyList<GradientStop> _gradientStops = new[] { new GradientStop(0, Color.Transparent), new GradientStop(1, Color.White) };
         public IReadOnlyList<GradientStop> GradientStops
         {
