@@ -334,7 +334,7 @@ public sealed class FormaHtmlConverterTest
 
     [TestCase("<style>button.x >> f-border.y { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "::part(")]
     [TestCase("<style>button::before { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "Help:")]
-    [TestCase("<style>[data-x=y] { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "Help:")]
+    [TestCase("<style>[href=y] { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "Help:")]
     [TestCase("<style>button::part() { opacity: 1; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector, "Help:")]
     public void PartAndSelectorRejections_CarryACodeAndAHelpLine(string html, string code, string fragment)
     {
@@ -661,6 +661,55 @@ public sealed class FormaHtmlConverterTest
     public void LayoutRejections_CarryAHelpLineNamingTheAlternative(string html, string code)
     {
         var error = Convert(html).Diagnostics.First(d => d.Code == code);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
+    }
+
+    [Test]
+    public void DataAttributes_AreStateThatSelectorsMatch_AndIsWhereAndStructuralSelectorsLower()
+    {
+        var result = Convert("""
+            <style>
+              span[data-state=open] { opacity: 0.5; }
+              span:is(.a, .b):first-child { font-weight: bold; }
+              span.c:nth-child(2) { opacity: 0.25; }
+              button[disabled] { opacity: 0.4; }
+            </style>
+            <div><span id="S" class="a" data-state="open">x</span><span id="T" class="c">y</span></div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("DataSet=\"state=open\""));
+        Assert.That(result.Xaml, Does.Contain("Selector=\"Label[data-state=open]\""));
+        Assert.That(result.Xaml, Does.Contain("Label.a:first-child, Label.b:first-child"));
+        Assert.That(result.Xaml, Does.Contain("Button:disabled"));
+
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var s1 = (Label)NameScope.GetNameScope(root)!.Find("S")!;
+        var t1 = (Label)NameScope.GetNameScope(root)!.Find("T")!;
+        Assert.That(s1.Opacity, Is.EqualTo(0.5f));
+        Assert.That(s1.FontWeight, Is.EqualTo(UIFontWeight.Bold));
+        Assert.That(t1.Opacity, Is.EqualTo(0.25f));
+        s1.SetData("state", "closed");
+        Assert.That(s1.Opacity, Is.EqualTo(1f));
+    }
+
+    [Test]
+    public void FocusVisible_BecomesFocusUnderKeyboardAndGamepadModality()
+    {
+        var result = Convert("<style>button.k:focus-visible { opacity: 0.5; }</style><div><button class=\"k\">a</button></div>");
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("InputModality=\"Keyboard\""));
+        Assert.That(result.Xaml, Does.Contain("InputModality=\"Gamepad\""));
+        Assert.That(result.Xaml, Does.Contain("Button.k:focus"));
+    }
+
+    [TestCase("<style>span + span { opacity: 1; }</style><div></div>")]
+    [TestCase("<style>span ~ span { opacity: 1; }</style><div></div>")]
+    [TestCase("<style>@media (prefers-reduced-motion: reduce) { button.k:focus-visible { opacity: 1; } }</style><div></div>")]
+    public void SiblingCombinatorsAndFocusVisibleInMedia_AreRejectedWithHelp(string html)
+    {
+        var error = Convert(html).Diagnostics.First(d => d.Code == FormaHtmlDiagnosticCodes.UnsupportedSelector);
 
         Assert.That(error.Message, Does.Contain("Help:"));
     }

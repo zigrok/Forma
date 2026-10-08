@@ -141,6 +141,52 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void DataAttributeSelectors_MatchAndReEvaluateWhenTheDataChanges()
+        {
+            var root = new Control();
+            var target = new Control();
+            root.AddChild(target);
+            StyleEngine.Attach(root, new[] { CreateStyle("Control[data-state=open]", "open"), CreateStyle("Control[data-flag]", "flag") });
+
+            Assert.That(target.TooltipText, Is.Not.EqualTo("open"));
+            target.SetData("state", "open");
+            var dbg = StyleInspector.Inspect(target);
+            Assert.That(target.TooltipText, Is.EqualTo("open"), string.Join("|", dbg.Rules.Select(r => r.Selector + ":" + r.Matched + ":" + r.Reason)));
+            target.SetData("state", "closed");
+            Assert.That(target.TooltipText, Is.Not.EqualTo("open"));
+            target.DataSet = "flag=1";
+            Assert.That(target.TooltipText, Is.EqualTo("flag"));
+            Assert.That(StyleInspector.Inspect(target).Rules.Single(r => r.Selector.Contains("data-state")).Reason, Does.Contain("state"));
+        }
+
+        [Test]
+        public void StructuralSelectors_FirstLastNthAndEmpty_FollowTheChildList()
+        {
+            var root = new Control();
+            var a = new Control(); var b = new Control(); var c = new Control();
+            root.AddChild(a); root.AddChild(b); root.AddChild(c);
+            StyleEngine.Attach(root, new[]
+            {
+                CreateStyle("Control:first-child", "first"),
+                CreateStyle("Control:last-child", "last"),
+                CreateStyle("Control:nth-child(2n)", "even"),
+                CreateStyle("Control:nth-child(odd)", "odd"),
+                CreateStyle("Control:empty", "empty"),
+            });
+
+            Assert.That(a.TooltipText, Is.EqualTo("empty"));
+            Assert.That(StyleInspector.Inspect(a).Winners.Single(w => w.Property == "TooltipText").Source, Does.Contain(":empty"));
+            Assert.That(StyleInspector.Inspect(a).Rules.Count(r => r.Matched), Is.EqualTo(3)); // first, odd and empty match a
+            Assert.That(StyleInspector.Inspect(b).Rules.Single(r => r.Selector.Contains("2n")).Matched, Is.True);
+            Assert.That(StyleInspector.Inspect(c).Rules.Single(r => r.Selector.Contains("last-child")).Matched, Is.True);
+
+            root.RemoveChild(a);
+
+            Assert.That(StyleInspector.Inspect(b).Rules.Single(r => r.Selector.Contains("first-child")).Matched, Is.True);
+            Assert.That(StyleInspector.Inspect(c).Rules.Single(r => r.Selector.Contains("2n")).Matched, Is.True);
+        }
+
+        [Test]
         public void StyleEngine_AttachFrom_GivesATemplateScopedViewTheStylesOfASource()
         {
             var source = new Control();

@@ -311,11 +311,67 @@ namespace Forma.Xaml
 
     public enum StyleSelectorCombinator { Descendant, Child, TemplateChild }
 
+    /// <summary>An attribute (<c>[data-state="open"]</c>) or structural (<c>:first-child</c>, <c>:nth-child(2n+1)</c>) condition of a compound selector.</summary>
+    public sealed class StyleSelectorPredicate
+    {
+        public StyleSelectorPredicate(string kind, string name, string value, int a, int b)
+        {
+            Kind = kind;
+            Name = name;
+            Value = value;
+            A = a;
+            B = b;
+        }
+
+        /// <summary>One of attribute, first-child, last-child, only-child, empty, nth-child.</summary>
+        public string Kind { get; }
+        public string Name { get; }
+        public string Value { get; }
+        public int A { get; }
+        public int B { get; }
+
+        internal bool Matches(Control control)
+        {
+            switch (Kind)
+            {
+                case "attribute":
+                    var current = control.GetData(Name);
+                    return Value == null ? current != null : current == Value;
+                case "empty":
+                    return control.VisualChildren.Count == 0;
+            }
+            var siblings = control.VisualParent?.VisualChildren;
+            if (siblings == null) return false;
+            var index = 0;
+            for (; index < siblings.Count && !ReferenceEquals(siblings[index], control); index++) { }
+            if (index == siblings.Count) return false;
+            switch (Kind)
+            {
+                case "first-child": return index == 0;
+                case "last-child": return index == siblings.Count - 1;
+                case "only-child": return siblings.Count == 1;
+                case "nth-child":
+                    var position = index + 1;
+                    if (A == 0) return position == B;
+                    var steps = (position - B) / (double)A;
+                    return steps >= 0 && Math.Abs(steps - Math.Round(steps)) < 1e-9;
+            }
+            return false;
+        }
+    }
+
     public sealed class StyleSelectorCompound
     {
         public StyleSelectorCompound(string typeName, bool universal, string name, IReadOnlyList<string> classes,
             IReadOnlyList<string> pseudoStates, IReadOnlyList<StyleSelectorCompound> negations)
+            : this(typeName, universal, name, classes, pseudoStates, negations, null)
         {
+        }
+
+        public StyleSelectorCompound(string typeName, bool universal, string name, IReadOnlyList<string> classes,
+            IReadOnlyList<string> pseudoStates, IReadOnlyList<StyleSelectorCompound> negations, IReadOnlyList<StyleSelectorPredicate> predicates)
+        {
+            Predicates = Array.AsReadOnly((predicates ?? Array.Empty<StyleSelectorPredicate>()).ToArray());
             TypeName = typeName;
             IsUniversal = universal;
             Name = name;
@@ -323,7 +379,7 @@ namespace Forma.Xaml
             PseudoStates = Array.AsReadOnly((pseudoStates ?? throw new ArgumentNullException(nameof(pseudoStates))).ToArray());
             Negations = Array.AsReadOnly((negations ?? throw new ArgumentNullException(nameof(negations))).ToArray());
             Specificity = (name == null ? 0 : 1_000_000) +
-                (classes.Count + pseudoStates.Count) * 1_000 +
+                (classes.Count + pseudoStates.Count + Predicates.Count) * 1_000 +
                 (typeName == null ? 0 : 1) + negations.Sum(negation => negation.Specificity);
         }
 
@@ -333,7 +389,9 @@ namespace Forma.Xaml
         public IReadOnlyList<string> Classes { get; }
         public IReadOnlyList<string> PseudoStates { get; }
         public IReadOnlyList<StyleSelectorCompound> Negations { get; }
+        public IReadOnlyList<StyleSelectorPredicate> Predicates { get; }
         public int Specificity { get; }
+        internal bool HasStructuralPredicates => Predicates.Any(p => p.Kind != "attribute");
     }
 
     public sealed class StyleSelectorArm
@@ -467,6 +525,8 @@ namespace Forma.Xaml
             foreach (var className in compound.Classes) if (!control.Classes.Contains(className)) return false;
             foreach (var pseudoState in compound.PseudoStates)
                 if (!control.IsPseudoStateActive(pseudoState)) return false;
+            foreach (var predicate in compound.Predicates)
+                if (!predicate.Matches(control)) return false;
             foreach (var negation in compound.Negations)
                 if (MatchesCompound(negation, control, state)) return false;
             return true;
@@ -479,6 +539,8 @@ namespace Forma.Xaml
             foreach (var className in compound.Classes) if (!control.Classes.Contains(className)) return false;
             foreach (var pseudoState in compound.PseudoStates)
                 if (!control.IsPseudoStateActive(pseudoState)) return false;
+            foreach (var predicate in compound.Predicates)
+                if (!predicate.Matches(control)) return false;
             foreach (var negation in compound.Negations)
                 if (CouldMatchCompound(negation, control)) return false;
             return true;
@@ -554,6 +616,7 @@ namespace Forma.Xaml
                 var classes = new List<string>();
                 var pseudoStates = new List<string>();
                 var negations = new List<StyleSelectorCompound>();
+                var predicates = new List<StyleSelectorPredicate>();
                 var hasTerm = false;
                 if (_index < _source.Length && _source[_index] == '*')
                 {
@@ -571,10 +634,53 @@ namespace Forma.Xaml
                     }
                     hasTerm = true;
                 }
-                while (_index < _source.Length && _source[_index] is '.' or '#' or ':')
+                while (_index < _source.Length && _source[_index] is '.' or '#' or ':' or '[')
                 {
                     hasTerm = true;
                     var marker = _source[_index++];
+                    if (marker == '[')
+                    {
+                        var close = _source.IndexOf(']', _index);
+                        if (close < 0) throw Error("contains an unterminated [attribute]");
+                        var body = _source.Substring(_index, close - _index).Trim();
+                        _index = close + 1;
+                        var eq = body.IndexOf('=');
+                        var attribute = (eq < 0 ? body : body.Substring(0, eq)).Trim();
+                        var attributeValue = eq < 0 ? null : body.Substring(eq + 1).Trim().Trim('"', '\'');
+                        if (attribute.Length == 0) throw Error("contains an empty [attribute]");
+                        // [data-state] reads the data attribute "state", as dataset.state does in a browser.
+                        if (attribute.StartsWith("data-", StringComparison.Ordinal)) attribute = attribute.Substring(5);
+                        predicates.Add(new StyleSelectorPredicate("attribute", attribute, attributeValue, 0, 0));
+                        continue;
+                    }
+                    if (marker == ':' && (StartsWith("first-child") || StartsWith("last-child") || StartsWith("only-child") || StartsWith("empty")))
+                    {
+                        var structural = ParseIdentifier();
+                        predicates.Add(new StyleSelectorPredicate(structural, null, null, 0, 0));
+                        continue;
+                    }
+                    if (marker == ':' && StartsWith("nth-child("))
+                    {
+                        _index += "nth-child(".Length;
+                        var close = _source.IndexOf(')', _index);
+                        if (close < 0) throw Error("contains an unterminated :nth-child(...)");
+                        var formula = _source.Substring(_index, close - _index).Replace(" ", string.Empty);
+                        _index = close + 1;
+                        int a = 0, b = 0;
+                        if (formula == "odd") { a = 2; b = 1; }
+                        else if (formula == "even") { a = 2; b = 0; }
+                        else if (formula.Contains('n'))
+                        {
+                            var n = formula.IndexOf('n');
+                            var left = formula.Substring(0, n);
+                            a = left == string.Empty || left == "+" ? 1 : left == "-" ? -1 : int.Parse(left, System.Globalization.CultureInfo.InvariantCulture);
+                            var right = formula.Substring(n + 1);
+                            b = right.Length == 0 ? 0 : int.Parse(right, System.Globalization.CultureInfo.InvariantCulture);
+                        }
+                        else b = int.Parse(formula, System.Globalization.CultureInfo.InvariantCulture);
+                        predicates.Add(new StyleSelectorPredicate("nth-child", null, null, a, b));
+                        continue;
+                    }
                     if (marker == ':' && StartsWith("not("))
                     {
                         _index += 4;
@@ -597,7 +703,7 @@ namespace Forma.Xaml
                     }
                 }
                 if (!hasTerm) throw Error("contains an empty compound selector");
-                return new StyleSelectorCompound(typeName, universal, name, classes, pseudoStates, negations);
+                return new StyleSelectorCompound(typeName, universal, name, classes, pseudoStates, negations, predicates);
             }
 
             private string ParseIdentifier()
@@ -815,6 +921,7 @@ namespace Forma.Xaml
         {
             _root = root;
             _styles = styles;
+            _hasStructural = styles.Any(style => style.Selector.Arms.Any(arm => arm.Compounds.Any(compound => compound.HasStructuralPredicates)));
             Registry.GetOrCreateValue(root).Add(this);
             try
             {
@@ -869,12 +976,13 @@ namespace Forma.Xaml
         {
             EventHandler changed = (_, _) => EvaluateChangedControl(control, registration);
             EventHandler<ControlPseudoStateChangedEventArgs> pseudoStateChanged = (_, _) => EvaluateChangedControl(control, registration);
-            Action<Control, Control> added = (_, child) => AttachTree(child);
-            Action<Control, Control> removed = (_, child) => DetachTree(child);
+            Action<Control, Control> added = (_, child) => { AttachTree(child); if (_hasStructural) EvaluateChildren(control); };
+            Action<Control, Control> removed = (_, child) => { DetachTree(child); if (_hasStructural) EvaluateChildren(control); };
             EventHandler<ControlParentChangedEventArgs> parentChanged = (_, _) => EvaluateTree(control);
             EventHandler attached = (_, _) => { if (ReferenceEquals(control, _root)) RefreshContext(); };
             EventHandler detached = (_, _) => { if (ReferenceEquals(control, _root)) RefreshContext(); };
             control.Classes.Changed += changed;
+            control.DataChanged += changed;
             control.NameChanged += changed;
             control.PseudoStateChanged += pseudoStateChanged;
             control.VisualChildAdded += added;
@@ -883,6 +991,7 @@ namespace Forma.Xaml
             control.Attached += attached;
             control.Detached += detached;
             registration.Unsubscribe.Add(() => control.Classes.Changed -= changed);
+            registration.Unsubscribe.Add(() => control.DataChanged -= changed);
             registration.Unsubscribe.Add(() => control.NameChanged -= changed);
             registration.Unsubscribe.Add(() => control.PseudoStateChanged -= pseudoStateChanged);
             registration.Unsubscribe.Add(() => control.VisualChildAdded -= added);
@@ -890,6 +999,16 @@ namespace Forma.Xaml
             registration.Unsubscribe.Add(() => control.ParentChanged -= parentChanged);
             registration.Unsubscribe.Add(() => control.Attached -= attached);
             registration.Unsubscribe.Add(() => control.Detached -= detached);
+        }
+
+        private bool _hasStructural;
+
+        // Structural selectors (:first-child, :nth-child, :empty) depend on siblings, so a child list change re-evaluates the children.
+        private void EvaluateChildren(Control parent)
+        {
+            if (_controls.TryGetValue(parent, out var parentRegistration)) Evaluate(parent, parentRegistration, false);
+            foreach (var child in parent.VisualChildren.ToArray())
+                if (_controls.TryGetValue(child, out var registration)) Evaluate(child, registration, false);
         }
 
         private void EvaluateChangedControl(Control control, ControlRegistration registration)

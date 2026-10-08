@@ -145,6 +145,9 @@ namespace Forma.Xaml
                 if (!control.Classes.Contains(className)) return $"Class '{className}' is missing.";
             foreach (var pseudo in compound.PseudoStates)
                 if (!control.IsPseudoStateActive(pseudo)) return $"Pseudo-state ':{pseudo}' is not active.";
+            foreach (var predicate in compound.Predicates)
+                if (!predicate.Matches(control))
+                    return predicate.Kind == "attribute" ? $"Attribute [{predicate.Name}{(predicate.Value == null ? string.Empty : "=" + predicate.Value)}] does not match (value is '{control.GetData(predicate.Name) ?? "unset"}')." : $"Structural condition :{predicate.Kind} does not match this control's position.";
             foreach (var negation in compound.Negations)
                 if (Why(negation, control) == null) return "A :not() exclusion matches this control.";
             return null;

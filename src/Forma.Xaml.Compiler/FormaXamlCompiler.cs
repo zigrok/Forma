@@ -893,7 +893,8 @@ public sealed class FormaXamlCompiler
         compound.Name,
         compound.Classes,
         compound.PseudoStates,
-        compound.Negations.Select(NormalizeStyleSelectorCompound).ToArray());
+        compound.Negations.Select(NormalizeStyleSelectorCompound).ToArray(),
+        compound.Predicates);
 
     private static FormaLoweredNode? FindAdaptiveCondition(FormaLoweredDocument lowered, FormaLoweredNode styleNode)
     {

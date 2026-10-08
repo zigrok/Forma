@@ -236,6 +236,43 @@ namespace Forma
             return own || (_pseudoStateSource != null && state != "disabled" && _pseudoStateSource.IsPseudoStateActive(state));
         }
 
+        private Dictionary<string, string> _data;
+
+        /// <summary>Raised when a data attribute (the equivalent of an HTML data-* attribute) is set, changed or removed.</summary>
+        public event EventHandler DataChanged;
+
+        /// <summary>The value of a data attribute, or null when it is not set. Style selectors such as <c>[data-state="open"]</c> read these.</summary>
+        public string GetData(string name) => _data != null && _data.TryGetValue(name, out var value) ? value : null;
+
+        /// <summary>Sets a data attribute; a null value removes it. Styles that select on it re-evaluate.</summary>
+        public void SetData(string name, string value)
+        {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("A data attribute name is required.", nameof(name));
+            if (value == null) { if (_data == null || !_data.Remove(name)) return; }
+            else
+            {
+                _data ??= new Dictionary<string, string>(StringComparer.Ordinal);
+                if (_data.TryGetValue(name, out var existing) && existing == value) return;
+                _data[name] = value;
+            }
+            DataChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>Data attributes as <c>name=value;name2=value2</c>, for markup. Setting replaces every attribute.</summary>
+        public string DataSet
+        {
+            get => _data == null ? string.Empty : string.Join(";", _data.OrderBy(pair => pair.Key, StringComparer.Ordinal).Select(pair => pair.Key + "=" + pair.Value));
+            set
+            {
+                foreach (var name in (_data?.Keys.ToArray() ?? Array.Empty<string>())) SetData(name, null);
+                foreach (var part in (value ?? string.Empty).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var eq = part.IndexOf('=');
+                    if (eq > 0) SetData(part.Substring(0, eq).Trim(), part.Substring(eq + 1).Trim());
+                }
+            }
+        }
+
         private Control _pseudoStateSource;
         private EventHandler<ControlPseudoStateChangedEventArgs> _pseudoStateSourceHandler;
 

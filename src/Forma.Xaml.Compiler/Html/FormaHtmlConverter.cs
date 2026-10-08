@@ -897,6 +897,14 @@ public sealed class FormaHtmlConverter
             case "colspan" or "rowspan": return; // read by the grid placement
         }
 
+        if (name.StartsWith("data-", StringComparison.Ordinal) && name.Length > 5)
+        {
+            var existing = target.Attrs.FirstOrDefault(a => a.Name == "DataSet");
+            if (existing == null) target.Attrs.Add(new Attr("DataSet", name.Substring(5) + "=" + value, attribute.Line, attribute.Column));
+            else existing.Value += ";" + name.Substring(5) + "=" + value;
+            return;
+        }
+
         if (name.StartsWith("on", StringComparison.Ordinal) && name.Length > 2)
         {
             if (!IsIdentifier(value)) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"{name} names a code-behind handler, never an expression: {name}=\"OnSomethingPressed\".", attribute); return; }
@@ -1146,6 +1154,22 @@ public sealed class FormaHtmlConverter
 
     // Properties that can observe a resource take a live {DynamicResource}: a custom property of the matching kind, or resource(Key)
     // for a resource defined elsewhere (for example in XAML). Everything else substitutes the custom property's value at build time.
+    // :focus-visible is focus reached by keyboard or gamepad: the rule becomes two, each under an input-modality condition.
+    private IEnumerable<CssRule> ExpandFocusVisible(IReadOnlyList<CssRule> rules)
+    {
+        foreach (var rule in rules)
+        {
+            if (!rule.Selector.Contains(":focus-visible", StringComparison.Ordinal)) { yield return rule; continue; }
+            if (rule.Media != null) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, ":focus-visible cannot be combined with another @media condition. Help: move the rule out of the @media block; :focus-visible already depends on the input modality.", rule); continue; }
+            foreach (var modality in new[] { "keyboard", "gamepad" })
+            {
+                var clone = new CssRule { Selector = rule.Selector.Replace(":focus-visible", ":focus", StringComparison.Ordinal), Path = rule.Path, Line = rule.Line, Column = rule.Column, Media = "(input-modality: " + modality + ")" };
+                clone.Declarations.AddRange(rule.Declarations);
+                yield return clone;
+            }
+        }
+    }
+
     private void BuildControlTemplate(HtmlNode template, List<XNode> into)
     {
         var id = template.Attr("id");
@@ -1388,7 +1412,7 @@ public sealed class FormaHtmlConverter
         BuildStoryboards(rules, styles);
 
         var index = 0;
-        foreach (var rule in rules.Where(r => r.Selector != ":root" && r.Keyframes == null))
+        foreach (var rule in ExpandFocusVisible(rules).Where(r => r.Selector != ":root" && r.Keyframes == null))
         {
             var selector = LowerSelector(rule, out var subjectType);
             if (selector == null) continue;
@@ -1474,7 +1498,7 @@ public sealed class FormaHtmlConverter
     {
         subjectType = "Control";
         var arms = new List<string>();
-        foreach (var arm in rule.Selector.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+        foreach (var arm in ExpandIs(rule.Selector).Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
         {
             var lowered = new StringBuilder();
             var tokens = Tokenize(arm);
@@ -1489,7 +1513,7 @@ public sealed class FormaHtmlConverter
 
                 if (token is ">" or "+" or "~")
                 {
-                    if (token != ">") { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Combinator '{token}' is not supported; use descendant or child (>).", rule); return null; }
+                    if (token != ">") { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Sibling combinator '{token}' is not supported yet. Help: use :first-child, :nth-child() or a class on the sibling; descendant and child (>) combinators work.", rule); return null; }
                     lowered.Append(" > ");
                     continue;
                 }
@@ -1523,6 +1547,39 @@ public sealed class FormaHtmlConverter
         }
 
         return arms.Count == 0 ? null : string.Join(", ", arms);
+    }
+
+    // :is(a, b) and :where(a, b) are alternatives: expand them to a selector list before lowering (:where has zero specificity in
+    // browsers; Forma has no zero-specificity form, so it behaves as :is and the difference is documented in the support matrix).
+    private static string ExpandIs(string selector)
+    {
+        for (var guard = 0; guard < 16; guard++)
+        {
+            var start = selector.IndexOf(":is(", StringComparison.Ordinal);
+            var length = 4;
+            var where = selector.IndexOf(":where(", StringComparison.Ordinal);
+            if (where >= 0 && (start < 0 || where < start)) { start = where; length = 7; }
+            if (start < 0) return selector;
+            var depth = 1;
+            var end = start + length;
+            for (; end < selector.Length && depth > 0; end++)
+            {
+                if (selector[end] == '(') depth++;
+                else if (selector[end] == ')') depth--;
+            }
+
+            var inner = selector.Substring(start + length, end - start - length - 1);
+            var comma = selector.LastIndexOf(',', start);
+            var armStart = comma < 0 ? 0 : comma + 1;
+            var armEndComma = selector.IndexOf(',', end);
+            var armEnd = armEndComma < 0 ? selector.Length : armEndComma;
+            var prefix = selector.Substring(armStart, start - armStart);
+            var suffix = selector.Substring(end, armEnd - end);
+            var alternatives = inner.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Select(a => prefix + a + suffix);
+            selector = selector.Substring(0, armStart) + string.Join(", ", alternatives) + selector.Substring(armEnd);
+        }
+
+        return selector;
     }
 
     private static List<string> Tokenize(string selector)
@@ -1582,7 +1639,10 @@ public sealed class FormaHtmlConverter
                     "role=tablist" => "TabContainer",
                     _ => null,
                 };
-                if (mapped == null) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Attribute selector [{attribute}] is not supported yet. Help: supported are [type=checkbox], [type=range], [type=text] and [role=tablist]; use a class for other variants.", rule); return null; }
+                if (mapped == null && attribute.StartsWith("data-", StringComparison.Ordinal)) { output.Append('[').Append(attribute).Append(']'); continue; }
+                if (mapped == null && attribute == "disabled") { output.Append(":disabled"); continue; }
+                if (mapped == null && attribute == "checked") { output.Append(":checked"); continue; }
+                if (mapped == null) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Attribute selector [{attribute}] is not supported. Help: supported are [data-*], [disabled], [checked], [type=checkbox], [type=range], [type=text] and [role=tablist]; use a data-* attribute or a class for other state.", rule); return null; }
                 if (output.Length > 0 && type is not ("LineEdit" or "Control" or "")) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"[{attribute}] cannot be combined with the '{type}' type selector.", rule); return null; }
                 var previous = type;
                 var text = output.ToString();
@@ -1607,7 +1667,14 @@ public sealed class FormaHtmlConverter
                         i = close + 1;
                     }
                     else if (name == "host") { if (i < compound.Length && compound[i] == '(') { var close = compound.IndexOf(')', i); var inner = LowerCompound(compound.Substring(i + 1, close - i - 1), rule, out _); if (inner == null) return null; output.Append(inner); i = close + 1; } }
-                    else if (name is "hover" or "focus" or "disabled" or "checked" or "selected") output.Append(':').Append(name);
+                    else if (name is "hover" or "focus" or "disabled" or "checked" or "selected" or "focus-within") output.Append(':').Append(name);
+                    else if (name is "first-child" or "last-child" or "only-child" or "empty") output.Append(':').Append(name);
+                    else if (name == "nth-child" && i < compound.Length && compound[i] == '(')
+                    {
+                        var close = compound.IndexOf(')', i);
+                        output.Append(":nth-child").Append(compound, i, close - i + 1);
+                        i = close + 1;
+                    }
                     else if (name == "active") output.Append(":pressed");
                     else { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Pseudo-class ':{name}' is not supported (hover, active, focus, disabled, checked, selected, not).", rule); return null; }
                     break;

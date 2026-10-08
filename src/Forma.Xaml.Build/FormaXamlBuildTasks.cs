@@ -1948,7 +1948,17 @@ public sealed class CompileFormaXaml : FormaXamlTask
         EmitStringArray(body, module, compound.PseudoStates);
         EmitReferenceArray(body, module, module.ImportReference(compoundType), compound.Negations, negation =>
             EmitStyleSelectorCompound(body, module, formaAssembly, negation));
-        body.Emit(OpCodes.Newobj, module.ImportReference(compoundType.Methods.Single(method => method.IsConstructor && !method.IsStatic)));
+        var predicateType = formaAssembly.MainModule.GetType("Forma.Xaml.StyleSelectorPredicate");
+        EmitReferenceArray(body, module, module.ImportReference(predicateType), compound.Predicates, predicate =>
+        {
+            EmitNullableString(body, predicate.Kind);
+            EmitNullableString(body, predicate.Name);
+            EmitNullableString(body, predicate.Value);
+            body.Emit(OpCodes.Ldc_I4, predicate.A);
+            body.Emit(OpCodes.Ldc_I4, predicate.B);
+            body.Emit(OpCodes.Newobj, module.ImportReference(predicateType.Methods.Single(method => method.IsConstructor && !method.IsStatic)));
+        });
+        body.Emit(OpCodes.Newobj, module.ImportReference(compoundType.Methods.Single(method => method.IsConstructor && !method.IsStatic && method.Parameters.Count == 7)));
     }
 
     private static void EmitReferenceArray<T>(ILProcessor body, ModuleDefinition module, TypeReference elementType, IReadOnlyList<T> values, Action<T> emitValue)

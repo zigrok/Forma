@@ -50,6 +50,9 @@ public static class FormaHtmlDialect
         new("flex-wrap and overflow", "<div style=\"display: flex; flex-wrap: wrap; overflow: hidden\"><span>x</span></div>", "HFlowContainer"),
         new("align-items and justify-content", "<div style=\"display: flex; align-items: center; justify-content: flex-end\"><span>x</span></div>", "HBoxContainer"),
         new("width, height and max sizes", "<div style=\"width: 10px; height: 20px; max-width: 30px\"><span>x</span></div>", "Container"),
+        new("data-* state and [data-*] selectors", "<style>span[data-state=open] { opacity: 0.5; }</style><div><span data-state=\"open\">x</span></div>", "Container"),
+        new(":is(), :first-child, :nth-child(), [disabled]", "<style>span:is(.a, .b):first-child { opacity: 1; } span:nth-child(2n+1) { opacity: 1; } button[disabled] { opacity: 1; }</style><div><span class=\"a\">x</span></div>", "Container"),
+        new(":focus-visible", "<style>button.k:focus-visible { opacity: 0.5; }</style><div><button class=\"k\">a</button></div>", "Container"),
         new("-f-Property and resource()", "<style>span.c { -f-Opacity: 0.5; color: resource(External.Color); }</style><div><span class=\"c\">x</span></div>", "Container"),
     ];
 }
