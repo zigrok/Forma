@@ -712,7 +712,7 @@ public sealed class FormaHtmlConverter
     }
 
     // A table cell holds text (a Label), one element, or several elements (a Container).
-    private void ConvertCell(HtmlNode cell, XNode target, XNode parent)
+    private void ConvertCell(HtmlNode cell, XNode target, XNode? parent)
     {
         var content = cell.Children.Where(c => !(c.IsText && string.IsNullOrWhiteSpace(c.Text))).ToList();
         var onlyText = content.All(c => c.IsText);
