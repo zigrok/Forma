@@ -853,7 +853,11 @@ public sealed class FormaHtmlConverter
                 };
             case "textarea": return "TextEdit";
             case "select": return "OptionButton";
-            case "img": return Reject(element, "<img> has no defined Forma mapping yet; use f-control type=\"…\" for an application image control.");
+            case "img":
+                if (element.Attr("src") is not { } imgSrc || !imgSrc.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
+                    return Reject(element, "<img> needs src=\"file.svg\": Forma draws SVG images through its asset pipeline. Help: convert the image to SVG, or use f-control type=\"prefix:Type\" for an application image control.");
+                return "Image";
+            case "svg": return Reject(element, "Inline <svg> is not supported. Help: save the drawing as a .svg file and reference it with <img src=\"icon.svg\" alt=\"…\">.");
         }
 
         if (name is "ul" or "ol" && element.Attr("bind:items") != null) return element.Attributes.Any(a => a.Name == "selectable") ? "ListBox" : "ItemsControl";
@@ -924,6 +928,8 @@ public sealed class FormaHtmlConverter
                 else Error(FormaHtmlDiagnosticCodes.InvalidValue, "tabindex must be 0 (focusable) or -1 (not focusable).", attribute);
                 return;
             case "title": Add("TooltipText", Escape(value)); return;
+            case "src" when element.Name == "img": Add("ScalableSource", value); return;
+            case "alt" when element.Name == "img": Add("AccessibilityLabel", Escape(value)); return;
             case "template": Add("Template", "{StaticResource " + value + "}"); return;
             case "selectable": Add("SelectionMode", "Single"); return;
             case "role" when value is "tablist" or "tabpanel" or "tab": return;
@@ -1176,6 +1182,9 @@ public sealed class FormaHtmlConverter
                     break;
                 case "font-style":
                     yield return ("FontStyle", value switch { "normal" => "Normal", "italic" => "Italic", "oblique" => "Oblique", _ => Invalid(d, "font-style supports normal, italic and oblique.") }, d);
+                    break;
+                case "font-family":
+                    Error(FormaHtmlDiagnosticCodes.RejectedProperty, "font-family is not supported: faces come from the theme. Help: set -f-FontFamily: resource(Key) to a registered face, or leave the theme font.", d);
                     break;
                 case "outline" or "outline-offset" or "outline-width" or "outline-color" or "mix-blend-mode" or "clip-path" or "mask" or "line-height" or "letter-spacing" or "text-decoration" or "word-spacing" or "cursor" when true:
                     Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' is not supported: {UnsupportedEffect(d.Name)}", d);

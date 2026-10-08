@@ -745,4 +745,25 @@ public sealed class FormaHtmlConverterTest
 
         Assert.That(error.Message, Does.Contain("Help:"));
     }
+
+    [Test]
+    public void ImgWithSvgSource_IsAnImageWithAnAccessibleName()
+    {
+        var result = Convert("<div><img id=\"I\" src=\"icon.svg\" alt=\"Close\"></div>");
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("<Image"));
+        Assert.That(result.Xaml, Does.Contain("ScalableSource=\"icon.svg\""));
+        Assert.That(result.Xaml, Does.Contain("AccessibilityLabel=\"Close\""));
+    }
+
+    [TestCase("<div><img src=\"a.png\"></div>", FormaHtmlDiagnosticCodes.RejectedConstruct)]
+    [TestCase("<div><svg></svg></div>", FormaHtmlDiagnosticCodes.RejectedConstruct)]
+    [TestCase("<div style=\"font-family: Arial\"></div>", FormaHtmlDiagnosticCodes.RejectedProperty)]
+    public void ImageAndFontRejections_CarryAHelpLine(string html, string code)
+    {
+        var error = Convert(html).Diagnostics.First(d => d.Code == code);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
+    }
 }
