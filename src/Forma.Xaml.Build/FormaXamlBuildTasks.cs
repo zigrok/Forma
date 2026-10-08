@@ -77,7 +77,7 @@ public sealed class ConvertFormaHtml : FormaXamlTask
 
         foreach (var file in StylesheetFiles)
             project.Load(Path.GetRelativePath(ProjectDirectory, file.GetMetadata("FullPath")).Replace(Path.DirectorySeparatorChar, '/'));
-        foreach (var sheet in project.Sheets.ToArray())
+        foreach (var sheet in project.Sheets.Where(sheet => sheet.Exists).ToArray())
         {
             var result = project.ConvertSheet(sheet.Path);
             success &= LogDiagnostics(Fresh(result.Diagnostics));
