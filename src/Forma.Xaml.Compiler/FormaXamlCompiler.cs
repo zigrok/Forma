@@ -955,6 +955,7 @@ public sealed class FormaXamlCompiler
             CompiledPropertyIdentity(property));
         if (TryParseSreResource(valueText, out var resource))
         {
+            if (resource.IsDynamic) return new DynamicStyleSetter<T>(xamlProperty, resource.Key);
             return new StyleSetter<T>(xamlProperty, control => StaticResource.Resolve<T>(control, resource.Key));
         }
 

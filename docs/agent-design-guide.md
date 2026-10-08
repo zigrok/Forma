@@ -49,28 +49,27 @@ Annotated anatomy of the menu card (`PauseView.xaml`):
    `x:Name` only for code that needs the instance. The accessible name comes from the text, never
    from the XAML name.
 
-A row view that is created by a data template is its own style boundary. Call
-`Resources.TraceStyle.InheritStyles(this)` (which uses `StyleEngine.AttachFrom`) in its constructor so
-the shared classes reach it.
+Row views created by a data template receive the shared classes and the container's `:hover` and
+`:selected` state with no extra code.
 
 ## Known limits and workarounds
 
 | Limit | Workaround |
 | --- | --- |
-| A data template, item row or compiled view is a style boundary; root styles do not reach it. | Call `StyleEngine.AttachFrom(view, source)` from the view. |
+| A control template is a style boundary: rules written outside do not reach its internals, and a descendant selector does not cross it. | Use the template-child combinator `>>` once per boundary. |
+| Content shown through a presenter (list rows, GroupBox and ScrollContainer bodies, ContentPresenter content) belongs to the scope where it is written, so rules attached there reach it. A `DataTemplate` that wants its own style scope sets `IsolateStyles = true` and opts in with `StyleEngine.AttachFrom(view, source)`. | None needed by default. Ancestor combinators still stop at boundaries, so a row cannot match a `.class` on an element outside its template; use `Control.PseudoStateSource` or a class on the row view. |
+| A row view matches the `:hover`, `:selected` and `:current` state of its item container (`Control.PseudoStateSource`, set by the presenter for list and data-grid rows). | Write `.row:selected` and `.row:hover` rules on the row view; no per-frame code. |
 | A style setter for `ColorRect.Color` does not apply. | Set `Color` on the control directly; keep it to the documented exceptions in `TokenLintTests`. |
-| `DynamicResource` in a style setter is resolved each time the style applies, not live. | Re-apply (class or state change) or use a control-local `DynamicResource`. |
-| `StyleSelector` descendant rules do not cross a style boundary. | Attach the style set inside the boundary. |
+| `{DynamicResource}` in a style setter is live (`DynamicStyleSetter<T>`): changing the resource updates controls the style already applied to. | A key that no scope defines leaves the property unset, so define tokens at the root. |
 | Layout never shrinks a control below its minimum size, so an over-long translation runs off the screen instead of clipping inside its parent. | The design lint's offscreen check catches it; shorten the text or lower the minimum. |
 | Headless tests cannot measure glyphs. | Rely on gallery frames for pt-BR and ja to catch glyph-level clipping. |
-| A data-template row view cannot match the `:selected` or `:hover` state of the container that realizes it. | Trace keeps `HighlightedRowWeights`, which sets the bold weight on the container and its presented row; buttons inside rows no longer need a workaround because the row view opts in with `AttachFrom` and style rules key off the `keyboard-selected` and `gamepad-selected` classes. |
-| A control built in code only receives styles once it sits under a styled root. | Add it to the tree (or give its view `AttachFrom`); classes and pseudo-state rules then apply exactly as for XAML controls (covered by `StyleEngine_CodeBuiltControl_ReceivesClassStyleAndStatePseudoRules`). |
+| A control built in code only receives styles once it sits under a styled root. | Add it to the tree; classes and pseudo-state rules then apply exactly as for XAML controls (`StyleEngine_CodeBuiltControl_ReceivesClassStyleAndStatePseudoRules`). |
 
 ## Troubleshooting
 
 | Symptom | Ask | Tool |
 | --- | --- | --- |
-| "Why is this not highlighted?" | Which rules matched, which did not and why? | `StyleInspector.Inspect(control)`; in the live game `game_ui` action `ui-inspect button=<automation id or name>` returns `styleInspection`. A "no style set attached" reason means a style boundary: use `AttachFrom`. |
+| "Why is this not highlighted?" | Which rules matched, which did not and why? | `StyleInspector.Inspect(control)`; in the live game `game_ui` action `ui-inspect button=<automation id or name>` returns `styleInspection`. A "no style set attached" reason means the control is in an isolated scope: use `AttachFrom`. |
 | A rule exists but never applies | Is the class spelled right, is the pseudo-state active, is an adaptive condition (modality) unmet? | The inspector's reason text names the exact missing class, inactive pseudo-state or unmet condition. |
 | Text is invisible or faint | Is contrast below 4.5:1 in some state? | `DesignLint` contrast checks and `StateColors_KeepTheirTextReadable`. |
 | A button cannot be found by an agent or screen reader | Does it have a human name? | `ui-tree` via `game_ui`; the naming lint. |

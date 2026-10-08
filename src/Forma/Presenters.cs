@@ -81,6 +81,14 @@ namespace Forma
 
         public Control PresentedControl => _presentedControl;
 
+        public ContentPresenter()
+        {
+            Attached += (_, _) =>
+            {
+                if (_templateInstance != null && _presentedControl != null) _presentedControl.PseudoStateSource = FindContainer();
+            };
+        }
+
         internal void SetGeneratedContent(object content) => SetContent(content, true);
 
         internal void SetContentAfterFailedReplacement(object content) => SetContent(content, false);
@@ -214,8 +222,17 @@ namespace Forma
             _contentTemplate = contentTemplate;
             _presentedControl = candidate;
             _templateInstance = candidateInstance;
+            if (candidateInstance != null && candidate != null) candidate.PseudoStateSource = FindContainer();
             DisposePresentation(previous, previousInstance);
             QueueLayout();
+        }
+
+        // The item container this presenter lives in, when it has one: its state is the state of the row it shows.
+        private Control FindContainer()
+        {
+            for (var current = VisualParent; current != null; current = current.VisualParent)
+                if (current is ListBoxItem || current is DataGridRow) return current;
+            return null;
         }
 
         private void ValidateProjectedControl(Control control)

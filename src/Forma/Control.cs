@@ -225,7 +225,7 @@ namespace Forma
         public virtual bool IsPseudoStateActive(string state)
         {
             if (state == null) throw new ArgumentNullException(nameof(state));
-            return state switch
+            var own = state switch
             {
                 "hover" => _isHovered,
                 "focus" => _isFocused,
@@ -233,6 +233,31 @@ namespace Forma
                 "disabled" => !IsEffectivelyEnabled,
                 _ => _pseudoStates.Contains(state),
             };
+            return own || (_pseudoStateSource != null && state != "disabled" && _pseudoStateSource.IsPseudoStateActive(state));
+        }
+
+        private Control _pseudoStateSource;
+        private EventHandler<ControlPseudoStateChangedEventArgs> _pseudoStateSourceHandler;
+
+        /// <summary>
+        /// A control whose pseudo-states this control also reports, so content shown inside a container (a list row's view in its
+        /// item container) can match the container's <c>:hover</c>, <c>:selected</c> and <c>:current</c> state in style rules.
+        /// Change notifications are forwarded, so styles re-evaluate when the source changes.
+        /// </summary>
+        public Control PseudoStateSource
+        {
+            get => _pseudoStateSource;
+            set
+            {
+                if (ReferenceEquals(_pseudoStateSource, value)) return;
+                if (_pseudoStateSource != null && _pseudoStateSourceHandler != null) _pseudoStateSource.PseudoStateChanged -= _pseudoStateSourceHandler;
+                _pseudoStateSource = value;
+                _pseudoStateSourceHandler = null;
+                if (value == null) return;
+                _pseudoStateSourceHandler = (_, args) => NotifyPseudoStateChanged(args.State);
+                value.PseudoStateChanged += _pseudoStateSourceHandler;
+                NotifyPseudoStateChanged("hover");
+            }
         }
         public MouseFilter MouseFilter { get => _mouseFilter; set => SetValue(ref _mouseFilter, value, nameof(MouseFilter)); }
         public FocusMode FocusMode { get => _focusMode; set => SetValue(ref _focusMode, value, nameof(FocusMode)); }

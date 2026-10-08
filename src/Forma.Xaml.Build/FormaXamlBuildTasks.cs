@@ -1574,6 +1574,18 @@ public sealed class CompileFormaXaml : FormaXamlTask
                         body.Emit(OpCodes.Ldstr, SourceMetadata(lowered, setter, "Forma.Xaml.Setter"));
                         body.Emit(OpCodes.Call, register);
                     }
+                    if (valueMember.Value is FormaResourceValue { IsDynamic: true } dynamicResource)
+                    {
+                        var dynamicSetterDefinition = formaAssembly.MainModule.GetType("Forma.Xaml.DynamicStyleSetter`1");
+                        var dynamicSetterType = new GenericInstanceType(module.ImportReference(dynamicSetterDefinition));
+                        dynamicSetterType.GenericArguments.Add(valueType);
+                        body.Emit(OpCodes.Ldstr, dynamicResource.Key);
+                        body.Emit(OpCodes.Ldnull);
+                        var dynamicConstructor = MakeClosedMethod(module, dynamicSetterDefinition.Methods.Single(method => method.IsConstructor && method.Parameters.Count == 3), dynamicSetterType);
+                        body.Emit(OpCodes.Newobj, dynamicConstructor);
+                        body.Emit(OpCodes.Callvirt, addSetter);
+                        continue;
+                    }
                     MethodDefinition styleSetterConstructorDefinition;
                     if (valueMember.Value is FormaResourceValue resource)
                     {

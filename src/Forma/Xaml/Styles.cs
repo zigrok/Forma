@@ -682,9 +682,16 @@ namespace Forma.Xaml
                     continue;
                 }
 
+                if (boundary.Kind == StyleBoundaryKind.ItemsPanelTemplate)
+                {
+                    // An items panel only holds the item containers, which belong to the items control's own scope.
+                    presentedContent = true;
+                    continue;
+                }
+
                 if (presentedContent)
                 {
-                    if (boundary.Kind == StyleBoundaryKind.ItemsPanelTemplate || current is ContentPresenter || current is ItemsPresenter || current is ScrollPresenter)
+                    if (current is ContentPresenter || current is ItemsPresenter || current is ScrollPresenter)
                         continue;
                     if (boundary.Kind == StyleBoundaryKind.ControlTemplate && boundary.Owner != null)
                     {

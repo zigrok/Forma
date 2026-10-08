@@ -671,6 +671,10 @@ public class FormaXamlCompilerTest
         var target = (Control)NameScope.GetNameScope(root)!.Find("Target")!;
 
         Assert.That(target.TooltipText, Is.EqualTo("FromToken"));
+
+        root.Resources["Label"] = "Changed";
+
+        Assert.That(target.TooltipText, Is.EqualTo("Changed"));
     }
 
     [Test]

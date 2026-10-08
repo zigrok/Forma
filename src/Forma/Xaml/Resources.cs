@@ -55,6 +55,24 @@ namespace Forma.Xaml
         }
     }
 
+    /// <summary>A style setter whose value follows a resource: when the resource changes, controls the style already applied to update.</summary>
+    public sealed class DynamicStyleSetter<T> : IStyleSetter
+    {
+        private readonly XamlProperty<T> _property;
+        private readonly string _key;
+        private readonly Func<object, T> _convert;
+
+        public DynamicStyleSetter(XamlProperty<T> property, string resourceKey, Func<object, T> convert = null)
+        {
+            _property = property ?? throw new ArgumentNullException(nameof(property));
+            _key = string.IsNullOrEmpty(resourceKey) ? throw new ArgumentException("A resource key is required.", nameof(resourceKey)) : resourceKey;
+            _convert = convert;
+        }
+
+        public IDisposable Apply(Control control, long priority) =>
+            new DynamicResourceExpression<T>(control, _property, _key, _convert, XamlValueLayer.Style, priority, StyleApplicationScope.Current);
+    }
+
     internal sealed class DynamicResourceExpression<T> : IDisposable
     {
         private readonly Control _target;
@@ -67,8 +85,11 @@ namespace Forma.Xaml
         private XamlValueContribution<T> _value;
         private bool _disposed;
 
-        public DynamicResourceExpression(Control target, XamlProperty<T> property, string key, Func<object, T> convert, XamlValueLayer layer, long priority)
+        private readonly Control _fallbackScope;
+
+        public DynamicResourceExpression(Control target, XamlProperty<T> property, string key, Func<object, T> convert, XamlValueLayer layer, long priority, Control fallbackScope = null)
         {
+            _fallbackScope = fallbackScope;
             _target = target ?? throw new ArgumentNullException(nameof(target));
             _property = property ?? throw new ArgumentNullException(nameof(property));
             _key = string.IsNullOrEmpty(key) ? throw new ArgumentException("A resource key is required.", nameof(key)) : key;
@@ -112,13 +133,20 @@ namespace Forma.Xaml
                 _dictionaries.Add(_target.Context.Resources);
                 _target.Context.Resources.Changed += ResourceChanged;
             }
+            for (var control = _fallbackScope; control != null; control = control.InheritanceParent)
+            {
+                if (_dictionaries.Contains(control.Resources)) break;
+                _dictionaries.Add(control.Resources);
+                control.Resources.Changed += ResourceChanged;
+            }
         }
 
         private void ResourceChanged(object sender, EventArgs args) => Update();
 
         private void Update()
         {
-            if (_target.TryFindResource(_key, out var found))
+            object found = null;
+            if (_target.TryFindResource(_key, out found) || (_fallbackScope?.TryFindResource(_key, out found) ?? false))
             {
                 var converted = _convert(found);
                 if (_value == null) _value = XamlValues.Set(_target, _property, _layer, converted, _priority);

@@ -115,6 +115,32 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void ListRow_Content_MatchesTheSelectedAndHoverStateOfItsContainer()
+        {
+            var root = new Control { Size = new Vector2(300, 200) };
+            var template = DataTemplate.Create<string>((context, item) =>
+            {
+                var row = new Control();
+                row.Classes.Add("row-view");
+                return row;
+            });
+            var list = new ListBox { Size = new Vector2(300, 200), ItemTemplate = template, ItemsSource = new[] { "a", "b" } };
+            root.AddChild(list);
+            var context = new UIContext { ViewportSize = new Vector2(300, 200) };
+            context.Add(root);
+            StyleEngine.Attach(root, new[] { CreateStyle("Control.row-view", "rest"), CreateStyle("Control.row-view:selected", "selected") });
+            context.Layout();
+            var row = FindClass(list.GetRealizedContainer(0), "row-view");
+            Assert.That(row.TooltipText, Is.EqualTo("rest"));
+
+            list.SelectedIndex = 0;
+            context.Layout();
+
+            Assert.That(row.TooltipText, Is.EqualTo("selected"));
+            Assert.That(FindClass(list.GetRealizedContainer(1), "row-view").TooltipText, Is.EqualTo("rest"));
+        }
+
+        [Test]
         public void StyleEngine_AttachFrom_GivesATemplateScopedViewTheStylesOfASource()
         {
             var source = new Control();
