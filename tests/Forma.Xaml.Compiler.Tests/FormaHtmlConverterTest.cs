@@ -120,7 +120,7 @@ public sealed class FormaHtmlConverterTest
 
     [TestCase("""<div><script>alert(1)</script></div>""", FormaHtmlDiagnosticCodes.UnknownElement, 1, 6)]
     [TestCase("""<div style="position: absolute"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty, 1, 13)]
-    [TestCase("""<div style="width: calc(1px + 2px)"></div>""", FormaHtmlDiagnosticCodes.UnknownProperty, 1, 13)]
+    [TestCase("""<div style="width: calc(1px + 2px)"></div>""", FormaHtmlDiagnosticCodes.UnsupportedUnit, 1, 13)]
     [TestCase("""<div style="min-width: 2em"></div>""", FormaHtmlDiagnosticCodes.UnsupportedUnit, 1, 13)]
     [TestCase("""<div style="box-shadow: 0 0 4px #000"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty, 1, 13)]
     [TestCase("""<div style="background: linear-gradient(red, blue)"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty, 1, 13)]
@@ -602,5 +602,66 @@ public sealed class FormaHtmlConverterTest
 
         Assert.That(error.Message, Does.Contain("Help:"));
         Assert.That(error.Message, Does.Contain("f-element"));
+    }
+
+    [Test]
+    public void BoxModel_PaddingOnAFlexContainerWrapsItInABorder_AndMarginIsOuter()
+    {
+        var result = Convert("""
+            <div id="Root" style="display: flex; flex-direction: column; gap: 4px; padding: 8px; border-width: 1px; margin: 2px 3px; width: 200px">
+              <span id="A" style="margin-left: 5px">a</span>
+            </div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var border = (Border)root;
+        var box = (VBoxContainer)border.Children[0];
+        Assert.That(border.Padding, Is.EqualTo(new Thickness(8)));
+        Assert.That(border.BorderThickness, Is.EqualTo(new Thickness(1)));
+        Assert.That(border.Margins, Is.EqualTo(new Thickness(3, 2, 3, 2)));
+        Assert.That(border.CustomMinimumSize.X, Is.EqualTo(200f));
+        Assert.That(border.CustomMaximumSize.X, Is.EqualTo(200f));
+        Assert.That(box.Separation, Is.EqualTo(4f));
+        Assert.That(box.Margins, Is.EqualTo(Thickness.Zero));
+        Assert.That(((Control)NameScope.GetNameScope(root)!.Find("A")!).Margins, Is.EqualTo(new Thickness(5, 0, 0, 0)));
+    }
+
+    [Test]
+    public void FlexAlignmentWrapOverflowAndSizes_LowerToForma()
+    {
+        var result = Convert("""
+            <div id="W" style="display: flex; flex-wrap: wrap; gap: 3px; overflow: hidden; max-width: 300px">
+              <span>a</span><span>b</span>
+            </div>
+            <!-- second root ignored -->
+            """);
+        var wrapped = Convert("""<div id="R" style="display: flex; align-items: center; justify-content: flex-end"><span id="X">a</span><span id="Y" style="align-self: end">b</span></div>""");
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(wrapped.Succeeded, Is.True, string.Join("\n", wrapped.Diagnostics));
+
+        var flow = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "w.fhtml.xaml").Build(null);
+        Assert.That(flow, Is.TypeOf<HFlowContainer>());
+        Assert.That(flow.ClipContents, Is.True);
+        Assert.That(flow.CustomMaximumSize.X, Is.EqualTo(300f));
+
+        var row = (Control)FormaXamlCompiler.CreateSre().CompileSre(wrapped.Xaml, "r.fhtml.xaml").Build(null);
+        var scope = NameScope.GetNameScope(row)!;
+        Assert.That(((HBoxContainer)row).Alignment, Is.EqualTo(BoxAlignment.End));
+        Assert.That(wrapped.Xaml, Does.Contain("x:Name=\"X\"\n        Text=\"a\"\n        VerticalAlignment=\"Center\""));
+        Assert.That(wrapped.Xaml, Does.Contain("VerticalAlignment=\"Bottom\""));
+        Assert.That(scope.Find("Y"), Is.Not.Null);
+    }
+
+    [TestCase("""<div style="position: absolute"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty)]
+    [TestCase("""<div style="width: 50%"></div>""", FormaHtmlDiagnosticCodes.UnsupportedUnit)]
+    [TestCase("""<div style="flex-shrink: 1"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty)]
+    [TestCase("""<div style="box-sizing: content-box"></div>""", FormaHtmlDiagnosticCodes.InvalidValue)]
+    [TestCase("""<div style="overflow: auto"></div>""", FormaHtmlDiagnosticCodes.RejectedProperty)]
+    public void LayoutRejections_CarryAHelpLineNamingTheAlternative(string html, string code)
+    {
+        var error = Convert(html).Diagnostics.First(d => d.Code == code);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
     }
 }

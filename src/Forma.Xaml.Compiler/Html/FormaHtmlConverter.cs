@@ -356,6 +356,24 @@ public sealed class FormaHtmlConverter
         }
 
         var declared = inline.ToDictionary(d => d.Name, d => d, StringComparer.Ordinal);
+        // CSS box semantics: padding, border and background on a flex or grid container belong to a box around it, so the container is
+        // wrapped in a Border that takes the decoration, sizing and margin, and the inner container keeps the layout properties.
+        if (declared.TryGetValue("display", out var layoutDisplay) && layoutDisplay.Value is "flex" or "grid" &&
+            declared.Keys.Any(k => k is "padding" or "border-width" or "border-radius" or "background-color" or "border-color"))
+        {
+            var innerNames = new HashSet<string>(StringComparer.Ordinal) { "display", "flex-direction", "gap", "justify-content", "align-items", "flex-wrap", "grid-template-columns", "grid-template-rows" };
+            var outer = new HtmlNode { Name = "div", Line = element.Line, Column = element.Column };
+            foreach (var attribute in element.Attributes.Where(a => a.Name != "style")) outer.Attributes.Add(attribute);
+            var styleAttr = element.Attributes.First(a => a.Name == "style");
+            outer.Attributes.Add(new HtmlAttribute("style", string.Join("; ", inline.Where(d => !innerNames.Contains(d.Name)).Select(d => d.Name + ": " + d.Value)), styleAttr.Line, styleAttr.Column));
+            var innerNode = new HtmlNode { Name = "div", Line = element.Line, Column = element.Column };
+            innerNode.Attributes.Add(new HtmlAttribute("style", string.Join("; ", inline.Where(d => innerNames.Contains(d.Name)).Select(d => d.Name + ": " + d.Value)), styleAttr.Line, styleAttr.Column));
+            innerNode.Children.AddRange(element.Children);
+            outer.Children.Add(innerNode);
+            ConvertElement(outer, target, parent);
+            return;
+        }
+
         var parentDirection = parent == null ? null : DirectionOf(parent);
         var type = ResolveType(element, declared);
         target.Type = type;
@@ -440,6 +458,7 @@ public sealed class FormaHtmlConverter
             return;
         }
 
+        var alignItems = declared.TryGetValue("align-items", out var ai) ? ai : null;
         foreach (var child in children)
         {
             if (child.IsText)
@@ -451,7 +470,28 @@ public sealed class FormaHtmlConverter
             if (child.Name is "style" or "f-resources" || (child.Name == "template" && child.Attr("for") != null)) continue;
             var node = new XNode();
             ConvertElement(child, node, target);
-            if (node.Type.Length > 0) target.Children.Add(node);
+            if (node.Type.Length > 0)
+            {
+                if (alignItems != null && DirectionOf(target) is { } flexDirection)
+                {
+                    // align-items is the default cross-axis alignment of the children; a child's own align-self wins.
+                    var crossProperty = flexDirection == "row" ? "VerticalAlignment" : "HorizontalAlignment";
+                    if (!node.Attrs.Any(a => a.Name == crossProperty))
+                    {
+                        var aligned = alignItems.Value switch
+                        {
+                            "flex-start" or "start" => flexDirection == "row" ? "Top" : "Left",
+                            "center" => "Center",
+                            "flex-end" or "end" => flexDirection == "row" ? "Bottom" : "Right",
+                            "stretch" => "Fill",
+                            _ => Invalid(alignItems, "align-items supports start, center, end and stretch."),
+                        };
+                        if (aligned.Length > 0) node.Attrs.Add(new Attr(crossProperty, aligned, alignItems.Line, alignItems.Column));
+                    }
+                }
+
+                target.Children.Add(node);
+            }
         }
 
         if (type == "Border" && target.Children.Count > 1)
@@ -789,6 +829,8 @@ public sealed class FormaHtmlConverter
         if (decorated) return "Border";
         if (display == "flex")
         {
+            if (declared.TryGetValue("flex-wrap", out var wrap) && wrap.Value == "wrap")
+                return (declared.TryGetValue("flex-direction", out var wd) ? wd.Value : "row") == "column" ? "VFlowContainer" : "HFlowContainer";
             var direction = declared.TryGetValue("flex-direction", out var fd) ? fd.Value : "row";
             return direction == "column" ? "VBoxContainer" : "HBoxContainer";
         }
@@ -919,7 +961,7 @@ public sealed class FormaHtmlConverter
 
     // ---------------------------------------------------------------- css
 
-    private static string? DirectionOf(XNode node) => node.Type switch { "VBoxContainer" => "column", "HBoxContainer" => "row", _ => null };
+    private static string? DirectionOf(XNode node) => node.Type switch { "VBoxContainer" or "VFlowContainer" => "column", "HBoxContainer" or "HFlowContainer" => "row", _ => null };
 
     private void ApplyDeclarations(IReadOnlyList<CssDeclaration> declarations, string type, XNode target, string? parentDirection, HtmlNode source)
     {
@@ -929,8 +971,9 @@ public sealed class FormaHtmlConverter
 
     private IEnumerable<(string Property, string Value, CssDeclaration Source)> Lower(IReadOnlyList<CssDeclaration> declarations, string type, string? parentDirection)
     {
-        CssDeclaration? minWidth = null, minHeight = null;
-        var isBox = type is "VBoxContainer" or "HBoxContainer";
+        CssDeclaration? minWidth = null, minHeight = null, maxWidth = null, maxHeight = null, width = null, height = null;
+        var marginSides = new Dictionary<string, CssDeclaration>(StringComparer.Ordinal);
+        var isBox = type is "VBoxContainer" or "HBoxContainer" or "VFlowContainer" or "HFlowContainer";
         foreach (var d in declarations)
         {
             if (d.Name.StartsWith("-f-", StringComparison.Ordinal))
@@ -964,8 +1007,45 @@ public sealed class FormaHtmlConverter
                     break;
                 case "min-width": minWidth = d; break;
                 case "min-height": minHeight = d; break;
+                case "max-width": maxWidth = d; break;
+                case "max-height": maxHeight = d; break;
+                case "width": width = d; break;
+                case "height": height = d; break;
+                case "margin": yield return ("Margins", Thickness(value, d), d); break;
+                case "margin-top" or "margin-right" or "margin-bottom" or "margin-left":
+                    marginSides[d.Name.Substring(7)] = d;
+                    break;
                 case "padding":
-                    yield return (isBox ? "Margins" : "Padding", Thickness(value, d), d);
+                    yield return ("Padding", Thickness(value, d), d);
+                    break;
+                case "box-sizing":
+                    if (value != "border-box") Error(FormaHtmlDiagnosticCodes.InvalidValue, "Forma sizes include padding and border, so only box-sizing: border-box exists. Help: remove box-sizing or use border-box.", d);
+                    break;
+                case "overflow":
+                    if (value == "hidden") yield return ("ClipContents", "True", d);
+                    else if (value is "visible") { }
+                    else Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"overflow: {value} is not supported. Help: wrap the content in <f-scroll> for scrolling, or use overflow: hidden to clip.", d);
+                    break;
+                case "justify-content":
+                    if (!isBox) { Error(FormaHtmlDiagnosticCodes.RejectedProperty, "justify-content applies to display: flex containers.", d); break; }
+                    yield return ("Alignment", value switch { "flex-start" or "start" => "Begin", "center" => "Center", "flex-end" or "end" => "End", _ => Invalid(d, "justify-content supports start, center and end. Help: for space-between use flex-grow spacers.") }, d);
+                    break;
+                case "align-items":
+                    if (!isBox) { Error(FormaHtmlDiagnosticCodes.RejectedProperty, "align-items applies to display: flex containers.", d); break; }
+                    break; // applied to the children by ConvertElement
+                case "flex-wrap":
+                    if (value is not ("nowrap" or "wrap")) Error(FormaHtmlDiagnosticCodes.InvalidValue, "flex-wrap supports nowrap and wrap.", d);
+                    break; // wrap changes the container type in ResolveType
+                case "flex":
+                    if (value is "1" or "auto" or "1 1 0%" or "1 1 auto")
+                    {
+                        if (parentDirection == null) { Error(FormaHtmlDiagnosticCodes.RejectedProperty, "flex needs a display: flex parent.", d); break; }
+                        yield return (parentDirection == "row" ? "HorizontalSizeFlags" : "VerticalSizeFlags", "Expand", d);
+                    }
+                    else if (value != "0" && value != "none") Error(FormaHtmlDiagnosticCodes.InvalidValue, "flex supports 1, auto, 0 and none. Help: use flex-grow: 1 to share space.", d);
+                    break;
+                case "flex-shrink" or "flex-basis" or "order":
+                    Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' is not supported: Forma boxes never shrink below their minimum size. Help: set min-width/min-height, and reorder the markup instead of using order.", d);
                     break;
                 case "border-width": yield return ("BorderThickness", Thickness(value, d), d); break;
                 case "border-radius": yield return ("CornerRadius", Thickness(value, d), d); break;
@@ -1003,7 +1083,7 @@ public sealed class FormaHtmlConverter
                 case "grid-template-columns" or "grid-template-rows" or "grid-column" or "grid-row":
                     break; // read by the grid lowering
                 case "position" or "float" or "filter" or "backdrop-filter" or "box-shadow" or "text-shadow" or "background" or "background-image" or "transform":
-                    Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' is not supported: {RejectionReason(d.Name)}.", d);
+                    Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' is not supported: {RejectionReason(d.Name)}.{(RejectionReason(d.Name).Contains("Help:") ? string.Empty : " Help: see the support matrix for the nearest supported alternative.")}", d);
                     break;
                 case "transition":
                     break; // lowered to style transitions in a rule
@@ -1016,17 +1096,18 @@ public sealed class FormaHtmlConverter
             }
         }
 
-        if (minWidth != null || minHeight != null)
-        {
-            var width = minWidth == null ? "0" : Px(ResolveVar(minWidth.Value, minWidth), minWidth);
-            var height = minHeight == null ? "0" : Px(ResolveVar(minHeight.Value, minHeight), minHeight);
-            yield return ("CustomMinimumSize", $"{width},{height}", (minWidth ?? minHeight)!);
-        }
+        string Len(CssDeclaration? declaration, string fallback) => declaration == null ? fallback : Px(ResolveVar(declaration.Value, declaration), declaration);
+        if (marginSides.Count > 0)
+            yield return ("Margins", $"{Len(marginSides.GetValueOrDefault("left"), "0")},{Len(marginSides.GetValueOrDefault("top"), "0")},{Len(marginSides.GetValueOrDefault("right"), "0")},{Len(marginSides.GetValueOrDefault("bottom"), "0")}", marginSides.Values.First());
+        if (minWidth != null || minHeight != null || width != null || height != null)
+            yield return ("CustomMinimumSize", $"{Len(width ?? minWidth, "0")},{Len(height ?? minHeight, "0")}", (width ?? height ?? minWidth ?? minHeight)!);
+        if (maxWidth != null || maxHeight != null || width != null || height != null)
+            yield return ("CustomMaximumSize", $"{Len(width ?? maxWidth, "-1")},{Len(height ?? maxHeight, "-1")}", (width ?? height ?? maxWidth ?? maxHeight)!);
     }
 
     private static string RejectionReason(string property) => property switch
     {
-        "position" => "absolute and fixed positioning have no defined overlay mapping",
+        "position" => "absolute and fixed positioning have no defined overlay mapping yet. Help: use display: flex or grid; for overlays use <dialog> or f-control type=\"OverlayPanel\"",
         "float" => "use display: flex",
         "box-shadow" or "text-shadow" or "filter" or "backdrop-filter" => "the renderer has no such effect",
         "background" or "background-image" => "use background-color; gradients and images are not supported",
@@ -1224,7 +1305,7 @@ public sealed class FormaHtmlConverter
             return FormatNumber(rem * 16);
         else if (value.Any(char.IsLetter) || value.EndsWith('%'))
         {
-            Error(FormaHtmlDiagnosticCodes.UnsupportedUnit, $"Unit in '{value}' is not supported; use px or rem.", d);
+            Error(FormaHtmlDiagnosticCodes.UnsupportedUnit, $"Unit in '{value}' is not supported. Help: use px or rem; for proportional sizes use flex-grow in a flex parent or fr tracks in a grid.", d);
             return "0";
         }
 

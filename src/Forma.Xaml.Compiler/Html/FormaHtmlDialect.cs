@@ -46,6 +46,10 @@ public static class FormaHtmlDialect
         new("details and summary", "<div><details><summary>t</summary><span>x</span></details></div>", "Container"),
         new("hr and empty div as ColorRect", "<div><hr style=\"background-color: #112233\"></div>", "Container"),
         new("registered custom element", "<meta name=\"f-element\" content=\"my-label=Label\"><div><my-label></my-label></div>", "Container"),
+        new("box model: padding on flex wraps in a Border; margin", "<div style=\"display: flex; padding: 4px; margin: 2px\"><span>x</span></div>", "Border"),
+        new("flex-wrap and overflow", "<div style=\"display: flex; flex-wrap: wrap; overflow: hidden\"><span>x</span></div>", "HFlowContainer"),
+        new("align-items and justify-content", "<div style=\"display: flex; align-items: center; justify-content: flex-end\"><span>x</span></div>", "HBoxContainer"),
+        new("width, height and max sizes", "<div style=\"width: 10px; height: 20px; max-width: 30px\"><span>x</span></div>", "Container"),
         new("-f-Property and resource()", "<style>span.c { -f-Opacity: 0.5; color: resource(External.Color); }</style><div><span class=\"c\">x</span></div>", "Container"),
     ];
 }
