@@ -974,6 +974,8 @@ public sealed class FormaHtmlConverter
                     break;
                 case "transition":
                     break; // lowered to style transitions in a rule
+                case "animation" or "animation-name" or "animation-duration" or "animation-timing-function" or "animation-iteration-count" or "animation-direction" or "animation-fill-mode":
+                    break; // lowered to a Storyboard by BuildStoryboards
                 default:
                     if (d.Name.StartsWith("--", StringComparison.Ordinal)) break;
                     Error(FormaHtmlDiagnosticCodes.UnknownProperty, $"CSS property '{d.Name}' is not part of the dialect.", d);
@@ -1050,6 +1052,98 @@ public sealed class FormaHtmlConverter
         if (root.Type.Length > 0) node.Children.Add(root);
         into.Add(node);
     }
+
+    // @keyframes plus an animation on a #id rule lower to a Storyboard keyed by the animation name, targeting that element. Starting it is
+    // code-behind: storyboard.Begin(view) with the resource named after the animation.
+    private void BuildStoryboards(IReadOnlyList<CssRule> rules, List<XNode> into)
+    {
+        var frames = rules.Where(r => r.Keyframes != null).GroupBy(r => r.Keyframes!, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.ToList(), StringComparer.Ordinal);
+        foreach (var rule in rules.Where(r => r.Keyframes == null && r.Selector != ":root" && r.Declarations.Any(d => d.Name.StartsWith("animation", StringComparison.Ordinal))))
+        {
+            var longhand = rule.Declarations.Where(d => d.Name.StartsWith("animation", StringComparison.Ordinal)).ToDictionary(d => d.Name, d => d, StringComparer.Ordinal);
+            string? name = null, duration = null, iteration = null, direction = null, fill = null, timing = null;
+            var anchor = longhand.Values.First();
+            if (longhand.TryGetValue("animation", out var shorthand))
+            {
+                foreach (var part in shorthand.Value.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (part.EndsWith("ms", StringComparison.Ordinal) || (part.EndsWith('s') && double.TryParse(part[..^1], NumberStyles.Float, CultureInfo.InvariantCulture, out _))) duration = part;
+                    else if (part is "infinite") iteration = part;
+                    else if (part is "alternate" or "normal") direction = part;
+                    else if (part is "forwards" or "both" or "none" or "backwards") fill = part;
+                    else if (part is "linear" or "ease" or "ease-in" or "ease-out" or "ease-in-out") timing = part;
+                    else name ??= part;
+                }
+            }
+
+            if (longhand.TryGetValue("animation-name", out var n)) name = n.Value.Trim();
+            if (longhand.TryGetValue("animation-duration", out var du)) duration = du.Value.Trim();
+            if (longhand.TryGetValue("animation-iteration-count", out var it)) iteration = it.Value.Trim();
+            if (longhand.TryGetValue("animation-direction", out var di)) direction = di.Value.Trim();
+            if (longhand.TryGetValue("animation-fill-mode", out var fi)) fill = fi.Value.Trim();
+            if (longhand.TryGetValue("animation-timing-function", out var ti)) timing = ti.Value.Trim();
+            if (name == null || !frames.TryGetValue(name, out var keyframes)) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"animation names '{name}', which no @keyframes block defines. Help: add @keyframes {name} {{ from {{ … }} to {{ … }} }}.", anchor); continue; }
+            if (!rule.Selector.StartsWith('#') || rule.Selector.IndexOfAny(new[] { ' ', '.', ':', '>', ',', '[' }) >= 0) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "An animation targets one named element. Help: put animation on an #id rule so the storyboard can name its target.", rule); continue; }
+            if (iteration is not (null or "1" or "infinite")) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "animation-iteration-count supports 1 and infinite. Help: use infinite with a stop from code-behind.", anchor); continue; }
+            var seconds = ParseSeconds(duration, anchor);
+            var story = new XNode { Type = "Storyboard", Line = rule.Line, Column = rule.Column, Path = rule.Path };
+            story.Attrs.Add(new Attr("x:Key", name, rule.Line, rule.Column, rule.Path));
+            if (direction == "alternate") story.Attrs.Add(new Attr("AutoReverse", "True", anchor.Line, anchor.Column, rule.Path));
+            story.Attrs.Add(new Attr("FillBehavior", fill is "forwards" or "both" ? "HoldEnd" : "Stop", anchor.Line, anchor.Column, rule.Path));
+            if (iteration == "infinite") story.Attrs.Add(new Attr("RepeatBehavior", "Forever", anchor.Line, anchor.Column, rule.Path));
+            var easing = EasingFor(timing, anchor);
+            var byProperty = new Dictionary<string, List<(double Offset, string Value, CssDeclaration Source)>>(StringComparer.Ordinal);
+            foreach (var frame in keyframes)
+            {
+                var offset = frame.Selector.Trim() switch { "from" => 0.0, "to" => 1.0, var pct when pct.EndsWith('%') && double.TryParse(pct[..^1], NumberStyles.Float, CultureInfo.InvariantCulture, out var v) => v / 100.0, _ => -1.0 };
+                if (offset < 0) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"'{frame.Selector}' is not a keyframe selector. Help: use from, to or a percentage.", frame); continue; }
+                foreach (var d in frame.Declarations)
+                {
+                    var property = d.Name == "opacity" ? "Opacity" : d.Name.StartsWith("-f-", StringComparison.Ordinal) ? d.Name.Substring(3) : null;
+                    if (property == null) { Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' cannot be animated by a storyboard. Help: animate opacity, or a numeric Forma property with -f-Property.", d); continue; }
+                    if (!byProperty.TryGetValue(property, out var list)) byProperty[property] = list = new();
+                    list.Add((offset, Number(d.Value, d), d));
+                }
+            }
+
+            foreach (var (property, list) in byProperty)
+            {
+                var timeline = new XNode { Type = "FloatTimeline", Line = rule.Line, Column = rule.Column, Path = rule.Path };
+                timeline.Attrs.Add(new Attr("TargetName", rule.Selector.Substring(1), rule.Line, rule.Column, rule.Path));
+                timeline.Attrs.Add(new Attr("Property", property, rule.Line, rule.Column, rule.Path));
+                foreach (var (offset, value, source) in list.OrderBy(x => x.Offset))
+                {
+                    var key = new XNode { Type = "KeyFrame", Line = source.Line, Column = source.Column, Path = rule.Path };
+                    key.Attrs.Add(new Attr("Time", TimeSpan.FromSeconds(offset * seconds).ToString("c", CultureInfo.InvariantCulture), source.Line, source.Column, rule.Path));
+                    key.Attrs.Add(new Attr("Value", value, source.Line, source.Column, rule.Path));
+                    if (offset > 0 && easing != "Linear") key.Attrs.Add(new Attr("Easing", easing, source.Line, source.Column, rule.Path));
+                    timeline.Children.Add(key);
+                }
+
+                story.Children.Add(timeline);
+            }
+
+            into.Add(story);
+        }
+    }
+
+    private double ParseSeconds(string? value, CssDeclaration at)
+    {
+        if (value == null) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "An animation needs a duration. Help: animation-duration: 200ms.", at); return 0; }
+        if (value.EndsWith("ms", StringComparison.Ordinal) && double.TryParse(value[..^2], NumberStyles.Float, CultureInfo.InvariantCulture, out var ms)) return ms / 1000.0;
+        if (value.EndsWith('s') && double.TryParse(value[..^1], NumberStyles.Float, CultureInfo.InvariantCulture, out var s)) return s;
+        Error(FormaHtmlDiagnosticCodes.InvalidValue, $"'{value}' is not a duration. Help: write 200ms or 0.2s.", at);
+        return 0;
+    }
+
+    private string EasingFor(string? timing, CssDeclaration at) => timing switch
+    {
+        null or "linear" => "Linear",
+        "ease-in" => "CubicIn",
+        "ease-out" => "CubicOut",
+        "ease" or "ease-in-out" => "CubicInOut",
+        _ => Invalid(at, $"animation-timing-function '{timing}' is not supported. Help: use linear, ease, ease-in, ease-out or ease-in-out."),
+    };
 
     private (string Property, string Value, CssDeclaration Source)? DynamicFor(CssDeclaration d, bool isBox)
     {
@@ -1177,8 +1271,10 @@ public sealed class FormaHtmlConverter
             }
         }
 
+        BuildStoryboards(rules, styles);
+
         var index = 0;
-        foreach (var rule in rules.Where(r => r.Selector != ":root"))
+        foreach (var rule in rules.Where(r => r.Selector != ":root" && r.Keyframes == null))
         {
             var selector = LowerSelector(rule, out var subjectType);
             if (selector == null) continue;
@@ -1249,9 +1345,13 @@ public sealed class FormaHtmlConverter
         var adaptive = new XNode { Type = "AdaptiveCondition", Line = rule.Line, Column = rule.Column };
         if (inner is ["input-modality", var modality] && modality is "pointer" or "keyboard" or "gamepad" or "touch")
             adaptive.Attrs.Add(new Attr("InputModality", char.ToUpperInvariant(modality[0]) + modality[1..], rule.Line, rule.Column));
+        else if (inner is ["prefers-reduced-motion", var motion] && motion is "reduce" or "no-preference")
+            adaptive.Attrs.Add(new Attr("ReducedMotion", motion == "reduce" ? "True" : "False", rule.Line, rule.Column, rule.Path));
+        else if (inner is ["prefers-color-scheme", var scheme] && scheme is "light" or "dark")
+            adaptive.Attrs.Add(new Attr("ThemeVariant", scheme == "dark" ? "Dark" : "Light", rule.Line, rule.Column, rule.Path));
         else if (inner is ["min-width", var min]) adaptive.Attrs.Add(new Attr("MinViewportWidth", Px(min, new CssDeclaration("min-width", min, rule.Line, rule.Column) { Path = rule.Path }), rule.Line, rule.Column));
         else if (inner is ["max-width", var max]) adaptive.Attrs.Add(new Attr("MaxViewportWidth", Px(max, new CssDeclaration("max-width", max, rule.Line, rule.Column) { Path = rule.Path }), rule.Line, rule.Column));
-        else Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"@media {media} is not supported; use (input-modality: pointer|keyboard|gamepad|touch), (min-width: Npx) or (max-width: Npx).", rule);
+        else Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"@media {media} is not supported; Help: use (input-modality: pointer|keyboard|gamepad|touch), (prefers-reduced-motion: reduce), (prefers-color-scheme: light|dark), (min-width: Npx) or (max-width: Npx).", rule);
         condition.Children.Add(adaptive);
         style.PropertyElements.Add(("Style.Condition", adaptive));
     }

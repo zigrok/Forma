@@ -40,6 +40,8 @@ public static class FormaHtmlDialect
         new("table bind:items data grid", "<meta name=\"f-namespace\" content=\"t=clr-namespace:Forma.Xaml.Compiler.Tests;assembly=Forma.Xaml.Compiler.Tests\"><div data-type=\"t:ListModel\"><table bind:items=\"Rows\"><thead><tr><th>Name</th></tr></thead><tbody><template data-type=\"t:RowModel\"><tr><td><span bind:text=\"Name\"></span></td></tr></template></tbody></table></div>", "Container"),
         new("ARIA tablist and tabpanel", "<div role=\"tablist\"><div role=\"tabpanel\" id=\"One\"><span>1</span></div></div>", "TabContainer"),
         new("dialog", "<dialog backdrop=\"scrim\"><span>x</span></dialog>", "Container"),
+        new("@keyframes and animation", "<style>@keyframes f { from { opacity: 0.5; } to { opacity: 1; } } #a { animation: f 200ms ease-out; }</style><div><span id=\"a\">x</span></div>", "Container"),
+        new("@media prefers-reduced-motion and prefers-color-scheme", "<style>@media (prefers-reduced-motion: reduce) { span.m { opacity: 0.5; } } @media (prefers-color-scheme: dark) { span.m { font-weight: bold; } }</style><div><span class=\"m\">x</span></div>", "Container"),
         new("-f-Property and resource()", "<style>span.c { -f-Opacity: 0.5; color: resource(External.Color); }</style><div><span class=\"c\">x</span></div>", "Container"),
     ];
 }

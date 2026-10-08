@@ -505,4 +505,68 @@ public sealed class FormaHtmlConverterTest
         Assert.That(error.Message, Is.Not.Empty);
         Assert.That(error.Location.Line, Is.EqualTo(1));
     }
+
+    [Test]
+    public void ReducedMotionAndColorSchemeMedia_FollowTheContextPreference()
+    {
+        var result = Convert("""
+            <style>
+              span.a { opacity: 1; }
+              @media (prefers-reduced-motion: reduce) { span.a { opacity: 0.5; } }
+              @media (prefers-color-scheme: dark) { span.a { font-weight: bold; } }
+            </style>
+            <div><span id="L" class="a">x</span></div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var label = (Label)NameScope.GetNameScope(root)!.Find("L")!;
+        using var context = new UIContext { ViewportSize = new Microsoft.Xna.Framework.Vector2(200, 100) };
+        context.Add(root);
+        Assert.That(label.Opacity, Is.EqualTo(1f));
+
+        context.ReducedMotion = true;
+        context.ThemeVariant = ThemeVariant.Dark;
+
+        Assert.That(label.Opacity, Is.EqualTo(0.5f));
+        Assert.That(label.FontWeight, Is.EqualTo(UIFontWeight.Bold));
+        context.ReducedMotion = false;
+        Assert.That(label.Opacity, Is.EqualTo(1f));
+    }
+
+    [Test]
+    public void Keyframes_AndAnimationOnAnIdRule_LowerToAStoryboardThatBegins()
+    {
+        var result = Convert("""
+            <style>
+              @keyframes fade { from { opacity: 0.88; } to { opacity: 1; } }
+              #L { animation: fade 140ms ease-out forwards; }
+              @keyframes pulse { from { opacity: 1; } 50% { opacity: 0.5; } to { opacity: 1; } }
+              #M { animation-name: pulse; animation-duration: 1s; animation-iteration-count: infinite; animation-direction: alternate; }
+            </style>
+            <div><span id="L">x</span><span id="M">y</span></div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("<Storyboard"));
+        Assert.That(result.Xaml, Does.Contain("FillBehavior=\"HoldEnd\""));
+        Assert.That(result.Xaml, Does.Contain("RepeatBehavior=\"Forever\""));
+        Assert.That(result.Xaml, Does.Contain("AutoReverse=\"True\""));
+        Assert.That(result.Xaml, Does.Contain("Easing=\"CubicOut\""));
+        Assert.That(result.Xaml, Does.Contain("Time=\"00:00:00.1400000\""));
+
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        Assert.That(root.Resources.TryFind("fade", out var fade) && fade is Storyboard, Is.True);
+        Assert.DoesNotThrow(() => ((Storyboard)fade!).Begin(root));
+    }
+
+    [TestCase("<style>@keyframes a { from { opacity: 1; } }#x { animation: nope 1s; }</style><div></div>", FormaHtmlDiagnosticCodes.InvalidValue)]
+    [TestCase("<style>@keyframes a { from { color: #000000; } }#x { animation: a 1s; }</style><div></div>", FormaHtmlDiagnosticCodes.RejectedProperty)]
+    [TestCase("<style>@keyframes a { from { opacity: 1; } }.x { animation: a 1s; }</style><div></div>", FormaHtmlDiagnosticCodes.UnsupportedSelector)]
+    [TestCase("<style>@keyframes a { from { opacity: 1; } }#x { animation: a 1s; animation-iteration-count: 3; }</style><div></div>", FormaHtmlDiagnosticCodes.InvalidValue)]
+    [TestCase("<style>@font-face { font-family: x; }</style><div></div>", FormaHtmlDiagnosticCodes.RejectedConstruct)]
+    public void AnimationRejections_CarryACodeAndAHelpLine(string html, string code)
+    {
+        var error = Convert(html).Diagnostics.First(d => d.Code == code);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
+    }
 }

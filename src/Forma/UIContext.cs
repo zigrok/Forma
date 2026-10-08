@@ -178,6 +178,18 @@ namespace Forma
                 AdaptiveEnvironmentChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        private bool _reducedMotion;
+        /// <summary>The user's reduced-motion preference; rules with an <see cref="AdaptiveCondition.ReducedMotion"/> condition follow it.</summary>
+        public bool ReducedMotion
+        {
+            get => _reducedMotion;
+            set
+            {
+                if (_reducedMotion == value) return;
+                _reducedMotion = value;
+                AdaptiveEnvironmentChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
         public event EventHandler AdaptiveEnvironmentChanged;
         internal event EventHandler ThemeGenerationChanged;
         /// <summary>Physical display pixels per logical UI coordinate. Input is mapped back to logical coordinates and drawing is scaled to physical pixels.</summary>

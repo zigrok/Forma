@@ -76,6 +76,8 @@ public sealed class CssRule
     public int Column { get; init; }
     public List<CssDeclaration> Declarations { get; } = new();
     public string? Media { get; init; }
+    /// <summary>The @keyframes block this rule is a frame of (its selector is from, to or a percentage).</summary>
+    public string? Keyframes { get; set; }
 }
 
 /// <summary>A small strict HTML parser: elements, attributes, text, comments and one style block. Anything else is an error.</summary>
@@ -319,9 +321,21 @@ public sealed class CssParser
             {
                 var open = _source.IndexOf('{', _index);
                 var header = open < 0 ? string.Empty : _source.Substring(_index, open - _index).Trim();
+                if (header.StartsWith("@keyframes", StringComparison.Ordinal) && media == null)
+                {
+                    var frameName = header.Substring("@keyframes".Length).Trim();
+                    _index = open + 1;
+                    var frames = new List<CssRule>();
+                    ParseRules(frames, null);
+                    foreach (var frame in frames) frame.Keyframes = frameName;
+                    rules.AddRange(frames);
+                    if (_index < _source.Length && _source[_index] == '}') _index++;
+                    continue;
+                }
+
                 if (!header.StartsWith("@media", StringComparison.Ordinal) || media != null)
                 {
-                    Error(FormaHtmlDiagnosticCodes.RejectedConstruct, $"At-rule '{(header.Length == 0 ? "@" : header.Split(' ')[0])}' is not part of the dialect; only a single @media block on input modality is supported.", start);
+                    Error(FormaHtmlDiagnosticCodes.RejectedConstruct, $"At-rule '{(header.Length == 0 ? "@" : header.Split(' ')[0])}' is not part of the dialect; supported are one @media block (input modality, prefers-reduced-motion, prefers-color-scheme, viewport width) and @keyframes. Help: move the construct into a rule or remove it.", start);
                     SkipBlock();
                     continue;
                 }

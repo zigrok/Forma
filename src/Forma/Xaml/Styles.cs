@@ -61,6 +61,8 @@ namespace Forma.Xaml
         public float? DisplayScale { get; set; }
         public ThemeVariant? ThemeVariant { get; set; }
         public InputModality? InputModality { get; set; }
+        /// <summary>When set, the rule applies only while <see cref="UIContext.ReducedMotion"/> equals this value (CSS prefers-reduced-motion).</summary>
+        public bool? ReducedMotion { get; set; }
 
         public void SetCompiledValue(string property, string value)
         {
@@ -73,6 +75,7 @@ namespace Forma.Xaml
                 case nameof(DisplayScale): DisplayScale = ParseSingle(value); break;
                 case nameof(ThemeVariant): ThemeVariant = Enum.Parse<ThemeVariant>(value, false); break;
                 case nameof(InputModality): InputModality = Enum.Parse<InputModality>(value, false); break;
+                case nameof(ReducedMotion): ReducedMotion = bool.Parse(value); break;
                 default: throw new ArgumentOutOfRangeException(nameof(property), property, "Unsupported adaptive condition property.");
             }
         }
@@ -86,7 +89,8 @@ namespace Forma.Xaml
                 (!MaxViewportHeight.HasValue || context.ViewportSize.Y <= MaxViewportHeight.Value) &&
                 (!DisplayScale.HasValue || Math.Abs(context.DisplayScale - DisplayScale.Value) < .0001f) &&
                 (!ThemeVariant.HasValue || context.ThemeVariant == ThemeVariant.Value) &&
-                (!InputModality.HasValue || context.InputModality == InputModality.Value);
+                (!InputModality.HasValue || context.InputModality == InputModality.Value) &&
+                (!ReducedMotion.HasValue || context.ReducedMotion == ReducedMotion.Value);
         }
 
         private static float ParseSingle(string value) =>

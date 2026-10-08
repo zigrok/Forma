@@ -925,6 +925,7 @@ public sealed class FormaXamlCompiler
                 case nameof(AdaptiveCondition.DisplayScale): condition.DisplayScale = ParseInvariantSingle(member.Value.RawText); break;
                 case nameof(AdaptiveCondition.ThemeVariant): condition.ThemeVariant = Enum.Parse<ThemeVariant>(member.Value.RawText, false); break;
                 case nameof(AdaptiveCondition.InputModality): condition.InputModality = Enum.Parse<InputModality>(member.Value.RawText, false); break;
+                case nameof(AdaptiveCondition.ReducedMotion): condition.ReducedMotion = bool.Parse(member.Value.RawText); break;
                 default: throw new InvalidOperationException($"AdaptiveCondition member '{member.Name}' is not supported.");
             }
         }
