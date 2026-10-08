@@ -160,11 +160,75 @@ version, otherwise delete it and its tests with a note in the report. No XAML tr
 Unchanged: `data-class`, `id`, `onclick`, `onchange`, `bind:`, `data-automation-id`, `aria-*`, `role`. Standard `aria-label` and
 `role` stay the way accessibility is authored, and the accessibility tree is the equivalence check.
 
+### D9. Layout vocabulary: web semantics wherever Forma has a primitive (decided)
+Agents write the full CSS box and flex/grid vocabulary first, so the dialect implements it instead of rejecting it, using Forma
+containers that already exist (`Margins`, size flags, `CustomMinimumSize`/`MaxWidth`, `ZIndex`, `GridPanel`, `WrapPanel`,
+`FlowContainer`, `OverlayPanel`, `CanvasPanel`, `ClipContents`, `ScrollContainer`).
+- `margin` and the longhands lower to the control's own margin (`Margins`). **This corrects a current inaccuracy:** the dialect
+  today lowers `padding` on a flex container to `Margins`, which is outer-margin behavior. In Phase A, `padding`, `border` and
+  `background` on a `display: flex` or `grid` element lower to a `Border` wrapping the container (CSS box semantics), and `margin`
+  lowers to `Margins`. The Trace views that relied on the old mapping are re-expressed and the gallery proves no pixel changes.
+- `width`, `height`, `min-*`, `max-*` lower to the matching custom size properties. `box-sizing` is documented as `border-box`
+  (Forma sizes include padding and border) and `content-box` is a diagnostic.
+- `align-items`, `align-self`, `justify-content`, `justify-items`, `place-*` lower to alignment and size flags per the container
+  direction; `flex-grow`, `flex-shrink`, `flex-basis` and `flex` lower to size flags plus minimum sizes; `flex-wrap` lowers to a
+  `WrapPanel`/`HFlowContainer`; `order` is a diagnostic with the alternative of reordering markup.
+- Percentages and `fr` become proportional tracks in a grid or flex parent; `vw`/`vh` and `%` against an unconstrained parent are a
+  diagnostic whose help text names the proportional alternative.
+- `position: relative|absolute|fixed` with `top/right/bottom/left` lowers to `OverlayPanel` or `CanvasPanel` children (the parent with
+  positioned children becomes the overlay), and `z-index` lowers to `ZIndex`. `overflow: hidden` lowers to `ClipContents`;
+  `overflow: auto|scroll` to a `ScrollContainer`.
+- Every construct that still cannot be mapped fails with a stable code and a help line naming the nearest supported alternative.
+
+### D10. Selectors and state without JavaScript (decided)
+- Pseudo-classes: add `:focus-visible` (focus reached by keyboard or gamepad modality), `:focus-within`, `:first-child`,
+  `:last-child`, `:only-child`, `:nth-child(an+b)`, `:empty`, `:is()`, `:where()` and `:not()` with selector lists.
+- State by attribute: `data-*` attributes are real, queryable state. A control carries a data set (additive Forma API), code-behind
+  sets values (`view.SetData("state", "open")`), and `[data-state="open"]`, `[data-state]` and `[disabled]` selectors match and
+  re-evaluate on change. This is how agents express variants and state in plain CSS.
+- Combinators: descendant, child and, as part of this decision, adjacent sibling `+` and general sibling `~` where Forma has sibling
+  order (documented otherwise).
+
+### D11. Localization, direction and theme conventions (decided)
+- Text localized through the application's localizer uses `data-i18n="menu.play"` (the convention i18next-style tools use) and
+  `data-i18n-attr="aria-label:menu.play"` for attributes. It lowers to a binding on the localizer indexer, with the key checked at
+  build time against the application's key list when one is declared (`<meta name="f-i18n-keys" content="Locales/en.json">`).
+- `lang` on the root names the source language; `dir="rtl"` sets flow direction. CSS logical properties (`margin-inline-start`,
+  `padding-inline`, `text-align: start`) lower through Forma's right-to-left layout support; where a logical property cannot flip at
+  runtime the build reports a diagnostic with the physical alternative.
+- Themes use `prefers-color-scheme` and `:root[data-theme="…"]` token overrides. A theme switch sets the root's `data-theme`
+  (D10) and the live tokens (D5) update running UI. Phase A spikes how token overrides keyed by an attribute lower to swapped
+  resources before committing to the exact mechanism.
+
+### D12. Visual effects: implement what the renderer can draw (decided)
+- Implement: `box-shadow` (the border shadow collection), `linear-gradient()` and `radial-gradient()` backgrounds (gradient brushes),
+  per-corner `border-radius` where the corner type allows, `outline` and `outline-offset` for focus rings, `opacity`, and `transform`
+  with `translate`, `scale` and `rotate` (render transforms), with `transform-origin`.
+- Reject with a help line: `filter`, `backdrop-filter`, `mix-blend-mode`, `clip-path`, `mask`, `text-shadow` unless the renderer
+  gains them, each naming the closest available effect (for example `opacity`, `box-shadow`).
+- Phase A spikes each implemented effect against the renderer in the gallery before it is documented as supported; an effect the
+  renderer cannot draw faithfully moves to the rejected list and the support matrix says why.
+
+### D13. Typography, images and icons (decided)
+- Typography: `font-family` and `@font-face` over Forma's registered faces, `font-size`, `font-weight`, `font-style`,
+  `line-height`, `letter-spacing`, `text-align`, `text-transform`, `text-decoration`, `white-space` (`nowrap`, `normal`) and
+  `text-overflow: ellipsis` (label overrun behaviors). Properties the text engine lacks are rejected with help.
+- Images: `<img src="…">` and inline `<svg>` map to the existing image and SVG controls with project-relative assets processed by
+  the existing asset pipeline; `alt` becomes the accessible name. `background-image` and icon fonts are rejected with the `img`/`svg`
+  alternative.
+
+### D14. Preview, support matrix and cookbook (decided)
+- A standalone preview command (Phase D) renders one view headlessly with fake data. The data comes from a sidecar
+  `View.preview.json` deserialized into the view's declared `data-type`, or a `[FormaPreview]` static factory in C# for types that JSON
+  cannot build. The preview host is build-host and Debug tooling only and never ships.
+- A support matrix (caniuse style) and a tested cookbook are generated and kept current from the same catalog the tests use; every
+  rejection diagnostic carries a help line naming the nearest supported alternative.
+
 ## Phases
 
 ### Phase 0: audit and decisions
 - Script and hand-audit every remaining XAML file; replace the inventory table with the exact constructs per file.
-- Re-read D1 to D8 against what the audit finds and record any amendment in the decision log. The decisions are already made; the
+- Re-read D1 to D14 against what the audit finds and record any amendment in the decision log. The decisions are already made; the
   audit may only refine them, using the design criterion.
 - Acceptance: the inventory is exact and the decision log is current. No dialect code yet.
 
@@ -177,6 +241,11 @@ catalog story and tooling parity (formatter, hot reload, source map, inspector o
 4. `<template>` item templates, `ul`/`ol` items and selectable lists, `table` data grids with columns, ARIA tabs, `<dialog>` (D2).
 5. `@keyframes` and `animation`, `prefers-reduced-motion` (D4).
 6. The small controls and registered custom elements (D6), and the probe-view resolution (D7).
+7. Layout vocabulary, including the padding and margin correction (D9). First proof: re-express the Trace views that relied on the old
+   mapping and keep the gallery at 33 of 33.
+8. Selectors and `data-*` state (D10), a small additive Forma runtime change with tests that fail before and pass after.
+9. Localization, direction and theme conventions (D11), starting with a spike for attribute-keyed token overrides.
+10. Visual effects (D12) and typography, images and icons (D13), each spiked against the renderer first.
 - Proof for each step: a Trace view or the theme uses it and the gallery stays at 33 of 33. The first views converted for this
   purpose are the hardest ones: the server browser (data grid), the map editor (list, dialogs), settings (tabs) and the theme.
 - Acceptance: the dialect can express every construct in the Phase 0 inventory. Forma tests, the XAML tests and the API baseline pass.
@@ -213,6 +282,10 @@ with browser DevTools and web linters. Each item has a test and a short referenc
 | Linters (HTML validators, stylelint, axe, Lighthouse) | `forma-xaml validate` for `.fhtml` and `.fcss` with `--format json\|sarif`, the existing design and token lints exposed with stable rule ids and fix hints, undefined-class and raw-literal lints |
 | Editor intelligence (HTML and CSS custom data) | generate `html.customData` and `css.customData` JSON from the dialect catalog so editors and agents get completion and hover for `f:`, `bind:`, `part`, `::part()`, `resource()` and `-f-` |
 | MDN-style reference | a generated dialect reference (every element, attribute, property, selector, at-rule, unit and diagnostic with an example), produced from the same catalog the tests use |
+| Opening one HTML file in a browser | `forma-xaml preview View.fhtml --state hover:#PlayButton --lang ja --size 1280x720 --scale 130 -o out.png`, headless, fake data from `View.preview.json` or a `[FormaPreview]` factory (D14); a component catalog page that renders states side by side |
+| DevTools box model overlay | a Debug overlay drawing margin, padding and content boxes and text-overflow markers, toggled through the MCP bridge and by `preview --overlay` |
+| caniuse and MDN compatibility tables | a generated support matrix per element, attribute, property, selector, at-rule and unit (supported, partly, rejected with reason), plus a tested cookbook of menus, forms, lists, dialogs, tabs and a settings page |
+| Error messages that suggest fixes | every `FHTML` diagnostic carries a help line naming the nearest supported alternative, checked by a test that no rejection lacks one |
 | Snapshot and golden tests | accessibility-tree snapshots per screen and golden conversions of the shipped views (Phase C) |
 
 Acceptance: each row has a working command or file, a test, and an entry in the agent design guide; the guide's troubleshooting table
@@ -226,6 +299,8 @@ maps a symptom to the query that diagnoses it.
 - `make format-xaml-check` (covers `.fhtml` and `.fcss`), `make verify-source-dependencies`, `make gallery` (33 of 33).
 - `tools/lint-mutation-proof.sh`, `tools/verify-no-tooling.sh`, `tools/fhtml-diagnostic-proof.sh`, and a real Release publish passing
   `tools/verify-client-artifact.sh`.
+- Preview command: a test renders a view with preview data and compares it with a baseline image; the matrix and cookbook generation
+  fail the build if a catalog entry or example stops converting and compiling.
 - A check that fails if any `.xaml` file appears in the Trace repository after the end-state commit.
 - CI green on the self-hosted runner for the final push; tracking issue and issues #1 to #3 fully ticked with commits.
 
@@ -241,6 +316,12 @@ maps a symptom to the query that diagnoses it.
   test; reject everything else with a diagnostic, as today.
 - **Build-time cost and diagnostics.** More generated XAML means more places for later-stage errors. Mitigation: the source map and
   remapping already cover generated entries; extend tests for each new construct.
+- **Chasing browser parity.** Full CSS is endless. Mitigation: the support matrix is the contract, additions need a Forma mapping and a
+  test, and the help line on every rejection keeps agents productive at the edges.
+- **Layout semantics drift.** Flex and grid lower to Forma containers that are not identical to browser layout. Mitigation: a
+  layout-equivalence test suite with side-by-side expectations (documented differences, not silent ones), plus the box overlay.
+- **Preview fidelity.** A headless preview could differ from the real game. Mitigation: it runs the same compiled view and style
+  engine, and a test compares a preview render with the gallery frame of the same screen.
 - **Keeping XAML first-class.** Every converter change risks touching shared emission code. Mitigation: the converter only produces
   canonical XAML text, the Forma XAML suites and API baseline run in every gate, and no XAML golden changes without review.
 
@@ -256,3 +337,10 @@ maps a symptom to the query that diagnoses it.
 - **D5 supersedes the explicit key comment** proposed for tokens in that goal: tokens use their CSS names as keys.
 - Later decisions (small mapping details, spellings found during a spike) are added here with the date, the reason and the HTML or
   CSS convention they follow.
+- **Web-fidelity pass.** After a review of what an agent with web frontend expertise reaches for, the user asked to include every gap
+  found and, where a decision was needed, to take the path that makes it easier for such agents. D9 to D14 and the matching Phase A
+  and Phase D items were added on that basis: implement web layout and selector semantics where Forma has a primitive, add
+  `data-*` state, an i18n and theme convention, visual effects the renderer can draw, a standalone preview command with fake data, a
+  box-model overlay, a support matrix with a tested cookbook, and help text on every rejection.
+- **Known inaccuracy recorded.** The current dialect lowers `padding` on a flex container to `Margins` (outer-margin semantics). D9
+  fixes it in Phase A; until then views that rely on it are documented in the proof report.
