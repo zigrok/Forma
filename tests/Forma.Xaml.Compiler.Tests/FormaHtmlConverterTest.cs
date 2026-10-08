@@ -569,4 +569,38 @@ public sealed class FormaHtmlConverterTest
 
         Assert.That(error.Message, Does.Contain("Help:"));
     }
+
+    [Test]
+    public void SmallControls_ProgressDetailsHrColorRectAndRegisteredElements()
+    {
+        var result = Convert("""
+            <meta name="f-element" content="my-label=Label">
+            <div>
+              <progress id="P" value="3" max="10"></progress>
+              <details id="D"><summary>More</summary><span>body</span></details>
+              <hr id="H" style="background-color: #33CDFF; min-height: 1px">
+              <div id="C" style="background-color: #FF0000; min-width: 4px; min-height: 4px"></div>
+              <my-label id="M"></my-label>
+            </div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var scope = NameScope.GetNameScope(root)!;
+        Assert.That(((ProgressBar)scope.Find("P")!).Value, Is.EqualTo(3f));
+        Assert.That(((ProgressBar)scope.Find("P")!).MaxValue, Is.EqualTo(10f));
+        Assert.That(((FoldableContainer)scope.Find("D")!).Title, Is.EqualTo("More"));
+        Assert.That(((ColorRect)scope.Find("H")!).Color, Is.EqualTo(new Microsoft.Xna.Framework.Color(0x33, 0xCD, 0xFF)));
+        Assert.That(((ColorRect)scope.Find("C")!).Color, Is.EqualTo(new Microsoft.Xna.Framework.Color(255, 0, 0)));
+        Assert.That(scope.Find("M"), Is.TypeOf<Label>());
+    }
+
+    [Test]
+    public void AnUnregisteredHyphenatedElement_IsRejectedWithHelp()
+    {
+        var error = Convert("<div><my-thing></my-thing></div>").Diagnostics.First(d => d.Code == FormaHtmlDiagnosticCodes.UnknownElement);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
+        Assert.That(error.Message, Does.Contain("f-element"));
+    }
 }

@@ -42,6 +42,10 @@ public static class FormaHtmlDialect
         new("dialog", "<dialog backdrop=\"scrim\"><span>x</span></dialog>", "Container"),
         new("@keyframes and animation", "<style>@keyframes f { from { opacity: 0.5; } to { opacity: 1; } } #a { animation: f 200ms ease-out; }</style><div><span id=\"a\">x</span></div>", "Container"),
         new("@media prefers-reduced-motion and prefers-color-scheme", "<style>@media (prefers-reduced-motion: reduce) { span.m { opacity: 0.5; } } @media (prefers-color-scheme: dark) { span.m { font-weight: bold; } }</style><div><span class=\"m\">x</span></div>", "Container"),
+        new("progress", "<div><progress value=\"1\" max=\"2\"></progress></div>", "Container"),
+        new("details and summary", "<div><details><summary>t</summary><span>x</span></details></div>", "Container"),
+        new("hr and empty div as ColorRect", "<div><hr style=\"background-color: #112233\"></div>", "Container"),
+        new("registered custom element", "<meta name=\"f-element\" content=\"my-label=Label\"><div><my-label></my-label></div>", "Container"),
         new("-f-Property and resource()", "<style>span.c { -f-Opacity: 0.5; color: resource(External.Color); }</style><div><span class=\"c\">x</span></div>", "Container"),
     ];
 }

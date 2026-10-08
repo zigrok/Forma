@@ -183,7 +183,7 @@ public sealed class FormaHtmlConverter
         ["button"] = "Button", ["span"] = "Label", ["p"] = "Label", ["label"] = "Label", ["h1"] = "Label", ["h2"] = "Label", ["h3"] = "Label",
         ["input"] = "LineEdit", ["div"] = "Control", ["f-border"] = "Border", ["f-group-box"] = "GroupBox", ["f-scroll"] = "ScrollContainer", ["f-hbox"] = "HBoxContainer", ["f-vbox"] = "VBoxContainer",
         ["select"] = "OptionButton", ["textarea"] = "TextEdit", ["ul"] = "ItemsControl", ["ol"] = "ItemsControl", ["table"] = "DataGrid",
-        ["f-color-rect"] = "ColorRect", ["f-tab-container"] = "TabContainer",
+        ["f-color-rect"] = "ColorRect", ["progress"] = "ProgressBar", ["details"] = "FoldableContainer", ["hr"] = "ColorRect", ["f-tab-container"] = "TabContainer",
     };
 
     private readonly string _path;
@@ -207,6 +207,7 @@ public sealed class FormaHtmlConverter
     private readonly List<FormaFcssSheet> _sheets = new();
     private readonly List<(string Text, int Line, int Column)> _rawResources = new();
     private readonly List<HtmlNode> _templates = new();
+    private readonly Dictionary<string, string> _elements = new(StringComparer.Ordinal);
     private string? _templateFor;
     private readonly List<XNode> _itemResources = new();
     private int _itemTemplateCount;
@@ -316,6 +317,14 @@ public sealed class FormaHtmlConverter
     {
         var name = node.Attr("name");
         var content = node.Attr("content") ?? string.Empty;
+        if (name == "f-element")
+        {
+            var eq2 = content.IndexOf('=');
+            if (eq2 <= 0 || !content.Substring(0, eq2).Contains('-')) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "f-element content must be 'tag-name=prefix:Type' with a hyphenated tag name.", node); return; }
+            _elements[content.Substring(0, eq2).Trim()] = content.Substring(eq2 + 1).Trim();
+            return;
+        }
+
         if (name != "f-namespace")
         {
             Error(FormaHtmlDiagnosticCodes.UnknownAttribute, $"<meta name=\"{name}\"> is not part of the dialect; use <meta name=\"f-namespace\" content=\"prefix=clr-namespace:...\">.", node);
@@ -388,6 +397,22 @@ public sealed class FormaHtmlConverter
         if (type == "DataGrid")
         {
             ConvertDataGrid(element, target, children);
+            return;
+        }
+
+        if (type == "FoldableContainer")
+        {
+            var summary = children.FirstOrDefault(c => !c.IsText && c.Name == "summary");
+            var title = summary == null ? string.Empty : string.Join(" ", summary.Children.Where(c => c.IsText).Select(c => c.Text));
+            if (title.Length > 0) target.Attrs.Add(new Attr("Title", Escape(title), summary!.Line, summary.Column));
+            foreach (var child in children.Where(c => c != summary))
+            {
+                if (child.IsText) { Error(FormaHtmlDiagnosticCodes.Structure, "Text directly inside <details> has no Forma equivalent. Help: wrap it in <span>.", child); continue; }
+                var node = new XNode();
+                ConvertElement(child, node, target);
+                if (node.Type.Length > 0) target.Children.Add(node);
+            }
+
             return;
         }
 
@@ -715,6 +740,7 @@ public sealed class FormaHtmlConverter
     private string ResolveType(HtmlNode element, Dictionary<string, CssDeclaration> declared)
     {
         var name = element.Name;
+        if (_elements.TryGetValue(name, out var custom)) return custom;
         if (TextElements.TryGetValue(name, out var text)) return text;
         switch (name)
         {
@@ -722,6 +748,9 @@ public sealed class FormaHtmlConverter
             case "f-border": return "Border";
             case "f-scroll": return "ScrollContainer";
             case "f-group-box": return "GroupBox";
+            case "progress": return "ProgressBar";
+            case "details": return "FoldableContainer";
+            case "hr": return "ColorRect";
             case "slot": return _templateFor == "Button" ? "TextBlock" : "ContentPresenter";
             case "f-control":
                 {
@@ -747,12 +776,14 @@ public sealed class FormaHtmlConverter
         if (name == "div" && element.Attr("role") == "tablist") return "TabContainer";
         if (name == "dialog") return "Container";
         if (!BoxElements.Contains(name) && name != "dialog" && name != "table" && name != "tr" && name != "td" && name != "th" && name != "tbody" && name != "thead")
-            return Reject(element, $"<{name}> is not part of the dialect.", FormaHtmlDiagnosticCodes.UnknownElement);
+            return Reject(element, name.Contains('-') ? $"<{name}> is not a registered element. Help: register it with <meta name=\"f-element\" content=\"{name}=prefix:Type\"> or use <f-control type=\"prefix:Type\">." : $"<{name}> is not part of the dialect. Help: see the support matrix for the nearest supported element.", FormaHtmlDiagnosticCodes.UnknownElement);
 
         if (name is "table" or "tbody" or "thead") return "GridPanel";
         if (name is "tr") return "Container";
         if (name is "td" or "th") return "Container";
 
+        if (name == "div" && !element.Children.Any(c => !c.IsText || !string.IsNullOrWhiteSpace(c.Text)) && declared.ContainsKey("background-color") &&
+            declared.Keys.All(k => k is "background-color" or "min-width" or "min-height" or "opacity")) return "ColorRect";
         var display = declared.TryGetValue("display", out var d) ? d.Value : null;
         var decorated = declared.Keys.Any(k => k is "padding" or "border-width" or "border-radius" or "background-color" or "border-color") && display is not ("flex" or "grid");
         if (decorated) return "Border";
@@ -813,7 +844,9 @@ public sealed class FormaHtmlConverter
             case "backdrop" when element.Name == "dialog": return;
             case "open" when element.Name == "dialog": return;
             case "checked": Add("Checked", "True"); return;
-            case "value" when element.Name == "input": Add(type == "LineEdit" ? "Text" : "Value", value); return;
+            case "value" when element.Name is "input" or "progress": Add(type == "LineEdit" ? "Text" : "Value", value); return;
+            case "max" when element.Name == "progress": Add("MaxValue", value); return;
+            case "open" when element.Name == "details": Add("Folded", "False"); return;
             case "placeholder": Add("PlaceholderText", Escape(value)); return;
             case "min" when element.Name == "input": Add("MinValue", value); return;
             case "max" when element.Name == "input": Add("MaxValue", value); return;
@@ -908,7 +941,7 @@ public sealed class FormaHtmlConverter
                 continue;
             }
 
-            if (DynamicFor(d, isBox) is { } dynamic)
+            if (DynamicFor(d, isBox, type == "ColorRect") is { } dynamic)
             {
                 yield return dynamic;
                 continue;
@@ -937,7 +970,7 @@ public sealed class FormaHtmlConverter
                 case "border-width": yield return ("BorderThickness", Thickness(value, d), d); break;
                 case "border-radius": yield return ("CornerRadius", Thickness(value, d), d); break;
                 case "border-color": yield return ("BorderBrush", Color(value, d), d); break;
-                case "background-color": yield return ("Background", Color(value, d), d); break;
+                case "background-color": yield return (type == "ColorRect" ? "Color" : "Background", Color(value, d), d); break;
                 case "color": yield return ("FontColor", Color(value, d), d); break;
                 case "font-size": yield return ("FontSize", Px(value, d), d); break;
                 case "font-weight":
@@ -1145,12 +1178,12 @@ public sealed class FormaHtmlConverter
         _ => Invalid(at, $"animation-timing-function '{timing}' is not supported. Help: use linear, ease, ease-in, ease-out or ease-in-out."),
     };
 
-    private (string Property, string Value, CssDeclaration Source)? DynamicFor(CssDeclaration d, bool isBox)
+    private (string Property, string Value, CssDeclaration Source)? DynamicFor(CssDeclaration d, bool isBox, bool isColorRect = false)
     {
         (string Property, string Kind)? target = d.Name switch
         {
             "color" => ("FontColor", "color"),
-            "background-color" => ("Background", "brush"),
+            "background-color" => (isColorRect ? "Color" : "Background", isColorRect ? "color" : "brush"),
             "border-color" => ("BorderBrush", "brush"),
             "font-size" => ("FontSize", "single"),
             "opacity" => ("Opacity", "single"),
