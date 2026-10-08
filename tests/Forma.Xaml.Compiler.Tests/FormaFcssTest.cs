@@ -253,6 +253,70 @@ public sealed class FormaFcssTest
     }
 
     [Test]
+    public void ThemeOverrides_AreSwappedByThemeResourcesApply_AndLiveTokensFollow()
+    {
+        Write("theme.fcss", """
+            :root { --bg: #112233; --dim: 1; }
+            :root[data-theme="dark"] { --bg: #000000; --dim: 0.5; }
+            @media (prefers-color-scheme: light) { :root { --bg: #FFFFFF; } }
+            f-border.card { background-color: var(--bg); }
+            span.t { opacity: var(--dim); }
+            span[data-x] { }
+            """.Replace("span[data-x] { }", string.Empty));
+        Write("a.fhtml", "<link rel=\"stylesheet\" href=\"theme.fcss\">\n<div><f-border id=\"C\" class=\"card\"><span id=\"L\" class=\"t\">x</span></f-border></div>");
+        var view = Build(Convert("a.fhtml", new FormaHtmlProject(_directory)));
+        var border = Find<Border>(view, "C");
+        var label = Find<Label>(view, "L");
+        Assert.That(((SolidColorBrush)border.Background!).Color, Is.EqualTo(new Color(0x11, 0x22, 0x33)));
+
+        Forma.Xaml.ThemeResources.Apply(view, "dark");
+        Assert.That(((SolidColorBrush)border.Background!).Color, Is.EqualTo(Color.Black));
+        Assert.That(label.Opacity, Is.EqualTo(0.5f));
+        Assert.That(view.GetData("theme"), Is.EqualTo("dark"));
+
+        Forma.Xaml.ThemeResources.Apply(view, "light");
+        Assert.That(((SolidColorBrush)border.Background!).Color, Is.EqualTo(Color.White));
+
+        Forma.Xaml.ThemeResources.Apply(view, null);
+        Assert.That(((SolidColorBrush)border.Background!).Color, Is.EqualTo(new Color(0x11, 0x22, 0x33)));
+        Assert.That(view.GetData("theme"), Is.Null);
+    }
+
+    [Test]
+    public void DataI18nAndDir_LowerToDataAttributesAndLayoutDirection_AndKeysAreChecked()
+    {
+        Write("en.json", "{ \"menu.play\": \"Play\", \"menu.quit\": \"Quit\" }");
+        Write("a.fhtml", "<meta name=\"f-i18n-keys\" content=\"en.json\">\n<div dir=\"rtl\" lang=\"ar\"><button id=\"P\" data-i18n=\"menu.play\"></button><span id=\"Q\" data-i18n=\"menu.quit\"></span></div>");
+        var result = Convert("a.fhtml", new FormaHtmlProject(_directory));
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("LayoutDirection=\"RightToLeft\""));
+
+        var view = Build(result);
+        Assert.That(view.GetData("dir"), Is.EqualTo("rtl"));
+        Assert.That(view.GetData("lang"), Is.EqualTo("ar"));
+        Forma.Xaml.Localization.Apply(view, key => key == "menu.play" ? "Jogar" : "Sair");
+        Assert.That(Find<Button>(view, "P").Text, Is.EqualTo("Jogar"));
+        Assert.That(Find<Label>(view, "Q").Text, Is.EqualTo("Sair"));
+
+        Write("b.fhtml", "<meta name=\"f-i18n-keys\" content=\"en.json\">\n<div><button data-i18n=\"menu.plya\"></button></div>");
+        var bad = Convert("b.fhtml", new FormaHtmlProject(_directory)).Diagnostics.First(d => d.Code == FormaHtmlDiagnosticCodes.InvalidValue);
+        Assert.That(bad.Message, Does.Contain("Help:"));
+        Assert.That(bad.Message, Does.Contain("menu.play"));
+        Assert.That(bad.Location.Line, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void LogicalSpacingProperties_AreRejectedWithTheirPhysicalAlternative()
+    {
+        Write("a.fhtml", "<div style=\"margin-inline-start: 4px\"></div>");
+
+        var error = Convert("a.fhtml", new FormaHtmlProject(_directory)).Diagnostics.First(d => d.Code == FormaHtmlDiagnosticCodes.RejectedProperty);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
+        Assert.That(error.Message, Does.Contain("margin-left"));
+    }
+
+    [Test]
     public void TheInspector_ReportsTheFcssRuleAndLineAsTheSourceOfAWinningValue()
     {
         Write("theme.fcss", "\n\nbutton.primary {\n  min-width: 100px;\n  min-height: 40px;\n}");

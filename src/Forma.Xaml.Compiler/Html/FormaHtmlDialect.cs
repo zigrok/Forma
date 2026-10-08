@@ -53,6 +53,9 @@ public static class FormaHtmlDialect
         new("data-* state and [data-*] selectors", "<style>span[data-state=open] { opacity: 0.5; }</style><div><span data-state=\"open\">x</span></div>", "Container"),
         new(":is(), :first-child, :nth-child(), [disabled]", "<style>span:is(.a, .b):first-child { opacity: 1; } span:nth-child(2n+1) { opacity: 1; } button[disabled] { opacity: 1; }</style><div><span class=\"a\">x</span></div>", "Container"),
         new(":focus-visible", "<style>button.k:focus-visible { opacity: 0.5; }</style><div><button class=\"k\">a</button></div>", "Container"),
+        new("theme overrides :root[data-theme]", "<style>:root { --a: #112233; } :root[data-theme=\"dark\"] { --a: #000000; } f-border.c { background-color: var(--a); }</style><div><f-border class=\"c\"><span>x</span></f-border></div>", "Container"),
+        new("dir and lang", "<div dir=\"rtl\" lang=\"ar\"><span>x</span></div>", "Container"),
+        new("data-i18n", "<div><span data-i18n=\"menu.play\"></span></div>", "Container"),
         new("-f-Property and resource()", "<style>span.c { -f-Opacity: 0.5; color: resource(External.Color); }</style><div><span class=\"c\">x</span></div>", "Container"),
     ];
 }

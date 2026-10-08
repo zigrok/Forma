@@ -199,6 +199,8 @@ public sealed class FormaHtmlConverter
         public int Column;
         public string Kind = "compound"; // color, single, compound
         public string Key => Name.Substring(2);
+        public string? Theme;
+        public string EntryKey(string suffix) => Theme == null ? Key + suffix : Key + suffix + "@" + Theme;
     }
 
     private readonly Dictionary<string, Token> _tokens = new(StringComparer.Ordinal);
@@ -208,6 +210,7 @@ public sealed class FormaHtmlConverter
     private readonly List<(string Text, int Line, int Column)> _rawResources = new();
     private readonly List<HtmlNode> _templates = new();
     private readonly Dictionary<string, string> _elements = new(StringComparer.Ordinal);
+    private HashSet<string>? _i18nKeys;
     private string? _templateFor;
     private readonly List<XNode> _itemResources = new();
     private int _itemTemplateCount;
@@ -268,16 +271,43 @@ public sealed class FormaHtmlConverter
         return new FormaHtmlResult(xaml, _diagnostics, map);
     }
 
+    // :root declares tokens. :root[data-theme="dark"] and :root inside @media (prefers-color-scheme: dark) declare a theme override of the
+    // same tokens, emitted as resources named token@theme that ThemeResources.Apply copies over the base keys at runtime.
+    private static bool IsRootRule(CssRule rule, out string? theme)
+    {
+        theme = null;
+        if (rule.Selector == ":root" && rule.Media == null) return true;
+        if (rule.Selector == ":root" && rule.Media is { } media && media.Replace(" ", string.Empty).StartsWith("(prefers-color-scheme:", StringComparison.Ordinal))
+        {
+            theme = media.Replace(" ", string.Empty).Substring("(prefers-color-scheme:".Length).TrimEnd(')');
+            return theme is "dark" or "light";
+        }
+
+        var match = Regex.Match(rule.Selector, "^:root\\[data-theme=[\"']?([A-Za-z0-9_-]+)[\"']?\\]$");
+        if (match.Success) { theme = match.Groups[1].Value; return true; }
+        return false;
+    }
+
+    private readonly List<Token> _themeTokens = new();
+
     private void CollectTokens(IEnumerable<CssRule> rules)
     {
-        foreach (var rule in rules.Where(r => r.Selector == ":root"))
+        foreach (var rule in rules)
+        {
+            if (!IsRootRule(rule, out var theme)) continue;
             foreach (var d in rule.Declarations.Where(d => d.Name.StartsWith("--", StringComparison.Ordinal)))
             {
                 var value = d.Value.Trim();
-                var token = new Token { Name = d.Name, Value = value, Path = d.Path.Length > 0 ? d.Path : _path, Line = d.Line, Column = d.Column };
+                var token = new Token { Name = d.Name, Value = value, Path = d.Path.Length > 0 ? d.Path : _path, Line = d.Line, Column = d.Column, Theme = theme };
                 token.Kind = value.StartsWith('#') ? "color" : IsSingleLength(value) ? "single" : "compound";
-                _tokens[d.Name] = token; // a later definition, such as the view's own, shadows an earlier one
+                if (theme == null) _tokens[d.Name] = token; // a later definition, such as the view's own, shadows an earlier one
+                else
+                {
+                    _themeTokens.RemoveAll(t => t.Name == d.Name && t.Theme == theme);
+                    _themeTokens.Add(token);
+                }
             }
+        }
     }
 
     private static bool IsSingleLength(string value)
@@ -317,6 +347,20 @@ public sealed class FormaHtmlConverter
     {
         var name = node.Attr("name");
         var content = node.Attr("content") ?? string.Empty;
+        if (name == "f-i18n-keys")
+        {
+            if (_project == null) { Error(FormaHtmlDiagnosticCodes.Structure, "<meta name=\"f-i18n-keys\"> needs a project to resolve the key file.", node); return; }
+            var keyFile = Path.GetFullPath(Path.Combine(_project.BaseDirectory, content.Replace('/', Path.DirectorySeparatorChar)));
+            if (!File.Exists(keyFile)) { Error(FormaHtmlDiagnosticCodes.LinkTarget, $"Localization key file '{content}' was not found. Help: the path is relative to the project directory.", node); return; }
+            try
+            {
+                using var document = System.Text.Json.JsonDocument.Parse(File.ReadAllText(keyFile), new System.Text.Json.JsonDocumentOptions { CommentHandling = System.Text.Json.JsonCommentHandling.Skip, AllowTrailingCommas = true });
+                _i18nKeys = document.RootElement.EnumerateObject().Select(p => p.Name).ToHashSet(StringComparer.Ordinal);
+            }
+            catch (System.Text.Json.JsonException exception) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"Localization key file '{content}' is not valid JSON: {exception.Message}", node); }
+            return;
+        }
+
         if (name == "f-element")
         {
             var eq2 = content.IndexOf('=');
@@ -400,6 +444,7 @@ public sealed class FormaHtmlConverter
         if (element.Name is "button" or "span" or "p" or "label" or "h1" or "h2" or "h3" or "h4" or "h5" or "h6")
         {
             var text = string.Join(" ", children.Where(c => c.IsText).Select(c => c.Text));
+            if (text.Length == 0 && element.Attr("data-i18n") is { } i18nKey) text = i18nKey;
             if (text.Length > 0 && !target.Attrs.Any(a => a.Name == "Text")) target.Attrs.Add(new Attr("Text", Escape(text), element.Line, element.Column));
             foreach (var nested in children.Where(c => !c.IsText))
                 Error(FormaHtmlDiagnosticCodes.Structure, $"<{element.Name}> holds text only; nested <{nested.Name}> is not allowed.", nested);
@@ -897,6 +942,25 @@ public sealed class FormaHtmlConverter
             case "colspan" or "rowspan": return; // read by the grid placement
         }
 
+        if (name is "lang")
+        {
+            var langExisting = target.Attrs.FirstOrDefault(a => a.Name == "DataSet");
+            if (langExisting == null) target.Attrs.Add(new Attr("DataSet", "lang=" + value, attribute.Line, attribute.Column)); else langExisting.Value += ";lang=" + value;
+            return;
+        }
+
+        if (name == "dir")
+        {
+            if (value is not ("ltr" or "rtl" or "auto")) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "dir supports ltr, rtl and auto.", attribute); return; }
+            if (value != "auto") { Add("LayoutDirection", value == "rtl" ? "RightToLeft" : "LeftToRight"); }
+            var dirExisting = target.Attrs.FirstOrDefault(a => a.Name == "DataSet");
+            if (dirExisting == null) target.Attrs.Add(new Attr("DataSet", "dir=" + value, attribute.Line, attribute.Column)); else dirExisting.Value += ";dir=" + value;
+            return;
+        }
+
+        if (name.StartsWith("data-i18n", StringComparison.Ordinal) && _i18nKeys != null && !_i18nKeys.Contains(value))
+            Error(FormaHtmlDiagnosticCodes.InvalidValue, $"Localization key '{value}' is not in the declared key file. Help: add it to the locale file, or fix the spelling (nearest: {Nearest(value)}).", attribute);
+
         if (name.StartsWith("data-", StringComparison.Ordinal) && name.Length > 5)
         {
             var existing = target.Attrs.FirstOrDefault(a => a.Name == "DataSet");
@@ -929,6 +993,20 @@ public sealed class FormaHtmlConverter
         }
 
         Error(FormaHtmlDiagnosticCodes.UnknownAttribute, $"Attribute '{name}' is not part of the dialect. Use f:{Pascal(name)}=\"…\" to set a Forma property directly.", attribute);
+    }
+
+    private string Nearest(string key) =>
+        _i18nKeys!.OrderBy(k => Distance(k, key)).FirstOrDefault() ?? "none";
+
+    private static int Distance(string a, string b)
+    {
+        var d = new int[a.Length + 1, b.Length + 1];
+        for (var i = 0; i <= a.Length; i++) d[i, 0] = i;
+        for (var j = 0; j <= b.Length; j++) d[0, j] = j;
+        for (var i = 1; i <= a.Length; i++)
+            for (var j = 1; j <= b.Length; j++)
+                d[i, j] = Math.Min(Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1), d[i - 1, j - 1] + (a[i - 1] == b[j - 1] ? 0 : 1));
+        return d[a.Length, b.Length];
     }
 
     private static void AddClass(XNode target, string value, HtmlAttribute attribute)
@@ -1020,6 +1098,9 @@ public sealed class FormaHtmlConverter
                 case "width": width = d; break;
                 case "height": height = d; break;
                 case "margin": yield return ("Margins", Thickness(value, d), d); break;
+                case "margin-inline" or "margin-inline-start" or "margin-inline-end" or "padding-inline" or "padding-inline-start" or "padding-inline-end" or "inset-inline-start" or "inset-inline-end":
+                    Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}' cannot flip at runtime: Forma thicknesses are physical. Help: use margin-left/margin-right (or padding-left/right); containers and text already mirror under dir=\"rtl\".", d);
+                    break;
                 case "margin-top" or "margin-right" or "margin-bottom" or "margin-left":
                     marginSides[d.Name.Substring(7)] = d;
                     break;
@@ -1196,7 +1277,7 @@ public sealed class FormaHtmlConverter
     private void BuildStoryboards(IReadOnlyList<CssRule> rules, List<XNode> into)
     {
         var frames = rules.Where(r => r.Keyframes != null).GroupBy(r => r.Keyframes!, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.ToList(), StringComparer.Ordinal);
-        foreach (var rule in rules.Where(r => r.Keyframes == null && r.Selector != ":root" && r.Declarations.Any(d => d.Name.StartsWith("animation", StringComparison.Ordinal))))
+        foreach (var rule in rules.Where(r => r.Keyframes == null && !IsRootRule(r, out _) && r.Declarations.Any(d => d.Name.StartsWith("animation", StringComparison.Ordinal))))
         {
             var longhand = rule.Declarations.Where(d => d.Name.StartsWith("animation", StringComparison.Ordinal)).ToDictionary(d => d.Name, d => d, StringComparer.Ordinal);
             string? name = null, duration = null, iteration = null, direction = null, fill = null, timing = null;
@@ -1376,7 +1457,11 @@ public sealed class FormaHtmlConverter
         var styles = new List<XNode>();
         foreach (var template in _templates) BuildControlTemplate(template, styles);
         styles.AddRange(_itemResources);
-        foreach (var token in tokens)
+        var themed = _themeTokens.Select(t => t.Name).ToHashSet(StringComparer.Ordinal);
+        var emit = tokens.ToList();
+        emit.AddRange(tokens.Where(t => themed.Contains(t.Name)).Select(t => new Token { Name = t.Name, Value = t.Value, Path = t.Path, Line = t.Line, Column = t.Column, Kind = t.Kind, Theme = "default" }));
+        emit.AddRange(_themeTokens);
+        foreach (var token in emit)
         {
             var path = token.Path;
             XNode Entry(string type, string key, string? text = null, string? color = null)
@@ -1391,18 +1476,18 @@ public sealed class FormaHtmlConverter
             if (token.Kind == "color")
             {
                 var hex = Color(token.Value, probe);
-                styles.Add(Entry("SolidColorBrush", token.Key, color: hex));
-                styles.Add(Entry("xna:Color", token.Key + ".color", text: hex));
+                styles.Add(Entry("SolidColorBrush", token.EntryKey(string.Empty), color: hex));
+                styles.Add(Entry("xna:Color", token.EntryKey(".color"), text: hex));
             }
             else if (token.Kind == "single")
             {
-                styles.Add(Entry("x:Single", token.Key, text: Px(token.Value, probe)));
+                styles.Add(Entry("x:Single", token.EntryKey(string.Empty), text: Px(token.Value, probe)));
             }
         }
 
         foreach (var rule in rules)
         {
-            if (rule.Selector == ":root")
+            if (IsRootRule(rule, out _))
             {
                 foreach (var d in rule.Declarations.Where(d => !d.Name.StartsWith("--", StringComparison.Ordinal)))
                     Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "A :root rule only declares custom properties (--name: value).", d);
@@ -1412,7 +1497,7 @@ public sealed class FormaHtmlConverter
         BuildStoryboards(rules, styles);
 
         var index = 0;
-        foreach (var rule in ExpandFocusVisible(rules).Where(r => r.Selector != ":root" && r.Keyframes == null))
+        foreach (var rule in ExpandFocusVisible(rules).Where(r => !IsRootRule(r, out _) && r.Keyframes == null))
         {
             var selector = LowerSelector(rule, out var subjectType);
             if (selector == null) continue;
