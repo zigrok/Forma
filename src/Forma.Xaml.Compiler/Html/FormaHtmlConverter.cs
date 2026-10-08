@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Text;
 
 namespace Forma.Xaml.Compiler.Html;
@@ -207,6 +208,8 @@ public sealed class FormaHtmlConverter
     private readonly List<(string Text, int Line, int Column)> _rawResources = new();
     private readonly List<HtmlNode> _templates = new();
     private string? _templateFor;
+    private readonly List<XNode> _itemResources = new();
+    private int _itemTemplateCount;
 
     public FormaHtmlConverter(string path, FormaHtmlProject? project = null)
     {
@@ -356,6 +359,13 @@ public sealed class FormaHtmlConverter
             target.Attrs.Insert(0, new Attr("x:Name", "PART_ButtonText", element.Line, element.Column));
             target.Attrs.Add(new Attr("Text", "{Binding Text, RelativeSource=TemplatedParent}", element.Line, element.Column));
         }
+        XNode? itemsPanel = null;
+        if (type is "ItemsControl" or "ListBox")
+        {
+            itemsPanel = BuildItemsPanel(element, inline);
+            inline = inline.Where(d => d.Name is not ("display" or "flex-direction" or "gap")).ToList();
+        }
+
         ApplyDeclarations(inline, type, target, parentDirection, element);
         ApplyElementSpecifics(element, target, type);
 
@@ -366,6 +376,36 @@ public sealed class FormaHtmlConverter
             if (text.Length > 0 && !target.Attrs.Any(a => a.Name == "Text")) target.Attrs.Add(new Attr("Text", Escape(text), element.Line, element.Column));
             foreach (var nested in children.Where(c => !c.IsText))
                 Error(FormaHtmlDiagnosticCodes.Structure, $"<{element.Name}> holds text only; nested <{nested.Name}> is not allowed.", nested);
+            return;
+        }
+
+        if (type is "ItemsControl" or "ListBox")
+        {
+            ConvertItems(element, target, children, itemsPanel);
+            return;
+        }
+
+        if (type == "DataGrid")
+        {
+            ConvertDataGrid(element, target, children);
+            return;
+        }
+
+        if (type == "TabContainer")
+        {
+            foreach (var panel in children.Where(c => !c.IsText && c.Attr("role") == "tabpanel"))
+            {
+                var tab = new XNode();
+                ConvertElement(panel, tab, target);
+                if (tab.Type.Length > 0) target.Children.Add(tab);
+            }
+
+            return;
+        }
+
+        if (element.Name == "dialog")
+        {
+            ConvertDialog(element, target, children);
             return;
         }
 
@@ -391,6 +431,126 @@ public sealed class FormaHtmlConverter
 
         if (type == "Border" && target.Children.Count > 1)
             Error(FormaHtmlDiagnosticCodes.Structure, "An element with padding, border or background lowers to a Border, which holds one child; wrap the children in a flex container.", element);
+    }
+
+    private XNode? BuildItemsPanel(HtmlNode element, List<CssDeclaration> inline)
+    {
+        var display = inline.FirstOrDefault(d => d.Name == "display");
+        var gap = inline.FirstOrDefault(d => d.Name == "gap");
+        if (display == null && gap == null) return null;
+        var direction = inline.FirstOrDefault(d => d.Name == "flex-direction")?.Value ?? "column";
+        var panel = new XNode { Type = "ItemsPanelTemplate", Line = element.Line, Column = element.Column };
+        var key = (element.Attr("id") ?? "items" + (++_itemTemplateCount)) + "-panel";
+        panel.Attrs.Add(new Attr("x:Key", key, element.Line, element.Column));
+        var box = new XNode { Type = direction == "row" ? "HBoxContainer" : "VBoxContainer", Line = element.Line, Column = element.Column };
+        if (gap != null) box.Attrs.Add(new Attr("Separation", Px(ResolveVar(gap.Value, gap), gap), gap.Line, gap.Column));
+        panel.Children.Add(box);
+        _itemResources.Add(panel);
+        return panel;
+    }
+
+    // The item template of a bound list or grid: inline <template data-type=...> content, or <template src="Row.fhtml" data-type=...>.
+    private XNode? BuildItemTemplate(HtmlNode owner, HtmlNode template, string keyHint)
+    {
+        var dataType = template.Attr("data-type");
+        if (string.IsNullOrWhiteSpace(dataType)) { Error(FormaHtmlDiagnosticCodes.Structure, "An item <template> needs data-type. Help: <template data-type=\"local:RowViewModel\">.", template); return null; }
+        var node = new XNode { Type = "DataTemplate", Line = template.Line, Column = template.Column };
+        node.Attrs.Add(new Attr("x:Key", keyHint, template.Line, template.Column));
+        node.Attrs.Add(new Attr("x:DataType", dataType, template.Line, template.Column));
+        var row = new XNode();
+        if (template.Attr("src") is { } src)
+        {
+            if (_project == null) { Error(FormaHtmlDiagnosticCodes.Structure, "<template src> needs a project to resolve files.", template); return null; }
+            var resolved = FormaHtmlProject.Resolve(_path, src);
+            var full = resolved == null ? null : System.IO.Path.Combine(_project.BaseDirectory, resolved.Replace('/', System.IO.Path.DirectorySeparatorChar));
+            if (full == null || !File.Exists(full)) { Error(FormaHtmlDiagnosticCodes.LinkTarget, $"Row view '{src}' was not found. Help: the path is relative to the linking file.", template); return null; }
+            var dataClass = new Regex("data-class=\"([^\"]+)\"").Match(File.ReadAllText(full)).Groups[1].Value;
+            if (dataClass.Length == 0) { Error(FormaHtmlDiagnosticCodes.Structure, $"Row view '{src}' declares no data-class. Help: add data-class=\"Namespace.RowView\" to its root element.", template); return null; }
+            row.Type = dataClass;
+            row.Line = template.Line;
+            row.Column = template.Column;
+            row.Attrs.Clear();
+            node.Children.Add(row);
+            _rowViewTypes.Add(dataClass);
+            return node;
+        }
+
+        var content = template.Children.Where(c => !(c.IsText && string.IsNullOrWhiteSpace(c.Text))).ToList();
+        if (content.Count != 1 || content[0].IsText) { Error(FormaHtmlDiagnosticCodes.Structure, "An item <template> has exactly one root element. Help: wrap the row in a <div>.", template); return null; }
+        ConvertElement(content[0], row, parent: null);
+        if (row.Type.Length > 0) node.Children.Add(row);
+        return node;
+    }
+
+    private readonly HashSet<string> _rowViewTypes = new(StringComparer.Ordinal);
+
+    private void ConvertItems(HtmlNode element, XNode target, List<HtmlNode> children, XNode? panel)
+    {
+        var template = children.FirstOrDefault(c => !c.IsText && c.Name == "template");
+        foreach (var other in children.Where(c => c != template)) Error(FormaHtmlDiagnosticCodes.Structure, "A bound list holds only its item <template>. Help: remove static items or drop bind:items.", other);
+        if (template == null) { Error(FormaHtmlDiagnosticCodes.Structure, "A list with bind:items needs an item <template data-type=\"…\">.", element); return; }
+        var key = (element.Attr("id") ?? "items" + (++_itemTemplateCount)) + "-item";
+        var item = BuildItemTemplate(element, template, key);
+        if (item == null) return;
+        _itemResources.Add(item);
+        target.Attrs.Add(new Attr("ItemTemplate", "{StaticResource " + key + "}", template.Line, template.Column));
+        if (panel != null) target.Attrs.Add(new Attr("ItemsPanel", "{StaticResource " + panel.Attrs.First(a => a.Name == "x:Key").Value + "}", element.Line, element.Column));
+    }
+
+    private void ConvertDataGrid(HtmlNode element, XNode target, List<HtmlNode> children)
+    {
+        var head = children.FirstOrDefault(c => !c.IsText && c.Name == "thead");
+        var body = children.FirstOrDefault(c => !c.IsText && c.Name == "tbody");
+        var headers = head?.Children.FirstOrDefault(c => !c.IsText && c.Name == "tr")?.Children.Where(c => !c.IsText && c.Name == "th").ToList() ?? new List<HtmlNode>();
+        var template = body?.Children.FirstOrDefault(c => !c.IsText && c.Name == "template");
+        if (template == null) { Error(FormaHtmlDiagnosticCodes.Structure, "A table with bind:items needs <tbody><template data-type=\"…\"><tr>…</tr></template></tbody>.", element); return; }
+        var row = template.Children.FirstOrDefault(c => !c.IsText && c.Name == "tr");
+        if (row == null) { Error(FormaHtmlDiagnosticCodes.Structure, "The row <template> of a data grid holds one <tr> of <td> cells.", template); return; }
+        var dataType = template.Attr("data-type");
+        if (string.IsNullOrWhiteSpace(dataType)) { Error(FormaHtmlDiagnosticCodes.Structure, "A row <template> needs data-type. Help: <template data-type=\"local:RowViewModel\">.", template); return; }
+        var columns = new XNode { Type = "DataGrid.Columns", Line = element.Line, Column = element.Column };
+        var cells = row.Children.Where(c => !c.IsText && c.Name == "td").ToList();
+        for (var index = 0; index < cells.Count; index++)
+        {
+            var header = index < headers.Count ? headers[index] : null;
+            var column = new XNode { Type = "DataGridTemplateColumn", Line = cells[index].Line, Column = cells[index].Column };
+            column.Attrs.Add(new Attr("Width", header?.Attr("width") ?? "*", header?.Line ?? cells[index].Line, header?.Column ?? cells[index].Column));
+            if (header?.Attr("data-sort-by") != null) Error(FormaHtmlDiagnosticCodes.RejectedConstruct, "Column sorting needs a typed sort binding, which the dialect does not support yet. Help: sort the items source in the view model.", header);
+            column.Attrs.Add(new Attr("CanUserSort", "False", cells[index].Line, cells[index].Column));
+            var headerText = header == null ? string.Empty : string.Join(" ", header.Children.Where(c => c.IsText).Select(c => c.Text));
+            if (headerText.Length > 0) column.Attrs.Add(new Attr("Header", Escape(headerText), header!.Line, header.Column));
+            var cellTemplate = new XNode { Type = "DataTemplate", Line = cells[index].Line, Column = cells[index].Column };
+            cellTemplate.Attrs.Add(new Attr("x:DataType", dataType, cells[index].Line, cells[index].Column));
+            var cell = new XNode();
+            ConvertCell(cells[index], cell, parent: null);
+            if (cell.Type.Length > 0) cellTemplate.Children.Add(cell);
+            column.PropertyElements.Add(("DataGridColumn.CellTemplate", cellTemplate));
+            columns.Children.Add(column);
+        }
+
+        target.PropertyElements.Add((columns.Type, columns));
+    }
+
+    // <dialog> is a modal surface: an optional backdrop (backdrop="class") under the panel, both shown by the same visibility binding.
+    private void ConvertDialog(HtmlNode element, XNode target, List<HtmlNode> children)
+    {
+        target.Type = "Container";
+        target.Attrs.Clear();
+        if (element.Attr("backdrop") is { } backdropClass)
+        {
+            var backdrop = new XNode { Type = "Border", Line = element.Line, Column = element.Column };
+            backdrop.Attrs.Add(new Attr("Classes", backdropClass, element.Line, element.Column));
+            backdrop.Attrs.Add(new Attr("MouseFilter", "Stop", element.Line, element.Column));
+            if (element.Attr("bind:visible") is { } v) backdrop.Attrs.Add(new Attr("Visible", BindingText(v, element.Attributes.First(a => a.Name == "bind:visible")), element.Line, element.Column));
+            target.Children.Add(backdrop);
+        }
+
+        var panel = new XNode();
+        var inner = new HtmlNode { Name = "div", Line = element.Line, Column = element.Column };
+        foreach (var attribute in element.Attributes.Where(a => a.Name is not ("backdrop" or "open"))) inner.Attributes.Add(attribute);
+        inner.Children.AddRange(children);
+        ConvertElement(inner, panel, parent: null);
+        if (panel.Type.Length > 0) target.Children.Add(panel);
     }
 
     // display: grid and table both lower to a GridPanel; children are placed row by row (or by grid-column and grid-row).
@@ -582,7 +742,11 @@ public sealed class FormaHtmlConverter
             case "img": return Reject(element, "<img> has no defined Forma mapping yet; use f-control type=\"…\" for an application image control.");
         }
 
-        if (!BoxElements.Contains(name) && name != "table" && name != "tr" && name != "td" && name != "th" && name != "tbody" && name != "thead")
+        if (name is "ul" or "ol" && element.Attr("bind:items") != null) return element.Attributes.Any(a => a.Name == "selectable") ? "ListBox" : "ItemsControl";
+        if (name == "table" && element.Attr("bind:items") != null) return "DataGrid";
+        if (name == "div" && element.Attr("role") == "tablist") return "TabContainer";
+        if (name == "dialog") return "Container";
+        if (!BoxElements.Contains(name) && name != "dialog" && name != "table" && name != "tr" && name != "td" && name != "th" && name != "tbody" && name != "thead")
             return Reject(element, $"<{name}> is not part of the dialect.", FormaHtmlDiagnosticCodes.UnknownElement);
 
         if (name is "table" or "tbody" or "thead") return "GridPanel";
@@ -643,6 +807,11 @@ public sealed class FormaHtmlConverter
                 return;
             case "title": Add("TooltipText", Escape(value)); return;
             case "template": Add("Template", "{StaticResource " + value + "}"); return;
+            case "selectable": Add("SelectionMode", "Single"); return;
+            case "role" when value is "tablist" or "tabpanel" or "tab": return;
+            case "bind:items": Add("ItemsSource", BindingText(value, attribute)); return;
+            case "backdrop" when element.Name == "dialog": return;
+            case "open" when element.Name == "dialog": return;
             case "checked": Add("Checked", "True"); return;
             case "value" when element.Name == "input": Add(type == "LineEdit" ? "Text" : "Value", value); return;
             case "placeholder": Add("PlaceholderText", Escape(value)); return;
@@ -656,7 +825,7 @@ public sealed class FormaHtmlConverter
         if (name.StartsWith("on", StringComparison.Ordinal) && name.Length > 2)
         {
             if (!IsIdentifier(value)) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"{name} names a code-behind handler, never an expression: {name}=\"OnSomethingPressed\".", attribute); return; }
-            var evt = name switch { "onclick" => "Pressed", "onchange" => "Changed", "onfocus" => "FocusEntered", "onblur" => "FocusExited", _ => string.Empty };
+            var evt = name switch { "onclick" => "Pressed", "onitemactivated" => "ItemActivated", "onchange" => "Changed", "onfocus" => "FocusEntered", "onblur" => "FocusExited", _ => string.Empty };
             if (evt.Length == 0) Error(FormaHtmlDiagnosticCodes.UnknownAttribute, $"Event attribute '{name}' is not part of the dialect (onclick, onchange, onfocus, onblur).", attribute);
             else Add(evt, value);
             return;
@@ -974,6 +1143,7 @@ public sealed class FormaHtmlConverter
     {
         var styles = new List<XNode>();
         foreach (var template in _templates) BuildControlTemplate(template, styles);
+        styles.AddRange(_itemResources);
         foreach (var token in tokens)
         {
             var path = token.Path;

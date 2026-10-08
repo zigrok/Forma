@@ -7,6 +7,9 @@ using NUnit.Framework;
 
 namespace Forma.Xaml.Compiler.Tests;
 
+public sealed class RowModel { public string Name { get; set; } = "n"; public string Mode { get; set; } = "m"; }
+public sealed class ListModel { public List<RowModel> Rows { get; } = new() { new RowModel { Name = "a" }, new RowModel { Name = "b" } }; public int Picked { get; set; } }
+
 public sealed class FormaHtmlConverterTest
 {
     private const string Menu = """
@@ -291,7 +294,7 @@ public sealed class FormaHtmlConverterTest
             var result = Convert(entry.Html);
             Assert.That(result.Succeeded, Is.True, $"{entry.Name}: {string.Join("; ", result.Diagnostics)}");
             Assert.That(System.Xml.Linq.XDocument.Parse(result.Xaml).Root!.Name.LocalName, Is.EqualTo(entry.FormaType), entry.Name);
-            Assert.DoesNotThrow(() => FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "catalog.fhtml.xaml").Build(null), entry.Name);
+            Assert.DoesNotThrow(() => FormaXamlCompiler.CreateSre("Forma.Xaml.Compiler.Tests").CompileSre(result.Xaml, "catalog.fhtml.xaml").Build(null), entry.Name);
         }
     }
 
@@ -387,7 +390,7 @@ public sealed class FormaHtmlConverterTest
         Assert.That(result.Xaml, Does.Contain("x:Key=\"chrome-button\""));
         Assert.That(result.Xaml, Does.Contain("Text=\"{Binding Text, RelativeSource=TemplatedParent}\""));
 
-        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var root = (Control)FormaXamlCompiler.CreateSre("Forma.Xaml.Compiler.Tests").CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
         var button = (Button)NameScope.GetNameScope(root)!.Find("B")!;
         var context = new UIContext { ViewportSize = new Microsoft.Xna.Framework.Vector2(300, 200) };
         context.Add(root);
@@ -408,5 +411,98 @@ public sealed class FormaHtmlConverterTest
 
         Assert.That(error.Location.Line, Is.EqualTo(1));
         Assert.That(error.Message, Is.Not.Empty);
+    }
+
+    private const string ModelNamespace = "xmlns:t=\"clr-namespace:Forma.Xaml.Compiler.Tests;assembly=Forma.Xaml.Compiler.Tests\"";
+
+    [Test]
+    public void BoundList_WithAnItemTemplateAndPanel_RealizesRowsFromTheItemsSource()
+    {
+        var result = Convert("""
+            <meta name="f-namespace" content="t=clr-namespace:Forma.Xaml.Compiler.Tests;assembly=Forma.Xaml.Compiler.Tests">
+            <div data-type="t:ListModel">
+              <ul id="L" bind:items="Rows" style="display: flex; flex-direction: column; gap: 5px">
+                <template data-type="t:RowModel"><div><span bind:text="Name"></span></div></template>
+              </ul>
+            </div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("<DataTemplate"));
+        Assert.That(result.Xaml, Does.Contain("ItemsSource=\"{Binding Rows}\""));
+        Assert.That(result.Xaml, Does.Contain("<ItemsPanelTemplate"));
+
+        var root = (Control)FormaXamlCompiler.CreateSre("Forma.Xaml.Compiler.Tests").CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        root.DataContext = new ListModel();
+        var list = (ItemsControl)NameScope.GetNameScope(root)!.Find("L")!;
+        var context = new UIContext { ViewportSize = new Microsoft.Xna.Framework.Vector2(300, 200) };
+        context.Add(root);
+        context.Layout();
+
+        Assert.That(list.RealizedCount, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void SelectableList_IsAListBox_AndTableWithItemsIsADataGridWithTemplatedColumns()
+    {
+        var result = Convert("""
+            <meta name="f-namespace" content="t=clr-namespace:Forma.Xaml.Compiler.Tests;assembly=Forma.Xaml.Compiler.Tests">
+            <div data-type="t:ListModel">
+              <ul id="L" selectable bind:items="Rows" onitemactivated="OnPick"><template data-type="t:RowModel"><div><span bind:text="Name"></span></div></template></ul>
+              <table id="G" bind:items="Rows" style="min-width: 500px; min-height: 300px">
+                <thead><tr><th width="2*">Name</th><th width="90">Mode</th></tr></thead>
+                <tbody><template data-type="t:RowModel"><tr><td><span bind:text="Name"></span></td><td><span bind:text="Mode"></span></td></tr></template></tbody>
+              </table>
+            </div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("<ListBox"));
+        Assert.That(result.Xaml, Does.Contain("SelectionMode=\"Single\""));
+        Assert.That(result.Xaml, Does.Contain("ItemActivated=\"OnPick\""));
+
+        var withHandler = result.Xaml.Replace("ItemActivated=\"OnPick\"", string.Empty);
+        var root = (Control)FormaXamlCompiler.CreateSre("Forma.Xaml.Compiler.Tests").CompileSre(withHandler, "t.fhtml.xaml").Build(null);
+        root.DataContext = new ListModel();
+        var grid = (DataGrid)NameScope.GetNameScope(root)!.Find("G")!;
+        var context = new UIContext { ViewportSize = new Microsoft.Xna.Framework.Vector2(600, 400) };
+        context.Add(root);
+        context.Layout();
+        context.Layout();
+        context.Layout();
+
+        Assert.That(grid.Columns.Count, Is.EqualTo(2));
+        Assert.That(grid.Columns[1].Header, Is.EqualTo("Mode"));
+        Assert.That(grid.RealizedCount, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void AriaTabs_AndDialog_LowerToATabContainerAndABackdropPlusPanel()
+    {
+        var result = Convert("""
+            <div>
+              <div id="T" role="tablist"><div role="tabpanel" id="General"><span>g</span></div><div role="tabpanel" id="Sound"><span>s</span></div></div>
+              <dialog id="D" backdrop="scrim" class="panel"><span>Sure?</span></dialog>
+            </div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+
+        var root = (Control)FormaXamlCompiler.CreateSre("Forma.Xaml.Compiler.Tests").CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var tabs = (TabContainer)NameScope.GetNameScope(root)!.Find("T")!;
+        Assert.That(tabs.Children.Count, Is.EqualTo(2));
+        Assert.That(tabs.GetTabTitle(1), Is.EqualTo("Sound"));
+        Assert.That(result.Xaml, Does.Contain("Classes=\"scrim\""));
+        Assert.That(NameScope.GetNameScope(root)!.Find("D"), Is.Not.Null);
+    }
+
+    [TestCase("<table bind:items=\"Rows\"><thead><tr><th data-sort-by=\"Name\">N</th></tr></thead><tbody><template data-type=\"t:R\"><tr><td>x</td></tr></template></tbody></table>", FormaHtmlDiagnosticCodes.RejectedConstruct)]
+    [TestCase("<ul bind:items=\"Rows\"><li>x</li></ul>", FormaHtmlDiagnosticCodes.Structure)]
+    [TestCase("<ul bind:items=\"Rows\"></ul>", FormaHtmlDiagnosticCodes.Structure)]
+    [TestCase("<ul bind:items=\"Rows\"><template><div></div></template></ul>", FormaHtmlDiagnosticCodes.Structure)]
+    [TestCase("<table bind:items=\"Rows\"><tbody><tr><td>x</td></tr></tbody></table>", FormaHtmlDiagnosticCodes.Structure)]
+    public void ListAndGridRejections_CarryACodeAndHelp(string html, string code)
+    {
+        var error = Convert(html).Diagnostics.First(d => d.Code == code);
+
+        Assert.That(error.Message, Is.Not.Empty);
+        Assert.That(error.Location.Line, Is.EqualTo(1));
     }
 }
