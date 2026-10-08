@@ -766,4 +766,24 @@ public sealed class FormaHtmlConverterTest
 
         Assert.That(error.Message, Does.Contain("Help:"));
     }
+
+    [Test]
+    public void ItemSelectors_LiAndTr_LowerToTemplateChildren_AndAnimationListsMakeSeveralStoryboards()
+    {
+        var result = Convert("""
+            <style>
+              ul.l li:hover { opacity: 0.9; }
+              table.g tr:selected { opacity: 1; }
+              @keyframes a { from { opacity: 0.5; } to { opacity: 1; } }
+              @keyframes b { from { opacity: 1; } to { opacity: 0.5; } }
+              #R { animation: a 100ms, b 200ms alternate; }
+            </style>
+            <div id="R"></div>
+            """);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("ItemsControl.l &gt;&gt; ListBoxItem:hover"));
+        Assert.That(result.Xaml, Does.Contain("DataGrid.g &gt;&gt; DataGridRow:selected"));
+        Assert.That(result.Xaml, Does.Contain("x:Key=\"a\""));
+        Assert.That(result.Xaml, Does.Contain("x:Key=\"b\""));
+    }
 }

@@ -182,7 +182,7 @@ public sealed class FormaHtmlConverter
     {
         ["button"] = "Button", ["span"] = "Label", ["p"] = "Label", ["label"] = "Label", ["h1"] = "Label", ["h2"] = "Label", ["h3"] = "Label",
         ["input"] = "LineEdit", ["div"] = "Control", ["f-border"] = "Border", ["f-group-box"] = "GroupBox", ["f-scroll"] = "ScrollContainer", ["f-hbox"] = "HBoxContainer", ["f-vbox"] = "VBoxContainer",
-        ["select"] = "OptionButton", ["textarea"] = "TextEdit", ["ul"] = "ItemsControl", ["ol"] = "ItemsControl", ["table"] = "DataGrid",
+        ["select"] = "OptionButton", ["li"] = "ListBoxItem", ["tr"] = "DataGridRow", ["textarea"] = "TextEdit", ["ul"] = "ItemsControl", ["ol"] = "ItemsControl", ["table"] = "DataGrid",
         ["f-color-rect"] = "ColorRect", ["progress"] = "ProgressBar", ["details"] = "FoldableContainer", ["hr"] = "ColorRect", ["f-tab-container"] = "TabContainer",
     };
 
@@ -1475,7 +1475,22 @@ public sealed class FormaHtmlConverter
     private void BuildStoryboards(IReadOnlyList<CssRule> rules, List<XNode> into)
     {
         var frames = rules.Where(r => r.Keyframes != null).GroupBy(r => r.Keyframes!, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.ToList(), StringComparer.Ordinal);
-        foreach (var rule in rules.Where(r => r.Keyframes == null && !IsRootRule(r, out _) && r.Declarations.Any(d => d.Name.StartsWith("animation", StringComparison.Ordinal))))
+        var animated = new List<CssRule>();
+        foreach (var source in rules.Where(r => r.Keyframes == null && !IsRootRule(r, out _) && r.Declarations.Any(d => d.Name.StartsWith("animation", StringComparison.Ordinal))))
+        {
+            // animation: a 1s, b 2s runs several animations; each becomes its own storyboard.
+            var list = source.Declarations.FirstOrDefault(d => d.Name == "animation");
+            var entries = list == null ? new List<string>() : SplitTopLevel(list.Value, ',').ToList();
+            if (entries.Count < 2) { animated.Add(source); continue; }
+            foreach (var entry in entries)
+            {
+                var clone = new CssRule { Selector = source.Selector, Path = source.Path, Line = source.Line, Column = source.Column, Media = source.Media };
+                clone.Declarations.Add(new CssDeclaration("animation", entry, list!.Line, list.Column) { Path = list.Path });
+                animated.Add(clone);
+            }
+        }
+
+        foreach (var rule in animated)
         {
             var longhand = rule.Declarations.Where(d => d.Name.StartsWith("animation", StringComparison.Ordinal)).ToDictionary(d => d.Name, d => d, StringComparer.Ordinal);
             string? name = null, duration = null, iteration = null, direction = null, fill = null, timing = null;
@@ -1823,6 +1838,9 @@ public sealed class FormaHtmlConverter
 
                 var compound = LowerCompound(host, rule, out last);
                 if (compound == null) return null;
+                // li and tr are the realized items of a list or grid: "ul.x li:hover" selects a template child, so it lowers to >>.
+                if (last is "ListBoxItem" or "DataGridRow" && lowered.Length > 0 && lowered[^1] == ' ' && !lowered.ToString().EndsWith("> ", StringComparison.Ordinal))
+                    lowered.Append(">> ");
                 lowered.Append(compound);
                 if (partName != null)
                 {
