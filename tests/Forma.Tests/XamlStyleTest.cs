@@ -70,6 +70,50 @@ namespace Forma.Tests
             Assert.That(StyleInspector.Inspect(button).Rules.Single(rule => rule.Selector == "Button.primary:hover").Reason, Does.Contain(":hover"));
         }
 
+        private static DataTemplate Isolated(DataTemplateFactory<string> factory)
+        {
+            var template = DataTemplate.Create(factory);
+            template.IsolateStyles = true;
+            return template;
+        }
+
+        private static (Control Root, ItemsControl Items) ItemsUnderStyledRoot(bool isolate)
+        {
+            var root = new Control { Size = new Vector2(300, 200) };
+            var template = DataTemplate.Create<string>((context, item) =>
+            {
+                var row = new Control();
+                var label = new Control();
+                label.Classes.Add("row-label");
+                row.AddChild(label);
+                return row;
+            });
+            template.IsolateStyles = isolate;
+            var items = new ItemsControl { Size = new Vector2(300, 200), ItemTemplate = template, ItemsSource = new[] { "a" } };
+            root.AddChild(items);
+            var context = new UIContext { ViewportSize = new Vector2(300, 200) };
+            context.Add(root);
+            StyleEngine.Attach(root, new[] { CreateStyle("Control.row-label", "styled") });
+            context.Layout();
+            return (root, items);
+        }
+
+        [Test]
+        public void Styles_AttachedAboveAnItemsControl_ReachItsDataTemplateRowsWithoutAnOptIn()
+        {
+            var (_, items) = ItemsUnderStyledRoot(isolate: false);
+
+            Assert.That(FindClass(items.GetRealizedContainer(0), "row-label").TooltipText, Is.EqualTo("styled"));
+        }
+
+        [Test]
+        public void DataTemplate_IsolateStyles_KeepsTheRowAsItsOwnStyleBoundary()
+        {
+            var (_, items) = ItemsUnderStyledRoot(isolate: true);
+
+            Assert.That(FindClass(items.GetRealizedContainer(0), "row-label").TooltipText, Is.Not.EqualTo("styled"));
+        }
+
         [Test]
         public void StyleEngine_AttachFrom_GivesATemplateScopedViewTheStylesOfASource()
         {
@@ -83,7 +127,7 @@ namespace Forma.Tests
             var items = new ItemsControl
             {
                 Size = new Vector2(300, 200),
-                ItemTemplate = DataTemplate.Create<string>((context, item) =>
+                ItemTemplate = Isolated((context, item) =>
                 {
                     var row = new Control();
                     var label = new Control();

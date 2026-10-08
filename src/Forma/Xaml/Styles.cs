@@ -451,7 +451,7 @@ namespace Forma.Xaml
                 }
                 compoundIndex--;
             }
-            return ReferenceEquals(StyleBoundary.GetContainingRoot(candidate), StyleBoundary.GetContainingRoot(scopeRoot));
+            return ReferenceEquals(StyleBoundary.GetStyleScope(candidate), StyleBoundary.GetStyleScope(scopeRoot));
         }
 
         private static bool MatchesCompound(StyleSelectorCompound compound, Control control, StyleControlState state)
@@ -622,11 +622,15 @@ namespace Forma.Xaml
 
     internal sealed class StyleBoundaryInfo
     {
-        public StyleBoundaryInfo(StyleBoundaryKind kind, TemplatedControl owner)
+        public StyleBoundaryInfo(StyleBoundaryKind kind, TemplatedControl owner, bool transparent = false)
         {
             Kind = kind;
             Owner = owner;
+            Transparent = transparent;
         }
+
+        /// <summary>A transparent boundary does not isolate styles: rules from outside reach through it.</summary>
+        public bool Transparent { get; }
 
         public StyleBoundaryKind Kind { get; }
         public TemplatedControl Owner { get; }
@@ -646,7 +650,7 @@ namespace Forma.Xaml
                 ItemsPanelTemplate => StyleBoundaryKind.ItemsPanelTemplate,
                 _ => throw new ArgumentOutOfRangeException(nameof(template)),
             };
-            Boundaries.Add(root, new StyleBoundaryInfo(kind, owner));
+            Boundaries.Add(root, new StyleBoundaryInfo(kind, owner, template is DataTemplate { IsolateStyles: false }));
         }
 
         public static void Clear(Control root) => Boundaries.Remove(root);
@@ -654,14 +658,51 @@ namespace Forma.Xaml
         public static Control GetContainingRoot(Control control) =>
             TryGetContaining(control, out var root, out _) ? root : null;
 
-        public static bool TryGetContaining(Control control, out Control root, out StyleBoundaryInfo boundary)
+        public static bool TryGetContaining(Control control, out Control root, out StyleBoundaryInfo boundary) =>
+            TryGetContaining(control, lenient: false, out root, out boundary);
+
+        /// <summary>The style scope a control's rules come from: like the containing boundary, but presented content and transparent data templates belong to the scope where they are used.</summary>
+        public static Control GetStyleScope(Control control) =>
+            TryGetContaining(control, lenient: true, out var root, out _) ? root : null;
+
+        private static bool TryGetContaining(Control control, bool lenient, out Control root, out StyleBoundaryInfo boundary)
         {
+            // Content that a templated control presents (a GroupBox body, a scroll viewport, a list row) is written in the
+            // scope where the control is used, not inside the control's template, so styles from that scope reach it.
+            var presentedContent = false;
             for (var current = control; current != null; current = current.VisualParent)
-                if (Boundaries.TryGetValue(current, out boundary))
+            {
+                if (lenient && ((current.VisualParent is ContentPresenter presenter && ReferenceEquals(presenter.PresentedControl, current)) || current.VisualParent is ScrollPresenter))
+                    presentedContent = true;
+                if (!Boundaries.TryGetValue(current, out boundary)) continue;
+                if (!lenient) { root = current; return true; }
+                if (boundary.Transparent)
                 {
-                    root = current;
-                    return true;
+                    presentedContent = true;
+                    continue;
                 }
+
+                if (presentedContent)
+                {
+                    if (boundary.Kind == StyleBoundaryKind.ItemsPanelTemplate || current is ContentPresenter || current is ItemsPresenter || current is ScrollPresenter)
+                        continue;
+                    if (boundary.Kind == StyleBoundaryKind.ControlTemplate && boundary.Owner != null)
+                    {
+                        presentedContent = false;
+                        current = boundary.Owner;
+                        if (Boundaries.TryGetValue(current, out var ownerBoundary) && !ownerBoundary.Transparent)
+                        {
+                            root = current;
+                            boundary = ownerBoundary;
+                            return true;
+                        }
+                        continue;
+                    }
+                }
+
+                root = current;
+                return true;
+            }
             root = null;
             boundary = null;
             return false;
@@ -881,6 +922,7 @@ namespace Forma.Xaml
                     for (var index = previous.Values.Count - 1; index >= 0; index--) previous.Values[index].Dispose();
                 var priority = (long)specificity * (_styles.Length + 1L) + styleIndex;
                 var applied = new List<IDisposable>();
+                using var scope = StyleApplicationScope.Enter(_root);
                 try
                 {
                     foreach (var setter in _styles[styleIndex].Setters)

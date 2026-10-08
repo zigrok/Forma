@@ -515,6 +515,12 @@ namespace Forma
 
         public Type DataType { get; }
 
+        /// <summary>
+        /// When true, the content this template builds is its own style boundary: styles attached outside it do not reach it.
+        /// By default a data template is transparent to styles, so rules attached above an items control apply to its rows.
+        /// </summary>
+        public bool IsolateStyles { get; set; }
+
         public static DataTemplate Create<TData>(DataTemplateFactory<TData> factory)
         {
             if (factory == null) throw new ArgumentNullException(nameof(factory));

@@ -6,12 +6,34 @@ using System.Collections.Generic;
 
 namespace Forma.Xaml
 {
+    /// <summary>The control a style set was attached to while its setters apply, so a setter's StaticResource also resolves from where the style was defined.</summary>
+    internal static class StyleApplicationScope
+    {
+        [ThreadStatic] private static Control _current;
+        public static Control Current => _current;
+        public static IDisposable Enter(Control scope)
+        {
+            var previous = _current;
+            _current = scope;
+            return new Restore(previous);
+        }
+
+        private sealed class Restore : IDisposable
+        {
+            private readonly Control _previous;
+            public Restore(Control previous) => _previous = previous;
+            public void Dispose() => _current = _previous;
+        }
+    }
+
     public static class StaticResource
     {
         public static T Resolve<T>(Control target, string key)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
-            if (!target.TryFindResource(key, out var value)) throw new KeyNotFoundException($"Resource '{key}' was not found.");
+            object value;
+            if (!target.TryFindResource(key, out value) && !(StyleApplicationScope.Current?.TryFindResource(key, out value) ?? false))
+                throw new KeyNotFoundException($"Resource '{key}' was not found.");
             if (value is T typed) return typed;
             throw new InvalidCastException($"Resource '{key}' is {value?.GetType().FullName ?? "null"}, not {typeof(T).FullName}.");
         }
