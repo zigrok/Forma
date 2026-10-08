@@ -206,4 +206,16 @@ public sealed class FormaFcssTest
 
         Assert.That((mapped!.FilePath, mapped.Line), Is.EqualTo(("theme.fcss", 3)));
     }
+
+    [Test]
+    public void ABraceInsideADeclarationValue_BelongsToTheValue()
+    {
+        Write("a.fhtml", "<style>button.x { -f-Template: {StaticResource Missing}; font-weight: bold; }\nbutton.y { opacity: 0.5; }</style><div><button class=\"x\">a</button></div>");
+
+        var result = Convert("a.fhtml", new FormaHtmlProject(_directory));
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("Value=\"{StaticResource Missing}\""));
+        Assert.That(result.Xaml, Does.Contain("Selector=\"Button.y\""));
+    }
 }

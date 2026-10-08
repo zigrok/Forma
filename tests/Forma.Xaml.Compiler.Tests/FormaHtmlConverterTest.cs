@@ -99,7 +99,7 @@ public sealed class FormaHtmlConverterTest
     }
 
     [Test]
-    public void CustomProperties_AreStaticResourcesInTheDialect()
+    public void CustomProperties_LowerToLiveResourcesWhereThePropertyCanObserveThem()
     {
         var result = Convert("""
             <style>
@@ -110,8 +110,9 @@ public sealed class FormaHtmlConverterTest
             """);
 
         Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
-        Assert.That(result.Xaml, Does.Contain("Separation=\"12\""));
-        Assert.That(result.Xaml, Does.Contain("Value=\"#FFFF8800\""));
+        Assert.That(result.Xaml, Does.Contain("Separation=\"{DynamicResource Fcss.gap}\""));
+        Assert.That(result.Xaml, Does.Contain("Value=\"{DynamicResource Fcss.accent.color}\""));
+        Assert.That(result.Xaml, Does.Contain("<x:Single x:Key=\"Fcss.gap\">12</x:Single>"));
     }
 
     [TestCase("""<div><script>alert(1)</script></div>""", FormaHtmlDiagnosticCodes.UnknownElement, 1, 6)]

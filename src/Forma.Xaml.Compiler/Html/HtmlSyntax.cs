@@ -352,9 +352,16 @@ public sealed class CssParser
             if (_index >= _source.Length || (!topLevel && _source[_index] == '}')) return;
             var start = _index;
             var colon = _source.IndexOf(':', _index);
-            var semi = _source.IndexOf(';', _index);
-            var close = topLevel ? -1 : _source.IndexOf('}', _index);
-            var end = new[] { semi, close }.Where(i => i >= 0).DefaultIfEmpty(_source.Length).Min();
+            // A declaration ends at ';' or at the rule's '}', but braces inside the value ({StaticResource Key}) belong to the value.
+            var end = _source.Length;
+            for (int i = _index, depth = 0; i < _source.Length; i++)
+            {
+                var ch = _source[i];
+                if (ch == '{') depth++;
+                else if (ch == '}' && depth > 0) depth--;
+                else if (ch == '}' && !topLevel) { end = i; break; }
+                else if (ch == ';' && depth == 0) { end = i; break; }
+            }
             if (colon < 0 || colon > end)
             {
                 Error(FormaHtmlDiagnosticCodes.Syntax, "Expected 'property: value'.", start);
