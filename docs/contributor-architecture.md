@@ -11,6 +11,7 @@ The runtime packages share the `Forma` namespace and API surface but are not bin
 | Dynamic text and Unicode | `src/Forma.DynamicText`, `tools/Forma.UnicodeGenerator` | `make test-unit`, `make unicode-verify` |
 | Media | `src/Forma.Media`, video fixtures | `make video-smoke`, `make parity` |
 | XAML compiler/build/hot reload | `src/Forma.Xaml.*`, `tests/Forma.Xaml.*` | `make test-xaml`, `make format-xaml-check` |
+| HTML and CSS authoring front end (`.fhtml` to canonical XAML) | `src/Forma.Xaml.Compiler/Html`, `docs/html-css-dialect.md`, `plans/html-css-authoring-frontend-plan.md`, `FormaHtml*Test` in `tests/Forma.Xaml.Compiler.Tests` | `make test-xaml`; `forma-xaml format --check` |
 | SVG API and Skia backend | `src/Forma.Svg`, SVG consumer tests | `make svg-selection`, `make svg-packages` |
 | ThorVG backend/native ABI | `src/Forma.Svg.ThorVG`, `native`, `external/ThorVG` | `make thorvg-render`, `make thorvg-nativeaot` |
 | Catalog and visual stories | `samples/Forma.Catalog*`, render tests | `make smoke`, `make render-parity` |

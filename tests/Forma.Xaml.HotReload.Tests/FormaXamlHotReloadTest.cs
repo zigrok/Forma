@@ -47,6 +47,43 @@ public class FormaXamlHotReloadTest
     }
 
     [Test]
+    public async Task HtmlReload_ConvertsTheChangedFhtmlAndReloadsTheView_AndInvalidInputLeavesTheTreeIntact()
+    {
+        const string generated = "obj/html/View.fhtml.xaml";
+        Directory.CreateDirectory(Path.Combine(_directory, "obj", "html"));
+        await File.WriteAllTextAsync(Path.Combine(_directory, "View.fhtml"), "<div id=\"Root\"><span id=\"Label\">one</span></div>");
+        var first = Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert("<div id=\"Root\"><span id=\"Label\">one</span></div>", "View.fhtml");
+        await File.WriteAllTextAsync(Path.Combine(_directory, generated), first.Xaml);
+        await File.WriteAllTextAsync(Path.Combine(_directory, generated + ".fhtmlmap"), first.Map.Serialize("View.fhtml"));
+        using var context = new UIContext();
+        Control current = (Control)Forma.Xaml.Compiler.FormaXamlCompiler.CreateSre().CompileSre(first.Xaml, generated).Build(null);
+        context.Add(current);
+        using var service = new FormaXamlHotReloadService(context, _directory, watchFiles: false);
+        var diagnostics = new List<Forma.Xaml.Compiler.FormaDiagnostic>();
+        service.DiagnosticsChanged += batch => diagnostics.AddRange(batch);
+        using var registration = service.Register(generated, () => current, (oldValue, newValue) =>
+        {
+            context.Remove(oldValue);
+            context.Add(newValue);
+            current = newValue;
+        });
+
+        await File.WriteAllTextAsync(Path.Combine(_directory, "View.fhtml"), "<div id=\"Root\"><span id=\"Label\">two</span></div>");
+        await service.RequestHtmlReloadAsync("View.fhtml");
+        context.Update(new GameTime(), new MouseState(), new KeyboardState());
+        Assert.That(((Label)NameScope.GetNameScope(current)!.Find("Label")!).Text, Is.EqualTo("two"));
+
+        var good = current;
+        await File.WriteAllTextAsync(Path.Combine(_directory, "View.fhtml"), "<div style=\"position: absolute\"></div>");
+        await service.RequestHtmlReloadAsync("View.fhtml");
+        context.Update(new GameTime(), new MouseState(), new KeyboardState());
+
+        Assert.That(current, Is.SameAs(good));
+        Assert.That(diagnostics.Single().Code, Is.EqualTo("FHTML2005"));
+        Assert.That(diagnostics.Single().Location.FilePath, Is.EqualTo("View.fhtml"));
+    }
+
+    [Test]
     public async Task Reload_PreservesInheritedDataContextWithoutMakingItLocal()
     {
         await File.WriteAllTextAsync(Path.Combine(_directory, "View.xaml"), "<Control xmlns='https://forma.dev/xaml' Name='New' />");

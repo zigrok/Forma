@@ -39,6 +39,7 @@ runtime/backend integrator (R), and contributor (C).
 | `docs/input-and-focus.md` | G, A, R | Pointer, focus, keyboard, text, clipboard, host adapters | Current conceptual guide |
 | `docs/styling-and-themes.md` | G, X, A | Theme inheritance, selectors, icons, templates | Current conceptual guide |
 | `docs/agent-design-guide.md` | G, X, A | Design language, pattern library, known limits, troubleshooting for agents | Current conceptual guide |
+| `docs/html-css-dialect.md` | G, X, A | The strict HTML and CSS authoring dialect, its mappings, differences from browsers and tooling | Current conceptual guide |
 | `docs/data-binding.md` | G, X, A | Task-focused compiled binding workflow | Current conceptual guide; language contract owns syntax |
 | `docs/resource-lifetime.md` | G, X, A, R | Context, font, SVG, device, and attachment ownership | Current conceptual guide; specialist contracts own details |
 | `docs/troubleshooting/index.md` | G, X, A, R, C | Troubleshooting routes and report context | Current troubleshooting front door |

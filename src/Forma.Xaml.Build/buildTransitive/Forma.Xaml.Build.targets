@@ -136,7 +136,17 @@
     <Copy SourceFiles="@(FormaXaml)"
           DestinationFiles="@(FormaXaml->'$(FormaXamlDevelopmentOutputDirectory)/%(Identity)')"
           SkipUnchangedFiles="true" />
-        <Copy SourceFiles="@(FormaSvg)"
+        <!-- HTML and CSS views: the sources and their source maps travel with the generated XAML so hot reload can convert on change.
+         Debug development output only; release and NativeAOT artifacts never receive them. -->
+    <Copy SourceFiles="@(FormaHtml)"
+          DestinationFiles="@(FormaHtml->'$(FormaXamlDevelopmentOutputDirectory)/%(Identity)')"
+          SkipUnchangedFiles="true"
+          Condition="'@(FormaHtml)' != ''" />
+    <Copy SourceFiles="@(_FormaHtmlGenerated->'%(Identity).fhtmlmap')"
+          DestinationFiles="@(_FormaHtmlGenerated->'$(FormaXamlDevelopmentOutputDirectory)/%(Identity).fhtmlmap')"
+          SkipUnchangedFiles="true"
+          Condition="'@(_FormaHtmlGenerated)' != ''" />
+    <Copy SourceFiles="@(FormaSvg)"
             DestinationFiles="@(FormaSvg->'$(FormaXamlDevelopmentOutputDirectory)/%(Identity)')"
             SkipUnchangedFiles="true"
             Condition="'@(FormaSvg)' != ''" />

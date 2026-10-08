@@ -1,0 +1,34 @@
+// Copyright (c) 2026 Igor Hipólito Vieira
+// SPDX-License-Identifier: MIT
+
+namespace Forma.Xaml.Compiler.Html;
+
+/// <summary>One mapped element or construct of the dialect, with a small view that demonstrates it and the Forma type it lowers to.</summary>
+public sealed record FormaHtmlCatalogEntry(string Name, string Html, string FormaType);
+
+/// <summary>The dialect's mapping catalog. Every entry is converted, compiled and checked by a test, so the table cannot drift from the converter.</summary>
+public static class FormaHtmlDialect
+{
+    public static IReadOnlyList<FormaHtmlCatalogEntry> Catalog { get; } =
+    [
+        new("div (plain)", "<div><span>x</span></div>", "Container"),
+        new("div (display: flex, row)", "<div style=\"display: flex; gap: 4px\"><span>a</span><span>b</span></div>", "HBoxContainer"),
+        new("div (display: flex, column)", "<div style=\"display: flex; flex-direction: column; gap: 4px\"><span>a</span></div>", "VBoxContainer"),
+        new("div (padding, border, background)", "<div style=\"padding: 4px; border-width: 1px; background-color: #112233\"><span>a</span></div>", "Border"),
+        new("div (display: grid)", "<div style=\"display: grid; grid-template-columns: 1fr 2fr\"><span>a</span><span>b</span></div>", "GridPanel"),
+        new("section, nav, main, header, footer", "<section><span>a</span></section>", "Container"),
+        new("span, p, label, h1-h6", "<p>Text</p>", "Label"),
+        new("button", "<button>Go</button>", "Button"),
+        new("input type=text", "<input type=\"text\" value=\"a\">", "LineEdit"),
+        new("input type=checkbox", "<input type=\"checkbox\" checked>", "CheckBox"),
+        new("input type=range", "<input type=\"range\" min=\"0\" max=\"10\" value=\"2\">", "HSlider"),
+        new("textarea", "<textarea></textarea>", "TextEdit"),
+        new("select", "<select></select>", "OptionButton"),
+        new("ul, ol, li", "<ul><li><span>a</span></li></ul>", "VBoxContainer"),
+        new("table", "<table><tr><td>a</td><td>b</td></tr></table>", "GridPanel"),
+        new("f-border", "<f-border><span>a</span></f-border>", "Border"),
+        new("f-scroll", "<f-scroll data-vertical=\"Auto\"><span>a</span></f-scroll>", "ScrollContainer"),
+        new("f-group-box", "<f-group-box><span>a</span></f-group-box>", "GroupBox"),
+        new("f-control", "<f-control type=\"Control\"></f-control>", "Control"),
+    ];
+}

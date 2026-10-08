@@ -41,6 +41,7 @@ public sealed class HtmlNode
     public string Name { get; init; } = string.Empty;
     public string Text { get; init; } = string.Empty;
     public bool IsText { get; init; }
+    public bool IsComment { get; init; }
     public int Line { get; init; }
     public int Column { get; init; }
     public List<HtmlAttribute> Attributes { get; } = new();
@@ -79,6 +80,7 @@ public sealed class HtmlParser
 {
     private static readonly HashSet<string> VoidElements = new(StringComparer.Ordinal) { "br", "hr", "img", "input", "meta", "link" };
 
+    private readonly bool _keepComments;
     private readonly string _source;
     private readonly string _path;
     private readonly List<FormaDiagnostic> _diagnostics;
@@ -86,8 +88,9 @@ public sealed class HtmlParser
     private int _line = 1;
     private int _column = 1;
 
-    public HtmlParser(string source, string path, List<FormaDiagnostic> diagnostics)
+    public HtmlParser(string source, string path, List<FormaDiagnostic> diagnostics, bool keepComments = false)
     {
+        _keepComments = keepComments;
         _source = source;
         _path = path;
         _diagnostics = diagnostics;
@@ -108,6 +111,7 @@ public sealed class HtmlParser
             {
                 var end = _source.IndexOf("-->", _index, StringComparison.Ordinal);
                 if (end < 0) { Error(FormaHtmlDiagnosticCodes.Syntax, "Unterminated comment."); _index = _source.Length; return; }
+                if (_keepComments) into.Add(new HtmlNode { IsComment = true, Text = _source.Substring(_index + 4, end - _index - 4), Line = _line, Column = _column });
                 Advance(end + 3 - _index);
                 continue;
             }

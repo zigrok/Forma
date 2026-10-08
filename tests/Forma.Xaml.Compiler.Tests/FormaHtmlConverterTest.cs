@@ -175,4 +175,122 @@ public sealed class FormaHtmlConverterTest
         }
         finally { Directory.Delete(dir, true); }
     }
+
+    private static Control Build(string html)
+    {
+        var result = Convert(html);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        return (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "view.fhtml.xaml").Build(null);
+    }
+
+    private static T Find<T>(Control root, string name) where T : Control => (T)NameScope.GetNameScope(root)!.Find(name)!;
+
+    [Test]
+    public void Grid_LowersToAGridPanelWithTracksAndPlacement()
+    {
+        var root = Build("""
+            <div style="display: grid; grid-template-columns: 120px 1fr 2fr" id="G">
+              <span id="A">a</span><span id="B">b</span><span id="C">c</span>
+              <span id="D" style="grid-column: 2 / span 2">d</span>
+            </div>
+            """);
+
+        var grid = (GridPanel)root;
+        Assert.That(grid.ColumnDefinitions.Count, Is.EqualTo(3));
+        Assert.That(GridPanel.GetColumn(Find<Label>(root, "D")), Is.EqualTo(1));
+        Assert.That(GridPanel.GetRow(Find<Label>(root, "D")), Is.EqualTo(1));
+        Assert.That(GridPanel.GetColumnSpan(Find<Label>(root, "D")), Is.EqualTo(2));
+    }
+
+    [Test]
+    public void Table_LowersToAGridPanelByRowAndCell()
+    {
+        var root = Build("""
+            <table>
+              <thead><tr><th>Name</th><th>Score</th></tr></thead>
+              <tbody><tr><td id="N">Ana</td><td id="S">10</td></tr></tbody>
+            </table>
+            """);
+
+        var table = (GridPanel)root;
+        Assert.That(table.ColumnDefinitions.Count, Is.EqualTo(2));
+        Assert.That(GridPanel.GetRow(Find<Label>(root, "S")), Is.EqualTo(1));
+        Assert.That(GridPanel.GetColumn(Find<Label>(root, "S")), Is.EqualTo(1));
+        Assert.That(Find<Label>(root, "N").Text, Is.EqualTo("Ana"));
+    }
+
+    [Test]
+    public void Forms_MapToTheMatchingControls()
+    {
+        var root = Build("""
+            <div style="display: flex; flex-direction: column">
+              <input id="T" type="text" value="hi" placeholder="Name">
+              <input id="C" type="checkbox" checked>
+              <input id="R" type="range" min="0" max="10" step="1" value="3">
+            </div>
+            """);
+
+        Assert.That(Find<LineEdit>(root, "T").Text, Is.EqualTo("hi"));
+        Assert.That(Find<LineEdit>(root, "T").PlaceholderText, Is.EqualTo("Name"));
+        Assert.That(Find<CheckBox>(root, "C").Checked, Is.True);
+        Assert.That(Find<HSlider>(root, "R").Value, Is.EqualTo(3f));
+        Assert.That(Find<HSlider>(root, "R").MaxValue, Is.EqualTo(10f));
+    }
+
+    [Test]
+    public void Lists_LowerToAColumnOfItems()
+    {
+        var root = Build("""<ul id="L" style="gap: 4px"><li><span id="A">one</span></li><li><span id="B">two</span></li></ul>""");
+
+        var list = (BoxContainer)root;
+        Assert.That(list.Children.Count, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void Scroll_UsesDataAttributesForScrollModes()
+    {
+        var root = Build("""<f-scroll id="S" data-vertical="Always" data-horizontal="Disabled" style="min-width: 200px; min-height: 100px"><span>x</span></f-scroll>""");
+
+        Assert.That(Find<ScrollContainer>(root, "S").CustomMinimumSize, Is.EqualTo(new Microsoft.Xna.Framework.Vector2(200, 100)));
+    }
+
+    [Test]
+    public void Formatter_IsDeterministic_Idempotent_AndKeepsCommentsAndTheConvertedMeaning()
+    {
+        const string messy = "<!-- keep me -->\n<style>\nbutton.a{min-width:10px;min-height:20px}\n</style>\n<div   id='Root'   style=\"padding:4px 8px;border-width:1px\">\n<button class=\"a\"   onclick=\"OnGo\">Go</button>\n</div>";
+
+        var once = FormaHtmlFormatter.Format(messy, "v.fhtml", out var diagnostics);
+        var twice = FormaHtmlFormatter.Format(once, "v.fhtml", out _);
+
+        Assert.That(diagnostics, Is.Empty);
+        Assert.That(twice, Is.EqualTo(once));
+        Assert.That(once, Does.Contain("<!-- keep me -->"));
+        Assert.That(once, Does.Contain("style=\"padding: 4px 8px; border-width: 1px\""));
+        Assert.That(once, Does.Contain("button.a {\n    min-width: 10px;\n    min-height: 20px;\n  }"));
+        Assert.That(Convert(once).Xaml, Is.EqualTo(Convert(messy.Replace("'Root'", "\"Root\"")).Xaml));
+    }
+
+    [Test]
+    public void Formatter_LeavesInvalidInputAlone()
+    {
+        const string broken = "<div><span></div>";
+
+        var result = FormaHtmlFormatter.Format(broken, "v.fhtml", out var diagnostics);
+
+        Assert.That(result, Is.EqualTo(broken));
+        Assert.That(diagnostics, Is.Not.Empty);
+    }
+
+    [Test]
+    public void EveryCatalogEntry_ConvertsToItsFormaTypeAndCompilesAsAView()
+    {
+        Assert.That(FormaHtmlDialect.Catalog, Is.Not.Empty);
+        foreach (var entry in FormaHtmlDialect.Catalog)
+        {
+            var result = Convert(entry.Html);
+            Assert.That(result.Succeeded, Is.True, $"{entry.Name}: {string.Join("; ", result.Diagnostics)}");
+            Assert.That(System.Xml.Linq.XDocument.Parse(result.Xaml).Root!.Name.LocalName, Is.EqualTo(entry.FormaType), entry.Name);
+            Assert.DoesNotThrow(() => FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "catalog.fhtml.xaml").Build(null), entry.Name);
+        }
+    }
 }

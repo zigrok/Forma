@@ -209,6 +209,37 @@ public sealed class FormaXamlHotReloadService : IDisposable
 
     public Task RequestReloadAsync(string source) => RequestReloadAsync(NormalizeSource(source), null, TimeSpan.Zero);
 
+    /// <summary>
+    /// Reloads a view authored in the HTML and CSS dialect: converts the changed .fhtml to canonical XAML, rewrites the generated
+    /// document the running view was compiled from, and reloads it like any XAML change. Invalid input reports diagnostics at the HTML
+    /// location and leaves the live tree untouched.
+    /// </summary>
+    public async Task RequestHtmlReloadAsync(string source)
+    {
+        ThrowIfDisposed();
+        var normalized = NormalizeSource(source);
+        var htmlFile = Path.Combine(_developmentRoot, normalized.Replace('/', Path.DirectorySeparatorChar));
+        string html;
+        try { html = await File.ReadAllTextAsync(htmlFile).ConfigureAwait(false); }
+        catch (IOException) { return; }
+        var result = Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert(html, normalized);
+        if (!result.Succeeded)
+        {
+            DiagnosticsChanged?.Invoke(result.Diagnostics);
+            return;
+        }
+
+        foreach (var sidecar in Directory.EnumerateFiles(_developmentRoot, "*.fhtmlmap", SearchOption.AllDirectories))
+        {
+            if (Forma.Xaml.Compiler.Html.FormaHtmlSourceMap.Parse(await File.ReadAllTextAsync(sidecar).ConfigureAwait(false)) is not { } parsed ||
+                !string.Equals(NormalizeSource(parsed.HtmlPath), normalized, StringComparison.Ordinal)) continue;
+            var xamlPath = sidecar.Substring(0, sidecar.Length - ".fhtmlmap".Length);
+            await File.WriteAllTextAsync(sidecar, result.Map.Serialize(parsed.HtmlPath)).ConfigureAwait(false);
+            await File.WriteAllTextAsync(xamlPath, result.Xaml).ConfigureAwait(false);
+            await RequestReloadAsync(NormalizeSource(Path.GetRelativePath(_developmentRoot, xamlPath))).ConfigureAwait(false);
+        }
+    }
+
     public Task RequestReloadAsync(FormaXamlArtifactId artifactId)
     {
         var normalized = NormalizeArtifactId(artifactId);
@@ -264,6 +295,8 @@ public sealed class FormaXamlHotReloadService : IDisposable
         var extension = Path.GetExtension(args.FullPath);
         if (extension.Equals(".xaml", StringComparison.OrdinalIgnoreCase))
             _ = RequestReloadAsync(NormalizeSource(Path.GetRelativePath(_developmentRoot, args.FullPath)), null, TimeSpan.FromMilliseconds(150));
+        else if (extension.Equals(".fhtml", StringComparison.OrdinalIgnoreCase))
+            _ = RequestHtmlReloadAsync(Path.GetRelativePath(_developmentRoot, args.FullPath));
         else if (extension.Equals(".svg", StringComparison.OrdinalIgnoreCase))
             _ = RequestAllReloadsAsync(TimeSpan.FromMilliseconds(150));
     }

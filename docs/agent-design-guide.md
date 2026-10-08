@@ -82,3 +82,9 @@ Row views created by a data template receive the shared classes and the containe
 Before declaring a UI change done: `dotnet build` and `dotnet test` are clean, `make gallery-changed`
 shows only intended change, and `tools/lint-mutation-proof.sh` still shows every lint failing on its
 seeded defect.
+
+## Authoring in HTML and CSS
+
+A view can also be written in the strict HTML and CSS dialect (`.fhtml`); see [the dialect guide](html-css-dialect.md). It converts
+to the same XAML, so everything above (tokens, classes, the gallery, the inspector and the lints) applies unchanged. Trace Arena's
+main menu and Settings > Controls page are authored this way and render identically to their XAML originals.

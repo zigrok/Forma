@@ -89,7 +89,6 @@ public sealed class FormaHtmlConverter
         public List<Attr> Attrs = new();
         public List<XNode> Children = new();
         public List<(string Name, XNode Value)> PropertyElements = new();
-        public string? RawContent;
     }
 
     private static readonly Dictionary<string, string> TextElements = new(StringComparer.Ordinal)
@@ -210,7 +209,12 @@ public sealed class FormaHtmlConverter
             return;
         }
 
-        if (element.Name == "ul" || element.Name == "ol") { /* children li handled by default path */ }
+        if (type == "GridPanel")
+        {
+            ConvertGrid(element, target, inline, children);
+            return;
+        }
+
         foreach (var child in children)
         {
             if (child.IsText)
@@ -227,6 +231,165 @@ public sealed class FormaHtmlConverter
 
         if (type == "Border" && target.Children.Count > 1)
             Error(FormaHtmlDiagnosticCodes.Structure, "An element with padding, border or background lowers to a Border, which holds one child; wrap the children in a flex container.", element);
+    }
+
+    // display: grid and table both lower to a GridPanel; children are placed row by row (or by grid-column and grid-row).
+    private void ConvertGrid(HtmlNode element, XNode target, List<CssDeclaration> inline, List<HtmlNode> children)
+    {
+        var cells = new List<(HtmlNode Node, int Column, int Row, int ColumnSpan)>();
+        var columnTemplate = inline.FirstOrDefault(d => d.Name == "grid-template-columns");
+        var rowTemplate = inline.FirstOrDefault(d => d.Name == "grid-template-rows");
+        var columns = columnTemplate == null ? new List<string>() : Tracks(columnTemplate);
+        var rows = rowTemplate == null ? new List<string>() : Tracks(rowTemplate);
+
+        if (element.Name is "table" or "tbody" or "thead")
+        {
+            var rowIndex = 0;
+            foreach (var group in children.Where(c => !c.IsText))
+            {
+                var trs = group.Name == "tr" ? new List<HtmlNode> { group } : group.Children.Where(c => !c.IsText && c.Name == "tr").ToList();
+                if (group.Name is not ("tr" or "tbody" or "thead")) { Error(FormaHtmlDiagnosticCodes.Structure, $"<{group.Name}> is not allowed inside <{element.Name}>; use <tr>, <thead> or <tbody>.", group); continue; }
+                foreach (var tr in trs)
+                {
+                    var column = 0;
+                    foreach (var cell in tr.Children.Where(c => !c.IsText))
+                    {
+                        if (cell.Name is not ("td" or "th")) { Error(FormaHtmlDiagnosticCodes.Structure, $"<{cell.Name}> is not allowed inside <tr>; use <td> or <th>.", cell); continue; }
+                        var span = int.TryParse(cell.Attr("colspan"), out var cs) && cs > 1 ? cs : 1;
+                        cells.Add((cell, column, rowIndex, span));
+                        column += span;
+                    }
+
+                    rowIndex++;
+                }
+            }
+
+            if (columns.Count == 0 && cells.Count > 0) columns = Enumerable.Repeat("Auto", cells.Max(c => c.Column + c.ColumnSpan)).ToList();
+        }
+        else
+        {
+            if (columns.Count == 0) { Error(FormaHtmlDiagnosticCodes.Structure, "display: grid needs grid-template-columns, for example grid-template-columns: 120px 1fr.", element); columns.Add("*"); }
+            var autoColumn = 0;
+            var autoRow = 0;
+            foreach (var child in children.Where(c => !c.IsText))
+            {
+                var declarations = child.Attr("style") is { } style ? CssParser.ParseDeclarations(style, _path, child.Line, child.Column, new List<FormaDiagnostic>()) : new List<CssDeclaration>();
+                var column = Placement(declarations, "grid-column", out var span) is { } c ? c - 1 : autoColumn;
+                var row = Placement(declarations, "grid-row", out _) is { } r ? r - 1 : autoRow;
+                cells.Add((child, column, row, span));
+                autoColumn = column + span;
+                autoRow = row;
+                if (autoColumn >= columns.Count) { autoColumn = 0; autoRow = row + 1; }
+            }
+        }
+
+        var rowCount = cells.Count == 0 ? 0 : cells.Max(c => c.Row) + 1;
+        var columnDefinitions = new XNode { Type = "GridPanel.ColumnDefinitions", Line = element.Line, Column = element.Column };
+        foreach (var width in columns)
+        {
+            var definition = new XNode { Type = "ColumnDefinition", Line = element.Line, Column = element.Column };
+            definition.Attrs.Add(new Attr("Width", width, element.Line, element.Column));
+            columnDefinitions.Children.Add(definition);
+        }
+
+        target.PropertyElements.Add((columnDefinitions.Type, columnDefinitions));
+        if (rowTemplate != null || element.Name is "table" or "tbody" or "thead")
+        {
+            var rowDefinitions = new XNode { Type = "GridPanel.RowDefinitions", Line = element.Line, Column = element.Column };
+            for (var i = 0; i < Math.Max(rowCount, rows.Count); i++)
+            {
+                var definition = new XNode { Type = "RowDefinition", Line = element.Line, Column = element.Column };
+                definition.Attrs.Add(new Attr("Height", i < rows.Count ? rows[i] : "Auto", element.Line, element.Column));
+                rowDefinitions.Children.Add(definition);
+            }
+
+            target.PropertyElements.Add((rowDefinitions.Type, rowDefinitions));
+        }
+
+        foreach (var (node, column, row, span) in cells)
+        {
+            var cell = new XNode();
+            if (node.Name is "td" or "th")
+            {
+                ConvertCell(node, cell, target);
+            }
+            else
+            {
+                ConvertElement(node, cell, target);
+            }
+
+            if (cell.Type.Length == 0) continue;
+            cell.Attrs.Add(new Attr("GridPanel.Column", column.ToString(CultureInfo.InvariantCulture), node.Line, node.Column));
+            cell.Attrs.Add(new Attr("GridPanel.Row", row.ToString(CultureInfo.InvariantCulture), node.Line, node.Column));
+            if (span > 1) cell.Attrs.Add(new Attr("GridPanel.ColumnSpan", span.ToString(CultureInfo.InvariantCulture), node.Line, node.Column));
+            target.Children.Add(cell);
+        }
+    }
+
+    // A table cell holds text (a Label), one element, or several elements (a Container).
+    private void ConvertCell(HtmlNode cell, XNode target, XNode parent)
+    {
+        var content = cell.Children.Where(c => !(c.IsText && string.IsNullOrWhiteSpace(c.Text))).ToList();
+        var onlyText = content.All(c => c.IsText);
+        if (onlyText)
+        {
+            target.Type = "Label";
+            target.Line = cell.Line;
+            target.Column = cell.Column;
+            foreach (var attr in cell.Attributes.Where(a => a.Name is "id" or "class")) ApplyAttribute(cell, attr, target, "Label");
+            if (cell.Attr("style") is { } style)
+                ApplyDeclarations(CssParser.ParseDeclarations(style, _path, cell.Line, cell.Column, _diagnostics), "Label", target, null, cell);
+            if (cell.Name == "th" && !target.Attrs.Any(a => a.Name == "FontWeight")) target.Attrs.Add(new Attr("FontWeight", "Bold", cell.Line, cell.Column));
+            var text = string.Join(" ", content.Select(c => c.Text));
+            if (text.Length > 0) target.Attrs.Add(new Attr("Text", Escape(text), cell.Line, cell.Column));
+            return;
+        }
+
+        if (content.Count == 1)
+        {
+            ConvertElement(content[0], target, parent);
+            return;
+        }
+
+        target.Type = "Container";
+        target.Line = cell.Line;
+        target.Column = cell.Column;
+        foreach (var child in content)
+        {
+            if (child.IsText) { Error(FormaHtmlDiagnosticCodes.Structure, "Text mixed with elements in a table cell has no Forma equivalent.", child); continue; }
+            var node = new XNode();
+            ConvertElement(child, node, target);
+            if (node.Type.Length > 0) target.Children.Add(node);
+        }
+    }
+
+    private List<string> Tracks(CssDeclaration declaration)
+    {
+        var tracks = new List<string>();
+        foreach (var part in declaration.Value.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (part == "auto") tracks.Add("Auto");
+            else if (part.EndsWith("fr", StringComparison.Ordinal) && double.TryParse(part[..^2], NumberStyles.Float, CultureInfo.InvariantCulture, out var fr)) tracks.Add(fr == 1 ? "*" : FormatNumber(fr) + "*");
+            else tracks.Add(Px(part, declaration));
+        }
+
+        return tracks;
+    }
+
+    private static int? Placement(List<CssDeclaration> declarations, string name, out int span)
+    {
+        span = 1;
+        var declaration = declarations.FirstOrDefault(d => d.Name == name);
+        if (declaration == null) return null;
+        var parts = declaration.Value.Split(new[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length > 0 && int.TryParse(parts[0], out var start))
+        {
+            if (parts.Length == 3 && parts[1] == "span" && int.TryParse(parts[2], out var count)) span = count;
+            return start;
+        }
+
+        if (parts.Length == 2 && parts[0] == "span" && int.TryParse(parts[1], out var only)) span = only;
+        return null;
     }
 
     private string ResolveType(HtmlNode element, Dictionary<string, CssDeclaration> declared)
@@ -255,7 +418,7 @@ public sealed class FormaHtmlConverter
                 };
             case "textarea": return "TextEdit";
             case "select": return "OptionButton";
-            case "img": return "TextureRect";
+            case "img": return Reject(element, "<img> has no defined Forma mapping yet; use f-control type=\"…\" for an application image control.");
         }
 
         if (!BoxElements.Contains(name) && name != "table" && name != "tr" && name != "td" && name != "th" && name != "tbody" && name != "thead")
@@ -314,12 +477,11 @@ public sealed class FormaHtmlConverter
                 return;
             case "title": Add("TooltipText", Escape(value)); return;
             case "checked": Add("Checked", "True"); return;
-            case "value" when element.Name == "input": Add("Value", value); return;
+            case "value" when element.Name == "input": Add(type == "LineEdit" ? "Text" : "Value", value); return;
             case "placeholder": Add("PlaceholderText", Escape(value)); return;
             case "min" when element.Name == "input": Add("MinValue", value); return;
             case "max" when element.Name == "input": Add("MaxValue", value); return;
             case "step" when element.Name == "input": Add("Step", value); return;
-            case "src": Add("Source", value); return;
             case "alt": Add("AccessibilityLabel", Escape(value)); return;
             case "colspan" or "rowspan": return; // read by the grid placement
         }

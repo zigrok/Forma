@@ -19,6 +19,7 @@ internal static class Program
                 "watch" => Watch(args.Skip(1).ToArray()),
                 "schema" => Schema(args.Skip(1).ToArray()),
                 "lsp" => Lsp(args.Skip(1).ToArray()),
+                "format" => Format(args.Skip(1).ToArray()),
                 "--help" or "-h" or "help" => Usage(0),
                 _ => Usage(),
             };
@@ -64,6 +65,36 @@ internal static class Program
         finished.Wait();
         foreach (var watcher in watchers) watcher.Dispose();
         return 0;
+    }
+
+    // forma-xaml format [--check] <file|directory...>: formats .fhtml views (the HTML and CSS authoring dialect).
+    private static int Format(string[] args)
+    {
+        var check = args.Contains("--check");
+        var paths = args.Where(a => !a.StartsWith('-')).ToList();
+        if (paths.Count == 0) return Usage();
+        var files = paths.SelectMany(p => Directory.Exists(p)
+            ? Directory.EnumerateFiles(p, "*.fhtml", SearchOption.AllDirectories).Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}") && !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}"))
+            : new[] { p }).OrderBy(f => f, StringComparer.Ordinal).ToList();
+        var failed = 0;
+        foreach (var file in files)
+        {
+            var text = File.ReadAllText(file);
+            var formatted = Compiler.Html.FormaHtmlFormatter.Format(text, file, out var diagnostics);
+            if (diagnostics.Count > 0)
+            {
+                foreach (var diagnostic in diagnostics) Console.Error.WriteLine(diagnostic);
+                failed++;
+                continue;
+            }
+
+            if (formatted == text) continue;
+            if (check) { Console.Error.WriteLine($"{file}: not formatted"); failed++; }
+            else File.WriteAllText(file, formatted);
+        }
+
+        Console.WriteLine($"{files.Count - failed} of {files.Count} .fhtml files {(check ? "pass the format check" : "formatted")}.");
+        return failed == 0 ? 0 : 1;
     }
 
     private static int Schema(string[] args)
@@ -196,6 +227,7 @@ internal static class Program
         Console.Error.WriteLine("       forma-xaml watch [--once] [--format human|json|sarif] <project|directory|file...>");
         Console.Error.WriteLine("       forma-xaml schema [--json]");
         Console.Error.WriteLine("       forma-xaml lsp --stdio");
+        Console.Error.WriteLine("       forma-xaml format [--check] <directory|file.fhtml...>");
         return exitCode;
     }
 
