@@ -13,6 +13,7 @@ public static class FormaHtmlDiagnosticCodes
     public const string UnknownAttribute = "FHTML1003";
     public const string RejectedConstruct = "FHTML1004";
     public const string Structure = "FHTML1005";
+    public const string LinkTarget = "FHTML1006";
     public const string UnknownProperty = "FHTML2001";
     public const string UnsupportedUnit = "FHTML2002";
     public const string InvalidValue = "FHTML2003";
@@ -64,11 +65,13 @@ public sealed class CssDeclaration
     public string Value { get; }
     public int Line { get; }
     public int Column { get; }
+    public string Path { get; set; } = string.Empty;
 }
 
 public sealed class CssRule
 {
     public string Selector { get; init; } = string.Empty;
+    public string Path { get; init; } = string.Empty;
     public int Line { get; init; }
     public int Column { get; init; }
     public List<CssDeclaration> Declarations { get; } = new();
@@ -202,14 +205,15 @@ public sealed class HtmlParser
         }
 
         if (selfClosed || VoidElements.Contains(name)) return node;
-        if (name == "style")
+        if (name is "style" or "f-resources")
         {
-            var end = _source.IndexOf("</style>", _index, StringComparison.Ordinal);
-            if (end < 0) { Error(FormaHtmlDiagnosticCodes.Syntax, "Missing closing tag </style>."); _index = _source.Length; return node; }
+            var closing = "</" + name + ">";
+            var end = _source.IndexOf(closing, _index, StringComparison.Ordinal);
+            if (end < 0) { Error(FormaHtmlDiagnosticCodes.Syntax, $"Missing closing tag {closing}."); _index = _source.Length; return node; }
             var textLine = _line;
             var textColumn = _column;
             var text = _source.Substring(_index, end - _index);
-            Advance(end + "</style>".Length - _index);
+            Advance(end + closing.Length - _index);
             node.Children.Add(new HtmlNode { IsText = true, Text = text, Line = textLine, Column = textColumn });
             return node;
         }
@@ -331,7 +335,7 @@ public sealed class CssParser
             var braceIndex = _source.IndexOf('{', _index);
             if (braceIndex < 0) { Error(FormaHtmlDiagnosticCodes.Syntax, "Expected '{' after a selector.", start); return; }
             var selector = _source.Substring(_index, braceIndex - _index).Trim();
-            var rule = new CssRule { Selector = selector, Line = LineOf(start), Column = ColumnOf(start), Media = media };
+            var rule = new CssRule { Selector = selector, Path = _path, Line = LineOf(start), Column = ColumnOf(start), Media = media };
             _index = braceIndex + 1;
             ParseDeclarationList(rule.Declarations, topLevel: false);
             if (_index < _source.Length && _source[_index] == '}') _index++;
@@ -363,7 +367,7 @@ public sealed class CssParser
             var value = _source.Substring(colon + 1, end - colon - 1).Trim();
             if (value.EndsWith("!important", StringComparison.Ordinal))
                 Error(FormaHtmlDiagnosticCodes.RejectedConstruct, "!important is not part of the dialect; Forma orders rules by specificity and declaration order.", start);
-            into.Add(new CssDeclaration(name, value, LineOf(start), ColumnOf(start)));
+            into.Add(new CssDeclaration(name, value, LineOf(start), ColumnOf(start)) { Path = _path });
             _index = end;
             if (_index < _source.Length && _source[_index] == ';') _index++;
         }

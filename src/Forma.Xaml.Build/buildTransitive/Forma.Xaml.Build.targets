@@ -68,12 +68,13 @@
   <!-- The HTML and CSS authoring dialect: .fhtml files convert to canonical XAML on the build host, then follow the XAML pipeline. -->
   <ItemGroup>
     <FormaHtml Include="**/*.fhtml" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+    <FormaFcss Include="**/*.fcss" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
   </ItemGroup>
 
   <Target Name="FormaHtmlConvert"
           BeforeTargets="FormaXamlAuthoringIdentity;FormaXamlCompilationInputs;FormaXamlDiscover;FormaXamlValidateSvgAssets"
-          Condition="'@(FormaHtml)' != ''">
-    <ConvertFormaHtml HtmlFiles="@(FormaHtml)" OutputDirectory="$(FormaXamlIntermediateDirectory)/html" ProjectDirectory="$(MSBuildProjectDirectory)">
+          Condition="'@(FormaHtml)' != '' or '@(FormaFcss)' != ''">
+    <ConvertFormaHtml HtmlFiles="@(FormaHtml)" StylesheetFiles="@(FormaFcss)" OutputDirectory="$(FormaXamlIntermediateDirectory)/html" ProjectDirectory="$(MSBuildProjectDirectory)">
       <Output TaskParameter="XamlFiles" ItemName="_FormaHtmlGenerated" />
     </ConvertFormaHtml>
     <ItemGroup>
@@ -142,6 +143,10 @@
           DestinationFiles="@(FormaHtml->'$(FormaXamlDevelopmentOutputDirectory)/%(Identity)')"
           SkipUnchangedFiles="true"
           Condition="'@(FormaHtml)' != ''" />
+    <Copy SourceFiles="@(FormaFcss)"
+          DestinationFiles="@(FormaFcss->'$(FormaXamlDevelopmentOutputDirectory)/%(Identity)')"
+          SkipUnchangedFiles="true"
+          Condition="'@(FormaFcss)' != ''" />
     <Copy SourceFiles="@(_FormaHtmlGenerated->'%(Identity).fhtmlmap')"
           DestinationFiles="@(_FormaHtmlGenerated->'$(FormaXamlDevelopmentOutputDirectory)/%(Identity).fhtmlmap')"
           SkipUnchangedFiles="true"

@@ -40,10 +40,15 @@ public abstract class FormaXamlTask : Microsoft.Build.Utilities.Task
         : File.ReadAllText(item.GetMetadata("FullPath"));
 }
 
-/// <summary>Converts .fhtml views (the HTML and CSS authoring dialect) to canonical XAML in the intermediate directory.</summary>
+/// <summary>
+/// Converts .fhtml views (the HTML and CSS authoring dialect) to canonical XAML in the intermediate directory. A .fcss stylesheet
+/// linked by several views is read and converted once, written as a ResourceDictionary document with a source map, and its rules
+/// and tokens are merged into the root resources of each linking view.
+/// </summary>
 public sealed class ConvertFormaHtml : FormaXamlTask
 {
     [Required] public ITaskItem[] HtmlFiles { get; set; } = [];
+    public ITaskItem[] StylesheetFiles { get; set; } = [];
     [Required] public string OutputDirectory { get; set; } = string.Empty;
     [Required] public string ProjectDirectory { get; set; } = string.Empty;
     [Output] public ITaskItem[] XamlFiles { get; private set; } = [];
@@ -51,24 +56,41 @@ public sealed class ConvertFormaHtml : FormaXamlTask
     public override bool Execute()
     {
         Directory.CreateDirectory(OutputDirectory);
+        var project = new Forma.Xaml.Compiler.Html.FormaHtmlProject(ProjectDirectory);
         var generated = new List<ITaskItem>();
         var success = true;
+        var reported = new HashSet<string>(StringComparer.Ordinal);
+        IEnumerable<FormaDiagnostic> Fresh(IEnumerable<FormaDiagnostic> diagnostics) => diagnostics.Where(d => reported.Add(d.ToString()));
         foreach (var file in HtmlFiles)
         {
             var path = file.GetMetadata("FullPath");
-            var relative = Path.GetRelativePath(ProjectDirectory, path);
-            var result = Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert(File.ReadAllText(path), relative);
-            success &= LogDiagnostics(result.Diagnostics);
+            var relative = Path.GetRelativePath(ProjectDirectory, path).Replace(Path.DirectorySeparatorChar, '/');
+            var result = Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert(File.ReadAllText(path), relative, project);
+            success &= LogDiagnostics(Fresh(result.Diagnostics));
             if (!result.Succeeded) continue;
-            var output = Path.Combine(OutputDirectory, relative.Replace(Path.DirectorySeparatorChar, '_').Replace(Path.AltDirectorySeparatorChar, '_') + ".xaml");
+            var output = Path.Combine(OutputDirectory, FlatName(relative) + ".xaml");
             WriteIfChanged(output, result.Xaml);
             WriteIfChanged(output + ".fhtmlmap", result.Map.Serialize(relative));
             generated.Add(new TaskItem(output));
         }
 
+        foreach (var file in StylesheetFiles)
+            project.Load(Path.GetRelativePath(ProjectDirectory, file.GetMetadata("FullPath")).Replace(Path.DirectorySeparatorChar, '/'));
+        foreach (var sheet in project.Sheets.ToArray())
+        {
+            var result = project.ConvertSheet(sheet.Path);
+            success &= LogDiagnostics(Fresh(result.Diagnostics));
+            if (!result.Succeeded) continue;
+            var output = Path.Combine(OutputDirectory, FlatName(sheet.Path) + ".dict");
+            WriteIfChanged(output, result.Xaml);
+            WriteIfChanged(output + ".fhtmlmap", result.Map.Serialize(sheet.Path));
+        }
+
         XamlFiles = generated.ToArray();
         return success;
     }
+
+    private static string FlatName(string relative) => relative.Replace('/', '_').Replace('\\', '_');
 
     private static void WriteIfChanged(string path, string content)
     {

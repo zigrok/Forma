@@ -9,23 +9,28 @@ namespace Forma.Xaml.Compiler.Html;
 /// <summary>Maps lines of the generated XAML back to the HTML or CSS location that produced them.</summary>
 public sealed class FormaHtmlSourceMap
 {
-    private readonly SortedDictionary<int, (int Line, int Column)> _lines = new();
+    private readonly SortedDictionary<int, (string? Path, int Line, int Column)> _lines = new();
 
-    internal void Add(int generatedLine, int line, int column) => _lines[generatedLine] = (line, column);
+    /// <summary>Project-relative paths of the stylesheets the view links; a change to one of them reconverts the view.</summary>
+    public List<string> Dependencies { get; } = new();
+
+    internal void Add(int generatedLine, int line, int column, string? path = null) => _lines[generatedLine] = (path, line, column);
 
     public FormaSourceLocation? Map(string htmlPath, int generatedLine)
     {
-        (int Line, int Column)? best = null;
+        (string? Path, int Line, int Column)? best = null;
         foreach (var pair in _lines)
         {
             if (pair.Key > generatedLine) break;
             best = pair.Value;
         }
 
-        return best is { } found ? new FormaSourceLocation(htmlPath, found.Line, found.Column) : null;
+        return best is { } found ? new FormaSourceLocation(found.Path ?? htmlPath, found.Line, found.Column) : null;
     }
 
-    public string Serialize(string htmlPath) => "source=" + htmlPath + "\n" + string.Join('\n', _lines.Select(p => $"{p.Key}\t{p.Value.Line}\t{p.Value.Column}"));
+    public string Serialize(string htmlPath) =>
+        "source=" + htmlPath + "\n" + string.Concat(Dependencies.Select(d => "dep=" + d + "\n")) +
+        string.Join('\n', _lines.Select(p => $"{p.Key}\t{p.Value.Line}\t{p.Value.Column}\t{p.Value.Path}"));
 
     /// <summary>Reads a sidecar written by <see cref="Serialize"/>; returns null when the text is not a map.</summary>
     public static (string HtmlPath, FormaHtmlSourceMap Map)? Parse(string text)
@@ -35,8 +40,10 @@ public sealed class FormaHtmlSourceMap
         var map = new FormaHtmlSourceMap();
         foreach (var line in lines.Skip(1))
         {
+            if (line.StartsWith("dep=", StringComparison.Ordinal)) { map.Dependencies.Add(line.Substring(4)); continue; }
             var parts = line.Split('\t');
-            if (parts.Length == 3 && int.TryParse(parts[0], out var gen) && int.TryParse(parts[1], out var src) && int.TryParse(parts[2], out var col)) map.Add(gen, src, col);
+            if (parts.Length >= 3 && int.TryParse(parts[0], out var gen) && int.TryParse(parts[1], out var src) && int.TryParse(parts[2], out var col))
+                map.Add(gen, src, col, parts.Length > 3 && parts[3].Length > 0 ? parts[3] : null);
         }
 
         return (lines[0].Substring("source=".Length), map);
@@ -66,6 +73,71 @@ public sealed class FormaHtmlResult
     public bool Succeeded => Diagnostics.All(d => d.Severity != FormaDiagnosticSeverity.Error);
 }
 
+/// <summary>A shared stylesheet (.fcss): strict CSS parsed once, linked from any number of views.</summary>
+public sealed class FormaFcssSheet
+{
+    internal FormaFcssSheet(string path, bool exists, List<CssRule> rules, List<FormaDiagnostic> diagnostics)
+    {
+        Path = path;
+        Exists = exists;
+        Rules = rules;
+        Diagnostics = diagnostics;
+    }
+
+    /// <summary>Project-relative path with forward slashes.</summary>
+    public string Path { get; }
+    public bool Exists { get; }
+    public IReadOnlyList<CssRule> Rules { get; }
+    public IReadOnlyList<FormaDiagnostic> Diagnostics { get; }
+}
+
+/// <summary>The files of one project, so a stylesheet linked from many views is read and parsed once.</summary>
+public sealed class FormaHtmlProject
+{
+    private readonly Dictionary<string, FormaFcssSheet> _sheets = new(StringComparer.Ordinal);
+
+    public FormaHtmlProject(string baseDirectory) => BaseDirectory = System.IO.Path.GetFullPath(baseDirectory);
+
+    public string BaseDirectory { get; }
+    public IReadOnlyCollection<FormaFcssSheet> Sheets => _sheets.Values;
+
+    /// <summary>Resolves a link target relative to the linking file; null when it escapes the project.</summary>
+    public static string? Resolve(string linkingFile, string href)
+    {
+        var combined = href.StartsWith('/') ? href.TrimStart('/') : System.IO.Path.Combine(System.IO.Path.GetDirectoryName(linkingFile.Replace('\\', '/')) ?? string.Empty, href);
+        var parts = new List<string>();
+        foreach (var part in combined.Replace('\\', '/').Split('/', StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (part == ".") continue;
+            if (part == "..") { if (parts.Count == 0) return null; parts.RemoveAt(parts.Count - 1); continue; }
+            parts.Add(part);
+        }
+
+        return string.Join('/', parts);
+    }
+
+    public FormaFcssSheet Load(string relativePath)
+    {
+        if (_sheets.TryGetValue(relativePath, out var cached)) return cached;
+        var full = System.IO.Path.Combine(BaseDirectory, relativePath.Replace('/', System.IO.Path.DirectorySeparatorChar));
+        var diagnostics = new List<FormaDiagnostic>();
+        var rules = new List<CssRule>();
+        var exists = File.Exists(full);
+        if (exists)
+        {
+            var text = File.ReadAllText(full);
+            rules = new CssParser(text, relativePath, 1, diagnostics).ParseStylesheet();
+        }
+
+        var sheet = new FormaFcssSheet(relativePath, exists, rules, diagnostics);
+        _sheets[relativePath] = sheet;
+        return sheet;
+    }
+
+    /// <summary>The sheet as a XAML ResourceDictionary document with a source map into the .fcss file.</summary>
+    public FormaHtmlResult ConvertSheet(string relativePath) => new FormaHtmlConverter(relativePath, this).RunSheet(Load(relativePath));
+}
+
 /// <summary>
 /// Converts the Forma HTML and CSS dialect to canonical XAML. Anything outside the dialect is a diagnostic with a location in the
 /// source file; the converter never approximates. It runs on the build host only.
@@ -74,7 +146,8 @@ public sealed class FormaHtmlConverter
 {
     private sealed class Attr
     {
-        public Attr(string name, string value, int line, int column) { Name = name; Value = value; Line = line; Column = column; }
+        public Attr(string name, string value, int line, int column, string? path = null) { Name = name; Value = value; Line = line; Column = column; Path = path; }
+        public string? Path { get; }
         public string Name { get; }
         public string Value { get; set; }
         public int Line { get; }
@@ -89,6 +162,9 @@ public sealed class FormaHtmlConverter
         public List<Attr> Attrs = new();
         public List<XNode> Children = new();
         public List<(string Name, XNode Value)> PropertyElements = new();
+        public string? Path;
+        public string? Text;
+        public IReadOnlyList<(string Text, int Line, int Column)>? RawBlocks;
     }
 
     private static readonly Dictionary<string, string> TextElements = new(StringComparer.Ordinal)
@@ -109,25 +185,44 @@ public sealed class FormaHtmlConverter
     private readonly List<FormaDiagnostic> _diagnostics = new();
     private readonly Dictionary<string, string> _namespaces = new(StringComparer.Ordinal);
     private readonly List<CssRule> _rules = new();
-    private readonly Dictionary<string, string> _customProperties = new(StringComparer.Ordinal);
+    private sealed class Token
+    {
+        public string Name = string.Empty;
+        public string Value = string.Empty;
+        public string Path = string.Empty;
+        public int Line;
+        public int Column;
+        public string Kind = "compound"; // color, single, compound
+        public string Key => "Fcss." + Name.Substring(2);
+    }
 
-    public FormaHtmlConverter(string path) => _path = path;
+    private readonly Dictionary<string, Token> _tokens = new(StringComparer.Ordinal);
 
-    public static FormaHtmlResult Convert(string html, string path) => new FormaHtmlConverter(path).Run(html);
+    private readonly FormaHtmlProject? _project;
+    private readonly List<FormaFcssSheet> _sheets = new();
+    private readonly List<(string Text, int Line, int Column)> _rawResources = new();
+
+    public FormaHtmlConverter(string path, FormaHtmlProject? project = null)
+    {
+        _path = path;
+        _project = project;
+    }
+
+    public static FormaHtmlResult Convert(string html, string path, FormaHtmlProject? project = null) => new FormaHtmlConverter(path, project).Run(html);
 
     private FormaHtmlResult Run(string html)
     {
         var parser = new HtmlParser(html, _path, _diagnostics);
         var roots = parser.Parse();
+        foreach (var node in roots.Where(n => !n.IsText && n.Name == "link")) ReadLink(node);
         foreach (var node in roots) PreRead(node);
-        foreach (var rule in _rules.Where(r => r.Selector == ":root"))
-            foreach (var d in rule.Declarations.Where(d => d.Name.StartsWith("--", StringComparison.Ordinal))) _customProperties[d.Name] = d.Value;
+        CollectTokens(_sheets.SelectMany(sheet => sheet.Rules).Concat(_rules));
         XNode? root = null;
         foreach (var node in roots)
         {
             if (node.IsText) { Error(FormaHtmlDiagnosticCodes.Structure, "Text outside the root element.", node); continue; }
             if (node.Name == "meta") { ReadMeta(node); continue; }
-            if (node.Name == "style") continue;
+            if (node.Name is "style" or "link") continue;
             if (root != null) { Error(FormaHtmlDiagnosticCodes.Structure, "A view has exactly one root element.", node); continue; }
             root = new XNode { Line = node.Line, Column = node.Column };
             ConvertElement(node, root, parent: null);
@@ -140,10 +235,62 @@ public sealed class FormaHtmlConverter
         }
 
         var map = new FormaHtmlSourceMap();
-        var resources = BuildResources();
+        foreach (var sheet in _sheets) map.Dependencies.Add(sheet.Path);
+        var resources = BuildResources(_sheets.SelectMany(sheet => sheet.Rules).Concat(_rules).ToList(), _tokens.Values);
         var writer = new Writer(map, _namespaces);
-        var xaml = writer.Write(root, resources);
+        var xaml = writer.Write(root, resources, _rawResources);
         return new FormaHtmlResult(xaml, _diagnostics, map);
+    }
+
+    internal FormaHtmlResult RunSheet(FormaFcssSheet sheet)
+    {
+        _diagnostics.AddRange(sheet.Diagnostics);
+        if (!sheet.Exists)
+        {
+            _diagnostics.Add(new FormaDiagnostic(FormaHtmlDiagnosticCodes.LinkTarget, FormaDiagnosticSeverity.Error, $"Stylesheet '{sheet.Path}' was not found.", new FormaSourceLocation(sheet.Path, 1, 1)));
+            return new FormaHtmlResult(string.Empty, _diagnostics, new FormaHtmlSourceMap());
+        }
+
+        CollectTokens(sheet.Rules);
+        var map = new FormaHtmlSourceMap();
+        var entries = BuildResources(sheet.Rules, _tokens.Values);
+        var xaml = new Writer(map, _namespaces).WriteDictionary(entries, sheet.Path);
+        return new FormaHtmlResult(xaml, _diagnostics, map);
+    }
+
+    private void CollectTokens(IEnumerable<CssRule> rules)
+    {
+        foreach (var rule in rules.Where(r => r.Selector == ":root"))
+            foreach (var d in rule.Declarations.Where(d => d.Name.StartsWith("--", StringComparison.Ordinal)))
+            {
+                var value = d.Value.Trim();
+                var token = new Token { Name = d.Name, Value = value, Path = d.Path.Length > 0 ? d.Path : _path, Line = d.Line, Column = d.Column };
+                token.Kind = value.StartsWith('#') ? "color" : IsSingleLength(value) ? "single" : "compound";
+                _tokens[d.Name] = token; // a later definition, such as the view's own, shadows an earlier one
+            }
+    }
+
+    private static bool IsSingleLength(string value)
+    {
+        var text = value.EndsWith("px", StringComparison.Ordinal) ? value[..^2] : value.EndsWith("rem", StringComparison.Ordinal) ? value[..^3] : value;
+        return double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out _);
+    }
+
+    private void ReadLink(HtmlNode node)
+    {
+        var rel = node.Attr("rel");
+        var href = node.Attr("href");
+        if (rel != "stylesheet") { Error(FormaHtmlDiagnosticCodes.RejectedConstruct, $"<link rel=\"{rel}\"> is not part of the dialect; only <link rel=\"stylesheet\" href=\"theme.fcss\"> is supported.", node); return; }
+        if (string.IsNullOrWhiteSpace(href)) { Error(FormaHtmlDiagnosticCodes.Structure, "<link rel=\"stylesheet\"> needs an href.", node); return; }
+        if (!href.EndsWith(".fcss", StringComparison.Ordinal)) { Error(FormaHtmlDiagnosticCodes.RejectedConstruct, $"Stylesheet '{href}' must be a .fcss file; URLs and plain .css files are not part of the dialect.", node); return; }
+        if (_project == null) { Error(FormaHtmlDiagnosticCodes.Structure, "A <link> needs a project to resolve files; convert the view through a FormaHtmlProject.", node); return; }
+        var resolved = FormaHtmlProject.Resolve(_path, href);
+        if (resolved == null) { Error(FormaHtmlDiagnosticCodes.LinkTarget, $"Stylesheet '{href}' is outside the project.", node); return; }
+        var sheet = _project.Load(resolved);
+        if (!sheet.Exists) { Error(FormaHtmlDiagnosticCodes.LinkTarget, $"Stylesheet '{href}' was not found (looked for '{resolved}').", node); return; }
+        if (_sheets.Contains(sheet)) return;
+        _diagnostics.AddRange(sheet.Diagnostics);
+        _sheets.Add(sheet);
     }
 
     // Styles and namespaces are collected before conversion so a custom property or class rule may appear after its use.
@@ -151,6 +298,7 @@ public sealed class FormaHtmlConverter
     {
         if (node.IsText) return;
         if (node.Name == "style") { ReadStyle(node); return; }
+        if (node.Name == "f-resources") { _rawResources.Add((node.Children.FirstOrDefault()?.Text ?? string.Empty, node.Line, node.Column)); return; }
         foreach (var child in node.Children) PreRead(child);
     }
 
@@ -223,7 +371,7 @@ public sealed class FormaHtmlConverter
                 continue;
             }
 
-            if (child.Name == "style") continue;
+            if (child.Name is "style" or "f-resources") continue;
             var node = new XNode();
             ConvertElement(child, node, target);
             if (node.Type.Length > 0) target.Children.Add(node);
@@ -555,6 +703,20 @@ public sealed class FormaHtmlConverter
         var isBox = type is "VBoxContainer" or "HBoxContainer";
         foreach (var d in declarations)
         {
+            if (d.Name.StartsWith("-f-", StringComparison.Ordinal))
+            {
+                // Escape hatch to any Forma property, like the f: attribute: -f-BackgroundColor: #40040C16 or -f-Template: {StaticResource Key}.
+                var raw = ResourceFunction(d.Value) is { } resourceKey ? "{DynamicResource " + resourceKey + "}" : ResolveVar(d.Value, d);
+                yield return (d.Name.Substring(3), raw, d);
+                continue;
+            }
+
+            if (DynamicFor(d, isBox) is { } dynamic)
+            {
+                yield return dynamic;
+                continue;
+            }
+
             var value = ResolveVar(d.Value, d);
             switch (d.Name)
             {
@@ -652,9 +814,54 @@ public sealed class FormaHtmlConverter
         if (start < 0) return value;
         var end = value.IndexOf(')', start);
         var name = value.Substring(start + 4, end - start - 4).Trim();
-        if (_customProperties.TryGetValue(name, out var resolved)) return value.Substring(0, start) + resolved + value.Substring(end + 1);
+        if (_tokens.TryGetValue(name, out var resolved)) return value.Substring(0, start) + resolved.Value + value.Substring(end + 1);
         Error(FormaHtmlDiagnosticCodes.InvalidValue, $"Custom property '{name}' is not defined in a :root rule.", at);
         return value;
+    }
+
+    private static string? ResourceFunction(string value)
+    {
+        value = value.Trim();
+        return value.StartsWith("resource(", StringComparison.Ordinal) && value.EndsWith(')') ? value.Substring(9, value.Length - 10).Trim() : null;
+    }
+
+    // Properties that can observe a resource take a live {DynamicResource}: a custom property of the matching kind, or resource(Key)
+    // for a resource defined elsewhere (for example in XAML). Everything else substitutes the custom property's value at build time.
+    private (string Property, string Value, CssDeclaration Source)? DynamicFor(CssDeclaration d, bool isBox)
+    {
+        (string Property, string Kind)? target = d.Name switch
+        {
+            "color" => ("FontColor", "color"),
+            "background-color" => ("Background", "brush"),
+            "border-color" => ("BorderBrush", "brush"),
+            "font-size" => ("FontSize", "single"),
+            "opacity" => ("Opacity", "single"),
+            "gap" when isBox => ("Separation", "single"),
+            _ => null,
+        };
+        var value = d.Value.Trim();
+        if (ResourceFunction(value) is { } key)
+        {
+            if (target == null) { Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"resource() is supported for color, background-color, border-color, font-size, opacity and gap, and for -f-* properties; not '{d.Name}'.", d); return (string.Empty, string.Empty, d); }
+            return (target.Value.Property, "{DynamicResource " + key + "}", d);
+        }
+
+        if (target != null && value.StartsWith("var(", StringComparison.Ordinal) && value.EndsWith(')') && value.IndexOf("var(", 1, StringComparison.Ordinal) < 0)
+        {
+            var name = value.Substring(4, value.Length - 5).Trim();
+            if (!_tokens.TryGetValue(name, out var token)) return null; // reported by ResolveVar
+            var wanted = target.Value.Kind == "single" ? "single" : "color";
+            if (token.Kind != wanted)
+            {
+                Error(FormaHtmlDiagnosticCodes.InvalidValue, $"Custom property '{name}' is a {token.Kind} value and cannot set '{d.Name}'.", d);
+                return (string.Empty, string.Empty, d);
+            }
+
+            var resource = token.Key + (target.Value.Kind == "color" ? ".color" : string.Empty);
+            return (target.Value.Property, "{DynamicResource " + resource + "}", d);
+        }
+
+        return null;
     }
 
     private string Px(string value, CssDeclaration d)
@@ -708,10 +915,34 @@ public sealed class FormaHtmlConverter
 
     // ---------------------------------------------------------------- rules to styles
 
-    private List<XNode> BuildResources()
+    private List<XNode> BuildResources(IReadOnlyList<CssRule> rules, IEnumerable<Token> tokens)
     {
         var styles = new List<XNode>();
-        foreach (var rule in _rules)
+        foreach (var token in tokens)
+        {
+            var path = token.Path;
+            XNode Entry(string type, string key, string? text = null, string? color = null)
+            {
+                var node = new XNode { Type = type, Line = token.Line, Column = token.Column, Path = path, Text = text };
+                node.Attrs.Add(new Attr("x:Key", key, token.Line, token.Column, path));
+                if (color != null) node.Attrs.Add(new Attr("Color", color, token.Line, token.Column, path));
+                return node;
+            }
+
+            var probe = new CssDeclaration(token.Name, token.Value, token.Line, token.Column) { Path = path };
+            if (token.Kind == "color")
+            {
+                var hex = Color(token.Value, probe);
+                styles.Add(Entry("SolidColorBrush", token.Key, color: hex));
+                styles.Add(Entry("xna:Color", token.Key + ".color", text: hex));
+            }
+            else if (token.Kind == "single")
+            {
+                styles.Add(Entry("x:Single", token.Key, text: Px(token.Value, probe)));
+            }
+        }
+
+        foreach (var rule in rules)
         {
             if (rule.Selector == ":root")
             {
@@ -721,13 +952,13 @@ public sealed class FormaHtmlConverter
         }
 
         var index = 0;
-        foreach (var rule in _rules.Where(r => r.Selector != ":root"))
+        foreach (var rule in rules.Where(r => r.Selector != ":root"))
         {
             var selector = LowerSelector(rule, out var subjectType);
             if (selector == null) continue;
-            var style = new XNode { Type = "Style", Line = rule.Line, Column = rule.Column };
-            style.Attrs.Add(new Attr("x:Key", $"FormaHtmlStyle{index++}", rule.Line, rule.Column));
-            style.Attrs.Add(new Attr("Selector", selector, rule.Line, rule.Column));
+            var style = new XNode { Type = "Style", Line = rule.Line, Column = rule.Column, Path = rule.Path };
+            style.Attrs.Add(new Attr("x:Key", $"FormaHtmlStyle{index++}", rule.Line, rule.Column, rule.Path));
+            style.Attrs.Add(new Attr("Selector", selector, rule.Line, rule.Column, rule.Path));
             if (rule.Media != null) AddCondition(style, rule);
             var transitions = new List<(string Property, string Duration)>();
             foreach (var d in rule.Declarations.Where(d => d.Name == "transition"))
@@ -742,17 +973,17 @@ public sealed class FormaHtmlConverter
 
             foreach (var (property, value, source) in Lower(rule.Declarations.Where(d => d.Name != "transition").ToList(), subjectType, parentDirection: null))
             {
-                var setter = new XNode { Type = "Setter", Line = source.Line, Column = source.Column };
-                setter.Attrs.Add(new Attr("Property", property, source.Line, source.Column));
-                setter.Attrs.Add(new Attr("Value", value, source.Line, source.Column));
+                var setter = new XNode { Type = "Setter", Line = source.Line, Column = source.Column, Path = source.Path };
+                setter.Attrs.Add(new Attr("Property", property, source.Line, source.Column, source.Path));
+                setter.Attrs.Add(new Attr("Value", value, source.Line, source.Column, source.Path));
                 style.Children.Add(setter);
             }
 
             foreach (var (property, duration) in transitions)
             {
-                var transition = new XNode { Type = TransitionType(property), Line = rule.Line, Column = rule.Column };
-                transition.Attrs.Add(new Attr("Property", property, rule.Line, rule.Column));
-                transition.Attrs.Add(new Attr("Duration", duration, rule.Line, rule.Column));
+                var transition = new XNode { Type = TransitionType(property), Line = rule.Line, Column = rule.Column, Path = rule.Path };
+                transition.Attrs.Add(new Attr("Property", property, rule.Line, rule.Column, rule.Path));
+                transition.Attrs.Add(new Attr("Duration", duration, rule.Line, rule.Column, rule.Path));
                 style.Children.Add(transition);
             }
 
@@ -791,9 +1022,9 @@ public sealed class FormaHtmlConverter
         var adaptive = new XNode { Type = "AdaptiveCondition", Line = rule.Line, Column = rule.Column };
         if (inner is ["input-modality", var modality] && modality is "pointer" or "keyboard" or "gamepad" or "touch")
             adaptive.Attrs.Add(new Attr("InputModality", char.ToUpperInvariant(modality[0]) + modality[1..], rule.Line, rule.Column));
-        else if (inner is ["min-width", var min]) adaptive.Attrs.Add(new Attr("MinViewportWidth", Px(min, new CssDeclaration("min-width", min, rule.Line, rule.Column)), rule.Line, rule.Column));
-        else if (inner is ["max-width", var max]) adaptive.Attrs.Add(new Attr("MaxViewportWidth", Px(max, new CssDeclaration("max-width", max, rule.Line, rule.Column)), rule.Line, rule.Column));
-        else Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"@media {media} is not supported; use (input-modality: pointer|keyboard|gamepad|touch), (min-width: Npx) or (max-width: Npx).", rule.Line, rule.Column);
+        else if (inner is ["min-width", var min]) adaptive.Attrs.Add(new Attr("MinViewportWidth", Px(min, new CssDeclaration("min-width", min, rule.Line, rule.Column) { Path = rule.Path }), rule.Line, rule.Column));
+        else if (inner is ["max-width", var max]) adaptive.Attrs.Add(new Attr("MaxViewportWidth", Px(max, new CssDeclaration("max-width", max, rule.Line, rule.Column) { Path = rule.Path }), rule.Line, rule.Column));
+        else Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"@media {media} is not supported; use (input-modality: pointer|keyboard|gamepad|touch), (min-width: Npx) or (max-width: Npx).", rule);
         condition.Children.Add(adaptive);
         style.PropertyElements.Add(("Style.Condition", adaptive));
     }
@@ -811,7 +1042,7 @@ public sealed class FormaHtmlConverter
             {
                 if (token is ">" or "+" or "~")
                 {
-                    if (token != ">") { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Combinator '{token}' is not supported; use descendant or child (>).", rule.Line, rule.Column); return null; }
+                    if (token != ">") { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Combinator '{token}' is not supported; use descendant or child (>).", rule); return null; }
                     lowered.Append(" > ");
                     continue;
                 }
@@ -857,7 +1088,7 @@ public sealed class FormaHtmlConverter
             typeName.Append(compound[i++]);
         if (typeName.Length > 0 && typeName.ToString() != "*")
         {
-            if (!SelectorTypes.TryGetValue(typeName.ToString(), out var forma)) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Type selector '{typeName}' has no Forma type; use a class selector.", rule.Line, rule.Column); return null; }
+            if (!SelectorTypes.TryGetValue(typeName.ToString(), out var forma)) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Type selector '{typeName}' has no Forma type; use a class selector.", rule); return null; }
             type = forma;
             output.Append(forma);
         }
@@ -866,7 +1097,7 @@ public sealed class FormaHtmlConverter
         {
             var kind = compound[i++];
             var start = i;
-            if (kind == ':' && i < compound.Length && compound[i] == ':') { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "Pseudo-elements are not supported.", rule.Line, rule.Column); return null; }
+            if (kind == ':' && i < compound.Length && compound[i] == ':') { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, "Pseudo-elements are not supported.", rule); return null; }
             while (i < compound.Length && (char.IsLetterOrDigit(compound[i]) || compound[i] is '-' or '_')) i++;
             var name = compound.Substring(start, i - start);
             switch (kind)
@@ -884,10 +1115,10 @@ public sealed class FormaHtmlConverter
                     }
                     else if (name is "hover" or "focus" or "disabled" or "checked" or "selected") output.Append(':').Append(name);
                     else if (name == "active") output.Append(":pressed");
-                    else { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Pseudo-class ':{name}' is not supported (hover, active, focus, disabled, checked, selected, not).", rule.Line, rule.Column); return null; }
+                    else { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Pseudo-class ':{name}' is not supported (hover, active, focus, disabled, checked, selected, not).", rule); return null; }
                     break;
                 default:
-                    Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Selector part '{compound}' is not supported.", rule.Line, rule.Column);
+                    Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Selector part '{compound}' is not supported.", rule);
                     return null;
             }
         }
@@ -910,7 +1141,10 @@ public sealed class FormaHtmlConverter
 
     private void Error(string code, string message, HtmlNode node) => Error(code, message, node.Line, node.Column);
     private void Error(string code, string message, HtmlAttribute attribute) => Error(code, message, attribute.Line, attribute.Column);
-    private void Error(string code, string message, CssDeclaration declaration) => Error(code, message, declaration.Line, declaration.Column);
+    private void Error(string code, string message, CssDeclaration declaration) =>
+        _diagnostics.Add(new FormaDiagnostic(code, FormaDiagnosticSeverity.Error, message, new FormaSourceLocation(declaration.Path.Length > 0 ? declaration.Path : _path, declaration.Line, declaration.Column)));
+    private void Error(string code, string message, CssRule rule) =>
+        _diagnostics.Add(new FormaDiagnostic(code, FormaDiagnosticSeverity.Error, message, new FormaSourceLocation(rule.Path.Length > 0 ? rule.Path : _path, rule.Line, rule.Column)));
     private void Error(string code, string message, int line, int column) =>
         _diagnostics.Add(new FormaDiagnostic(code, FormaDiagnosticSeverity.Error, message, new FormaSourceLocation(_path, line, column)));
 
@@ -929,17 +1163,28 @@ public sealed class FormaHtmlConverter
             _namespaces = namespaces;
         }
 
-        public string Write(XNode root, List<XNode> styles)
+        private const string XnaNamespace = "clr-namespace:Microsoft.Xna.Framework;assembly=MonoGame.Framework";
+        private string? _defaultPath;
+
+        private void Namespaces(XNode root, IEnumerable<XNode> entries)
         {
             root.Attrs.Insert(0, new Attr("xmlns", "https://forma.dev/xaml", root.Line, root.Column));
             root.Attrs.Insert(1, new Attr("xmlns:x", "http://schemas.microsoft.com/winfx/2006/xaml", root.Line, root.Column));
             var position = 2;
             foreach (var pair in _namespaces) root.Attrs.Insert(position++, new Attr("xmlns:" + pair.Key, pair.Value, root.Line, root.Column));
-            if (styles.Count > 0)
+            if (entries.Any(e => e.Type.StartsWith("xna:", StringComparison.Ordinal)) && !_namespaces.ContainsKey("xna"))
+                root.Attrs.Insert(position, new Attr("xmlns:xna", XnaNamespace, root.Line, root.Column));
+        }
+
+        public string Write(XNode root, List<XNode> styles, IReadOnlyList<(string Text, int Line, int Column)> raw)
+        {
+            Namespaces(root, styles);
+            if (styles.Count > 0 || raw.Count > 0)
             {
                 var resources = new XNode { Type = root.Type + ".Resources", Line = root.Line, Column = root.Column };
                 var dictionary = new XNode { Type = "ResourceDictionary", Line = root.Line, Column = root.Column };
                 dictionary.Children.AddRange(styles);
+                dictionary.RawBlocks = raw;
                 resources.Children.Add(dictionary);
                 root.PropertyElements.Insert(0, (resources.Type, resources));
             }
@@ -948,47 +1193,73 @@ public sealed class FormaHtmlConverter
             return _out.ToString();
         }
 
-        private void Line(string text, int indent, int srcLine, int srcColumn)
+        public string WriteDictionary(List<XNode> entries, string sheetPath)
+        {
+            _defaultPath = sheetPath;
+            var root = new XNode { Type = "ResourceDictionary", Line = 1, Column = 1, Path = sheetPath };
+            root.Children.AddRange(entries);
+            Namespaces(root, entries);
+            WriteNode(root, 0);
+            return _out.ToString();
+        }
+
+        private void Line(string text, int indent, int srcLine, int srcColumn, string? path = null)
         {
             _out.Append(' ', indent * 4).Append(text).Append('\n');
-            if (srcLine > 0) _map.Add(_line, srcLine, srcColumn);
+            if (srcLine > 0) _map.Add(_line, srcLine, srcColumn, path ?? _defaultPath);
             _line++;
         }
 
         private void WriteNode(XNode node, int indent)
         {
             var children = node.Children;
-            var hasBody = children.Count > 0 || node.PropertyElements.Count > 0;
-            Line("<" + node.Type, indent, node.Line, node.Column);
+            var hasBody = children.Count > 0 || node.PropertyElements.Count > 0 || (node.RawBlocks?.Count ?? 0) > 0;
+            if (node.Text != null)
+            {
+                var head = "<" + node.Type + string.Concat(node.Attrs.Select(a => $" {a.Name}=\"{EscapeAttr(a.Value)}\""));
+                Line(head + ">" + EscapeText(node.Text) + "</" + node.Type + ">", indent, node.Line, node.Column, node.Path);
+                return;
+            }
+
+            Line("<" + node.Type, indent, node.Line, node.Column, node.Path);
             for (var i = 0; i < node.Attrs.Count; i++)
             {
                 var attr = node.Attrs[i];
                 var last = i == node.Attrs.Count - 1;
                 var text = $"{attr.Name}=\"{EscapeAttr(attr.Value)}\"" + (last ? (hasBody ? ">" : " />") : string.Empty);
-                Line(text, indent + 1, attr.Line, attr.Column);
+                Line(text, indent + 1, attr.Line, attr.Column, attr.Path ?? node.Path);
             }
 
             if (node.Attrs.Count == 0) { _out.Length -= 1; _out.Append(hasBody ? ">\n" : " />\n"); }
             if (!hasBody) return;
             foreach (var (name, value) in node.PropertyElements)
             {
+                Line("<" + name + ">", indent + 1, value.Line, value.Column, value.Path);
                 if (value.Type == name || value.Type.EndsWith(".Resources", StringComparison.Ordinal))
-                {
-                    Line("<" + name + ">", indent + 1, value.Line, value.Column);
                     foreach (var child in value.Children) WriteNode(child, indent + 2);
-                    Line("</" + name + ">", indent + 1, 0, 0);
-                }
                 else
-                {
-                    Line("<" + name + ">", indent + 1, value.Line, value.Column);
                     WriteNode(value, indent + 2);
-                    Line("</" + name + ">", indent + 1, 0, 0);
-                }
+                Line("</" + name + ">", indent + 1, 0, 0);
             }
 
             foreach (var child in children) WriteNode(child, indent + 1);
+            if (node.RawBlocks != null)
+                foreach (var (text, line, column) in node.RawBlocks)
+                {
+                    var lines = text.Replace("\r", string.Empty, StringComparison.Ordinal).Split('\n');
+                    var margin = lines.Where(l => l.Trim().Length > 0).Select(l => l.Length - l.TrimStart().Length).DefaultIfEmpty(0).Min();
+                    for (var k = 0; k < lines.Length; k++)
+                    {
+                        if (lines[k].Trim().Length == 0) continue;
+                        Line(lines[k].Substring(Math.Min(margin, lines[k].Length)).TrimEnd(), indent + 1, line + k, 1);
+                    }
+                }
+
             Line("</" + node.Type + ">", indent, 0, 0);
         }
+
+        private static string EscapeText(string value) =>
+            value.Replace("&", "&amp;", StringComparison.Ordinal).Replace("<", "&lt;", StringComparison.Ordinal).Replace(">", "&gt;", StringComparison.Ordinal);
 
         private static string EscapeAttr(string value) =>
             value.Replace("&", "&amp;", StringComparison.Ordinal).Replace("<", "&lt;", StringComparison.Ordinal).Replace(">", "&gt;", StringComparison.Ordinal).Replace("\"", "&quot;", StringComparison.Ordinal);
