@@ -99,6 +99,8 @@ public sealed class FormaHtmlProject
     public FormaHtmlProject(string baseDirectory) => BaseDirectory = System.IO.Path.GetFullPath(baseDirectory);
 
     public string BaseDirectory { get; }
+    /// <summary>Whether generated styles carry their source location (theme.fcss:12) for the inspector. Debug builds only; release artifacts omit it.</summary>
+    public bool EmitOrigins { get; set; } = true;
     public IReadOnlyCollection<FormaFcssSheet> Sheets => _sheets.Values;
 
     /// <summary>Resolves a link target relative to the linking file; null when it escapes the project.</summary>
@@ -959,6 +961,7 @@ public sealed class FormaHtmlConverter
             var style = new XNode { Type = "Style", Line = rule.Line, Column = rule.Column, Path = rule.Path };
             style.Attrs.Add(new Attr("x:Key", $"FormaHtmlStyle{index++}", rule.Line, rule.Column, rule.Path));
             style.Attrs.Add(new Attr("Selector", selector, rule.Line, rule.Column, rule.Path));
+            if (_project?.EmitOrigins ?? true) style.Attrs.Add(new Attr("Origin", $"{rule.Path}:{rule.Line}", rule.Line, rule.Column, rule.Path));
             if (rule.Media != null) AddCondition(style, rule);
             var transitions = new List<(string Property, string Duration)>();
             foreach (var d in rule.Declarations.Where(d => d.Name == "transition"))

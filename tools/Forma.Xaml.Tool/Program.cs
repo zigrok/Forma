@@ -74,13 +74,15 @@ internal static class Program
         var paths = args.Where(a => !a.StartsWith('-')).ToList();
         if (paths.Count == 0) return Usage();
         var files = paths.SelectMany(p => Directory.Exists(p)
-            ? Directory.EnumerateFiles(p, "*.fhtml", SearchOption.AllDirectories).Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}") && !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}"))
+            ? Directory.EnumerateFiles(p, "*.*", SearchOption.AllDirectories).Where(f => f.EndsWith(".fhtml", StringComparison.Ordinal) || f.EndsWith(".fcss", StringComparison.Ordinal)).Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}") && !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}"))
             : new[] { p }).OrderBy(f => f, StringComparer.Ordinal).ToList();
         var failed = 0;
         foreach (var file in files)
         {
             var text = File.ReadAllText(file);
-            var formatted = Compiler.Html.FormaHtmlFormatter.Format(text, file, out var diagnostics);
+            var formatted = file.EndsWith(".fcss", StringComparison.Ordinal)
+                ? Compiler.Html.FormaHtmlFormatter.FormatStylesheet(text, file, out var diagnostics)
+                : Compiler.Html.FormaHtmlFormatter.Format(text, file, out diagnostics);
             if (diagnostics.Count > 0)
             {
                 foreach (var diagnostic in diagnostics) Console.Error.WriteLine(diagnostic);
@@ -93,7 +95,7 @@ internal static class Program
             else File.WriteAllText(file, formatted);
         }
 
-        Console.WriteLine($"{files.Count - failed} of {files.Count} .fhtml files {(check ? "pass the format check" : "formatted")}.");
+        Console.WriteLine($"{files.Count - failed} of {files.Count} .fhtml/.fcss files {(check ? "pass the format check" : "formatted")}.");
         return failed == 0 ? 0 : 1;
     }
 

@@ -294,4 +294,17 @@ public sealed class FormaHtmlConverterTest
             Assert.DoesNotThrow(() => FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "catalog.fhtml.xaml").Build(null), entry.Name);
         }
     }
+
+    [Test]
+    public void Formatter_KeepsRawXamlResourcesVerbatim()
+    {
+        const string source = "<div>\n<f-resources>\n      <Style x:Key=\"A\" Selector=\"Button.a &gt;&gt; Border.b\">\n        <Setter Property=\"Opacity\" Value=\"1\" />\n      </Style>\n</f-resources>\n</div>";
+
+        var once = FormaHtmlFormatter.Format(source, "v.fhtml", out _);
+        var twice = FormaHtmlFormatter.Format(once, "v.fhtml", out _);
+
+        Assert.That(twice, Is.EqualTo(once));
+        Assert.That(once, Does.Contain("Selector=\"Button.a &gt;&gt; Border.b\""));
+        Assert.That(once, Does.Contain("<Setter Property=\"Opacity\" Value=\"1\" />"));
+    }
 }

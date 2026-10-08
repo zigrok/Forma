@@ -222,7 +222,7 @@ public sealed class FormaXamlHotReloadService : IDisposable
         string html;
         try { html = await File.ReadAllTextAsync(htmlFile).ConfigureAwait(false); }
         catch (IOException) { return; }
-        var result = Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert(html, normalized);
+        var result = Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert(html, normalized, new Forma.Xaml.Compiler.Html.FormaHtmlProject(_developmentRoot));
         if (!result.Succeeded)
         {
             DiagnosticsChanged?.Invoke(result.Diagnostics);
@@ -297,9 +297,35 @@ public sealed class FormaXamlHotReloadService : IDisposable
             _ = RequestReloadAsync(NormalizeSource(Path.GetRelativePath(_developmentRoot, args.FullPath)), null, TimeSpan.FromMilliseconds(150));
         else if (extension.Equals(".fhtml", StringComparison.OrdinalIgnoreCase))
             _ = RequestHtmlReloadAsync(Path.GetRelativePath(_developmentRoot, args.FullPath));
+        else if (extension.Equals(".fcss", StringComparison.OrdinalIgnoreCase))
+            _ = RequestStylesheetReloadAsync(Path.GetRelativePath(_developmentRoot, args.FullPath));
         else if (extension.Equals(".svg", StringComparison.OrdinalIgnoreCase))
             _ = RequestAllReloadsAsync(TimeSpan.FromMilliseconds(150));
     }
+    /// <summary>
+    /// Reloads every view that links a changed .fcss stylesheet: each linking view is reconverted and reloaded. A sheet that does not
+    /// convert reports diagnostics at the .fcss line and leaves every live tree untouched.
+    /// </summary>
+    public async Task RequestStylesheetReloadAsync(string source)
+    {
+        ThrowIfDisposed();
+        var normalized = NormalizeSource(source);
+        var project = new Forma.Xaml.Compiler.Html.FormaHtmlProject(_developmentRoot);
+        var sheet = project.ConvertSheet(normalized);
+        if (!sheet.Succeeded)
+        {
+            DiagnosticsChanged?.Invoke(sheet.Diagnostics);
+            return;
+        }
+
+        foreach (var sidecar in Directory.EnumerateFiles(_developmentRoot, "*.fhtmlmap", SearchOption.AllDirectories).ToArray())
+        {
+            if (Forma.Xaml.Compiler.Html.FormaHtmlSourceMap.Parse(await File.ReadAllTextAsync(sidecar).ConfigureAwait(false)) is not { } parsed ||
+                !parsed.Map.Dependencies.Contains(normalized, StringComparer.Ordinal) || sidecar.EndsWith(".dict.fhtmlmap", StringComparison.Ordinal)) continue;
+            await RequestHtmlReloadAsync(parsed.HtmlPath).ConfigureAwait(false);
+        }
+    }
+
     private void FileRenamed(object sender, RenamedEventArgs args) => FileChanged(sender, args);
 
     private async Task RequestAllReloadsAsync(TimeSpan debounce)

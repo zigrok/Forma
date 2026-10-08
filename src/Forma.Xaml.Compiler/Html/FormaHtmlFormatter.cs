@@ -31,6 +31,54 @@ public static class FormaHtmlFormatter
         return output.ToString();
     }
 
+    /// <summary>
+    /// Formats a .fcss file: one rule per block with two-space declarations, rules separated by one blank line, top-level comments
+    /// kept as written. A rule that contains a comment is kept verbatim. Idempotent.
+    /// </summary>
+    public static string FormatStylesheet(string css, string path, out IReadOnlyList<FormaDiagnostic> diagnostics)
+    {
+        var list = new List<FormaDiagnostic>();
+        diagnostics = list;
+        var segments = new List<string>();
+        var index = 0;
+        while (index < css.Length)
+        {
+            if (char.IsWhiteSpace(css[index])) { index++; continue; }
+            if (string.CompareOrdinal(css, index, "/*", 0, 2) == 0)
+            {
+                var end = css.IndexOf("*/", index + 2, StringComparison.Ordinal);
+                end = end < 0 ? css.Length : end + 2;
+                segments.Add(css.Substring(index, end - index));
+                index = end;
+                continue;
+            }
+
+            var start = index;
+            var depth = 0;
+            for (; index < css.Length; index++)
+            {
+                if (css[index] == '{') depth++;
+                else if (css[index] == '}' && --depth <= 0) { index++; break; }
+            }
+
+            var chunk = css.Substring(start, index - start);
+            if (chunk.Contains("/*", StringComparison.Ordinal)) { segments.Add(chunk.Trim()); continue; }
+            var rules = new CssParser(chunk, path, 1, list).ParseStylesheet();
+            var builder = new StringBuilder();
+            WriteRules(rules.Where(r => r.Media == null), string.Empty, builder);
+            foreach (var media in rules.Where(r => r.Media != null).GroupBy(r => r.Media))
+            {
+                builder.Append("@media ").Append(media.Key).Append(" {\n");
+                WriteRules(media, Indent, builder);
+                builder.Append("}\n");
+            }
+
+            segments.Add(builder.ToString().TrimEnd('\n'));
+        }
+
+        return list.Count > 0 ? css : string.Join("\n\n", segments) + "\n";
+    }
+
     private static bool NeedsBlankLine(HtmlNode previous, HtmlNode next) =>
         !(previous.Name == "meta" && next.Name == "meta") && !(previous.IsComment && !next.IsComment);
 
@@ -52,6 +100,18 @@ public static class FormaHtmlFormatter
         if (node.Name == "style")
         {
             WriteStyle(node, depth, output);
+            return;
+        }
+
+        if (node.Name == "f-resources")
+        {
+            // Raw XAML resources: re-indented as a block, never rewritten.
+            var raw = (node.Children.FirstOrDefault()?.Text ?? string.Empty).Replace("\r", string.Empty, StringComparison.Ordinal).Split('\n');
+            var margin = raw.Where(l => l.Trim().Length > 0).Select(l => l.Length - l.TrimStart().Length).DefaultIfEmpty(0).Min();
+            output.Append(OpenTag(node, pad, out _)).Append(">\n");
+            foreach (var line in raw)
+                if (line.Trim().Length > 0) output.Append(pad).Append(Indent).Append(line.Substring(Math.Min(margin, line.Length)).TrimEnd()).Append('\n');
+            output.Append(pad).Append("</f-resources>\n");
             return;
         }
 

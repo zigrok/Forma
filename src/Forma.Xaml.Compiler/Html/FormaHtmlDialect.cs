@@ -30,5 +30,8 @@ public static class FormaHtmlDialect
         new("f-scroll", "<f-scroll data-vertical=\"Auto\"><span>a</span></f-scroll>", "ScrollContainer"),
         new("f-group-box", "<f-group-box><span>a</span></f-group-box>", "GroupBox"),
         new("f-control", "<f-control type=\"Control\"></f-control>", "Control"),
+        new("<style> tokens (:root, var())", "<style>:root { --accent: #FF8800; --dim: 0.5; } span.a { color: var(--accent); opacity: var(--dim); }</style><div><span class=\"a\">x</span></div>", "Container"),
+        new("<style> @media and transition", "<style>@media (input-modality: pointer) { button.b:hover { opacity: 0.5; } } button.b { transition: opacity 150ms; }</style><div><button class=\"b\">x</button></div>", "Container"),
+        new("-f-Property and resource()", "<style>span.c { -f-Opacity: 0.5; color: resource(External.Color); }</style><div><span class=\"c\">x</span></div>", "Container"),
     ];
 }

@@ -218,4 +218,123 @@ public sealed class FormaFcssTest
         Assert.That(result.Xaml, Does.Contain("Value=\"{StaticResource Missing}\""));
         Assert.That(result.Xaml, Does.Contain("Selector=\"Button.y\""));
     }
+
+    [Test]
+    public void ALaterStageDiagnosticInASheetsRule_IsRemappedToTheFcssLineThroughTheSidecar()
+    {
+        Write("theme.fcss", "\n\nbutton.primary {\n  min-width: 100px;\n}");
+        Write("a.fhtml", "<link rel=\"stylesheet\" href=\"theme.fcss\"><div></div>");
+        var result = Convert("a.fhtml", new FormaHtmlProject(_directory));
+        var xamlPath = Path.Combine(_directory, "obj", "a.fhtml.xaml");
+        Directory.CreateDirectory(Path.GetDirectoryName(xamlPath)!);
+        File.WriteAllText(xamlPath, result.Xaml);
+        File.WriteAllText(xamlPath + ".fhtmlmap", result.Map.Serialize("a.fhtml"));
+        var line = result.Xaml.Split('\n').ToList().FindIndex(l => l.Contains("Property=\"CustomMinimumSize\"")) + 1;
+
+        var mapped = FormaHtmlSourceMap.Remap(new FormaSourceLocation(xamlPath, line, 1));
+
+        Assert.That((mapped.FilePath, mapped.Line), Is.EqualTo(("theme.fcss", 4)));
+    }
+
+    [Test]
+    public void TheInspector_ReportsTheFcssRuleAndLineAsTheSourceOfAWinningValue()
+    {
+        Write("theme.fcss", "\n\nbutton.primary {\n  min-width: 100px;\n  min-height: 40px;\n}");
+        Write("a.fhtml", "<link rel=\"stylesheet\" href=\"theme.fcss\">\n<div><button id=\"B\" class=\"primary\">A</button></div>");
+        var view = Build(Convert("a.fhtml", new FormaHtmlProject(_directory)));
+
+        var inspection = StyleInspector.Inspect(Find<Button>(view, "B"));
+
+        var winner = inspection.Winners.Single(w => w.Property == "CustomMinimumSize");
+        Assert.That(winner.Source, Is.EqualTo("Button.primary @ theme.fcss:3"));
+        Assert.That(inspection.Rules.Single(r => r.Matched).Origin, Is.EqualTo("theme.fcss:3"));
+    }
+
+    [Test]
+    public void TheStylesheetFormatter_IsDeterministicIdempotentAndKeepsComments()
+    {
+        const string messy = "/* theme */\n:root{--a:#112233}\nbutton.x{min-width:10px;min-height:20px}\n@media (input-modality: pointer){button.x:hover{opacity:.5}}";
+
+        var once = FormaHtmlFormatter.FormatStylesheet(messy, "t.fcss", out var diagnostics);
+        var twice = FormaHtmlFormatter.FormatStylesheet(once, "t.fcss", out _);
+
+        Assert.That(diagnostics, Is.Empty);
+        Assert.That(twice, Is.EqualTo(once));
+        Assert.That(once, Does.StartWith("/* theme */\n\n:root {\n  --a: #112233;\n}\n\nbutton.x {\n  min-width: 10px;"));
+        Assert.That(once, Does.Contain("@media (input-modality: pointer) {\n  button.x:hover {\n    opacity: .5;\n  }\n}"));
+        Assert.That(FormaHtmlFormatter.FormatStylesheet("button {", "t.fcss", out var broken), Is.EqualTo("button {"));
+        Assert.That(broken, Is.Not.Empty);
+    }
+}
+
+public sealed class FormaFcssBuildTaskTest
+{
+    private string _directory = null!;
+
+    [SetUp] public void SetUp() { _directory = Path.Combine(Path.GetTempPath(), "forma-fcss-task-" + Guid.NewGuid().ToString("N")); Directory.CreateDirectory(_directory); }
+    [TearDown] public void TearDown() { if (Directory.Exists(_directory)) Directory.Delete(_directory, true); }
+
+    private (bool Success, RecordingBuildEngine Engine) Run()
+    {
+        var engine = new RecordingBuildEngine();
+        var task = new Forma.Xaml.Build.ConvertFormaHtml
+        {
+            BuildEngine = engine,
+            HtmlFiles = Directory.GetFiles(_directory, "*.fhtml").Select(f => (Microsoft.Build.Framework.ITaskItem)new Microsoft.Build.Utilities.TaskItem(f)).ToArray(),
+            StylesheetFiles = Directory.GetFiles(_directory, "*.fcss").Select(f => (Microsoft.Build.Framework.ITaskItem)new Microsoft.Build.Utilities.TaskItem(f)).ToArray(),
+            OutputDirectory = Path.Combine(_directory, "obj"),
+            ProjectDirectory = _directory,
+        };
+        return (task.Execute(), engine);
+    }
+
+    [Test]
+    public void ChangingASheet_RewritesOnlyTheViewsThatLinkIt_AndWritesTheDictionaryOnce()
+    {
+        File.WriteAllText(Path.Combine(_directory, "theme.fcss"), "button.x { opacity: 0.5; }");
+        File.WriteAllText(Path.Combine(_directory, "linked.fhtml"), "<link rel=\"stylesheet\" href=\"theme.fcss\"><div><button class=\"x\">a</button></div>");
+        File.WriteAllText(Path.Combine(_directory, "plain.fhtml"), "<div><button>b</button></div>");
+        Assert.That(Run().Success, Is.True);
+        var linked = Path.Combine(_directory, "obj", "linked.fhtml.xaml");
+        var plain = Path.Combine(_directory, "obj", "plain.fhtml.xaml");
+        var dictionary = Path.Combine(_directory, "obj", "theme.fcss.dict");
+        Assert.That(File.Exists(dictionary), Is.True);
+        var old = DateTime.UtcNow.AddHours(-1);
+        foreach (var file in new[] { linked, plain, dictionary }) File.SetLastWriteTimeUtc(file, old);
+
+        File.WriteAllText(Path.Combine(_directory, "theme.fcss"), "button.x { opacity: 0.25; }");
+        Assert.That(Run().Success, Is.True);
+
+        Assert.That(File.GetLastWriteTimeUtc(linked), Is.GreaterThan(old), "the linking view is regenerated");
+        Assert.That(File.GetLastWriteTimeUtc(dictionary), Is.GreaterThan(old), "the sheet's dictionary is regenerated");
+        Assert.That(File.GetLastWriteTimeUtc(plain), Is.EqualTo(old), "a view that does not link the sheet is untouched");
+    }
+
+    [Test]
+    public void ABrokenSheetAndAMissingLinkTarget_FailTheTaskWithFcssAndFhtmlLocations()
+    {
+        File.WriteAllText(Path.Combine(_directory, "broken.fcss"), "span {\n  box-shadow: 0 0 2px #000000;\n}");
+        File.WriteAllText(Path.Combine(_directory, "a.fhtml"), "<link rel=\"stylesheet\" href=\"broken.fcss\">\n<link rel=\"stylesheet\" href=\"nope.fcss\">\n<div></div>");
+
+        var (success, engine) = Run();
+
+        Assert.That(success, Is.False);
+        var errors = engine.Errors.Select(e => $"{e.File}({e.LineNumber}) {e.Code}").ToArray();
+        Assert.That(errors, Does.Contain("broken.fcss(2) FHTML2005"));
+        Assert.That(errors, Does.Contain("a.fhtml(2) FHTML1006"));
+    }
+
+    private sealed class RecordingBuildEngine : Microsoft.Build.Framework.IBuildEngine
+    {
+        public List<Microsoft.Build.Framework.BuildErrorEventArgs> Errors { get; } = [];
+        public bool ContinueOnError => false;
+        public int LineNumberOfTaskNode => 0;
+        public int ColumnNumberOfTaskNode => 0;
+        public string ProjectFileOfTaskNode => "Fixture.csproj";
+        public void LogErrorEvent(Microsoft.Build.Framework.BuildErrorEventArgs args) => Errors.Add(args);
+        public void LogWarningEvent(Microsoft.Build.Framework.BuildWarningEventArgs args) { }
+        public void LogMessageEvent(Microsoft.Build.Framework.BuildMessageEventArgs args) { }
+        public void LogCustomEvent(Microsoft.Build.Framework.CustomBuildEventArgs args) { }
+        public bool BuildProjectFile(string projectFileName, string[] targetNames, System.Collections.IDictionary globalProperties, System.Collections.IDictionary targetOutputs) => false;
+    }
 }

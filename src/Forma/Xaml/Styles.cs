@@ -43,6 +43,8 @@ namespace Forma.Xaml
         }
         public StyleSelector Selector { get; }
         public long Generation { get; }
+        /// <summary>Where the rule was written, for example <c>theme.fcss:12</c>; set by generated code and reported by <see cref="StyleInspector"/>.</summary>
+        public string Origin { get; set; }
         public AdaptiveCondition Condition { get; set; }
         public IList<IStyleSetter> Setters { get; } = new List<IStyleSetter>();
         public IList<IStyleTransition> Transitions { get; } = new List<IStyleTransition>();

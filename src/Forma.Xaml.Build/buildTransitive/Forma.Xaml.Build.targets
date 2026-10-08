@@ -66,6 +66,11 @@
   </Target>
 
   <!-- The HTML and CSS authoring dialect: .fhtml files convert to canonical XAML on the build host, then follow the XAML pipeline. -->
+  <PropertyGroup>
+    <!-- Style source locations (theme.fcss:12) feed the inspector; they stay out of release artifacts. -->
+    <FormaHtmlEmitOrigins Condition="'$(FormaHtmlEmitOrigins)' == '' and '$(Configuration)' == 'Debug'">true</FormaHtmlEmitOrigins>
+    <FormaHtmlEmitOrigins Condition="'$(FormaHtmlEmitOrigins)' == ''">false</FormaHtmlEmitOrigins>
+  </PropertyGroup>
   <ItemGroup>
     <FormaHtml Include="**/*.fhtml" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     <FormaFcss Include="**/*.fcss" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
@@ -74,7 +79,7 @@
   <Target Name="FormaHtmlConvert"
           BeforeTargets="FormaXamlAuthoringIdentity;FormaXamlCompilationInputs;FormaXamlDiscover;FormaXamlValidateSvgAssets"
           Condition="'@(FormaHtml)' != '' or '@(FormaFcss)' != ''">
-    <ConvertFormaHtml HtmlFiles="@(FormaHtml)" StylesheetFiles="@(FormaFcss)" OutputDirectory="$(FormaXamlIntermediateDirectory)/html" ProjectDirectory="$(MSBuildProjectDirectory)">
+    <ConvertFormaHtml HtmlFiles="@(FormaHtml)" StylesheetFiles="@(FormaFcss)" OutputDirectory="$(FormaXamlIntermediateDirectory)/html" ProjectDirectory="$(MSBuildProjectDirectory)" EmitOrigins="$(FormaHtmlEmitOrigins)">
       <Output TaskParameter="XamlFiles" ItemName="_FormaHtmlGenerated" />
     </ConvertFormaHtml>
     <ItemGroup>

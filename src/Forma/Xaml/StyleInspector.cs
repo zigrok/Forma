@@ -7,8 +7,9 @@ namespace Forma.Xaml
     /// <summary>One style rule considered for a control: whether it matched, and if not, why.</summary>
     public sealed class StyleRuleInspection
     {
-        internal StyleRuleInspection(string selector, int specificity, int order, bool matched, string reason, IReadOnlyList<string> properties)
+        internal StyleRuleInspection(string selector, int specificity, int order, bool matched, string reason, IReadOnlyList<string> properties, string origin = null)
         {
+            Origin = origin;
             Selector = selector;
             Specificity = specificity;
             Order = order;
@@ -18,6 +19,8 @@ namespace Forma.Xaml
         }
 
         public string Selector { get; }
+        /// <summary>The source location of the rule (for example theme.fcss:12) when the style carries one.</summary>
+        public string Origin { get; }
         public int Specificity { get; }
         /// <summary>Cascade position: higher specificity wins, then later declaration order.</summary>
         public int Order { get; }
@@ -91,7 +94,7 @@ namespace Forma.Xaml
                         var props = style.Setters.OfType<IStyleSetterInfo>().Select(setter => setter.PropertyName).ToArray();
                         var reason = matched ? null : Explain(style, control);
                         var priority = matched ? specificity * (attachment.Styles.Length + 1) + index : -1;
-                        rules.Add((priority, new StyleRuleInspection(style.Selector.ToString(), matched ? specificity : style.Selector.Specificity, index, matched, reason, props), style));
+                        rules.Add((priority, new StyleRuleInspection(style.Selector.ToString(), matched ? specificity : style.Selector.Specificity, index, matched, reason, props, style.Origin), style));
                     }
                 }
             }
@@ -108,7 +111,7 @@ namespace Forma.Xaml
                     string value;
                     try { var raw = setter.ValueFor(control); value = raw is SolidColorBrush brush ? "SolidColorBrush " + brush.Color : raw?.ToString(); }
                     catch (Exception exception) { value = $"<{exception.GetType().Name}>"; }
-                    winners[setter.PropertyName] = new StylePropertyInspection(setter.PropertyName, value, entry.Rule.Selector);
+                    winners[setter.PropertyName] = new StylePropertyInspection(setter.PropertyName, value, entry.Rule.Origin == null ? entry.Rule.Selector : entry.Rule.Selector + " @ " + entry.Rule.Origin);
                 }
 
             var template = control is TemplatedControl templated ? templated.Template?.GetType().Name : null;

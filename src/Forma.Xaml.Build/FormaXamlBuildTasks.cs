@@ -51,12 +51,13 @@ public sealed class ConvertFormaHtml : FormaXamlTask
     public ITaskItem[] StylesheetFiles { get; set; } = [];
     [Required] public string OutputDirectory { get; set; } = string.Empty;
     [Required] public string ProjectDirectory { get; set; } = string.Empty;
+    public bool EmitOrigins { get; set; } = true;
     [Output] public ITaskItem[] XamlFiles { get; private set; } = [];
 
     public override bool Execute()
     {
         Directory.CreateDirectory(OutputDirectory);
-        var project = new Forma.Xaml.Compiler.Html.FormaHtmlProject(ProjectDirectory);
+        var project = new Forma.Xaml.Compiler.Html.FormaHtmlProject(ProjectDirectory) { EmitOrigins = EmitOrigins };
         var generated = new List<ITaskItem>();
         var success = true;
         var reported = new HashSet<string>(StringComparer.Ordinal);
@@ -727,6 +728,12 @@ public sealed class CompileFormaXaml : FormaXamlTask
                 EmitStyleSelector(body, module, formaAssembly, selector);
                 body.Emit(OpCodes.Newobj, styleConstructor);
                 body.Emit(OpCodes.Stloc, styleVariable);
+                if (styleNode.FindMember("Origin") is { } styleOrigin)
+                {
+                    body.Emit(OpCodes.Ldloc, styleVariable);
+                    body.Emit(OpCodes.Ldstr, styleOrigin);
+                    body.Emit(OpCodes.Callvirt, module.ImportReference(styleType.Methods.Single(method => method.Name == "set_Origin")));
+                }
                 EmitAdaptiveCondition(body, module, formaAssembly, hook, styleVariable, lowered, styleNode);
                 var setters = styleNode.Children.Select(child => lowered.Nodes[child.Value]).Where(child => child.TypeName == "Setter").ToArray();
                 for (var setterIndex = 0; setterIndex < setters.Length; setterIndex++)
@@ -1599,6 +1606,12 @@ public sealed class CompileFormaXaml : FormaXamlTask
                 EmitStyleSelector(body, module, formaAssembly, selector);
                 body.Emit(OpCodes.Newobj, styleConstructor);
                 body.Emit(OpCodes.Stloc, styleVariable);
+                if (styleNode.FindMember("Origin") is { } styleOrigin)
+                {
+                    body.Emit(OpCodes.Ldloc, styleVariable);
+                    body.Emit(OpCodes.Ldstr, styleOrigin);
+                    body.Emit(OpCodes.Callvirt, module.ImportReference(styleType.Methods.Single(method => method.Name == "set_Origin")));
+                }
                 EmitAdaptiveCondition(body, module, formaAssembly, wrapper, styleVariable, lowered, styleNode);
                 var setters = styleNode.Children.Select(child => lowered.Nodes[child.Value]).Where(child => child.TypeName == "Setter").ToArray();
                 for (var setterIndex = 0; setterIndex < setters.Length; setterIndex++)

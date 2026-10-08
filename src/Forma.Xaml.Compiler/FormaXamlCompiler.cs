@@ -818,6 +818,7 @@ public sealed class FormaXamlCompiler
     {
         var parsedSelector = node.Selector ?? throw new InvalidOperationException("Style requires a lowered Selector.");
         var style = new Style(NormalizeStyleSelector(parsedSelector));
+        if (node.FindMember("Origin") is { } origin) style.Origin = origin;
         var adaptiveNode = FindAdaptiveCondition(lowered, node);
         if (adaptiveNode != null) style.Condition = CreateSreAdaptiveCondition(adaptiveNode);
         var subjectTypes = ResolveSreStyleSubjectTypes(lowered, parsedSelector);

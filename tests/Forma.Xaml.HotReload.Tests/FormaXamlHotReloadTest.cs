@@ -84,6 +84,47 @@ public class FormaXamlHotReloadTest
     }
 
     [Test]
+    public async Task StylesheetReload_ReconvertsEveryLinkingView_AndInvalidInputLeavesTheTreeIntact()
+    {
+        Directory.CreateDirectory(Path.Combine(_directory, "obj", "html"));
+        await File.WriteAllTextAsync(Path.Combine(_directory, "theme.fcss"), "span.x { opacity: 0.5; }");
+        const string html = "<link rel=\"stylesheet\" href=\"theme.fcss\">\n<div><span id=\"L\" class=\"x\">one</span></div>";
+        await File.WriteAllTextAsync(Path.Combine(_directory, "View.fhtml"), html);
+        var project = new Forma.Xaml.Compiler.Html.FormaHtmlProject(_directory);
+        var first = Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert(html, "View.fhtml", project);
+        const string generated = "obj/html/View.fhtml.xaml";
+        await File.WriteAllTextAsync(Path.Combine(_directory, generated), first.Xaml);
+        await File.WriteAllTextAsync(Path.Combine(_directory, generated + ".fhtmlmap"), first.Map.Serialize("View.fhtml"));
+        using var context = new UIContext();
+        Control current = (Control)Forma.Xaml.Compiler.FormaXamlCompiler.CreateSre().CompileSre(first.Xaml, generated).Build(null);
+        context.Add(current);
+        using var service = new FormaXamlHotReloadService(context, _directory, watchFiles: false);
+        var diagnostics = new List<Forma.Xaml.Compiler.FormaDiagnostic>();
+        service.DiagnosticsChanged += batch => diagnostics.AddRange(batch);
+        using var registration = service.Register(generated, () => current, (oldValue, newValue) =>
+        {
+            context.Remove(oldValue);
+            context.Add(newValue);
+            current = newValue;
+        });
+        Assert.That(((Label)NameScope.GetNameScope(current)!.Find("L")!).Opacity, Is.EqualTo(0.5f));
+
+        await File.WriteAllTextAsync(Path.Combine(_directory, "theme.fcss"), "span.x { opacity: 0.25; }");
+        await service.RequestStylesheetReloadAsync("theme.fcss");
+        context.Update(new GameTime(), new MouseState(), new KeyboardState());
+        Assert.That(((Label)NameScope.GetNameScope(current)!.Find("L")!).Opacity, Is.EqualTo(0.25f));
+
+        var good = current;
+        await File.WriteAllTextAsync(Path.Combine(_directory, "theme.fcss"), "span.x {\n  box-shadow: 0 0 2px #000000;\n}");
+        await service.RequestStylesheetReloadAsync("theme.fcss");
+        context.Update(new GameTime(), new MouseState(), new KeyboardState());
+
+        Assert.That(current, Is.SameAs(good));
+        Assert.That(diagnostics.Single().Code, Is.EqualTo("FHTML2005"));
+        Assert.That((diagnostics.Single().Location.FilePath, diagnostics.Single().Location.Line), Is.EqualTo(("theme.fcss", 2)));
+    }
+
+    [Test]
     public async Task Reload_PreservesInheritedDataContextWithoutMakingItLocal()
     {
         await File.WriteAllTextAsync(Path.Combine(_directory, "View.xaml"), "<Control xmlns='https://forma.dev/xaml' Name='New' />");
