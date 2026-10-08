@@ -180,7 +180,7 @@ public sealed class FormaHtmlConverter
     private static readonly Dictionary<string, string> SelectorTypes = new(StringComparer.Ordinal)
     {
         ["button"] = "Button", ["span"] = "Label", ["p"] = "Label", ["label"] = "Label", ["h1"] = "Label", ["h2"] = "Label", ["h3"] = "Label",
-        ["input"] = "LineEdit", ["div"] = "Control", ["f-border"] = "Border", ["f-group-box"] = "GroupBox", ["f-scroll"] = "ScrollContainer",
+        ["input"] = "LineEdit", ["div"] = "Control", ["f-border"] = "Border", ["f-group-box"] = "GroupBox", ["f-scroll"] = "ScrollContainer", ["f-hbox"] = "HBoxContainer", ["f-vbox"] = "VBoxContainer",
     };
 
     private readonly string _path;

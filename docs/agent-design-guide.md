@@ -88,3 +88,9 @@ seeded defect.
 A view can also be written in the strict HTML and CSS dialect (`.fhtml`); see [the dialect guide](html-css-dialect.md). It converts
 to the same XAML, so everything above (tokens, classes, the gallery, the inspector and the lints) applies unchanged. Trace Arena's
 main menu and Settings > Controls page are authored this way and render identically to their XAML originals.
+
+Shared design values can live in a `.fcss` stylesheet linked from the root view: tokens as `:root` custom properties (live through
+`var()`), classes as rules, with templates and template-part styles kept as XAML in `<f-resources>`. See
+[the dialect guide](html-css-dialect.md#shared-stylesheets-fcss) and [a design system in `.fcss`](design-system-fcss.md). The inspector
+reports a winning value's source as `rule @ theme.fcss:line` in Debug builds, and the `.fhtml` lints reject raw color and spacing
+literals and undefined classes.

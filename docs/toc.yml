@@ -20,6 +20,8 @@
       href: agent-design-guide.md
     - name: HTML and CSS dialect
       href: html-css-dialect.md
+    - name: A design system in .fcss
+      href: design-system-fcss.md
     - name: Data binding
       href: data-binding.md
     - name: Resource lifetime

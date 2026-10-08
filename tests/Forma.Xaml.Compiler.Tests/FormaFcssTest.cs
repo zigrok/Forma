@@ -237,6 +237,22 @@ public sealed class FormaFcssTest
     }
 
     [Test]
+    public void TheDocumentedDesignSystemSheet_ConvertsAndStylesAComponentView()
+    {
+        var root = new DirectoryInfo(AppContext.BaseDirectory);
+        while (root != null && !File.Exists(Path.Combine(root.FullName, "docs", "examples", "design-system.fcss"))) root = root.Parent;
+        Assert.That(root, Is.Not.Null, "docs/examples/design-system.fcss was not found");
+        File.Copy(Path.Combine(root!.FullName, "docs", "examples", "design-system.fcss"), Path.Combine(_directory, "design-system.fcss"));
+        Write("a.fhtml", "<link rel=\"stylesheet\" href=\"design-system.fcss\">\n<div id=\"Root\" class=\"gap-3\" style=\"display: flex; flex-direction: column\"><f-border class=\"card\"><span id=\"T\" class=\"title\">Hi</span></f-border><button id=\"B\" class=\"btn btn-primary\">Go</button></div>");
+
+        var view = Build(Convert("a.fhtml", new FormaHtmlProject(_directory)));
+
+        Assert.That(Find<Button>(view, "B").CustomMinimumSize, Is.EqualTo(new Vector2(120, 40)));
+        Assert.That(Find<Label>(view, "T").FontSize, Is.EqualTo(28f));
+        Assert.That(((SolidColorBrush)((Border)view.Children[0]).Background!).Color, Is.EqualTo(new Color(0x14, 0x21, 0x3D)));
+    }
+
+    [Test]
     public void TheInspector_ReportsTheFcssRuleAndLineAsTheSourceOfAWinningValue()
     {
         Write("theme.fcss", "\n\nbutton.primary {\n  min-width: 100px;\n  min-height: 40px;\n}");

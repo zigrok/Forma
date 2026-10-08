@@ -69,14 +69,42 @@ Every row below is a catalog entry (`FormaHtmlDialect.Catalog`) that a test conv
 - Units: `px`, unitless, and `rem` (16 px). Colors: `#RRGGBB` and `#RRGGBBAA`.
 - Inline `style` lowers to attributes on that element; rules in a `<style>` block lower to styles.
 
+## Shared stylesheets (`.fcss`)
+
+A stylesheet shared by many views is a `.fcss` file, linked before the root element:
+
+```html
+<link rel="stylesheet" href="theme.fcss">
+```
+
+- `href` is relative to the linking file (a leading `/` is the project root). It must end in `.fcss` and stay inside the project;
+  URLs, plain `.css` files and any `rel` other than `stylesheet` fail with `FHTML1004`, and a missing file with `FHTML1006`.
+- A `.fcss` holds the same strict CSS a `<style>` block does (rules, `:root` tokens, `@media`, `transition`) and gets the same
+  diagnostics, located at the `.fcss` line. Each sheet is read, parsed and converted once per build; the converted entries are placed
+  in the root resources of every linking view, ahead of the view's own `<style>`, so a view overrides the theme like a page overrides a
+  CSS file. A theme linked from the application root view reaches every screen through the style engine's default reach.
+- Tokens: `:root { --accent: #47E4FF; --gap: 12px }` lowers to typed resources. A color is both a `SolidColorBrush` (`Fcss.accent`)
+  and a `Color` (`Fcss.accent.color`); a number or single length is a `Single` (`Fcss.gap`). `var(--accent)` lowers to a live
+  `{DynamicResource}` for `color`, `background-color`, `border-color`, `font-size`, `opacity` and `gap`, so changing the resource at
+  runtime updates styled controls. Elsewhere (for example `padding`, `min-width`) the value is substituted at build time.
+  A token in the view's own `<style>` shadows the shared one for that view.
+- Bridges to XAML: `resource(Trace.Color.Text)` references a resource defined elsewhere (live), `-f-Property: value` sets any Forma
+  property verbatim (`-f-Template: {StaticResource MyTemplate}`), and `<f-resources>` embeds raw XAML (templates, storyboards,
+  `>>` selector styles) in a view. The dialect has no template-child combinator and no selector types for every control yet, so a theme
+  is typically a hybrid: class styles and tokens in `.fcss`, templates and template-part styles in `<f-resources>`.
+- Tooling: `forma-xaml format` formats `.fcss`; Debug hot reload of a changed `.fcss` reconverts every view that links it;
+  `StyleInspector` reports a winning value's source as `Button.primary @ theme.fcss:12` in Debug builds (release artifacts omit
+  the location); a changed sheet regenerates only the views that link it.
+- See [a design system in `.fcss`](design-system-fcss.md) for a small component set.
+
 ## Differences from browsers
 
 - `padding` is `Padding` on a decorated element and `Margins` on a flex container. `margin` has no single Forma counterpart and
   is rejected; use `gap`, `padding` or `f:Margins`.
 - Normal flow, margin collapsing and intrinsic sizing do not exist. Only the flex and grid forms with a defined mapping are accepted.
 - A decorated `div` becomes a `Border`, which holds one child; wrap several children in a flex container.
-- Custom properties are substituted when the file is converted, so they are not runtime resources and cannot change while the
-  game runs. Use a `{DynamicResource}` token in XAML when a value must change live.
+- Custom properties lower to typed resources and live `{DynamicResource}` values for color, font size, opacity and gap (see shared
+  stylesheets); in other properties they are substituted when the file is converted.
 - Styles and attribute order follow Forma's rules: a rule applies to a control that matches at that moment, and local attributes win.
 - Rejected with a stable code: `<script>`, inline event expressions, `position`, `float`, `calc()`, `em`/`%` units, gradients,
   `box-shadow`, `filter`, `backdrop-filter`, `!important`, unknown elements, attributes and properties.
