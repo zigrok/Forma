@@ -13,6 +13,7 @@
     <FormaXamlDevelopmentOutputDirectory Condition="'$(FormaXamlDevelopmentOutputDirectory)' == ''">$(BaseOutputPath)$(Configuration)/$(TargetFramework)/xaml</FormaXamlDevelopmentOutputDirectory>
   </PropertyGroup>
 
+  <UsingTask TaskName="Forma.Xaml.Build.ConvertFormaHtml" AssemblyFile="$(FormaXamlBuildAssembly)" />
   <UsingTask TaskName="Forma.Xaml.Build.DiscoverFormaXaml" AssemblyFile="$(FormaXamlBuildAssembly)" />
   <UsingTask TaskName="Forma.Xaml.Build.CompileFormaXaml" AssemblyFile="$(FormaXamlBuildAssembly)" />
   <UsingTask TaskName="Forma.Xaml.Build.ValidateFormaSvg" AssemblyFile="$(FormaXamlBuildAssembly)" />
@@ -61,6 +62,22 @@
     </ValidateFormaSvg>
     <ItemGroup>
       <EmbeddedResource Include="@(_FormaValidatedSvg)" LogicalName="%(_FormaValidatedSvg.LogicalName)" />
+    </ItemGroup>
+  </Target>
+
+  <!-- The HTML and CSS authoring dialect: .fhtml files convert to canonical XAML on the build host, then follow the XAML pipeline. -->
+  <ItemGroup>
+    <FormaHtml Include="**/*.fhtml" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+
+  <Target Name="FormaHtmlConvert"
+          BeforeTargets="FormaXamlAuthoringIdentity;FormaXamlCompilationInputs;FormaXamlDiscover;FormaXamlValidateSvgAssets"
+          Condition="'@(FormaHtml)' != ''">
+    <ConvertFormaHtml HtmlFiles="@(FormaHtml)" OutputDirectory="$(FormaXamlIntermediateDirectory)/html" ProjectDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="XamlFiles" ItemName="_FormaHtmlGenerated" />
+    </ConvertFormaHtml>
+    <ItemGroup>
+      <FormaXaml Include="@(_FormaHtmlGenerated)" />
     </ItemGroup>
   </Target>
 

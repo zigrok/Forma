@@ -19,7 +19,9 @@ public abstract class FormaXamlTask : Microsoft.Build.Utilities.Task
         var success = true;
         foreach (var diagnostic in diagnostics)
         {
-            var location = diagnostic.Location;
+            var location = diagnostic.Location.FilePath.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)
+                ? Forma.Xaml.Compiler.Html.FormaHtmlSourceMap.Remap(diagnostic.Location)
+                : diagnostic.Location;
             if (diagnostic.Severity == FormaDiagnosticSeverity.Error)
             {
                 Log.LogError("Forma XAML", diagnostic.Code, null, location.FilePath, location.Line, location.Column, location.EndLine, location.EndColumn, diagnostic.Message);
@@ -36,6 +38,43 @@ public abstract class FormaXamlTask : Microsoft.Build.Utilities.Task
     protected static string ReadSource(ITaskItem item, bool authoring = false) => authoring
         ? AuthoringSourceText.Decode(File.ReadAllBytes(item.GetMetadata("FullPath")))
         : File.ReadAllText(item.GetMetadata("FullPath"));
+}
+
+/// <summary>Converts .fhtml views (the HTML and CSS authoring dialect) to canonical XAML in the intermediate directory.</summary>
+public sealed class ConvertFormaHtml : FormaXamlTask
+{
+    [Required] public ITaskItem[] HtmlFiles { get; set; } = [];
+    [Required] public string OutputDirectory { get; set; } = string.Empty;
+    [Required] public string ProjectDirectory { get; set; } = string.Empty;
+    [Output] public ITaskItem[] XamlFiles { get; private set; } = [];
+
+    public override bool Execute()
+    {
+        Directory.CreateDirectory(OutputDirectory);
+        var generated = new List<ITaskItem>();
+        var success = true;
+        foreach (var file in HtmlFiles)
+        {
+            var path = file.GetMetadata("FullPath");
+            var relative = Path.GetRelativePath(ProjectDirectory, path);
+            var result = Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert(File.ReadAllText(path), relative);
+            success &= LogDiagnostics(result.Diagnostics);
+            if (!result.Succeeded) continue;
+            var output = Path.Combine(OutputDirectory, relative.Replace(Path.DirectorySeparatorChar, '_').Replace(Path.AltDirectorySeparatorChar, '_') + ".xaml");
+            WriteIfChanged(output, result.Xaml);
+            WriteIfChanged(output + ".fhtmlmap", result.Map.Serialize(relative));
+            generated.Add(new TaskItem(output));
+        }
+
+        XamlFiles = generated.ToArray();
+        return success;
+    }
+
+    private static void WriteIfChanged(string path, string content)
+    {
+        if (File.Exists(path) && File.ReadAllText(path) == content) return;
+        File.WriteAllText(path, content);
+    }
 }
 
 public sealed class DiscoverFormaXaml : FormaXamlTask
