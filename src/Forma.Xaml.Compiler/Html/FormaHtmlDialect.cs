@@ -34,6 +34,7 @@ public static class FormaHtmlDialect
         new("<style> @media and transition", "<style>@media (input-modality: pointer) { button.b:hover { opacity: 0.5; } } button.b { transition: opacity 150ms; }</style><div><button class=\"b\">x</button></div>", "Container"),
         new("::part() and part attribute", "<style>button.k::part(chrome) { opacity: 0.5; }</style><div><span part=\"chrome\">x</span></div>", "Container"),
         new("typed and attribute selectors", "<style>input[type=checkbox] { opacity: 1; } table.t { opacity: 1; } [role=tablist] { opacity: 1; } select { opacity: 1; }</style><div></div>", "Control"),
+        new("<template for> control template with <slot> and part", "<style>button.t { -f-Template: template(tb); }</style><template for=\"button\" id=\"tb\"><f-border part=\"chrome\"><slot></slot></f-border></template><div><button class=\"t\">x</button></div>", "Container"),
         new("-f-Property and resource()", "<style>span.c { -f-Opacity: 0.5; color: resource(External.Color); }</style><div><span class=\"c\">x</span></div>", "Container"),
     ];
 }

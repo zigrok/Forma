@@ -93,9 +93,9 @@ public sealed class FormaFcssTest
 
         var view = Build(Convert("a.fhtml", new FormaHtmlProject(_directory)));
 
-        view.Resources.TryFind("Fcss.accent", out var brush);
-        view.Resources.TryFind("Fcss.accent.color", out var color);
-        view.Resources.TryFind("Fcss.dim", out var dim);
+        view.Resources.TryFind("accent", out var brush);
+        view.Resources.TryFind("accent.color", out var color);
+        view.Resources.TryFind("dim", out var dim);
         Assert.That(brush, Is.TypeOf<SolidColorBrush>());
         Assert.That(((SolidColorBrush)brush!).Color, Is.EqualTo(new Color(255, 136, 0)));
         Assert.That(color, Is.EqualTo(new Color(255, 136, 0)));
@@ -114,9 +114,9 @@ public sealed class FormaFcssTest
         var label = Find<Label>(view, "L");
         var border = Find<Border>(view, "C");
 
-        view.Resources["Fcss.accent.color"] = new Color(1, 2, 3);
-        view.Resources["Fcss.accent"] = new SolidColorBrush(new Color(1, 2, 3));
-        view.Resources["Fcss.dim"] = 0.25f;
+        view.Resources["accent.color"] = new Color(1, 2, 3);
+        view.Resources["accent"] = new SolidColorBrush(new Color(1, 2, 3));
+        view.Resources["dim"] = 0.25f;
 
         Assert.That(label.FontColor, Is.EqualTo(new Color(1, 2, 3)));
         Assert.That(label.Opacity, Is.EqualTo(0.25f));

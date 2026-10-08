@@ -197,7 +197,7 @@ public sealed class FormaHtmlConverter
         public int Line;
         public int Column;
         public string Kind = "compound"; // color, single, compound
-        public string Key => "Fcss." + Name.Substring(2);
+        public string Key => Name.Substring(2);
     }
 
     private readonly Dictionary<string, Token> _tokens = new(StringComparer.Ordinal);
@@ -205,6 +205,8 @@ public sealed class FormaHtmlConverter
     private readonly FormaHtmlProject? _project;
     private readonly List<FormaFcssSheet> _sheets = new();
     private readonly List<(string Text, int Line, int Column)> _rawResources = new();
+    private readonly List<HtmlNode> _templates = new();
+    private string? _templateFor;
 
     public FormaHtmlConverter(string path, FormaHtmlProject? project = null)
     {
@@ -226,7 +228,7 @@ public sealed class FormaHtmlConverter
         {
             if (node.IsText) { Error(FormaHtmlDiagnosticCodes.Structure, "Text outside the root element.", node); continue; }
             if (node.Name == "meta") { ReadMeta(node); continue; }
-            if (node.Name is "style" or "link") continue;
+            if (node.Name is "style" or "link" || (node.Name == "template" && node.Attr("for") != null)) continue;
             if (root != null) { Error(FormaHtmlDiagnosticCodes.Structure, "A view has exactly one root element.", node); continue; }
             root = new XNode { Line = node.Line, Column = node.Column };
             ConvertElement(node, root, parent: null);
@@ -302,6 +304,7 @@ public sealed class FormaHtmlConverter
     {
         if (node.IsText) return;
         if (node.Name == "style") { ReadStyle(node); return; }
+        if (node.Name == "template" && node.Attr("for") != null) { _templates.Add(node); return; }
         if (node.Name == "f-resources") { _rawResources.Add((node.Children.FirstOrDefault()?.Text ?? string.Empty, node.Line, node.Column)); return; }
         foreach (var child in node.Children) PreRead(child);
     }
@@ -348,6 +351,11 @@ public sealed class FormaHtmlConverter
         target.Column = element.Column;
 
         foreach (var attr in element.Attributes) ApplyAttribute(element, attr, target, type);
+        if (element.Name == "slot" && _templateFor == "Button")
+        {
+            target.Attrs.Insert(0, new Attr("x:Name", "PART_ButtonText", element.Line, element.Column));
+            target.Attrs.Add(new Attr("Text", "{Binding Text, RelativeSource=TemplatedParent}", element.Line, element.Column));
+        }
         ApplyDeclarations(inline, type, target, parentDirection, element);
         ApplyElementSpecifics(element, target, type);
 
@@ -375,7 +383,7 @@ public sealed class FormaHtmlConverter
                 continue;
             }
 
-            if (child.Name is "style" or "f-resources") continue;
+            if (child.Name is "style" or "f-resources" || (child.Name == "template" && child.Attr("for") != null)) continue;
             var node = new XNode();
             ConvertElement(child, node, target);
             if (node.Type.Length > 0) target.Children.Add(node);
@@ -554,6 +562,7 @@ public sealed class FormaHtmlConverter
             case "f-border": return "Border";
             case "f-scroll": return "ScrollContainer";
             case "f-group-box": return "GroupBox";
+            case "slot": return _templateFor == "Button" ? "TextBlock" : "ContentPresenter";
             case "f-control":
                 {
                     var type = element.Attr("type");
@@ -633,6 +642,7 @@ public sealed class FormaHtmlConverter
                 else Error(FormaHtmlDiagnosticCodes.InvalidValue, "tabindex must be 0 (focusable) or -1 (not focusable).", attribute);
                 return;
             case "title": Add("TooltipText", Escape(value)); return;
+            case "template": Add("Template", "{StaticResource " + value + "}"); return;
             case "checked": Add("Checked", "True"); return;
             case "value" when element.Name == "input": Add(type == "LineEdit" ? "Text" : "Value", value); return;
             case "placeholder": Add("PlaceholderText", Escape(value)); return;
@@ -679,6 +689,8 @@ public sealed class FormaHtmlConverter
     private string BindingText(string value, HtmlAttribute attribute)
     {
         var parts = value.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length > 0 && parts[0].StartsWith("host.", StringComparison.Ordinal) && IsPath(parts[0]))
+            return "{Binding " + parts[0].Substring(5) + ", RelativeSource=TemplatedParent}";
         if (parts.Length == 0 || !IsPath(parts[0])) { Error(FormaHtmlDiagnosticCodes.InvalidValue, "A binding names a view-model property path: bind:text=\"PlayText\".", attribute); return "{Binding}"; }
         var text = "{Binding " + parts[0];
         foreach (var option in parts.Skip(1))
@@ -722,7 +734,7 @@ public sealed class FormaHtmlConverter
             if (d.Name.StartsWith("-f-", StringComparison.Ordinal))
             {
                 // Escape hatch to any Forma property, like the f: attribute: -f-BackgroundColor: #40040C16 or -f-Template: {StaticResource Key}.
-                var raw = ResourceFunction(d.Value) is { } resourceKey ? "{DynamicResource " + resourceKey + "}" : ResolveVar(d.Value, d);
+                var raw = TemplateFunction(d.Value) is { } templateKey ? "{StaticResource " + templateKey + "}" : ResourceFunction(d.Value) is { } resourceKey ? "{DynamicResource " + resourceKey + "}" : ResolveVar(d.Value, d);
                 yield return (d.Name.Substring(3), raw, d);
                 continue;
             }
@@ -835,6 +847,12 @@ public sealed class FormaHtmlConverter
         return value;
     }
 
+    private static string? TemplateFunction(string value)
+    {
+        value = value.Trim();
+        return value.StartsWith("template(", StringComparison.Ordinal) && value.EndsWith(')') ? value.Substring(9, value.Length - 10).Trim() : null;
+    }
+
     private static string? ResourceFunction(string value)
     {
         value = value.Trim();
@@ -843,6 +861,27 @@ public sealed class FormaHtmlConverter
 
     // Properties that can observe a resource take a live {DynamicResource}: a custom property of the matching kind, or resource(Key)
     // for a resource defined elsewhere (for example in XAML). Everything else substitutes the custom property's value at build time.
+    private void BuildControlTemplate(HtmlNode template, List<XNode> into)
+    {
+        var id = template.Attr("id");
+        var target = template.Attr("for");
+        var targetType = target switch { "button" => "Button", "input" or "text" => "LineEdit", "checkbox" => "CheckBox", _ => string.Empty };
+        if (string.IsNullOrWhiteSpace(id)) { Error(FormaHtmlDiagnosticCodes.Structure, "A control template needs an id. Help: <template for=\"button\" id=\"my-button\">.", template); return; }
+        if (targetType.Length == 0) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"<template for=\"{target}\"> names no templatable control. Help: use button, input or checkbox.", template); return; }
+        var content = template.Children.Where(c => !c.IsText).ToList();
+        if (content.Count != 1) { Error(FormaHtmlDiagnosticCodes.Structure, "A control template has exactly one root element.", template); return; }
+        var node = new XNode { Type = "ControlTemplate", Line = template.Line, Column = template.Column };
+        node.Attrs.Add(new Attr("x:Key", id, template.Line, template.Column));
+        node.Attrs.Add(new Attr("TargetType", targetType, template.Line, template.Column));
+        var previous = _templateFor;
+        _templateFor = targetType;
+        var root = new XNode();
+        ConvertElement(content[0], root, parent: null);
+        _templateFor = previous;
+        if (root.Type.Length > 0) node.Children.Add(root);
+        into.Add(node);
+    }
+
     private (string Property, string Value, CssDeclaration Source)? DynamicFor(CssDeclaration d, bool isBox)
     {
         (string Property, string Kind)? target = d.Name switch
@@ -934,6 +973,7 @@ public sealed class FormaHtmlConverter
     private List<XNode> BuildResources(IReadOnlyList<CssRule> rules, IEnumerable<Token> tokens)
     {
         var styles = new List<XNode>();
+        foreach (var template in _templates) BuildControlTemplate(template, styles);
         foreach (var token in tokens)
         {
             var path = token.Path;

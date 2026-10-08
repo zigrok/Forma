@@ -110,9 +110,9 @@ public sealed class FormaHtmlConverterTest
             """);
 
         Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
-        Assert.That(result.Xaml, Does.Contain("Separation=\"{DynamicResource Fcss.gap}\""));
-        Assert.That(result.Xaml, Does.Contain("Value=\"{DynamicResource Fcss.accent.color}\""));
-        Assert.That(result.Xaml, Does.Contain("<x:Single x:Key=\"Fcss.gap\">12</x:Single>"));
+        Assert.That(result.Xaml, Does.Contain("Separation=\"{DynamicResource gap}\""));
+        Assert.That(result.Xaml, Does.Contain("Value=\"{DynamicResource accent.color}\""));
+        Assert.That(result.Xaml, Does.Contain("<x:Single x:Key=\"gap\">12</x:Single>"));
     }
 
     [TestCase("""<div><script>alert(1)</script></div>""", FormaHtmlDiagnosticCodes.UnknownElement, 1, 6)]
@@ -363,5 +363,50 @@ public sealed class FormaHtmlConverterTest
         var chrome = (Border)button.GetTemplateChild("PART_Chrome")!;
 
         Assert.That(chrome.Opacity, Is.EqualTo(0.4f));
+    }
+
+    private const string ButtonTemplateView = """
+        <style>
+          button.fancy { -f-Template: template(chrome-button); }
+          button.fancy:hover::part(chrome) { opacity: 0.4; }
+        </style>
+        <template for="button" id="chrome-button">
+          <f-border part="chrome" style="border-width: 1px; padding: 2px 14px; border-radius: 3px">
+            <slot style="text-align: center"></slot>
+          </f-border>
+        </template>
+        <div><button id="B" class="fancy">Go</button></div>
+        """;
+
+    [Test]
+    public void ControlTemplate_WithSlotAndPart_BuildsAndTheHostTextFlowsThroughTheSlot()
+    {
+        var result = Convert(ButtonTemplateView);
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("<ControlTemplate"));
+        Assert.That(result.Xaml, Does.Contain("x:Key=\"chrome-button\""));
+        Assert.That(result.Xaml, Does.Contain("Text=\"{Binding Text, RelativeSource=TemplatedParent}\""));
+
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var button = (Button)NameScope.GetNameScope(root)!.Find("B")!;
+        var context = new UIContext { ViewportSize = new Microsoft.Xna.Framework.Vector2(300, 200) };
+        context.Add(root);
+        context.Layout();
+
+        var chrome = (Border)button.GetTemplateChild("PART_Chrome")!;
+        Assert.That(chrome, Is.Not.Null);
+        Assert.That(chrome.Opacity, Is.EqualTo(1f));
+        Assert.That(((TextBlock)button.GetTemplateChild("PART_ButtonText")!).Text, Is.EqualTo("Go"));
+    }
+
+    [TestCase("<template for=\"gizmo\" id=\"x\"><div></div></template><div></div>", FormaHtmlDiagnosticCodes.InvalidValue)]
+    [TestCase("<template for=\"button\"><div></div></template><div></div>", FormaHtmlDiagnosticCodes.Structure)]
+    [TestCase("<template for=\"button\" id=\"x\"><div></div><div></div></template><div></div>", FormaHtmlDiagnosticCodes.Structure)]
+    public void ControlTemplateRejections_CarryACodeAndAHelpOrExplanation(string html, string code)
+    {
+        var error = Convert(html).Diagnostics.First(d => d.Code == code);
+
+        Assert.That(error.Location.Line, Is.EqualTo(1));
+        Assert.That(error.Message, Is.Not.Empty);
     }
 }

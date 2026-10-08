@@ -83,8 +83,8 @@ A stylesheet shared by many views is a `.fcss` file, linked before the root elem
   diagnostics, located at the `.fcss` line. Each sheet is read, parsed and converted once per build; the converted entries are placed
   in the root resources of every linking view, ahead of the view's own `<style>`, so a view overrides the theme like a page overrides a
   CSS file. A theme linked from the application root view reaches every screen through the style engine's default reach.
-- Tokens: `:root { --accent: #47E4FF; --gap: 12px }` lowers to typed resources. A color is both a `SolidColorBrush` (`Fcss.accent`)
-  and a `Color` (`Fcss.accent.color`); a number or single length is a `Single` (`Fcss.gap`). `var(--accent)` lowers to a live
+- Tokens: `:root { --accent: #47E4FF; --gap: 12px }` lowers to typed resources. A color is both a `SolidColorBrush` (`accent`)
+  and a `Color` (`accent.color`); a number or single length is a `Single` (`gap`). `var(--accent)` lowers to a live
   `{DynamicResource}` for `color`, `background-color`, `border-color`, `font-size`, `opacity` and `gap`, so changing the resource at
   runtime updates styled controls. Elsewhere (for example `padding`, `min-width`) the value is substituted at build time.
   A token in the view's own `<style>` shadows the shared one for that view.
