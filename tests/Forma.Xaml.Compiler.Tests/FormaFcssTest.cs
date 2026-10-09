@@ -417,4 +417,18 @@ public sealed class FormaFcssBuildTaskTest
         public void LogCustomEvent(Microsoft.Build.Framework.CustomBuildEventArgs args) { }
         public bool BuildProjectFile(string projectFileName, string[] targetNames, System.Collections.IDictionary globalProperties, System.Collections.IDictionary targetOutputs) => false;
     }
+
+    [Test]
+    public void TheFormatter_KeepsKeyframesBlocksAndIsIdempotent()
+    {
+        var source = "@keyframes fade {\nfrom {opacity:0.5}\nto {opacity:1}\n}\n#a { animation: fade 1s; }\n";
+        var once = FormaHtmlFormatter.FormatStylesheet(source, "t.fcss", out var diagnostics);
+        var twice = FormaHtmlFormatter.FormatStylesheet(once, "t.fcss", out _);
+
+        Assert.That(diagnostics, Is.Empty);
+        Assert.That(once, Does.Contain("@keyframes fade {"));
+        Assert.That(once, Does.Contain("  from {"));
+        Assert.That(once, Does.Not.Contain("\nfrom {"));
+        Assert.That(twice, Is.EqualTo(once));
+    }
 }

@@ -65,7 +65,13 @@ public static class FormaHtmlFormatter
             if (chunk.Contains("/*", StringComparison.Ordinal)) { segments.Add(chunk.Trim()); continue; }
             var rules = new CssParser(chunk, path, 1, list).ParseStylesheet();
             var builder = new StringBuilder();
-            WriteRules(rules.Where(r => r.Media == null), string.Empty, builder);
+            WriteRules(rules.Where(r => r.Media == null && r.Keyframes == null), string.Empty, builder);
+            foreach (var frames in rules.Where(r => r.Keyframes != null).GroupBy(r => r.Keyframes))
+            {
+                builder.Append("@keyframes ").Append(frames.Key).Append(" {\n");
+                WriteRules(frames, Indent, builder);
+                builder.Append("}\n");
+            }
             foreach (var media in rules.Where(r => r.Media != null).GroupBy(r => r.Media))
             {
                 builder.Append("@media ").Append(media.Key).Append(" {\n");
@@ -182,7 +188,14 @@ public static class FormaHtmlFormatter
         {
             var diagnostics = new List<FormaDiagnostic>();
             var rules = new CssParser(text, "style", 1, diagnostics).ParseStylesheet();
-            WriteRules(rules.Where(r => r.Media == null), pad + Indent, output);
+            WriteRules(rules.Where(r => r.Media == null && r.Keyframes == null), pad + Indent, output);
+            foreach (var frames in rules.Where(r => r.Keyframes != null).GroupBy(r => r.Keyframes))
+            {
+                if (output[output.Length - 2] != '>') output.Append('\n');
+                output.Append(pad).Append(Indent).Append("@keyframes ").Append(frames.Key).Append(" {\n");
+                WriteRules(frames, pad + Indent + Indent, output);
+                output.Append(pad).Append(Indent).Append("}\n");
+            }
             foreach (var media in rules.Where(r => r.Media != null).GroupBy(r => r.Media))
             {
                 if (output[output.Length - 2] != '>') output.Append('\n');
