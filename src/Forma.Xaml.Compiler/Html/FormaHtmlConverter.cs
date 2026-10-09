@@ -577,7 +577,11 @@ public sealed class FormaHtmlConverter
             if (full == null || !File.Exists(full)) { Error(FormaHtmlDiagnosticCodes.LinkTarget, $"Row view '{src}' was not found. Help: the path is relative to the linking file.", template); return null; }
             var dataClass = new Regex("data-class=\"([^\"]+)\"").Match(File.ReadAllText(full)).Groups[1].Value;
             if (dataClass.Length == 0) { Error(FormaHtmlDiagnosticCodes.Structure, $"Row view '{src}' declares no data-class. Help: add data-class=\"Namespace.RowView\" to its root element.", template); return null; }
-            row.Type = dataClass;
+            var dot = dataClass.LastIndexOf('.');
+            var rowNamespace = dot < 0 ? string.Empty : dataClass.Substring(0, dot);
+            var rowPrefix = _namespaces.FirstOrDefault(pair => pair.Value == "clr-namespace:" + rowNamespace || pair.Value.StartsWith("clr-namespace:" + rowNamespace + ";", StringComparison.Ordinal)).Key;
+            if (rowPrefix == null && rowNamespace.Length > 0) { rowPrefix = "row" + _namespaces.Count; _namespaces[rowPrefix] = "clr-namespace:" + rowNamespace; }
+            row.Type = rowPrefix == null ? dataClass : rowPrefix + ":" + dataClass.Substring(dot + 1);
             row.Line = template.Line;
             row.Column = template.Column;
             row.Attrs.Clear();
@@ -837,6 +841,7 @@ public sealed class FormaHtmlConverter
             case "progress": return "ProgressBar";
             case "details": return "FoldableContainer";
             case "hr": return "ColorRect";
+            case "f-color-rect": return "ColorRect";
             case "slot": return _templateFor == "Button" ? "TextBlock" : "ContentPresenter";
             case "f-control":
                 {
@@ -873,7 +878,7 @@ public sealed class FormaHtmlConverter
         if (name is "td" or "th") return "Container";
 
         if (name == "div" && !element.Children.Any(c => !c.IsText || !string.IsNullOrWhiteSpace(c.Text)) && declared.ContainsKey("background-color") &&
-            declared.Keys.All(k => k is "background-color" or "min-width" or "min-height" or "opacity")) return "ColorRect";
+            declared.Keys.All(k => k is "background-color" or "min-width" or "min-height" or "opacity" or "vertical-align" or "align-self" or "flex-grow" or "pointer-events")) return "ColorRect";
         var display = declared.TryGetValue("display", out var d) ? d.Value : null;
         var decorated = declared.Keys.Any(k => k is "padding" or "border-width" or "border-radius" or "background-color" or "border-color" or "box-shadow" or "background") && display is not ("flex" or "grid");
         if (decorated) return "Border";
