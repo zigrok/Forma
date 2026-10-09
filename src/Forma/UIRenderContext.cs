@@ -355,7 +355,7 @@ namespace Forma
             if (_compositorDepth >= DrawingContextLimits.MaximumOffscreenNestingDepth)
                 throw new InvalidOperationException($"Offscreen nesting cannot exceed {DrawingContextLimits.MaximumOffscreenNestingDepth}.");
             if (!TryCaptureToTarget(draw, bounds, out var target, out var capturedBounds)) return;
-            Drawing.DrawImageUncomposited(target, capturedBounds, clipPath, clipTransform);
+            Drawing.DrawImageUncomposited(target, null, GetCapturedDestination(capturedBounds), ImageSamplingMode.Nearest, clipPath, clipTransform);
         }
         internal void DrawScaled(Rectangle sourceBounds, Rectangle destinationBounds, ImageSamplingMode samplingMode, Action draw)
             => DrawScaled(sourceBounds, new Vector4(destinationBounds.X, destinationBounds.Y, destinationBounds.Width, destinationBounds.Height), samplingMode, draw);
@@ -373,13 +373,13 @@ namespace Forma
             if (draw == null) throw new ArgumentNullException(nameof(draw));
             if (opacity == 0) return;
             if (!TryCaptureToTarget(draw, bounds, out var target, out var capturedBounds)) return;
-            Drawing.DrawImage(target, null, capturedBounds, Matrix.CreateTranslation(capturedBounds.X, capturedBounds.Y, 0), Color.White * opacity);
+            Drawing.DrawImage(target, null, capturedBounds, GetCapturedTransform(capturedBounds), Color.White * opacity);
         }
         internal void DrawTransformed(Matrix transform, Rectangle bounds, Action draw)
         {
             if (draw == null) throw new ArgumentNullException(nameof(draw));
             if (!TryCaptureToTarget(draw, bounds, out var target, out var capturedBounds)) return;
-            Drawing.DrawImage(target, null, capturedBounds, Matrix.CreateTranslation(capturedBounds.X, capturedBounds.Y, 0) * transform, Color.White);
+            Drawing.DrawImage(target, null, capturedBounds, GetCapturedTransform(capturedBounds) * transform, Color.White);
         }
         internal void DrawEffect(VisualEffect effect, Rectangle contentBounds, Action draw)
         {
@@ -423,7 +423,7 @@ namespace Forma
             EnsureTransientTargetBudget((long)target.Width * target.Height * 4);
             var processed = new Texture2D(GraphicsDevice, target.Width, target.Height, false, SurfaceFormat.Color);
             processed.SetData(pixels);
-            Drawing.DrawImageUncomposited(processed, capturedBounds);
+            Drawing.DrawImageUncomposited(processed, null, GetCapturedDestination(capturedBounds), ImageSamplingMode.Nearest);
             _activeTransientTextures.Add(processed);
         }
         internal static Rectangle GetEffectProcessingBounds(VisualEffect effect, Rectangle contentBounds, Rectangle viewportBounds)
@@ -469,7 +469,7 @@ namespace Forma
             EnsureTransientTargetBudget((long)target.Width * target.Height * 4);
             var processed = new Texture2D(GraphicsDevice, target.Width, target.Height, false, SurfaceFormat.Color);
             processed.SetData(pixels);
-            Drawing.DrawImageUncomposited(processed, capturedBounds);
+            Drawing.DrawImageUncomposited(processed, null, GetCapturedDestination(capturedBounds), ImageSamplingMode.Nearest);
             _activeTransientTextures.Add(processed);
         }
         internal void DrawShadow(DropShadowEffect shadow, Rectangle contentBounds, Action drawMask, DrawingPath clipPath = null, Matrix clipTransform = default, bool inset = false)
@@ -495,9 +495,9 @@ namespace Forma
                 (int)MathF.Round(shadow.Offset.X * DisplayScale), (int)MathF.Round(shadow.Offset.Y * DisplayScale)));
             if (clipPath != null)
             {
-                Drawing.DrawImageUncomposited(processed, capturedBounds, clipPath, clipTransform);
+                Drawing.DrawImageUncomposited(processed, null, GetCapturedDestination(capturedBounds), ImageSamplingMode.Nearest, clipPath, clipTransform);
             }
-            else Drawing.DrawImageUncomposited(processed, capturedBounds);
+            else Drawing.DrawImageUncomposited(processed, null, GetCapturedDestination(capturedBounds), ImageSamplingMode.Nearest);
             _activeTransientTextures.Add(processed);
         }
         private static Rectangle GetInsetShadowProcessingBounds(DropShadowEffect shadow, Rectangle contentBounds, Rectangle viewportBounds)
@@ -672,6 +672,24 @@ namespace Forma
             }
             else _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, effect, transform);
             _begun = true;
+        }
+        // A captured layer is one whole number of physical pixels, which is not the whole number of logical pixels its
+        // bounds cover at a fractional display scale. Composite it back at its own pixel size and position so it is
+        // never resampled.
+        private Vector4 GetCapturedDestination(Rectangle capturedBounds)
+        {
+            var physical = ToPhysicalRectangle(capturedBounds);
+            var viewport = GraphicsDevice.Viewport;
+            return new Vector4(
+                _captureOrigin.X + (physical.X - viewport.X) / DisplayScale,
+                _captureOrigin.Y + (physical.Y - viewport.Y) / DisplayScale,
+                physical.Width / DisplayScale,
+                physical.Height / DisplayScale);
+        }
+        private Matrix GetCapturedTransform(Rectangle capturedBounds)
+        {
+            var destination = GetCapturedDestination(capturedBounds);
+            return Matrix.CreateScale(destination.Z / capturedBounds.Width, destination.W / capturedBounds.Height, 1f) * Matrix.CreateTranslation(destination.X, destination.Y, 0);
         }
         private Rectangle ToPhysicalRectangle(Rectangle rectangle)
         {
