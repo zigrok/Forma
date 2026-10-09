@@ -40,7 +40,7 @@ Application controls are registered with `<meta name="f-element" content="my-spi
 ## Animation
 
 `@keyframes fade { from { opacity: 0.88; } to { opacity: 1; } }` and `#Root { animation: fade 140ms ease-out forwards; }`. An
-animation targets one `#id`. Start it from code with the storyboard named after the animation.
+animation targets one `#id`. In a shared `.fcss` the id must belong to the root view that links it (otherwise the build fails with FXAML6001 "target not found in the local namescope"); `animation: none` inside `@media (prefers-reduced-motion: reduce)` turns it off. Start it from code with the storyboard named after the animation.
 
 # Tools
 

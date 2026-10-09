@@ -1539,7 +1539,7 @@ public sealed class FormaHtmlConverter
             }
         }
 
-        foreach (var rule in animated)
+        foreach (var rule in animated.Where(r => !r.Declarations.Any(d => d.Name is "animation" or "animation-name" && d.Value.Trim() == "none")))
         {
             var longhand = rule.Declarations.Where(d => d.Name.StartsWith("animation", StringComparison.Ordinal)).ToDictionary(d => d.Name, d => d, StringComparer.Ordinal);
             string? name = null, duration = null, iteration = null, direction = null, fill = null, timing = null;

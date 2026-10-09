@@ -935,4 +935,13 @@ public sealed class FormaHtmlConverterTest
 
         Assert.That(((Control)NameScope.GetNameScope(root)!.Find("P")!).Size.X, Is.EqualTo(300f));
     }
+
+    [Test]
+    public void AnimationNone_IsAcceptedAndMakesNoStoryboard()
+    {
+        var result = Convert("<style>@keyframes f { from { opacity: 0; } to { opacity: 1; } } #a { animation: f 100ms; } @media (prefers-reduced-motion: reduce) { #a { animation: none; } }</style><div><span id=\"a\">x</span></div>");
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("<Storyboard"));
+    }
 }
