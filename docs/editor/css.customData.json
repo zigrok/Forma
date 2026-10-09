@@ -1,0 +1,253 @@
+{
+  "version": 1.1,
+  "properties": [
+    {
+      "name": "display",
+      "description": "flex, grid, block or none. Example: display: flex"
+    },
+    {
+      "name": "flex-direction",
+      "description": "row or column. Example: display: flex; flex-direction: column"
+    },
+    {
+      "name": "flex-wrap",
+      "description": "nowrap or wrap (flow container). Example: display: flex; flex-wrap: wrap"
+    },
+    {
+      "name": "gap",
+      "description": "flex containers and grids. Example: display: flex; gap: 8px"
+    },
+    {
+      "name": "justify-content",
+      "description": "start, center, end. Example: display: flex; justify-content: center"
+    },
+    {
+      "name": "align-items",
+      "description": "start, center, end, stretch. Example: display: flex; align-items: center"
+    },
+    {
+      "name": "align-self",
+      "description": "start, center, end, stretch. Example: align-self: center"
+    },
+    {
+      "name": "flex-grow",
+      "description": "needs a flex parent. Example: flex-grow: 1"
+    },
+    {
+      "name": "flex",
+      "description": "1, auto, 0, none. Example: flex: 1"
+    },
+    {
+      "name": "vertical-align",
+      "description": "top, middle, bottom. Example: vertical-align: middle"
+    },
+    {
+      "name": "text-align",
+      "description": "left, center, right. Example: text-align: center"
+    },
+    {
+      "name": "width",
+      "description": "fixed size (minimum and maximum). Example: width: 120px"
+    },
+    {
+      "name": "height",
+      "description": "fixed size (minimum and maximum). Example: height: 40px"
+    },
+    {
+      "name": "min-width",
+      "description": "px or rem. Example: min-width: 120px"
+    },
+    {
+      "name": "min-height",
+      "description": "px or rem. Example: min-height: 40px"
+    },
+    {
+      "name": "max-width",
+      "description": "px or rem. Example: max-width: 300px"
+    },
+    {
+      "name": "max-height",
+      "description": "px or rem. Example: max-height: 300px"
+    },
+    {
+      "name": "margin",
+      "description": "one to four lengths; margin-top/right/bottom/left too. Example: margin: 4px 8px"
+    },
+    {
+      "name": "padding",
+      "description": "on a flex or grid element it wraps the container in a Border. Example: padding: 4px 8px"
+    },
+    {
+      "name": "border-width",
+      "description": "one to four lengths. Example: border-width: 1px"
+    },
+    {
+      "name": "border-color",
+      "description": "#RRGGBB or #RRGGBBAA. Example: border-color: #33CDFF"
+    },
+    {
+      "name": "border-radius",
+      "description": "one to four radii. Example: border-radius: 3px"
+    },
+    {
+      "name": "background-color",
+      "description": "#RRGGBB or #RRGGBBAA. Example: background-color: #112233"
+    },
+    {
+      "name": "background",
+      "description": "linear-gradient and radial-gradient. Example: background: linear-gradient(180deg, #000000, #FFFFFF)"
+    },
+    {
+      "name": "color",
+      "description": "text color. Example: color: #E0F8FF"
+    },
+    {
+      "name": "font-size",
+      "description": "px or rem. Example: font-size: 24px"
+    },
+    {
+      "name": "font-weight",
+      "description": "normal, bold, 400, 700. Example: font-weight: bold"
+    },
+    {
+      "name": "font-style",
+      "description": "normal, italic, oblique. Example: font-style: italic"
+    },
+    {
+      "name": "opacity",
+      "description": "0 to 1. Example: opacity: 0.5"
+    },
+    {
+      "name": "overflow",
+      "description": "hidden clips; wrap in f-scroll to scroll. Example: overflow: hidden"
+    },
+    {
+      "name": "box-shadow",
+      "description": "x y [blur [spread]] color [inset]. Example: box-shadow: 0 2px 4px #80000000"
+    },
+    {
+      "name": "text-shadow",
+      "description": "x y color (blur is not drawn). Example: text-shadow: 1px 1px #000000"
+    },
+    {
+      "name": "text-transform",
+      "description": "uppercase or none. Example: text-transform: uppercase"
+    },
+    {
+      "name": "text-overflow",
+      "description": "ellipsis or clip. Example: text-overflow: ellipsis"
+    },
+    {
+      "name": "white-space",
+      "description": "nowrap or normal. Example: white-space: nowrap"
+    },
+    {
+      "name": "transform",
+      "description": "translate(), scale(), rotate(). Example: transform: scale(1.1)"
+    },
+    {
+      "name": "transform-origin",
+      "description": "keywords and percentages. Example: transform-origin: 50% 50%"
+    },
+    {
+      "name": "pointer-events",
+      "description": "none or auto. Example: pointer-events: none"
+    },
+    {
+      "name": "transition",
+      "description": "property and duration. Example: transition: opacity 150ms"
+    },
+    {
+      "name": "box-sizing",
+      "description": "border-box only. Example: box-sizing: border-box"
+    },
+    {
+      "name": "grid-template-columns",
+      "description": "px and fr tracks. Example: display: grid; grid-template-columns: 1fr 2fr"
+    },
+    {
+      "name": "-f-*",
+      "description": "Sets any Forma property verbatim: -f-FontFamily: resource(Key)."
+    },
+    {
+      "name": "--*",
+      "description": "A custom property in :root is a theme token and the resource key itself."
+    }
+  ],
+  "pseudoClasses": [
+    {
+      "name": ":hover",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":focus",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":focus-visible",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":focus-within",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":active",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":disabled",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":checked",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":selected",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":first-child",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":last-child",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":only-child",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":empty",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":nth-child()",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":host",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":is()",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":where()",
+      "description": "Supported pseudo-class."
+    },
+    {
+      "name": ":not()",
+      "description": "Supported pseudo-class."
+    }
+  ],
+  "pseudoElements": [
+    {
+      "name": "::part()",
+      "description": "Selects a template part marked with the part attribute."
+    }
+  ]
+}

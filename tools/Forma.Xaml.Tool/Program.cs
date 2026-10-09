@@ -20,6 +20,7 @@ internal static class Program
                 "schema" => Schema(args.Skip(1).ToArray()),
                 "lsp" => Lsp(args.Skip(1).ToArray()),
                 "format" => Format(args.Skip(1).ToArray()),
+                "docs" => Docs(args.Skip(1).ToArray()),
                 "--help" or "-h" or "help" => Usage(0),
                 _ => Usage(),
             };
@@ -65,6 +66,31 @@ internal static class Program
         finished.Wait();
         foreach (var watcher in watchers) watcher.Dispose();
         return 0;
+    }
+
+    // forma-xaml docs --out <dir> [--check]: writes (or checks) the generated dialect reference, support matrix, cookbook and editor custom data.
+    private static int Docs(string[] args)
+    {
+        var check = args.Contains("--check");
+        var index = Array.IndexOf(args, "--out");
+        if (index < 0 || index + 1 >= args.Length) return Usage();
+        var directory = args[index + 1];
+        var stale = 0;
+        foreach (var (relative, content) in Forma.Xaml.Compiler.Html.FormaHtmlReference.Files())
+        {
+            var path = Path.Combine(directory, relative.Replace('/', Path.DirectorySeparatorChar));
+            if (check)
+            {
+                if (!File.Exists(path) || File.ReadAllText(path) != content) { Console.Error.WriteLine($"{path}: out of date; run forma-xaml docs --out {directory}"); stale++; }
+                continue;
+            }
+
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            File.WriteAllText(path, content);
+            Console.WriteLine(path);
+        }
+
+        return stale == 0 ? 0 : 1;
     }
 
     // forma-xaml format [--check] <file|directory...>: formats .fhtml views (the HTML and CSS authoring dialect).
@@ -177,9 +203,32 @@ internal static class Program
                 diagnostics.Add(new FormaDiagnostic(FormaDiagnosticCodes.XmlSyntax, FormaDiagnosticSeverity.Error, "File does not exist.", new FormaSourceLocation(file, 1, 1)));
                 continue;
             }
+            var extension = Path.GetExtension(file);
+            if (extension.Equals(".fhtml", StringComparison.OrdinalIgnoreCase) || extension.Equals(".fcss", StringComparison.OrdinalIgnoreCase))
+            {
+                diagnostics.AddRange(ValidateHtmlDialect(file, extension.Equals(".fcss", StringComparison.OrdinalIgnoreCase)));
+                continue;
+            }
+
             diagnostics.AddRange(parser.Parse(File.ReadAllText(file), file, new FormaXamlParseOptions { RequireCompiledBindings = requireCompiledBindings }).Diagnostics);
         }
         return diagnostics;
+    }
+
+    // .fhtml and .fcss are converted with their project (the nearest directory with a .csproj) so links and tokens resolve as in a build;
+    // the converter's diagnostics are the validation result, each with a code, a location and a help line.
+    private static IReadOnlyList<FormaDiagnostic> ValidateHtmlDialect(string file, bool stylesheet)
+    {
+        var directory = Path.GetDirectoryName(file)!;
+        var root = directory;
+        for (var probe = new DirectoryInfo(directory); probe != null; probe = probe.Parent)
+            if (probe.EnumerateFiles("*.csproj").Any()) { root = probe.FullName; break; }
+        var project = new Forma.Xaml.Compiler.Html.FormaHtmlProject(root);
+        var relative = Path.GetRelativePath(root, file).Replace('\\', '/');
+        var result = stylesheet
+            ? project.ConvertSheet(relative)
+            : Forma.Xaml.Compiler.Html.FormaHtmlConverter.Convert(File.ReadAllText(file), relative, project);
+        return result.Diagnostics;
     }
 
     internal static IEnumerable<string> DiscoverFiles(IEnumerable<string> paths)
@@ -188,12 +237,12 @@ internal static class Program
         foreach (var input in paths)
         {
             var path = Path.GetFullPath(input);
-            if (File.Exists(path) && Path.GetExtension(path).Equals(".xaml", StringComparison.OrdinalIgnoreCase)) files.Add(path);
+            if (File.Exists(path) && Path.GetExtension(path) is var fileExtension && (fileExtension.Equals(".xaml", StringComparison.OrdinalIgnoreCase) || fileExtension.Equals(".fhtml", StringComparison.OrdinalIgnoreCase) || fileExtension.Equals(".fcss", StringComparison.OrdinalIgnoreCase))) files.Add(path);
             else
             {
                 var directory = Directory.Exists(path) ? path : File.Exists(path) && Path.GetExtension(path).Equals(".csproj", StringComparison.OrdinalIgnoreCase) ? Path.GetDirectoryName(path)! : null;
                 if (directory == null) { files.Add(path); continue; }
-                foreach (var file in Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories).Where(file => !file.Split(Path.DirectorySeparatorChar).Any(segment => segment is "bin" or "obj"))) files.Add(Path.GetFullPath(file));
+                foreach (var file in new[] { "*.xaml", "*.fhtml", "*.fcss" }.SelectMany(pattern => Directory.EnumerateFiles(directory, pattern, SearchOption.AllDirectories)).Where(file => !file.Split(Path.DirectorySeparatorChar).Any(segment => segment is "bin" or "obj"))) files.Add(Path.GetFullPath(file));
             }
         }
         return files;

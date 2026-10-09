@@ -21,6 +21,31 @@ public sealed class CommandLineTest
     [TearDown]
     public void TearDown() => Directory.Delete(_directory, true);
 
+    [TestCase("json", "\"code\": \"FHTML2005\"")]
+    [TestCase("sarif", "\"ruleId\": \"FHTML2005\"")]
+    public void ValidateChecksHtmlDialectFilesAndReportsHelpLines(string format, string expected)
+    {
+        var view = Path.Combine(_directory, "View.fhtml");
+        File.WriteAllText(view, "<div style=\"position: absolute\"></div>");
+        var originalOut = Console.Out;
+        using var output = new StringWriter();
+        try
+        {
+            Console.SetOut(output);
+            Assert.That(Program.Main(new[] { "validate", "--format", format, view }), Is.EqualTo(1));
+        }
+        finally { Console.SetOut(originalOut); }
+
+        Assert.That(output.ToString(), Does.Contain(expected));
+        Assert.That(output.ToString(), Does.Contain("Help:"));
+
+        var sheet = Path.Combine(_directory, "theme.fcss");
+        File.WriteAllText(sheet, "span { color: #000000; }");
+        Console.SetOut(TextWriter.Null);
+        try { Assert.That(Program.Main(new[] { "validate", sheet }), Is.EqualTo(0)); }
+        finally { Console.SetOut(originalOut); }
+    }
+
     [TestCase("human")]
     [TestCase("json")]
     [TestCase("sarif")]

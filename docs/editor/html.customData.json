@@ -1,0 +1,259 @@
+{
+  "version": 1.1,
+  "tags": [
+    {
+      "name": "div",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "section",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "nav",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "main",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "header",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "footer",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "span",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "p",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "label",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "h1",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "h2",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "h3",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "h4",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "h5",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "h6",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "button",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "input",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "textarea",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "select",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "ul",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "ol",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "li",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "table",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "thead",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "tbody",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "tr",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "td",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "th",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "progress",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "details",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "summary",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "hr",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "img",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "dialog",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "template",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "slot",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "f-border",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "f-scroll",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "f-group-box",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "f-color-rect",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    },
+    {
+      "name": "f-control",
+      "description": "Forma dialect element. See html-css-support-matrix.md."
+    }
+  ],
+  "globalAttributes": [
+    {
+      "name": "id",
+      "description": "Names the control (x:Name)."
+    },
+    {
+      "name": "class",
+      "description": "Style classes."
+    },
+    {
+      "name": "part",
+      "description": "Marks a template part for ::part()."
+    },
+    {
+      "name": "bind:text",
+      "description": "Binds text to a view-model path; \u0027;mode=TwoWay\u0027 for two-way."
+    },
+    {
+      "name": "bind:visible",
+      "description": "Binds visibility."
+    },
+    {
+      "name": "bind:enabled",
+      "description": "Binds enabled."
+    },
+    {
+      "name": "bind:items",
+      "description": "Binds an items source to a list or table."
+    },
+    {
+      "name": "onclick",
+      "description": "Code-behind handler for Pressed."
+    },
+    {
+      "name": "onchange",
+      "description": "Code-behind handler for Changed or TextChanged."
+    },
+    {
+      "name": "onitemactivated",
+      "description": "Code-behind handler for ItemActivated."
+    },
+    {
+      "name": "data-class",
+      "description": "The code-behind class of the root element."
+    },
+    {
+      "name": "data-type",
+      "description": "The view-model type (x:DataType)."
+    },
+    {
+      "name": "data-i18n",
+      "description": "Localization key applied by Localization.Apply."
+    },
+    {
+      "name": "data-automation-id",
+      "description": "Stable automation id."
+    },
+    {
+      "name": "tabindex",
+      "description": "0 focusable, -1 not focusable."
+    },
+    {
+      "name": "aria-label",
+      "description": "Accessible name."
+    },
+    {
+      "name": "role",
+      "description": "tablist or tabpanel for tabs."
+    },
+    {
+      "name": "dir",
+      "description": "ltr, rtl or auto."
+    },
+    {
+      "name": "lang",
+      "description": "Language tag, stored as data."
+    },
+    {
+      "name": "template",
+      "description": "Applies a \u003Ctemplate for\u003E control template by id."
+    },
+    {
+      "name": "selectable",
+      "description": "Makes a bound list a ListBox."
+    },
+    {
+      "name": "backdrop",
+      "description": "A dialog\u0027s scrim class."
+    }
+  ]
+}
