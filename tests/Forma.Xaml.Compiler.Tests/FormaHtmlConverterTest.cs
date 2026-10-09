@@ -786,4 +786,13 @@ public sealed class FormaHtmlConverterTest
         Assert.That(result.Xaml, Does.Contain("x:Key=\"a\""));
         Assert.That(result.Xaml, Does.Contain("x:Key=\"b\""));
     }
+
+    [Test]
+    public void OnChange_OnATextInput_IsTheTextChangedEvent()
+    {
+        var result = Convert("<div><input type=\"text\" onchange=\"OnEdited\"></div>");
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain("TextChanged=\"OnEdited\""));
+    }
 }

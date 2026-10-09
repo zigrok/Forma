@@ -984,7 +984,7 @@ public sealed class FormaHtmlConverter
         if (name.StartsWith("on", StringComparison.Ordinal) && name.Length > 2)
         {
             if (!IsIdentifier(value)) { Error(FormaHtmlDiagnosticCodes.InvalidValue, $"{name} names a code-behind handler, never an expression: {name}=\"OnSomethingPressed\".", attribute); return; }
-            var evt = name switch { "onclick" => "Pressed", "onitemactivated" => "ItemActivated", "onchange" => "Changed", "onfocus" => "FocusEntered", "onblur" => "FocusExited", _ => string.Empty };
+            var evt = name switch { "onclick" => "Pressed", "onitemactivated" => "ItemActivated", "onchange" => type is "LineEdit" or "TextEdit" ? "TextChanged" : "Changed", "onfocus" => "FocusEntered", "onblur" => "FocusExited", _ => string.Empty };
             if (evt.Length == 0) Error(FormaHtmlDiagnosticCodes.UnknownAttribute, $"Event attribute '{name}' is not part of the dialect (onclick, onchange, onfocus, onblur).", attribute);
             else Add(evt, value);
             return;
