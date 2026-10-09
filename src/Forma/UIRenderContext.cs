@@ -254,6 +254,7 @@ namespace Forma
         }
         internal void DrawDynamicGlyph(UIFont font, uint glyphId, Vector2 baselinePosition, Color color)
         {
+            font = GlyphRasterTuning.Apply(font);
             var rasterScale = GetDynamicGlyphRasterScale(DisplayScale, font.Size);
             var glyph = _dynamicGlyphCache.GetOrAdd(font, glyphId, rasterScale);
             if (glyph.PageIndex < 0 || !glyph.Uploaded) return;
@@ -263,7 +264,7 @@ namespace Forma
         }
         internal static float GetDynamicGlyphRasterScale(float displayScale, float fontSize)
         {
-            var physicalSize = MathF.Max(1, MathF.Round(fontSize * displayScale));
+            var physicalSize = MathF.Max(1, MathF.Round(fontSize * displayScale) + GlyphRasterTuning.PixelSizeOffset);
             return physicalSize / fontSize;
         }
         internal static Vector2 GetDynamicGlyphPosition(Vector2 baselinePosition, int bearingX, int bearingY, float displayScale)
@@ -284,7 +285,10 @@ namespace Forma
                 {
                     var glyph = run.Glyphs[glyphIndex];
                     if (layout.IsVisible(glyph))
-                        _dynamicGlyphCache.GetOrAdd(run.Font, glyph.GlyphId, GetDynamicGlyphRasterScale(DisplayScale, run.Font.Size));
+                    {
+                        var tuned = GlyphRasterTuning.Apply(run.Font);
+                        _dynamicGlyphCache.GetOrAdd(tuned, glyph.GlyphId, GetDynamicGlyphRasterScale(DisplayScale, tuned.Size));
+                    }
                 }
             }
             _dynamicGlyphCache.FlushUploads();

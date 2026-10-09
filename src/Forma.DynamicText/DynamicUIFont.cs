@@ -112,6 +112,15 @@ namespace Forma
             return font;
         }
         internal override UIFontHinting RasterHinting => Hinting;
+        internal override float? VariationWeight
+        {
+            get
+            {
+                foreach (var coordinate in VariationCoordinates)
+                    if (coordinate.Tag == "wght") return coordinate.Value;
+                return null;
+            }
+        }
         internal override long ShapeTicks => Interlocked.Read(ref _shapeTicks);
         internal override bool SharesLayoutResources(UIFont other)
         {
