@@ -39,15 +39,19 @@ internal static class AgentKit
         Forma views are `.fhtml` (HTML) and `.fcss` (CSS). They convert to Forma's XAML at build time; you never write XAML. Anything
         outside the dialect fails the build with a code, a location and a `Help:` line that names the nearest supported alternative.
 
-        ## The loop (always)
+        ## The loop (mandatory for every visible change)
+
+        Run the tool as `forma-xaml` when it is on PATH; otherwise as `dotnet run --project <Forma>/tools/Forma.Xaml.Tool --` (the project's
+        AGENTS.md says where). Do not report a UI change as done until step 4 has been run and you have looked at the picture.
 
         1. Edit the `.fhtml` or `.fcss` file. Reuse a class from the shared theme before writing a rule; values come from tokens
            (`var(--token)`), never raw literals.
-        2. `forma-xaml validate <file>`: fix every diagnostic using its Help line (see `references/support-matrix.md`).
+        2. `forma-xaml validate <file>`: fix every diagnostic using its Help line (see `references/support-matrix.md`). Validation checks
+           markup only, not that bound properties and handlers exist in C#; check those by reading the view model and code-behind.
         3. `forma-xaml format <file>`: the formatter is canonical.
-        4. Look at it: `forma-xaml preview <file> -o out.png` (renders with the project's preview host), then open the PNG. For a live
-           app use the game's MCP tools: `ui_query` (CSS selector), `ui_inspect` (why a rule did or did not apply, with `file:line`),
-           `take_screenshot` with a `selector`.
+        4. **Look at it.** Run `forma-xaml preview <file> -o <out>.png` (add `--state hover` for a state) and open the PNG with your
+           image reader. In the running app use the game's MCP tools: `ui_query` with a CSS selector to confirm the control exists and
+           where, `ui_inspect` to see why a rule did or did not apply (with `file:line`), `take_screenshot` with a `selector`.
         5. Run the project's gallery or snapshot check; a visual difference is a defect to fix, not a baseline to update.
 
         ## Rules
@@ -130,6 +134,9 @@ internal static class AgentKit
         | Element or region screenshot | game MCP `take_screenshot selector=<css>` or `clip=x,y,w,h` |
         | Preferences and devices | game MCP `game_ui` `ui-emulate key=reduced-motion|dark|keyboard|gamepad|…` |
         | Install or check this skill | `forma-xaml agent install|update|doctor` |
+
+        Preview renders with the application, so give it a long timeout (3 minutes) and read the PNG afterwards. A view with no scene
+        in the project's preview host cannot be previewed; preview the nearest screen and say so.
 
         The `forma-xaml mcp` server exposes `validate`, `format`, `preview` and the generated docs to any MCP client.
         """;

@@ -56,6 +56,9 @@ animation targets one `#id`. Start it from code with the storyboard named after 
 | Preferences and devices | game MCP `game_ui` `ui-emulate key=reduced-motion|dark|keyboard|gamepad|…` |
 | Install or check this skill | `forma-xaml agent install|update|doctor` |
 
+Preview renders with the application, so give it a long timeout (3 minutes) and read the PNG afterwards. A view with no scene
+in the project's preview host cannot be previewed; preview the nearest screen and say so.
+
 The `forma-xaml mcp` server exposes `validate`, `format`, `preview` and the generated docs to any MCP client.
 
 # Troubleshooting
