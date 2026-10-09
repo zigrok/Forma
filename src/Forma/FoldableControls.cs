@@ -73,6 +73,8 @@ namespace Forma
             ChildRemoved += OnLogicalChildrenChanged;
         }
         public string Title { get; set; } = string.Empty;
+        private readonly UIFontSelection _titleFontSelection = new UIFontSelection();
+        internal UIFont EffectiveUIFont => ResolveFont(_titleFontSelection);
         public float HeaderHeight { get; set; }
         public bool Folded
         {

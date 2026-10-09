@@ -456,6 +456,20 @@ public sealed class FormaHtmlConverter
         ApplyDeclarations(inline, type, target, parentDirection, element);
         ApplyElementSpecifics(element, target, type);
 
+        // Forma boxes give a child that fills its slot the whole rectangle, so a fixed width in a column (or height in a row) only holds when
+        // the child does not fill: it is anchored at the start of the cross axis, or where align-self says.
+        if (declared.ContainsKey("width") && parentDirection != "row" && !target.Attrs.Any(a => a.Name == "HorizontalSizeFlags"))
+        {
+            var anchor = declared.TryGetValue("align-self", out var selfAlign) ? selfAlign.Value : "start";
+            target.Attrs.Add(new Attr("HorizontalSizeFlags", anchor switch { "center" => "ShrinkCenter", "end" or "flex-end" => "ShrinkEnd", _ => "ShrinkBegin" }, element.Line, element.Column));
+        }
+
+        if (declared.ContainsKey("height") && parentDirection == "row" && !target.Attrs.Any(a => a.Name == "VerticalSizeFlags"))
+        {
+            var anchor = declared.TryGetValue("align-self", out var selfAlign) ? selfAlign.Value : "start";
+            target.Attrs.Add(new Attr("VerticalSizeFlags", anchor switch { "center" => "ShrinkCenter", "end" or "flex-end" => "ShrinkEnd", _ => "ShrinkBegin" }, element.Line, element.Column));
+        }
+
         var children = element.Children.Where(c => !(c.IsText && string.IsNullOrWhiteSpace(c.Text))).ToList();
         if (element.Name is "button" or "span" or "p" or "label" or "h1" or "h2" or "h3" or "h4" or "h5" or "h6")
         {
@@ -1172,11 +1186,20 @@ public sealed class FormaHtmlConverter
                 case "border-width": yield return ("BorderThickness", Thickness(value, d), d); break;
                 case "border-radius": yield return ("CornerRadius", Radius(value, d), d); break;
                 case "box-shadow":
-                    if (type is not ("Border" or "ColorRect") && !string.IsNullOrEmpty(type)) { /* only Border draws shadows; reported below */ }
+                    if (type is not ("Border" or "Control" or ""))
+                    {
+                        Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"box-shadow is drawn by boxes only, not by a {type}. Help: put the shadow on an element with padding, border or background (a div or f-border) that wraps it.", d);
+                        break;
+                    }
+
                     yield return ("ShadowsText", BoxShadow(value, d), d);
                     break;
                 case "background" or "background-image":
-                    if (value.StartsWith("linear-gradient(", StringComparison.Ordinal) || value.StartsWith("radial-gradient(", StringComparison.Ordinal)) yield return ("Background.Gradient", value, d);
+                    if (value.StartsWith("linear-gradient(", StringComparison.Ordinal) || value.StartsWith("radial-gradient(", StringComparison.Ordinal))
+                    {
+                        if (type is not ("Border" or "Control" or "")) Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"A gradient background is drawn by boxes only, not by a {type}. Help: put the gradient on an element with padding, border or background (a div or f-border) that wraps it.", d);
+                        else yield return ("Background.Gradient", value, d);
+                    }
                     else if (value.StartsWith('#')) yield return (type == "ColorRect" ? "Color" : "Background", Color(value, d), d);
                     else Error(FormaHtmlDiagnosticCodes.RejectedProperty, $"'{d.Name}: {value}' is not supported. Help: use background-color or linear-gradient()/radial-gradient(); images use <img> or <svg>.", d);
                     break;
@@ -1268,6 +1291,7 @@ public sealed class FormaHtmlConverter
             yield return ("CustomMinimumSize", $"{Len(width ?? minWidth, "0")},{Len(height ?? minHeight, "0")}", (width ?? height ?? minWidth ?? minHeight)!);
         if (maxWidth != null || maxHeight != null || width != null || height != null)
             yield return ("CustomMaximumSize", $"{Len(width ?? maxWidth, "-1")},{Len(height ?? maxHeight, "-1")}", (width ?? height ?? maxWidth ?? maxHeight)!);
+
     }
 
     private static string UnsupportedEffect(string property) => property switch

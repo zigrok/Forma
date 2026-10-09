@@ -986,6 +986,13 @@ namespace Forma
                 context.Icon(arrow.Value, new Vector2(Bounds.X + 6, Bounds.Y + (_owner.HeaderHeight - arrow.Value.LogicalSize.Y) / 2), Color.White);
             else
                 context.Fill(new Rectangle(Bounds.X + 6, Bounds.Y + (int)_owner.HeaderHeight / 2 - 3, _owner.Folded ? 6 : 3, _owner.Folded ? 3 : 6), context.Theme.AccentColor);
+            if (!string.IsNullOrEmpty(_owner.Title) && _owner.EffectiveUIFont is { } titleFont)
+            {
+                // The title sits right of the arrow, centered in the header.
+                var layout = TextMetrics.Layout(titleFont, _owner.Title);
+                var textX = Bounds.X + 6 + (arrow.HasValue ? arrow.Value.LogicalSize.X : 6) + 6;
+                context.Text(layout, new Vector2(textX, Bounds.Y + (_owner.HeaderHeight - layout.Size.Y) / 2), _owner.Enabled ? context.Theme.TextColor : context.Theme.DisabledTextColor);
+            }
             base.Draw(context);
         }
 

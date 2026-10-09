@@ -895,4 +895,30 @@ public sealed class FormaHtmlConverterTest
         Assert.That(error.Message, Does.Contain("Help:"));
         Assert.That(error.Message, Does.Contain("20px"));
     }
+
+    [Test]
+    public void AFixedWidth_IsHonoredByTheLayoutInAColumn_ForAnyControl()
+    {
+        var result = Convert("<div style=\"display: flex; flex-direction: column; width: 800px\"><progress id=\"P\" value=\"1\" style=\"width: 300px; height: 20px\"></progress><span id=\"L\" style=\"width: 120px\">x</span><button id=\"B\" style=\"width: 200px\">b</button></div>");
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var context = new UIContext { ViewportSize = new Microsoft.Xna.Framework.Vector2(1000, 400) };
+        context.Add(root);
+        context.Layout();
+        var scope = NameScope.GetNameScope(root)!;
+
+        Assert.That(((Control)scope.Find("P")!).Size.X, Is.EqualTo(300f));
+        Assert.That(((Control)scope.Find("L")!).Size.X, Is.EqualTo(120f));
+        Assert.That(((Control)scope.Find("B")!).Size.X, Is.EqualTo(200f));
+    }
+
+    [TestCase("<div><span style=\"box-shadow: 0 1px 2px #000000\">x</span></div>")]
+    [TestCase("<div><button style=\"background: linear-gradient(#000000, #FFFFFF)\">x</button></div>")]
+    public void BoxEffectsOnANonBox_AreRejectedWithHelp(string html)
+    {
+        var error = Convert(html).Diagnostics.First(d => d.Code == FormaHtmlDiagnosticCodes.RejectedProperty);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
+        Assert.That(error.Message, Does.Contain("wraps it"));
+    }
 }
