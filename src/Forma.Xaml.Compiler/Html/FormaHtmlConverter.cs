@@ -429,6 +429,7 @@ public sealed class FormaHtmlConverter
         {
             target.Attrs.Insert(0, new Attr("x:Name", "PART_ButtonText", element.Line, element.Column));
             target.Attrs.Add(new Attr("Text", "{Binding Text, RelativeSource=TemplatedParent}", element.Line, element.Column));
+            if (!target.Attrs.Any(x => x.Name == "VerticalAlignment")) target.Attrs.Add(new Attr("VerticalAlignment", "Center", element.Line, element.Column));
         }
         XNode? itemsPanel = null;
         if (type is "ItemsControl" or "ListBox")
@@ -1844,8 +1845,10 @@ public sealed class FormaHtmlConverter
                 lowered.Append(compound);
                 if (partName != null)
                 {
-                    lowered.Append(" >> Control.part-").Append(partName);
-                    last = "Control";
+                    // The part's element type comes from the <template> that declares it, so type-specific properties can be set.
+                    var partType = PartType(partName);
+                    lowered.Append(" >> ").Append(partType).Append(".part-").Append(partName);
+                    last = partType;
                 }
             }
 
@@ -1854,6 +1857,24 @@ public sealed class FormaHtmlConverter
         }
 
         return arms.Count == 0 ? null : string.Join(", ", arms);
+    }
+
+    private string PartType(string partName)
+    {
+        foreach (var template in _templates)
+        {
+            var stack = new Stack<HtmlNode>(template.Children);
+            while (stack.Count > 0)
+            {
+                var node = stack.Pop();
+                if (node.IsText) continue;
+                if (node.Attr("part") == partName)
+                    return node.Name == "slot" ? "TextBlock" : SelectorTypes.TryGetValue(node.Name, out var type) ? type : TextElements.TryGetValue(node.Name, out var text) ? text : "Control";
+                foreach (var child in node.Children) stack.Push(child);
+            }
+        }
+
+        return "Control";
     }
 
     // :is(a, b) and :where(a, b) are alternatives: expand them to a selector list before lowering (:where has zero specificity in
