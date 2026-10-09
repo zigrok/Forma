@@ -104,7 +104,6 @@ namespace Forma
         internal virtual UIFont ApplyVariationWeight(float weight) => this;
         internal virtual UIFontHinting RasterHinting => UIFontHinting.Default;
         internal virtual long ShapeTicks => 0;
-        internal virtual uint ProbeGlyphId(int unicodeScalar) => 0;
         internal virtual bool SharesLayoutResources(UIFont other) => true;
         internal virtual UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float displayScale) => throw new NotSupportedException($"{GetType().Name} does not support dynamic glyph rasterization.");
         internal abstract TextLayout CreateLayout(string text, TextLayoutOptions options);
