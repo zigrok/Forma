@@ -899,7 +899,7 @@ public sealed class FormaHtmlConverterTest
     [Test]
     public void AFixedWidth_IsHonoredByTheLayoutInAColumn_ForAnyControl()
     {
-        var result = Convert("<div style=\"display: flex; flex-direction: column; width: 800px\"><progress id=\"P\" value=\"1\" style=\"width: 300px; height: 20px\"></progress><span id=\"L\" style=\"width: 120px\">x</span><button id=\"B\" style=\"width: 200px\">b</button></div>");
+        var result = Convert("<div style=\"display: flex; flex-direction: column; width: 800px\"><progress id=\"P\" value=\"1\" style=\"width: 300px; min-height: 20px; align-self: flex-start\"></progress><span id=\"L\" style=\"width: 120px\">x</span><button id=\"B\" style=\"width: 200px\">b</button></div>");
         Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
         var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
         var context = new UIContext { ViewportSize = new Microsoft.Xna.Framework.Vector2(1000, 400) };
@@ -920,5 +920,19 @@ public sealed class FormaHtmlConverterTest
 
         Assert.That(error.Message, Does.Contain("Help:"));
         Assert.That(error.Message, Does.Contain("wraps it"));
+    }
+
+    [Test]
+    public void AFixedWidth_HoldsInsideAScrollAreasColumnToo()
+    {
+        var result = Convert("<f-scroll data-vertical=\"Auto\" data-horizontal=\"Disabled\" style=\"min-width: 600px; min-height: 390px\"><div style=\"display: flex; flex-direction: column; gap: 6px; margin: 6px\" f:HorizontalSizeFlags=\"Expand\"><div style=\"display: flex; gap: 8px\"><span>Music</span></div><progress id=\"P\" value=\"1\" style=\"width: 300px; min-height: 20px; align-self: flex-start\"></progress></div></f-scroll>");
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var context = new UIContext { ViewportSize = new Microsoft.Xna.Framework.Vector2(1000, 500) };
+        context.Add(root);
+        context.Layout();
+        context.Layout();
+
+        Assert.That(((Control)NameScope.GetNameScope(root)!.Find("P")!).Size.X, Is.EqualTo(300f));
     }
 }

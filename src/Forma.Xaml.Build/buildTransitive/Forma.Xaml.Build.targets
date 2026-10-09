@@ -84,6 +84,9 @@
     </ConvertFormaHtml>
     <ItemGroup>
       <FormaXaml Include="@(_FormaHtmlGenerated)" />
+      <!-- The generated XAML is only known now, after evaluation. Without it as a compiler input, editing a .fhtml or .fcss alone leaves CoreCompile
+           up to date, and Cecil injection would then run on an assembly that already holds the previous injection (a stale UI). -->
+      <AdditionalFiles Include="@(_FormaHtmlGenerated)" />
     </ItemGroup>
   </Target>
 
