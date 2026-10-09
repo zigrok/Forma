@@ -56,7 +56,7 @@ namespace Forma.Xaml
     }
 
     /// <summary>A style setter whose value follows a resource: when the resource changes, controls the style already applied to update.</summary>
-    public sealed class DynamicStyleSetter<T> : IStyleSetter
+    public sealed class DynamicStyleSetter<T> : IStyleSetter, IStyleSetterInfo
     {
         private readonly XamlProperty<T> _property;
         private readonly string _key;
@@ -67,6 +67,16 @@ namespace Forma.Xaml
             _property = property ?? throw new ArgumentNullException(nameof(property));
             _key = string.IsNullOrEmpty(resourceKey) ? throw new ArgumentException("A resource key is required.", nameof(resourceKey)) : resourceKey;
             _convert = convert;
+        }
+
+        // The inspector shows a var(--token) setter like any other: the property, and the value the token currently has for the control.
+        string IStyleSetterInfo.PropertyName => _property.Name;
+        object IStyleSetterInfo.ValueFor(Control control)
+        {
+            var scope = StyleApplicationScope.Current;
+            if (control.TryFindResource(_key, out var found) || (scope?.TryFindResource(_key, out found) ?? false))
+                return _convert == null ? found : _convert(found);
+            return "{DynamicResource " + _key + "} (unresolved)";
         }
 
         public IDisposable Apply(Control control, long priority) =>

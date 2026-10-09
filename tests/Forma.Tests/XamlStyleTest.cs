@@ -157,6 +157,25 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void TheInspector_ListsDynamicResourceSetters_WithTheirPropertyAndCurrentValue()
+        {
+            var root = new Control();
+            var target = new Control();
+            target.Classes.Add("tinted");
+            root.AddChild(target);
+            root.Resources["tip"] = "from a token";
+            var style = new Style("Control.tinted");
+            style.Setters.Add(new DynamicStyleSetter<string>(TooltipProperty, "tip"));
+            StyleEngine.Attach(root, new[] { style });
+
+            var inspection = StyleInspector.Inspect(target);
+
+            Assert.That(target.TooltipText, Is.EqualTo("from a token"));
+            Assert.That(inspection.Rules.Single(rule => rule.Matched).Properties, Is.EqualTo(new[] { TooltipProperty.Name }));
+            Assert.That(inspection.Winners.Single(winner => winner.Property == TooltipProperty.Name).Value, Is.EqualTo("from a token"));
+        }
+
+        [Test]
         public void DataAttributeSelectors_MatchAndReEvaluateWhenTheDataChanges()
         {
             var root = new Control();
