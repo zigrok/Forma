@@ -9,13 +9,6 @@ namespace Forma.Xaml.Compiler.Tests;
 
 public sealed class FormaHtmlReferenceTest
 {
-    private static string DocsDirectory()
-    {
-        for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory != null; directory = directory.Parent)
-            if (File.Exists(Path.Combine(directory.FullName, "docs", "html-css-dialect.md"))) return Path.Combine(directory.FullName, "docs");
-        throw new InvalidOperationException("The Forma docs directory was not found.");
-    }
-
     private static IEnumerable<TestCaseData> Supported() => FormaHtmlReference.Properties.Where(p => p.Supported).Select(p => new TestCaseData(p).SetName("Supported_" + p.Name));
     private static IEnumerable<TestCaseData> Rejected() => FormaHtmlReference.Properties.Where(p => !p.Supported).Select(p => new TestCaseData(p).SetName("Rejected_" + p.Name));
     private static IEnumerable<TestCaseData> Recipes() => FormaHtmlReference.Cookbook.Select(r => new TestCaseData(r).SetName("Recipe_" + r.Name.Replace(' ', '_')));
@@ -45,16 +38,5 @@ public sealed class FormaHtmlReferenceTest
 
         Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
         Assert.DoesNotThrow(() => FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "recipe.fhtml.xaml"));
-    }
-
-    [Test]
-    public void TheCommittedReferenceDocs_MatchWhatTheGeneratorWrites()
-    {
-        foreach (var (relative, content) in FormaHtmlReference.Files())
-        {
-            var path = Path.Combine(DocsDirectory(), relative.Replace('/', Path.DirectorySeparatorChar));
-            Assert.That(File.Exists(path), Is.True, $"{relative} is missing; run: forma-xaml docs --out docs");
-            Assert.That(File.ReadAllText(path), Is.EqualTo(content), $"{relative} is out of date; run: forma-xaml docs --out docs");
-        }
     }
 }

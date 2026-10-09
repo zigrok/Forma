@@ -1,0 +1,17 @@
+# Forma
+
+> Forma is a game UI framework. UI is authored as .fhtml (HTML) and .fcss (CSS), converted to XAML at build time and validated by `forma-xaml`.
+
+## Author UI
+- [Dialect guide](html-css-dialect.md): how a view, stylesheet, token, binding and template are written.
+- [Support matrix](html-css-support-matrix.md): every element, property, selector and at-rule, supported or rejected with the alternative.
+- [Reference](html-css-reference.md): each construct with an example and the Forma type it becomes.
+- [Cookbook](html-css-cookbook.md): tested recipes for menus, forms, lists, tabs and dialogs.
+- [Agent design guide](agent-design-guide.md): design language, known engine limits and the change-verify loop.
+
+## Tools
+- [Agents and tooling](agents.md): the validate, format, preview, query and inspect loop; the skill, installer and MCP server.
+- [Editor data](editor/html.customData.json) and [CSS data](editor/css.customData.json): completion and hover for editors.
+
+## Optional
+- [Everything in one file](llms-full.txt): the pages above concatenated for a single fetch.

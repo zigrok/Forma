@@ -87,6 +87,18 @@
     </ItemGroup>
   </Target>
 
+  <!-- A one-time pointer for projects that author .fhtml/.fcss: AI agents work best with the forma-ui skill. Silence it with
+       <FormaAgentHint>false</FormaAgentHint>; it also stays quiet once the skill is installed or after it has been shown once. -->
+  <PropertyGroup>
+    <_FormaAgentHintMarker>$(FormaXamlIntermediateDirectory)/agent-hint.shown</_FormaAgentHintMarker>
+  </PropertyGroup>
+  <Target Name="FormaAgentHint" AfterTargets="FormaHtmlConvert"
+          Condition="'$(FormaAgentHint)' != 'false' and '@(FormaHtml)' != '' and !Exists('$(_FormaAgentHintMarker)') and !Exists('$(MSBuildProjectDirectory)/../../.opencode/skills/forma-ui/SKILL.md') and !Exists('$(MSBuildProjectDirectory)/../../.claude/skills/forma-ui/SKILL.md') and !Exists('$(MSBuildProjectDirectory)/.opencode/skills/forma-ui/SKILL.md')">
+    <Message Importance="high" Text="Forma: this project authors UI in .fhtml/.fcss. AI coding agents work best with the forma-ui skill: run `forma-xaml agent install`. Set FormaAgentHint=false to silence this message." />
+    <MakeDir Directories="$(FormaXamlIntermediateDirectory)" />
+    <WriteLinesToFile File="$(_FormaAgentHintMarker)" Lines="shown" Overwrite="true" />
+  </Target>
+
   <Target Name="FormaXamlDiscover"
           BeforeTargets="CoreCompile"
           Condition="'@(FormaXaml)' != ''"

@@ -22,6 +22,8 @@ internal static class Program
                 "format" => Format(args.Skip(1).ToArray()),
                 "docs" => Docs(args.Skip(1).ToArray()),
                 "preview" => Preview(args.Skip(1).ToArray()),
+                "agent" => AgentCommands.Run(args.Skip(1).ToArray()),
+                "mcp" => McpServer.Run(),
                 "--help" or "-h" or "help" => Usage(0),
                 _ => Usage(),
             };
@@ -117,7 +119,7 @@ internal static class Program
         if (index < 0 || index + 1 >= args.Length) return Usage();
         var directory = args[index + 1];
         var stale = 0;
-        foreach (var (relative, content) in Forma.Xaml.Compiler.Html.FormaHtmlReference.Files())
+        foreach (var (relative, content) in AgentKit.DocFiles())
         {
             var path = Path.Combine(directory, relative.Replace('/', Path.DirectorySeparatorChar));
             if (check)
@@ -320,6 +322,10 @@ internal static class Program
         Console.Error.WriteLine("       forma-xaml schema [--json]");
         Console.Error.WriteLine("       forma-xaml lsp --stdio");
         Console.Error.WriteLine("       forma-xaml format [--check] <directory|file.fhtml...>");
+        Console.Error.WriteLine("       forma-xaml preview <View.fhtml> -o <out.png> [--state s] [--lang l] [--size WxH] [--scale n]");
+        Console.Error.WriteLine("       forma-xaml docs --out <dir> [--check]");
+        Console.Error.WriteLine("       forma-xaml agent install|update|doctor [--target opencode|claude|agents-md|all] [--scope project|user]");
+        Console.Error.WriteLine("       forma-xaml mcp");
         return exitCode;
     }
 
