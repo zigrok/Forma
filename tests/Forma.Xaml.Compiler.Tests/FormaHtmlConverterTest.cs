@@ -795,4 +795,60 @@ public sealed class FormaHtmlConverterTest
         Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
         Assert.That(result.Xaml, Does.Contain("TextChanged=\"OnEdited\""));
     }
+
+    [TestCase("button.trace-button:hover", "Button.trace-button:hover")]
+    [TestCase("ul.list li:selected", "ItemsControl.list >> ListBoxItem:selected")]
+    [TestCase("[data-state=open]", "[data-state=open]")]
+    [TestCase("input[type=checkbox]:checked", "CheckBox:checked")]
+    public void TryLowerSelector_TurnsAnHtmlSelectorIntoAFormaOne(string html, string expected)
+    {
+        Assert.That(FormaHtmlConverter.TryLowerSelector(html, out var lowered, out var error), Is.True, error);
+        Assert.That(lowered, Is.EqualTo(expected));
+    }
+
+    [Test]
+    public void TryLowerSelector_RejectsSelectorsOutsideTheDialectWithHelp()
+    {
+        Assert.That(FormaHtmlConverter.TryLowerSelector("a + b", out _, out var error), Is.False);
+        Assert.That(error, Does.Contain("Help:"));
+    }
+
+    [TestCase("<div><span>")]
+    [TestCase("<div></span></div>")]
+    [TestCase("text <div></div>")]
+    [TestCase("<div></div><div></div>")]
+    [TestCase("<div><marquee></marquee></div>")]
+    [TestCase("<div bogus=\"1\"></div>")]
+    [TestCase("<div style=\"colour: red\"></div>")]
+    [TestCase("<div style=\"width: 3em\"></div>")]
+    [TestCase("<div style=\"display: table\"></div>")]
+    [TestCase("<div style=\"flex-direction: diagonal; display: flex\"></div>")]
+    [TestCase("<div style=\"gap: 4px\"></div>")]
+    [TestCase("<div style=\"color: red\"></div>")]
+    [TestCase("<div style=\"opacity: lots\"></div>")]
+    [TestCase("<div style=\"padding: 1px 2px 3px 4px 5px\"></div>")]
+    [TestCase("<div><span>a<b>x</b></span></div>")]
+    [TestCase("<style>div::after { opacity: 1; }</style><div></div>")]
+    [TestCase("<style>div:nope { opacity: 1; }</style><div></div>")]
+    [TestCase("<style>div { opacity: 1 !important; }</style><div></div>")]
+    [TestCase("<style>@import url(x.css);</style><div></div>")]
+    [TestCase("<style>div { opacity }</style><div></div>")]
+    [TestCase("<style>div { opacity: 1;</style><div></div>")]
+    [TestCase("<style>:root { color: red; }</style><div></div>")]
+    [TestCase("<style>f-border { background-color: var(--nope); }</style><div></div>")]
+    [TestCase("<div onclick=\"alert(1)\"></div>")]
+    [TestCase("<div ondblclick=\"OnX\"></div>")]
+    [TestCase("<div tabindex=\"5\"></div>")]
+    [TestCase("<div dir=\"sideways\"></div>")]
+    [TestCase("<f-control></f-control>")]
+    [TestCase("<div bind:text=\"a b\"></div>")]
+    [TestCase("<meta name=\"viewport\" content=\"x\"><div></div>")]
+    [TestCase("<link rel=\"stylesheet\" href=\"x.css\"><div></div>")]
+    public void EveryError_CarriesAHelpLine(string html)
+    {
+        var errors = Convert(html).Diagnostics.Where(d => d.Severity == FormaDiagnosticSeverity.Error).ToList();
+
+        Assert.That(errors, Is.Not.Empty, "the snippet should be rejected: " + html);
+        foreach (var error in errors) Assert.That(error.Message, Does.Contain("Help:"), error.Code + ": " + error.Message);
+    }
 }

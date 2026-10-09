@@ -223,6 +223,21 @@ public sealed class FormaHtmlConverter
 
     public static FormaHtmlResult Convert(string html, string path, FormaHtmlProject? project = null) => new FormaHtmlConverter(path, project).Run(html);
 
+    /// <summary>
+    /// Lowers an HTML-flavored CSS selector (<c>button.trace-button:hover</c>, <c>ul.list li:selected</c>, <c>[data-state=open]</c>) to the
+    /// selector Forma's style engine and <c>StyleQuery</c> understand. Returns false with a message and help line when the selector is
+    /// outside the dialect.
+    /// </summary>
+    public static bool TryLowerSelector(string htmlSelector, out string formaSelector, out string error)
+    {
+        var converter = new FormaHtmlConverter("selector", null);
+        var rule = new CssRule { Selector = htmlSelector, Path = "selector", Line = 1, Column = 1 };
+        var lowered = converter.LowerSelector(rule, out _);
+        formaSelector = lowered ?? string.Empty;
+        error = string.Join(" ", WithHelp(converter._diagnostics).Select(d => d.Message));
+        return lowered != null;
+    }
+
     private FormaHtmlResult Run(string html)
     {
         var parser = new HtmlParser(html, _path, _diagnostics);
@@ -244,7 +259,7 @@ public sealed class FormaHtmlConverter
         if (root == null)
         {
             if (_diagnostics.Count == 0) _diagnostics.Add(new FormaDiagnostic(FormaHtmlDiagnosticCodes.Structure, FormaDiagnosticSeverity.Error, "The file has no root element.", new FormaSourceLocation(_path, 1, 1)));
-            return new FormaHtmlResult(string.Empty, _diagnostics, new FormaHtmlSourceMap());
+            return new FormaHtmlResult(string.Empty, WithHelp(_diagnostics), new FormaHtmlSourceMap());
         }
 
         var map = new FormaHtmlSourceMap();
@@ -252,7 +267,7 @@ public sealed class FormaHtmlConverter
         var resources = BuildResources(_sheets.SelectMany(sheet => sheet.Rules).Concat(_rules).ToList(), _tokens.Values);
         var writer = new Writer(map, _namespaces);
         var xaml = writer.Write(root, resources, _rawResources);
-        return new FormaHtmlResult(xaml, _diagnostics, map);
+        return new FormaHtmlResult(xaml, WithHelp(_diagnostics), map);
     }
 
     internal FormaHtmlResult RunSheet(FormaFcssSheet sheet)
@@ -261,14 +276,14 @@ public sealed class FormaHtmlConverter
         if (!sheet.Exists)
         {
             _diagnostics.Add(new FormaDiagnostic(FormaHtmlDiagnosticCodes.LinkTarget, FormaDiagnosticSeverity.Error, $"Stylesheet '{sheet.Path}' was not found.", new FormaSourceLocation(sheet.Path, 1, 1)));
-            return new FormaHtmlResult(string.Empty, _diagnostics, new FormaHtmlSourceMap());
+            return new FormaHtmlResult(string.Empty, WithHelp(_diagnostics), new FormaHtmlSourceMap());
         }
 
         CollectTokens(sheet.Rules);
         var map = new FormaHtmlSourceMap();
         var entries = BuildResources(sheet.Rules, _tokens.Values);
         var xaml = new Writer(map, _namespaces).WriteDictionary(entries, sheet.Path);
-        return new FormaHtmlResult(xaml, _diagnostics, map);
+        return new FormaHtmlResult(xaml, WithHelp(_diagnostics), map);
     }
 
     // :root declares tokens. :root[data-theme="dark"] and :root inside @media (prefers-color-scheme: dark) declare a theme override of the
@@ -2037,6 +2052,36 @@ public sealed class FormaHtmlConverter
     private void Error(string code, string message, HtmlAttribute attribute) => Error(code, message, attribute.Line, attribute.Column);
     private void Error(string code, string message, CssDeclaration declaration) =>
         _diagnostics.Add(new FormaDiagnostic(code, FormaDiagnosticSeverity.Error, message, new FormaSourceLocation(declaration.Path.Length > 0 ? declaration.Path : _path, declaration.Line, declaration.Column)));
+    // Every error says what to do next. Messages that already name the nearest supported alternative end in "Help: …"; the others get the
+    // default for their code, which points at the generated support matrix and cookbook.
+    private static List<FormaDiagnostic> WithHelp(List<FormaDiagnostic> diagnostics)
+    {
+        var result = new List<FormaDiagnostic>(diagnostics.Count);
+        foreach (var diagnostic in diagnostics)
+        {
+            if (diagnostic.Severity != FormaDiagnosticSeverity.Error || diagnostic.Message.Contains("Help:", StringComparison.Ordinal)) { result.Add(diagnostic); continue; }
+            result.Add(diagnostic with { Message = diagnostic.Message.TrimEnd() + (diagnostic.Message.TrimEnd().EndsWith('.') ? " " : ". ") + DefaultHelp(diagnostic.Code) });
+        }
+
+        return result;
+    }
+
+    private static string DefaultHelp(string code) => code switch
+    {
+        FormaHtmlDiagnosticCodes.Syntax => "Help: check the syntax at this location; every tag needs its closing tag and every rule is 'selector { property: value; }'.",
+        FormaHtmlDiagnosticCodes.UnknownElement => "Help: see docs/html-css-support-matrix.md for the supported elements, or register an application element with <meta name=\"f-element\" content=\"tag-name=prefix:Type\">.",
+        FormaHtmlDiagnosticCodes.UnknownAttribute => "Help: use a supported attribute (docs/html-css-support-matrix.md), or set a Forma property directly with f:Property=\"value\".",
+        FormaHtmlDiagnosticCodes.RejectedConstruct => "Help: docs/html-css-support-matrix.md lists the nearest supported construct for what is rejected.",
+        FormaHtmlDiagnosticCodes.Structure => "Help: compare the nesting with the examples in docs/html-css-cookbook.md.",
+        FormaHtmlDiagnosticCodes.LinkTarget => "Help: the path is relative to the linking file and the file must exist in the project.",
+        FormaHtmlDiagnosticCodes.UnknownProperty => "Help: docs/html-css-support-matrix.md lists the supported CSS properties; use -f-Property for a Forma property.",
+        FormaHtmlDiagnosticCodes.UnsupportedUnit => "Help: use px or rem; for proportional sizes use flex-grow or fr tracks.",
+        FormaHtmlDiagnosticCodes.InvalidValue => "Help: docs/html-css-support-matrix.md lists the accepted values of this property.",
+        FormaHtmlDiagnosticCodes.UnsupportedSelector => "Help: supported selectors are type, class, id, [data-*], pseudo-classes, :is(), :not(), ::part() and the descendant and child combinators.",
+        FormaHtmlDiagnosticCodes.RejectedProperty => "Help: docs/html-css-support-matrix.md lists the nearest supported property.",
+        _ => "Help: see docs/html-css-dialect.md.",
+    };
+
     private void Error(string code, string message, CssRule rule) =>
         _diagnostics.Add(new FormaDiagnostic(code, FormaDiagnosticSeverity.Error, message, new FormaSourceLocation(rule.Path.Length > 0 ? rule.Path : _path, rule.Line, rule.Column)));
     private void Error(string code, string message, int line, int column) =>

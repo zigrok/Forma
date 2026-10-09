@@ -141,6 +141,22 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void StyleQuery_FindsControlsByTypeClassDataAndStructure_LikeQuerySelectorAll()
+        {
+            var root = new Control();
+            var a = new Control(); var b = new Control(); var c = new Control();
+            a.Classes.Add("item"); b.Classes.Add("item"); c.Classes.Add("other");
+            root.AddChild(a); root.AddChild(b); root.AddChild(c);
+            b.SetData("state", "open");
+
+            Assert.That(StyleQuery.Select(root, ".item"), Is.EqualTo(new[] { a, b }));
+            Assert.That(StyleQuery.Select(root, ".item[data-state=open]"), Is.EqualTo(new[] { b }));
+            Assert.That(StyleQuery.Select(root, "Control:last-child"), Is.EqualTo(new[] { c }));
+            Assert.That(StyleQuery.Select(root, "Control:nth-child(2)"), Is.EqualTo(new[] { b }));
+            Assert.That(StyleQuery.Select(root, ".missing"), Is.Empty);
+        }
+
+        [Test]
         public void DataAttributeSelectors_MatchAndReEvaluateWhenTheDataChanges()
         {
             var root = new Control();
