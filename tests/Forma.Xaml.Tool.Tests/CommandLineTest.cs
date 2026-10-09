@@ -110,6 +110,16 @@ public sealed class CommandLineTest
     }
 
     [Test]
+    public void NewScreen_WritesAViewThatValidates_AndRefusesToOverwrite()
+    {
+        Assert.That(Quiet("new", "screen", "Pause", "--dir", _directory, "--namespace", "Demo"), Is.EqualTo(0));
+        Assert.That(File.Exists(Path.Combine(_directory, "PauseViewModel.cs")), Is.True);
+        Assert.That(Quiet("validate", Path.Combine(_directory, "PauseView.fhtml")), Is.EqualTo(0));
+        Assert.That(Quiet("new", "screen", "Pause", "--dir", _directory), Is.EqualTo(1));
+        Assert.That(Quiet("new", "screen", "pause", "--dir", _directory), Is.EqualTo(2));
+    }
+
+    [Test]
     public void TheMcpServer_ListsToolsAndRunsValidateAndServesTheReference()
     {
         var tools = (System.Text.Json.Nodes.JsonObject)McpServer.Handle("tools/list", null);

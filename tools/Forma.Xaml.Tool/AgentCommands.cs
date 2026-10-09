@@ -217,3 +217,78 @@ internal static class McpServer
         return new JsonObject { ["contents"] = new JsonArray(new JsonObject { ["uri"] = uri, ["mimeType"] = "text/markdown", ["text"] = content }) };
     }
 }
+
+// forma-xaml new screen <Name> [--dir <directory>] [--namespace <Ns>]: a view, its code-behind and view model, ready to build.
+internal static class NewCommand
+{
+    internal static int Run(string[] args)
+    {
+        if (args.Length < 2 || args[0] != "screen") { Console.Error.WriteLine("Usage: forma-xaml new screen <Name> [--dir <directory>] [--namespace <Namespace>]"); return 2; }
+        var name = args[1];
+        if (name.Length == 0 || !char.IsUpper(name[0]) || !name.All(char.IsLetterOrDigit)) { Console.Error.WriteLine($"'{name}' is not a screen name. Help: use PascalCase letters and digits, for example Pause."); return 2; }
+        var directory = Option(args, "--dir") ?? Directory.GetCurrentDirectory();
+        var space = Option(args, "--namespace") ?? "App";
+        Directory.CreateDirectory(directory);
+        var files = new Dictionary<string, string>
+        {
+            [$"{name}View.fhtml"] = $"""
+                <meta name="f-namespace" content="local=clr-namespace:{space}.ViewModels">
+
+                <div data-class="{space}.Views.{name}View" data-type="local:{name}ViewModel">
+                  <div id="Panel" style="border-width: 1px; padding: 16px 18px; border-radius: 3px; min-width: 360px">
+                    <div style="display: flex; flex-direction: column; gap: 10px">
+                      <span bind:text="TitleText" style="align-self: center"></span>
+                      <button id="CloseButton" bind:text="CloseText" onclick="OnClosePressed"></button>
+                    </div>
+                  </div>
+                </div>
+                """.Replace("                ", string.Empty, StringComparison.Ordinal) + "\n",
+            [$"{name}View.cs"] = $$"""
+                using Forma;
+                using Forma.Xaml;
+
+                namespace {{space}}.Views;
+
+                internal sealed class {{name}}View : Container
+                {
+                    internal {{name}}View({{space}}.ViewModels.{{name}}ViewModel viewModel)
+                    {
+                        DataContext = viewModel;
+                        FormaXamlLoader.Load(this);
+                    }
+
+                    private void OnClosePressed(object? sender, EventArgs e) => CloseRequested?.Invoke();
+
+                    internal event Action? CloseRequested;
+                }
+
+                """,
+            [$"{name}ViewModel.cs"] = $$"""
+                namespace {{space}}.ViewModels;
+
+                internal sealed class {{name}}ViewModel
+                {
+                    public string TitleText => "{{name}}";
+
+                    public string CloseText => "Close";
+                }
+
+                """,
+        };
+        foreach (var (file, content) in files)
+        {
+            var path = Path.Combine(directory, file);
+            if (File.Exists(path)) { Console.Error.WriteLine($"{path} already exists. Help: pick another name or remove the file."); return 1; }
+            File.WriteAllText(path, content);
+            Console.WriteLine(path);
+        }
+
+        return 0;
+    }
+
+    private static string? Option(string[] args, string name)
+    {
+        var index = Array.IndexOf(args, name);
+        return index >= 0 && index + 1 < args.Length ? args[index + 1] : null;
+    }
+}

@@ -24,6 +24,7 @@ internal static class Program
                 "preview" => Preview(args.Skip(1).ToArray()),
                 "agent" => AgentCommands.Run(args.Skip(1).ToArray()),
                 "mcp" => McpServer.Run(),
+                "new" => NewCommand.Run(args.Skip(1).ToArray()),
                 "--help" or "-h" or "help" => Usage(0),
                 _ => Usage(),
             };
@@ -326,6 +327,7 @@ internal static class Program
         Console.Error.WriteLine("       forma-xaml docs --out <dir> [--check]");
         Console.Error.WriteLine("       forma-xaml agent install|update|doctor [--target opencode|claude|agents-md|all] [--scope project|user]");
         Console.Error.WriteLine("       forma-xaml mcp");
+        Console.Error.WriteLine("       forma-xaml new screen <Name> [--dir <directory>] [--namespace <Namespace>]");
         return exitCode;
     }
 
