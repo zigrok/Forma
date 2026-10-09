@@ -441,3 +441,17 @@ preview and query tools in every scenario and converge in fewer iterations than 
   `CheckBox` and `HSlider` map to `select`, `input type=checkbox` and `input type=range` (D6). `PromptHintBar`, `OverlaySurfaceView`,
   `StandingsView` and the row views are application controls, registered with `<meta name="f-element">` (D6) or converted into their
   own `.fhtml` views. The probe view (`BoxContainer`) is retired per D7 unless a test depends on it.
+
+### Decision log additions (Phases A and B)
+- `::part(name)` lowers to the part's element type taken from the declaring `<template>` (for example `Border.part-chrome`), so
+  type-specific properties are valid; with no declaring template it is `Control.part-name`.
+- `ul li` and `table tr` selectors lower to template children (`ListBox >> ListBoxItem`, `DataGrid >> DataGridRow`).
+- `animation:` accepts a comma list (one storyboard per entry); the formatter keeps `@keyframes` blocks.
+- Trace tokens are CSS custom properties named `trace-*`; hex in `.fcss` is `#RRGGBBAA`, so the old `#AARRGGBB` token values were
+  rewritten, and the gallery proved the result unchanged.
+- `<dialog>` was not used for Trace's two dialogs: they are a backdrop and a panel that are siblings of the screen content in the
+  original, and wrapping them would change the tree. They are authored as `f-border` plus a panel. `<dialog>` stays in the dialect.
+- A `ColorRect` colored by a class style (`f-color-rect.trace-rule`) shifted a sibling text by 2 px in the gallery, while the same
+  color set as an element value did not. Views therefore use `style="-f-Color: resource(token.color)"`; the style-engine difference
+  is recorded as a known issue (no baseline changed).
+- The unused marker class `settings-row` was dropped from the binding row; `FormaProbeView` was retired (D7).
