@@ -677,14 +677,14 @@ namespace Forma
         // bounds cover at a fractional display scale. Composite it back at its own pixel size and position so it is
         // never resampled.
         private Vector4 GetCapturedDestination(Rectangle capturedBounds)
+            => GetCapturedDestination(ToPhysicalRectangle(capturedBounds), GraphicsDevice.Viewport.Bounds.Location, _captureOrigin, DisplayScale);
+        internal static Vector4 GetCapturedDestination(Rectangle physical, Point viewportOrigin, Vector2 captureOrigin, float displayScale)
         {
-            var physical = ToPhysicalRectangle(capturedBounds);
-            var viewport = GraphicsDevice.Viewport;
             return new Vector4(
-                _captureOrigin.X + (physical.X - viewport.X) / DisplayScale,
-                _captureOrigin.Y + (physical.Y - viewport.Y) / DisplayScale,
-                physical.Width / DisplayScale,
-                physical.Height / DisplayScale);
+                captureOrigin.X + (physical.X - viewportOrigin.X) / displayScale,
+                captureOrigin.Y + (physical.Y - viewportOrigin.Y) / displayScale,
+                physical.Width / displayScale,
+                physical.Height / displayScale);
         }
         private Matrix GetCapturedTransform(Rectangle capturedBounds)
         {

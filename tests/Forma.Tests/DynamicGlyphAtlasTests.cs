@@ -78,6 +78,25 @@ namespace Forma.Tests
             });
         }
 
+        [TestCase(1.0666667f, 342, 46, 366, 50)]
+        [TestCase(1.8527778f, 342, 46, 634, 86)]
+        [TestCase(1f, 342, 46, 342, 46)]
+        public void CapturedLayersAreCompositedAtTheirOwnPixelSize(float displayScale, int logicalWidth, int logicalHeight, int physicalWidth, int physicalHeight)
+        {
+            var physical = new Rectangle(20, 18, physicalWidth, physicalHeight);
+            var destination = UIRenderContext.GetCapturedDestination(physical, Point.Zero, new Vector2(450, 331), displayScale);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(destination.Z * displayScale, Is.EqualTo(physicalWidth).Within(0.001f));
+                Assert.That(destination.W * displayScale, Is.EqualTo(physicalHeight).Within(0.001f));
+                Assert.That((destination.X - 450) * displayScale, Is.EqualTo(20).Within(0.001f));
+                Assert.That((destination.Y - 331) * displayScale, Is.EqualTo(18).Within(0.001f));
+                Assert.That(MathF.Abs(destination.Z - logicalWidth), Is.LessThan(2f));
+                Assert.That(MathF.Abs(destination.W - logicalHeight), Is.LessThan(2f));
+            });
+        }
+
         [Test]
         public void ClearReleasesPagesBetweenFramesAndAllowsDeterministicReuse()
         {
