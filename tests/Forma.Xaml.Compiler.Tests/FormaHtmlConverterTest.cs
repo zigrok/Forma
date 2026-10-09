@@ -851,4 +851,25 @@ public sealed class FormaHtmlConverterTest
         Assert.That(errors, Is.Not.Empty, "the snippet should be rejected: " + html);
         foreach (var error in errors) Assert.That(error.Message, Does.Contain("Help:"), error.Code + ": " + error.Message);
     }
+
+    [TestCase("#Panel *", "#Panel *")]
+    [TestCase("* > span.a", "* > Label.a")]
+    [TestCase("*", "*")]
+    public void TryLowerSelector_KeepsTheUniversalSelector(string html, string expected)
+    {
+        Assert.That(FormaHtmlConverter.TryLowerSelector(html, out var lowered, out var error), Is.True, error);
+        Assert.That(lowered, Is.EqualTo(expected));
+    }
+
+    [Test]
+    public void AnIdOnAnyElement_BecomesTheControlName_SoSelectorsAndQueriesFindIt()
+    {
+        var result = Convert("<div><f-color-rect id=\"Rule\" style=\"min-height: 1px\"></f-color-rect><hr id=\"Hr\"><progress id=\"P\"></progress></div>");
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+
+        Assert.That(Forma.Xaml.StyleQuery.Select(root, "#Rule").Count, Is.EqualTo(1));
+        Assert.That(Forma.Xaml.StyleQuery.Select(root, "#Hr").Count, Is.EqualTo(1));
+        Assert.That(Forma.Xaml.StyleQuery.Select(root, "#P").Count, Is.EqualTo(1));
+    }
 }

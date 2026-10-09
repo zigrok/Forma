@@ -1961,7 +1961,8 @@ public sealed class FormaHtmlConverter
         var typeName = new StringBuilder();
         while (i < compound.Length && (char.IsLetterOrDigit(compound[i]) || compound[i] is '-' or '*'))
             typeName.Append(compound[i++]);
-        if (typeName.Length > 0 && typeName.ToString() != "*")
+        if (typeName.ToString() == "*") output.Append('*');
+        else if (typeName.Length > 0)
         {
             if (!SelectorTypes.TryGetValue(typeName.ToString(), out var forma)) { Error(FormaHtmlDiagnosticCodes.UnsupportedSelector, $"Type selector '{typeName}' has no Forma type; use a class selector.", rule); return null; }
             type = forma;
