@@ -481,6 +481,8 @@ public sealed class FormaHtmlConverter
 
         if (type == "FoldableContainer")
         {
+            // <details> is collapsed unless it has the open attribute, as in a browser.
+            if (element.Attr("open") == null) target.Attrs.Add(new Attr("Folded", "True", element.Line, element.Column));
             var summary = children.FirstOrDefault(c => !c.IsText && c.Name == "summary");
             var title = summary == null ? string.Empty : string.Join(" ", summary.Children.Where(c => c.IsText).Select(c => c.Text));
             if (title.Length > 0) target.Attrs.Add(new Attr("Title", Escape(title), summary!.Line, summary.Column));
@@ -960,7 +962,7 @@ public sealed class FormaHtmlConverter
             case "checked": Add("Checked", "True"); return;
             case "value" when element.Name is "input" or "progress": Add(type == "LineEdit" ? "Text" : "Value", value); return;
             case "max" when element.Name == "progress": Add("MaxValue", value); return;
-            case "open" when element.Name == "details": Add("Folded", "False"); return;
+            case "open" when element.Name == "details": return; // open is the absence of Folded, set below for every other <details>
             case "placeholder": Add("PlaceholderText", Escape(value)); return;
             case "min" when element.Name == "input": Add("MinValue", value); return;
             case "max" when element.Name == "input": Add("MaxValue", value); return;
@@ -1260,6 +1262,8 @@ public sealed class FormaHtmlConverter
         string Len(CssDeclaration? declaration, string fallback) => declaration == null ? fallback : Px(ResolveVar(declaration.Value, declaration), declaration);
         if (marginSides.Count > 0)
             yield return ("Margins", $"{Len(marginSides.GetValueOrDefault("left"), "0")},{Len(marginSides.GetValueOrDefault("top"), "0")},{Len(marginSides.GetValueOrDefault("right"), "0")},{Len(marginSides.GetValueOrDefault("bottom"), "0")}", marginSides.Values.First());
+        if (type == "ProgressBar" && (height ?? minHeight) is { } progressHeight && double.TryParse(Px(ResolveVar(progressHeight.Value, progressHeight), progressHeight).Replace("px", string.Empty), NumberStyles.Float, CultureInfo.InvariantCulture, out var progressPixels) && progressPixels < 20)
+            Error(FormaHtmlDiagnosticCodes.InvalidValue, "A <progress> is at least 20px high: Forma's ProgressBar has that minimum size. Help: use height: 20px or more, or draw a thin bar with an f-color-rect whose width you set.", progressHeight);
         if (minWidth != null || minHeight != null || width != null || height != null)
             yield return ("CustomMinimumSize", $"{Len(width ?? minWidth, "0")},{Len(height ?? minHeight, "0")}", (width ?? height ?? minWidth ?? minHeight)!);
         if (maxWidth != null || maxHeight != null || width != null || height != null)

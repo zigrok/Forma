@@ -872,4 +872,27 @@ public sealed class FormaHtmlConverterTest
         Assert.That(Forma.Xaml.StyleQuery.Select(root, "#Hr").Count, Is.EqualTo(1));
         Assert.That(Forma.Xaml.StyleQuery.Select(root, "#P").Count, Is.EqualTo(1));
     }
+
+    [Test]
+    public void Details_IsCollapsedUnlessOpen_AndAFoldedContainerHidesItsChildren()
+    {
+        var result = Convert("<div><details id=\"D\"><summary>More</summary><span id=\"S\">body</span></details><details id=\"O\" open><summary>Open</summary><span id=\"T\">x</span></details></div>");
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        var root = (Control)FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "t.fhtml.xaml").Build(null);
+        var scope = NameScope.GetNameScope(root)!;
+
+        Assert.That(((FoldableContainer)scope.Find("D")!).Folded, Is.True);
+        Assert.That(((Control)scope.Find("S")!).Visible, Is.False, "the child of a collapsed section is hidden");
+        Assert.That(((FoldableContainer)scope.Find("O")!).Folded, Is.False);
+        Assert.That(((Control)scope.Find("T")!).Visible, Is.True);
+    }
+
+    [Test]
+    public void ProgressShorterThanTheMinimum_IsRejectedWithHelp()
+    {
+        var error = Convert("<div><progress value=\"1\" style=\"height: 8px\"></progress></div>").Diagnostics.First(d => d.Code == FormaHtmlDiagnosticCodes.InvalidValue);
+
+        Assert.That(error.Message, Does.Contain("Help:"));
+        Assert.That(error.Message, Does.Contain("20px"));
+    }
 }

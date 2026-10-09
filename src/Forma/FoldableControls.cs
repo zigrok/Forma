@@ -162,6 +162,8 @@ namespace Forma
             point.Y >= Bounds.Top && point.Y < Bounds.Top + HeaderHeight;
         private void OnLogicalChildrenChanged(Control owner, Control child)
         {
+            // A child added to a folded container (markup sets Folded before the children exist) starts hidden, like the ones present when it folded.
+            if (_folded && child.Parent == this && child.Visible && !_changingGroup) child.Visible = false;
             if (TemplateRoot is FoldableContainerPresenter presenter) presenter.SyncChildren();
             else if (child.VisualParent == this) RemoveVisualChild(child);
             QueueLayout();

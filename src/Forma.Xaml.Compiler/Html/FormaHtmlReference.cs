@@ -119,6 +119,14 @@ public static class FormaHtmlReference
         text.AppendLine().AppendLine("## At-rules").AppendLine();
         text.AppendLine("- `@media (input-modality: …)`, `(prefers-reduced-motion: reduce)`, `(prefers-color-scheme: light|dark)`, `(min-width|max-width: Npx)`; `@keyframes`.");
         text.AppendLine("- `@import`, `@font-face`, `@supports`, `@container` and `!important` are rejected.");
+        text.AppendLine().AppendLine("## Behaviors worth knowing").AppendLine();
+        foreach (var line in new[]
+        {
+            "- `<details>` is collapsed unless it has `open`; `<summary>` is its title. `<progress>` is at least 20px high.",
+            "- Padding, border and background on a flex or grid element wrap the container in a Border; margin is always outside.",
+            "- `<img>` takes an `.svg` source only; `<svg>` inline, raster images, `url()` and icon fonts are rejected.",
+            "- A class style that sets the color of an `f-color-rect` can shift sibling text by a pixel or two; set it on the element with `-f-Color: resource(token.color)`.",
+        }) text.AppendLine(line);
         text.AppendLine().AppendLine("## Units").AppendLine().AppendLine("`px`, `rem`, plain numbers, `fr` in grid tracks, `ms` and `s` in animations. Percentages, `em`, `vw` and `vh` are rejected.");
         text.AppendLine().AppendLine("## Diagnostics").AppendLine().AppendLine("Every error has a stable code, a source location and a help line.").AppendLine();
         foreach (var (code, name) in DiagnosticCodes) text.AppendLine($"- `{code}` {name}");
