@@ -460,4 +460,7 @@ preview and query tools in every scenario and converge in fewer iterations than 
 - Agent-evaluation findings fixed: the style inspector hid every `var()` setter; `<details>` was expanded by default and its children stayed
   visible when folded in markup; `<progress>` height under 20px was silently 20px; `ui-query` dropped `*`; `trace-ui.py` did not build
   the Desktop worker, so edits looked stale; the preview host hid build errors.
+- Phase F evaluation criterion: after four scenarios (report in `plans/agent-eval-report.md`) the skill saved one iteration in one scenario
+  and tied in three; the repo's own tools directory and `--help` make the live-app tools discoverable without the skill. The owner
+  accepted the result as reported instead of the "fewer iterations in every scenario" criterion.
 
