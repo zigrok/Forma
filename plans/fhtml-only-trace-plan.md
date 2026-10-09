@@ -455,3 +455,9 @@ preview and query tools in every scenario and converge in fewer iterations than 
   color set as an element value did not. Views therefore use `style="-f-Color: resource(token.color)"`; the style-engine difference
   is recorded as a known issue (no baseline changed).
 - The unused marker class `settings-row` was dropped from the binding row; `FormaProbeView` was retired (D7).
+- New gallery scene `settings-sound` (Settings > Sound) so `forma-xaml preview` can show that page; its three baselines are additions, not
+  changes to existing frames. The preview host picks the scene with the longest matching `sources` entry.
+- Agent-evaluation findings fixed: the style inspector hid every `var()` setter; `<details>` was expanded by default and its children stayed
+  visible when folded in markup; `<progress>` height under 20px was silently 20px; `ui-query` dropped `*`; `trace-ui.py` did not build
+  the Desktop worker, so edits looked stale; the preview host hid build errors.
+
