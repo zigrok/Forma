@@ -15,8 +15,18 @@ the transcripts; this is a small sample (one run per cell), not a statistical re
 | S2 | Give a settings label the muted color and name the rule that colors it | 1 | validate, format, `trace-ui inspect`, `trace-ui shot` | 1 | `trace-ui shot`, `trace-ui inspect` |
 | S3 | Add a 300px progress bar and a collapsed "Details" section | 2 | validate, format, preview, `trace-ui query` | 3 | validate, preview, `trace-ui inspect`, `trace-ui query`, `trace-ui shot` |
 
+| S4 | Keyboard-modality hover border part rule plus a reduced-motion-aware root animation (theme.fcss) | 1 | validate, format, `trace-ui shot/query/inspect` (no preview) | 1 | validate, format, `trace-ui shot/inspect` (no query) |
+
 Iterations are edit-then-verify rounds until the change validated and looked right. Totals: 4 with the skill, 5 without; the skill
 run was shorter in S3 and equal in S1 and S2.
+
+## Round 4 note
+
+S4 was first run with both agents in parallel by mistake (they edited the same file and the results were discarded), then re-run
+sequentially after two fixes it exposed: `animation: none` is now accepted, and the skill documents that a shared-theme animation
+may only target ids in the root view that links it. Both agents then finished in one iteration with the same tools: the repo's own
+tools directory and `--help` output make the live-app tools as discoverable without the skill. On tasks this small the criterion
+"fewer iterations in every scenario" cannot be met honestly (1 versus 1); only S3 separated the two.
 
 ## Reading of the result
 
