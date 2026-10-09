@@ -52,6 +52,9 @@ internal static class AgentKit
         4. **Look at it.** Run `forma-xaml preview <file> -o <out>.png` (add `--state hover` for a state) and open the PNG with your
            image reader. In the running app use the game's MCP tools: `ui_query` with a CSS selector to confirm the control exists and
            where, `ui_inspect` to see why a rule did or did not apply (with `file:line`), `take_screenshot` with a `selector`.
+           Always do both of these before reporting done: a preview (or element screenshot) you have looked at, and a query
+           (`ui_query`) that confirms every control you added or restyled exists and shows its bounds and classes; for a style change
+           also `ui_inspect` it. A change with no query result is unverified.
         5. Run the project's gallery or snapshot check; a visual difference is a defect to fix, not a baseline to update.
 
         ## Rules
