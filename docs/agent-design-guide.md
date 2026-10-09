@@ -94,3 +94,10 @@ Shared design values can live in a `.fcss` stylesheet linked from the root view:
 [the dialect guide](html-css-dialect.md#shared-stylesheets-fcss) and [a design system in `.fcss`](design-system-fcss.md). The inspector
 reports a winning value's source as `rule @ theme.fcss:line` in Debug builds, and the `.fhtml` lints reject raw color and spacing
 literals and undefined classes.
+
+## Tooling for agents
+
+The change-verify loop, every command, the `forma-ui` skill (`forma-xaml agent install`), the MCP server (`forma-xaml mcp`) and the
+live-app tools (`ui-query`, `ui-inspect`, element screenshots, preference emulation) are in [Forma for AI agents](agents.md); the
+machine-readable index is [llms.txt](llms.txt).
+

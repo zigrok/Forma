@@ -1,6 +1,6 @@
 # The HTML and CSS authoring dialect
 
-Forma views can be written in a strict subset of HTML and CSS (`.fhtml` files) instead of XAML. A build-time converter turns
+Forma views can be written in a strict subset of HTML and CSS (`.fhtml` files and `.fcss` stylesheets) instead of XAML; an application can be written entirely in the dialect (Trace Arena has no XAML source). A build-time converter turns
 each file into canonical XAML, and the existing XAML pipeline does everything else, so the runtime, generated code, trimming and
 NativeAOT guarantees are exactly the XAML ones. XAML stays the reference format and a project can mix both.
 
@@ -123,3 +123,18 @@ by later stages (names, bindings, resources) are remapped through the source map
 - Release and NativeAOT: the converter lives in `Forma.Xaml.Compiler`, a build-host assembly. Published artifacts contain no
   parser, converter, `.fhtml` or `.fhtmlmap` file; the artifact verifier fails if they appear.
 - Accessibility and testing: a converted view has the same tree, names and `AutomationId` values as its XAML original.
+
+## The complete dialect
+
+The generated pages are authoritative and always match the converter (a test compares them with the generator):
+
+- [Support matrix](html-css-support-matrix.md): every element, property, selector, at-rule and unit, supported or rejected with the
+  alternative. [Reference](html-css-reference.md): each construct with an example and the Forma type it becomes.
+  [Cookbook](html-css-cookbook.md): tested recipes.
+- Beyond the basics above, the dialect has: control templates (`<template for>`, `<slot>`, `part`, `::part()`), data templates for
+  lists and grids (`<ul bind:items>`, `<table bind:items>`), ARIA tabs, `<dialog>`, `@keyframes`/`animation`, `prefers-reduced-motion`
+  and `prefers-color-scheme`, CSS custom properties as the resource keys, theme overrides (`:root[data-theme]`), `data-*` state
+  selectors, structural pseudo-classes, `data-i18n`, `dir`, margin/padding with web box semantics, and visual effects the renderer can
+  draw (shadows, gradients, transforms).
+- Tools: `forma-xaml validate|format|preview|docs|agent|mcp|new`; see [Forma for AI agents](agents.md) and [llms.txt](llms.txt).
+
