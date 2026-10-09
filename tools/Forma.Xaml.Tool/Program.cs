@@ -21,6 +21,7 @@ internal static class Program
                 "lsp" => Lsp(args.Skip(1).ToArray()),
                 "format" => Format(args.Skip(1).ToArray()),
                 "docs" => Docs(args.Skip(1).ToArray()),
+                "preview" => Preview(args.Skip(1).ToArray()),
                 "--help" or "-h" or "help" => Usage(0),
                 _ => Usage(),
             };
@@ -66,6 +67,46 @@ internal static class Program
         finished.Wait();
         foreach (var watcher in watchers) watcher.Dispose();
         return 0;
+    }
+
+    // forma-xaml preview <View.fhtml> -o out.png [--state hover:#Id] [--lang ja] [--size 1280x720] [--scale 130] [--overlay]
+    // Validates the view (stopping at the first error with its help line), then renders it with the project's preview host, named in the
+    // nearest forma-preview.json: {"host": "tools/preview.sh"}. The host receives the view path, the output path and the remaining options.
+    // Rendering needs the application's renderer, so it lives in the host; the host is a build-host tool and never ships.
+    private static int Preview(string[] args)
+    {
+        var rest = args.ToList();
+        var outputIndex = rest.FindIndex(a => a is "-o" or "--output");
+        if (rest.Count == 0 || outputIndex < 0 || outputIndex + 1 >= rest.Count) { Console.Error.WriteLine("usage: forma-xaml preview <View.fhtml> -o <out.png> [--state s] [--lang l] [--size WxH] [--scale n] [--overlay]"); return 2; }
+        var output = Path.GetFullPath(rest[outputIndex + 1]);
+        rest.RemoveRange(outputIndex, 2);
+        var view = Path.GetFullPath(rest[0]);
+        rest.RemoveAt(0);
+        if (!File.Exists(view)) { Console.Error.WriteLine($"{view}: file not found."); return 2; }
+        var diagnostics = ValidateFiles(new[] { view }, requireCompiledBindings: false);
+        if (diagnostics.Any(d => d.Severity == FormaDiagnosticSeverity.Error))
+        {
+            WriteDiagnostics(diagnostics, "human");
+            return 1;
+        }
+
+        string? configPath = null;
+        for (var probe = new DirectoryInfo(Path.GetDirectoryName(view)!); probe != null && configPath == null; probe = probe.Parent)
+            if (File.Exists(Path.Combine(probe.FullName, "forma-preview.json"))) configPath = Path.Combine(probe.FullName, "forma-preview.json");
+        if (configPath == null) { Console.Error.WriteLine("No forma-preview.json found above the view. Help: add {\"host\": \"tools/preview.sh\"} at the project root; the host renders the view with your application's renderer."); return 2; }
+        using var config = JsonDocument.Parse(File.ReadAllText(configPath));
+        var host = config.RootElement.TryGetProperty("host", out var hostElement) ? hostElement.GetString() : null;
+        if (string.IsNullOrWhiteSpace(host)) { Console.Error.WriteLine($"{configPath}: \"host\" is missing. Help: name the script that renders a view."); return 2; }
+        var hostPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(configPath)!, host));
+        var start = new System.Diagnostics.ProcessStartInfo(hostPath) { WorkingDirectory = Path.GetDirectoryName(configPath)!, UseShellExecute = false };
+        start.ArgumentList.Add(view);
+        start.ArgumentList.Add(output);
+        foreach (var argument in rest) start.ArgumentList.Add(argument);
+        using var process = System.Diagnostics.Process.Start(start) ?? throw new InvalidOperationException("The preview host did not start.");
+        process.WaitForExit();
+        if (process.ExitCode == 0 && !File.Exists(output)) { Console.Error.WriteLine("The preview host succeeded but wrote no image."); return 1; }
+        if (process.ExitCode == 0) Console.WriteLine(output);
+        return process.ExitCode;
     }
 
     // forma-xaml docs --out <dir> [--check]: writes (or checks) the generated dialect reference, support matrix, cookbook and editor custom data.

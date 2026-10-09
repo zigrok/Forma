@@ -46,6 +46,32 @@ public sealed class CommandLineTest
         finally { Console.SetOut(originalOut); }
     }
 
+    [Test]
+    public void Preview_ValidatesThenRunsTheProjectHostWithTheViewOutputAndOptions()
+    {
+        File.WriteAllText(Path.Combine(_directory, "forma-preview.json"), "{ \"host\": \"host.sh\" }");
+        var host = Path.Combine(_directory, "host.sh");
+        File.WriteAllText(host, "#!/bin/sh\necho \"$@\" > \"$(dirname \"$2\")/args.txt\"\necho png > \"$2\"\n");
+        File.SetUnixFileMode(host, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+        var view = Path.Combine(_directory, "View.fhtml");
+        File.WriteAllText(view, "<div><span>x</span></div>");
+        var picture = Path.Combine(_directory, "out.png");
+        var originalOut = Console.Out;
+        try
+        {
+            Console.SetOut(TextWriter.Null);
+            Assert.That(Program.Main(new[] { "preview", view, "-o", picture, "--state", "hover:#Play", "--lang", "ja" }), Is.EqualTo(0));
+            Assert.That(File.Exists(picture), Is.True);
+            Assert.That(File.ReadAllText(Path.Combine(_directory, "args.txt")), Does.Contain("--state hover:#Play --lang ja"));
+
+            File.WriteAllText(view, "<div style=\"position: absolute\"></div>");
+            File.Delete(picture);
+            Assert.That(Program.Main(new[] { "preview", view, "-o", picture }), Is.EqualTo(1), "an invalid view is reported, not rendered");
+            Assert.That(File.Exists(picture), Is.False);
+        }
+        finally { Console.SetOut(originalOut); }
+    }
+
     [TestCase("human")]
     [TestCase("json")]
     [TestCase("sarif")]
