@@ -112,6 +112,7 @@ namespace Forma
             return font;
         }
         internal override UIFontHinting RasterHinting => Hinting;
+        internal override uint ProbeGlyphId(int unicodeScalar) => Face.GetGlyphId(unicodeScalar);
         internal override long ShapeTicks => Interlocked.Read(ref _shapeTicks);
         internal override bool SharesLayoutResources(UIFont other)
         {
