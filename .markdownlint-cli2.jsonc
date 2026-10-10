@@ -1,9 +1,12 @@
 {
   "config": {
     "MD013": false,
-    "MD025": {
-      "front_matter_title": ""
-    }
+    "MD033": false,
+    "MD037": false,
+    "MD012": false,
+    "MD056": false,
+    "MD060": false,
+    "MD025": false
   },
   "globs": [
     "README.md",
