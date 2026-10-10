@@ -1001,6 +1001,10 @@ public sealed class FormaHtmlConverter
                 if (value is "" or "true" or "false") Add("Flat", value == "false" ? "False" : "True");
                 else Error(FormaHtmlDiagnosticCodes.InvalidValue, "data-flat is true or false, or just the attribute.", attribute);
                 return;
+            case "data-mouse":
+                if (value is "stop" or "pass" or "ignore") Add("MouseFilter", value == "stop" ? "Stop" : value == "pass" ? "Pass" : "Ignore");
+                else Error(FormaHtmlDiagnosticCodes.InvalidValue, "data-mouse is stop, pass or ignore. Help: pointer-events: auto and none are the CSS spellings of stop and ignore; pass lets a control receive a mouse event and also hand it to its parent.", attribute);
+                return;
             case "data-expand":
                 if (value is "horizontal" or "vertical" or "both")
                 {
@@ -1058,7 +1062,7 @@ public sealed class FormaHtmlConverter
         {
             // Escape hatch: any Forma property, passed through verbatim and validated by the XAML compiler.
             Add(name.Substring(2), value);
-            if (_project?.SuggestHtmlSpellings == true && FormaHtmlReference.Replacements.FirstOrDefault(r => r.FProperty.Split(" / ").Any(p => p.Split(' ')[0] == name.Substring(2))) is { } replacement)
+            if (_project?.SuggestHtmlSpellings == true && FormaHtmlReference.Replacements.FirstOrDefault(r => r.FProperty.Split(" / ").Any(p => p.Split(' ')[0] == name.Substring(2)) && (r.OnlyForValue == null || r.OnlyForValue == value)) is { } replacement)
                 _diagnostics.Add(new FormaDiagnostic(FormaHtmlDiagnosticCodes.PreferHtmlSpelling, FormaDiagnosticSeverity.Info,
                     $"{name} has an HTML or CSS spelling: {replacement.Spelling}. Help: docs/html-css-support-matrix.md, \"Replacing f: properties\".", new FormaSourceLocation(_path, attribute.Line, attribute.Column)));
             return;

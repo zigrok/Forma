@@ -12,7 +12,7 @@ public sealed record FormaHtmlPropertyInfo(string Name, bool Supported, string E
 
 /// <summary>An <c>f:Property</c> escape hatch that has an HTML or CSS spelling: the Forma property, the spelling to use instead, a view that
 /// uses it (converted by a test) and the XAML fragment the test expects.</summary>
-public sealed record FormaHtmlReplacement(string FProperty, string Spelling, string Html, string ExpectedXaml, string Note);
+public sealed record FormaHtmlReplacement(string FProperty, string Spelling, string Html, string ExpectedXaml, string Note, string? OnlyForValue = null);
 
 /// <summary>A tested recipe: a small view for a common screen shape, converted by a test on every build.</summary>
 public sealed record FormaHtmlRecipe(string Name, string Description, string Html);
@@ -94,6 +94,7 @@ public static class FormaHtmlReference
         new("AccessibilityLabel", "bind:accessibility-label=\"Path\"", "<span bind:accessibility-label=\"Label\"></span>", "AccessibilityLabel=\"{Binding Label}\"", "An accessible name from the view model."),
         new("SelectedIndex", "bind:selected-index=\"Path;mode=TwoWay\"", "<ul selectable bind:items=\"Rows\" bind:selected-index=\"Picked;mode=TwoWay\"><template data-type=\"local:RowModel\"><span bind:text=\"Name\"></span></template></ul>", "SelectedIndex=\"{Binding Picked, Mode=TwoWay}\"", "Any Forma property can be bound with bind:<property-in-kebab-case>."),
         new("DataContext", "bind:data-context=\"Path\"", "<f-control type=\"local:Panel\" bind:data-context=\"Standings\"></f-control>", "DataContext=\"{Binding Standings}\"", "Hands a child view its own view model."),
+        new("MouseFilter", "data-mouse=\"pass\"", "<div data-mouse=\"pass\"></div>", "MouseFilter=\"Pass\"", "The control receives the mouse event and also hands it to its parent, as the children of a list row do. `stop` and `ignore` are also accepted; `pointer-events: auto | none` is the CSS spelling of those two.", "Pass"),
         new("MouseFilter", "pointer-events: none | auto", "<div style=\"pointer-events: auto\"></div>", "MouseFilter=\"Stop\"", "none ignores the mouse, auto stops it (a modal backdrop)."),
         new("Margins", "margin", "<span style=\"margin: 0 12px 0 0\"></span>", "Margins=\"0,0,12,0\"", "One to four lengths, or margin-left, margin-top and so on."),
         new("CustomMinimumSize", "min-width, min-height", "<span style=\"min-width: 120px; min-height: 40px\"></span>", "CustomMinimumSize=\"120,40\"", "A size from the view model stays `f:CustomMinimumSize=\"{Binding Size}\"`."),
@@ -229,7 +230,7 @@ public static class FormaHtmlReference
             ("template", "Applies a <template for> control template by id."), ("selectable", "Makes a bound list a ListBox."), ("backdrop", "A dialog's scrim class."),
             ("data-activate", "click or double-click: when a bound list or table activates a row."), ("data-selection-unit", "row or cell: what a data grid selects."),
             ("data-sortable", "true or false: whether data grid headers sort."), ("data-resizable", "true or false: whether data grid columns resize."),
-            ("data-flat", "Draws a button or text field without its frame."), ("data-expand", "horizontal, vertical or both: takes the surplus space across a flex parent's main axis."),
+            ("data-flat", "Draws a button or text field without its frame."), ("data-mouse", "stop, pass or ignore: how the control handles the mouse (pass hands the event to its parent too)."), ("data-expand", "horizontal, vertical or both: takes the surplus space across a flex parent's main axis."),
         };
         var data = new
         {
