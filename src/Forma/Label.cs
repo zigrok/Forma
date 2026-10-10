@@ -12,6 +12,38 @@ using Microsoft.Xna.Framework.Input;
 namespace Forma
 {
     public enum LabelAutowrapMode { Off, Arbitrary, Word, WordSmart }
+    /// <summary>How a label's text relates to the box it was given.</summary>
+    public enum LabelTextFit
+    {
+        /// <summary>The text fits as laid out.</summary>
+        Fits,
+        /// <summary>Autowrap broke the text onto more lines than its natural paragraphs and the lines still fit.</summary>
+        Wrapped,
+        /// <summary>The text is wider than the box and the overrun behavior shortens it with an ellipsis.</summary>
+        Ellipsized,
+        /// <summary>The text needs more room than the box has and is cut off or drawn past it.</summary>
+        Clipped,
+    }
+
+    /// <summary>The result of <see cref="Label.TextFit"/>: the fit and the measured and available text sizes.</summary>
+    public readonly struct LabelTextFitInfo
+    {
+        public LabelTextFitInfo(LabelTextFit fit, Vector2 measured, Vector2 available)
+        {
+            Fit = fit;
+            Measured = measured;
+            Available = available;
+        }
+
+        public LabelTextFit Fit { get; }
+        /// <summary>The size the text needs (wrapped to the available width when the label autowraps).</summary>
+        public Vector2 Measured { get; }
+        /// <summary>The size the label's content area has after padding.</summary>
+        public Vector2 Available { get; }
+        /// <summary>How far the text exceeds the content area, per axis; zero when it does not.</summary>
+        public Vector2 Overflow => new Vector2(Math.Max(0, Measured.X - Available.X), Math.Max(0, Measured.Y - Available.Y));
+    }
+
     public enum LabelTextOverrunBehavior { NoTrimming, TrimCharacters, TrimWords, Ellipsis, WordEllipsis, EllipsisForce, WordEllipsisForce }
     public enum LabelVisibleCharactersBehavior { CharactersBeforeShaping, CharactersAfterShaping, GlyphsLayoutDirection, GlyphsLeftToRight, GlyphsRightToLeft }
     [Flags]
@@ -100,6 +132,47 @@ namespace Forma
         public bool Autowrap { get => AutowrapMode != LabelAutowrapMode.Off; set => AutowrapMode = value ? LabelAutowrapMode.WordSmart : LabelAutowrapMode.Off; }
         public LabelAutowrapMode AutowrapMode { get => _autowrapMode; set { _autowrapMode = value; QueueLayout(); } }
         public LabelTextOverrunBehavior TextOverrunBehavior { get; set; }
+        /// <summary>
+        /// Whether the text fits the box the layout gave this label. Read it after layout: it compares the text's natural size, or its
+        /// size wrapped to the available width, with the content area (size minus padding).
+        /// </summary>
+        public LabelTextFitInfo TextFit
+        {
+            get
+            {
+                const float tolerance = 0.5f;
+                var available = new Vector2(Math.Max(0, Size.X - Padding.Horizontal), Math.Max(0, Size.Y - Padding.Vertical));
+                if (string.IsNullOrEmpty(Text)) return new LabelTextFitInfo(LabelTextFit.Fits, Vector2.Zero, available);
+                var natural = GetDynamicLayout(false);
+                var naturalSize = natural?.Size ?? MeasureTextBlockUnwrapped();
+                if (AutowrapMode != LabelAutowrapMode.Off)
+                {
+                    var wrapped = GetDynamicLayout(true);
+                    var wrappedSize = wrapped?.Size ?? naturalSize;
+                    if (wrappedSize.Y > available.Y + tolerance) return new LabelTextFitInfo(LabelTextFit.Clipped, wrappedSize, available);
+                    var wrappedLines = wrapped?.Lines.Count ?? 1;
+                    var naturalLines = natural?.Lines.Count ?? 1;
+                    return new LabelTextFitInfo(wrappedLines > naturalLines ? LabelTextFit.Wrapped : LabelTextFit.Fits, wrappedSize, available);
+                }
+                if (naturalSize.X > available.X + tolerance)
+                    return new LabelTextFitInfo(TextOverrunBehavior == LabelTextOverrunBehavior.NoTrimming ? LabelTextFit.Clipped : LabelTextFit.Ellipsized, naturalSize, available);
+                if (naturalSize.Y > available.Y + tolerance) return new LabelTextFitInfo(LabelTextFit.Clipped, naturalSize, available);
+                return new LabelTextFitInfo(LabelTextFit.Fits, naturalSize, available);
+            }
+        }
+        private Vector2 MeasureTextBlockUnwrapped()
+        {
+            if (Font == null) return Vector2.Zero;
+            var size = Vector2.Zero;
+            var lineCount = 0;
+            foreach (var line in SplitParagraphs(GetTextForLayout()))
+            {
+                size.X = Math.Max(size.X, MeasureTextWidth(line));
+                lineCount++;
+            }
+            size.Y = lineCount * Font.LineSpacing;
+            return size;
+        }
         public string EllipsisCharacter { get; set; } = "…";
         public bool Uppercase { get; set; }
         public bool ClipText { get; set; }
