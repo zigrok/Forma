@@ -11,6 +11,9 @@ namespace Forma.Xaml
     /// <summary>Options for <see cref="PseudoLocalizer"/>.</summary>
     public sealed class PseudoLocaleOptions
     {
+        /// <summary>Creates the default options: 40% longer, accented, in markers, left to right.</summary>
+        public PseudoLocaleOptions() { }
+
         /// <summary>How much longer each string becomes, as a fraction of its length (0.4 is 40% longer). Default 0.4.</summary>
         public double ExpansionFactor { get; set; } = 0.4;
         /// <summary>Replaces plain letters with accented ones, so text that assumes ASCII widths or a font without accents shows up.</summary>
