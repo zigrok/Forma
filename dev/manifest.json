@@ -3141,6 +3141,34 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.LabelTextFit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.LabelTextFit.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.LabelTextFit",
+      "Summary": "<p sourcefile=\"api/Forma.LabelTextFit.yml\" sourcestartlinenumber=\"1\">How a label's text relates to the box it was given.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.LabelTextFitInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.LabelTextFitInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.LabelTextFitInfo",
+      "Summary": "<p sourcefile=\"api/Forma.LabelTextFitInfo.yml\" sourcestartlinenumber=\"1\">The result of <xref href=\"Forma.Label.TextFit\" data-throw-if-not-resolved=\"false\"></xref>: the fit and the measured and available text sizes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.LabelTextOverrunBehavior.yml",
       "output": {
         ".html": {
@@ -3208,6 +3236,48 @@
       "IsMRef": true,
       "Title": "Forma.LayoutLengthUnit",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.LayoutProblem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.LayoutProblem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.LayoutProblem",
+      "Summary": "<p sourcefile=\"api/Forma.LayoutProblem.yml\" sourcestartlinenumber=\"1\">One clipped or overflowing control.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.LayoutProblemKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.LayoutProblemKind.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.LayoutProblemKind",
+      "Summary": "<p sourcefile=\"api/Forma.LayoutProblemKind.yml\" sourcestartlinenumber=\"1\">What kind of layout problem <xref href=\"Forma.UIContext.FindLayoutProblems(Forma.Control%2cForma.LayoutProblemOptions)\" data-throw-if-not-resolved=\"false\"></xref> found.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.LayoutProblemOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.LayoutProblemOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.LayoutProblemOptions",
+      "Summary": "<p sourcefile=\"api/Forma.LayoutProblemOptions.yml\" sourcestartlinenumber=\"1\">Selects what <xref href=\"Forma.UIContext.FindLayoutProblems(Forma.Control%2cForma.LayoutProblemOptions)\" data-throw-if-not-resolved=\"false\"></xref> reports.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -7086,6 +7156,34 @@
       "IsMRef": true,
       "Title": "Forma.Xaml.NameScope",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.PseudoLocaleOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.PseudoLocaleOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.PseudoLocaleOptions",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.PseudoLocaleOptions.yml\" sourcestartlinenumber=\"1\">Options for <xref href=\"Forma.Xaml.PseudoLocalizer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.PseudoLocalizer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.PseudoLocalizer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.PseudoLocalizer",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.PseudoLocalizer.yml\" sourcestartlinenumber=\"1\">A pseudo-locale for layout stress tests: every string is accented, wrapped in markers and made longer, so a layout that only\nfits the source language fails in a test before a real translation exists. Output is deterministic, and placeholders such as\n<code>{0}</code> or <code>{name}</code> are copied verbatim. It is a testing and tooling feature; it is never a shipped language.</p>\n"
     },
     {
       "type": "ManagedReference",

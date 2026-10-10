@@ -29432,6 +29432,18 @@ references:
   commentId: Overload:Forma.Label.TextEffectPasses
   fullName: Forma.Label.TextEffectPasses
   nameWithType: Label.TextEffectPasses
+- uid: Forma.Label.TextFit
+  name: TextFit
+  href: api/Forma.Label.html#Forma_Label_TextFit
+  commentId: P:Forma.Label.TextFit
+  fullName: Forma.Label.TextFit
+  nameWithType: Label.TextFit
+- uid: Forma.Label.TextFit*
+  name: TextFit
+  href: api/Forma.Label.html#Forma_Label_TextFit_
+  commentId: Overload:Forma.Label.TextFit
+  fullName: Forma.Label.TextFit
+  nameWithType: Label.TextFit
 - uid: Forma.Label.TextOutlineColor
   name: TextOutlineColor
   href: api/Forma.Label.html#Forma_Label_TextOutlineColor
@@ -29642,6 +29654,108 @@ references:
   commentId: F:Forma.LabelJustificationFlags.WordBound
   fullName: Forma.LabelJustificationFlags.WordBound
   nameWithType: LabelJustificationFlags.WordBound
+- uid: Forma.LabelTextFit
+  name: LabelTextFit
+  href: api/Forma.LabelTextFit.html
+  commentId: T:Forma.LabelTextFit
+  fullName: Forma.LabelTextFit
+  nameWithType: LabelTextFit
+- uid: Forma.LabelTextFit.Clipped
+  name: Clipped
+  href: api/Forma.LabelTextFit.html#Forma_LabelTextFit_Clipped
+  commentId: F:Forma.LabelTextFit.Clipped
+  fullName: Forma.LabelTextFit.Clipped
+  nameWithType: LabelTextFit.Clipped
+- uid: Forma.LabelTextFit.Ellipsized
+  name: Ellipsized
+  href: api/Forma.LabelTextFit.html#Forma_LabelTextFit_Ellipsized
+  commentId: F:Forma.LabelTextFit.Ellipsized
+  fullName: Forma.LabelTextFit.Ellipsized
+  nameWithType: LabelTextFit.Ellipsized
+- uid: Forma.LabelTextFit.Fits
+  name: Fits
+  href: api/Forma.LabelTextFit.html#Forma_LabelTextFit_Fits
+  commentId: F:Forma.LabelTextFit.Fits
+  fullName: Forma.LabelTextFit.Fits
+  nameWithType: LabelTextFit.Fits
+- uid: Forma.LabelTextFit.Wrapped
+  name: Wrapped
+  href: api/Forma.LabelTextFit.html#Forma_LabelTextFit_Wrapped
+  commentId: F:Forma.LabelTextFit.Wrapped
+  fullName: Forma.LabelTextFit.Wrapped
+  nameWithType: LabelTextFit.Wrapped
+- uid: Forma.LabelTextFitInfo
+  name: LabelTextFitInfo
+  href: api/Forma.LabelTextFitInfo.html
+  commentId: T:Forma.LabelTextFitInfo
+  fullName: Forma.LabelTextFitInfo
+  nameWithType: LabelTextFitInfo
+- uid: Forma.LabelTextFitInfo.#ctor(Forma.LabelTextFit,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)
+  name: LabelTextFitInfo(LabelTextFit, Vector2, Vector2)
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo__ctor_Forma_LabelTextFit_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_
+  commentId: M:Forma.LabelTextFitInfo.#ctor(Forma.LabelTextFit,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)
+  name.vb: New(LabelTextFit, Vector2, Vector2)
+  fullName: Forma.LabelTextFitInfo.LabelTextFitInfo(Forma.LabelTextFit, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2)
+  fullName.vb: Forma.LabelTextFitInfo.New(Forma.LabelTextFit, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2)
+  nameWithType: LabelTextFitInfo.LabelTextFitInfo(LabelTextFit, Vector2, Vector2)
+  nameWithType.vb: LabelTextFitInfo.New(LabelTextFit, Vector2, Vector2)
+- uid: Forma.LabelTextFitInfo.#ctor*
+  name: LabelTextFitInfo
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo__ctor_
+  commentId: Overload:Forma.LabelTextFitInfo.#ctor
+  name.vb: New
+  fullName: Forma.LabelTextFitInfo.LabelTextFitInfo
+  fullName.vb: Forma.LabelTextFitInfo.New
+  nameWithType: LabelTextFitInfo.LabelTextFitInfo
+  nameWithType.vb: LabelTextFitInfo.New
+- uid: Forma.LabelTextFitInfo.Available
+  name: Available
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo_Available
+  commentId: P:Forma.LabelTextFitInfo.Available
+  fullName: Forma.LabelTextFitInfo.Available
+  nameWithType: LabelTextFitInfo.Available
+- uid: Forma.LabelTextFitInfo.Available*
+  name: Available
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo_Available_
+  commentId: Overload:Forma.LabelTextFitInfo.Available
+  fullName: Forma.LabelTextFitInfo.Available
+  nameWithType: LabelTextFitInfo.Available
+- uid: Forma.LabelTextFitInfo.Fit
+  name: Fit
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo_Fit
+  commentId: P:Forma.LabelTextFitInfo.Fit
+  fullName: Forma.LabelTextFitInfo.Fit
+  nameWithType: LabelTextFitInfo.Fit
+- uid: Forma.LabelTextFitInfo.Fit*
+  name: Fit
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo_Fit_
+  commentId: Overload:Forma.LabelTextFitInfo.Fit
+  fullName: Forma.LabelTextFitInfo.Fit
+  nameWithType: LabelTextFitInfo.Fit
+- uid: Forma.LabelTextFitInfo.Measured
+  name: Measured
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo_Measured
+  commentId: P:Forma.LabelTextFitInfo.Measured
+  fullName: Forma.LabelTextFitInfo.Measured
+  nameWithType: LabelTextFitInfo.Measured
+- uid: Forma.LabelTextFitInfo.Measured*
+  name: Measured
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo_Measured_
+  commentId: Overload:Forma.LabelTextFitInfo.Measured
+  fullName: Forma.LabelTextFitInfo.Measured
+  nameWithType: LabelTextFitInfo.Measured
+- uid: Forma.LabelTextFitInfo.Overflow
+  name: Overflow
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo_Overflow
+  commentId: P:Forma.LabelTextFitInfo.Overflow
+  fullName: Forma.LabelTextFitInfo.Overflow
+  nameWithType: LabelTextFitInfo.Overflow
+- uid: Forma.LabelTextFitInfo.Overflow*
+  name: Overflow
+  href: api/Forma.LabelTextFitInfo.html#Forma_LabelTextFitInfo_Overflow_
+  commentId: Overload:Forma.LabelTextFitInfo.Overflow
+  fullName: Forma.LabelTextFitInfo.Overflow
+  nameWithType: LabelTextFitInfo.Overflow
 - uid: Forma.LabelTextOverrunBehavior
   name: LabelTextOverrunBehavior
   href: api/Forma.LabelTextOverrunBehavior.html
@@ -29981,6 +30095,234 @@ references:
   commentId: F:Forma.LayoutLengthUnit.Star
   fullName: Forma.LayoutLengthUnit.Star
   nameWithType: LayoutLengthUnit.Star
+- uid: Forma.LayoutProblem
+  name: LayoutProblem
+  href: api/Forma.LayoutProblem.html
+  commentId: T:Forma.LayoutProblem
+  fullName: Forma.LayoutProblem
+  nameWithType: LayoutProblem
+- uid: Forma.LayoutProblem.#ctor(Forma.LayoutProblemKind,Forma.Control,Microsoft.Xna.Framework.Vector2,System.String)
+  name: LayoutProblem(LayoutProblemKind, Control, Vector2, string)
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem__ctor_Forma_LayoutProblemKind_Forma_Control_Microsoft_Xna_Framework_Vector2_System_String_
+  commentId: M:Forma.LayoutProblem.#ctor(Forma.LayoutProblemKind,Forma.Control,Microsoft.Xna.Framework.Vector2,System.String)
+  name.vb: New(LayoutProblemKind, Control, Vector2, String)
+  fullName: Forma.LayoutProblem.LayoutProblem(Forma.LayoutProblemKind, Forma.Control, Microsoft.Xna.Framework.Vector2, string)
+  fullName.vb: Forma.LayoutProblem.New(Forma.LayoutProblemKind, Forma.Control, Microsoft.Xna.Framework.Vector2, String)
+  nameWithType: LayoutProblem.LayoutProblem(LayoutProblemKind, Control, Vector2, string)
+  nameWithType.vb: LayoutProblem.New(LayoutProblemKind, Control, Vector2, String)
+- uid: Forma.LayoutProblem.#ctor*
+  name: LayoutProblem
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem__ctor_
+  commentId: Overload:Forma.LayoutProblem.#ctor
+  name.vb: New
+  fullName: Forma.LayoutProblem.LayoutProblem
+  fullName.vb: Forma.LayoutProblem.New
+  nameWithType: LayoutProblem.LayoutProblem
+  nameWithType.vb: LayoutProblem.New
+- uid: Forma.LayoutProblem.Classes
+  name: Classes
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Classes
+  commentId: P:Forma.LayoutProblem.Classes
+  fullName: Forma.LayoutProblem.Classes
+  nameWithType: LayoutProblem.Classes
+- uid: Forma.LayoutProblem.Classes*
+  name: Classes
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Classes_
+  commentId: Overload:Forma.LayoutProblem.Classes
+  fullName: Forma.LayoutProblem.Classes
+  nameWithType: LayoutProblem.Classes
+- uid: Forma.LayoutProblem.Control
+  name: Control
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Control
+  commentId: P:Forma.LayoutProblem.Control
+  fullName: Forma.LayoutProblem.Control
+  nameWithType: LayoutProblem.Control
+- uid: Forma.LayoutProblem.Control*
+  name: Control
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Control_
+  commentId: Overload:Forma.LayoutProblem.Control
+  fullName: Forma.LayoutProblem.Control
+  nameWithType: LayoutProblem.Control
+- uid: Forma.LayoutProblem.Kind
+  name: Kind
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Kind
+  commentId: P:Forma.LayoutProblem.Kind
+  fullName: Forma.LayoutProblem.Kind
+  nameWithType: LayoutProblem.Kind
+- uid: Forma.LayoutProblem.Kind*
+  name: Kind
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Kind_
+  commentId: Overload:Forma.LayoutProblem.Kind
+  fullName: Forma.LayoutProblem.Kind
+  nameWithType: LayoutProblem.Kind
+- uid: Forma.LayoutProblem.Message
+  name: Message
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Message
+  commentId: P:Forma.LayoutProblem.Message
+  fullName: Forma.LayoutProblem.Message
+  nameWithType: LayoutProblem.Message
+- uid: Forma.LayoutProblem.Message*
+  name: Message
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Message_
+  commentId: Overload:Forma.LayoutProblem.Message
+  fullName: Forma.LayoutProblem.Message
+  nameWithType: LayoutProblem.Message
+- uid: Forma.LayoutProblem.Name
+  name: Name
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Name
+  commentId: P:Forma.LayoutProblem.Name
+  fullName: Forma.LayoutProblem.Name
+  nameWithType: LayoutProblem.Name
+- uid: Forma.LayoutProblem.Name*
+  name: Name
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Name_
+  commentId: Overload:Forma.LayoutProblem.Name
+  fullName: Forma.LayoutProblem.Name
+  nameWithType: LayoutProblem.Name
+- uid: Forma.LayoutProblem.Origin
+  name: Origin
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Origin
+  commentId: P:Forma.LayoutProblem.Origin
+  fullName: Forma.LayoutProblem.Origin
+  nameWithType: LayoutProblem.Origin
+- uid: Forma.LayoutProblem.Origin*
+  name: Origin
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Origin_
+  commentId: Overload:Forma.LayoutProblem.Origin
+  fullName: Forma.LayoutProblem.Origin
+  nameWithType: LayoutProblem.Origin
+- uid: Forma.LayoutProblem.Overflow
+  name: Overflow
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Overflow
+  commentId: P:Forma.LayoutProblem.Overflow
+  fullName: Forma.LayoutProblem.Overflow
+  nameWithType: LayoutProblem.Overflow
+- uid: Forma.LayoutProblem.Overflow*
+  name: Overflow
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_Overflow_
+  commentId: Overload:Forma.LayoutProblem.Overflow
+  fullName: Forma.LayoutProblem.Overflow
+  nameWithType: LayoutProblem.Overflow
+- uid: Forma.LayoutProblem.ToString
+  name: ToString()
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_ToString
+  commentId: M:Forma.LayoutProblem.ToString
+  fullName: Forma.LayoutProblem.ToString()
+  nameWithType: LayoutProblem.ToString()
+- uid: Forma.LayoutProblem.ToString*
+  name: ToString
+  href: api/Forma.LayoutProblem.html#Forma_LayoutProblem_ToString_
+  commentId: Overload:Forma.LayoutProblem.ToString
+  fullName: Forma.LayoutProblem.ToString
+  nameWithType: LayoutProblem.ToString
+- uid: Forma.LayoutProblemKind
+  name: LayoutProblemKind
+  href: api/Forma.LayoutProblemKind.html
+  commentId: T:Forma.LayoutProblemKind
+  fullName: Forma.LayoutProblemKind
+  nameWithType: LayoutProblemKind
+- uid: Forma.LayoutProblemKind.All
+  name: All
+  href: api/Forma.LayoutProblemKind.html#Forma_LayoutProblemKind_All
+  commentId: F:Forma.LayoutProblemKind.All
+  fullName: Forma.LayoutProblemKind.All
+  nameWithType: LayoutProblemKind.All
+- uid: Forma.LayoutProblemKind.ChildOutsideParent
+  name: ChildOutsideParent
+  href: api/Forma.LayoutProblemKind.html#Forma_LayoutProblemKind_ChildOutsideParent
+  commentId: F:Forma.LayoutProblemKind.ChildOutsideParent
+  fullName: Forma.LayoutProblemKind.ChildOutsideParent
+  nameWithType: LayoutProblemKind.ChildOutsideParent
+- uid: Forma.LayoutProblemKind.ClippedByAncestor
+  name: ClippedByAncestor
+  href: api/Forma.LayoutProblemKind.html#Forma_LayoutProblemKind_ClippedByAncestor
+  commentId: F:Forma.LayoutProblemKind.ClippedByAncestor
+  fullName: Forma.LayoutProblemKind.ClippedByAncestor
+  nameWithType: LayoutProblemKind.ClippedByAncestor
+- uid: Forma.LayoutProblemKind.None
+  name: None
+  href: api/Forma.LayoutProblemKind.html#Forma_LayoutProblemKind_None
+  commentId: F:Forma.LayoutProblemKind.None
+  fullName: Forma.LayoutProblemKind.None
+  nameWithType: LayoutProblemKind.None
+- uid: Forma.LayoutProblemKind.OutsideViewport
+  name: OutsideViewport
+  href: api/Forma.LayoutProblemKind.html#Forma_LayoutProblemKind_OutsideViewport
+  commentId: F:Forma.LayoutProblemKind.OutsideViewport
+  fullName: Forma.LayoutProblemKind.OutsideViewport
+  nameWithType: LayoutProblemKind.OutsideViewport
+- uid: Forma.LayoutProblemKind.TextClipped
+  name: TextClipped
+  href: api/Forma.LayoutProblemKind.html#Forma_LayoutProblemKind_TextClipped
+  commentId: F:Forma.LayoutProblemKind.TextClipped
+  fullName: Forma.LayoutProblemKind.TextClipped
+  nameWithType: LayoutProblemKind.TextClipped
+- uid: Forma.LayoutProblemKind.TextWrappedPastBox
+  name: TextWrappedPastBox
+  href: api/Forma.LayoutProblemKind.html#Forma_LayoutProblemKind_TextWrappedPastBox
+  commentId: F:Forma.LayoutProblemKind.TextWrappedPastBox
+  fullName: Forma.LayoutProblemKind.TextWrappedPastBox
+  nameWithType: LayoutProblemKind.TextWrappedPastBox
+- uid: Forma.LayoutProblemOptions
+  name: LayoutProblemOptions
+  href: api/Forma.LayoutProblemOptions.html
+  commentId: T:Forma.LayoutProblemOptions
+  fullName: Forma.LayoutProblemOptions
+  nameWithType: LayoutProblemOptions
+- uid: Forma.LayoutProblemOptions.#ctor
+  name: LayoutProblemOptions()
+  href: api/Forma.LayoutProblemOptions.html#Forma_LayoutProblemOptions__ctor
+  commentId: M:Forma.LayoutProblemOptions.#ctor
+  name.vb: New()
+  fullName: Forma.LayoutProblemOptions.LayoutProblemOptions()
+  fullName.vb: Forma.LayoutProblemOptions.New()
+  nameWithType: LayoutProblemOptions.LayoutProblemOptions()
+  nameWithType.vb: LayoutProblemOptions.New()
+- uid: Forma.LayoutProblemOptions.#ctor*
+  name: LayoutProblemOptions
+  href: api/Forma.LayoutProblemOptions.html#Forma_LayoutProblemOptions__ctor_
+  commentId: Overload:Forma.LayoutProblemOptions.#ctor
+  name.vb: New
+  fullName: Forma.LayoutProblemOptions.LayoutProblemOptions
+  fullName.vb: Forma.LayoutProblemOptions.New
+  nameWithType: LayoutProblemOptions.LayoutProblemOptions
+  nameWithType.vb: LayoutProblemOptions.New
+- uid: Forma.LayoutProblemOptions.IgnoreScrollingContainers
+  name: IgnoreScrollingContainers
+  href: api/Forma.LayoutProblemOptions.html#Forma_LayoutProblemOptions_IgnoreScrollingContainers
+  commentId: P:Forma.LayoutProblemOptions.IgnoreScrollingContainers
+  fullName: Forma.LayoutProblemOptions.IgnoreScrollingContainers
+  nameWithType: LayoutProblemOptions.IgnoreScrollingContainers
+- uid: Forma.LayoutProblemOptions.IgnoreScrollingContainers*
+  name: IgnoreScrollingContainers
+  href: api/Forma.LayoutProblemOptions.html#Forma_LayoutProblemOptions_IgnoreScrollingContainers_
+  commentId: Overload:Forma.LayoutProblemOptions.IgnoreScrollingContainers
+  fullName: Forma.LayoutProblemOptions.IgnoreScrollingContainers
+  nameWithType: LayoutProblemOptions.IgnoreScrollingContainers
+- uid: Forma.LayoutProblemOptions.Kinds
+  name: Kinds
+  href: api/Forma.LayoutProblemOptions.html#Forma_LayoutProblemOptions_Kinds
+  commentId: P:Forma.LayoutProblemOptions.Kinds
+  fullName: Forma.LayoutProblemOptions.Kinds
+  nameWithType: LayoutProblemOptions.Kinds
+- uid: Forma.LayoutProblemOptions.Kinds*
+  name: Kinds
+  href: api/Forma.LayoutProblemOptions.html#Forma_LayoutProblemOptions_Kinds_
+  commentId: Overload:Forma.LayoutProblemOptions.Kinds
+  fullName: Forma.LayoutProblemOptions.Kinds
+  nameWithType: LayoutProblemOptions.Kinds
+- uid: Forma.LayoutProblemOptions.Tolerance
+  name: Tolerance
+  href: api/Forma.LayoutProblemOptions.html#Forma_LayoutProblemOptions_Tolerance
+  commentId: P:Forma.LayoutProblemOptions.Tolerance
+  fullName: Forma.LayoutProblemOptions.Tolerance
+  nameWithType: LayoutProblemOptions.Tolerance
+- uid: Forma.LayoutProblemOptions.Tolerance*
+  name: Tolerance
+  href: api/Forma.LayoutProblemOptions.html#Forma_LayoutProblemOptions_Tolerance_
+  commentId: Overload:Forma.LayoutProblemOptions.Tolerance
+  fullName: Forma.LayoutProblemOptions.Tolerance
+  nameWithType: LayoutProblemOptions.Tolerance
 - uid: Forma.LineBreak
   name: LineBreak
   href: api/Forma.LineBreak.html
@@ -63016,6 +63358,18 @@ references:
   commentId: Overload:Forma.UIContext.EffectiveCursor
   fullName: Forma.UIContext.EffectiveCursor
   nameWithType: UIContext.EffectiveCursor
+- uid: Forma.UIContext.FindLayoutProblems(Forma.Control,Forma.LayoutProblemOptions)
+  name: FindLayoutProblems(Control, LayoutProblemOptions)
+  href: api/Forma.UIContext.html#Forma_UIContext_FindLayoutProblems_Forma_Control_Forma_LayoutProblemOptions_
+  commentId: M:Forma.UIContext.FindLayoutProblems(Forma.Control,Forma.LayoutProblemOptions)
+  fullName: Forma.UIContext.FindLayoutProblems(Forma.Control, Forma.LayoutProblemOptions)
+  nameWithType: UIContext.FindLayoutProblems(Control, LayoutProblemOptions)
+- uid: Forma.UIContext.FindLayoutProblems*
+  name: FindLayoutProblems
+  href: api/Forma.UIContext.html#Forma_UIContext_FindLayoutProblems_
+  commentId: Overload:Forma.UIContext.FindLayoutProblems
+  fullName: Forma.UIContext.FindLayoutProblems
+  nameWithType: UIContext.FindLayoutProblems
 - uid: Forma.UIContext.FocusedControl
   name: FocusedControl
   href: api/Forma.UIContext.html#Forma_UIContext_FocusedControl
@@ -69942,6 +70296,114 @@ references:
   commentId: Overload:Forma.Xaml.NameScope.Unregister
   fullName: Forma.Xaml.NameScope.Unregister
   nameWithType: NameScope.Unregister
+- uid: Forma.Xaml.PseudoLocaleOptions
+  name: PseudoLocaleOptions
+  href: api/Forma.Xaml.PseudoLocaleOptions.html
+  commentId: T:Forma.Xaml.PseudoLocaleOptions
+  fullName: Forma.Xaml.PseudoLocaleOptions
+  nameWithType: PseudoLocaleOptions
+- uid: Forma.Xaml.PseudoLocaleOptions.#ctor
+  name: PseudoLocaleOptions()
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions__ctor
+  commentId: M:Forma.Xaml.PseudoLocaleOptions.#ctor
+  name.vb: New()
+  fullName: Forma.Xaml.PseudoLocaleOptions.PseudoLocaleOptions()
+  fullName.vb: Forma.Xaml.PseudoLocaleOptions.New()
+  nameWithType: PseudoLocaleOptions.PseudoLocaleOptions()
+  nameWithType.vb: PseudoLocaleOptions.New()
+- uid: Forma.Xaml.PseudoLocaleOptions.#ctor*
+  name: PseudoLocaleOptions
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions__ctor_
+  commentId: Overload:Forma.Xaml.PseudoLocaleOptions.#ctor
+  name.vb: New
+  fullName: Forma.Xaml.PseudoLocaleOptions.PseudoLocaleOptions
+  fullName.vb: Forma.Xaml.PseudoLocaleOptions.New
+  nameWithType: PseudoLocaleOptions.PseudoLocaleOptions
+  nameWithType.vb: PseudoLocaleOptions.New
+- uid: Forma.Xaml.PseudoLocaleOptions.Accents
+  name: Accents
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions_Accents
+  commentId: P:Forma.Xaml.PseudoLocaleOptions.Accents
+  fullName: Forma.Xaml.PseudoLocaleOptions.Accents
+  nameWithType: PseudoLocaleOptions.Accents
+- uid: Forma.Xaml.PseudoLocaleOptions.Accents*
+  name: Accents
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions_Accents_
+  commentId: Overload:Forma.Xaml.PseudoLocaleOptions.Accents
+  fullName: Forma.Xaml.PseudoLocaleOptions.Accents
+  nameWithType: PseudoLocaleOptions.Accents
+- uid: Forma.Xaml.PseudoLocaleOptions.ExpansionFactor
+  name: ExpansionFactor
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions_ExpansionFactor
+  commentId: P:Forma.Xaml.PseudoLocaleOptions.ExpansionFactor
+  fullName: Forma.Xaml.PseudoLocaleOptions.ExpansionFactor
+  nameWithType: PseudoLocaleOptions.ExpansionFactor
+- uid: Forma.Xaml.PseudoLocaleOptions.ExpansionFactor*
+  name: ExpansionFactor
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions_ExpansionFactor_
+  commentId: Overload:Forma.Xaml.PseudoLocaleOptions.ExpansionFactor
+  fullName: Forma.Xaml.PseudoLocaleOptions.ExpansionFactor
+  nameWithType: PseudoLocaleOptions.ExpansionFactor
+- uid: Forma.Xaml.PseudoLocaleOptions.Markers
+  name: Markers
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions_Markers
+  commentId: P:Forma.Xaml.PseudoLocaleOptions.Markers
+  fullName: Forma.Xaml.PseudoLocaleOptions.Markers
+  nameWithType: PseudoLocaleOptions.Markers
+- uid: Forma.Xaml.PseudoLocaleOptions.Markers*
+  name: Markers
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions_Markers_
+  commentId: Overload:Forma.Xaml.PseudoLocaleOptions.Markers
+  fullName: Forma.Xaml.PseudoLocaleOptions.Markers
+  nameWithType: PseudoLocaleOptions.Markers
+- uid: Forma.Xaml.PseudoLocaleOptions.RightToLeft
+  name: RightToLeft
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions_RightToLeft
+  commentId: P:Forma.Xaml.PseudoLocaleOptions.RightToLeft
+  fullName: Forma.Xaml.PseudoLocaleOptions.RightToLeft
+  nameWithType: PseudoLocaleOptions.RightToLeft
+- uid: Forma.Xaml.PseudoLocaleOptions.RightToLeft*
+  name: RightToLeft
+  href: api/Forma.Xaml.PseudoLocaleOptions.html#Forma_Xaml_PseudoLocaleOptions_RightToLeft_
+  commentId: Overload:Forma.Xaml.PseudoLocaleOptions.RightToLeft
+  fullName: Forma.Xaml.PseudoLocaleOptions.RightToLeft
+  nameWithType: PseudoLocaleOptions.RightToLeft
+- uid: Forma.Xaml.PseudoLocalizer
+  name: PseudoLocalizer
+  href: api/Forma.Xaml.PseudoLocalizer.html
+  commentId: T:Forma.Xaml.PseudoLocalizer
+  fullName: Forma.Xaml.PseudoLocalizer
+  nameWithType: PseudoLocalizer
+- uid: Forma.Xaml.PseudoLocalizer.Transform(System.String,Forma.Xaml.PseudoLocaleOptions)
+  name: Transform(string, PseudoLocaleOptions)
+  href: api/Forma.Xaml.PseudoLocalizer.html#Forma_Xaml_PseudoLocalizer_Transform_System_String_Forma_Xaml_PseudoLocaleOptions_
+  commentId: M:Forma.Xaml.PseudoLocalizer.Transform(System.String,Forma.Xaml.PseudoLocaleOptions)
+  name.vb: Transform(String, PseudoLocaleOptions)
+  fullName: Forma.Xaml.PseudoLocalizer.Transform(string, Forma.Xaml.PseudoLocaleOptions)
+  fullName.vb: Forma.Xaml.PseudoLocalizer.Transform(String, Forma.Xaml.PseudoLocaleOptions)
+  nameWithType: PseudoLocalizer.Transform(string, PseudoLocaleOptions)
+  nameWithType.vb: PseudoLocalizer.Transform(String, PseudoLocaleOptions)
+- uid: Forma.Xaml.PseudoLocalizer.Transform*
+  name: Transform
+  href: api/Forma.Xaml.PseudoLocalizer.html#Forma_Xaml_PseudoLocalizer_Transform_
+  commentId: Overload:Forma.Xaml.PseudoLocalizer.Transform
+  fullName: Forma.Xaml.PseudoLocalizer.Transform
+  nameWithType: PseudoLocalizer.Transform
+- uid: Forma.Xaml.PseudoLocalizer.Wrap(System.Func{System.String,System.String},Forma.Xaml.PseudoLocaleOptions)
+  name: Wrap(Func<string, string>, PseudoLocaleOptions)
+  href: api/Forma.Xaml.PseudoLocalizer.html#Forma_Xaml_PseudoLocalizer_Wrap_System_Func_System_String_System_String__Forma_Xaml_PseudoLocaleOptions_
+  commentId: M:Forma.Xaml.PseudoLocalizer.Wrap(System.Func{System.String,System.String},Forma.Xaml.PseudoLocaleOptions)
+  name.vb: Wrap(Func(Of String, String), PseudoLocaleOptions)
+  fullName: Forma.Xaml.PseudoLocalizer.Wrap(System.Func<string, string>, Forma.Xaml.PseudoLocaleOptions)
+  fullName.vb: Forma.Xaml.PseudoLocalizer.Wrap(System.Func(Of String, String), Forma.Xaml.PseudoLocaleOptions)
+  nameWithType: PseudoLocalizer.Wrap(Func<string, string>, PseudoLocaleOptions)
+  nameWithType.vb: PseudoLocalizer.Wrap(Func(Of String, String), PseudoLocaleOptions)
+- uid: Forma.Xaml.PseudoLocalizer.Wrap*
+  name: Wrap
+  href: api/Forma.Xaml.PseudoLocalizer.html#Forma_Xaml_PseudoLocalizer_Wrap_
+  commentId: Overload:Forma.Xaml.PseudoLocalizer.Wrap
+  fullName: Forma.Xaml.PseudoLocalizer.Wrap
+  nameWithType: PseudoLocalizer.Wrap
 - uid: Forma.Xaml.PseudoStateAttribute
   name: PseudoStateAttribute
   href: api/Forma.Xaml.PseudoStateAttribute.html
