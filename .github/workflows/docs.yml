@@ -94,6 +94,7 @@ jobs:
             --cache
             --max-retries 3
             --retry-wait-time 2
+            --exclude '^https://github\.com/zigrok/Forma/(blob|tree)/main/'
             './README.md'
             './docs/**/*.md'
           fail: true

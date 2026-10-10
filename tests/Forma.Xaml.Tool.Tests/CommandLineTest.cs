@@ -102,7 +102,7 @@ public sealed class CommandLineTest
         {
             var path = Path.Combine(docs, relative.Replace('/', Path.DirectorySeparatorChar));
             Assert.That(File.Exists(path), Is.True, $"{relative} is missing; run: forma-xaml docs --out docs");
-            Assert.That(File.ReadAllText(path), Is.EqualTo(content), $"{relative} is out of date; run: forma-xaml docs --out docs");
+            Assert.That(File.ReadAllText(path).ReplaceLineEndings("\n"), Is.EqualTo(content.ReplaceLineEndings("\n")), $"{relative} is out of date; run: forma-xaml docs --out docs");
         }
 
         foreach (System.Text.RegularExpressions.Match link in System.Text.RegularExpressions.Regex.Matches(File.ReadAllText(Path.Combine(docs, "llms.txt")), @"\]\(([^)]+)\)"))

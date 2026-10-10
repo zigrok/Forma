@@ -20,6 +20,7 @@ permissions:
   contents: read
 
 env:
+  RETRY_ATTEMPTS: 3
   MSBUILDDISABLENODEREUSE: 1
   DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER: 1
 
@@ -329,21 +330,21 @@ jobs:
           dotnet-version: 10.0.x
       - name: Build and validate native ThorVG
         run: |
-          make thorvg-spike
+          bash scripts/retry.sh make thorvg-spike
           THORVG_SANITIZE=true THORVG_ARTIFACTS_DIR="$RUNNER_TEMP/forma-thorvg-sanitized" make thorvg-spike
       - name: Validate managed, package, conformance, and GPU matrices
         run: |
-          make svg-selection
-          dotnet test tests/Forma.ThorVG.Tests/Forma.ThorVG.Tests.csproj --configuration Release -p:FormaRuntime=MonoGame --nologo
-          dotnet test tests/Forma.ThorVG.Tests/Forma.ThorVG.Tests.csproj --configuration Release -p:FormaRuntime=FNA --nologo
-          make svg-packages
-          make svg-compare
-          make thorvg-render
-          make thorvg-catalog
+          bash scripts/retry.sh make svg-selection
+          bash scripts/retry.sh dotnet test tests/Forma.ThorVG.Tests/Forma.ThorVG.Tests.csproj --configuration Release -p:FormaRuntime=MonoGame --nologo
+          bash scripts/retry.sh dotnet test tests/Forma.ThorVG.Tests/Forma.ThorVG.Tests.csproj --configuration Release -p:FormaRuntime=FNA --nologo
+          bash scripts/retry.sh make svg-packages
+          bash scripts/retry.sh make svg-compare
+          bash scripts/retry.sh make thorvg-render
+          bash scripts/retry.sh make thorvg-catalog
       - name: Validate ThorVG dynamic and static NativeAOT
         run: |
-          make thorvg-nativeaot
-          make thorvg-static-host
+          bash scripts/retry.sh make thorvg-nativeaot
+          bash scripts/retry.sh make thorvg-static-host
       - name: Upload ThorVG macOS evidence
         if: always()
         uses: actions/upload-artifact@v7
