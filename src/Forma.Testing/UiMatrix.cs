@@ -11,6 +11,7 @@ namespace Forma
     /// <summary>One cell of a <see cref="UiMatrix"/> run: the view, locale, UI scale and viewport it was laid out with.</summary>
     public sealed class UiMatrixCase
     {
+        /// <summary>Creates a case.</summary>
         public UiMatrixCase(string view, string locale, int scalePercent, Vector2 viewport, float displayScale, Vector2 logicalViewport)
         {
             View = view;
@@ -21,7 +22,9 @@ namespace Forma
             LogicalViewport = logicalViewport;
         }
 
+        /// <summary>The name of the view.</summary>
         public string View { get; }
+        /// <summary>The locale the view was built for.</summary>
         public string Locale { get; }
         /// <summary>The user's UI scale percent (100 is the default).</summary>
         public int ScalePercent { get; }
@@ -31,33 +34,41 @@ namespace Forma
         public float DisplayScale { get; }
         /// <summary>The viewport in logical UI units, which is what the controls are laid out in.</summary>
         public Vector2 LogicalViewport { get; }
+        /// <summary>View, locale, scale and viewport as one line.</summary>
         public override string ToString() => $"{View} | {Locale} | {ScalePercent}% | {Viewport.X:0}x{Viewport.Y:0}";
     }
 
     /// <summary>A named view a <see cref="UiMatrix"/> run lays out; the factory receives the case so it can build the view for that locale.</summary>
     public sealed class UiMatrixView
     {
+        /// <summary>Creates a view entry.</summary>
         public UiMatrixView(string name, Func<UiMatrixCase, Control> create)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Create = create ?? throw new ArgumentNullException(nameof(create));
         }
 
+        /// <summary>The name reported in failures.</summary>
         public string Name { get; }
+        /// <summary>Builds the view for a case.</summary>
         public Func<UiMatrixCase, Control> Create { get; }
     }
 
     /// <summary>A failure found in one cell of the matrix.</summary>
     public sealed class UiMatrixFailure
     {
+        /// <summary>Creates a failure.</summary>
         public UiMatrixFailure(UiMatrixCase matrixCase, string message)
         {
             Case = matrixCase;
             Message = message;
         }
 
+        /// <summary>The cell that failed.</summary>
         public UiMatrixCase Case { get; }
+        /// <summary>What the check reported.</summary>
         public string Message { get; }
+        /// <summary>The case and the message as one line.</summary>
         public override string ToString() => $"{Case}: {Message}";
     }
 
