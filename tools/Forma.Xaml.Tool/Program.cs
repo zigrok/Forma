@@ -42,7 +42,34 @@ internal static class Program
         if (options.Paths.Count == 0) return Usage();
         var diagnostics = ValidateFiles(DiscoverFiles(options.Paths), options.RequireCompiledBindings);
         WriteDiagnostics(diagnostics, options.Format);
-        return diagnostics.Any(diagnostic => diagnostic.Severity == FormaDiagnosticSeverity.Error) ? 1 : 0;
+        var failed = diagnostics.Any(diagnostic => diagnostic.Severity == FormaDiagnosticSeverity.Error);
+        if (!options.Layout) return failed ? 1 : 0;
+        return failed ? 1 : LayoutCheck(options);
+    }
+
+    // forma-xaml validate --layout <View.fhtml> [--lang l] [--scale n] [--size WxH]: after the markup validates, the project's layout host lays the
+    // view out with the application's types and prints what is clipped or overflowing (Forma's UIContext.FindLayoutProblems). The host is the
+    // "layoutHost" script in forma-preview.json, run as: <script> <view> [--lang l] [--scale n] [--size WxH]; exit 0 means no problems.
+    private static int LayoutCheck(ToolOptions options)
+    {
+        var files = DiscoverFiles(options.Paths).Where(file => file.EndsWith(".fhtml", StringComparison.OrdinalIgnoreCase)).ToArray();
+        if (files.Length != 1) { Console.Error.WriteLine("validate --layout takes exactly one .fhtml view. Help: forma-xaml validate --layout <View.fhtml>."); return 2; }
+        var view = files[0];
+        string? configPath = null;
+        for (var probe = new DirectoryInfo(Path.GetDirectoryName(view)!); probe != null && configPath == null; probe = probe.Parent)
+            if (File.Exists(Path.Combine(probe.FullName, "forma-preview.json"))) configPath = Path.Combine(probe.FullName, "forma-preview.json");
+        if (configPath == null) { Console.Error.WriteLine("No forma-preview.json found above the view. Help: add {\"layoutHost\": \"tools/layout.sh\"} at the project root; the host lays the view out with your application's types and prints layout problems."); return 2; }
+        using var config = JsonDocument.Parse(File.ReadAllText(configPath));
+        var host = config.RootElement.TryGetProperty("layoutHost", out var hostElement) ? hostElement.GetString() : null;
+        if (string.IsNullOrWhiteSpace(host)) { Console.Error.WriteLine($"{configPath}: \"layoutHost\" is missing. Help: name the script that lays a view out and prints UIContext.FindLayoutProblems findings."); return 2; }
+        var hostPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(configPath)!, host));
+        var start = new System.Diagnostics.ProcessStartInfo(hostPath) { WorkingDirectory = Path.GetDirectoryName(configPath)!, UseShellExecute = false };
+        start.ArgumentList.Add(view);
+        foreach (var (name, value) in new[] { ("--lang", options.Lang), ("--scale", options.Scale), ("--size", options.Size) })
+            if (value != null) { start.ArgumentList.Add(name); start.ArgumentList.Add(value); }
+        using var process = System.Diagnostics.Process.Start(start) ?? throw new InvalidOperationException("The layout host did not start.");
+        process.WaitForExit();
+        return process.ExitCode;
     }
 
     private static int Watch(string[] args)
@@ -319,6 +346,7 @@ internal static class Program
     private static int Usage(int exitCode = 2)
     {
         Console.Error.WriteLine("Usage: forma-xaml validate [--format human|json|sarif] [--require-compiled-bindings] <project|directory|file...>");
+        Console.Error.WriteLine("       forma-xaml validate --layout [--lang l] [--scale n] [--size WxH] <View.fhtml>");
         Console.Error.WriteLine("       forma-xaml watch [--once] [--format human|json|sarif] <project|directory|file...>");
         Console.Error.WriteLine("       forma-xaml schema [--json]");
         Console.Error.WriteLine("       forma-xaml lsp --stdio");
@@ -339,6 +367,10 @@ internal static class Program
         public string Format { get; private set; } = "human";
         public bool RequireCompiledBindings { get; private set; }
         public bool Once { get; private set; }
+        public bool Layout { get; private set; }
+        public string? Lang { get; private set; }
+        public string? Scale { get; private set; }
+        public string? Size { get; private set; }
 
         public static ToolOptions Parse(string[] args)
         {
@@ -348,6 +380,13 @@ internal static class Program
                 if (args[index] == "--format" && index + 1 < args.Length) result.Format = args[++index];
                 else if (args[index] == "--require-compiled-bindings") result.RequireCompiledBindings = true;
                 else if (args[index] == "--once") result.Once = true;
+                else if (args[index] == "--layout") result.Layout = true;
+                else if (args[index] is "--lang" or "--scale" or "--size" && index + 1 < args.Length)
+                {
+                    var name = args[index];
+                    var value = args[++index];
+                    if (name == "--lang") result.Lang = value; else if (name == "--scale") result.Scale = value; else result.Size = value;
+                }
                 else if (args[index] is "--configuration" or "--reference") { if (++index >= args.Length) throw new ArgumentException($"{args[index - 1]} requires a value."); }
                 else if (args[index].StartsWith('-')) throw new ArgumentException($"Unknown option '{args[index]}'.");
                 else result.Paths.Add(args[index]);
