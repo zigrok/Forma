@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Designing screens with an agent | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Designing screens with an agent | Forma Documentation ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/agent-design-guide.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="designing-screens-with-an-agent">Designing screens with an agent</h1>
+
+<p>Read this before designing or restyling a screen. It is written for a coding agent working in an
+application built on Forma, and it uses Trace Arena as the worked example because every claim below is
+backed by a compiled view, a test or a gallery frame there.</p>
+<p>The loop is: <strong>change → render → read the verdict</strong>. Do not judge a UI from XAML alone.</p>
+<h2 id="design-language">Design language</h2>
+<p>Define every design value once, as a resource, and refer to it by name.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Rule</th>
+<th>Trace Arena source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Color</td>
+<td>Surfaces, borders, text and accents are named tokens (<code>Trace.Color.*</code>). Views use classes (<code>trace-surface</code>, <code>trace-text-muted</code>), never hex.</td>
+<td><code>UI/Resources/TraceRootView.xaml</code></td>
+</tr>
+<tr>
+<td>Spacing</td>
+<td>One scale: 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20. A new value needs a new token.</td>
+<td><code>Trace.Space.*</code>, <code>TokenLintTests</code></td>
+</tr>
+<tr>
+<td>Radius, border, elevation</td>
+<td><code>Trace.Radius</code>, <code>Trace.Border</code>, <code>Trace.Elevation</code> tokens.</td>
+<td><code>TraceRootView.xaml</code></td>
+</tr>
+<tr>
+<td>Typography</td>
+<td>One body size; emphasis is weight (Regular → Bold on hover or selection), not size. Titles use the title tokens.</td>
+<td><code>TraceStyle.cs</code></td>
+</tr>
+<tr>
+<td>Motion</td>
+<td>Durations and easing are tokens; honor reduced motion.</td>
+<td><code>Trace.Motion.*</code></td>
+</tr>
+<tr>
+<td>Buttons</td>
+<td>One shared template with a border. Hover, keyboard-selected and gamepad-selected share one highlight so a pointer user and a controller user see the same thing.</td>
+<td><code>TraceButtonTemplate</code></td>
+</tr>
+<tr>
+<td>Panel vs dialog</td>
+<td>A panel sits on <code>trace-surface-menu</code> or <code>-card</code>; a dialog is <code>trace-surface-dialog</code> over <code>trace-surface-scrim</code> and owns focus until dismissed.</td>
+<td><code>OverlaySurfaceView</code>, the map editor unsaved-changes dialog</td>
+</tr>
+<tr>
+<td>Selection and hover</td>
+<td>Selected rows use the highlight surface plus bold weight. Hover and keyboard selection must be distinguishable from rest at a glance and from each other by more than color.</td>
+<td><code>ButtonHighlight</code>, gallery <code>hover</code> / <code>keyboard-selected</code> frames</td>
+</tr>
+<tr>
+<td>Gamepad</td>
+<td>Everything reachable by keyboard is reachable by gamepad; the selected control is always visibly marked.</td>
+<td><code>gamepad-selected</code> class</td>
+</tr>
+</tbody>
+</table>
+<p>Good: a menu of same-height buttons, centered on a card, titles in the title style, one accent color.
+Bad: a one-off <code>Padding=&quot;13,16&quot;</code>, an inline <code>#FF123456</code>, a button that is 18px tall, a label that is
+secretly clickable. Each of these is caught by a test (see below).</p>
+<h2 id="pattern-library">Pattern library</h2>
+<p>Copy a proven structure instead of inventing one. Each is a compiled view you can open, plus a gallery
+scene that renders it.</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>View</th>
+<th>Gallery scene</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Centered menu card with stacked buttons</td>
+<td><code>MainMenuView</code>, <code>PauseView</code>, <code>PlayMenuView</code></td>
+<td><code>main-menu</code></td>
+</tr>
+<tr>
+<td>Tabbed settings page with label / value / action rows</td>
+<td><code>SettingsView</code>, <code>SettingsControlsPageView</code>, <code>SettingsBindingRowView</code></td>
+<td><code>settings-general</code>, <code>settings-controls</code></td>
+</tr>
+<tr>
+<td>List with realized rows and per-row actions</td>
+<td><code>MapEditorView</code>, <code>MapEditorRowView</code>, <code>MapBrowserRowView</code></td>
+<td><code>map-editor-list</code></td>
+</tr>
+<tr>
+<td>Modal dialog with up to three actions</td>
+<td><code>MapEditorView</code> dialog, <code>BrowserView</code> dialog</td>
+<td><code>unsaved-dialog</code></td>
+</tr>
+<tr>
+<td>Round setup form</td>
+<td><code>RoundSettingsView</code>, <code>RoundSettingRowView</code></td>
+<td><code>local-game</code></td>
+</tr>
+</tbody>
+</table>
+<p>Annotated anatomy of the menu card (<code>PauseView.xaml</code>):</p>
+<ol>
+<li><code>Container</code> root, so the hint bar can overlay the card.</li>
+<li><code>Border</code> with <code>trace-surface-card trace-border</code>, fixed minimum width (the card never collapses).</li>
+<li><code>VBoxContainer</code> with a spacing token between children.</li>
+<li>Title <code>Label</code> with <code>trace-title</code>.</li>
+<li><code>Button</code> children with <code>trace-button</code>, a minimum size, a localized <code>Text</code> binding and an
+<code>x:Name</code> only for code that needs the instance. The accessible name comes from the text, never
+from the XAML name.</li>
+</ol>
+<p>Row views created by a data template receive the shared classes and the container's <code>:hover</code> and
+<code>:selected</code> state with no extra code.</p>
+<h2 id="known-limits-and-workarounds">Known limits and workarounds</h2>
+<table>
+<thead>
+<tr>
+<th>Limit</th>
+<th>Workaround</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A control template is a style boundary: rules written outside do not reach its internals, and a descendant selector does not cross it.</td>
+<td>Use the template-child combinator <code>&gt;&gt;</code> once per boundary.</td>
+</tr>
+<tr>
+<td>Content shown through a presenter (list rows, GroupBox and ScrollContainer bodies, ContentPresenter content) belongs to the scope where it is written, so rules attached there reach it. A <code>DataTemplate</code> that wants its own style scope sets <code>IsolateStyles = true</code> and opts in with <code>StyleEngine.AttachFrom(view, source)</code>.</td>
+<td>None needed by default. Ancestor combinators still stop at boundaries, so a row cannot match a <code>.class</code> on an element outside its template; use <code>Control.PseudoStateSource</code> or a class on the row view.</td>
+</tr>
+<tr>
+<td>A row view matches the <code>:hover</code>, <code>:selected</code> and <code>:current</code> state of its item container (<code>Control.PseudoStateSource</code>, set by the presenter for list and data-grid rows).</td>
+<td>Write <code>.row:selected</code> and <code>.row:hover</code> rules on the row view; no per-frame code.</td>
+</tr>
+<tr>
+<td>A style setter for <code>ColorRect.Color</code> does not apply.</td>
+<td>Set <code>Color</code> on the control directly; keep it to the documented exceptions in <code>TokenLintTests</code>.</td>
+</tr>
+<tr>
+<td><code>{DynamicResource}</code> in a style setter is live (<code>DynamicStyleSetter&lt;T&gt;</code>): changing the resource updates controls the style already applied to.</td>
+<td>A key that no scope defines leaves the property unset, so define tokens at the root.</td>
+</tr>
+<tr>
+<td>Layout never shrinks a control below its minimum size, so an over-long translation runs off the screen instead of clipping inside its parent.</td>
+<td>The design lint's offscreen check catches it; shorten the text or lower the minimum.</td>
+</tr>
+<tr>
+<td>Headless tests cannot measure glyphs.</td>
+<td>Rely on gallery frames for pt-BR and ja to catch glyph-level clipping.</td>
+</tr>
+<tr>
+<td>A control built in code only receives styles once it sits under a styled root.</td>
+<td>Add it to the tree; classes and pseudo-state rules then apply exactly as for XAML controls (<code>StyleEngine_CodeBuiltControl_ReceivesClassStyleAndStatePseudoRules</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Ask</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Why is this not highlighted?&quot;</td>
+<td>Which rules matched, which did not and why?</td>
+<td><code>StyleInspector.Inspect(control)</code>; in the live game <code>game_ui</code> action <code>ui-inspect button=&lt;automation id or name&gt;</code> returns <code>styleInspection</code>. A &quot;no style set attached&quot; reason means the control is in an isolated scope: use <code>AttachFrom</code>.</td>
+</tr>
+<tr>
+<td>A rule exists but never applies</td>
+<td>Is the class spelled right, is the pseudo-state active, is an adaptive condition (modality) unmet?</td>
+<td>The inspector's reason text names the exact missing class, inactive pseudo-state or unmet condition.</td>
+</tr>
+<tr>
+<td>Text is invisible or faint</td>
+<td>Is contrast below 4.5:1 in some state?</td>
+<td><code>DesignLint</code> contrast checks and <code>StateColors_KeepTheirTextReadable</code>.</td>
+</tr>
+<tr>
+<td>A button cannot be found by an agent or screen reader</td>
+<td>Does it have a human name?</td>
+<td><code>ui-tree</code> via <code>game_ui</code>; the naming lint.</td>
+</tr>
+<tr>
+<td>The layout looks different in another language or scale</td>
+<td>Does it still fit?</td>
+<td><code>make gallery</code> renders en, ja and pt-BR at 100% and 130%; the lint runs en, es, pt-BR and ja.</td>
+</tr>
+<tr>
+<td>&quot;Did my change break another screen?&quot;</td>
+<td>Which screens render differently?</td>
+<td><code>make gallery-changed</code> re-renders only the affected scenes and reports the diff; <code>make gallery</code> renders all. Accept intended change with <code>make gallery-update</code> after reviewing the overlays.</td>
+</tr>
+<tr>
+<td>A color or spacing value is &quot;wrong&quot;</td>
+<td>Is it a literal?</td>
+<td><code>TokenLintTests</code> fails on raw hex, off-scale spacing and <code>FontSize</code> in views.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="verification-checklist">Verification checklist</h2>
+<p>Before declaring a UI change done: <code>dotnet build</code> and <code>dotnet test</code> are clean, <code>make gallery-changed</code>
+shows only intended change, and <code>tools/lint-mutation-proof.sh</code> still shows every lint failing on its
+seeded defect.</p>
+<h2 id="authoring-in-html-and-css">Authoring in HTML and CSS</h2>
+<p>A view can also be written in the strict HTML and CSS dialect (<code>.fhtml</code>); see <a href="html-css-dialect.html">the dialect guide</a>. It converts
+to the same XAML, so everything above (tokens, classes, the gallery, the inspector and the lints) applies unchanged. Trace Arena's
+main menu and Settings &gt; Controls page are authored this way and render identically to their XAML originals.</p>
+<p>Shared design values can live in a <code>.fcss</code> stylesheet linked from the root view: tokens as <code>:root</code> custom properties (live through
+<code>var()</code>), classes as rules, with templates and template-part styles kept as XAML in <code>&lt;f-resources&gt;</code>. See
+<a href="html-css-dialect.html#shared-stylesheets-fcss">the dialect guide</a> and <a href="design-system-fcss.html">a design system in <code>.fcss</code></a>. The inspector
+reports a winning value's source as <code>rule @ theme.fcss:line</code> in Debug builds, and the <code>.fhtml</code> lints reject raw color and spacing
+literals and undefined classes.</p>
+<h2 id="tooling-for-agents">Tooling for agents</h2>
+<p>The change-verify loop, every command, the <code>forma-ui</code> skill (<code>forma-xaml agent install</code>), the MCP server (<code>forma-xaml mcp</code>) and the
+live-app tools (<code>ui-query</code>, <code>ui-inspect</code>, element screenshots, preference emulation) are in <a href="agents.html">Forma for AI agents</a>; the
+machine-readable index is <code>llms.txt</code>.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/agent-design-guide.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · c915fff478f4 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

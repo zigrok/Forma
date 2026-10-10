@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>A design system in .fcss | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="A design system in .fcss | Forma Documentation ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/design-system-fcss.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="a-design-system-in-fcss">A design system in <code>.fcss</code></h1>
+
+<p>A web design system such as Bootstrap is one stylesheet with tokens, components and utility classes that every page links.
+Forma's dialect has the same shape: a shared <code>.fcss</code> file linked from your views. It is not Bootstrap compatible (the dialect rejects
+<code>em</code>, <code>%</code>, <code>calc()</code>, <code>box-shadow</code>, gradients, <code>position</code>, floats and pseudo-elements), so a Forma design system is written in the
+dialect. This page is the starting point.</p>
+<p>The complete sheet is <a href="examples/design-system.fcss"><code>docs/examples/design-system.fcss</code></a>; a test converts it and styles a component
+view with it, so it stays valid.</p>
+<h2 id="tokens">Tokens</h2>
+<pre><code class="lang-css">:root {
+  --surface: #14213D;
+  --accent: #47E4FF;
+  --text: #E0F8FF;
+  --space-2: 8px;
+}
+</code></pre>
+<p>Colors become a brush and a <code>Color</code>, numbers become <code>Single</code> resources. Change the token and every control styled with
+<code>var(--accent)</code> updates live. Define them once in the sheet; views never repeat a color or spacing literal, and a lint rejects raw
+literals in <code>.fhtml</code> views.</p>
+<h2 id="components">Components</h2>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>What it styles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>label.text</code>, <code>label.text-muted</code>, <code>label.title</code></td>
+<td>text colors and the title size and weight</td>
+</tr>
+<tr>
+<td><code>f-border.card</code>, <code>f-border.card-raised</code></td>
+<td>a bordered, padded surface</td>
+</tr>
+<tr>
+<td><code>button.btn</code>, <code>button.btn-primary</code></td>
+<td>minimum size, rest/hover weight, disabled opacity</td>
+</tr>
+<tr>
+<td><code>f-hbox.gap-1</code> ... <code>f-vbox.gap-4</code></td>
+<td>spacing utilities: <code>gap</code> on a row or column container</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;design-system.fcss&quot;&gt;
+&lt;div style=&quot;display: flex; flex-direction: column&quot; class=&quot;gap-3&quot;&gt;
+  &lt;f-border class=&quot;card&quot;&gt;&lt;span class=&quot;title&quot;&gt;Settings&lt;/span&gt;&lt;/f-border&gt;
+  &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;OnSave&quot;&gt;Save&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Note the utility classes are written for the flex containers the converter produces (<code>f-hbox</code> and <code>f-vbox</code> select the generated
+<code>HBoxContainer</code> and <code>VBoxContainer</code>).</p>
+<h2 id="extending-it">Extending it</h2>
+<ul>
+<li>Add a class rule per component state (<code>:hover</code>, <code>:active</code>, <code>:disabled</code>, <code>:focus</code>, <code>:checked</code>).</li>
+<li>Put input-dependent rules in <code>@media (input-modality: pointer|keyboard|gamepad|touch)</code>.</li>
+<li>Anything the dialect cannot express (control templates, <code>&gt;&gt;</code> template-child selectors) stays XAML next to the sheet, reached with
+<code>-f-Template: {StaticResource Key}</code> and <code>resource(Key)</code>; Trace Arena's theme (<code>theme.fcss</code> plus the XAML kept in
+<code>TraceRootView.fhtml</code>) is a worked example.</li>
+<li>Check the result with the gallery, the style inspector and the design lints described in the
+<a href="agent-design-guide.html">agent design guide</a>.</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/design-system-fcss.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · c915fff478f4 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

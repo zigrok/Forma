@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>The HTML and CSS authoring dialect | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="The HTML and CSS authoring dialect | Forma Documentation ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/html-css-dialect.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="the-html-and-css-authoring-dialect">The HTML and CSS authoring dialect</h1>
+
+<p>Forma views can be written in a strict subset of HTML and CSS (<code>.fhtml</code> files and <code>.fcss</code> stylesheets) instead of XAML; an application can be written entirely in the dialect (Trace Arena has no XAML source). A build-time converter turns
+each file into canonical XAML, and the existing XAML pipeline does everything else, so the runtime, generated code, trimming and
+NativeAOT guarantees are exactly the XAML ones. XAML stays the reference format and a project can mix both.</p>
+<p>This is a Forma dialect that borrows HTML and CSS notation. It is not a browser: no JavaScript, no DOM at runtime, no web view,
+and <strong>a construct outside the dialect fails the build with a diagnostic, it is never approximated.</strong></p>
+<h2 id="using-it">Using it</h2>
+<p>Put <code>.fhtml</code> files in a project that references <code>Forma.Xaml.Build</code>. Every <code>**/*.fhtml</code> item converts into the intermediate
+directory (<code>*.fhtml.xaml</code> plus a <code>*.fhtmlmap</code> source map) and joins the <code>FormaXaml</code> items. A view declares its code-behind class and
+data type on the root element:</p>
+<pre><code class="lang-html">&lt;meta name=&quot;f-namespace&quot; content=&quot;local=clr-namespace:MyApp.ViewModels&quot;&gt;
+&lt;style&gt;
+  button.primary { min-width: 320px; min-height: 46px; }
+  button.primary:hover { font-weight: bold; }
+&lt;/style&gt;
+&lt;div data-class=&quot;MyApp.MenuView&quot; data-type=&quot;local:MenuViewModel&quot;&gt;
+  &lt;div style=&quot;border-width: 1px; padding: 16px 18px; border-radius: 3px&quot;&gt;
+    &lt;div style=&quot;display: flex; flex-direction: column; gap: 10px&quot;&gt;
+      &lt;button id=&quot;PlayButton&quot; class=&quot;primary&quot; tabindex=&quot;-1&quot; bind:text=&quot;PlayText&quot; onclick=&quot;OnPlayPressed&quot;&gt;&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h2 id="elements">Elements</h2>
+<p>Every row below is a catalog entry (<code>FormaHtmlDialect.Catalog</code>) that a test converts and compiles, so the table matches the converter.</p>
+<table>
+<thead>
+<tr>
+<th>HTML</th>
+<th>Forma</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>div</code>, <code>section</code>, <code>nav</code>, <code>main</code>, <code>header</code>, <code>footer</code></td>
+<td><code>Container</code>; <code>HBoxContainer</code> / <code>VBoxContainer</code> with <code>display: flex</code>; <code>Border</code> when it has padding, border or background; <code>GridPanel</code> with <code>display: grid</code></td>
+</tr>
+<tr>
+<td><code>span</code>, <code>p</code>, <code>label</code>, <code>h1</code>-<code>h6</code></td>
+<td><code>Label</code> (text content becomes <code>Text</code>)</td>
+</tr>
+<tr>
+<td><code>button</code></td>
+<td><code>Button</code></td>
+</tr>
+<tr>
+<td><code>input type=text</code>, <code>textarea</code></td>
+<td><code>LineEdit</code>, <code>TextEdit</code></td>
+</tr>
+<tr>
+<td><code>input type=checkbox</code>, <code>input type=range</code></td>
+<td><code>CheckBox</code>, <code>HSlider</code></td>
+</tr>
+<tr>
+<td><code>select</code></td>
+<td><code>OptionButton</code></td>
+</tr>
+<tr>
+<td><code>ul</code>, <code>ol</code>, <code>li</code></td>
+<td><code>VBoxContainer</code> of <code>Container</code> items</td>
+</tr>
+<tr>
+<td><code>table</code>, <code>tr</code>, <code>td</code>, <code>th</code></td>
+<td><code>GridPanel</code> (columns from the widest row; <code>colspan</code> supported)</td>
+</tr>
+<tr>
+<td><code>f-border</code>, <code>f-scroll</code>, <code>f-group-box</code></td>
+<td><code>Border</code>, <code>ScrollContainer</code>, <code>GroupBox</code></td>
+</tr>
+<tr>
+<td><code>f-control type=&quot;prefix:Type&quot;</code></td>
+<td>any control, with <code>&lt;meta name=&quot;f-namespace&quot; content=&quot;prefix=clr-namespace:...&quot;&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="attributes">Attributes</h2>
+<p><code>id</code> → <code>x:Name</code>; <code>class</code> → <code>Classes</code>; <code>hidden</code>, <code>disabled</code> → <code>Visible</code>/<code>Enabled</code>; <code>title</code> → <code>TooltipText</code>; <code>aria-label</code> →
+<code>AccessibilityLabel</code>; <code>data-automation-id</code> → <code>AutomationId</code>; <code>tabindex</code> (<code>-1</code> or <code>0</code>) → <code>FocusMode</code>; <code>data-class</code>, <code>data-type</code> →
+<code>x:Class</code>, <code>x:DataType</code>; <code>onclick</code>, <code>onchange</code>, <code>onfocus</code>, <code>onblur</code> name a code-behind handler, never an expression;
+<code>bind:text=&quot;Path; mode=TwoWay&quot;</code> → <code>{Binding Path, Mode=TwoWay}</code> (any property, <code>bind:visible</code>, <code>bind:enabled</code>, <code>bind:title</code>).
+<code>f:Property=&quot;value&quot;</code> sets any Forma property verbatim; the XAML compiler validates it. <code>f-scroll</code> takes <code>data-follow-focus</code>,
+<code>data-horizontal</code>, <code>data-vertical</code> and <code>data-step-buttons</code>.</p>
+<h2 id="css">CSS</h2>
+<ul>
+<li>Selectors: type (<code>button</code>, <code>span</code>, <code>p</code>, <code>label</code>, <code>h1</code>-<code>h3</code>, <code>input</code>, <code>div</code>, <code>f-border</code>, <code>f-group-box</code>, <code>f-scroll</code>), class, id,
+descendant and child (<code>&gt;</code>) combinators, <code>:hover</code>, <code>:active</code> (pressed), <code>:focus</code>, <code>:disabled</code>, <code>:checked</code>, <code>:selected</code>, <code>:not()</code>.
+They lower to Forma <code>Style</code> entries. Specificity and order are Forma's, not the browser's.</li>
+<li>Properties: <code>display</code> (<code>flex</code>, <code>grid</code>, <code>block</code>, <code>none</code>), <code>flex-direction</code>, <code>gap</code>, <code>flex-grow</code>, <code>align-self</code>, <code>min-width</code>,
+<code>min-height</code>, <code>padding</code>, <code>border-width</code>, <code>border-radius</code>, <code>border-color</code>, <code>background-color</code>, <code>color</code>, <code>font-size</code>,
+<code>font-weight</code>, <code>opacity</code>, <code>pointer-events</code> (<code>none</code> → <code>MouseFilter=&quot;Ignore&quot;</code>), <code>text-align</code>, <code>vertical-align</code>,
+<code>grid-template-columns</code>, <code>grid-template-rows</code>, <code>grid-column</code>, <code>grid-row</code>, <code>transition</code>.</li>
+<li><code>@media (input-modality: pointer|keyboard|gamepad|touch)</code>, <code>(min-width: Npx)</code> and <code>(max-width: Npx)</code> → <code>AdaptiveCondition</code>.</li>
+<li><code>transition: opacity 150ms</code> → <code>FloatTransition</code>/<code>ColorTransition</code> for <code>opacity</code>, <code>background-color</code>, <code>border-color</code>, <code>color</code>, <code>font-size</code>.</li>
+<li><code>:root { --name: value }</code> and <code>var(--name)</code>.</li>
+<li>Units: <code>px</code>, unitless, and <code>rem</code> (16 px). Colors: <code>#RRGGBB</code> and <code>#RRGGBBAA</code>.</li>
+<li>Inline <code>style</code> lowers to attributes on that element; rules in a <code>&lt;style&gt;</code> block lower to styles.</li>
+</ul>
+<h2 id="shared-stylesheets-fcss">Shared stylesheets (<code>.fcss</code>)</h2>
+<p>A stylesheet shared by many views is a <code>.fcss</code> file, linked before the root element:</p>
+<pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;theme.fcss&quot;&gt;
+</code></pre>
+<ul>
+<li><code>href</code> is relative to the linking file (a leading <code>/</code> is the project root). It must end in <code>.fcss</code> and stay inside the project;
+URLs, plain <code>.css</code> files and any <code>rel</code> other than <code>stylesheet</code> fail with <code>FHTML1004</code>, and a missing file with <code>FHTML1006</code>.</li>
+<li>A <code>.fcss</code> holds the same strict CSS a <code>&lt;style&gt;</code> block does (rules, <code>:root</code> tokens, <code>@media</code>, <code>transition</code>) and gets the same
+diagnostics, located at the <code>.fcss</code> line. Each sheet is read, parsed and converted once per build; the converted entries are placed
+in the root resources of every linking view, ahead of the view's own <code>&lt;style&gt;</code>, so a view overrides the theme like a page overrides a
+CSS file. A theme linked from the application root view reaches every screen through the style engine's default reach.</li>
+<li>Tokens: <code>:root { --accent: #47E4FF; --gap: 12px }</code> lowers to typed resources. A color is both a <code>SolidColorBrush</code> (<code>accent</code>)
+and a <code>Color</code> (<code>accent.color</code>); a number or single length is a <code>Single</code> (<code>gap</code>). <code>var(--accent)</code> lowers to a live
+<code>{DynamicResource}</code> for <code>color</code>, <code>background-color</code>, <code>border-color</code>, <code>font-size</code>, <code>opacity</code> and <code>gap</code>, so changing the resource at
+runtime updates styled controls. Elsewhere (for example <code>padding</code>, <code>min-width</code>) the value is substituted at build time.
+A token in the view's own <code>&lt;style&gt;</code> shadows the shared one for that view.</li>
+<li>Bridges to XAML: <code>resource(Trace.Color.Text)</code> references a resource defined elsewhere (live), <code>-f-Property: value</code> sets any Forma
+property verbatim (<code>-f-Template: {StaticResource MyTemplate}</code>), and <code>&lt;f-resources&gt;</code> embeds raw XAML (templates, storyboards,
+<code>&gt;&gt;</code> selector styles) in a view. The dialect has no template-child combinator and no selector types for every control yet, so a theme
+is typically a hybrid: class styles and tokens in <code>.fcss</code>, templates and template-part styles in <code>&lt;f-resources&gt;</code>.</li>
+<li>Tooling: <code>forma-xaml format</code> formats <code>.fcss</code>; Debug hot reload of a changed <code>.fcss</code> reconverts every view that links it;
+<code>StyleInspector</code> reports a winning value's source as <code>Button.primary @ theme.fcss:12</code> in Debug builds (release artifacts omit
+the location); a changed sheet regenerates only the views that link it.</li>
+<li>See <a href="design-system-fcss.html">a design system in <code>.fcss</code></a> for a small component set.</li>
+</ul>
+<h2 id="differences-from-browsers">Differences from browsers</h2>
+<ul>
+<li><code>padding</code> is <code>Padding</code> on a decorated element and <code>Margins</code> on a flex container. <code>margin</code> has no single Forma counterpart and
+is rejected; use <code>gap</code>, <code>padding</code> or <code>f:Margins</code>.</li>
+<li>Normal flow, margin collapsing and intrinsic sizing do not exist. Only the flex and grid forms with a defined mapping are accepted.</li>
+<li>A decorated <code>div</code> becomes a <code>Border</code>, which holds one child; wrap several children in a flex container.</li>
+<li>Custom properties lower to typed resources and live <code>{DynamicResource}</code> values for color, font size, opacity and gap (see shared
+stylesheets); in other properties they are substituted when the file is converted.</li>
+<li>Styles and attribute order follow Forma's rules: a rule applies to a control that matches at that moment, and local attributes win.</li>
+<li>Rejected with a stable code: <code>&lt;script&gt;</code>, inline event expressions, <code>position</code>, <code>float</code>, <code>calc()</code>, <code>em</code>/<code>%</code> units, gradients,
+<code>box-shadow</code>, <code>filter</code>, <code>backdrop-filter</code>, <code>!important</code>, unknown elements, attributes and properties.</li>
+</ul>
+<h2 id="diagnostics">Diagnostics</h2>
+<p>Codes <code>FHTML1xxx</code> (HTML) and <code>FHTML2xxx</code> (CSS) carry a project-relative path, line and column in the original file. Errors raised
+by later stages (names, bindings, resources) are remapped through the source map to the <code>.fhtml</code> line.</p>
+<h2 id="tooling">Tooling</h2>
+<ul>
+<li>Formatter: <code>forma-xaml format [--check] &lt;dir|file.fhtml&gt;</code>; deterministic and idempotent, comments preserved.</li>
+<li>Hot reload (Debug): <code>FormaXamlHotReloadService.RequestHtmlReloadAsync</code> converts the changed <code>.fhtml</code>, rewrites the generated XAML
+and reloads the view, preserving presenter and data context. Invalid input reports diagnostics at the HTML location and leaves
+the live tree intact. The Debug development output carries <code>.fhtml</code> sources and maps; release and NativeAOT artifacts never do.</li>
+<li>Release and NativeAOT: the converter lives in <code>Forma.Xaml.Compiler</code>, a build-host assembly. Published artifacts contain no
+parser, converter, <code>.fhtml</code> or <code>.fhtmlmap</code> file; the artifact verifier fails if they appear.</li>
+<li>Accessibility and testing: a converted view has the same tree, names and <code>AutomationId</code> values as its XAML original.</li>
+</ul>
+<h2 id="the-complete-dialect">The complete dialect</h2>
+<p>The generated pages are authoritative and always match the converter (a test compares them with the generator):</p>
+<ul>
+<li><a href="html-css-support-matrix.html">Support matrix</a>: every element, property, selector, at-rule and unit, supported or rejected with the
+alternative. <a href="html-css-reference.html">Reference</a>: each construct with an example and the Forma type it becomes.
+<a href="html-css-cookbook.html">Cookbook</a>: tested recipes.</li>
+<li>Beyond the basics above, the dialect has: control templates (<code>&lt;template for&gt;</code>, <code>&lt;slot&gt;</code>, <code>part</code>, <code>::part()</code>), data templates for
+lists and grids (<code>&lt;ul bind:items&gt;</code>, <code>&lt;table bind:items&gt;</code>), ARIA tabs, <code>&lt;dialog&gt;</code>, <code>@keyframes</code>/<code>animation</code>, <code>prefers-reduced-motion</code>
+and <code>prefers-color-scheme</code>, CSS custom properties as the resource keys, theme overrides (<code>:root[data-theme]</code>), <code>data-*</code> state
+selectors, structural pseudo-classes, <code>data-i18n</code>, <code>dir</code>, margin/padding with web box semantics, and visual effects the renderer can
+draw (shadows, gradients, transforms).</li>
+<li>Tools: <code>forma-xaml validate|format|preview|docs|agent|mcp|new</code>; see <a href="agents.html">Forma for AI agents</a> and <code>llms.txt</code>.</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/html-css-dialect.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · c915fff478f4 · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

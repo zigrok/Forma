@@ -2920,6 +2920,18 @@ references:
   commentId: Overload:Forma.Border.Shadows
   fullName: Forma.Border.Shadows
   nameWithType: Border.Shadows
+- uid: Forma.Border.ShadowsText
+  name: ShadowsText
+  href: api/Forma.Border.html#Forma_Border_ShadowsText
+  commentId: P:Forma.Border.ShadowsText
+  fullName: Forma.Border.ShadowsText
+  nameWithType: Border.ShadowsText
+- uid: Forma.Border.ShadowsText*
+  name: ShadowsText
+  href: api/Forma.Border.html#Forma_Border_ShadowsText_
+  commentId: Overload:Forma.Border.ShadowsText
+  fullName: Forma.Border.ShadowsText
+  nameWithType: Border.ShadowsText
 - uid: Forma.BoxAlignment
   name: BoxAlignment
   href: api/Forma.BoxAlignment.html
@@ -8284,6 +8296,18 @@ references:
   commentId: Overload:Forma.Control.AcceptEvent
   fullName: Forma.Control.AcceptEvent
   nameWithType: Control.AcceptEvent
+- uid: Forma.Control.AcceptsFocus
+  name: AcceptsFocus
+  href: api/Forma.Control.html#Forma_Control_AcceptsFocus
+  commentId: P:Forma.Control.AcceptsFocus
+  fullName: Forma.Control.AcceptsFocus
+  nameWithType: Control.AcceptsFocus
+- uid: Forma.Control.AcceptsFocus*
+  name: AcceptsFocus
+  href: api/Forma.Control.html#Forma_Control_AcceptsFocus_
+  commentId: Overload:Forma.Control.AcceptsFocus
+  fullName: Forma.Control.AcceptsFocus
+  nameWithType: Control.AcceptsFocus
 - uid: Forma.Control.AccessibilityActions
   name: AccessibilityActions
   href: api/Forma.Control.html#Forma_Control_AccessibilityActions
@@ -8731,6 +8755,12 @@ references:
   commentId: Overload:Forma.Control.CustomMinimumSize
   fullName: Forma.Control.CustomMinimumSize
   nameWithType: Control.CustomMinimumSize
+- uid: Forma.Control.DataChanged
+  name: DataChanged
+  href: api/Forma.Control.html#Forma_Control_DataChanged
+  commentId: E:Forma.Control.DataChanged
+  fullName: Forma.Control.DataChanged
+  nameWithType: Control.DataChanged
 - uid: Forma.Control.DataContext
   name: DataContext
   href: api/Forma.Control.html#Forma_Control_DataContext
@@ -8749,6 +8779,18 @@ references:
   commentId: E:Forma.Control.DataContextChanged
   fullName: Forma.Control.DataContextChanged
   nameWithType: Control.DataContextChanged
+- uid: Forma.Control.DataSet
+  name: DataSet
+  href: api/Forma.Control.html#Forma_Control_DataSet
+  commentId: P:Forma.Control.DataSet
+  fullName: Forma.Control.DataSet
+  nameWithType: Control.DataSet
+- uid: Forma.Control.DataSet*
+  name: DataSet
+  href: api/Forma.Control.html#Forma_Control_DataSet_
+  commentId: Overload:Forma.Control.DataSet
+  fullName: Forma.Control.DataSet
+  nameWithType: Control.DataSet
 - uid: Forma.Control.Detached
   name: Detached
   href: api/Forma.Control.html#Forma_Control_Detached
@@ -9007,6 +9049,18 @@ references:
   commentId: Overload:Forma.Control.FontStyle
   fullName: Forma.Control.FontStyle
   nameWithType: Control.FontStyle
+- uid: Forma.Control.FontVariationWeight
+  name: FontVariationWeight
+  href: api/Forma.Control.html#Forma_Control_FontVariationWeight
+  commentId: P:Forma.Control.FontVariationWeight
+  fullName: Forma.Control.FontVariationWeight
+  nameWithType: Control.FontVariationWeight
+- uid: Forma.Control.FontVariationWeight*
+  name: FontVariationWeight
+  href: api/Forma.Control.html#Forma_Control_FontVariationWeight_
+  commentId: Overload:Forma.Control.FontVariationWeight
+  fullName: Forma.Control.FontVariationWeight
+  nameWithType: Control.FontVariationWeight
 - uid: Forma.Control.FontWeight
   name: FontWeight
   href: api/Forma.Control.html#Forma_Control_FontWeight
@@ -9079,6 +9133,21 @@ references:
   commentId: Overload:Forma.Control.GetCursorAt
   fullName: Forma.Control.GetCursorAt
   nameWithType: Control.GetCursorAt
+- uid: Forma.Control.GetData(System.String)
+  name: GetData(string)
+  href: api/Forma.Control.html#Forma_Control_GetData_System_String_
+  commentId: M:Forma.Control.GetData(System.String)
+  name.vb: GetData(String)
+  fullName: Forma.Control.GetData(string)
+  fullName.vb: Forma.Control.GetData(String)
+  nameWithType: Control.GetData(string)
+  nameWithType.vb: Control.GetData(String)
+- uid: Forma.Control.GetData*
+  name: GetData
+  href: api/Forma.Control.html#Forma_Control_GetData_
+  commentId: Overload:Forma.Control.GetData
+  fullName: Forma.Control.GetData
+  nameWithType: Control.GetData
 - uid: Forma.Control.GetDesiredSize
   name: GetDesiredSize()
   href: api/Forma.Control.html#Forma_Control_GetDesiredSize
@@ -9733,6 +9802,18 @@ references:
   commentId: E:Forma.Control.PseudoStateChanged
   fullName: Forma.Control.PseudoStateChanged
   nameWithType: Control.PseudoStateChanged
+- uid: Forma.Control.PseudoStateSource
+  name: PseudoStateSource
+  href: api/Forma.Control.html#Forma_Control_PseudoStateSource
+  commentId: P:Forma.Control.PseudoStateSource
+  fullName: Forma.Control.PseudoStateSource
+  nameWithType: Control.PseudoStateSource
+- uid: Forma.Control.PseudoStateSource*
+  name: PseudoStateSource
+  href: api/Forma.Control.html#Forma_Control_PseudoStateSource_
+  commentId: Overload:Forma.Control.PseudoStateSource
+  fullName: Forma.Control.PseudoStateSource
+  nameWithType: Control.PseudoStateSource
 - uid: Forma.Control.QueueLayout
   name: QueueLayout()
   href: api/Forma.Control.html#Forma_Control_QueueLayout
@@ -9865,6 +9946,21 @@ references:
   commentId: Overload:Forma.Control.SetAnchorsAndOffsets
   fullName: Forma.Control.SetAnchorsAndOffsets
   nameWithType: Control.SetAnchorsAndOffsets
+- uid: Forma.Control.SetData(System.String,System.String)
+  name: SetData(string, string)
+  href: api/Forma.Control.html#Forma_Control_SetData_System_String_System_String_
+  commentId: M:Forma.Control.SetData(System.String,System.String)
+  name.vb: SetData(String, String)
+  fullName: Forma.Control.SetData(string, string)
+  fullName.vb: Forma.Control.SetData(String, String)
+  nameWithType: Control.SetData(string, string)
+  nameWithType.vb: Control.SetData(String, String)
+- uid: Forma.Control.SetData*
+  name: SetData
+  href: api/Forma.Control.html#Forma_Control_SetData_
+  commentId: Overload:Forma.Control.SetData
+  fullName: Forma.Control.SetData
+  nameWithType: Control.SetData
 - uid: Forma.Control.SetOffset(Forma.Side,System.Single)
   name: SetOffset(Side, float)
   href: api/Forma.Control.html#Forma_Control_SetOffset_Forma_Side_System_Single_
@@ -13231,6 +13327,18 @@ references:
   commentId: Overload:Forma.DataTemplate.DataType
   fullName: Forma.DataTemplate.DataType
   nameWithType: DataTemplate.DataType
+- uid: Forma.DataTemplate.IsolateStyles
+  name: IsolateStyles
+  href: api/Forma.DataTemplate.html#Forma_DataTemplate_IsolateStyles
+  commentId: P:Forma.DataTemplate.IsolateStyles
+  fullName: Forma.DataTemplate.IsolateStyles
+  nameWithType: DataTemplate.IsolateStyles
+- uid: Forma.DataTemplate.IsolateStyles*
+  name: IsolateStyles
+  href: api/Forma.DataTemplate.html#Forma_DataTemplate_IsolateStyles_
+  commentId: Overload:Forma.DataTemplate.IsolateStyles
+  fullName: Forma.DataTemplate.IsolateStyles
+  nameWithType: DataTemplate.IsolateStyles
 - uid: Forma.DataTemplateFactory`1
   name: DataTemplateFactory<TData>
   href: api/Forma.DataTemplateFactory-1.html
@@ -15623,6 +15731,24 @@ references:
   fullName.vb: Forma.DynamicUIFont.New(Forma.UIFontFace, Single, Forma.UIFontHinting, System.Collections.Generic.IReadOnlyList(Of Forma.UIFontVariationCoordinate), ParamArray Forma.UIFontFace())
   nameWithType: DynamicUIFont.DynamicUIFont(UIFontFace, float, UIFontHinting, IReadOnlyList<UIFontVariationCoordinate>, params UIFontFace[])
   nameWithType.vb: DynamicUIFont.New(UIFontFace, Single, UIFontHinting, IReadOnlyList(Of UIFontVariationCoordinate), ParamArray UIFontFace())
+- uid: Forma.DynamicUIFont.#ctor(Forma.UIFontFace,System.Single,Forma.UIFontWeight,Forma.UIFontHinting,Forma.UIFontFace[])
+  name: DynamicUIFont(UIFontFace, float, UIFontWeight, UIFontHinting, params UIFontFace[])
+  href: api/Forma.DynamicUIFont.html#Forma_DynamicUIFont__ctor_Forma_UIFontFace_System_Single_Forma_UIFontWeight_Forma_UIFontHinting_Forma_UIFontFace___
+  commentId: M:Forma.DynamicUIFont.#ctor(Forma.UIFontFace,System.Single,Forma.UIFontWeight,Forma.UIFontHinting,Forma.UIFontFace[])
+  name.vb: New(UIFontFace, Single, UIFontWeight, UIFontHinting, ParamArray UIFontFace())
+  fullName: Forma.DynamicUIFont.DynamicUIFont(Forma.UIFontFace, float, Forma.UIFontWeight, Forma.UIFontHinting, params Forma.UIFontFace[])
+  fullName.vb: Forma.DynamicUIFont.New(Forma.UIFontFace, Single, Forma.UIFontWeight, Forma.UIFontHinting, ParamArray Forma.UIFontFace())
+  nameWithType: DynamicUIFont.DynamicUIFont(UIFontFace, float, UIFontWeight, UIFontHinting, params UIFontFace[])
+  nameWithType.vb: DynamicUIFont.New(UIFontFace, Single, UIFontWeight, UIFontHinting, ParamArray UIFontFace())
+- uid: Forma.DynamicUIFont.#ctor(Forma.UIFontFace,System.Single,Forma.UIFontWeight,Forma.UIFontHinting,System.Collections.Generic.IReadOnlyList{Forma.UIFontVariationCoordinate},Forma.UIFontFace[])
+  name: DynamicUIFont(UIFontFace, float, UIFontWeight, UIFontHinting, IReadOnlyList<UIFontVariationCoordinate>, params UIFontFace[])
+  href: api/Forma.DynamicUIFont.html#Forma_DynamicUIFont__ctor_Forma_UIFontFace_System_Single_Forma_UIFontWeight_Forma_UIFontHinting_System_Collections_Generic_IReadOnlyList_Forma_UIFontVariationCoordinate__Forma_UIFontFace___
+  commentId: M:Forma.DynamicUIFont.#ctor(Forma.UIFontFace,System.Single,Forma.UIFontWeight,Forma.UIFontHinting,System.Collections.Generic.IReadOnlyList{Forma.UIFontVariationCoordinate},Forma.UIFontFace[])
+  name.vb: New(UIFontFace, Single, UIFontWeight, UIFontHinting, IReadOnlyList(Of UIFontVariationCoordinate), ParamArray UIFontFace())
+  fullName: Forma.DynamicUIFont.DynamicUIFont(Forma.UIFontFace, float, Forma.UIFontWeight, Forma.UIFontHinting, System.Collections.Generic.IReadOnlyList<Forma.UIFontVariationCoordinate>, params Forma.UIFontFace[])
+  fullName.vb: Forma.DynamicUIFont.New(Forma.UIFontFace, Single, Forma.UIFontWeight, Forma.UIFontHinting, System.Collections.Generic.IReadOnlyList(Of Forma.UIFontVariationCoordinate), ParamArray Forma.UIFontFace())
+  nameWithType: DynamicUIFont.DynamicUIFont(UIFontFace, float, UIFontWeight, UIFontHinting, IReadOnlyList<UIFontVariationCoordinate>, params UIFontFace[])
+  nameWithType.vb: DynamicUIFont.New(UIFontFace, Single, UIFontWeight, UIFontHinting, IReadOnlyList(Of UIFontVariationCoordinate), ParamArray UIFontFace())
 - uid: Forma.DynamicUIFont.#ctor*
   name: DynamicUIFont
   href: api/Forma.DynamicUIFont.html#Forma_DynamicUIFont__ctor_
@@ -15668,6 +15794,18 @@ references:
   commentId: Overload:Forma.DynamicUIFont.Hinting
   fullName: Forma.DynamicUIFont.Hinting
   nameWithType: DynamicUIFont.Hinting
+- uid: Forma.DynamicUIFont.Synthesis
+  name: Synthesis
+  href: api/Forma.DynamicUIFont.html#Forma_DynamicUIFont_Synthesis
+  commentId: P:Forma.DynamicUIFont.Synthesis
+  fullName: Forma.DynamicUIFont.Synthesis
+  nameWithType: DynamicUIFont.Synthesis
+- uid: Forma.DynamicUIFont.Synthesis*
+  name: Synthesis
+  href: api/Forma.DynamicUIFont.html#Forma_DynamicUIFont_Synthesis_
+  commentId: Overload:Forma.DynamicUIFont.Synthesis
+  fullName: Forma.DynamicUIFont.Synthesis
+  nameWithType: DynamicUIFont.Synthesis
 - uid: Forma.DynamicUIFont.VariationCoordinates
   name: VariationCoordinates
   href: api/Forma.DynamicUIFont.html#Forma_DynamicUIFont_VariationCoordinates
@@ -15680,6 +15818,18 @@ references:
   commentId: Overload:Forma.DynamicUIFont.VariationCoordinates
   fullName: Forma.DynamicUIFont.VariationCoordinates
   nameWithType: DynamicUIFont.VariationCoordinates
+- uid: Forma.DynamicUIFont.WithSynthesis(Forma.UIFontSynthesis)
+  name: WithSynthesis(UIFontSynthesis)
+  href: api/Forma.DynamicUIFont.html#Forma_DynamicUIFont_WithSynthesis_Forma_UIFontSynthesis_
+  commentId: M:Forma.DynamicUIFont.WithSynthesis(Forma.UIFontSynthesis)
+  fullName: Forma.DynamicUIFont.WithSynthesis(Forma.UIFontSynthesis)
+  nameWithType: DynamicUIFont.WithSynthesis(UIFontSynthesis)
+- uid: Forma.DynamicUIFont.WithSynthesis*
+  name: WithSynthesis
+  href: api/Forma.DynamicUIFont.html#Forma_DynamicUIFont_WithSynthesis_
+  commentId: Overload:Forma.DynamicUIFont.WithSynthesis
+  fullName: Forma.DynamicUIFont.WithSynthesis
+  nameWithType: DynamicUIFont.WithSynthesis
 - uid: Forma.EffectGroup
   name: EffectGroup
   href: api/Forma.EffectGroup.html
@@ -18776,6 +18926,36 @@ references:
   commentId: Overload:Forma.GeometryGroup.FreezeCore
   fullName: Forma.GeometryGroup.FreezeCore
   nameWithType: GeometryGroup.FreezeCore
+- uid: Forma.GlyphRasterTuning
+  name: GlyphRasterTuning
+  href: api/Forma.GlyphRasterTuning.html
+  commentId: T:Forma.GlyphRasterTuning
+  fullName: Forma.GlyphRasterTuning
+  nameWithType: GlyphRasterTuning
+- uid: Forma.GlyphRasterTuning.PixelSizeOffset
+  name: PixelSizeOffset
+  href: api/Forma.GlyphRasterTuning.html#Forma_GlyphRasterTuning_PixelSizeOffset
+  commentId: P:Forma.GlyphRasterTuning.PixelSizeOffset
+  fullName: Forma.GlyphRasterTuning.PixelSizeOffset
+  nameWithType: GlyphRasterTuning.PixelSizeOffset
+- uid: Forma.GlyphRasterTuning.PixelSizeOffset*
+  name: PixelSizeOffset
+  href: api/Forma.GlyphRasterTuning.html#Forma_GlyphRasterTuning_PixelSizeOffset_
+  commentId: Overload:Forma.GlyphRasterTuning.PixelSizeOffset
+  fullName: Forma.GlyphRasterTuning.PixelSizeOffset
+  nameWithType: GlyphRasterTuning.PixelSizeOffset
+- uid: Forma.GlyphRasterTuning.WeightOffset
+  name: WeightOffset
+  href: api/Forma.GlyphRasterTuning.html#Forma_GlyphRasterTuning_WeightOffset
+  commentId: P:Forma.GlyphRasterTuning.WeightOffset
+  fullName: Forma.GlyphRasterTuning.WeightOffset
+  nameWithType: GlyphRasterTuning.WeightOffset
+- uid: Forma.GlyphRasterTuning.WeightOffset*
+  name: WeightOffset
+  href: api/Forma.GlyphRasterTuning.html#Forma_GlyphRasterTuning_WeightOffset_
+  commentId: Overload:Forma.GlyphRasterTuning.WeightOffset
+  fullName: Forma.GlyphRasterTuning.WeightOffset
+  nameWithType: GlyphRasterTuning.WeightOffset
 - uid: Forma.GradientBrush
   name: GradientBrush
   href: api/Forma.GradientBrush.html
@@ -18851,6 +19031,18 @@ references:
   commentId: Overload:Forma.GradientBrush.SpreadMethod
   fullName: Forma.GradientBrush.SpreadMethod
   nameWithType: GradientBrush.SpreadMethod
+- uid: Forma.GradientBrush.StopsText
+  name: StopsText
+  href: api/Forma.GradientBrush.html#Forma_GradientBrush_StopsText
+  commentId: P:Forma.GradientBrush.StopsText
+  fullName: Forma.GradientBrush.StopsText
+  nameWithType: GradientBrush.StopsText
+- uid: Forma.GradientBrush.StopsText*
+  name: StopsText
+  href: api/Forma.GradientBrush.html#Forma_GradientBrush_StopsText_
+  commentId: Overload:Forma.GradientBrush.StopsText
+  fullName: Forma.GradientBrush.StopsText
+  nameWithType: GradientBrush.StopsText
 - uid: Forma.GradientInterpolationSpace
   name: GradientInterpolationSpace
   href: api/Forma.GradientInterpolationSpace.html
@@ -28340,6 +28532,18 @@ references:
   commentId: Overload:Forma.Label.AutowrapMode
   fullName: Forma.Label.AutowrapMode
   nameWithType: Label.AutowrapMode
+- uid: Forma.Label.BalanceLines
+  name: BalanceLines
+  href: api/Forma.Label.html#Forma_Label_BalanceLines
+  commentId: P:Forma.Label.BalanceLines
+  fullName: Forma.Label.BalanceLines
+  nameWithType: Label.BalanceLines
+- uid: Forma.Label.BalanceLines*
+  name: BalanceLines
+  href: api/Forma.Label.html#Forma_Label_BalanceLines_
+  commentId: Overload:Forma.Label.BalanceLines
+  fullName: Forma.Label.BalanceLines
+  nameWithType: Label.BalanceLines
 - uid: Forma.Label.ClipText
   name: ClipText
   href: api/Forma.Label.html#Forma_Label_ClipText
@@ -28376,6 +28580,18 @@ references:
   commentId: Overload:Forma.Label.DrawLabelText
   fullName: Forma.Label.DrawLabelText
   nameWithType: Label.DrawLabelText
+- uid: Forma.Label.EffectiveUIFont
+  name: EffectiveUIFont
+  href: api/Forma.Label.html#Forma_Label_EffectiveUIFont
+  commentId: P:Forma.Label.EffectiveUIFont
+  fullName: Forma.Label.EffectiveUIFont
+  nameWithType: Label.EffectiveUIFont
+- uid: Forma.Label.EffectiveUIFont*
+  name: EffectiveUIFont
+  href: api/Forma.Label.html#Forma_Label_EffectiveUIFont_
+  commentId: Overload:Forma.Label.EffectiveUIFont
+  fullName: Forma.Label.EffectiveUIFont
+  nameWithType: Label.EffectiveUIFont
 - uid: Forma.Label.EllipsisCharacter
   name: EllipsisCharacter
   href: api/Forma.Label.html#Forma_Label_EllipsisCharacter
@@ -29204,6 +29420,42 @@ references:
   commentId: Overload:Forma.Label.TextDirection
   fullName: Forma.Label.TextDirection
   nameWithType: Label.TextDirection
+- uid: Forma.Label.TextEffectPasses
+  name: TextEffectPasses()
+  href: api/Forma.Label.html#Forma_Label_TextEffectPasses
+  commentId: M:Forma.Label.TextEffectPasses
+  fullName: Forma.Label.TextEffectPasses()
+  nameWithType: Label.TextEffectPasses()
+- uid: Forma.Label.TextEffectPasses*
+  name: TextEffectPasses
+  href: api/Forma.Label.html#Forma_Label_TextEffectPasses_
+  commentId: Overload:Forma.Label.TextEffectPasses
+  fullName: Forma.Label.TextEffectPasses
+  nameWithType: Label.TextEffectPasses
+- uid: Forma.Label.TextOutlineColor
+  name: TextOutlineColor
+  href: api/Forma.Label.html#Forma_Label_TextOutlineColor
+  commentId: P:Forma.Label.TextOutlineColor
+  fullName: Forma.Label.TextOutlineColor
+  nameWithType: Label.TextOutlineColor
+- uid: Forma.Label.TextOutlineColor*
+  name: TextOutlineColor
+  href: api/Forma.Label.html#Forma_Label_TextOutlineColor_
+  commentId: Overload:Forma.Label.TextOutlineColor
+  fullName: Forma.Label.TextOutlineColor
+  nameWithType: Label.TextOutlineColor
+- uid: Forma.Label.TextOutlineWidth
+  name: TextOutlineWidth
+  href: api/Forma.Label.html#Forma_Label_TextOutlineWidth
+  commentId: P:Forma.Label.TextOutlineWidth
+  fullName: Forma.Label.TextOutlineWidth
+  nameWithType: Label.TextOutlineWidth
+- uid: Forma.Label.TextOutlineWidth*
+  name: TextOutlineWidth
+  href: api/Forma.Label.html#Forma_Label_TextOutlineWidth_
+  commentId: Overload:Forma.Label.TextOutlineWidth
+  fullName: Forma.Label.TextOutlineWidth
+  nameWithType: Label.TextOutlineWidth
 - uid: Forma.Label.TextOverrunBehavior
   name: TextOverrunBehavior
   href: api/Forma.Label.html#Forma_Label_TextOverrunBehavior
@@ -29216,6 +29468,30 @@ references:
   commentId: Overload:Forma.Label.TextOverrunBehavior
   fullName: Forma.Label.TextOverrunBehavior
   nameWithType: Label.TextOverrunBehavior
+- uid: Forma.Label.TextShadowColor
+  name: TextShadowColor
+  href: api/Forma.Label.html#Forma_Label_TextShadowColor
+  commentId: P:Forma.Label.TextShadowColor
+  fullName: Forma.Label.TextShadowColor
+  nameWithType: Label.TextShadowColor
+- uid: Forma.Label.TextShadowColor*
+  name: TextShadowColor
+  href: api/Forma.Label.html#Forma_Label_TextShadowColor_
+  commentId: Overload:Forma.Label.TextShadowColor
+  fullName: Forma.Label.TextShadowColor
+  nameWithType: Label.TextShadowColor
+- uid: Forma.Label.TextShadowOffset
+  name: TextShadowOffset
+  href: api/Forma.Label.html#Forma_Label_TextShadowOffset
+  commentId: P:Forma.Label.TextShadowOffset
+  fullName: Forma.Label.TextShadowOffset
+  nameWithType: Label.TextShadowOffset
+- uid: Forma.Label.TextShadowOffset*
+  name: TextShadowOffset
+  href: api/Forma.Label.html#Forma_Label_TextShadowOffset_
+  commentId: Overload:Forma.Label.TextShadowOffset
+  fullName: Forma.Label.TextShadowOffset
+  nameWithType: Label.TextShadowOffset
 - uid: Forma.Label.UIFont
   name: UIFont
   href: api/Forma.Label.html#Forma_Label_UIFont
@@ -30029,6 +30305,18 @@ references:
   commentId: F:Forma.LineEdit.EditorPresenterPartName
   fullName: Forma.LineEdit.EditorPresenterPartName
   nameWithType: LineEdit.EditorPresenterPartName
+- uid: Forma.LineEdit.Flat
+  name: Flat
+  href: api/Forma.LineEdit.html#Forma_LineEdit_Flat
+  commentId: P:Forma.LineEdit.Flat
+  fullName: Forma.LineEdit.Flat
+  nameWithType: LineEdit.Flat
+- uid: Forma.LineEdit.Flat*
+  name: Flat
+  href: api/Forma.LineEdit.html#Forma_LineEdit_Flat_
+  commentId: Overload:Forma.LineEdit.Flat
+  fullName: Forma.LineEdit.Flat
+  nameWithType: LineEdit.Flat
 - uid: Forma.LineEdit.Font
   name: Font
   href: api/Forma.LineEdit.html#Forma_LineEdit_Font
@@ -30344,6 +30632,21 @@ references:
   commentId: Overload:Forma.LineEdit.MaxLength
   fullName: Forma.LineEdit.MaxLength
   nameWithType: LineEdit.MaxLength
+- uid: Forma.LineEdit.MeasureTextWidth(System.String)
+  name: MeasureTextWidth(string)
+  href: api/Forma.LineEdit.html#Forma_LineEdit_MeasureTextWidth_System_String_
+  commentId: M:Forma.LineEdit.MeasureTextWidth(System.String)
+  name.vb: MeasureTextWidth(String)
+  fullName: Forma.LineEdit.MeasureTextWidth(string)
+  fullName.vb: Forma.LineEdit.MeasureTextWidth(String)
+  nameWithType: LineEdit.MeasureTextWidth(string)
+  nameWithType.vb: LineEdit.MeasureTextWidth(String)
+- uid: Forma.LineEdit.MeasureTextWidth*
+  name: MeasureTextWidth
+  href: api/Forma.LineEdit.html#Forma_LineEdit_MeasureTextWidth_
+  commentId: Overload:Forma.LineEdit.MeasureTextWidth
+  fullName: Forma.LineEdit.MeasureTextWidth
+  nameWithType: LineEdit.MeasureTextWidth
 - uid: Forma.LineEdit.MenuOption(Forma.LineEditMenuOption)
   name: MenuOption(LineEditMenuOption)
   href: api/Forma.LineEdit.html#Forma_LineEdit_MenuOption_Forma_LineEditMenuOption_
@@ -33182,6 +33485,22 @@ references:
   fullName.vb: Forma.ModalSession(Of T).New
   nameWithType: ModalSession<T>.ModalSession
   nameWithType.vb: ModalSession(Of T).New
+- uid: Forma.ModalSession`1.CanInteract
+  name: CanInteract
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_CanInteract
+  commentId: P:Forma.ModalSession`1.CanInteract
+  fullName: Forma.ModalSession<T>.CanInteract
+  fullName.vb: Forma.ModalSession(Of T).CanInteract
+  nameWithType: ModalSession<T>.CanInteract
+  nameWithType.vb: ModalSession(Of T).CanInteract
+- uid: Forma.ModalSession`1.CanInteract*
+  name: CanInteract
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_CanInteract_
+  commentId: Overload:Forma.ModalSession`1.CanInteract
+  fullName: Forma.ModalSession<T>.CanInteract
+  fullName.vb: Forma.ModalSession(Of T).CanInteract
+  nameWithType: ModalSession<T>.CanInteract
+  nameWithType.vb: ModalSession(Of T).CanInteract
 - uid: Forma.ModalSession`1.Cancel(Forma.ModalCancelReason)
   name: Cancel(ModalCancelReason)
   href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Cancel_Forma_ModalCancelReason_
@@ -33246,6 +33565,22 @@ references:
   fullName.vb: Forma.ModalSession(Of T).Open
   nameWithType: ModalSession<T>.Open
   nameWithType.vb: ModalSession(Of T).Open
+- uid: Forma.ModalSession`1.Root
+  name: Root
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Root
+  commentId: P:Forma.ModalSession`1.Root
+  fullName: Forma.ModalSession<T>.Root
+  fullName.vb: Forma.ModalSession(Of T).Root
+  nameWithType: ModalSession<T>.Root
+  nameWithType.vb: ModalSession(Of T).Root
+- uid: Forma.ModalSession`1.Root*
+  name: Root
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_Root_
+  commentId: Overload:Forma.ModalSession`1.Root
+  fullName: Forma.ModalSession<T>.Root
+  fullName.vb: Forma.ModalSession(Of T).Root
+  nameWithType: ModalSession<T>.Root
+  nameWithType.vb: ModalSession(Of T).Root
 - uid: Forma.ModalSession`1.TryAccept(`0)
   name: TryAccept(T)
   href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_TryAccept__0_
@@ -33262,6 +33597,22 @@ references:
   fullName.vb: Forma.ModalSession(Of T).TryAccept
   nameWithType: ModalSession<T>.TryAccept
   nameWithType.vb: ModalSession(Of T).TryAccept
+- uid: Forma.ModalSession`1.VerifyCheckpointBoundary
+  name: VerifyCheckpointBoundary()
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_VerifyCheckpointBoundary
+  commentId: M:Forma.ModalSession`1.VerifyCheckpointBoundary
+  fullName: Forma.ModalSession<T>.VerifyCheckpointBoundary()
+  fullName.vb: Forma.ModalSession(Of T).VerifyCheckpointBoundary()
+  nameWithType: ModalSession<T>.VerifyCheckpointBoundary()
+  nameWithType.vb: ModalSession(Of T).VerifyCheckpointBoundary()
+- uid: Forma.ModalSession`1.VerifyCheckpointBoundary*
+  name: VerifyCheckpointBoundary
+  href: api/Forma.ModalSession-1.html#Forma_ModalSession_1_VerifyCheckpointBoundary_
+  commentId: Overload:Forma.ModalSession`1.VerifyCheckpointBoundary
+  fullName: Forma.ModalSession<T>.VerifyCheckpointBoundary
+  fullName.vb: Forma.ModalSession(Of T).VerifyCheckpointBoundary
+  nameWithType: ModalSession<T>.VerifyCheckpointBoundary
+  nameWithType.vb: ModalSession(Of T).VerifyCheckpointBoundary
 - uid: Forma.MouseFilter
   name: MouseFilter
   href: api/Forma.MouseFilter.html
@@ -33646,6 +33997,18 @@ references:
   fullName.vb: Forma.OptionButton.New
   nameWithType: OptionButton.OptionButton
   nameWithType.vb: OptionButton.New
+- uid: Forma.OptionButton.AccessibilityName
+  name: AccessibilityName
+  href: api/Forma.OptionButton.html#Forma_OptionButton_AccessibilityName
+  commentId: P:Forma.OptionButton.AccessibilityName
+  fullName: Forma.OptionButton.AccessibilityName
+  nameWithType: OptionButton.AccessibilityName
+- uid: Forma.OptionButton.AccessibilityName*
+  name: AccessibilityName
+  href: api/Forma.OptionButton.html#Forma_OptionButton_AccessibilityName_
+  commentId: Overload:Forma.OptionButton.AccessibilityName
+  fullName: Forma.OptionButton.AccessibilityName
+  nameWithType: OptionButton.AccessibilityName
 - uid: Forma.OptionButton.AccessibilityRole
   name: AccessibilityRole
   href: api/Forma.OptionButton.html#Forma_OptionButton_AccessibilityRole
@@ -40888,6 +41251,75 @@ references:
   commentId: Overload:Forma.RowDefinition.Height
   fullName: Forma.RowDefinition.Height
   nameWithType: RowDefinition.Height
+- uid: Forma.Ruby
+  name: Ruby
+  href: api/Forma.Ruby.html
+  commentId: T:Forma.Ruby
+  fullName: Forma.Ruby
+  nameWithType: Ruby
+- uid: Forma.Ruby.#ctor
+  name: Ruby()
+  href: api/Forma.Ruby.html#Forma_Ruby__ctor
+  commentId: M:Forma.Ruby.#ctor
+  name.vb: New()
+  fullName: Forma.Ruby.Ruby()
+  fullName.vb: Forma.Ruby.New()
+  nameWithType: Ruby.Ruby()
+  nameWithType.vb: Ruby.New()
+- uid: Forma.Ruby.#ctor(System.String,System.String)
+  name: Ruby(string, string)
+  href: api/Forma.Ruby.html#Forma_Ruby__ctor_System_String_System_String_
+  commentId: M:Forma.Ruby.#ctor(System.String,System.String)
+  name.vb: New(String, String)
+  fullName: Forma.Ruby.Ruby(string, string)
+  fullName.vb: Forma.Ruby.New(String, String)
+  nameWithType: Ruby.Ruby(string, string)
+  nameWithType.vb: Ruby.New(String, String)
+- uid: Forma.Ruby.#ctor*
+  name: Ruby
+  href: api/Forma.Ruby.html#Forma_Ruby__ctor_
+  commentId: Overload:Forma.Ruby.#ctor
+  name.vb: New
+  fullName: Forma.Ruby.Ruby
+  fullName.vb: Forma.Ruby.New
+  nameWithType: Ruby.Ruby
+  nameWithType.vb: Ruby.New
+- uid: Forma.Ruby.Annotation
+  name: Annotation
+  href: api/Forma.Ruby.html#Forma_Ruby_Annotation
+  commentId: P:Forma.Ruby.Annotation
+  fullName: Forma.Ruby.Annotation
+  nameWithType: Ruby.Annotation
+- uid: Forma.Ruby.Annotation*
+  name: Annotation
+  href: api/Forma.Ruby.html#Forma_Ruby_Annotation_
+  commentId: Overload:Forma.Ruby.Annotation
+  fullName: Forma.Ruby.Annotation
+  nameWithType: Ruby.Annotation
+- uid: Forma.Ruby.AnnotationFont
+  name: AnnotationFont
+  href: api/Forma.Ruby.html#Forma_Ruby_AnnotationFont
+  commentId: P:Forma.Ruby.AnnotationFont
+  fullName: Forma.Ruby.AnnotationFont
+  nameWithType: Ruby.AnnotationFont
+- uid: Forma.Ruby.AnnotationFont*
+  name: AnnotationFont
+  href: api/Forma.Ruby.html#Forma_Ruby_AnnotationFont_
+  commentId: Overload:Forma.Ruby.AnnotationFont
+  fullName: Forma.Ruby.AnnotationFont
+  nameWithType: Ruby.AnnotationFont
+- uid: Forma.Ruby.Text
+  name: Text
+  href: api/Forma.Ruby.html#Forma_Ruby_Text
+  commentId: P:Forma.Ruby.Text
+  fullName: Forma.Ruby.Text
+  nameWithType: Ruby.Text
+- uid: Forma.Ruby.Text*
+  name: Text
+  href: api/Forma.Ruby.html#Forma_Ruby_Text_
+  commentId: Overload:Forma.Ruby.Text
+  fullName: Forma.Ruby.Text
+  nameWithType: Ruby.Text
 - uid: Forma.Run
   name: Run
   href: api/Forma.Run.html
@@ -50584,6 +51016,18 @@ references:
   commentId: Overload:Forma.TextBlock.AdjustTextLayout
   fullName: Forma.TextBlock.AdjustTextLayout
   nameWithType: TextBlock.AdjustTextLayout
+- uid: Forma.TextBlock.AlignInlineBaselines
+  name: AlignInlineBaselines
+  href: api/Forma.TextBlock.html#Forma_TextBlock_AlignInlineBaselines
+  commentId: P:Forma.TextBlock.AlignInlineBaselines
+  fullName: Forma.TextBlock.AlignInlineBaselines
+  nameWithType: TextBlock.AlignInlineBaselines
+- uid: Forma.TextBlock.AlignInlineBaselines*
+  name: AlignInlineBaselines
+  href: api/Forma.TextBlock.html#Forma_TextBlock_AlignInlineBaselines_
+  commentId: Overload:Forma.TextBlock.AlignInlineBaselines
+  fullName: Forma.TextBlock.AlignInlineBaselines
+  nameWithType: TextBlock.AlignInlineBaselines
 - uid: Forma.TextBlock.Decoration
   name: Decoration
   href: api/Forma.TextBlock.html#Forma_TextBlock_Decoration
@@ -50608,6 +51052,18 @@ references:
   commentId: Overload:Forma.TextBlock.DrawLabelText
   fullName: Forma.TextBlock.DrawLabelText
   nameWithType: TextBlock.DrawLabelText
+- uid: Forma.TextBlock.FocusedMeta
+  name: FocusedMeta
+  href: api/Forma.TextBlock.html#Forma_TextBlock_FocusedMeta
+  commentId: P:Forma.TextBlock.FocusedMeta
+  fullName: Forma.TextBlock.FocusedMeta
+  nameWithType: TextBlock.FocusedMeta
+- uid: Forma.TextBlock.FocusedMeta*
+  name: FocusedMeta
+  href: api/Forma.TextBlock.html#Forma_TextBlock_FocusedMeta_
+  commentId: Overload:Forma.TextBlock.FocusedMeta
+  fullName: Forma.TextBlock.FocusedMeta
+  nameWithType: TextBlock.FocusedMeta
 - uid: Forma.TextBlock.GetCharacterBounds(System.Int32)
   name: GetCharacterBounds(int)
   href: api/Forma.TextBlock.html#Forma_TextBlock_GetCharacterBounds_System_Int32_
@@ -50623,6 +51079,18 @@ references:
   commentId: Overload:Forma.TextBlock.GetCharacterBounds
   fullName: Forma.TextBlock.GetCharacterBounds
   nameWithType: TextBlock.GetCharacterBounds
+- uid: Forma.TextBlock.GetMetaStops
+  name: GetMetaStops()
+  href: api/Forma.TextBlock.html#Forma_TextBlock_GetMetaStops
+  commentId: M:Forma.TextBlock.GetMetaStops
+  fullName: Forma.TextBlock.GetMetaStops()
+  nameWithType: TextBlock.GetMetaStops()
+- uid: Forma.TextBlock.GetMetaStops*
+  name: GetMetaStops
+  href: api/Forma.TextBlock.html#Forma_TextBlock_GetMetaStops_
+  commentId: Overload:Forma.TextBlock.GetMetaStops
+  fullName: Forma.TextBlock.GetMetaStops
+  nameWithType: TextBlock.GetMetaStops
 - uid: Forma.TextBlock.GetMetaUnderPosition(Microsoft.Xna.Framework.Point)
   name: GetMetaUnderPosition(Point)
   href: api/Forma.TextBlock.html#Forma_TextBlock_GetMetaUnderPosition_Microsoft_Xna_Framework_Point_
@@ -50701,6 +51169,18 @@ references:
   commentId: E:Forma.TextBlock.MetaClicked
   fullName: Forma.TextBlock.MetaClicked
   nameWithType: TextBlock.MetaClicked
+- uid: Forma.TextBlock.MetaFocusable
+  name: MetaFocusable
+  href: api/Forma.TextBlock.html#Forma_TextBlock_MetaFocusable
+  commentId: P:Forma.TextBlock.MetaFocusable
+  fullName: Forma.TextBlock.MetaFocusable
+  nameWithType: TextBlock.MetaFocusable
+- uid: Forma.TextBlock.MetaFocusable*
+  name: MetaFocusable
+  href: api/Forma.TextBlock.html#Forma_TextBlock_MetaFocusable_
+  commentId: Overload:Forma.TextBlock.MetaFocusable
+  fullName: Forma.TextBlock.MetaFocusable
+  nameWithType: TextBlock.MetaFocusable
 - uid: Forma.TextBlock.PointerPressed(Microsoft.Xna.Framework.Point)
   name: PointerPressed(Point)
   href: api/Forma.TextBlock.html#Forma_TextBlock_PointerPressed_Microsoft_Xna_Framework_Point_
@@ -56824,6 +57304,18 @@ references:
   commentId: Overload:Forma.Theme.GetStyleBox
   fullName: Forma.Theme.GetStyleBox
   nameWithType: Theme.GetStyleBox
+- uid: Forma.Theme.HighlightedFontWeight
+  name: HighlightedFontWeight
+  href: api/Forma.Theme.html#Forma_Theme_HighlightedFontWeight
+  commentId: P:Forma.Theme.HighlightedFontWeight
+  fullName: Forma.Theme.HighlightedFontWeight
+  nameWithType: Theme.HighlightedFontWeight
+- uid: Forma.Theme.HighlightedFontWeight*
+  name: HighlightedFontWeight
+  href: api/Forma.Theme.html#Forma_Theme_HighlightedFontWeight_
+  commentId: Overload:Forma.Theme.HighlightedFontWeight
+  fullName: Forma.Theme.HighlightedFontWeight
+  nameWithType: Theme.HighlightedFontWeight
 - uid: Forma.Theme.HoverColor
   name: HoverColor
   href: api/Forma.Theme.html#Forma_Theme_HoverColor
@@ -62749,6 +63241,18 @@ references:
   commentId: Overload:Forma.UIContext.PrewarmSvg
   fullName: Forma.UIContext.PrewarmSvg
   nameWithType: UIContext.PrewarmSvg
+- uid: Forma.UIContext.ReducedMotion
+  name: ReducedMotion
+  href: api/Forma.UIContext.html#Forma_UIContext_ReducedMotion
+  commentId: P:Forma.UIContext.ReducedMotion
+  fullName: Forma.UIContext.ReducedMotion
+  nameWithType: UIContext.ReducedMotion
+- uid: Forma.UIContext.ReducedMotion*
+  name: ReducedMotion
+  href: api/Forma.UIContext.html#Forma_UIContext_ReducedMotion_
+  commentId: Overload:Forma.UIContext.ReducedMotion
+  fullName: Forma.UIContext.ReducedMotion
+  nameWithType: UIContext.ReducedMotion
 - uid: Forma.UIContext.RegisterFrameBoundaryCallback(System.Action{Microsoft.Xna.Framework.GameTime})
   name: RegisterFrameBoundaryCallback(Action<GameTime>)
   href: api/Forma.UIContext.html#Forma_UIContext_RegisterFrameBoundaryCallback_System_Action_Microsoft_Xna_Framework_GameTime__
@@ -63241,6 +63745,21 @@ references:
   commentId: Overload:Forma.UIFont.Weight
   fullName: Forma.UIFont.Weight
   nameWithType: UIFont.Weight
+- uid: Forma.UIFont.WithSize(System.Single)
+  name: WithSize(float)
+  href: api/Forma.UIFont.html#Forma_UIFont_WithSize_System_Single_
+  commentId: M:Forma.UIFont.WithSize(System.Single)
+  name.vb: WithSize(Single)
+  fullName: Forma.UIFont.WithSize(float)
+  fullName.vb: Forma.UIFont.WithSize(Single)
+  nameWithType: UIFont.WithSize(float)
+  nameWithType.vb: UIFont.WithSize(Single)
+- uid: Forma.UIFont.WithSize*
+  name: WithSize
+  href: api/Forma.UIFont.html#Forma_UIFont_WithSize_
+  commentId: Overload:Forma.UIFont.WithSize
+  fullName: Forma.UIFont.WithSize
+  nameWithType: UIFont.WithSize
 - uid: Forma.UIFontAsset
   name: UIFontAsset
   href: api/Forma.UIFontAsset.html
@@ -63628,6 +64147,15 @@ references:
   fullName.vb: Forma.UIFontFace.RasterizeGlyph(UInteger, Single, Single, Forma.UIFontHinting, System.Collections.Generic.IReadOnlyList(Of Forma.UIFontVariationCoordinate))
   nameWithType: UIFontFace.RasterizeGlyph(uint, float, float, UIFontHinting, IReadOnlyList<UIFontVariationCoordinate>)
   nameWithType.vb: UIFontFace.RasterizeGlyph(UInteger, Single, Single, UIFontHinting, IReadOnlyList(Of UIFontVariationCoordinate))
+- uid: Forma.UIFontFace.RasterizeGlyph(System.UInt32,System.Single,System.Single,Forma.UIFontHinting,System.Collections.Generic.IReadOnlyList{Forma.UIFontVariationCoordinate},Forma.UIFontSynthesis)
+  name: RasterizeGlyph(uint, float, float, UIFontHinting, IReadOnlyList<UIFontVariationCoordinate>, UIFontSynthesis)
+  href: api/Forma.UIFontFace.html#Forma_UIFontFace_RasterizeGlyph_System_UInt32_System_Single_System_Single_Forma_UIFontHinting_System_Collections_Generic_IReadOnlyList_Forma_UIFontVariationCoordinate__Forma_UIFontSynthesis_
+  commentId: M:Forma.UIFontFace.RasterizeGlyph(System.UInt32,System.Single,System.Single,Forma.UIFontHinting,System.Collections.Generic.IReadOnlyList{Forma.UIFontVariationCoordinate},Forma.UIFontSynthesis)
+  name.vb: RasterizeGlyph(UInteger, Single, Single, UIFontHinting, IReadOnlyList(Of UIFontVariationCoordinate), UIFontSynthesis)
+  fullName: Forma.UIFontFace.RasterizeGlyph(uint, float, float, Forma.UIFontHinting, System.Collections.Generic.IReadOnlyList<Forma.UIFontVariationCoordinate>, Forma.UIFontSynthesis)
+  fullName.vb: Forma.UIFontFace.RasterizeGlyph(UInteger, Single, Single, Forma.UIFontHinting, System.Collections.Generic.IReadOnlyList(Of Forma.UIFontVariationCoordinate), Forma.UIFontSynthesis)
+  nameWithType: UIFontFace.RasterizeGlyph(uint, float, float, UIFontHinting, IReadOnlyList<UIFontVariationCoordinate>, UIFontSynthesis)
+  nameWithType.vb: UIFontFace.RasterizeGlyph(UInteger, Single, Single, UIFontHinting, IReadOnlyList(Of UIFontVariationCoordinate), UIFontSynthesis)
 - uid: Forma.UIFontFace.RasterizeGlyph*
   name: RasterizeGlyph
   href: api/Forma.UIFontFace.html#Forma_UIFontFace_RasterizeGlyph_
@@ -64519,6 +65047,30 @@ references:
   commentId: F:Forma.UIFontStyle.Oblique
   fullName: Forma.UIFontStyle.Oblique
   nameWithType: UIFontStyle.Oblique
+- uid: Forma.UIFontSynthesis
+  name: UIFontSynthesis
+  href: api/Forma.UIFontSynthesis.html
+  commentId: T:Forma.UIFontSynthesis
+  fullName: Forma.UIFontSynthesis
+  nameWithType: UIFontSynthesis
+- uid: Forma.UIFontSynthesis.Bold
+  name: Bold
+  href: api/Forma.UIFontSynthesis.html#Forma_UIFontSynthesis_Bold
+  commentId: F:Forma.UIFontSynthesis.Bold
+  fullName: Forma.UIFontSynthesis.Bold
+  nameWithType: UIFontSynthesis.Bold
+- uid: Forma.UIFontSynthesis.None
+  name: None
+  href: api/Forma.UIFontSynthesis.html#Forma_UIFontSynthesis_None
+  commentId: F:Forma.UIFontSynthesis.None
+  fullName: Forma.UIFontSynthesis.None
+  nameWithType: UIFontSynthesis.None
+- uid: Forma.UIFontSynthesis.Oblique
+  name: Oblique
+  href: api/Forma.UIFontSynthesis.html#Forma_UIFontSynthesis_Oblique
+  commentId: F:Forma.UIFontSynthesis.Oblique
+  fullName: Forma.UIFontSynthesis.Oblique
+  nameWithType: UIFontSynthesis.Oblique
 - uid: Forma.UIFontVariationAxis
   name: UIFontVariationAxis
   href: api/Forma.UIFontVariationAxis.html
@@ -67132,6 +67684,18 @@ references:
   commentId: Overload:Forma.Xaml.AdaptiveCondition.MinViewportWidth
   fullName: Forma.Xaml.AdaptiveCondition.MinViewportWidth
   nameWithType: AdaptiveCondition.MinViewportWidth
+- uid: Forma.Xaml.AdaptiveCondition.ReducedMotion
+  name: ReducedMotion
+  href: api/Forma.Xaml.AdaptiveCondition.html#Forma_Xaml_AdaptiveCondition_ReducedMotion
+  commentId: P:Forma.Xaml.AdaptiveCondition.ReducedMotion
+  fullName: Forma.Xaml.AdaptiveCondition.ReducedMotion
+  nameWithType: AdaptiveCondition.ReducedMotion
+- uid: Forma.Xaml.AdaptiveCondition.ReducedMotion*
+  name: ReducedMotion
+  href: api/Forma.Xaml.AdaptiveCondition.html#Forma_Xaml_AdaptiveCondition_ReducedMotion_
+  commentId: Overload:Forma.Xaml.AdaptiveCondition.ReducedMotion
+  fullName: Forma.Xaml.AdaptiveCondition.ReducedMotion
+  nameWithType: AdaptiveCondition.ReducedMotion
 - uid: Forma.Xaml.AdaptiveCondition.SetCompiledValue(System.String,System.String)
   name: SetCompiledValue(string, string)
   href: api/Forma.Xaml.AdaptiveCondition.html#Forma_Xaml_AdaptiveCondition_SetCompiledValue_System_String_System_String_
@@ -68226,6 +68790,50 @@ references:
   fullName.vb: Forma.Xaml.DynamicResource.Attach(Of T)(Forma.Control, Forma.Control, Forma.Xaml.XamlProperty(Of T), String, System.Func(Of Object, T), Forma.Xaml.XamlValueLayer, Long)
   nameWithType: DynamicResource.Attach<T>(Control, Control, XamlProperty<T>, string, Func<object, T>, XamlValueLayer, long)
   nameWithType.vb: DynamicResource.Attach(Of T)(Control, Control, XamlProperty(Of T), String, Func(Of Object, T), XamlValueLayer, Long)
+- uid: Forma.Xaml.DynamicStyleSetter`1
+  name: DynamicStyleSetter<T>
+  href: api/Forma.Xaml.DynamicStyleSetter-1.html
+  commentId: T:Forma.Xaml.DynamicStyleSetter`1
+  name.vb: DynamicStyleSetter(Of T)
+  fullName: Forma.Xaml.DynamicStyleSetter<T>
+  fullName.vb: Forma.Xaml.DynamicStyleSetter(Of T)
+  nameWithType: DynamicStyleSetter<T>
+  nameWithType.vb: DynamicStyleSetter(Of T)
+- uid: Forma.Xaml.DynamicStyleSetter`1.#ctor(Forma.Xaml.XamlProperty{`0},System.String,System.Func{System.Object,`0})
+  name: DynamicStyleSetter(XamlProperty<T>, string, Func<object, T>)
+  href: api/Forma.Xaml.DynamicStyleSetter-1.html#Forma_Xaml_DynamicStyleSetter_1__ctor_Forma_Xaml_XamlProperty__0__System_String_System_Func_System_Object__0__
+  commentId: M:Forma.Xaml.DynamicStyleSetter`1.#ctor(Forma.Xaml.XamlProperty{`0},System.String,System.Func{System.Object,`0})
+  name.vb: New(XamlProperty(Of T), String, Func(Of Object, T))
+  fullName: Forma.Xaml.DynamicStyleSetter<T>.DynamicStyleSetter(Forma.Xaml.XamlProperty<T>, string, System.Func<object, T>)
+  fullName.vb: Forma.Xaml.DynamicStyleSetter(Of T).New(Forma.Xaml.XamlProperty(Of T), String, System.Func(Of Object, T))
+  nameWithType: DynamicStyleSetter<T>.DynamicStyleSetter(XamlProperty<T>, string, Func<object, T>)
+  nameWithType.vb: DynamicStyleSetter(Of T).New(XamlProperty(Of T), String, Func(Of Object, T))
+- uid: Forma.Xaml.DynamicStyleSetter`1.#ctor*
+  name: DynamicStyleSetter
+  href: api/Forma.Xaml.DynamicStyleSetter-1.html#Forma_Xaml_DynamicStyleSetter_1__ctor_
+  commentId: Overload:Forma.Xaml.DynamicStyleSetter`1.#ctor
+  name.vb: New
+  fullName: Forma.Xaml.DynamicStyleSetter<T>.DynamicStyleSetter
+  fullName.vb: Forma.Xaml.DynamicStyleSetter(Of T).New
+  nameWithType: DynamicStyleSetter<T>.DynamicStyleSetter
+  nameWithType.vb: DynamicStyleSetter(Of T).New
+- uid: Forma.Xaml.DynamicStyleSetter`1.Apply(Forma.Control,System.Int64)
+  name: Apply(Control, long)
+  href: api/Forma.Xaml.DynamicStyleSetter-1.html#Forma_Xaml_DynamicStyleSetter_1_Apply_Forma_Control_System_Int64_
+  commentId: M:Forma.Xaml.DynamicStyleSetter`1.Apply(Forma.Control,System.Int64)
+  name.vb: Apply(Control, Long)
+  fullName: Forma.Xaml.DynamicStyleSetter<T>.Apply(Forma.Control, long)
+  fullName.vb: Forma.Xaml.DynamicStyleSetter(Of T).Apply(Forma.Control, Long)
+  nameWithType: DynamicStyleSetter<T>.Apply(Control, long)
+  nameWithType.vb: DynamicStyleSetter(Of T).Apply(Control, Long)
+- uid: Forma.Xaml.DynamicStyleSetter`1.Apply*
+  name: Apply
+  href: api/Forma.Xaml.DynamicStyleSetter-1.html#Forma_Xaml_DynamicStyleSetter_1_Apply_
+  commentId: Overload:Forma.Xaml.DynamicStyleSetter`1.Apply
+  fullName: Forma.Xaml.DynamicStyleSetter<T>.Apply
+  fullName.vb: Forma.Xaml.DynamicStyleSetter(Of T).Apply
+  nameWithType: DynamicStyleSetter<T>.Apply
+  nameWithType.vb: DynamicStyleSetter(Of T).Apply
 - uid: Forma.Xaml.Easing
   name: Easing
   href: api/Forma.Xaml.Easing.html
@@ -68862,6 +69470,21 @@ references:
   commentId: Overload:Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestAssetReloadAsync
   fullName: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestAssetReloadAsync
   nameWithType: FormaXamlHotReloadService.RequestAssetReloadAsync
+- uid: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestHtmlReloadAsync(System.String)
+  name: RequestHtmlReloadAsync(string)
+  href: api/Forma.Xaml.HotReload.FormaXamlHotReloadService.html#Forma_Xaml_HotReload_FormaXamlHotReloadService_RequestHtmlReloadAsync_System_String_
+  commentId: M:Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestHtmlReloadAsync(System.String)
+  name.vb: RequestHtmlReloadAsync(String)
+  fullName: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestHtmlReloadAsync(string)
+  fullName.vb: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestHtmlReloadAsync(String)
+  nameWithType: FormaXamlHotReloadService.RequestHtmlReloadAsync(string)
+  nameWithType.vb: FormaXamlHotReloadService.RequestHtmlReloadAsync(String)
+- uid: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestHtmlReloadAsync*
+  name: RequestHtmlReloadAsync
+  href: api/Forma.Xaml.HotReload.FormaXamlHotReloadService.html#Forma_Xaml_HotReload_FormaXamlHotReloadService_RequestHtmlReloadAsync_
+  commentId: Overload:Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestHtmlReloadAsync
+  fullName: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestHtmlReloadAsync
+  nameWithType: FormaXamlHotReloadService.RequestHtmlReloadAsync
 - uid: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestReloadAsync(Forma.Xaml.HotReload.FormaXamlArtifactId)
   name: RequestReloadAsync(FormaXamlArtifactId)
   href: api/Forma.Xaml.HotReload.FormaXamlHotReloadService.html#Forma_Xaml_HotReload_FormaXamlHotReloadService_RequestReloadAsync_Forma_Xaml_HotReload_FormaXamlArtifactId_
@@ -68883,6 +69506,21 @@ references:
   commentId: Overload:Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestReloadAsync
   fullName: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestReloadAsync
   nameWithType: FormaXamlHotReloadService.RequestReloadAsync
+- uid: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestStylesheetReloadAsync(System.String)
+  name: RequestStylesheetReloadAsync(string)
+  href: api/Forma.Xaml.HotReload.FormaXamlHotReloadService.html#Forma_Xaml_HotReload_FormaXamlHotReloadService_RequestStylesheetReloadAsync_System_String_
+  commentId: M:Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestStylesheetReloadAsync(System.String)
+  name.vb: RequestStylesheetReloadAsync(String)
+  fullName: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestStylesheetReloadAsync(string)
+  fullName.vb: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestStylesheetReloadAsync(String)
+  nameWithType: FormaXamlHotReloadService.RequestStylesheetReloadAsync(string)
+  nameWithType.vb: FormaXamlHotReloadService.RequestStylesheetReloadAsync(String)
+- uid: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestStylesheetReloadAsync*
+  name: RequestStylesheetReloadAsync
+  href: api/Forma.Xaml.HotReload.FormaXamlHotReloadService.html#Forma_Xaml_HotReload_FormaXamlHotReloadService_RequestStylesheetReloadAsync_
+  commentId: Overload:Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestStylesheetReloadAsync
+  fullName: Forma.Xaml.HotReload.FormaXamlHotReloadService.RequestStylesheetReloadAsync
+  nameWithType: FormaXamlHotReloadService.RequestStylesheetReloadAsync
 - uid: Forma.Xaml.IActiveTimeline
   name: IActiveTimeline
   href: api/Forma.Xaml.IActiveTimeline.html
@@ -69133,6 +69771,27 @@ references:
   fullName.vb: Forma.Xaml.KeyFrame(Of T).Value
   nameWithType: KeyFrame<T>.Value
   nameWithType.vb: KeyFrame(Of T).Value
+- uid: Forma.Xaml.Localization
+  name: Localization
+  href: api/Forma.Xaml.Localization.html
+  commentId: T:Forma.Xaml.Localization
+  fullName: Forma.Xaml.Localization
+  nameWithType: Localization
+- uid: Forma.Xaml.Localization.Apply(Forma.Control,System.Func{System.String,System.String})
+  name: Apply(Control, Func<string, string>)
+  href: api/Forma.Xaml.Localization.html#Forma_Xaml_Localization_Apply_Forma_Control_System_Func_System_String_System_String__
+  commentId: M:Forma.Xaml.Localization.Apply(Forma.Control,System.Func{System.String,System.String})
+  name.vb: Apply(Control, Func(Of String, String))
+  fullName: Forma.Xaml.Localization.Apply(Forma.Control, System.Func<string, string>)
+  fullName.vb: Forma.Xaml.Localization.Apply(Forma.Control, System.Func(Of String, String))
+  nameWithType: Localization.Apply(Control, Func<string, string>)
+  nameWithType.vb: Localization.Apply(Control, Func(Of String, String))
+- uid: Forma.Xaml.Localization.Apply*
+  name: Apply
+  href: api/Forma.Xaml.Localization.html#Forma_Xaml_Localization_Apply_
+  commentId: Overload:Forma.Xaml.Localization.Apply
+  fullName: Forma.Xaml.Localization.Apply
+  nameWithType: Localization.Apply
 - uid: Forma.Xaml.NameScope
   name: NameScope
   href: api/Forma.Xaml.NameScope.html
@@ -70033,6 +70692,18 @@ references:
   commentId: Overload:Forma.Xaml.Style.Generation
   fullName: Forma.Xaml.Style.Generation
   nameWithType: Style.Generation
+- uid: Forma.Xaml.Style.Origin
+  name: Origin
+  href: api/Forma.Xaml.Style.html#Forma_Xaml_Style_Origin
+  commentId: P:Forma.Xaml.Style.Origin
+  fullName: Forma.Xaml.Style.Origin
+  nameWithType: Style.Origin
+- uid: Forma.Xaml.Style.Origin*
+  name: Origin
+  href: api/Forma.Xaml.Style.html#Forma_Xaml_Style_Origin_
+  commentId: Overload:Forma.Xaml.Style.Origin
+  fullName: Forma.Xaml.Style.Origin
+  nameWithType: Style.Origin
 - uid: Forma.Xaml.Style.Selector
   name: Selector
   href: api/Forma.Xaml.Style.html#Forma_Xaml_Style_Selector
@@ -70090,6 +70761,279 @@ references:
   commentId: Overload:Forma.Xaml.StyleEngine.Attach
   fullName: Forma.Xaml.StyleEngine.Attach
   nameWithType: StyleEngine.Attach
+- uid: Forma.Xaml.StyleEngine.AttachFrom(Forma.Control,Forma.Control)
+  name: AttachFrom(Control, Control)
+  href: api/Forma.Xaml.StyleEngine.html#Forma_Xaml_StyleEngine_AttachFrom_Forma_Control_Forma_Control_
+  commentId: M:Forma.Xaml.StyleEngine.AttachFrom(Forma.Control,Forma.Control)
+  fullName: Forma.Xaml.StyleEngine.AttachFrom(Forma.Control, Forma.Control)
+  nameWithType: StyleEngine.AttachFrom(Control, Control)
+- uid: Forma.Xaml.StyleEngine.AttachFrom*
+  name: AttachFrom
+  href: api/Forma.Xaml.StyleEngine.html#Forma_Xaml_StyleEngine_AttachFrom_
+  commentId: Overload:Forma.Xaml.StyleEngine.AttachFrom
+  fullName: Forma.Xaml.StyleEngine.AttachFrom
+  nameWithType: StyleEngine.AttachFrom
+- uid: Forma.Xaml.StyleInspection
+  name: StyleInspection
+  href: api/Forma.Xaml.StyleInspection.html
+  commentId: T:Forma.Xaml.StyleInspection
+  fullName: Forma.Xaml.StyleInspection
+  nameWithType: StyleInspection
+- uid: Forma.Xaml.StyleInspection.Classes
+  name: Classes
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Classes
+  commentId: P:Forma.Xaml.StyleInspection.Classes
+  fullName: Forma.Xaml.StyleInspection.Classes
+  nameWithType: StyleInspection.Classes
+- uid: Forma.Xaml.StyleInspection.Classes*
+  name: Classes
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Classes_
+  commentId: Overload:Forma.Xaml.StyleInspection.Classes
+  fullName: Forma.Xaml.StyleInspection.Classes
+  nameWithType: StyleInspection.Classes
+- uid: Forma.Xaml.StyleInspection.ControlType
+  name: ControlType
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_ControlType
+  commentId: P:Forma.Xaml.StyleInspection.ControlType
+  fullName: Forma.Xaml.StyleInspection.ControlType
+  nameWithType: StyleInspection.ControlType
+- uid: Forma.Xaml.StyleInspection.ControlType*
+  name: ControlType
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_ControlType_
+  commentId: Overload:Forma.Xaml.StyleInspection.ControlType
+  fullName: Forma.Xaml.StyleInspection.ControlType
+  nameWithType: StyleInspection.ControlType
+- uid: Forma.Xaml.StyleInspection.Name
+  name: Name
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Name
+  commentId: P:Forma.Xaml.StyleInspection.Name
+  fullName: Forma.Xaml.StyleInspection.Name
+  nameWithType: StyleInspection.Name
+- uid: Forma.Xaml.StyleInspection.Name*
+  name: Name
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Name_
+  commentId: Overload:Forma.Xaml.StyleInspection.Name
+  fullName: Forma.Xaml.StyleInspection.Name
+  nameWithType: StyleInspection.Name
+- uid: Forma.Xaml.StyleInspection.PseudoStates
+  name: PseudoStates
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_PseudoStates
+  commentId: P:Forma.Xaml.StyleInspection.PseudoStates
+  fullName: Forma.Xaml.StyleInspection.PseudoStates
+  nameWithType: StyleInspection.PseudoStates
+- uid: Forma.Xaml.StyleInspection.PseudoStates*
+  name: PseudoStates
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_PseudoStates_
+  commentId: Overload:Forma.Xaml.StyleInspection.PseudoStates
+  fullName: Forma.Xaml.StyleInspection.PseudoStates
+  nameWithType: StyleInspection.PseudoStates
+- uid: Forma.Xaml.StyleInspection.Rules
+  name: Rules
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Rules
+  commentId: P:Forma.Xaml.StyleInspection.Rules
+  fullName: Forma.Xaml.StyleInspection.Rules
+  nameWithType: StyleInspection.Rules
+- uid: Forma.Xaml.StyleInspection.Rules*
+  name: Rules
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Rules_
+  commentId: Overload:Forma.Xaml.StyleInspection.Rules
+  fullName: Forma.Xaml.StyleInspection.Rules
+  nameWithType: StyleInspection.Rules
+- uid: Forma.Xaml.StyleInspection.Template
+  name: Template
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Template
+  commentId: P:Forma.Xaml.StyleInspection.Template
+  fullName: Forma.Xaml.StyleInspection.Template
+  nameWithType: StyleInspection.Template
+- uid: Forma.Xaml.StyleInspection.Template*
+  name: Template
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Template_
+  commentId: Overload:Forma.Xaml.StyleInspection.Template
+  fullName: Forma.Xaml.StyleInspection.Template
+  nameWithType: StyleInspection.Template
+- uid: Forma.Xaml.StyleInspection.Winners
+  name: Winners
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Winners
+  commentId: P:Forma.Xaml.StyleInspection.Winners
+  fullName: Forma.Xaml.StyleInspection.Winners
+  nameWithType: StyleInspection.Winners
+- uid: Forma.Xaml.StyleInspection.Winners*
+  name: Winners
+  href: api/Forma.Xaml.StyleInspection.html#Forma_Xaml_StyleInspection_Winners_
+  commentId: Overload:Forma.Xaml.StyleInspection.Winners
+  fullName: Forma.Xaml.StyleInspection.Winners
+  nameWithType: StyleInspection.Winners
+- uid: Forma.Xaml.StyleInspector
+  name: StyleInspector
+  href: api/Forma.Xaml.StyleInspector.html
+  commentId: T:Forma.Xaml.StyleInspector
+  fullName: Forma.Xaml.StyleInspector
+  nameWithType: StyleInspector
+- uid: Forma.Xaml.StyleInspector.Inspect(Forma.Control)
+  name: Inspect(Control)
+  href: api/Forma.Xaml.StyleInspector.html#Forma_Xaml_StyleInspector_Inspect_Forma_Control_
+  commentId: M:Forma.Xaml.StyleInspector.Inspect(Forma.Control)
+  fullName: Forma.Xaml.StyleInspector.Inspect(Forma.Control)
+  nameWithType: StyleInspector.Inspect(Control)
+- uid: Forma.Xaml.StyleInspector.Inspect*
+  name: Inspect
+  href: api/Forma.Xaml.StyleInspector.html#Forma_Xaml_StyleInspector_Inspect_
+  commentId: Overload:Forma.Xaml.StyleInspector.Inspect
+  fullName: Forma.Xaml.StyleInspector.Inspect
+  nameWithType: StyleInspector.Inspect
+- uid: Forma.Xaml.StylePropertyInspection
+  name: StylePropertyInspection
+  href: api/Forma.Xaml.StylePropertyInspection.html
+  commentId: T:Forma.Xaml.StylePropertyInspection
+  fullName: Forma.Xaml.StylePropertyInspection
+  nameWithType: StylePropertyInspection
+- uid: Forma.Xaml.StylePropertyInspection.Property
+  name: Property
+  href: api/Forma.Xaml.StylePropertyInspection.html#Forma_Xaml_StylePropertyInspection_Property
+  commentId: P:Forma.Xaml.StylePropertyInspection.Property
+  fullName: Forma.Xaml.StylePropertyInspection.Property
+  nameWithType: StylePropertyInspection.Property
+- uid: Forma.Xaml.StylePropertyInspection.Property*
+  name: Property
+  href: api/Forma.Xaml.StylePropertyInspection.html#Forma_Xaml_StylePropertyInspection_Property_
+  commentId: Overload:Forma.Xaml.StylePropertyInspection.Property
+  fullName: Forma.Xaml.StylePropertyInspection.Property
+  nameWithType: StylePropertyInspection.Property
+- uid: Forma.Xaml.StylePropertyInspection.Source
+  name: Source
+  href: api/Forma.Xaml.StylePropertyInspection.html#Forma_Xaml_StylePropertyInspection_Source
+  commentId: P:Forma.Xaml.StylePropertyInspection.Source
+  fullName: Forma.Xaml.StylePropertyInspection.Source
+  nameWithType: StylePropertyInspection.Source
+- uid: Forma.Xaml.StylePropertyInspection.Source*
+  name: Source
+  href: api/Forma.Xaml.StylePropertyInspection.html#Forma_Xaml_StylePropertyInspection_Source_
+  commentId: Overload:Forma.Xaml.StylePropertyInspection.Source
+  fullName: Forma.Xaml.StylePropertyInspection.Source
+  nameWithType: StylePropertyInspection.Source
+- uid: Forma.Xaml.StylePropertyInspection.Value
+  name: Value
+  href: api/Forma.Xaml.StylePropertyInspection.html#Forma_Xaml_StylePropertyInspection_Value
+  commentId: P:Forma.Xaml.StylePropertyInspection.Value
+  fullName: Forma.Xaml.StylePropertyInspection.Value
+  nameWithType: StylePropertyInspection.Value
+- uid: Forma.Xaml.StylePropertyInspection.Value*
+  name: Value
+  href: api/Forma.Xaml.StylePropertyInspection.html#Forma_Xaml_StylePropertyInspection_Value_
+  commentId: Overload:Forma.Xaml.StylePropertyInspection.Value
+  fullName: Forma.Xaml.StylePropertyInspection.Value
+  nameWithType: StylePropertyInspection.Value
+- uid: Forma.Xaml.StyleQuery
+  name: StyleQuery
+  href: api/Forma.Xaml.StyleQuery.html
+  commentId: T:Forma.Xaml.StyleQuery
+  fullName: Forma.Xaml.StyleQuery
+  nameWithType: StyleQuery
+- uid: Forma.Xaml.StyleQuery.Select(Forma.Control,System.String)
+  name: Select(Control, string)
+  href: api/Forma.Xaml.StyleQuery.html#Forma_Xaml_StyleQuery_Select_Forma_Control_System_String_
+  commentId: M:Forma.Xaml.StyleQuery.Select(Forma.Control,System.String)
+  name.vb: Select(Control, String)
+  fullName: Forma.Xaml.StyleQuery.Select(Forma.Control, string)
+  fullName.vb: Forma.Xaml.StyleQuery.Select(Forma.Control, String)
+  nameWithType: StyleQuery.Select(Control, string)
+  nameWithType.vb: StyleQuery.Select(Control, String)
+- uid: Forma.Xaml.StyleQuery.Select*
+  name: Select
+  href: api/Forma.Xaml.StyleQuery.html#Forma_Xaml_StyleQuery_Select_
+  commentId: Overload:Forma.Xaml.StyleQuery.Select
+  fullName: Forma.Xaml.StyleQuery.Select
+  nameWithType: StyleQuery.Select
+- uid: Forma.Xaml.StyleRuleInspection
+  name: StyleRuleInspection
+  href: api/Forma.Xaml.StyleRuleInspection.html
+  commentId: T:Forma.Xaml.StyleRuleInspection
+  fullName: Forma.Xaml.StyleRuleInspection
+  nameWithType: StyleRuleInspection
+- uid: Forma.Xaml.StyleRuleInspection.Matched
+  name: Matched
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Matched
+  commentId: P:Forma.Xaml.StyleRuleInspection.Matched
+  fullName: Forma.Xaml.StyleRuleInspection.Matched
+  nameWithType: StyleRuleInspection.Matched
+- uid: Forma.Xaml.StyleRuleInspection.Matched*
+  name: Matched
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Matched_
+  commentId: Overload:Forma.Xaml.StyleRuleInspection.Matched
+  fullName: Forma.Xaml.StyleRuleInspection.Matched
+  nameWithType: StyleRuleInspection.Matched
+- uid: Forma.Xaml.StyleRuleInspection.Order
+  name: Order
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Order
+  commentId: P:Forma.Xaml.StyleRuleInspection.Order
+  fullName: Forma.Xaml.StyleRuleInspection.Order
+  nameWithType: StyleRuleInspection.Order
+- uid: Forma.Xaml.StyleRuleInspection.Order*
+  name: Order
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Order_
+  commentId: Overload:Forma.Xaml.StyleRuleInspection.Order
+  fullName: Forma.Xaml.StyleRuleInspection.Order
+  nameWithType: StyleRuleInspection.Order
+- uid: Forma.Xaml.StyleRuleInspection.Origin
+  name: Origin
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Origin
+  commentId: P:Forma.Xaml.StyleRuleInspection.Origin
+  fullName: Forma.Xaml.StyleRuleInspection.Origin
+  nameWithType: StyleRuleInspection.Origin
+- uid: Forma.Xaml.StyleRuleInspection.Origin*
+  name: Origin
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Origin_
+  commentId: Overload:Forma.Xaml.StyleRuleInspection.Origin
+  fullName: Forma.Xaml.StyleRuleInspection.Origin
+  nameWithType: StyleRuleInspection.Origin
+- uid: Forma.Xaml.StyleRuleInspection.Properties
+  name: Properties
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Properties
+  commentId: P:Forma.Xaml.StyleRuleInspection.Properties
+  fullName: Forma.Xaml.StyleRuleInspection.Properties
+  nameWithType: StyleRuleInspection.Properties
+- uid: Forma.Xaml.StyleRuleInspection.Properties*
+  name: Properties
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Properties_
+  commentId: Overload:Forma.Xaml.StyleRuleInspection.Properties
+  fullName: Forma.Xaml.StyleRuleInspection.Properties
+  nameWithType: StyleRuleInspection.Properties
+- uid: Forma.Xaml.StyleRuleInspection.Reason
+  name: Reason
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Reason
+  commentId: P:Forma.Xaml.StyleRuleInspection.Reason
+  fullName: Forma.Xaml.StyleRuleInspection.Reason
+  nameWithType: StyleRuleInspection.Reason
+- uid: Forma.Xaml.StyleRuleInspection.Reason*
+  name: Reason
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Reason_
+  commentId: Overload:Forma.Xaml.StyleRuleInspection.Reason
+  fullName: Forma.Xaml.StyleRuleInspection.Reason
+  nameWithType: StyleRuleInspection.Reason
+- uid: Forma.Xaml.StyleRuleInspection.Selector
+  name: Selector
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Selector
+  commentId: P:Forma.Xaml.StyleRuleInspection.Selector
+  fullName: Forma.Xaml.StyleRuleInspection.Selector
+  nameWithType: StyleRuleInspection.Selector
+- uid: Forma.Xaml.StyleRuleInspection.Selector*
+  name: Selector
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Selector_
+  commentId: Overload:Forma.Xaml.StyleRuleInspection.Selector
+  fullName: Forma.Xaml.StyleRuleInspection.Selector
+  nameWithType: StyleRuleInspection.Selector
+- uid: Forma.Xaml.StyleRuleInspection.Specificity
+  name: Specificity
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Specificity
+  commentId: P:Forma.Xaml.StyleRuleInspection.Specificity
+  fullName: Forma.Xaml.StyleRuleInspection.Specificity
+  nameWithType: StyleRuleInspection.Specificity
+- uid: Forma.Xaml.StyleRuleInspection.Specificity*
+  name: Specificity
+  href: api/Forma.Xaml.StyleRuleInspection.html#Forma_Xaml_StyleRuleInspection_Specificity_
+  commentId: Overload:Forma.Xaml.StyleRuleInspection.Specificity
+  fullName: Forma.Xaml.StyleRuleInspection.Specificity
+  nameWithType: StyleRuleInspection.Specificity
 - uid: Forma.Xaml.StyleSelector
   name: StyleSelector
   href: api/Forma.Xaml.StyleSelector.html
@@ -70204,6 +71148,30 @@ references:
   commentId: Overload:Forma.Xaml.StyleSelector.Specificity
   fullName: Forma.Xaml.StyleSelector.Specificity
   nameWithType: StyleSelector.Specificity
+- uid: Forma.Xaml.StyleSelector.Text
+  name: Text
+  href: api/Forma.Xaml.StyleSelector.html#Forma_Xaml_StyleSelector_Text
+  commentId: P:Forma.Xaml.StyleSelector.Text
+  fullName: Forma.Xaml.StyleSelector.Text
+  nameWithType: StyleSelector.Text
+- uid: Forma.Xaml.StyleSelector.Text*
+  name: Text
+  href: api/Forma.Xaml.StyleSelector.html#Forma_Xaml_StyleSelector_Text_
+  commentId: Overload:Forma.Xaml.StyleSelector.Text
+  fullName: Forma.Xaml.StyleSelector.Text
+  nameWithType: StyleSelector.Text
+- uid: Forma.Xaml.StyleSelector.ToString
+  name: ToString()
+  href: api/Forma.Xaml.StyleSelector.html#Forma_Xaml_StyleSelector_ToString
+  commentId: M:Forma.Xaml.StyleSelector.ToString
+  fullName: Forma.Xaml.StyleSelector.ToString()
+  nameWithType: StyleSelector.ToString()
+- uid: Forma.Xaml.StyleSelector.ToString*
+  name: ToString
+  href: api/Forma.Xaml.StyleSelector.html#Forma_Xaml_StyleSelector_ToString_
+  commentId: Overload:Forma.Xaml.StyleSelector.ToString
+  fullName: Forma.Xaml.StyleSelector.ToString
+  nameWithType: StyleSelector.ToString
 - uid: Forma.Xaml.StyleSelector.TypeName
   name: TypeName
   href: api/Forma.Xaml.StyleSelector.html#Forma_Xaml_StyleSelector_TypeName
@@ -70327,6 +71295,15 @@ references:
   fullName.vb: Forma.Xaml.StyleSelectorCompound.New(String, Boolean, String, System.Collections.Generic.IReadOnlyList(Of String), System.Collections.Generic.IReadOnlyList(Of String), System.Collections.Generic.IReadOnlyList(Of Forma.Xaml.StyleSelectorCompound))
   nameWithType: StyleSelectorCompound.StyleSelectorCompound(string, bool, string, IReadOnlyList<string>, IReadOnlyList<string>, IReadOnlyList<StyleSelectorCompound>)
   nameWithType.vb: StyleSelectorCompound.New(String, Boolean, String, IReadOnlyList(Of String), IReadOnlyList(Of String), IReadOnlyList(Of StyleSelectorCompound))
+- uid: Forma.Xaml.StyleSelectorCompound.#ctor(System.String,System.Boolean,System.String,System.Collections.Generic.IReadOnlyList{System.String},System.Collections.Generic.IReadOnlyList{System.String},System.Collections.Generic.IReadOnlyList{Forma.Xaml.StyleSelectorCompound},System.Collections.Generic.IReadOnlyList{Forma.Xaml.StyleSelectorPredicate})
+  name: StyleSelectorCompound(string, bool, string, IReadOnlyList<string>, IReadOnlyList<string>, IReadOnlyList<StyleSelectorCompound>, IReadOnlyList<StyleSelectorPredicate>)
+  href: api/Forma.Xaml.StyleSelectorCompound.html#Forma_Xaml_StyleSelectorCompound__ctor_System_String_System_Boolean_System_String_System_Collections_Generic_IReadOnlyList_System_String__System_Collections_Generic_IReadOnlyList_System_String__System_Collections_Generic_IReadOnlyList_Forma_Xaml_StyleSelectorCompound__System_Collections_Generic_IReadOnlyList_Forma_Xaml_StyleSelectorPredicate__
+  commentId: M:Forma.Xaml.StyleSelectorCompound.#ctor(System.String,System.Boolean,System.String,System.Collections.Generic.IReadOnlyList{System.String},System.Collections.Generic.IReadOnlyList{System.String},System.Collections.Generic.IReadOnlyList{Forma.Xaml.StyleSelectorCompound},System.Collections.Generic.IReadOnlyList{Forma.Xaml.StyleSelectorPredicate})
+  name.vb: New(String, Boolean, String, IReadOnlyList(Of String), IReadOnlyList(Of String), IReadOnlyList(Of StyleSelectorCompound), IReadOnlyList(Of StyleSelectorPredicate))
+  fullName: Forma.Xaml.StyleSelectorCompound.StyleSelectorCompound(string, bool, string, System.Collections.Generic.IReadOnlyList<string>, System.Collections.Generic.IReadOnlyList<string>, System.Collections.Generic.IReadOnlyList<Forma.Xaml.StyleSelectorCompound>, System.Collections.Generic.IReadOnlyList<Forma.Xaml.StyleSelectorPredicate>)
+  fullName.vb: Forma.Xaml.StyleSelectorCompound.New(String, Boolean, String, System.Collections.Generic.IReadOnlyList(Of String), System.Collections.Generic.IReadOnlyList(Of String), System.Collections.Generic.IReadOnlyList(Of Forma.Xaml.StyleSelectorCompound), System.Collections.Generic.IReadOnlyList(Of Forma.Xaml.StyleSelectorPredicate))
+  nameWithType: StyleSelectorCompound.StyleSelectorCompound(string, bool, string, IReadOnlyList<string>, IReadOnlyList<string>, IReadOnlyList<StyleSelectorCompound>, IReadOnlyList<StyleSelectorPredicate>)
+  nameWithType.vb: StyleSelectorCompound.New(String, Boolean, String, IReadOnlyList(Of String), IReadOnlyList(Of String), IReadOnlyList(Of StyleSelectorCompound), IReadOnlyList(Of StyleSelectorPredicate))
 - uid: Forma.Xaml.StyleSelectorCompound.#ctor*
   name: StyleSelectorCompound
   href: api/Forma.Xaml.StyleSelectorCompound.html#Forma_Xaml_StyleSelectorCompound__ctor_
@@ -70384,6 +71361,18 @@ references:
   commentId: Overload:Forma.Xaml.StyleSelectorCompound.Negations
   fullName: Forma.Xaml.StyleSelectorCompound.Negations
   nameWithType: StyleSelectorCompound.Negations
+- uid: Forma.Xaml.StyleSelectorCompound.Predicates
+  name: Predicates
+  href: api/Forma.Xaml.StyleSelectorCompound.html#Forma_Xaml_StyleSelectorCompound_Predicates
+  commentId: P:Forma.Xaml.StyleSelectorCompound.Predicates
+  fullName: Forma.Xaml.StyleSelectorCompound.Predicates
+  nameWithType: StyleSelectorCompound.Predicates
+- uid: Forma.Xaml.StyleSelectorCompound.Predicates*
+  name: Predicates
+  href: api/Forma.Xaml.StyleSelectorCompound.html#Forma_Xaml_StyleSelectorCompound_Predicates_
+  commentId: Overload:Forma.Xaml.StyleSelectorCompound.Predicates
+  fullName: Forma.Xaml.StyleSelectorCompound.Predicates
+  nameWithType: StyleSelectorCompound.Predicates
 - uid: Forma.Xaml.StyleSelectorCompound.PseudoStates
   name: PseudoStates
   href: api/Forma.Xaml.StyleSelectorCompound.html#Forma_Xaml_StyleSelectorCompound_PseudoStates
@@ -70420,6 +71409,90 @@ references:
   commentId: Overload:Forma.Xaml.StyleSelectorCompound.TypeName
   fullName: Forma.Xaml.StyleSelectorCompound.TypeName
   nameWithType: StyleSelectorCompound.TypeName
+- uid: Forma.Xaml.StyleSelectorPredicate
+  name: StyleSelectorPredicate
+  href: api/Forma.Xaml.StyleSelectorPredicate.html
+  commentId: T:Forma.Xaml.StyleSelectorPredicate
+  fullName: Forma.Xaml.StyleSelectorPredicate
+  nameWithType: StyleSelectorPredicate
+- uid: Forma.Xaml.StyleSelectorPredicate.#ctor(System.String,System.String,System.String,System.Int32,System.Int32)
+  name: StyleSelectorPredicate(string, string, string, int, int)
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate__ctor_System_String_System_String_System_String_System_Int32_System_Int32_
+  commentId: M:Forma.Xaml.StyleSelectorPredicate.#ctor(System.String,System.String,System.String,System.Int32,System.Int32)
+  name.vb: New(String, String, String, Integer, Integer)
+  fullName: Forma.Xaml.StyleSelectorPredicate.StyleSelectorPredicate(string, string, string, int, int)
+  fullName.vb: Forma.Xaml.StyleSelectorPredicate.New(String, String, String, Integer, Integer)
+  nameWithType: StyleSelectorPredicate.StyleSelectorPredicate(string, string, string, int, int)
+  nameWithType.vb: StyleSelectorPredicate.New(String, String, String, Integer, Integer)
+- uid: Forma.Xaml.StyleSelectorPredicate.#ctor*
+  name: StyleSelectorPredicate
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate__ctor_
+  commentId: Overload:Forma.Xaml.StyleSelectorPredicate.#ctor
+  name.vb: New
+  fullName: Forma.Xaml.StyleSelectorPredicate.StyleSelectorPredicate
+  fullName.vb: Forma.Xaml.StyleSelectorPredicate.New
+  nameWithType: StyleSelectorPredicate.StyleSelectorPredicate
+  nameWithType.vb: StyleSelectorPredicate.New
+- uid: Forma.Xaml.StyleSelectorPredicate.A
+  name: A
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_A
+  commentId: P:Forma.Xaml.StyleSelectorPredicate.A
+  fullName: Forma.Xaml.StyleSelectorPredicate.A
+  nameWithType: StyleSelectorPredicate.A
+- uid: Forma.Xaml.StyleSelectorPredicate.A*
+  name: A
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_A_
+  commentId: Overload:Forma.Xaml.StyleSelectorPredicate.A
+  fullName: Forma.Xaml.StyleSelectorPredicate.A
+  nameWithType: StyleSelectorPredicate.A
+- uid: Forma.Xaml.StyleSelectorPredicate.B
+  name: B
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_B
+  commentId: P:Forma.Xaml.StyleSelectorPredicate.B
+  fullName: Forma.Xaml.StyleSelectorPredicate.B
+  nameWithType: StyleSelectorPredicate.B
+- uid: Forma.Xaml.StyleSelectorPredicate.B*
+  name: B
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_B_
+  commentId: Overload:Forma.Xaml.StyleSelectorPredicate.B
+  fullName: Forma.Xaml.StyleSelectorPredicate.B
+  nameWithType: StyleSelectorPredicate.B
+- uid: Forma.Xaml.StyleSelectorPredicate.Kind
+  name: Kind
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_Kind
+  commentId: P:Forma.Xaml.StyleSelectorPredicate.Kind
+  fullName: Forma.Xaml.StyleSelectorPredicate.Kind
+  nameWithType: StyleSelectorPredicate.Kind
+- uid: Forma.Xaml.StyleSelectorPredicate.Kind*
+  name: Kind
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_Kind_
+  commentId: Overload:Forma.Xaml.StyleSelectorPredicate.Kind
+  fullName: Forma.Xaml.StyleSelectorPredicate.Kind
+  nameWithType: StyleSelectorPredicate.Kind
+- uid: Forma.Xaml.StyleSelectorPredicate.Name
+  name: Name
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_Name
+  commentId: P:Forma.Xaml.StyleSelectorPredicate.Name
+  fullName: Forma.Xaml.StyleSelectorPredicate.Name
+  nameWithType: StyleSelectorPredicate.Name
+- uid: Forma.Xaml.StyleSelectorPredicate.Name*
+  name: Name
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_Name_
+  commentId: Overload:Forma.Xaml.StyleSelectorPredicate.Name
+  fullName: Forma.Xaml.StyleSelectorPredicate.Name
+  nameWithType: StyleSelectorPredicate.Name
+- uid: Forma.Xaml.StyleSelectorPredicate.Value
+  name: Value
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_Value
+  commentId: P:Forma.Xaml.StyleSelectorPredicate.Value
+  fullName: Forma.Xaml.StyleSelectorPredicate.Value
+  nameWithType: StyleSelectorPredicate.Value
+- uid: Forma.Xaml.StyleSelectorPredicate.Value*
+  name: Value
+  href: api/Forma.Xaml.StyleSelectorPredicate.html#Forma_Xaml_StyleSelectorPredicate_Value_
+  commentId: Overload:Forma.Xaml.StyleSelectorPredicate.Value
+  fullName: Forma.Xaml.StyleSelectorPredicate.Value
+  nameWithType: StyleSelectorPredicate.Value
 - uid: Forma.Xaml.StyleSetter`1
   name: StyleSetter<T>
   href: api/Forma.Xaml.StyleSetter-1.html
@@ -70565,6 +71638,27 @@ references:
   fullName.vb: Forma.Xaml.StyleTransition(Of T).Property
   nameWithType: StyleTransition<T>.Property
   nameWithType.vb: StyleTransition(Of T).Property
+- uid: Forma.Xaml.ThemeResources
+  name: ThemeResources
+  href: api/Forma.Xaml.ThemeResources.html
+  commentId: T:Forma.Xaml.ThemeResources
+  fullName: Forma.Xaml.ThemeResources
+  nameWithType: ThemeResources
+- uid: Forma.Xaml.ThemeResources.Apply(Forma.Control,System.String)
+  name: Apply(Control, string)
+  href: api/Forma.Xaml.ThemeResources.html#Forma_Xaml_ThemeResources_Apply_Forma_Control_System_String_
+  commentId: M:Forma.Xaml.ThemeResources.Apply(Forma.Control,System.String)
+  name.vb: Apply(Control, String)
+  fullName: Forma.Xaml.ThemeResources.Apply(Forma.Control, string)
+  fullName.vb: Forma.Xaml.ThemeResources.Apply(Forma.Control, String)
+  nameWithType: ThemeResources.Apply(Control, string)
+  nameWithType.vb: ThemeResources.Apply(Control, String)
+- uid: Forma.Xaml.ThemeResources.Apply*
+  name: Apply
+  href: api/Forma.Xaml.ThemeResources.html#Forma_Xaml_ThemeResources_Apply_
+  commentId: Overload:Forma.Xaml.ThemeResources.Apply
+  fullName: Forma.Xaml.ThemeResources.Apply
+  nameWithType: ThemeResources.Apply
 - uid: Forma.Xaml.ThicknessTimeline
   name: ThicknessTimeline
   href: api/Forma.Xaml.ThicknessTimeline.html
@@ -71356,6 +72450,15 @@ references:
   fullName.vb: Forma.Xaml.XamlProperty(Of T).New(String, System.Func(Of Object, T), System.Action(Of Object, T))
   nameWithType: XamlProperty<T>.XamlProperty(string, Func<object, T>, Action<object, T>)
   nameWithType.vb: XamlProperty(Of T).New(String, Func(Of Object, T), Action(Of Object, T))
+- uid: Forma.Xaml.XamlProperty`1.#ctor(System.String,System.Func{System.Object,`0},System.Action{System.Object,`0},System.Object)
+  name: XamlProperty(string, Func<object, T>, Action<object, T>, object)
+  href: api/Forma.Xaml.XamlProperty-1.html#Forma_Xaml_XamlProperty_1__ctor_System_String_System_Func_System_Object__0__System_Action_System_Object__0__System_Object_
+  commentId: M:Forma.Xaml.XamlProperty`1.#ctor(System.String,System.Func{System.Object,`0},System.Action{System.Object,`0},System.Object)
+  name.vb: New(String, Func(Of Object, T), Action(Of Object, T), Object)
+  fullName: Forma.Xaml.XamlProperty<T>.XamlProperty(string, System.Func<object, T>, System.Action<object, T>, object)
+  fullName.vb: Forma.Xaml.XamlProperty(Of T).New(String, System.Func(Of Object, T), System.Action(Of Object, T), Object)
+  nameWithType: XamlProperty<T>.XamlProperty(string, Func<object, T>, Action<object, T>, object)
+  nameWithType.vb: XamlProperty(Of T).New(String, Func(Of Object, T), Action(Of Object, T), Object)
 - uid: Forma.Xaml.XamlProperty`1.#ctor*
   name: XamlProperty
   href: api/Forma.Xaml.XamlProperty-1.html#Forma_Xaml_XamlProperty_1__ctor_

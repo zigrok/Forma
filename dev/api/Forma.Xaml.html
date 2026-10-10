@@ -149,6 +149,11 @@ Classes
       <dd></dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.DynamicStyleSetter-1.html">DynamicStyleSetter&lt;T&gt;</a></dt>
+      <dd><p>A style setter whose value follows a resource: when the resource changes, controls the style already applied to update.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Forma.Xaml.FloatTimeline.html">FloatTimeline</a></dt>
       <dd></dd>
     </dl>
@@ -163,6 +168,14 @@ Classes
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.Xaml.KeyFrame-1.html">KeyFrame&lt;T&gt;</a></dt>
       <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.Localization.html">Localization</a></dt>
+      <dd><p>The data-i18n convention (as i18next's DOM bindings use): controls authored with <code>data-i18n=&quot;menu.play&quot;</code> carry the key as the
+data attribute <code>i18n</code>; <a class="xref" href="Forma.Xaml.Localization.html#Forma_Xaml_Localization_Apply_Forma_Control_System_Func_System_String_System_String__">Apply(Control, Func&lt;string, string&gt;)</a> sets their text from a translation function, and is called again when the
+language changes. <code>data-i18n-placeholder</code>, <code>data-i18n-label</code> and <code>data-i18n-title</code> localize the placeholder, the
+accessibility label and the title the same way.</p>
+</dd>
     </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.Xaml.NameScope.html">NameScope</a></dt>
@@ -201,6 +214,33 @@ Classes
       <dd></dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.StyleInspection.html">StyleInspection</a></dt>
+      <dd><p>The styling of one control: its classes and pseudo-states, every rule considered, and the winning value per property.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.StyleInspector.html">StyleInspector</a></dt>
+      <dd><p>Explains why a control looks the way it does, like a browser's computed-style panel.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.StylePropertyInspection.html">StylePropertyInspection</a></dt>
+      <dd><p>The winning style value for one property and the rule it came from.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.StyleQuery.html">StyleQuery</a></dt>
+      <dd><p>The equivalent of <code>document.querySelectorAll</code>: finds the controls under a root that match a style selector, using the same
+matching rules (type, name, classes, pseudo-states, data attributes, structural conditions, descendant and child combinators)
+as the style engine.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.StyleRuleInspection.html">StyleRuleInspection</a></dt>
+      <dd><p>One style rule considered for a control: whether it matched, and if not, why.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Forma.Xaml.StyleSelector.html">StyleSelector</a></dt>
       <dd></dd>
     </dl>
@@ -213,12 +253,25 @@ Classes
       <dd></dd>
     </dl>
     <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.StyleSelectorPredicate.html">StyleSelectorPredicate</a></dt>
+      <dd><p>An attribute (<code>[data-state=&quot;open&quot;]</code>) or structural (<code>:first-child</code>, <code>:nth-child(2n+1)</code>) condition of a compound selector.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
       <dt><a class="xref" href="Forma.Xaml.StyleSetter-1.html">StyleSetter&lt;T&gt;</a></dt>
       <dd></dd>
     </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.Xaml.StyleTransition-1.html">StyleTransition&lt;T&gt;</a></dt>
       <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Forma.Xaml.ThemeResources.html">ThemeResources</a></dt>
+      <dd><p>Applies a named theme to a view's resources. The HTML and CSS dialect emits a token's overrides as <code>name@theme</code> resources
+(from <code>:root[data-theme=&quot;dark&quot;]</code> or <code>@media (prefers-color-scheme: dark)</code>) and its original value as <code>name@default</code>;
+<a class="xref" href="Forma.Xaml.ThemeResources.html#Forma_Xaml_ThemeResources_Apply_Forma_Control_System_String_">Apply(Control, string)</a> copies the chosen set over the base keys, so every live <code>var(--name)</code> follows, and records the theme as the
+root's <code>data-theme</code> attribute so <code>[data-theme=&quot;dark&quot;]</code> selectors match.</p>
+</dd>
     </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.Xaml.ThicknessTimeline.html">ThicknessTimeline</a></dt>
@@ -399,7 +452,7 @@ Enums
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 168073fc173f · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · c915fff478f4 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

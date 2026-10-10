@@ -1,0 +1,79 @@
+/* A small design system in the Forma dialect: tokens, a button, a card and spacing utilities.
+   Link it from the root view of an application: <link rel="stylesheet" href="design-system.fcss"> */
+
+:root {
+  --surface: #14213D;
+  --surface-raised: #1F3158;
+  --accent: #47E4FF;
+  --text: #E0F8FF;
+  --text-muted: #91B5C6;
+  --radius: 3px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+}
+
+/* Text */
+label.text {
+  color: var(--text);
+}
+
+label.text-muted {
+  color: var(--text-muted);
+}
+
+label.title {
+  color: var(--text);
+  font-size: 28;
+  font-weight: bold;
+}
+
+/* Surfaces */
+f-border.card {
+  background-color: var(--surface);
+  border-color: var(--accent);
+  border-width: 1px;
+  border-radius: 3px;
+  padding: 16px;
+}
+
+f-border.card-raised {
+  background-color: var(--surface-raised);
+}
+
+/* Buttons */
+button.btn {
+  min-width: 120px;
+  min-height: 40px;
+  font-weight: normal;
+}
+
+button.btn:hover {
+  font-weight: bold;
+}
+
+button.btn:disabled {
+  opacity: 0.45;
+}
+
+button.btn-primary {
+  font-weight: bold;
+}
+
+/* Spacing utilities: gap on a flex container (f-hbox and f-vbox are the row and column containers) */
+f-hbox.gap-1, f-vbox.gap-1 {
+  gap: var(--space-1);
+}
+
+f-hbox.gap-2, f-vbox.gap-2 {
+  gap: var(--space-2);
+}
+
+f-hbox.gap-3, f-vbox.gap-3 {
+  gap: var(--space-3);
+}
+
+f-hbox.gap-4, f-vbox.gap-4 {
+  gap: var(--space-4);
+}

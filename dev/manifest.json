@@ -96,6 +96,26 @@
       "version": ""
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "agent-design-guide.md",
+      "output": {
+        ".html": {
+          "relative_path": "agent-design-guide.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "agents.md",
+      "output": {
+        ".html": {
+          "relative_path": "agents.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "ManagedReference",
       "source_relative_path": "api/Forma.AcceptDialog.yml",
       "output": {
@@ -2197,6 +2217,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.GlyphRasterTuning.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.GlyphRasterTuning.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.GlyphRasterTuning",
+      "Summary": "<p sourcefile=\"api/Forma.GlyphRasterTuning.yml\" sourcestartlinenumber=\"1\">Global adjustments applied when dynamic glyphs are rasterized, for tuning how a font looks at a given display\nscale. Layout is unaffected: only the glyph bitmaps change. Both values are zero unless a host sets them.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.GradientBrush.yml",
       "output": {
         ".html": {
@@ -4098,6 +4132,20 @@
       "IsMRef": true,
       "Title": "Forma.RowDefinition",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Ruby.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Ruby.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Ruby",
+      "Summary": "<p sourcefile=\"api/Forma.Ruby.yml\" sourcestartlinenumber=\"1\">Base text with a smaller annotation centered above it; only the base belongs to the label text.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6145,6 +6193,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.UIFontSynthesis.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.UIFontSynthesis.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.UIFontSynthesis",
+      "Summary": "<p sourcefile=\"api/Forma.UIFontSynthesis.yml\" sourcestartlinenumber=\"1\">Glyph outline synthesis for faces without a real bold or italic variant.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.UIFontVariationAxis.yml",
       "output": {
         ".html": {
@@ -6719,6 +6781,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.DynamicStyleSetter-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.DynamicStyleSetter-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.DynamicStyleSetter<T>",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.DynamicStyleSetter-1.yml\" sourcestartlinenumber=\"1\">A style setter whose value follows a resource: when the resource changes, controls the style already applied to update.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.Xaml.Easing.yml",
       "output": {
         ".html": {
@@ -6985,6 +7061,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.Localization.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.Localization.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.Localization",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.Localization.yml\" sourcestartlinenumber=\"1\">The data-i18n convention (as i18next's DOM bindings use): controls authored with <code>data-i18n=&quot;menu.play&quot;</code> carry the key as the\ndata attribute <code>i18n</code>; <xref href=\"Forma.Xaml.Localization.Apply(Forma.Control%2cSystem.Func%7bSystem.String%2cSystem.String%7d)\" data-throw-if-not-resolved=\"false\"></xref> sets their text from a translation function, and is called again when the\nlanguage changes. <code>data-i18n-placeholder</code>, <code>data-i18n-label</code> and <code>data-i18n-title</code> localize the placeholder, the\naccessibility label and the title the same way.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.Xaml.NameScope.yml",
       "output": {
         ".html": {
@@ -7139,6 +7229,76 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.StyleInspection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.StyleInspection.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.StyleInspection",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.StyleInspection.yml\" sourcestartlinenumber=\"1\">The styling of one control: its classes and pseudo-states, every rule considered, and the winning value per property.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.StyleInspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.StyleInspector.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.StyleInspector",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.StyleInspector.yml\" sourcestartlinenumber=\"1\">Explains why a control looks the way it does, like a browser's computed-style panel.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.StylePropertyInspection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.StylePropertyInspection.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.StylePropertyInspection",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.StylePropertyInspection.yml\" sourcestartlinenumber=\"1\">The winning style value for one property and the rule it came from.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.StyleQuery.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.StyleQuery.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.StyleQuery",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.StyleQuery.yml\" sourcestartlinenumber=\"1\">The equivalent of <code>document.querySelectorAll</code>: finds the controls under a root that match a style selector, using the same\nmatching rules (type, name, classes, pseudo-states, data attributes, structural conditions, descendant and child combinators)\nas the style engine.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.StyleRuleInspection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.StyleRuleInspection.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.StyleRuleInspection",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.StyleRuleInspection.yml\" sourcestartlinenumber=\"1\">One style rule considered for a control: whether it matched, and if not, why.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.Xaml.StyleSelector.yml",
       "output": {
         ".html": {
@@ -7195,6 +7355,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.StyleSelectorPredicate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.StyleSelectorPredicate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.StyleSelectorPredicate",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.StyleSelectorPredicate.yml\" sourcestartlinenumber=\"1\">An attribute (<code>[data-state=&quot;open&quot;]</code>) or structural (<code>:first-child</code>, <code>:nth-child(2n+1)</code>) condition of a compound selector.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Forma.Xaml.StyleSetter-1.yml",
       "output": {
         ".html": {
@@ -7220,6 +7394,20 @@
       "IsMRef": true,
       "Title": "Forma.Xaml.StyleTransition<T>",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Forma.Xaml.ThemeResources.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Forma.Xaml.ThemeResources.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Forma.Xaml.ThemeResources",
+      "Summary": "<p sourcefile=\"api/Forma.Xaml.ThemeResources.yml\" sourcestartlinenumber=\"1\">Applies a named theme to a view's resources. The HTML and CSS dialect emits a token's overrides as <code>name<xref href=\"theme\" data-throw-if-not-resolved=\"False\" data-raw-source=\"@theme\" sourcefile=\"api/Forma.Xaml.ThemeResources.yml\" sourcestartlinenumber=\"1\"></xref></code> resources\n(from <code>:root[data-theme=&quot;dark&quot;]</code> or <code><xref href=\"media\" data-throw-if-not-resolved=\"False\" data-raw-source=\"@media\" sourcefile=\"api/Forma.Xaml.ThemeResources.yml\" sourcestartlinenumber=\"2\"></xref> (prefers-color-scheme: dark)</code>) and its original value as <code>name<xref href=\"default\" data-throw-if-not-resolved=\"False\" data-raw-source=\"@default\" sourcefile=\"api/Forma.Xaml.ThemeResources.yml\" sourcestartlinenumber=\"2\"></xref></code>;\n<xref href=\"Forma.Xaml.ThemeResources.Apply(Forma.Control%2cSystem.String)\" data-throw-if-not-resolved=\"false\"></xref> copies the chosen set over the base keys, so every live <code>var(--name)</code> follows, and records the theme as the\nroot's <code>data-theme</code> attribute so <code>[data-theme=&quot;dark&quot;]</code> selectors match.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -7632,6 +7820,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "design-system-fcss.md",
+      "output": {
+        ".html": {
+          "relative_path": "design-system-fcss.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "documentation-inventory.md",
       "output": {
         ".html": {
@@ -7686,6 +7884,16 @@
       "output": {
         "resource": {
           "relative_path": "examples/data-grid.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "examples/design-system.fcss",
+      "output": {
+        "resource": {
+          "relative_path": "examples/design-system.fcss"
         }
       },
       "version": ""
@@ -7786,6 +7994,46 @@
       "output": {
         ".html": {
           "relative_path": "getting-started/xaml-first-ui.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "html-css-cookbook.md",
+      "output": {
+        ".html": {
+          "relative_path": "html-css-cookbook.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "html-css-dialect.md",
+      "output": {
+        ".html": {
+          "relative_path": "html-css-dialect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "html-css-reference.md",
+      "output": {
+        ".html": {
+          "relative_path": "html-css-reference.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "html-css-support-matrix.md",
+      "output": {
+        ".html": {
+          "relative_path": "html-css-support-matrix.html"
         }
       },
       "version": ""
