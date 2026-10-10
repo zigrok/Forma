@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/87cde421ff4e6f2506f0d762059942a98f698410/docs/html-css-dialect.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/927d9fcd67f0a1c1ac8c4bfeaf046db48ee17b26/docs/html-css-dialect.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -155,7 +155,8 @@ data type on the root element:</p>
 (<code>bind:visible</code>, <code>bind:enabled</code>, <code>bind:title</code>, <code>bind:font-color</code>, <code>bind:accessibility-label</code>, <code>bind:selected-index</code>, <code>bind:data-context</code>).
 <code>f-scroll</code> takes <code>data-follow-focus</code>, <code>data-horizontal</code>, <code>data-vertical</code> and <code>data-step-buttons</code>. A bound list or table takes
 <code>data-activate=&quot;click&quot;</code>, a table <code>data-selection-unit</code>, <code>data-sortable</code> and <code>data-resizable</code>, a button or text field <code>data-flat</code>, and any control
-<code>data-expand=&quot;horizontal|vertical|both&quot;</code> (take the surplus space across a flex parent's main axis).</p>
+<code>data-expand=&quot;horizontal|vertical|both&quot;</code> (take the surplus space across a flex parent's main axis), and <code>data-mouse=&quot;stop|pass|ignore&quot;</code>
+(<code>pointer-events: auto</code> and <code>none</code> are the CSS spellings of stop and ignore; <code>pass</code> also hands the event to the parent).</p>
 <p><code>f:Property=&quot;value&quot;</code> sets any Forma property verbatim; the XAML compiler validates it. It is the last resort: most properties have an HTML or
 CSS spelling (<code>aria-label</code>, <code>pointer-events</code>, <code>z-index</code>, <code>margin</code>, <code>min-width</code>, <code>text-align</code>, <code>align-self</code>, <code>flex-grow</code> and the <code>data-*</code>
 attributes above). The support matrix lists them in &quot;Replacing f: properties&quot;, and <code>forma-xaml validate</code> prints an <code>FHTML3001</code> hint naming the
@@ -242,7 +243,7 @@ draw (shadows, gradients, transforms).</li>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/87cde421ff4e6f2506f0d762059942a98f698410/docs/html-css-dialect.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/927d9fcd67f0a1c1ac8c4bfeaf046db48ee17b26/docs/html-css-dialect.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -259,7 +260,7 @@ draw (shadows, gradients, transforms).</li>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 87cde421ff4e · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · 927d9fcd67f0 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>
