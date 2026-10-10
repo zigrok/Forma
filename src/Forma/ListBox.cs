@@ -233,6 +233,13 @@ namespace Forma
                 QueueLayout();
             }
         }
+        internal override bool PointerWheel(int delta)
+        {
+            if (delta == 0 || Extent.Y <= Viewport.Y + 0.5f) return false;
+            var before = ScrollOffset;
+            ScrollOffset = new Vector2(before.X, before.Y - Math.Sign(delta) * Math.Max(1f, Viewport.Y / 8f));
+            return ScrollOffset != before;
+        }
         public Vector2 Viewport => _viewportController.Viewport;
         public Vector2 Extent => _viewportController.Extent;
         internal override bool IsAccessibilityItemSelected(int index) => Array.BinarySearch(_selectedIndices, index) >= 0;

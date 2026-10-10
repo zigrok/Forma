@@ -17,7 +17,16 @@ namespace Forma
     public enum UIFontWeight { Thin = 100, ExtraLight = 200, Light = 300, Normal = 400, Medium = 500, SemiBold = 600, Bold = 700, ExtraBold = 800, Black = 900 }
     public enum UIFontStyle { Normal, Italic, Oblique }
     /// <summary>Glyph outline synthesis for faces without a real bold or italic variant.</summary>
-    [Flags] public enum UIFontSynthesis { None = 0, Bold = 1, Oblique = 2 }
+    [Flags]
+    public enum UIFontSynthesis
+    {
+        /// <summary>No synthesis; use the face as it is.</summary>
+        None = 0,
+        /// <summary>Embolden the outlines.</summary>
+        Bold = 1,
+        /// <summary>Slant the outlines.</summary>
+        Oblique = 2
+    }
     public enum UIFontStretch { UltraCondensed = 1, ExtraCondensed, Condensed, SemiCondensed, Normal, SemiExpanded, Expanded, ExtraExpanded, UltraExpanded }
 
     public enum TextWrapping { NoWrap, Character, Word }

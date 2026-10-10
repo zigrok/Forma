@@ -374,6 +374,7 @@ namespace Forma.Xaml
         {
         }
 
+        /// <summary>Creates a compound selector: a type or universal match, an optional name, classes, pseudo-states, negations and attribute or structural predicates.</summary>
         public StyleSelectorCompound(string typeName, bool universal, string name, IReadOnlyList<string> classes,
             IReadOnlyList<string> pseudoStates, IReadOnlyList<StyleSelectorCompound> negations, IReadOnlyList<StyleSelectorPredicate> predicates)
         {
