@@ -254,6 +254,30 @@
     {
       "name": "backdrop",
       "description": "A dialog\u0027s scrim class."
+    },
+    {
+      "name": "data-activate",
+      "description": "click or double-click: when a bound list or table activates a row."
+    },
+    {
+      "name": "data-selection-unit",
+      "description": "row or cell: what a data grid selects."
+    },
+    {
+      "name": "data-sortable",
+      "description": "true or false: whether data grid headers sort."
+    },
+    {
+      "name": "data-resizable",
+      "description": "true or false: whether data grid columns resize."
+    },
+    {
+      "name": "data-flat",
+      "description": "Draws a button or text field without its frame."
+    },
+    {
+      "name": "data-expand",
+      "description": "horizontal, vertical or both: takes the surplus space across a flex parent\u0027s main axis."
     }
   ]
 }

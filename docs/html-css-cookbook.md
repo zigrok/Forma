@@ -50,6 +50,22 @@ A bordered surface with a gradient, shadow and rounded corners.
 <f-border style="border-width: 1px; border-radius: 4px; padding: 8px; box-shadow: 0 2px 6px #80000000; background: linear-gradient(180deg, #112233, #223344)"><span>Card</span></f-border>
 ```
 
+## Stacked full-width buttons
+
+A column of buttons that all take the width of the column.
+
+```html
+<div style="display: flex; flex-direction: column; gap: 6px; min-width: 300px"><button data-expand="horizontal" style="min-height: 36px">Save</button><button data-expand="horizontal" style="min-height: 36px">Discard</button><button data-expand="horizontal" aria-label="Close the menu" style="min-height: 36px">Cancel</button></div>
+```
+
+## Modal backdrop
+
+A scrim that stops the mouse and draws above its siblings.
+
+```html
+<f-border style="background-color: #000000A0; pointer-events: auto; z-index: 10"></f-border>
+```
+
 ## Dialog buttons
 
 Centered action buttons under a message.

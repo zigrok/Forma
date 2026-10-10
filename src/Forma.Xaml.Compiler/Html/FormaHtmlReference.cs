@@ -10,6 +10,10 @@ namespace Forma.Xaml.Compiler.Html;
 /// reason it rejects), checked by a test so the generated reference cannot drift from the converter.</summary>
 public sealed record FormaHtmlPropertyInfo(string Name, bool Supported, string Example, string Note);
 
+/// <summary>An <c>f:Property</c> escape hatch that has an HTML or CSS spelling: the Forma property, the spelling to use instead, a view that
+/// uses it (converted by a test) and the XAML fragment the test expects.</summary>
+public sealed record FormaHtmlReplacement(string FProperty, string Spelling, string Html, string ExpectedXaml, string Note);
+
 /// <summary>A tested recipe: a small view for a common screen shape, converted by a test on every build.</summary>
 public sealed record FormaHtmlRecipe(string Name, string Description, string Html);
 
@@ -58,7 +62,8 @@ public static class FormaHtmlReference
         new("white-space", true, "white-space: nowrap", "nowrap or normal"),
         new("transform", true, "transform: scale(1.1)", "translate(), scale(), rotate()"),
         new("transform-origin", true, "transform-origin: 50% 50%", "keywords and percentages"),
-        new("pointer-events", true, "pointer-events: none", "none or auto"),
+        new("pointer-events", true, "pointer-events: none", "none (ignores the mouse) or auto (stops it, as a modal backdrop does)"),
+        new("z-index", true, "z-index: 10", "an integer; the higher value draws and hit-tests on top"),
         new("transition", true, "transition: opacity 150ms", "property and duration"),
         new("box-sizing", true, "box-sizing: border-box", "border-box only"),
         new("grid-template-columns", true, "display: grid; grid-template-columns: 1fr 2fr", "px and fr tracks"),
@@ -80,6 +85,31 @@ public static class FormaHtmlReference
         new("margin-inline-start", false, "margin-inline-start: 4px", "use margin-left or margin-right"),
     ];
 
+    /// <summary>The f: properties that have an HTML or CSS spelling. The converter's <c>FHTML3001</c> hint reads this table, the support
+    /// matrix prints it, and a test converts every row.</summary>
+    public static IReadOnlyList<FormaHtmlReplacement> Replacements { get; } =
+    [
+        new("FontColor", "bind:font-color=\"Path\"", "<span bind:font-color=\"NameColor\"></span>", "FontColor=\"{Binding NameColor}\"", "A color from the view model. A fixed color is the CSS `color` property."),
+        new("AccessibilityLabel", "aria-label=\"Text\"", "<span aria-label=\"Volume\"></span>", "AccessibilityLabel=\"Volume\"", "A fixed accessible name."),
+        new("AccessibilityLabel", "bind:accessibility-label=\"Path\"", "<span bind:accessibility-label=\"Label\"></span>", "AccessibilityLabel=\"{Binding Label}\"", "An accessible name from the view model."),
+        new("SelectedIndex", "bind:selected-index=\"Path;mode=TwoWay\"", "<ul selectable bind:items=\"Rows\" bind:selected-index=\"Picked;mode=TwoWay\"><template data-type=\"local:RowModel\"><span bind:text=\"Name\"></span></template></ul>", "SelectedIndex=\"{Binding Picked, Mode=TwoWay}\"", "Any Forma property can be bound with bind:<property-in-kebab-case>."),
+        new("DataContext", "bind:data-context=\"Path\"", "<f-control type=\"local:Panel\" bind:data-context=\"Standings\"></f-control>", "DataContext=\"{Binding Standings}\"", "Hands a child view its own view model."),
+        new("MouseFilter", "pointer-events: none | auto", "<div style=\"pointer-events: auto\"></div>", "MouseFilter=\"Stop\"", "none ignores the mouse, auto stops it (a modal backdrop)."),
+        new("Margins", "margin", "<span style=\"margin: 0 12px 0 0\"></span>", "Margins=\"0,0,12,0\"", "One to four lengths, or margin-left, margin-top and so on."),
+        new("CustomMinimumSize", "min-width, min-height", "<span style=\"min-width: 120px; min-height: 40px\"></span>", "CustomMinimumSize=\"120,40\"", "A size from the view model stays `f:CustomMinimumSize=\"{Binding Size}\"`."),
+        new("HorizontalAlignment", "text-align or align-self", "<span style=\"text-align: right\"></span>", "HorizontalAlignment=\"Right\"", "text-align aligns a label's text; align-self places a control in its parent."),
+        new("HorizontalScrollMode / VerticalScrollMode / ShowVerticalStepButtons", "data-horizontal, data-vertical, data-step-buttons on f-scroll", "<f-scroll data-horizontal=\"Never\" data-vertical=\"Always\" data-step-buttons=\"False\"><span>x</span></f-scroll>", "HorizontalScrollMode=\"Never\"", "Values are the ScrollBarVisibility names."),
+        new("HorizontalSizeFlags / VerticalSizeFlags (main axis)", "flex-grow: 1", "<div style=\"display: flex; flex-direction: column\"><span style=\"flex-grow: 1\"></span></div>", "VerticalSizeFlags=\"Expand\"", "Shares the surplus space of a flex parent."),
+        new("HorizontalSizeFlags / VerticalSizeFlags (across the main axis)", "data-expand=\"horizontal | vertical | both\"", "<div style=\"display: flex; flex-direction: column\"><button data-expand=\"horizontal\"></button></div>", "HorizontalSizeFlags=\"Expand,Fill\"", "Takes the surplus space across the parent's main axis, as a stack of full-width buttons does."),
+        new("ZIndex", "z-index", "<div style=\"z-index: 10\"></div>", "ZIndex=\"10\"", "An integer."),
+        new("ActivateOnSingleClick", "data-activate=\"click | double-click\"", "<ul selectable bind:items=\"Rows\" data-activate=\"click\"><template data-type=\"local:RowModel\"><span bind:text=\"Name\"></span></template></ul>", "ActivateOnSingleClick=\"True\"", "A bound list or table activates a row on one click instead of two."),
+        new("SelectionUnit", "data-selection-unit=\"row | cell\"", "<table bind:items=\"Rows\" data-selection-unit=\"row\"><thead><tr><th width=\"1*\"></th></tr></thead><tbody><template data-type=\"local:RowModel\"><tr><td><span bind:text=\"Name\"></span></td></tr></template></tbody></table>", "SelectionUnit=\"Row\"", "What a data grid selects."),
+        new("CanUserSortColumns", "data-sortable=\"true | false\"", "<table bind:items=\"Rows\" data-sortable=\"false\"><thead><tr><th width=\"1*\"></th></tr></thead><tbody><template data-type=\"local:RowModel\"><tr><td><span bind:text=\"Name\"></span></td></tr></template></tbody></table>", "CanUserSortColumns=\"False\"", "Whether column headers sort."),
+        new("CanUserResizeColumns", "data-resizable=\"true | false\"", "<table bind:items=\"Rows\" data-resizable=\"false\"><thead><tr><th width=\"1*\"></th></tr></thead><tbody><template data-type=\"local:RowModel\"><tr><td><span bind:text=\"Name\"></span></td></tr></template></tbody></table>", "CanUserResizeColumns=\"False\"", "Whether column edges drag."),
+        new("Flat", "data-flat", "<input type=\"text\" data-flat>", "Flat=\"True\"", "Draws a button or text field without its frame."),
+        new("MinValue / MaxValue / Step", "min, max, step on <input type=\"range\">", "<input type=\"range\" min=\"1\" max=\"9\" step=\"1\">", "MinValue=\"1\"", "On a custom control that declares them, such as `<f-control type=\"views:SpinBox\">`, `f:MinValue` stays the spelling."),
+    ];
+
     public static IReadOnlyList<FormaHtmlRecipe> Cookbook { get; } =
     [
         new("Menu", "A titled panel of full-width buttons.",
@@ -94,6 +124,10 @@ public static class FormaHtmlReference
             "<div role=\"tablist\" style=\"min-width: 300px; min-height: 200px\"><div role=\"tabpanel\" id=\"General\"><span>General</span></div><div role=\"tabpanel\" id=\"Sound\"><span>Sound</span></div></div>"),
         new("Card with effects", "A bordered surface with a gradient, shadow and rounded corners.",
             "<f-border style=\"border-width: 1px; border-radius: 4px; padding: 8px; box-shadow: 0 2px 6px #80000000; background: linear-gradient(180deg, #112233, #223344)\"><span>Card</span></f-border>"),
+        new("Stacked full-width buttons", "A column of buttons that all take the width of the column.",
+            "<div style=\"display: flex; flex-direction: column; gap: 6px; min-width: 300px\"><button data-expand=\"horizontal\" style=\"min-height: 36px\">Save</button><button data-expand=\"horizontal\" style=\"min-height: 36px\">Discard</button><button data-expand=\"horizontal\" aria-label=\"Close the menu\" style=\"min-height: 36px\">Cancel</button></div>"),
+        new("Modal backdrop", "A scrim that stops the mouse and draws above its siblings.",
+            "<f-border style=\"background-color: #000000A0; pointer-events: auto; z-index: 10\"></f-border>"),
         new("Dialog buttons", "Centered action buttons under a message.",
             "<div style=\"display: flex; flex-direction: column; gap: 10px\"><span style=\"align-self: center\">Discard changes?</span><div style=\"display: flex; gap: 8px; align-self: center\"><button style=\"min-width: 150px\">Discard</button><button style=\"min-width: 150px\">Keep</button></div></div>"),
     ];
@@ -108,6 +142,11 @@ public static class FormaHtmlReference
         foreach (var entry in FormaHtmlDialect.Catalog) text.AppendLine($"| {Escape(entry.Name)} | `{entry.FormaType}` |");
         text.AppendLine().AppendLine("## CSS properties").AppendLine().AppendLine("| Property | Status | Example or alternative |").AppendLine("| --- | --- | --- |");
         foreach (var property in Properties) text.AppendLine($"| `{property.Name}` | {(property.Supported ? "supported" : "rejected")} | `{property.Example}` — {Escape(property.Note)} |");
+        text.AppendLine().AppendLine("## Replacing f: properties").AppendLine();
+        text.AppendLine("`f:Property=\"value\"` sets any Forma property verbatim, but most have an HTML or CSS spelling. Use it first; `bind:<property-in-kebab-case>` binds any Forma property to a view-model path. `forma-xaml validate` prints an `FHTML3001` hint when an `f:` attribute has a spelling listed here.").AppendLine();
+        text.AppendLine("| f: property | Use instead | Example | Note |").AppendLine("| --- | --- | --- | --- |");
+        foreach (var replacement in Replacements) text.AppendLine($"| `f:{Escape(replacement.FProperty)}` | `{replacement.Spelling}` | `{replacement.Html.Replace("|", "\\|")}` | {Escape(replacement.Note)} |");
+        text.AppendLine().AppendLine("These stay `f:` properties because they have no HTML or CSS counterpart: properties of a custom control (`f:MinValue` on an application spin box), a property bound to a color or size computed in code, and any property the dialect does not name.");
         text.AppendLine().AppendLine("## Selectors").AppendLine();
         foreach (var line in new[]
         {
@@ -146,6 +185,7 @@ public static class FormaHtmlReference
         (FormaHtmlDiagnosticCodes.InvalidValue, "invalid value"),
         (FormaHtmlDiagnosticCodes.UnsupportedSelector, "unsupported selector"),
         (FormaHtmlDiagnosticCodes.RejectedProperty, "rejected property"),
+        (FormaHtmlDiagnosticCodes.PreferHtmlSpelling, "an f: property has an HTML or CSS spelling (hint, not an error)"),
     ];
 
     /// <summary>The reference: each catalog entry with its example view and the Forma type it becomes.</summary>
@@ -187,6 +227,9 @@ public static class FormaHtmlReference
             ("data-i18n", "Localization key applied by Localization.Apply."), ("data-automation-id", "Stable automation id."), ("tabindex", "0 focusable, -1 not focusable."),
             ("aria-label", "Accessible name."), ("role", "tablist or tabpanel for tabs."), ("dir", "ltr, rtl or auto."), ("lang", "Language tag, stored as data."),
             ("template", "Applies a <template for> control template by id."), ("selectable", "Makes a bound list a ListBox."), ("backdrop", "A dialog's scrim class."),
+            ("data-activate", "click or double-click: when a bound list or table activates a row."), ("data-selection-unit", "row or cell: what a data grid selects."),
+            ("data-sortable", "true or false: whether data grid headers sort."), ("data-resizable", "true or false: whether data grid columns resize."),
+            ("data-flat", "Draws a button or text field without its frame."), ("data-expand", "horizontal, vertical or both: takes the surplus space across a flex parent's main axis."),
         };
         var data = new
         {

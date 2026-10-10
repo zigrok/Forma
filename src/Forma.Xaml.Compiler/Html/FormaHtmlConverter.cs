@@ -102,6 +102,8 @@ public sealed class FormaHtmlProject
     public string BaseDirectory { get; }
     /// <summary>Whether generated styles carry their source location (theme.fcss:12) for the inspector. Debug builds only; release artifacts omit it.</summary>
     public bool EmitOrigins { get; set; } = true;
+    /// <summary>Whether an <c>f:Property</c> that has an HTML or CSS spelling gets an <c>FHTML3001</c> info diagnostic naming it. Off by default so a build is unchanged; <c>forma-xaml validate</c> turns it on.</summary>
+    public bool SuggestHtmlSpellings { get; set; }
     public IReadOnlyCollection<FormaFcssSheet> Sheets => _sheets.Values;
 
     /// <summary>Resolves a link target relative to the linking file; null when it escapes the project.</summary>
@@ -983,6 +985,30 @@ public sealed class FormaHtmlConverter
             case "step" when element.Name == "input": Add("Step", value); return;
             case "alt": Add("AccessibilityLabel", Escape(value)); return;
             case "colspan" or "rowspan": return; // read by the grid placement
+            case "data-activate" when element.Name is "ul" or "ol" or "table":
+                if (value is "click" or "double-click") Add("ActivateOnSingleClick", value == "click" ? "True" : "False");
+                else Error(FormaHtmlDiagnosticCodes.InvalidValue, "data-activate is click or double-click.", attribute);
+                return;
+            case "data-selection-unit" when element.Name == "table":
+                if (value is "row" or "cell") Add("SelectionUnit", value == "row" ? "Row" : "Cell");
+                else Error(FormaHtmlDiagnosticCodes.InvalidValue, "data-selection-unit is row or cell.", attribute);
+                return;
+            case "data-sortable" or "data-resizable" when element.Name == "table":
+                if (value is "true" or "false") Add(name == "data-sortable" ? "CanUserSortColumns" : "CanUserResizeColumns", value == "true" ? "True" : "False");
+                else Error(FormaHtmlDiagnosticCodes.InvalidValue, $"{name} is true or false.", attribute);
+                return;
+            case "data-flat" when element.Name is "button" or "input":
+                if (value is "" or "true" or "false") Add("Flat", value == "false" ? "False" : "True");
+                else Error(FormaHtmlDiagnosticCodes.InvalidValue, "data-flat is true or false, or just the attribute.", attribute);
+                return;
+            case "data-expand":
+                if (value is "horizontal" or "vertical" or "both")
+                {
+                    if (value is "horizontal" or "both") Add("HorizontalSizeFlags", "Expand,Fill");
+                    if (value is "vertical" or "both") Add("VerticalSizeFlags", "Expand,Fill");
+                }
+                else Error(FormaHtmlDiagnosticCodes.InvalidValue, "data-expand is horizontal, vertical or both.", attribute);
+                return;
         }
 
         if (name is "lang")
@@ -1032,6 +1058,9 @@ public sealed class FormaHtmlConverter
         {
             // Escape hatch: any Forma property, passed through verbatim and validated by the XAML compiler.
             Add(name.Substring(2), value);
+            if (_project?.SuggestHtmlSpellings == true && FormaHtmlReference.Replacements.FirstOrDefault(r => r.FProperty.Split(" / ").Any(p => p.Split(' ')[0] == name.Substring(2))) is { } replacement)
+                _diagnostics.Add(new FormaDiagnostic(FormaHtmlDiagnosticCodes.PreferHtmlSpelling, FormaDiagnosticSeverity.Info,
+                    $"{name} has an HTML or CSS spelling: {replacement.Spelling}. Help: docs/html-css-support-matrix.md, \"Replacing f: properties\".", new FormaSourceLocation(_path, attribute.Line, attribute.Column)));
             return;
         }
 
@@ -1243,6 +1272,9 @@ public sealed class FormaHtmlConverter
                     yield return ("FontWeight", value switch { "normal" or "400" => "Normal", "bold" or "700" => "Bold", _ => Invalid(d, "font-weight supports normal, bold, 400 and 700.") }, d);
                     break;
                 case "opacity": yield return ("Opacity", Number(value, d), d); break;
+                case "z-index":
+                    yield return ("ZIndex", int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var zIndex) ? zIndex.ToString(CultureInfo.InvariantCulture) : Invalid(d, "z-index is an integer."), d);
+                    break;
                 case "pointer-events":
                     yield return ("MouseFilter", value switch { "none" => "Ignore", "auto" => "Stop", _ => Invalid(d, "pointer-events supports none and auto.") }, d);
                     break;

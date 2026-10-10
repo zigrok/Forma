@@ -267,7 +267,7 @@ internal static class Program
         var root = directory;
         for (var probe = new DirectoryInfo(directory); probe != null; probe = probe.Parent)
             if (probe.EnumerateFiles("*.csproj").Any()) { root = probe.FullName; break; }
-        var project = new Forma.Xaml.Compiler.Html.FormaHtmlProject(root);
+        var project = new Forma.Xaml.Compiler.Html.FormaHtmlProject(root) { SuggestHtmlSpellings = true };
         var relative = Path.GetRelativePath(root, file).Replace('\\', '/');
         var result = stylesheet
             ? project.ConvertSheet(relative)
@@ -297,7 +297,7 @@ internal static class Program
         if (format == "human")
         {
             foreach (var diagnostic in diagnostics) Console.WriteLine(diagnostic);
-            if (diagnostics.Count == 0) Console.WriteLine("Forma XAML validation succeeded.");
+            if (diagnostics.All(diagnostic => diagnostic.Severity == FormaDiagnosticSeverity.Info)) Console.WriteLine("Forma XAML validation succeeded.");
             return;
         }
         if (format == "json")

@@ -151,7 +151,11 @@
     },
     {
       "name": "pointer-events",
-      "description": "none or auto. Example: pointer-events: none"
+      "description": "none (ignores the mouse) or auto (stops it, as a modal backdrop does). Example: pointer-events: none"
+    },
+    {
+      "name": "z-index",
+      "description": "an integer; the higher value draws and hit-tests on top. Example: z-index: 10"
     },
     {
       "name": "transition",

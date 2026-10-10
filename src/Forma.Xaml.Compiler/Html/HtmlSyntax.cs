@@ -19,6 +19,7 @@ public static class FormaHtmlDiagnosticCodes
     public const string InvalidValue = "FHTML2003";
     public const string UnsupportedSelector = "FHTML2004";
     public const string RejectedProperty = "FHTML2005";
+    public const string PreferHtmlSpelling = "FHTML3001";
 }
 
 public sealed class HtmlAttribute
