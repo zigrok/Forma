@@ -54,7 +54,8 @@ Every row below is a catalog entry (`FormaHtmlDialect.Catalog`) that a test conv
 (`bind:visible`, `bind:enabled`, `bind:title`, `bind:font-color`, `bind:accessibility-label`, `bind:selected-index`, `bind:data-context`).
 `f-scroll` takes `data-follow-focus`, `data-horizontal`, `data-vertical` and `data-step-buttons`. A bound list or table takes
 `data-activate="click"`, a table `data-selection-unit`, `data-sortable` and `data-resizable`, a button or text field `data-flat`, and any control
-`data-expand="horizontal|vertical|both"` (take the surplus space across a flex parent's main axis).
+`data-expand="horizontal|vertical|both"` (take the surplus space across a flex parent's main axis), and `data-mouse="stop|pass|ignore"`
+(`pointer-events: auto` and `none` are the CSS spellings of stop and ignore; `pass` also hands the event to the parent).
 
 `f:Property="value"` sets any Forma property verbatim; the XAML compiler validates it. It is the last resort: most properties have an HTML or
 CSS spelling (`aria-label`, `pointer-events`, `z-index`, `margin`, `min-width`, `text-align`, `align-self`, `flex-grow` and the `data-*`

@@ -83,4 +83,34 @@ public sealed class FormaHtmlReferenceTest
         Assert.That(error, Is.Not.Null);
         Assert.That(error!.Message, Does.Contain(name).And.Contain("Help:"));
     }
+
+    [TestCase("pass", "Pass")]
+    [TestCase("stop", "Stop")]
+    [TestCase("ignore", "Ignore")]
+    public void DataMouse_MapsToTheMouseFilter(string value, string filter)
+    {
+        var result = FormaHtmlConverter.Convert($"<div data-mouse=\"{value}\"></div>", "mouse.fhtml");
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(result.Xaml, Does.Contain($"MouseFilter=\"{filter}\""));
+    }
+
+    [Test]
+    public void DataMouse_RejectsOtherValues_WithHelp()
+    {
+        var error = FormaHtmlConverter.Convert("<div data-mouse=\"through\"></div>", "mouse.fhtml").Diagnostics.First(d => d.Severity == FormaDiagnosticSeverity.Error);
+
+        Assert.That(error.Message, Does.Contain("data-mouse").And.Contain("Help:"));
+    }
+
+    [TestCase("Pass", "data-mouse")]
+    [TestCase("Stop", "pointer-events")]
+    public void MouseFilterHint_NamesTheSpellingForItsValue(string value, string spelling)
+    {
+        var project = new FormaHtmlProject(Path.GetTempPath()) { SuggestHtmlSpellings = true };
+
+        var hint = FormaHtmlConverter.Convert($"<div f:MouseFilter=\"{value}\"></div>", "hint.fhtml", project).Diagnostics.Single();
+
+        Assert.That(hint.Message, Does.Contain(spelling));
+    }
 }

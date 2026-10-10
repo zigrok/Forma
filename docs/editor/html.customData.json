@@ -276,6 +276,10 @@
       "description": "Draws a button or text field without its frame."
     },
     {
+      "name": "data-mouse",
+      "description": "stop, pass or ignore: how the control handles the mouse (pass hands the event to its parent too)."
+    },
+    {
       "name": "data-expand",
       "description": "horizontal, vertical or both: takes the surplus space across a flex parent\u0027s main axis."
     }
