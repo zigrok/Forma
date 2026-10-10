@@ -20,7 +20,7 @@ namespace Forma
     /// Owns a UI tree's input state, focus and rendering. Add it to a Game's update/draw loop, or use
     /// <see cref="UIComponent"/> for the usual game component integration.
     /// </summary>
-    public sealed class UIContext : IDisposable
+    public sealed partial class UIContext : IDisposable
     {
         internal int OwnerThreadId { get; } = Environment.CurrentManagedThreadId;
         internal IDisposable ModalSessionOwner { get; set; }
