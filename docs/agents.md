@@ -53,6 +53,7 @@ animation targets one `#id`. In a shared `.fcss` the id must belong to the root 
 | Check a view or stylesheet | `forma-xaml validate [--format human|json|sarif] <file|dir>` |
 | Format | `forma-xaml format [--check] <file|dir>` |
 | Render one view | `forma-xaml preview View.fhtml -o out.png [--state hover] [--lang ja] [--scale 130] [--size 1280x720]` |
+| Find clipped or overflowing text | `forma-xaml validate --layout View.fhtml [--lang ja] [--scale 130] [--size 1280x720]`; in a test `UIContext.FindLayoutProblems` and `UiMatrix.Run`; in the live app a game MCP `ui_layout_problems` when the game provides it |
 | Reference docs | `forma-xaml docs --out docs` (regenerates); `forma-xaml docs --out docs --check` (drift) |
 | Find controls in the live app | game MCP `game_ui` `ui-query button=<css selector>` |
 | Why is a rule (not) applied | game MCP `game_ui` `ui-inspect button=<id, name or selector>` |
@@ -62,6 +63,9 @@ animation targets one `#id`. In a shared `.fcss` the id must belong to the root 
 
 Preview renders with the application, so give it a long timeout (3 minutes) and read the PNG afterwards. A view with no scene
 in the project's preview host cannot be previewed; preview the nearest screen and say so.
+
+After any layout change, run the layout check for every language and UI scale the game ships, plus the pseudo-locale
+(`PseudoLocalizer`), and fix the layout; do not shorten text to pass.
 
 The `forma-xaml mcp` server exposes `validate`, `format`, `preview` and the generated docs to any MCP client.
 
