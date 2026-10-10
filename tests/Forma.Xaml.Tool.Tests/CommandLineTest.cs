@@ -163,6 +163,40 @@ public sealed class CommandLineTest
         finally { Console.SetOut(originalOut); }
     }
 
+    [Test]
+    public void ValidateLayout_RunsTheLayoutHostWithTheViewAndOptions_AndPassesItsExitCodeThrough()
+    {
+        if (OperatingSystem.IsWindows()) Assert.Ignore("The layout host is a /bin/sh script and needs Unix file modes.");
+        var view = Path.Combine(_directory, "View.fhtml");
+        File.WriteAllText(view, "<div><span>x</span></div>");
+        var originalOut = Console.Out;
+        var originalError = Console.Error;
+        try
+        {
+            Console.SetOut(TextWriter.Null);
+            var error = new StringWriter();
+            Console.SetError(error);
+            Assert.That(Program.Main(new[] { "validate", "--layout", view }), Is.EqualTo(2), "no forma-preview.json");
+
+            File.WriteAllText(Path.Combine(_directory, "forma-preview.json"), "{ \"host\": \"host.sh\" }");
+            Assert.That(Program.Main(new[] { "validate", "--layout", view }), Is.EqualTo(2), "no layoutHost entry");
+            Assert.That(error.ToString(), Does.Contain("layoutHost"));
+
+            File.WriteAllText(Path.Combine(_directory, "forma-preview.json"), "{ \"layoutHost\": \"layout.sh\" }");
+            var host = Path.Combine(_directory, "layout.sh");
+            File.WriteAllText(host, "#!/bin/sh\necho \"$@\" > \"$(dirname \"$1\")/layout-args.txt\"\nexit 1\n");
+            File.SetUnixFileMode(host, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+            Assert.That(Program.Main(new[] { "validate", "--layout", view, "--lang", "pt-BR", "--scale", "130", "--size", "1280x720" }), Is.EqualTo(1), "the host's exit code is the result");
+            Assert.That(File.ReadAllText(Path.Combine(_directory, "layout-args.txt")), Does.Contain("--lang pt-BR --scale 130 --size 1280x720"));
+
+            File.WriteAllText(view, "<div style=\"position: absolute\"></div>");
+            File.Delete(Path.Combine(_directory, "layout-args.txt"));
+            Assert.That(Program.Main(new[] { "validate", "--layout", view }), Is.EqualTo(1), "an invalid view is reported, not laid out");
+            Assert.That(File.Exists(Path.Combine(_directory, "layout-args.txt")), Is.False);
+        }
+        finally { Console.SetOut(originalOut); Console.SetError(originalError); }
+    }
+
     [TestCase("human")]
     [TestCase("json")]
     [TestCase("sarif")]
