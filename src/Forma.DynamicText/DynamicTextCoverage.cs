@@ -11,15 +11,20 @@ namespace Forma
     /// <summary>A character that no face of a font stack covers, with the first string that contains it.</summary>
     public sealed class MissingGlyph
     {
+        /// <summary>Creates a missing-glyph finding.</summary>
         public MissingGlyph(int codePoint, string text)
         {
             CodePoint = codePoint;
             Text = text;
         }
 
+        /// <summary>The Unicode code point no face covers.</summary>
         public int CodePoint { get; }
+        /// <summary>The first string that contains the character.</summary>
         public string Text { get; }
+        /// <summary>The character as a string.</summary>
         public string Character => char.ConvertFromUtf32(CodePoint);
+        /// <summary>The code point, the character and its string.</summary>
         public override string ToString() => $"U+{CodePoint:X4} '{Character}' in \"{Text}\"";
     }
 
