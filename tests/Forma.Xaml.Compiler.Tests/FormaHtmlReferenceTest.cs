@@ -39,4 +39,48 @@ public sealed class FormaHtmlReferenceTest
         Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
         Assert.DoesNotThrow(() => FormaXamlCompiler.CreateSre().CompileSre(result.Xaml, "recipe.fhtml.xaml"));
     }
+
+    private static IEnumerable<TestCaseData> Replacements() => FormaHtmlReference.Replacements.Select(r => new TestCaseData(r).SetName("Replacement_" + r.FProperty.Split(' ')[0] + "_" + r.Spelling.Split(' ')[0].Replace('=', '_').Replace('"', '_').Replace(':', '_')));
+
+    [TestCaseSource(nameof(Replacements))]
+    public void EveryReplacement_ConvertsAndProducesTheFormaProperty(FormaHtmlReplacement replacement)
+    {
+        var result = FormaHtmlConverter.Convert(replacement.Html, "replacement.fhtml");
+
+        Assert.That(result.Succeeded, Is.True, string.Join("\n", result.Diagnostics));
+        Assert.That(System.Text.RegularExpressions.Regex.Replace(result.Xaml, @"\s+", " "), Does.Contain(replacement.ExpectedXaml));
+    }
+
+    [Test]
+    public void FPropertyWithASpelling_GetsAnInfoHint_OnlyWhenAsked_AndNeverFailsTheBuild()
+    {
+        const string html = "<span f:FontColor=\"{Binding NameColor}\" f:Unrelated=\"x\"></span>";
+        var project = new FormaHtmlProject(Path.GetTempPath()) { SuggestHtmlSpellings = true };
+
+        var quiet = FormaHtmlConverter.Convert(html, "quiet.fhtml", new FormaHtmlProject(Path.GetTempPath()));
+        var hinted = FormaHtmlConverter.Convert(html, "hinted.fhtml", project);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(quiet.Diagnostics, Is.Empty);
+            Assert.That(hinted.Succeeded, Is.True);
+            var hint = hinted.Diagnostics.Single();
+            Assert.That(hint.Code, Is.EqualTo(FormaHtmlDiagnosticCodes.PreferHtmlSpelling));
+            Assert.That(hint.Severity, Is.EqualTo(FormaDiagnosticSeverity.Info));
+            Assert.That(hint.Message, Does.Contain("bind:font-color").And.Contain("Help:"));
+        });
+    }
+
+    [TestCase("<ul selectable bind:items=\"Rows\" data-activate=\"sometimes\"><template data-type=\"local:RowModel\"><span></span></template></ul>", "data-activate")]
+    [TestCase("<div style=\"z-index: high\"></div>", "z-index")]
+    [TestCase("<div data-expand=\"diagonal\"></div>", "data-expand")]
+    [TestCase("<button data-flat=\"maybe\"></button>", "data-flat")]
+    public void NewSpellings_RejectBadValues_WithHelp(string html, string name)
+    {
+        var result = FormaHtmlConverter.Convert(html, "bad.fhtml");
+
+        var error = result.Diagnostics.FirstOrDefault(d => d.Severity == FormaDiagnosticSeverity.Error);
+        Assert.That(error, Is.Not.Null);
+        Assert.That(error!.Message, Does.Contain(name).And.Contain("Help:"));
+    }
 }

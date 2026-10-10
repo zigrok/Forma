@@ -107,7 +107,11 @@ internal static class AgentKit
         ## Controls
 
         Application controls are registered with `<meta name="f-element" content="my-spin=views:SpinBox">` or placed with
-        `<f-control type="views:SpinBox" id="…">`. Set any Forma property directly with `f:Property="value"`.
+        `<f-control type="views:SpinBox" id="…">`. Prefer the HTML and CSS spelling over `f:Property="value"`: `bind:<property-in-kebab-case>` binds any
+        Forma property (`bind:font-color`, `bind:accessibility-label`, `bind:selected-index="Path;mode=TwoWay"`), and `aria-label`, `pointer-events`,
+        `z-index`, `margin`, `min-width`, `text-align`, `align-self`, `flex-grow`, `data-expand`, `data-activate`, `data-flat` and the other `data-*` attributes
+        in the support matrix ("Replacing f: properties") cover most cases. Use `f:Property` only for properties of an application control and values
+        with no HTML or CSS spelling; `forma-xaml validate` hints when one has a spelling (`FHTML3001`).
 
         ## Templates, lists, grids, tabs
 

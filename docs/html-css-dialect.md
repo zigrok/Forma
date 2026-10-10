@@ -50,9 +50,16 @@ Every row below is a catalog entry (`FormaHtmlDialect.Catalog`) that a test conv
 `id` → `x:Name`; `class` → `Classes`; `hidden`, `disabled` → `Visible`/`Enabled`; `title` → `TooltipText`; `aria-label` →
 `AccessibilityLabel`; `data-automation-id` → `AutomationId`; `tabindex` (`-1` or `0`) → `FocusMode`; `data-class`, `data-type` →
 `x:Class`, `x:DataType`; `onclick`, `onchange`, `onfocus`, `onblur` name a code-behind handler, never an expression;
-`bind:text="Path; mode=TwoWay"` → `{Binding Path, Mode=TwoWay}` (any property, `bind:visible`, `bind:enabled`, `bind:title`).
-`f:Property="value"` sets any Forma property verbatim; the XAML compiler validates it. `f-scroll` takes `data-follow-focus`,
-`data-horizontal`, `data-vertical` and `data-step-buttons`.
+`bind:text="Path; mode=TwoWay"` → `{Binding Path, Mode=TwoWay}`. `bind:<property-in-kebab-case>` binds any Forma property the same way
+(`bind:visible`, `bind:enabled`, `bind:title`, `bind:font-color`, `bind:accessibility-label`, `bind:selected-index`, `bind:data-context`).
+`f-scroll` takes `data-follow-focus`, `data-horizontal`, `data-vertical` and `data-step-buttons`. A bound list or table takes
+`data-activate="click"`, a table `data-selection-unit`, `data-sortable` and `data-resizable`, a button or text field `data-flat`, and any control
+`data-expand="horizontal|vertical|both"` (take the surplus space across a flex parent's main axis).
+
+`f:Property="value"` sets any Forma property verbatim; the XAML compiler validates it. It is the last resort: most properties have an HTML or
+CSS spelling (`aria-label`, `pointer-events`, `z-index`, `margin`, `min-width`, `text-align`, `align-self`, `flex-grow` and the `data-*`
+attributes above). The support matrix lists them in "Replacing f: properties", and `forma-xaml validate` prints an `FHTML3001` hint naming the
+spelling when an `f:` attribute has one. Keep `f:` for properties of an application control and for values with no HTML or CSS counterpart.
 
 ## CSS
 
