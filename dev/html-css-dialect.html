@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/html-css-dialect.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/87cde421ff4e6f2506f0d762059942a98f698410/docs/html-css-dialect.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -151,9 +151,15 @@ data type on the root element:</p>
 <p><code>id</code> → <code>x:Name</code>; <code>class</code> → <code>Classes</code>; <code>hidden</code>, <code>disabled</code> → <code>Visible</code>/<code>Enabled</code>; <code>title</code> → <code>TooltipText</code>; <code>aria-label</code> →
 <code>AccessibilityLabel</code>; <code>data-automation-id</code> → <code>AutomationId</code>; <code>tabindex</code> (<code>-1</code> or <code>0</code>) → <code>FocusMode</code>; <code>data-class</code>, <code>data-type</code> →
 <code>x:Class</code>, <code>x:DataType</code>; <code>onclick</code>, <code>onchange</code>, <code>onfocus</code>, <code>onblur</code> name a code-behind handler, never an expression;
-<code>bind:text=&quot;Path; mode=TwoWay&quot;</code> → <code>{Binding Path, Mode=TwoWay}</code> (any property, <code>bind:visible</code>, <code>bind:enabled</code>, <code>bind:title</code>).
-<code>f:Property=&quot;value&quot;</code> sets any Forma property verbatim; the XAML compiler validates it. <code>f-scroll</code> takes <code>data-follow-focus</code>,
-<code>data-horizontal</code>, <code>data-vertical</code> and <code>data-step-buttons</code>.</p>
+<code>bind:text=&quot;Path; mode=TwoWay&quot;</code> → <code>{Binding Path, Mode=TwoWay}</code>. <code>bind:&lt;property-in-kebab-case&gt;</code> binds any Forma property the same way
+(<code>bind:visible</code>, <code>bind:enabled</code>, <code>bind:title</code>, <code>bind:font-color</code>, <code>bind:accessibility-label</code>, <code>bind:selected-index</code>, <code>bind:data-context</code>).
+<code>f-scroll</code> takes <code>data-follow-focus</code>, <code>data-horizontal</code>, <code>data-vertical</code> and <code>data-step-buttons</code>. A bound list or table takes
+<code>data-activate=&quot;click&quot;</code>, a table <code>data-selection-unit</code>, <code>data-sortable</code> and <code>data-resizable</code>, a button or text field <code>data-flat</code>, and any control
+<code>data-expand=&quot;horizontal|vertical|both&quot;</code> (take the surplus space across a flex parent's main axis).</p>
+<p><code>f:Property=&quot;value&quot;</code> sets any Forma property verbatim; the XAML compiler validates it. It is the last resort: most properties have an HTML or
+CSS spelling (<code>aria-label</code>, <code>pointer-events</code>, <code>z-index</code>, <code>margin</code>, <code>min-width</code>, <code>text-align</code>, <code>align-self</code>, <code>flex-grow</code> and the <code>data-*</code>
+attributes above). The support matrix lists them in &quot;Replacing f: properties&quot;, and <code>forma-xaml validate</code> prints an <code>FHTML3001</code> hint naming the
+spelling when an <code>f:</code> attribute has one. Keep <code>f:</code> for properties of an application control and for values with no HTML or CSS counterpart.</p>
 <h2 id="css">CSS</h2>
 <ul>
 <li>Selectors: type (<code>button</code>, <code>span</code>, <code>p</code>, <code>label</code>, <code>h1</code>-<code>h3</code>, <code>input</code>, <code>div</code>, <code>f-border</code>, <code>f-group-box</code>, <code>f-scroll</code>), class, id,
@@ -236,7 +242,7 @@ draw (shadows, gradients, transforms).</li>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/html-css-dialect.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/87cde421ff4e6f2506f0d762059942a98f698410/docs/html-css-dialect.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -253,7 +259,7 @@ draw (shadows, gradients, transforms).</li>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · c915fff478f4 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · 87cde421ff4e · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

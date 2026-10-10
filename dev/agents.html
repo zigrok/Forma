@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/agents.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/87cde421ff4e6f2506f0d762059942a98f698410/docs/agents.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -92,7 +92,11 @@
 Use them with <code>var(--color-surface)</code>. Colors are <code>#RRGGBB</code> or <code>#RRGGBBAA</code>. Theme overrides: <code>:root[data-theme=&quot;dark&quot;] { … }</code>.</p>
 <h2 id="controls">Controls</h2>
 <p>Application controls are registered with <code>&lt;meta name=&quot;f-element&quot; content=&quot;my-spin=views:SpinBox&quot;&gt;</code> or placed with
-<code>&lt;f-control type=&quot;views:SpinBox&quot; id=&quot;…&quot;&gt;</code>. Set any Forma property directly with <code>f:Property=&quot;value&quot;</code>.</p>
+<code>&lt;f-control type=&quot;views:SpinBox&quot; id=&quot;…&quot;&gt;</code>. Prefer the HTML and CSS spelling over <code>f:Property=&quot;value&quot;</code>: <code>bind:&lt;property-in-kebab-case&gt;</code> binds any
+Forma property (<code>bind:font-color</code>, <code>bind:accessibility-label</code>, <code>bind:selected-index=&quot;Path;mode=TwoWay&quot;</code>), and <code>aria-label</code>, <code>pointer-events</code>,
+<code>z-index</code>, <code>margin</code>, <code>min-width</code>, <code>text-align</code>, <code>align-self</code>, <code>flex-grow</code>, <code>data-expand</code>, <code>data-activate</code>, <code>data-flat</code> and the other <code>data-*</code> attributes
+in the support matrix (&quot;Replacing f: properties&quot;) cover most cases. Use <code>f:Property</code> only for properties of an application control and values
+with no HTML or CSS spelling; <code>forma-xaml validate</code> hints when one has a spelling (<code>FHTML3001</code>).</p>
 <h2 id="templates-lists-grids-tabs">Templates, lists, grids, tabs</h2>
 <ul>
 <li>Control template: <code>&lt;template for=&quot;button&quot; id=&quot;MyButton&quot;&gt;&lt;f-border part=&quot;chrome&quot;&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/f-border&gt;&lt;/template&gt;</code>, applied with
@@ -169,7 +173,7 @@ view that does not link the stylesheet.</li>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/c915fff478f40e35aa23e5ada85f9a5a78a45d20/docs/agents.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/87cde421ff4e6f2506f0d762059942a98f698410/docs/agents.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -186,7 +190,7 @@ view that does not link the stylesheet.</li>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · c915fff478f4 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · 87cde421ff4e · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>
