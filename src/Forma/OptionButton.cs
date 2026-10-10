@@ -31,6 +31,7 @@ namespace Forma
     {
         // Text is the selected item, which is the control's value rather than its name: a field is announced by its
         // label, then by its name, and the current selection is reported through AccessibilityValue.
+        /// <summary>Accessible name: the accessibility label when set, otherwise the control name.</summary>
         public override string AccessibilityName => !string.IsNullOrEmpty(AccessibilityLabel) ? AccessibilityLabel : Name ?? string.Empty;
 
         public override AccessibilityRole AccessibilityRole => AccessibilityRole.ComboBox;

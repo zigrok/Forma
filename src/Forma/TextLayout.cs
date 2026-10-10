@@ -89,6 +89,7 @@ namespace Forma
         public bool Equals(UIFont other) => other != null && Identity == other.Identity && Size.Equals(other.Size);
         public override bool Equals(object obj) => obj is UIFont other && Equals(other);
         public override int GetHashCode() => HashCode.Combine(Identity, Size);
+        /// <summary>Returns this font at a different logical size.</summary>
         public UIFont WithSize(float size)
         {
             if (!float.IsFinite(size) || size <= 0) throw new ArgumentOutOfRangeException(nameof(size));

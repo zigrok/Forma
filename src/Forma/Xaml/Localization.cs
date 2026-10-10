@@ -13,6 +13,7 @@ namespace Forma.Xaml
     /// </summary>
     public static class Localization
     {
+        /// <summary>Replaces the text of every control under <paramref name="root"/> that carries a localization key, using <paramref name="translate"/>.</summary>
         public static void Apply(Control root, Func<string, string> translate)
         {
             if (root == null) throw new ArgumentNullException(nameof(root));

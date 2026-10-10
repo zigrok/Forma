@@ -139,6 +139,7 @@ public sealed class CommandLineTest
     [Test]
     public void Preview_ValidatesThenRunsTheProjectHostWithTheViewOutputAndOptions()
     {
+        if (OperatingSystem.IsWindows()) Assert.Ignore("The preview host is a /bin/sh script and needs Unix file modes.");
         File.WriteAllText(Path.Combine(_directory, "forma-preview.json"), "{ \"host\": \"host.sh\" }");
         var host = Path.Combine(_directory, "host.sh");
         File.WriteAllText(host, "#!/bin/sh\necho \"$@\" > \"$(dirname \"$2\")/args.txt\"\necho png > \"$2\"\n");

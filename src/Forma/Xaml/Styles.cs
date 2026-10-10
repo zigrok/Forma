@@ -314,6 +314,7 @@ namespace Forma.Xaml
     /// <summary>An attribute (<c>[data-state="open"]</c>) or structural (<c>:first-child</c>, <c>:nth-child(2n+1)</c>) condition of a compound selector.</summary>
     public sealed class StyleSelectorPredicate
     {
+        /// <summary>Creates a predicate of the given kind with its name, value and An+B coefficients.</summary>
         public StyleSelectorPredicate(string kind, string name, string value, int a, int b)
         {
             Kind = kind;
@@ -325,9 +326,13 @@ namespace Forma.Xaml
 
         /// <summary>One of attribute, first-child, last-child, only-child, empty, nth-child.</summary>
         public string Kind { get; }
+        /// <summary>Attribute name for an attribute predicate.</summary>
         public string Name { get; }
+        /// <summary>Expected attribute value, if any.</summary>
         public string Value { get; }
+        /// <summary>The A coefficient of an An+B expression.</summary>
         public int A { get; }
+        /// <summary>The B coefficient of an An+B expression.</summary>
         public int B { get; }
 
         internal bool Matches(Control control)
@@ -362,6 +367,7 @@ namespace Forma.Xaml
 
     public sealed class StyleSelectorCompound
     {
+        /// <summary>Creates a compound selector without attribute or structural predicates.</summary>
         public StyleSelectorCompound(string typeName, bool universal, string name, IReadOnlyList<string> classes,
             IReadOnlyList<string> pseudoStates, IReadOnlyList<StyleSelectorCompound> negations)
             : this(typeName, universal, name, classes, pseudoStates, negations, null)
@@ -389,6 +395,7 @@ namespace Forma.Xaml
         public IReadOnlyList<string> Classes { get; }
         public IReadOnlyList<string> PseudoStates { get; }
         public IReadOnlyList<StyleSelectorCompound> Negations { get; }
+        /// <summary>Attribute and structural predicates such as [data-x] or :nth-child().</summary>
         public IReadOnlyList<StyleSelectorPredicate> Predicates { get; }
         public int Specificity { get; }
         internal bool HasStructuralPredicates => Predicates.Any(p => p.Kind != "attribute");
@@ -436,6 +443,7 @@ namespace Forma.Xaml
         public int Specificity { get; }
         /// <summary>The selector as written, when it was produced by <see cref="Parse"/>.</summary>
         public string Text { get; internal set; }
+        /// <summary>Returns the selector as text.</summary>
         public override string ToString() => Text ?? string.Join(", ", Arms.Select(FormatArm));
 
         private static string FormatArm(StyleSelectorArm arm)

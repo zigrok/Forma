@@ -19,6 +19,7 @@ namespace Forma.Xaml
         public XamlProperty(string name, Func<object, T> getValue, Action<object, T> setValue)
             : this(name, getValue, setValue, null) { }
 
+        /// <summary>Creates a property with an explicit identity object used to compare properties.</summary>
         public XamlProperty(string name, Func<object, T> getValue, Action<object, T> setValue, object identity)
         {
             Name = string.IsNullOrWhiteSpace(name) ? throw new ArgumentException("A property name is required.", nameof(name)) : name;

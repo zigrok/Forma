@@ -21,15 +21,19 @@ namespace Forma.Xaml
             Properties = properties;
         }
 
+        /// <summary>The rule's selector text.</summary>
         public string Selector { get; }
         /// <summary>The source location of the rule (for example theme.fcss:12) when the style carries one.</summary>
         public string Origin { get; }
+        /// <summary>The selector's specificity, used to order competing rules.</summary>
         public int Specificity { get; }
         /// <summary>Cascade position: higher specificity wins, then later declaration order.</summary>
         public int Order { get; }
+        /// <summary>True when the rule's selector matched the control.</summary>
         public bool Matched { get; }
         /// <summary>For an unmatched rule, the first reason it does not apply. Null when matched.</summary>
         public string Reason { get; }
+        /// <summary>The properties the rule sets.</summary>
         public IReadOnlyList<string> Properties { get; }
     }
 
@@ -43,11 +47,15 @@ namespace Forma.Xaml
             Source = source;
         }
 
+        /// <summary>Property the winning value was set on.</summary>
         public string Property { get; }
+        /// <summary>The winning value, formatted as text.</summary>
         public string Value { get; }
+        /// <summary>The selector and origin of the rule that supplied the value.</summary>
         public string Source { get; }
     }
 
+    /// <summary>The styling of one control: its classes and pseudo-states, every rule considered, and the winning value per property.</summary>
     public sealed class StyleInspection
     {
         internal StyleInspection(Control control, IReadOnlyList<StyleRuleInspection> rules, IReadOnlyList<StylePropertyInspection> winners, string template)
@@ -62,16 +70,23 @@ namespace Forma.Xaml
             Winners = winners;
         }
 
+        /// <summary>CLR type name of the inspected control.</summary>
         public string ControlType { get; }
+        /// <summary>Name of the control, or empty.</summary>
         public string Name { get; }
+        /// <summary>Style classes on the control.</summary>
         public IReadOnlyList<string> Classes { get; }
+        /// <summary>Pseudo-states active on the control, such as hover or focus-visible.</summary>
         public IReadOnlyList<string> PseudoStates { get; }
+        /// <summary>Name of the control template in effect, or empty.</summary>
         public string Template { get; }
         /// <summary>Every rule attached to the control's style scope, in cascade order (lowest priority first).</summary>
         public IReadOnlyList<StyleRuleInspection> Rules { get; }
+        /// <summary>For each styled property, the winning value and where it came from.</summary>
         public IReadOnlyList<StylePropertyInspection> Winners { get; }
     }
 
+    /// <summary>Explains why a control looks the way it does, like a browser's computed-style panel.</summary>
     public static class StyleInspector
     {
         /// <summary>

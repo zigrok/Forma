@@ -297,9 +297,13 @@ namespace Forma
         private string _text = string.Empty;
         private string _annotation = string.Empty;
         private UIFont _annotationFont;
+        /// <summary>Creates an empty ruby annotation.</summary>
         public Ruby() { }
+        /// <summary>Creates a ruby with base <paramref name="text"/> and the small <paramref name="annotation"/> drawn above it.</summary>
         public Ruby(string text, string annotation) { _text = text ?? string.Empty; _annotation = annotation ?? string.Empty; }
+        /// <summary>The base text the annotation sits above.</summary>
         public string Text { get => _text; set { value ??= string.Empty; if (_text == value) return; _text = value; Invalidate(); } }
+        /// <summary>The annotation (for example furigana) drawn above the base text.</summary>
         public string Annotation { get => _annotation; set { value ??= string.Empty; if (_annotation == value) return; _annotation = value; Invalidate(); } }
         /// <summary>Annotation font; defaults to the resolved base font at half size.</summary>
         public UIFont AnnotationFont { get => _annotationFont; set { if (ReferenceEquals(_annotationFont, value)) return; _annotationFont = value; Invalidate(); } }
@@ -363,6 +367,7 @@ namespace Forma
         private TextDecoration _decoration;
         public TextBlock() => _inlines = new InlineCollection(RebuildText);
         private bool _alignInlineBaselines;
+        /// <summary>When true, inline children of different sizes share one baseline per line.</summary>
         public bool AlignInlineBaselines
         {
             get => _alignInlineBaselines;

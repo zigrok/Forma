@@ -57,7 +57,7 @@ namespace Forma.RenderTests
         }
 
         [Test]
-        public void DynamicLayoutRendersAfterOneBatchedUploadFrame()
+        public void DynamicLayoutRendersOnTheFirstFrameAfterABatchedUpload()
         {
             using var face = UIFontFace.FromProjectFile(TestContext.CurrentContext.TestDirectory, "Fonts/Inter_Regular.ttf");
             var layout = new TextLayoutEngine().Layout(new DynamicUIFont(face, 20), "Atlas");
@@ -75,7 +75,8 @@ namespace Forma.RenderTests
 
             Assert.Multiple(() =>
             {
-                Assert.That(firstFrame.All(pixel => pixel == Color.Transparent), Is.True);
+                // Uploads are flushed before the text batch begins, so the very first frame already shows the glyphs.
+                Assert.That(firstFrame.Any(pixel => pixel != Color.Transparent), Is.True);
                 Assert.That(secondFrame.Any(pixel => pixel != Color.Transparent), Is.True);
                 Assert.That(warmFrame, Is.EqualTo(secondFrame));
                 Assert.That(warm.Misses, Is.EqualTo(populated.Misses));

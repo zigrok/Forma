@@ -386,6 +386,7 @@ namespace Forma
             }
         }
         public UIFontWeight FontWeight { get => _fontWeight ?? InheritanceParent?.FontWeight ?? UIFontWeight.Normal; set { if (!Enum.IsDefined(typeof(UIFontWeight), value)) throw new ArgumentOutOfRangeException(nameof(value)); if (_fontWeight == value) return; var previous = CaptureInheritedValues(control => control.FontWeight); _fontWeight = value; QueueLayout(); NotifyInheritedValueChanges(previous, control => control.FontWeight, nameof(FontWeight)); } }
+        /// <summary>Variation-axis weight (wght) applied to dynamic fonts that have one; NaN means inherit from the parent, and a value overrides the font's own weight.</summary>
         public float FontVariationWeight
         {
             get => _fontVariationWeight ?? InheritanceParent?.FontVariationWeight ?? float.NaN;

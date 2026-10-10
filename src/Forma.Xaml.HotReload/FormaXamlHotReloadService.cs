@@ -214,6 +214,7 @@ public sealed class FormaXamlHotReloadService : IDisposable
     /// document the running view was compiled from, and reloads it like any XAML change. Invalid input reports diagnostics at the HTML
     /// location and leaves the live tree untouched.
     /// </summary>
+    /// <summary>Reloads the view that a changed .fhtml source converts to.</summary>
     public async Task RequestHtmlReloadAsync(string source)
     {
         ThrowIfDisposed();
@@ -306,6 +307,7 @@ public sealed class FormaXamlHotReloadService : IDisposable
     /// Reloads every view that links a changed .fcss stylesheet: each linking view is reconverted and reloaded. A sheet that does not
     /// convert reports diagnostics at the .fcss line and leaves every live tree untouched.
     /// </summary>
+    /// <summary>Reloads every view that links the changed .fcss stylesheet.</summary>
     public async Task RequestStylesheetReloadAsync(string source)
     {
         ThrowIfDisposed();

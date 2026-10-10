@@ -30,11 +30,13 @@ namespace Forma
         {
         }
 
+        /// <summary>Creates a dynamic font at <paramref name="size"/> with a semantic <paramref name="weight"/>, optional hinting and fallback faces.</summary>
         public DynamicUIFont(UIFontFace face, float size, UIFontWeight weight, UIFontHinting hinting = UIFontHinting.Default, params UIFontFace[] fallbackFaces)
             : this(face, size, weight, hinting, Array.Empty<UIFontVariationCoordinate>(), fallbackFaces)
         {
         }
 
+        /// <summary>Creates a dynamic font with a semantic weight, hinting, explicit variation coordinates and fallback faces.</summary>
         public DynamicUIFont(UIFontFace face, float size, UIFontWeight weight, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variationCoordinates, params UIFontFace[] fallbackFaces)
             : this(face, size, hinting, variationCoordinates, Array.Empty<UIFontOpenTypeFeature>(), UIFontSynthesis.None, weight, fallbackFaces)
         {
@@ -71,6 +73,7 @@ namespace Forma
 
         public UIFontFace Face { get; }
         public UIFontHinting Hinting { get; }
+        /// <summary>Glyph outline synthesis (fake bold or oblique) applied when the face has no matching real variant.</summary>
         public UIFontSynthesis Synthesis { get; }
 
         /// <summary>Returns this font with synthesized bold and/or oblique glyph outlines, including fallback faces.</summary>

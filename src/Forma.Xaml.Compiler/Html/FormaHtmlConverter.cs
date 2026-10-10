@@ -2132,7 +2132,7 @@ public sealed class FormaHtmlConverter
         }
 
         #if FORMA_FNA
-        private const string XnaNamespace = "clr-namespace:Microsoft.Xna.Framework;assembly=FNA";
+        private const string XnaNamespace = "clr-namespace:Microsoft.Xna.Framework;assembly=FNA.NET";
 #else
         private const string XnaNamespace = "clr-namespace:Microsoft.Xna.Framework;assembly=MonoGame.Framework";
 #endif

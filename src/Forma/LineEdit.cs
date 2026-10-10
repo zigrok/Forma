@@ -88,6 +88,7 @@ namespace Forma
             base.OnTemplateApplied();
         }
         public string PlaceholderText { get; set; } = string.Empty;
+        /// <summary>When true the field draws no frame of its own, so a view can supply its own underline or border.</summary>
         public bool Flat { get; set; }
         /// <summary>Gets whether the first programmatic text assignment moves the caret to the end.</summary>
         protected virtual bool MoveCaretToEndOnInitialTextAssignment => true;
@@ -781,6 +782,7 @@ namespace Forma
             var lineHeight = EffectiveUIFont == null ? 16 : TextMetrics.LineHeight(EffectiveUIFont);
             return Vector2.Max(CustomMinimumSize, new Vector2(64, Math.Max(24, lineHeight + 8)));
         }
+        /// <summary>Measures the width of <paramref name="text"/> in the field's font, in logical pixels.</summary>
         public float MeasureTextWidth(string text)
         {
             if (text == null) throw new ArgumentNullException(nameof(text));

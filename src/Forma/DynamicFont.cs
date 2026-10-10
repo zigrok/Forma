@@ -193,6 +193,7 @@ namespace Forma
         public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale = 1, UIFontHinting hinting = UIFontHinting.Default, IReadOnlyList<UIFontVariationCoordinate> variations = null)
             => _backend.RasterizeGlyph(glyphId, logicalSize, displayScale, hinting, variations);
 
+        /// <summary>Rasterizes one glyph at <paramref name="logicalSize"/> times <paramref name="displayScale"/> pixels with optional synthesized bold or oblique.</summary>
         public UIFontGlyphBitmap RasterizeGlyph(uint glyphId, float logicalSize, float displayScale, UIFontHinting hinting, IReadOnlyList<UIFontVariationCoordinate> variations, UIFontSynthesis synthesis)
         {
             if ((synthesis & ~(UIFontSynthesis.Bold | UIFontSynthesis.Oblique)) != 0) throw new ArgumentOutOfRangeException(nameof(synthesis));

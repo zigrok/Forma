@@ -67,14 +67,18 @@ namespace Forma
         }
         public SpriteFont Font { get => _fontSelection.SpriteFont; set { if (_fontSelection.SetSpriteFont(value)) QueueLayout(); } }
         public UIFont UIFont { get => _fontSelection.UIFont; set { if (_fontSelection.SetUIFont(value)) QueueLayout(); } }
+        /// <summary>The font actually used to draw the text after resolving the family, size, weight, style and stretch.</summary>
         public UIFont EffectiveUIFont => ResolveFont(_fontSelection, FontFamily, FontSize, FontWeight, FontStyle, FontStretch);
         public Color? FontColor { get => Foreground; set => Foreground = value; }
         /// <summary>An offset text shadow's colour and displacement (Ren'Py's <c>what_shadow</c>). Null draws none.</summary>
         public Color? TextShadowColor { get; set; }
         /// <summary>Balance wrapped lines to nearly equal widths (Ren'Py's subtitle layout).</summary>
-        public bool BalanceLines { get; set; }        public Vector2 TextShadowOffset { get; set; }
+        public bool BalanceLines { get; set; }
+        /// <summary>Offset of the drop shadow drawn behind the text, in logical pixels.</summary>
+        public Vector2 TextShadowOffset { get; set; }
         /// <summary>A text outline's colour and width in pixels (Ren'Py's <c>what_outlines</c>). Null or zero draws none.</summary>
         public Color? TextOutlineColor { get; set; }
+        /// <summary>Width in pixels of the outline drawn around the text when an outline color is set.</summary>
         public int TextOutlineWidth { get; set; }
         /// <summary>The shadow and outline passes, in draw order, before the fill.</summary>
         protected IEnumerable<(Vector2 Offset, Color Color)> TextEffectPasses()

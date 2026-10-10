@@ -62,6 +62,7 @@ namespace Forma.Xaml
         private readonly string _key;
         private readonly Func<object, T> _convert;
 
+        /// <summary>Creates a setter that reads <paramref name="resourceKey"/> live, optionally converting the value.</summary>
         public DynamicStyleSetter(XamlProperty<T> property, string resourceKey, Func<object, T> convert = null)
         {
             _property = property ?? throw new ArgumentNullException(nameof(property));
@@ -79,6 +80,7 @@ namespace Forma.Xaml
             return "{DynamicResource " + _key + "} (unresolved)";
         }
 
+        /// <summary>Applies the current resource value to <paramref name="control"/> at the given priority and returns a handle that removes it.</summary>
         public IDisposable Apply(Control control, long priority) =>
             new DynamicResourceExpression<T>(control, _property, _key, _convert, XamlValueLayer.Style, priority, StyleApplicationScope.Current);
     }

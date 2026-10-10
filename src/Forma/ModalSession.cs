@@ -68,13 +68,16 @@ public sealed class ModalSession<T> : IDisposable
     }
 
     public Task<ModalOutcome<T>> Completion => _completion.Task;
+    /// <summary>The popup that hosts the modal's content.</summary>
     public Popup Root => _popup;
+    /// <summary>True while the modal is active, not cancelling, and its popup is shown in its own context.</summary>
     public bool CanInteract
     {
         get { lock (_gate) return _state == State.Active && !CancellationPending() &&
             _popup.Visible && ReferenceEquals(_popup.Context, _context); }
     }
 
+    /// <summary>Throws if the modal is closing or cancelled, so callers can stop at a safe point.</summary>
     public void VerifyCheckpointBoundary()
     {
         VerifyThread();
