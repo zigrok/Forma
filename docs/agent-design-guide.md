@@ -99,5 +99,5 @@ literals and undefined classes.
 
 The change-verify loop, every command, the `forma-ui` skill (`forma-xaml agent install`), the MCP server (`forma-xaml mcp`) and the
 live-app tools (`ui-query`, `ui-inspect`, element screenshots, preference emulation) are in [Forma for AI agents](agents.md); the
-machine-readable index is [llms.txt](llms.txt).
+machine-readable index is `llms.txt`.
 

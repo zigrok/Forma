@@ -136,5 +136,5 @@ The generated pages are authoritative and always match the converter (a test com
   and `prefers-color-scheme`, CSS custom properties as the resource keys, theme overrides (`:root[data-theme]`), `data-*` state
   selectors, structural pseudo-classes, `data-i18n`, `dir`, margin/padding with web box semantics, and visual effects the renderer can
   draw (shadows, gradients, transforms).
-- Tools: `forma-xaml validate|format|preview|docs|agent|mcp|new`; see [Forma for AI agents](agents.md) and [llms.txt](llms.txt).
+- Tools: `forma-xaml validate|format|preview|docs|agent|mcp|new`; see [Forma for AI agents](agents.md) and `llms.txt`.
 
