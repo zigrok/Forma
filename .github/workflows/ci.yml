@@ -2,7 +2,19 @@ name: CI
 
 on:
   push:
+    branches: [main]
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
   pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+
+# A newer push to the same branch makes the older run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -12,7 +24,24 @@ env:
   DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER: 1
 
 jobs:
+  # Cheap repository-wide checks run once, not once per matrix leg, and fail the run before any runner-heavy job starts.
+  lint:
+    name: compliance and icons
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet tool restore
+      - run: bash scripts/check-compliance.sh
+      - name: Verify deterministic default theme icons
+        run: dotnet run --project tools/Forma.IconPipeline/Forma.IconPipeline.csproj -- verify
+
   runtime:
+    needs: lint
     name: ${{ matrix.runtime }} / ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -30,9 +59,6 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - run: dotnet tool restore
-      - run: bash scripts/check-compliance.sh
-      - name: Verify deterministic default theme icons
-        run: dotnet run --project tools/Forma.IconPipeline/Forma.IconPipeline.csproj -- verify
       - name: Unit and catalog inventory tests
         shell: bash
         run: bash scripts/retry.sh dotnet test tests/Forma.Tests/Forma.Tests.csproj --configuration Release -p:FormaRuntime="$FORMA_RUNTIME" --nologo
