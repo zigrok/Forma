@@ -1,1 +1,8 @@
 assets/theme-icons/svg/*.svg text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.cs text eol=lf
+*.fhtml text eol=lf
+*.fcss text eol=lf
+*.json text eol=lf
+*.sh text eol=lf

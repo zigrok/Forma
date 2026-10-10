@@ -4,6 +4,7 @@
     <AssemblyName>Forma.Xaml.Compiler</AssemblyName>
     <RootNamespace>Forma.Xaml.Compiler</RootNamespace>
     <IsPackable>false</IsPackable>
+    <DefineConstants Condition="'$(FormaRuntime)' == 'FNA'">$(DefineConstants);FORMA_FNA</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
