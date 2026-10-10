@@ -28,6 +28,7 @@ namespace Forma
     /// <summary>The result of <see cref="Label.TextFit"/>: the fit and the measured and available text sizes.</summary>
     public readonly struct LabelTextFitInfo
     {
+        /// <summary>Creates a fit result.</summary>
         public LabelTextFitInfo(LabelTextFit fit, Vector2 measured, Vector2 available)
         {
             Fit = fit;
@@ -35,6 +36,7 @@ namespace Forma
             Available = available;
         }
 
+        /// <summary>How the text relates to its box.</summary>
         public LabelTextFit Fit { get; }
         /// <summary>The size the text needs (wrapped to the available width when the label autowraps).</summary>
         public Vector2 Measured { get; }

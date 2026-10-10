@@ -11,6 +11,7 @@ namespace Forma
     [Flags]
     public enum LayoutProblemKind
     {
+        /// <summary>No kind selected.</summary>
         None = 0,
         /// <summary>A label or button's text needs more room than its box has and is cut off or drawn past it.</summary>
         TextClipped = 1,
@@ -22,12 +23,16 @@ namespace Forma
         OutsideViewport = 8,
         /// <summary>A control extends past an ancestor that clips its contents.</summary>
         ClippedByAncestor = 16,
+        /// <summary>Every kind.</summary>
         All = TextClipped | TextWrappedPastBox | ChildOutsideParent | OutsideViewport | ClippedByAncestor,
     }
 
     /// <summary>Selects what <see cref="UIContext.FindLayoutProblems(Control, LayoutProblemOptions)"/> reports.</summary>
     public sealed class LayoutProblemOptions
     {
+        /// <summary>Creates options that report every kind with a one pixel tolerance.</summary>
+        public LayoutProblemOptions() { }
+
         /// <summary>The kinds to report. Default: all.</summary>
         public LayoutProblemKind Kinds { get; set; } = LayoutProblemKind.All;
         /// <summary>How many pixels a control may extend past its box before it counts. Default 1.</summary>
@@ -39,6 +44,7 @@ namespace Forma
     /// <summary>One clipped or overflowing control.</summary>
     public sealed class LayoutProblem
     {
+        /// <summary>Creates a finding.</summary>
         public LayoutProblem(LayoutProblemKind kind, Control control, Vector2 overflow, string message)
         {
             Kind = kind;
@@ -47,7 +53,9 @@ namespace Forma
             Message = message;
         }
 
+        /// <summary>What kind of problem this is.</summary>
         public LayoutProblemKind Kind { get; }
+        /// <summary>The control that has the problem.</summary>
         public Control Control { get; }
         /// <summary>The control's name (<c>x:Name</c> or <c>id</c>), or an empty string.</summary>
         public string Name => Control.Name ?? string.Empty;
@@ -57,7 +65,9 @@ namespace Forma
         public string Origin => Control.GetData("origin") ?? string.Empty;
         /// <summary>How far the control extends past its box, per axis, in layout pixels.</summary>
         public Vector2 Overflow { get; }
+        /// <summary>A sentence describing the problem, naming the control.</summary>
         public string Message { get; }
+        /// <summary>The message.</summary>
         public override string ToString() => Message;
     }
 
