@@ -28,7 +28,7 @@ jobs:
   # Cheap repository-wide checks run once, not once per matrix leg, and fail the run before any runner-heavy job starts.
   lint:
     name: compliance and icons
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -47,9 +47,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # Windows legs are skipped under TRACE_CI_RUNNERS=self-hosted: no Windows runner exists on the local machine.
+        os: ${{ fromJSON(vars.TRACE_CI_RUNNERS == 'self-hosted' && '["ubuntu-latest","macos-latest"]' || '["ubuntu-latest","windows-latest","macos-latest"]') }}
         runtime: [MonoGame, FNA]
-    runs-on: ${{ matrix.os }}
+    # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) Linux legs run on the local x64 runner and
+    # macOS legs on the local macOS runner.
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]')) || matrix.os }}
     env:
       FORMA_RUNTIME: ${{ matrix.runtime }}
     steps:
@@ -245,7 +248,7 @@ jobs:
         run: SvgBackend=Skia bash scripts/check-catalog-smoke.sh
 
   parity:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -258,7 +261,7 @@ jobs:
         run: bash scripts/check-release-api.sh
 
   package-consumers:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -287,7 +290,7 @@ jobs:
           if-no-files-found: error
 
   nativeaot:
-    runs-on: macos-14
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","macOS","ARM64"]') || 'macos-14' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -299,7 +302,7 @@ jobs:
         run: bash scripts/retry.sh make nativeaot
 
   thorvg-linux:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -320,7 +323,7 @@ jobs:
           if-no-files-found: warn
 
   thorvg-macos:
-    runs-on: macos-14
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","macOS","ARM64"]') || 'macos-14' }}
     steps:
       - uses: actions/checkout@v7
         with:
