@@ -4094,6 +4094,35 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void ArrowKeysMoveFocusThroughNearbyButtonsWithoutExplicitNeighbors()
+        {
+            var context = new UIContext();
+            var root = new VBoxContainer { Size = new Vector2(200, 240) };
+            var first = new Button { Text = "One" };
+            var second = new Button { Text = "Two" };
+            var third = new Button { Text = "Three" };
+            root.AddChild(first); root.AddChild(second); root.AddChild(third);
+            context.Add(root);
+            context.Layout();
+            first.GrabFocus();
+
+            // A key only dispatches on its rising edge, so release between presses.
+            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.Down));
+            Assert.That(context.FocusedControl, Is.SameAs(second));
+            context.Update(Time, Mouse(0, 0), new KeyboardState());
+            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.Down));
+            Assert.That(context.FocusedControl, Is.SameAs(third));
+            context.Update(Time, Mouse(0, 0), new KeyboardState());
+            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.Up));
+            Assert.That(context.FocusedControl, Is.SameAs(second));
+
+            // Left/Right have no candidate in a vertical stack, so focus stays put.
+            context.Update(Time, Mouse(0, 0), new KeyboardState());
+            context.Update(Time, Mouse(0, 0), new KeyboardState(Keys.Left));
+            Assert.That(context.FocusedControl, Is.SameAs(second));
+        }
+
+        [Test]
         public void MouseFilterPass_PropagatesEventsAndIgnoreDoesNotHideChildren()
         {
             var context = new UIContext();
