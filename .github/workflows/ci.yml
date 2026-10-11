@@ -94,7 +94,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 mesa-vulkan-drivers vulkan-tools xvfb
-          software_icd=$(find /opt/google/chrome -name 'vk_swiftshader_icd.json' -print -quit)
+          software_icd=$(find /opt/google/chrome -name 'vk_swiftshader_icd.json' -print -quit 2>/dev/null || true)
           software_icd=${software_icd:-$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)}
           test -n "$software_icd"
           echo "VK_ICD_FILENAMES=$software_icd" >> "$GITHUB_ENV"
@@ -273,7 +273,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 mesa-vulkan-drivers xvfb
-          software_icd=$(find /opt/google/chrome -name 'vk_swiftshader_icd.json' -print -quit)
+          software_icd=$(find /opt/google/chrome -name 'vk_swiftshader_icd.json' -print -quit 2>/dev/null || true)
           software_icd=${software_icd:-$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)}
           test -n "$software_icd"
           echo "VK_ICD_FILENAMES=$software_icd" >> "$GITHUB_ENV"
