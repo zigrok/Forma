@@ -440,6 +440,31 @@ namespace Forma.Tests
         }
 
         [Test]
+        public void ListBox_ScrollsWithThePointerWheelOverItsRows()
+        {
+            using var context = new UIContext { ViewportSize = new Vector2(100, 60) };
+            var list = new ListBox
+            {
+                ItemsPanel = new ItemsPanelTemplate(_ => new VirtualizingStackPanel { EstimatedItemExtent = 20 }),
+                ItemTemplate = CreateRecyclingTemplate(new List<RecyclingRow>()),
+                ItemsSource = Enumerable.Range(0, 100).ToArray(),
+                Size = new Vector2(100, 60),
+            };
+            context.Add(list);
+            context.Layout();
+            context.Layout();
+
+            Assert.That(context.InjectPointerWheel(new Point(50, 30), -120), Is.True, "a wheel notch over the rows scrolls the list");
+            var down = list.ScrollOffset.Y;
+            Assert.That(down, Is.GreaterThan(0));
+            context.InjectPointerWheel(new Point(50, 30), 120);
+            Assert.That(list.ScrollOffset.Y, Is.LessThan(down), "the opposite notch scrolls back");
+            for (var notch = 0; notch < 40; notch++) context.InjectPointerWheel(new Point(50, 30), 120);
+            Assert.That(list.ScrollOffset.Y, Is.Zero, "scrolling back past the top stops at the top");
+            list.Dispose();
+        }
+
+        [Test]
         public void ListBox_VirtualizationPreservesDuplicateSlotSelectionAcrossMutations()
         {
             using var context = new UIContext { ViewportSize = new Vector2(100, 60) };
