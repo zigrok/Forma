@@ -57,6 +57,29 @@ is still zero adopts that logical viewport. Set `UIContext.DisplayScale` to phys
 logical UI coordinate; the default is `1`. Forma maps pointer input back to logical coordinates,
 scales drawing, invalidates scale-sensitive layout, and refreshes device-scoped glyph resources.
 
+## Finding clipped and overflowing text
+
+Text that is clipped or pushed outside its box depends on the language, the UI scale and the window size together, so it is
+caught by a test, not by eye.
+
+- `Label.TextFit` says whether a label's text fits the box layout gave it: `Fits`, `Wrapped`, trimmed with an ellipsis, or `Clipped`, with the
+  measured and available sizes and the overflow. Read it after layout.
+- `UIContext.FindLayoutProblems(root)` walks a laid-out view and returns each `LayoutProblem`: text clipped or wrapped past its
+  box, a control past its parent, past an ancestor that clips it, or past the viewport. Each item carries the control, its name and
+  classes, the overflow in pixels and a message. `LayoutProblemOptions` selects the kinds, the tolerance and whether scrolling
+  containers are ignored.
+- `PseudoLocalizer` makes every string longer, accented and wrapped in markers (and can mirror it for right to left) without a real
+  translation, so a layout that only fits the source language fails in a test first. Placeholders such as `{0}` survive.
+- `UiMatrix.Run` (in `Forma.Testing`) lays every view out for every locale, UI scale and viewport and runs a check, with
+  `UiMatrix.LayoutProblems()` as the ready-made check. A failure names the view, locale, scale and viewport.
+- `DynamicTextCoverage.FindMissingGlyphs` lists the characters of a set of strings that no face of a font stack covers.
+- `forma-xaml validate --layout View.fhtml [--lang l] [--scale n] [--size WxH]` validates the markup and then runs the project's
+  `layoutHost` (named in `forma-preview.json`), which lays the view out with the application's types and prints the findings. A
+  game can expose the same findings from its MCP server as `ui_layout_problems`.
+
+The loop for a layout change: edit, `forma-xaml validate`, run the layout check for the languages and scales you ship (and the
+pseudo-locale), fix the layout, not the text.
+
 ## Common mistakes
 
 - Do not use `Size` as a minimum inside a container; use `CustomMinimumSize` or scalar minimums.
