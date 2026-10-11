@@ -4,7 +4,7 @@
     "changefreq": "weekly",
     "priority": 0.5
   },
-  "source_base_path": "/home/runner/work/Forma/Forma/docs",
+  "source_base_path": "/work/Forma/Forma/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -8120,6 +8120,16 @@
       "output": {
         ".html": {
           "relative_path": "getting-started/xaml-first-ui.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "headless-testing.md",
+      "output": {
+        ".html": {
+          "relative_path": "headless-testing.html"
         }
       },
       "version": ""
