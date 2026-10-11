@@ -866,8 +866,30 @@ namespace Forma
             for (var control = target; control != null; control = control.VisualParent)
             {
                 control.PointerPressed(point);
-                if (control.ConsumeEventAccepted() || control.MouseFilter != MouseFilter.Pass) break;
+                if (control.ConsumeEventAccepted()) break;
+                if (control.MouseFilter != MouseFilter.Pass)
+                {
+                    GetRowOwnerForStoppedPointer(control)?.PointerPressed(point);
+                    break;
+                }
             }
+        }
+
+        // Row content (a Label, Border, container) defaults to MouseFilter.Stop, so a press on it never bubbles to the
+        // ListBox that owns the row. When a non-interactive control stops the event inside a ListBoxItem, the list
+        // still receives it; a focusable control (a Button) keeps the click for itself.
+        private static ListBox GetRowOwnerForStoppedPointer(Control stoppedAt)
+        {
+            if (stoppedAt is ListBox || (stoppedAt.FocusMode != FocusMode.None && stoppedAt is not ListBoxItem)) return null;
+            for (var control = stoppedAt; control != null; control = control.VisualParent)
+            {
+                if (control is ListBox) return null;
+                if (control is not ListBoxItem) continue;
+                for (var parent = control.VisualParent; parent != null; parent = parent.VisualParent)
+                    if (parent is ListBox list) return list;
+                return null;
+            }
+            return null;
         }
 
         private static void DispatchPointerMoved(Control target, Point point)
@@ -904,7 +926,13 @@ namespace Forma
             for (var control = target; control != null; control = control.VisualParent)
             {
                 control.PointerReleased(point, control.ContainsPoint(point));
-                if (control.ConsumeEventAccepted() || control.MouseFilter != MouseFilter.Pass) break;
+                if (control.ConsumeEventAccepted()) break;
+                if (control.MouseFilter != MouseFilter.Pass)
+                {
+                    var owner = GetRowOwnerForStoppedPointer(control);
+                    owner?.PointerReleased(point, owner.ContainsPoint(point));
+                    break;
+                }
             }
         }
 
