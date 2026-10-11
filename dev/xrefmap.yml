@@ -15572,6 +15572,36 @@ references:
   commentId: Overload:Forma.DynamicGlyphCacheOptions.PageWidth
   fullName: Forma.DynamicGlyphCacheOptions.PageWidth
   nameWithType: DynamicGlyphCacheOptions.PageWidth
+- uid: Forma.DynamicTextCoverage
+  name: DynamicTextCoverage
+  href: api/Forma.DynamicTextCoverage.html
+  commentId: T:Forma.DynamicTextCoverage
+  fullName: Forma.DynamicTextCoverage
+  nameWithType: DynamicTextCoverage
+- uid: Forma.DynamicTextCoverage.FindMissingGlyphs(Forma.DynamicUIFont,System.Collections.Generic.IEnumerable{System.String})
+  name: FindMissingGlyphs(DynamicUIFont, IEnumerable<string>)
+  href: api/Forma.DynamicTextCoverage.html#Forma_DynamicTextCoverage_FindMissingGlyphs_Forma_DynamicUIFont_System_Collections_Generic_IEnumerable_System_String__
+  commentId: M:Forma.DynamicTextCoverage.FindMissingGlyphs(Forma.DynamicUIFont,System.Collections.Generic.IEnumerable{System.String})
+  name.vb: FindMissingGlyphs(DynamicUIFont, IEnumerable(Of String))
+  fullName: Forma.DynamicTextCoverage.FindMissingGlyphs(Forma.DynamicUIFont, System.Collections.Generic.IEnumerable<string>)
+  fullName.vb: Forma.DynamicTextCoverage.FindMissingGlyphs(Forma.DynamicUIFont, System.Collections.Generic.IEnumerable(Of String))
+  nameWithType: DynamicTextCoverage.FindMissingGlyphs(DynamicUIFont, IEnumerable<string>)
+  nameWithType.vb: DynamicTextCoverage.FindMissingGlyphs(DynamicUIFont, IEnumerable(Of String))
+- uid: Forma.DynamicTextCoverage.FindMissingGlyphs(System.Collections.Generic.IEnumerable{Forma.UIFontFace},System.Collections.Generic.IEnumerable{System.String})
+  name: FindMissingGlyphs(IEnumerable<UIFontFace>, IEnumerable<string>)
+  href: api/Forma.DynamicTextCoverage.html#Forma_DynamicTextCoverage_FindMissingGlyphs_System_Collections_Generic_IEnumerable_Forma_UIFontFace__System_Collections_Generic_IEnumerable_System_String__
+  commentId: M:Forma.DynamicTextCoverage.FindMissingGlyphs(System.Collections.Generic.IEnumerable{Forma.UIFontFace},System.Collections.Generic.IEnumerable{System.String})
+  name.vb: FindMissingGlyphs(IEnumerable(Of UIFontFace), IEnumerable(Of String))
+  fullName: Forma.DynamicTextCoverage.FindMissingGlyphs(System.Collections.Generic.IEnumerable<Forma.UIFontFace>, System.Collections.Generic.IEnumerable<string>)
+  fullName.vb: Forma.DynamicTextCoverage.FindMissingGlyphs(System.Collections.Generic.IEnumerable(Of Forma.UIFontFace), System.Collections.Generic.IEnumerable(Of String))
+  nameWithType: DynamicTextCoverage.FindMissingGlyphs(IEnumerable<UIFontFace>, IEnumerable<string>)
+  nameWithType.vb: DynamicTextCoverage.FindMissingGlyphs(IEnumerable(Of UIFontFace), IEnumerable(Of String))
+- uid: Forma.DynamicTextCoverage.FindMissingGlyphs*
+  name: FindMissingGlyphs
+  href: api/Forma.DynamicTextCoverage.html#Forma_DynamicTextCoverage_FindMissingGlyphs_
+  commentId: Overload:Forma.DynamicTextCoverage.FindMissingGlyphs
+  fullName: Forma.DynamicTextCoverage.FindMissingGlyphs
+  nameWithType: DynamicTextCoverage.FindMissingGlyphs
 - uid: Forma.DynamicTextDefaults
   name: DynamicTextDefaults
   href: api/Forma.DynamicTextDefaults.html
@@ -33221,6 +33251,78 @@ references:
   commentId: Overload:Forma.MenuItemAccessibilityPeer.Value
   fullName: Forma.MenuItemAccessibilityPeer.Value
   nameWithType: MenuItemAccessibilityPeer.Value
+- uid: Forma.MissingGlyph
+  name: MissingGlyph
+  href: api/Forma.MissingGlyph.html
+  commentId: T:Forma.MissingGlyph
+  fullName: Forma.MissingGlyph
+  nameWithType: MissingGlyph
+- uid: Forma.MissingGlyph.#ctor(System.Int32,System.String)
+  name: MissingGlyph(int, string)
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph__ctor_System_Int32_System_String_
+  commentId: M:Forma.MissingGlyph.#ctor(System.Int32,System.String)
+  name.vb: New(Integer, String)
+  fullName: Forma.MissingGlyph.MissingGlyph(int, string)
+  fullName.vb: Forma.MissingGlyph.New(Integer, String)
+  nameWithType: MissingGlyph.MissingGlyph(int, string)
+  nameWithType.vb: MissingGlyph.New(Integer, String)
+- uid: Forma.MissingGlyph.#ctor*
+  name: MissingGlyph
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph__ctor_
+  commentId: Overload:Forma.MissingGlyph.#ctor
+  name.vb: New
+  fullName: Forma.MissingGlyph.MissingGlyph
+  fullName.vb: Forma.MissingGlyph.New
+  nameWithType: MissingGlyph.MissingGlyph
+  nameWithType.vb: MissingGlyph.New
+- uid: Forma.MissingGlyph.Character
+  name: Character
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph_Character
+  commentId: P:Forma.MissingGlyph.Character
+  fullName: Forma.MissingGlyph.Character
+  nameWithType: MissingGlyph.Character
+- uid: Forma.MissingGlyph.Character*
+  name: Character
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph_Character_
+  commentId: Overload:Forma.MissingGlyph.Character
+  fullName: Forma.MissingGlyph.Character
+  nameWithType: MissingGlyph.Character
+- uid: Forma.MissingGlyph.CodePoint
+  name: CodePoint
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph_CodePoint
+  commentId: P:Forma.MissingGlyph.CodePoint
+  fullName: Forma.MissingGlyph.CodePoint
+  nameWithType: MissingGlyph.CodePoint
+- uid: Forma.MissingGlyph.CodePoint*
+  name: CodePoint
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph_CodePoint_
+  commentId: Overload:Forma.MissingGlyph.CodePoint
+  fullName: Forma.MissingGlyph.CodePoint
+  nameWithType: MissingGlyph.CodePoint
+- uid: Forma.MissingGlyph.Text
+  name: Text
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph_Text
+  commentId: P:Forma.MissingGlyph.Text
+  fullName: Forma.MissingGlyph.Text
+  nameWithType: MissingGlyph.Text
+- uid: Forma.MissingGlyph.Text*
+  name: Text
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph_Text_
+  commentId: Overload:Forma.MissingGlyph.Text
+  fullName: Forma.MissingGlyph.Text
+  nameWithType: MissingGlyph.Text
+- uid: Forma.MissingGlyph.ToString
+  name: ToString()
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph_ToString
+  commentId: M:Forma.MissingGlyph.ToString
+  fullName: Forma.MissingGlyph.ToString()
+  nameWithType: MissingGlyph.ToString()
+- uid: Forma.MissingGlyph.ToString*
+  name: ToString
+  href: api/Forma.MissingGlyph.html#Forma_MissingGlyph_ToString_
+  commentId: Overload:Forma.MissingGlyph.ToString
+  fullName: Forma.MissingGlyph.ToString
+  nameWithType: MissingGlyph.ToString
 - uid: Forma.ModalCancelReason
   name: ModalCancelReason
   href: api/Forma.ModalCancelReason.html
