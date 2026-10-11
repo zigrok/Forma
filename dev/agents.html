@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/6e3055df3e793489f10f53cbb7c15c240db187cc/docs/agents.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/48b6d8ab82909cc75d052ce5f1497277455e6c06/docs/agents.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -130,6 +130,10 @@ animation targets one <code>#id</code>. In a shared <code>.fcss</code> the id mu
 <td><code>forma-xaml preview View.fhtml -o out.png [--state hover] [--lang ja] [--scale 130] [--size 1280x720]</code></td>
 </tr>
 <tr>
+<td>Find clipped or overflowing text</td>
+<td><code>forma-xaml validate --layout View.fhtml [--lang ja] [--scale 130] [--size 1280x720]</code>; in a test <code>UIContext.FindLayoutProblems</code> and <code>UiMatrix.Run</code>; in the live app a game MCP <code>ui_layout_problems</code> when the game provides it</td>
+</tr>
+<tr>
 <td>Reference docs</td>
 <td><code>forma-xaml docs --out docs</code> (regenerates); <code>forma-xaml docs --out docs --check</code> (drift)</td>
 </tr>
@@ -157,6 +161,8 @@ animation targets one <code>#id</code>. In a shared <code>.fcss</code> the id mu
 </table>
 <p>Preview renders with the application, so give it a long timeout (3 minutes) and read the PNG afterwards. A view with no scene
 in the project's preview host cannot be previewed; preview the nearest screen and say so.</p>
+<p>After any layout change, run the layout check for every language and UI scale the game ships, plus the pseudo-locale
+(<code>PseudoLocalizer</code>), and fix the layout; do not shorten text to pass.</p>
 <p>The <code>forma-xaml mcp</code> server exposes <code>validate</code>, <code>format</code>, <code>preview</code> and the generated docs to any MCP client.</p>
 <h1 id="troubleshooting">Troubleshooting</h1>
 <ul>
@@ -173,7 +179,7 @@ view that does not link the stylesheet.</li>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/6e3055df3e793489f10f53cbb7c15c240db187cc/docs/agents.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/48b6d8ab82909cc75d052ce5f1497277455e6c06/docs/agents.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -190,7 +196,7 @@ view that does not link the stylesheet.</li>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 6e3055df3e79 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · 48b6d8ab8290 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

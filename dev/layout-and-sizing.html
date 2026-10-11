@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/6e3055df3e793489f10f53cbb7c15c240db187cc/docs/layout-and-sizing.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/48b6d8ab82909cc75d052ce5f1497277455e6c06/docs/layout-and-sizing.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -181,6 +181,27 @@ and <a href="https://github.com/zigrok/Forma/blob/main/samples/Forma.Catalog/Sto
 is still zero adopts that logical viewport. Set <code>UIContext.DisplayScale</code> to physical pixels per
 logical UI coordinate; the default is <code>1</code>. Forma maps pointer input back to logical coordinates,
 scales drawing, invalidates scale-sensitive layout, and refreshes device-scoped glyph resources.</p>
+<h2 id="finding-clipped-and-overflowing-text">Finding clipped and overflowing text</h2>
+<p>Text that is clipped or pushed outside its box depends on the language, the UI scale and the window size together, so it is
+caught by a test, not by eye.</p>
+<ul>
+<li><code>Label.TextFit</code> says whether a label's text fits the box layout gave it: <code>Fits</code>, <code>Wrapped</code>, trimmed with an ellipsis, or <code>Clipped</code>, with the
+measured and available sizes and the overflow. Read it after layout.</li>
+<li><code>UIContext.FindLayoutProblems(root)</code> walks a laid-out view and returns each <code>LayoutProblem</code>: text clipped or wrapped past its
+box, a control past its parent, past an ancestor that clips it, or past the viewport. Each item carries the control, its name and
+classes, the overflow in pixels and a message. <code>LayoutProblemOptions</code> selects the kinds, the tolerance and whether scrolling
+containers are ignored.</li>
+<li><code>PseudoLocalizer</code> makes every string longer, accented and wrapped in markers (and can mirror it for right to left) without a real
+translation, so a layout that only fits the source language fails in a test first. Placeholders such as <code>{0}</code> survive.</li>
+<li><code>UiMatrix.Run</code> (in <code>Forma.Testing</code>) lays every view out for every locale, UI scale and viewport and runs a check, with
+<code>UiMatrix.LayoutProblems()</code> as the ready-made check. A failure names the view, locale, scale and viewport.</li>
+<li><code>DynamicTextCoverage.FindMissingGlyphs</code> lists the characters of a set of strings that no face of a font stack covers.</li>
+<li><code>forma-xaml validate --layout View.fhtml [--lang l] [--scale n] [--size WxH]</code> validates the markup and then runs the project's
+<code>layoutHost</code> (named in <code>forma-preview.json</code>), which lays the view out with the application's types and prints the findings. A
+game can expose the same findings from its MCP server as <code>ui_layout_problems</code>.</li>
+</ul>
+<p>The loop for a layout change: edit, <code>forma-xaml validate</code>, run the layout check for the languages and scales you ship (and the
+pseudo-locale), fix the layout, not the text.</p>
 <h2 id="common-mistakes">Common mistakes</h2>
 <ul>
 <li>Do not use <code>Size</code> as a minimum inside a container; use <code>CustomMinimumSize</code> or scalar minimums.</li>
@@ -194,7 +215,7 @@ preserves the raw offset and can visibly move the control.</li>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/6e3055df3e793489f10f53cbb7c15c240db187cc/docs/layout-and-sizing.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/48b6d8ab82909cc75d052ce5f1497277455e6c06/docs/layout-and-sizing.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -211,7 +232,7 @@ preserves the raw offset and can visibly move the control.</li>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 6e3055df3e79 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · 48b6d8ab8290 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>
