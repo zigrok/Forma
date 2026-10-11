@@ -50,9 +50,9 @@ jobs:
         # Windows legs are skipped under TRACE_CI_RUNNERS=self-hosted: no Windows runner exists on the local machine.
         os: ${{ fromJSON(vars.TRACE_CI_RUNNERS == 'self-hosted' && '["ubuntu-latest","macos-latest"]' || '["ubuntu-latest","windows-latest","macos-latest"]') }}
         runtime: [MonoGame, FNA]
-    # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) Linux legs run on the local x64 runner and
-    # macOS legs on the local macOS runner.
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]')) || matrix.os }}
+    # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) Linux legs run on the native arm64 runner (the
+    # Vulkan software renderer crashes under x64 emulation: "rosetta error: mmap_anonymous_rw mmap failed") and macOS legs on the local macOS runner.
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","ARM64","yiazmat-linux-arm64"]')) || matrix.os }}
     env:
       FORMA_RUNTIME: ${{ matrix.runtime }}
     steps:
