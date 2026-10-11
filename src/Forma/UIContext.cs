@@ -949,6 +949,61 @@ namespace Forma
             FocusedControl?.KeyPressed(key);
         }
 
+        /// <summary>
+        /// Moves focus to the nearest focusable control in a direction. A control that owns the arrow
+        /// key itself (a list, grid, slider or text editor) calls this from <see cref="Control.KeyPressed"/>
+        /// when it has no nearer behaviour, so plain action menus are keyboard-navigable without every
+        /// author wiring <see cref="Control.FocusNeighborLeft"/> and friends. Explicit neighbors are
+        /// resolved first in <see cref="DispatchKey(Keys, KeyboardState)"/> and still win.
+        /// </summary>
+        internal bool MoveFocusDirectionally(Keys key)
+        {
+            var target = FindDirectionalNeighbor(key);
+            if (!CanFocus(target)) return false;
+            SetFocus(target);
+            return true;
+        }
+
+        private Control FindDirectionalNeighbor(Keys key)
+        {
+            var current = FocusedControl;
+            if (current == null) return null;
+            var focusable = new List<Control>();
+            var modalPopup = GetActiveModalPopup();
+            if (modalPopup != null) CollectFocusable(modalPopup, focusable);
+            else foreach (var root in _roots) CollectFocusable(root, focusable);
+            if (focusable.Count == 0) return null;
+
+            var from = current.Bounds;
+            var originX = from.X + from.Width / 2f;
+            var originY = from.Y + from.Height / 2f;
+            Control best = null;
+            var bestScore = float.MaxValue;
+            foreach (var candidate in focusable)
+            {
+                if (ReferenceEquals(candidate, current)) continue;
+                var to = candidate.Bounds;
+                var dx = to.X + to.Width / 2f - originX;
+                var dy = to.Y + to.Height / 2f - originY;
+                float primary;
+                float secondary;
+                switch (key)
+                {
+                    case Keys.Up when dy < 0: primary = -dy; secondary = MathF.Abs(dx); break;
+                    case Keys.Down when dy > 0: primary = dy; secondary = MathF.Abs(dx); break;
+                    case Keys.Left when dx < 0: primary = -dx; secondary = MathF.Abs(dy); break;
+                    case Keys.Right when dx > 0: primary = dx; secondary = MathF.Abs(dy); break;
+                    default: continue;
+                }
+                // A control far off the axis must not pull focus from one directly ahead: only accept
+                // candidates whose primary lead is at least their sideways offset, then prefer the nearest.
+                if (secondary > primary) continue;
+                var score = primary + secondary;
+                if (score < bestScore) { bestScore = score; best = candidate; }
+            }
+            return best;
+        }
+
         private bool DispatchShortcutInput(Keys key, KeyboardState keyboard, Control modalRoot)
         {
             if (modalRoot != null) return DispatchShortcutInput(modalRoot, key, keyboard);

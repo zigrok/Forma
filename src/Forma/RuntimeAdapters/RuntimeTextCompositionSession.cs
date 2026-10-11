@@ -44,8 +44,10 @@ internal sealed class RuntimeTextCompositionSession : IDisposable
     {
         if (_changing || _disposed) return;
         var focus = _context.FocusedControl;
+        // Only an editable text control composes text. Activating the host's text input for a focused button as well made the
+        // browser's composition proxy take every printable key, so a game could never read a letter key as a shortcut.
         var target = _windowActive && _context.CanFocus(focus) &&
-            focus is not LineEdit { Editable: false } ? focus : null;
+            focus is LineEdit { Editable: true } ? focus : null;
         if (ReferenceEquals(target, _target)) return;
         _changing = true;
         try

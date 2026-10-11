@@ -64,6 +64,32 @@ public sealed class NativeTextCompositionTest
     }
 
     [Test]
+    public void OnlyAnEditableTextControlActivatesTheHostTextInput()
+    {
+        using var context = CreateContext();
+        var button = new Button { Text = "Start", Size = new Vector2(120, 40) };
+        context.Add(button);
+        button.GrabFocus();
+        var window = new NativeWindowStub();
+        using var bridge = RuntimeTextCompositionBridge.TryCreate(window, typeof(NativeWindowStub));
+        using var session = new RuntimeTextCompositionSession(context, bridge);
+        session.Update(true);
+        // A focused button takes no text: activating the host's composition input for it would make the browser
+        // capture every printable key, so a letter could never be a shortcut.
+        Assert.That(window.Activations, Is.Empty.Or.All.False);
+
+        var editor = new LineEdit { Text = "x", Size = new Vector2(240, 40) };
+        context.Add(editor);
+        editor.GrabFocus();
+        session.Update(true);
+        Assert.That(window.Activations.LastOrDefault(), Is.True, "an editable text control does");
+
+        button.GrabFocus();
+        session.Update(true);
+        Assert.That(window.Activations.Last(), Is.False, "and focus leaving it turns the input off again");
+    }
+
+    [Test]
     public void OptionalBridgeRejectsMissingAndUnsupportedRuntimeApis()
     {
         Assert.That(RuntimeTextCompositionBridge.TryCreate(new object(), typeof(object)), Is.Null);

@@ -213,6 +213,14 @@ namespace Forma
             // Godot's BaseButton::gui_input returns immediately for every input kind, including
             // the ui_accept action, whenever the button is disabled.
             if (!Enabled) return;
+            // A focused button moves focus in the pressed direction unless it declares an explicit
+            // FocusNeighbor (resolved earlier in UIContext.DispatchKey), so action menus are navigable
+            // by arrow keys without every author linking siblings by hand.
+            if (key is Keys.Left or Keys.Up or Keys.Right or Keys.Down)
+            {
+                Context?.MoveFocusDirectionally(key);
+                return;
+            }
             if (key != Keys.Enter && key != Keys.Space) return;
             if (_pressed) return;
             _activeKey = key;
