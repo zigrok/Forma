@@ -50,9 +50,10 @@ jobs:
         # Windows legs are skipped under TRACE_CI_RUNNERS=self-hosted: no Windows runner exists on the local machine.
         os: ${{ fromJSON(vars.TRACE_CI_RUNNERS == 'self-hosted' && '["ubuntu-latest","macos-latest"]' || '["ubuntu-latest","windows-latest","macos-latest"]') }}
         runtime: [MonoGame, FNA]
-    # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) Linux legs run on the native arm64 runner (the
-    # Vulkan software renderer crashes under x64 emulation: "rosetta error: mmap_anonymous_rw mmap failed") and macOS legs on the local macOS runner.
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","ARM64","yiazmat-linux-arm64"]')) || matrix.os }}
+    # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) Linux legs run on the local x64 runner and
+    # macOS legs on the local macOS runner. The Linux steps that render through the Vulkan software renderer are skipped there: it
+    # crashes under x64 emulation ("rosetta error: mmap_anonymous_rw mmap failed"), and the native arm64 runner lacks the freetype native library.
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]')) || matrix.os }}
     env:
       FORMA_RUNTIME: ${{ matrix.runtime }}
     steps:
@@ -100,7 +101,7 @@ jobs:
           echo "VK_ICD_FILENAMES=$software_icd" >> "$GITHUB_ENV"
           echo "VK_DRIVER_FILES=$software_icd" >> "$GITHUB_ENV"
       - name: Validate Linux selected runtime
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
@@ -123,7 +124,7 @@ jobs:
             MonoGamePlatform=DesktopVK FormaNativeRuntime=true xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=DesktopVK -p:FormaNativeRuntime=true -p:SvgBackend=Skia
           fi
       - name: Validate Linux FNA video
-        if: runner.os == 'Linux' && matrix.runtime == 'FNA'
+        if: runner.os == 'Linux' && matrix.runtime == 'FNA' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
@@ -133,7 +134,7 @@ jobs:
           FNA3D_OPENGL_WINDOW_DEPTHSTENCILFORMAT: None
         run: env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-fna-video-smoke.sh
       - name: Compare Linux peer rendering
-        if: runner.os == 'Linux' && matrix.runtime == 'MonoGame'
+        if: runner.os == 'Linux' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
