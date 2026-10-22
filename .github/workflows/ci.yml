@@ -284,7 +284,10 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - run: bash scripts/check-runtime-parity.sh
+      - name: Check runtime parity
+        # Sequential builds in one container can still hold a *.deps.json just long enough to break GenerateDepsFile; the
+        # retry wrapper (used by the other build steps too) turns that transient lock into a pass.
+        run: bash scripts/retry.sh bash scripts/check-runtime-parity.sh
       - name: Review release public API
         run: bash scripts/check-release-api.sh
 
