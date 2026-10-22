@@ -108,3 +108,10 @@ unitless
 Lnnnn
 VIDEODRIVER
 AUDIODRIVER
+llvmpipe
+MSBUILD
+MSBUILDDISABLENODEREUSE
+premake
+SIGSEGV
+swapchain
+yiazmat
