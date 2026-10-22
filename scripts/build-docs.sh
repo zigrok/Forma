@@ -30,7 +30,7 @@ projects=(Forma Forma.Accessibility Forma.DynamicText Forma.Media Forma.Svg Form
 for project in "${projects[@]}"; do
   dotnet build "src/$project/$project.csproj" \
     --configuration Release -p:FormaRuntime=MonoGame -p:SourceRevisionId="$docs_revision" \
-    --no-incremental --nologo
+    -m:1 --no-incremental --nologo
 done
 
 rm -rf "$generated_root" "$api_root" "$site_root"
