@@ -37,6 +37,9 @@ These are deliberate, documented limits — not silent skips:
 
 ## Build hygiene
 
+The emulated x64 pool runs at most two jobs at a time: the native x64 server carries the heavier Linux legs, and two
+emulated containers keep the host's Docker VM comfortable.
+
 Every job exports `MSBUILDDISABLENODEREUSE=1`, `DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER=1` and
 `DOTNET_PROCESSOR_COUNT=2`: reused MSBuild nodes have held `*.deps.json` files across builds and
 broken the next `GenerateDepsFile`. Runs are serialized per working directory by the ephemeral
