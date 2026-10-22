@@ -6,3 +6,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /repo
+# The checkout is baked in as well: a job container with its own Docker daemon (dind) has no host path to mount, so the
+# container that runs the smoke tests reads /repo from the image.
+COPY . /repo

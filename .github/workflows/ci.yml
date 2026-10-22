@@ -67,7 +67,7 @@ jobs:
     # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) Linux legs run on the local x64 runner and
     # macOS legs on the local macOS runner. The Linux steps that render through the Vulkan software renderer are skipped there: it
     # crashes under x64 emulation ("rosetta error: mmap_anonymous_rw mmap failed"), and the native arm64 runner lacks the freetype native library.
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]')) || matrix.os }}
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-native"]')) || matrix.os }}
     env:
       FORMA_RUNTIME: ${{ matrix.runtime }}
     steps:
@@ -115,9 +115,10 @@ jobs:
           echo "VK_ICD_FILENAMES=$software_icd" >> "$GITHUB_ENV"
           echo "VK_DRIVER_FILES=$software_icd" >> "$GITHUB_ENV"
       - name: Validate Linux selected runtime
-        if: runner.os == 'Linux' && vars.TRACE_CI_RUNNERS != 'self-hosted'
+        if: runner.os == 'Linux'
         shell: bash
         env:
+          FORMA_SKIP_VULKAN_SMOKE: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && '1' || '' }}
           LIBGL_ALWAYS_SOFTWARE: 1
           SDL_VIDEODRIVER: ${{ matrix.runtime == 'FNA' && 'offscreen' || 'x11' }}
           FNA3D_FORCE_DRIVER: OpenGL
@@ -134,11 +135,20 @@ jobs:
             xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-quick-start.sh
             xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=MonoGame --no-build --nologo
             xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:SvgBackend=Skia
-            SvgBackend=Skia MonoGamePlatform=DesktopVK FormaNativeRuntime=true CatalogBackend=Vulkan xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
-            MonoGamePlatform=DesktopVK FormaNativeRuntime=true xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=DesktopVK -p:FormaNativeRuntime=true -p:SvgBackend=Skia
+            # MonoGame's DesktopVK backend aborts on llvmpipe over Xvfb on the self-hosted fleet, in both the catalog smoke and the
+            # swapchain smoke: "Fatal : VkResult is c4653214 in vulkan/MGG_Vulkan.cpp:2226" followed by SIGSEGV (the backend prints
+            # an uninitialized VkResult). A 1 GB /dev/shm did not change it, so both Vulkan steps stay on hosted CI. Everything
+            # else of this leg (DesktopGL catalog smoke, quick start, render tests, SVG smoke) runs on the fleet, and the Vulkan
+            # coverage there is `thorvg-linux`, which builds the ThorVG adapter and runs its tests on the native x64 server.
+            if [[ -z "${FORMA_SKIP_VULKAN_SMOKE:-}" ]]; then
+              SvgBackend=Skia MonoGamePlatform=DesktopVK FormaNativeRuntime=true CatalogBackend=Vulkan xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
+              MonoGamePlatform=DesktopVK FormaNativeRuntime=true xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=DesktopVK -p:FormaNativeRuntime=true -p:SvgBackend=Skia
+            else
+              echo "Skipped on the self-hosted fleet: MonoGame DesktopVK crashes in vulkan/MGG_Vulkan.cpp:2226 on llvmpipe over Xvfb."
+            fi
           fi
       - name: Validate Linux FNA video
-        if: runner.os == 'Linux' && matrix.runtime == 'FNA' && vars.TRACE_CI_RUNNERS != 'self-hosted'
+        if: runner.os == 'Linux' && matrix.runtime == 'FNA'
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
@@ -148,7 +158,7 @@ jobs:
           FNA3D_OPENGL_WINDOW_DEPTHSTENCILFORMAT: None
         run: env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-fna-video-smoke.sh
       - name: Compare Linux peer rendering
-        if: runner.os == 'Linux' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
+        if: runner.os == 'Linux' && matrix.runtime == 'MonoGame'
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
@@ -274,12 +284,16 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - run: bash scripts/check-runtime-parity.sh
+      - name: Check runtime parity
+        # Sequential builds in one container can still hold a *.deps.json just long enough to break GenerateDepsFile; the
+        # retry wrapper (used by the other build steps too) turns that transient lock into a pass.
+        run: bash scripts/retry.sh bash scripts/check-runtime-parity.sh
       - name: Review release public API
         run: bash scripts/check-release-api.sh
 
   package-consumers:
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]') || 'ubuntu-latest' }}
+    # Native x64 only: the committed font binaries are byte-exact on real x64 Linux, not on the emulated runner.
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-native"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -300,6 +314,8 @@ jobs:
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
           SDL_VIDEODRIVER: x11
+          # The committed font bytes belong to the GitHub-hosted image's font stack (on native x64 Linux they already differ
+          # at the size field), so the fleet skips that one comparison and hosted CI keeps it.
           FORMA_SKIP_FONT_XNB_CMP: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && '1' || '' }}
         run: bash scripts/retry.sh env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/test-package-consumer.sh
       - uses: actions/upload-artifact@v7
@@ -321,7 +337,8 @@ jobs:
         run: bash scripts/retry.sh make nativeaot
 
   thorvg-linux:
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]') || 'ubuntu-latest' }}
+    # The ThorVG adapter renders through Vulkan on the CPU: only real x64 Linux does that (the emulated runner was canceled there).
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-native"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
         with:

@@ -59,6 +59,7 @@ runtime/backend integrator (R), and contributor (C).
 | `docs/runtime-svg.md` | G, A, R | Runtime SVG setup, security, caching, deployment | Current SVG guide; measured tables are dated evidence |
 | `docs/runtime-svg-profile-v1.md` | A, R, C | Normative SVG feature and comparison profile | Current compatibility reference |
 | `docs/svg-backend-migration.md` | G, R | Selecting explicit Skia or ThorVG packages | Current backend selection guide |
+| `docs/continuous-integration.md` | C | Where each CI job runs and the documented limits of the self-hosted fleet | Current contributor guide |
 | `docs/svg-backend-rollout.md` | R, C | ThorVG rollout decision and qualification evidence | Dated release evidence |
 | `docs/theme-icons.md` | G, A | Default icon policy, customization, regeneration | Current styling guide; manifest owns the icon count |
 | `docs/thorvg-build-and-provenance.md` | R, C | ThorVG pin, provenance, ABI, build procedure | Current supply-chain reference |
