@@ -118,7 +118,7 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         env:
-          FORMA_SKIP_VULKAN_SWAPCHAIN_SMOKE: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && '1' || '' }}
+          FORMA_SKIP_VULKAN_SMOKE: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && '1' || '' }}
           LIBGL_ALWAYS_SOFTWARE: 1
           SDL_VIDEODRIVER: ${{ matrix.runtime == 'FNA' && 'offscreen' || 'x11' }}
           FNA3D_FORCE_DRIVER: OpenGL
@@ -135,11 +135,13 @@ jobs:
             xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-quick-start.sh
             xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=MonoGame --no-build --nologo
             xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:SvgBackend=Skia
-            SvgBackend=Skia MonoGamePlatform=DesktopVK FormaNativeRuntime=true CatalogBackend=Vulkan xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
-            # MonoGame's DesktopVK backend aborts on llvmpipe over Xvfb on the self-hosted fleet: "Fatal : VkResult is c4653214 in
-            # vulkan/MGG_Vulkan.cpp:2226" followed by SIGSEGV (the swapchain cannot be created and the backend prints an uninitialized
-            # VkResult). The Vulkan catalog smoke above still runs there; hosted CI keeps the swapchain smoke.
-            if [[ -z "${FORMA_SKIP_VULKAN_SWAPCHAIN_SMOKE:-}" ]]; then
+            # MonoGame's DesktopVK backend aborts on llvmpipe over Xvfb on the self-hosted fleet, in both the catalog smoke and the
+            # swapchain smoke: "Fatal : VkResult is c4653214 in vulkan/MGG_Vulkan.cpp:2226" followed by SIGSEGV (the backend prints
+            # an uninitialized VkResult). A 1 GB /dev/shm did not change it, so both Vulkan steps stay on hosted CI. Everything
+            # else of this leg (DesktopGL catalog smoke, quick start, render tests, SVG smoke) runs on the fleet, and the Vulkan
+            # coverage there is `thorvg-linux`, which builds the ThorVG adapter and runs its tests on the native x64 server.
+            if [[ -z "${FORMA_SKIP_VULKAN_SMOKE:-}" ]]; then
+              SvgBackend=Skia MonoGamePlatform=DesktopVK FormaNativeRuntime=true CatalogBackend=Vulkan xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
               MonoGamePlatform=DesktopVK FormaNativeRuntime=true xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=DesktopVK -p:FormaNativeRuntime=true -p:SvgBackend=Skia
             else
               echo "Skipped on the self-hosted fleet: MonoGame DesktopVK crashes in vulkan/MGG_Vulkan.cpp:2226 on llvmpipe over Xvfb."
