@@ -7906,6 +7906,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "continuous-integration.md",
+      "output": {
+        ".html": {
+          "relative_path": "continuous-integration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "contributor-architecture.md",
       "output": {
         ".html": {

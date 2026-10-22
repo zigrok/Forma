@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Continuous Integration Runners | Forma Documentation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Continuous Integration Runners | Forma Documentation ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/8827393fc55ce47b50c1ac2114266ee70f64301f/docs/continuous-integration.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="logo.svg" alt="Forma">
+            Forma
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="continuous-integration-runners">Continuous Integration Runners</h1>
+
+<p>The <code>CI</code> workflow runs on GitHub-hosted runners by default. Setting the repository variable
+<code>TRACE_CI_RUNNERS</code> to <code>self-hosted</code> points the jobs at the local fleet documented in
+<code>gh-runners-manager</code>; leaving it unset keeps the hosted setup, which is the default and the
+supported configuration for forks.</p>
+<h2 id="where-each-job-runs">Where each job runs</h2>
+<table>
+<thead>
+<tr>
+<th>Job</th>
+<th>Runner labels</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lint</code></td>
+<td><code>self-hosted, Linux, X64, yiazmat-linux-x64-emulated</code></td>
+<td>Pure managed build and analyzers.</td>
+</tr>
+<tr>
+<td><code>parity</code></td>
+<td><code>self-hosted, Linux, X64, yiazmat-linux-x64-emulated</code></td>
+<td>Sequential runtime builds; the step is wrapped in <code>scripts/retry.sh</code> because a transient <code>GenerateDepsFile</code> file lock can survive one build boundary.</td>
+</tr>
+<tr>
+<td><code>runtime</code> (<code>ubuntu-latest</code> legs)</td>
+<td><code>self-hosted, Linux, X64, yiazmat-linux-x64-native</code></td>
+<td>Runs on the native x64 Linux server, where the Vulkan software renderer works.</td>
+</tr>
+<tr>
+<td><code>runtime</code> (<code>macos-latest</code> legs)</td>
+<td><code>self-hosted, macOS, ARM64</code></td>
+<td>Native arm64 macOS.</td>
+</tr>
+<tr>
+<td><code>runtime</code> (<code>windows-latest</code> legs)</td>
+<td>placeholder job</td>
+<td>No Windows machine is part of the fleet; the job reports the leg as not run so the required checks still resolve.</td>
+</tr>
+<tr>
+<td><code>thorvg-linux</code></td>
+<td><code>self-hosted, Linux, X64, yiazmat-linux-x64-native</code></td>
+<td>Builds the ThorVG adapter and runs its tests inside the slot's own Docker daemon.</td>
+</tr>
+<tr>
+<td><code>thorvg-macos</code>, <code>nativeaot</code></td>
+<td><code>self-hosted, macOS, ARM64</code></td>
+<td>Native arm64 macOS.</td>
+</tr>
+<tr>
+<td><code>package-consumers</code></td>
+<td><code>self-hosted, Linux, X64, yiazmat-linux-x64-native</code></td>
+<td>Builds and inspects the shipped packages.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-limits-of-the-fleet">Known limits of the fleet</h2>
+<p>These are deliberate, documented limits — not silent skips:</p>
+<ul>
+<li><strong>MonoGame's Vulkan steps</strong> (<code>MonoGamePlatform=DesktopVK</code>: the Vulkan catalog smoke and the
+swapchain smoke) are skipped on the fleet. MonoGame's desktop Vulkan backend aborts on llvmpipe
+over Xvfb with <code>Fatal : VkResult is c4653214 in vulkan/MGG_Vulkan.cpp:2226</code> and dies with
+<code>SIGSEGV</code> (exit 139); raising <code>/dev/shm</code> to 1 GB does not change it. Hosted CI keeps both steps.
+The Vulkan adapter itself is still built and tested on the native server by <code>thorvg-linux</code>.</li>
+<li><strong>Byte-exact font binaries</strong>: the committed <code>tests/Assets/Fonts/*.xnb</code> files are compared only on
+hosted CI. The bytes follow the font build stack, not the architecture: a native x64 Linux build
+already differs from the committed file at byte 6 (the size field). The fleet sets
+<code>FORMA_SKIP_FONT_XNB_CMP</code> for that one comparison.</li>
+<li><strong>macOS Metal runtime</strong>: the steps that need premake are skipped there; premake has no arm64
+build and the machine has no Rosetta. The jobs use the machine's Vulkan SDK for the Metal
+runtime build instead of installing one.</li>
+</ul>
+<h2 id="build-hygiene">Build hygiene</h2>
+<p>The emulated x64 pool runs at most two jobs at a time: the native x64 server carries the heavier Linux legs, and two
+emulated containers keep the host's Docker VM comfortable.</p>
+<p>Every job exports <code>MSBUILDDISABLENODEREUSE=1</code>, <code>DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER=1</code> and
+<code>DOTNET_PROCESSOR_COUNT=2</code>: reused MSBuild nodes have held <code>*.deps.json</code> files across builds and
+broken the next <code>GenerateDepsFile</code>. Runs are serialized per working directory by the ephemeral
+runner container, which serves exactly one job before it exits.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zigrok/Forma/blob/8827393fc55ce47b50c1ac2114266ee70f64301f/docs/continuous-integration.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Forma 0.1.0-alpha.2 · Development preview · 8827393fc55c · <a href="/Forma/versions/">All versions</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
