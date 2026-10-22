@@ -196,7 +196,8 @@ jobs:
           FormaCatalogViewportHeight: 646
         run: SvgBackend=Skia bash scripts/retry.sh bash scripts/check-catalog-render-parity.sh
       # Under the self-hosted flag the Vulkan SDK of the machine is used (the manager sets VULKAN_SDK); the job cannot install one
-      # because the runner's user has no passwordless sudo.
+      # because the runner's user has no passwordless sudo. The steps that need premake (an x86_64 binary) and the Metal runtime build
+      # are skipped there too: this Apple Silicon machine has no Rosetta, so an x86_64 binary cannot run.
       - name: Install macOS Metal build prerequisites
         if: runner.os == 'macOS' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         uses: humbletim/install-vulkan-sdk@v1.2
@@ -204,7 +205,7 @@ jobs:
           version: 1.4.309.0
           cache: false
       - name: Set up Premake
-        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame'
+        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         shell: bash
         run: |
           premake_directory="$RUNNER_TEMP/premake-5.0.0-beta2"
@@ -220,7 +221,7 @@ jobs:
           echo "$premake_directory" >> "$GITHUB_PATH"
           "$premake_directory/premake5" --version
       - name: Check out MonoGame Metal runtime source
-        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame'
+        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         uses: actions/checkout@v7
         with:
           repository: zigrok/MonoGame
@@ -228,7 +229,7 @@ jobs:
           path: .native/MonoGame
           submodules: false
       - name: Initialize MonoGame Metal runtime submodules
-        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame'
+        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         working-directory: .native/MonoGame
         shell: bash
         run: |
@@ -236,13 +237,13 @@ jobs:
           git config submodule.external/MonoGame.Templates.url https://github.com/MonoGame/MonoGame.Templates.git
           git submodule update --init --recursive
       - name: Build MonoGame Metal runtime
-        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame'
+        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         working-directory: .native/MonoGame
         env:
           NoWarn: "1591"
         run: ./build.sh --target='Build Native Metal'
       - name: Validate MonoGame Metal catalog
-        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame'
+        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         env:
           MonoGamePlatform: DesktopVK
           FormaNativeRuntime: true
