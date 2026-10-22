@@ -321,7 +321,8 @@ jobs:
         run: bash scripts/retry.sh make nativeaot
 
   thorvg-linux:
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]') || 'ubuntu-latest' }}
+    # The ThorVG adapter renders through Vulkan on the CPU: only real x64 Linux does that (the emulated runner was canceled there).
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-native"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
         with:
