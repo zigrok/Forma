@@ -67,7 +67,7 @@ jobs:
     # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) Linux legs run on the local x64 runner and
     # macOS legs on the local macOS runner. The Linux steps that render through the Vulkan software renderer are skipped there: it
     # crashes under x64 emulation ("rosetta error: mmap_anonymous_rw mmap failed"), and the native arm64 runner lacks the freetype native library.
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]')) || matrix.os }}
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-native"]')) || matrix.os }}
     env:
       FORMA_RUNTIME: ${{ matrix.runtime }}
     steps:
@@ -115,7 +115,7 @@ jobs:
           echo "VK_ICD_FILENAMES=$software_icd" >> "$GITHUB_ENV"
           echo "VK_DRIVER_FILES=$software_icd" >> "$GITHUB_ENV"
       - name: Validate Linux selected runtime
-        if: runner.os == 'Linux' && vars.TRACE_CI_RUNNERS != 'self-hosted'
+        if: runner.os == 'Linux'
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
@@ -138,7 +138,7 @@ jobs:
             MonoGamePlatform=DesktopVK FormaNativeRuntime=true xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=DesktopVK -p:FormaNativeRuntime=true -p:SvgBackend=Skia
           fi
       - name: Validate Linux FNA video
-        if: runner.os == 'Linux' && matrix.runtime == 'FNA' && vars.TRACE_CI_RUNNERS != 'self-hosted'
+        if: runner.os == 'Linux' && matrix.runtime == 'FNA'
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
@@ -148,7 +148,7 @@ jobs:
           FNA3D_OPENGL_WINDOW_DEPTHSTENCILFORMAT: None
         run: env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-fna-video-smoke.sh
       - name: Compare Linux peer rendering
-        if: runner.os == 'Linux' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
+        if: runner.os == 'Linux' && matrix.runtime == 'MonoGame'
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
@@ -279,7 +279,8 @@ jobs:
         run: bash scripts/check-release-api.sh
 
   package-consumers:
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-emulated"]') || 'ubuntu-latest' }}
+    # Native x64 only: the committed font binaries are byte-exact on real x64 Linux, not on the emulated runner.
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-native"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -300,7 +301,6 @@ jobs:
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
           SDL_VIDEODRIVER: x11
-          FORMA_SKIP_FONT_XNB_CMP: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && '1' || '' }}
         run: bash scripts/retry.sh env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/test-package-consumer.sh
       - uses: actions/upload-artifact@v7
         with:
