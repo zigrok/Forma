@@ -195,8 +195,10 @@ jobs:
           FormaCatalogViewportWidth: 1024
           FormaCatalogViewportHeight: 646
         run: SvgBackend=Skia bash scripts/retry.sh bash scripts/check-catalog-render-parity.sh
+      # Under the self-hosted flag the Vulkan SDK of the machine is used (the manager sets VULKAN_SDK); the job cannot install one
+      # because the runner's user has no passwordless sudo.
       - name: Install macOS Metal build prerequisites
-        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame'
+        if: runner.os == 'macOS' && matrix.runtime == 'MonoGame' && vars.TRACE_CI_RUNNERS != 'self-hosted'
         uses: humbletim/install-vulkan-sdk@v1.2
         with:
           version: 1.4.309.0
