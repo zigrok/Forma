@@ -27,8 +27,9 @@ for runtime in MonoGame FNA; do
     catalog_project="$repository_root/samples/Forma.Catalog.FNA/Forma.Catalog.FNA.csproj"
   fi
   dotnet build "$catalog_project" --configuration Release -p:FormaRuntime="$runtime" --nologo
-  # The committed font binaries are byte-exact only on native x64 Linux. The local self-hosted runners (Apple Silicon: x64 under
-  # Rosetta, or native arm64) compile different bytes, so the CI workflow sets FORMA_SKIP_FONT_XNB_CMP there and hosted CI keeps the check.
+  # The committed font binaries are byte-exact only on the GitHub-hosted image. Measured on the native x64 Linux server of the
+  # local fleet, the built Catalog.xnb already differs at byte 6 (the size field): the glyphs come out different, so the bytes
+  # follow the machine's font stack, not the architecture. The fleet skips this comparison; hosted CI keeps it.
   if [[ -z "${FORMA_SKIP_FONT_XNB_CMP:-}" ]]; then
     for font_name in Catalog CatalogCode; do
       cmp \
