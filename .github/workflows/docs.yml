@@ -128,6 +128,7 @@ jobs:
         shell: bash
         run: |
           pages_root="$RUNNER_TEMP/forma-pages"
+          git worktree prune
           if git ls-remote --exit-code origin refs/heads/gh-pages >/dev/null 2>&1; then
             git fetch origin gh-pages
             git worktree add "$pages_root" origin/gh-pages
