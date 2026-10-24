@@ -13,7 +13,7 @@ supported configuration for forks.
 | `parity` | `self-hosted, Linux, X64, yiazmat-linux-x64-emulated` | Sequential runtime builds; the step is wrapped in `scripts/retry.sh` because a transient `GenerateDepsFile` file lock can survive one build boundary. |
 | `runtime` (`ubuntu-latest` legs) | `self-hosted, Linux, X64, yiazmat-linux-x64-native` | Runs on the native x64 Linux server, where the Vulkan software renderer works. |
 | `runtime` (`macos-latest` legs) | `self-hosted, macOS, ARM64` | Native arm64 macOS. |
-| `runtime` (`windows-latest` legs) | placeholder job | No Windows machine is part of the fleet; the job reports the leg as not run so the required checks still resolve. |
+| `runtime` (`windows-latest` legs) | `windows-latest` | Always GitHub-hosted: no Windows machine is part of the fleet, and the repository is public, so these minutes are not billed. |
 | `thorvg-linux` | `self-hosted, Linux, X64, yiazmat-linux-x64-native` | Builds the ThorVG adapter and runs its tests inside the slot's own Docker daemon. |
 | `thorvg-macos`, `nativeaot` | `self-hosted, macOS, ARM64` | Native arm64 macOS. |
 | `package-consumers` | `self-hosted, Linux, X64, yiazmat-linux-x64-native` | Builds and inspects the shipped packages. |

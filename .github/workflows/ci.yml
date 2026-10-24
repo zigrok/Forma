@@ -41,33 +41,29 @@ jobs:
       - name: Verify deterministic default theme icons
         run: dotnet run --project tools/Forma.IconPipeline/Forma.IconPipeline.csproj -- verify
 
-  # The Windows legs cannot run on the local fleet (no Windows runner exists here), but the branch ruleset requires those two
-  # contexts to succeed. Under the flag they are reported as successful with this placeholder instead of being left pending.
-  windows-legs-not-run:
-    name: ${{ matrix.runtime }} / windows-latest
-    if: vars.TRACE_CI_RUNNERS == 'self-hosted'
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON('["self-hosted","Linux","X64"]') || 'ubuntu-latest' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        runtime: [MonoGame, FNA]
-    steps:
-      - name: Report that the Windows leg did not run
-        run: echo "No Windows runner exists on the local machine; the ${{ matrix.runtime }} Windows leg is skipped under TRACE_CI_RUNNERS=self-hosted."
-
   runtime:
     needs: lint
     name: ${{ matrix.runtime }} / ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        # Windows legs are skipped under TRACE_CI_RUNNERS=self-hosted: no Windows runner exists on the local machine.
-        os: ${{ fromJSON(vars.TRACE_CI_RUNNERS == 'self-hosted' && '["ubuntu-latest","macos-latest"]' || '["ubuntu-latest","windows-latest","macos-latest"]') }}
         runtime: [MonoGame, FNA]
-    # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) Linux legs run on the local x64 runner and
-    # macOS legs on the local macOS runner. The Linux steps that render through the Vulkan software renderer are skipped there: it
-    # crashes under x64 emulation ("rosetta error: mmap_anonymous_rw mmap failed"), and the native arm64 runner lacks the freetype native library.
-    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && (matrix.os == 'macos-latest' && fromJSON('["self-hosted","macOS","ARM64"]') || fromJSON('["self-hosted","Linux","X64","yiazmat-linux-x64-native"]')) || matrix.os }}
+        # The Windows legs always run on GitHub-hosted windows-latest: no Windows machine is part of the local fleet, and Forma
+        # is a public repository, where standard runners (Windows included) do not consume billed minutes.
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            selfHosted: '["self-hosted","Linux","X64","yiazmat-linux-x64-native"]'
+          - os: macos-latest
+            selfHosted: '["self-hosted","macOS","ARM64"]'
+          - os: windows-latest
+            selfHosted: '["windows-latest"]'
+    # Under TRACE_CI_RUNNERS=self-hosted (docs/self-hosted-runners.md in Trace Arena) the Linux legs run on the local native x64
+    # runner and the macOS legs on the local macOS runner. The Windows legs stay on windows-latest either way (see the matrix).
+    # The Linux steps that render through the Vulkan software renderer are skipped on the self-hosted Linux runner: it crashes
+    # under x64 emulation ("rosetta error: mmap_anonymous_rw mmap failed"), and the native arm64 runner lacks the freetype native
+    # library.
+    runs-on: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && fromJSON(matrix.selfHosted) || matrix.os }}
     env:
       FORMA_RUNTIME: ${{ matrix.runtime }}
     steps:
