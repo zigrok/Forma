@@ -67,7 +67,7 @@ jobs:
       - name: Install Linux graphics dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 xvfb
+          sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 xvfb x11-utils
       - name: Validate release tag
         if: startsWith(github.ref, 'refs/tags/')
         shell: bash
@@ -89,7 +89,7 @@ jobs:
         env:
           LIBGL_ALWAYS_SOFTWARE: 1
           SDL_VIDEODRIVER: x11
-        run: xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/test-package-consumer.sh
+        run: bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/test-package-consumer.sh
       - name: Validate SVG package consumers
         run: bash scripts/test-svg-package-consumers.sh
       - name: Pack approved release manifest

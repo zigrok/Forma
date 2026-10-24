@@ -13,7 +13,7 @@ supported configuration for forks.
 | `parity` | `self-hosted, Linux, X64, yiazmat-linux-x64-emulated` | Sequential runtime builds; the step is wrapped in `scripts/retry.sh` because a transient `GenerateDepsFile` file lock can survive one build boundary. |
 | `runtime` (`ubuntu-latest` legs) | `self-hosted, Linux, X64, yiazmat-linux-x64-native` | Runs on the native x64 Linux server, where the Vulkan software renderer works. |
 | `runtime` (`macos-latest` legs) | `self-hosted, macOS, ARM64` | Native arm64 macOS. |
-| `runtime` (`windows-latest` legs) | placeholder job | No Windows machine is part of the fleet; the job reports the leg as not run so the required checks still resolve. |
+| `runtime` (`windows-latest` legs) | `windows-latest` | Always GitHub-hosted: no Windows machine is part of the fleet, and the repository is public, so these minutes are not billed. |
 | `thorvg-linux` | `self-hosted, Linux, X64, yiazmat-linux-x64-native` | Builds the ThorVG adapter and runs its tests inside the slot's own Docker daemon. |
 | `thorvg-macos`, `nativeaot` | `self-hosted, macOS, ARM64` | Native arm64 macOS. |
 | `package-consumers` | `self-hosted, Linux, X64, yiazmat-linux-x64-native` | Builds and inspects the shipped packages. |
@@ -39,6 +39,13 @@ These are deliberate, documented limits — not silent skips:
 
 The emulated x64 pool runs at most two jobs at a time: the native x64 server carries the heavier Linux legs, and two
 emulated containers keep the host's Docker VM comfortable.
+
+Every X program runs through `scripts/xvfb-run.sh`, not `xvfb-run` directly: `xvfb-run -a` hands the
+display number to the payload as soon as Xvfb creates its socket, and Xvfb `2:21.1.12-1ubuntu1.9`
+still needs a moment before it listens, so a client that connects immediately dies with
+`XCB failed to connect to the X server due to error:1`. The wrapper waits for `xdpyinfo` to succeed
+before starting the payload (4 of 5 plain `xvfb-run` runs failed in a fresh container on the server;
+0 of 5 with the wrapper).
 
 Every job exports `MSBUILDDISABLENODEREUSE=1`, `DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER=1` and
 `DOTNET_PROCESSOR_COUNT=2`: reused MSBuild nodes have held `*.deps.json` files across builds and

@@ -9,7 +9,7 @@ cd "$repository_root"
 
 if [[ "${FORMA_SKIP_APT:-0}" != "1" ]] && command -v apt-get >/dev/null 2>&1 && [[ "$(id -u)" == "0" ]]; then
   apt-get update
-  apt-get install -y --no-install-recommends libegl1 libfreetype6-dev libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 libharfbuzz-dev mesa-vulkan-drivers vulkan-tools xvfb xauth
+  apt-get install -y --no-install-recommends libegl1 libfreetype6-dev libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 libharfbuzz-dev mesa-vulkan-drivers vulkan-tools xvfb x11-utils xauth
 fi
 
 software_icd="$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)"
@@ -22,19 +22,19 @@ for runtime_name in MonoGame FNA; do
     -p:FormaRuntime="$runtime_name" --filter 'FullyQualifiedName~Svg' --nologo
 done
 
-SDL_VIDEODRIVER=x11 xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' \
+SDL_VIDEODRIVER=x11 bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' \
   dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj \
   --configuration Release -p:FormaRuntime=MonoGame
 
 env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES SDL_VIDEODRIVER=offscreen FNA3D_FORCE_DRIVER=OpenGL \
-  xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' \
+  bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' \
   dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj \
   --configuration Release -p:FormaRuntime=FNA
 
 VK_ICD_FILENAMES="$software_icd" VK_DRIVER_FILES="$software_icd" vulkaninfo --summary
 VK_ICD_FILENAMES="$software_icd" VK_DRIVER_FILES="$software_icd" SDL_VIDEODRIVER=x11 \
   MonoGamePlatform=DesktopVK FormaNativeRuntime=true \
-  xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' \
+  bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' \
   dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj \
   --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=DesktopVK -p:FormaNativeRuntime=true
 
