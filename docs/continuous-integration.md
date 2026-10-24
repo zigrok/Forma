@@ -40,6 +40,13 @@ These are deliberate, documented limits — not silent skips:
 The emulated x64 pool runs at most two jobs at a time: the native x64 server carries the heavier Linux legs, and two
 emulated containers keep the host's Docker VM comfortable.
 
+Every X program runs through `scripts/xvfb-run.sh`, not `xvfb-run` directly: `xvfb-run -a` hands the
+display number to the payload as soon as Xvfb creates its socket, and Xvfb `2:21.1.12-1ubuntu1.9`
+still needs a moment before it listens, so a client that connects immediately dies with
+`XCB failed to connect to the X server due to error:1`. The wrapper waits for `xdpyinfo` to succeed
+before starting the payload (4 of 5 plain `xvfb-run` runs failed in a fresh container on the server;
+0 of 5 with the wrapper).
+
 Every job exports `MSBUILDDISABLENODEREUSE=1`, `DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER=1` and
 `DOTNET_PROCESSOR_COUNT=2`: reused MSBuild nodes have held `*.deps.json` files across builds and
 broken the next `GenerateDepsFile`. Runs are serialized per working directory by the ephemeral

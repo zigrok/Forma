@@ -104,7 +104,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 mesa-vulkan-drivers vulkan-tools xvfb
+          sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 mesa-vulkan-drivers vulkan-tools xvfb x11-utils
           software_icd=$(find /opt/google/chrome -name 'vk_swiftshader_icd.json' -print -quit 2>/dev/null || true)
           software_icd=${software_icd:-$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)}
           test -n "$software_icd"
@@ -121,24 +121,24 @@ jobs:
           FNA3D_OPENGL_WINDOW_DEPTHSTENCILFORMAT: None
         run: |
           if [[ "$FORMA_RUNTIME" == "FNA" ]]; then
-            env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES SvgBackend=Skia FormaRuntime=FNA xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
-            env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-quick-start.sh
-            env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=FNA --no-build --nologo
-            env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=FNA -p:SvgBackend=Skia
+            env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES SvgBackend=Skia FormaRuntime=FNA bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
+            env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-quick-start.sh
+            env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=FNA --no-build --nologo
+            env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=FNA -p:SvgBackend=Skia
           else
-            xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' vulkaninfo --summary
-            SvgBackend=Skia FormaRuntime=MonoGame xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
-            xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-quick-start.sh
-            xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=MonoGame --no-build --nologo
-            xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:SvgBackend=Skia
+            bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' vulkaninfo --summary
+            SvgBackend=Skia FormaRuntime=MonoGame bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
+            bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-quick-start.sh
+            bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' dotnet test tests/Forma.RenderTests/Forma.RenderTests.csproj --configuration Release -p:FormaRuntime=MonoGame --no-build --nologo
+            bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:SvgBackend=Skia
             # MonoGame's DesktopVK backend aborts on llvmpipe over Xvfb on the self-hosted fleet, in both the catalog smoke and the
             # swapchain smoke: "Fatal : VkResult is c4653214 in vulkan/MGG_Vulkan.cpp:2226" followed by SIGSEGV (the backend prints
             # an uninitialized VkResult). A 1 GB /dev/shm did not change it, so both Vulkan steps stay on hosted CI. Everything
             # else of this leg (DesktopGL catalog smoke, quick start, render tests, SVG smoke) runs on the fleet, and the Vulkan
             # coverage there is `thorvg-linux`, which builds the ThorVG adapter and runs its tests on the native x64 server.
             if [[ -z "${FORMA_SKIP_VULKAN_SMOKE:-}" ]]; then
-              SvgBackend=Skia MonoGamePlatform=DesktopVK FormaNativeRuntime=true CatalogBackend=Vulkan xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
-              MonoGamePlatform=DesktopVK FormaNativeRuntime=true xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=DesktopVK -p:FormaNativeRuntime=true -p:SvgBackend=Skia
+              SvgBackend=Skia MonoGamePlatform=DesktopVK FormaNativeRuntime=true CatalogBackend=Vulkan bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-smoke.sh
+              MonoGamePlatform=DesktopVK FormaNativeRuntime=true bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' dotnet run --project tests/Forma.SvgRenderSmoke/Forma.SvgRenderSmoke.csproj --configuration Release -p:FormaRuntime=MonoGame -p:MonoGamePlatform=DesktopVK -p:FormaNativeRuntime=true -p:SvgBackend=Skia
             else
               echo "Skipped on the self-hosted fleet: MonoGame DesktopVK crashes in vulkan/MGG_Vulkan.cpp:2226 on llvmpipe over Xvfb."
             fi
@@ -152,7 +152,7 @@ jobs:
           SDL_AUDIODRIVER: dummy
           FNA3D_FORCE_DRIVER: OpenGL
           FNA3D_OPENGL_WINDOW_DEPTHSTENCILFORMAT: None
-        run: env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-fna-video-smoke.sh
+        run: env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-fna-video-smoke.sh
       - name: Compare Linux peer rendering
         if: runner.os == 'Linux' && matrix.runtime == 'MonoGame'
         shell: bash
@@ -161,7 +161,7 @@ jobs:
           SDL_VIDEODRIVER: x11
           FormaCatalogViewportWidth: 800
           FormaCatalogViewportHeight: 480
-        run: SvgBackend=Skia bash scripts/retry.sh xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-render-parity.sh
+        run: SvgBackend=Skia bash scripts/retry.sh bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/check-catalog-render-parity.sh
       - name: Validate Windows selected runtime
         if: runner.os == 'Windows'
         shell: bash
@@ -300,7 +300,7 @@ jobs:
       - name: Install Linux graphics dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 mesa-vulkan-drivers xvfb
+          sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libglx0 libglx-mesa0 mesa-vulkan-drivers xvfb x11-utils
           software_icd=$(find /opt/google/chrome -name 'vk_swiftshader_icd.json' -print -quit 2>/dev/null || true)
           software_icd=${software_icd:-$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)}
           test -n "$software_icd"
@@ -313,7 +313,7 @@ jobs:
           # The committed font bytes belong to the GitHub-hosted image's font stack (on native x64 Linux they already differ
           # at the size field), so the fleet skips that one comparison and hosted CI keeps it.
           FORMA_SKIP_FONT_XNB_CMP: ${{ vars.TRACE_CI_RUNNERS == 'self-hosted' && '1' || '' }}
-        run: bash scripts/retry.sh env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES xvfb-run -a -s '-screen 0 1440x900x24 +extension GLX' bash scripts/test-package-consumer.sh
+        run: bash scripts/retry.sh env -u VK_ICD_FILENAMES -u VK_DRIVER_FILES bash scripts/xvfb-run.sh -s '-screen 0 1440x900x24 +extension GLX' bash scripts/test-package-consumer.sh
       - uses: actions/upload-artifact@v7
         with:
           name: forma-peer-packages
