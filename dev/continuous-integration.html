@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/docs/continuous-integration.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/76a19681c347b1304f429d539fc58ab5b4556e70/docs/continuous-integration.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -132,11 +132,15 @@ supported configuration for forks.</p>
 <h2 id="known-limits-of-the-fleet">Known limits of the fleet</h2>
 <p>These are deliberate, documented limits — not silent skips:</p>
 <ul>
-<li><strong>MonoGame's Vulkan steps</strong> (<code>MonoGamePlatform=DesktopVK</code>: the Vulkan catalog smoke and the
-swapchain smoke) are skipped on the fleet. MonoGame's desktop Vulkan backend aborts on llvmpipe
-over Xvfb with <code>Fatal : VkResult is c4653214 in vulkan/MGG_Vulkan.cpp:2226</code> and dies with
-<code>SIGSEGV</code> (exit 139); raising <code>/dev/shm</code> to 1 GB does not change it. Hosted CI keeps both steps.
-The Vulkan adapter itself is still built and tested on the native server by <code>thorvg-linux</code>.</li>
+<li><strong>MonoGame's Vulkan steps</strong> (<code>MonoGamePlatform=DesktopVK</code>: the Vulkan catalog smoke, the
+swapchain smoke, and the <code>vulkaninfo --summary</code> probe) are skipped on the fleet. MonoGame's
+desktop Vulkan backend aborts on llvmpipe over Xvfb with
+<code>Fatal : VkResult is c4653214 in vulkan/MGG_Vulkan.cpp:2226</code> and dies with <code>SIGSEGV</code>
+(exit 139); raising <code>/dev/shm</code> to 1 GB does not change it. The probe is skipped with them
+because it intermittently fails to open the same X display (<code>XCB failed to connect</code>,
+<code>AppCreateXcbSurface failed to establish connection</code>), which failed the leg after every test
+passed. Hosted CI keeps all three steps. The Vulkan adapter itself is still built and tested
+on the native server by <code>thorvg-linux</code>.</li>
 <li><strong>Byte-exact font binaries</strong>: the committed <code>tests/Assets/Fonts/*.xnb</code> files are compared only on
 hosted CI. The bytes follow the font build stack, not the architecture: a native x64 Linux build
 already differs from the committed file at byte 6 (the size field). The fleet sets
@@ -156,7 +160,7 @@ runner container, which serves exactly one job before it exits.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/docs/continuous-integration.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/76a19681c347b1304f429d539fc58ab5b4556e70/docs/continuous-integration.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -173,7 +177,7 @@ runner container, which serves exactly one job before it exits.</p>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · f4319df84cb5 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · 76a19681c347 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>
