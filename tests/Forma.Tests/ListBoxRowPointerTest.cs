@@ -84,7 +84,50 @@ public sealed class ListBoxRowPointerTest
             return Row(button);
         });
         using var context = input.Context;
+        var activated = 0;
+        list.ItemActivated += (_, _) => activated++;
         input.Click(HeadlessInput.CenterOf(list.GetRealizedContainer(0)));
         Assert.That(clicked, Is.EqualTo(1));
+        Assert.That(activated, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void ButtonOutsideTheTabOrderKeepsItsClickAndDoesNotActivateTheRow()
+    {
+        // tabindex="-1" turns off FocusMode but not the button: its press must not fall through to the row.
+        var clicked = 0;
+        var (input, list) = Build(() =>
+        {
+            var button = new Button { Text = "x", CustomMinimumSize = new Vector2(280, 30), FocusMode = FocusMode.None };
+            button.Pressed += (_, _) => clicked++;
+            return Row(button);
+        }, singleClick: true);
+        using var context = input.Context;
+        var activated = 0;
+        list.ItemActivated += (_, _) => activated++;
+        input.Click(HeadlessInput.CenterOf(list.GetRealizedContainer(1)));
+        Assert.That(clicked, Is.EqualTo(1));
+        Assert.That(activated, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void PressInsideAButtonOfARowIsNotRowContent()
+    {
+        // What the hit test finds can be the button's own border or label, not the button itself.
+        var clicked = 0;
+        var (input, list) = Build(() =>
+        {
+            var button = new Button { Text = "x", CustomMinimumSize = new Vector2(280, 30), FocusMode = FocusMode.None };
+            button.Pressed += (_, _) => clicked++;
+            var box = new HBoxContainer { CustomMinimumSize = new Vector2(280, 30) };
+            box.AddChild(button);
+            return box;
+        }, singleClick: true);
+        using var context = input.Context;
+        var activated = 0;
+        list.ItemActivated += (_, _) => activated++;
+        input.Click(HeadlessInput.CenterOf(list.GetRealizedContainer(2)));
+        Assert.That(clicked, Is.EqualTo(1));
+        Assert.That(activated, Is.EqualTo(0));
     }
 }

@@ -41,6 +41,9 @@ namespace Forma
             FocusMode = FocusMode.All;
             Padding = new Thickness(8, 4, 8, 4);
         }
+        // A button keeps a pointer press even when the author took it out of the Tab order: inside a list row it must
+        // not fall through to the row's selection or activation.
+        internal override bool ConsumesPointerPress => true;
         public string Text
         {
             get => _text;
