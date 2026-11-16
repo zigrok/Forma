@@ -26,6 +26,11 @@ and ends bubbling there. `Pass` allows the event to continue through visual ance
 removes that control from hit testing, but its descendants can still be hit. Call `AcceptEvent()`
 to consume only the current dispatch.
 
+Inside a `ListBox`, a press that stops on row content is forwarded to the owning list, so rows select
+and activate on click without per-template `MouseFilter` tweaks. A widget stops it instead:
+`Control.ConsumesPointerPress` is true for `BaseButton` and `LineEdit` even when `tabindex="-1"` kept
+them out of the Tab order, and nothing between the press and the row reads as row content either.
+
 The QuickStart's `LineEdit` and `Button` are retained input targets, and the button event mutates the
 status label:
 
