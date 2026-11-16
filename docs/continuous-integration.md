@@ -22,11 +22,15 @@ supported configuration for forks.
 
 These are deliberate, documented limits — not silent skips:
 
-- **MonoGame's Vulkan steps** (`MonoGamePlatform=DesktopVK`: the Vulkan catalog smoke and the
-  swapchain smoke) are skipped on the fleet. MonoGame's desktop Vulkan backend aborts on llvmpipe
-  over Xvfb with `Fatal : VkResult is c4653214 in vulkan/MGG_Vulkan.cpp:2226` and dies with
-  `SIGSEGV` (exit 139); raising `/dev/shm` to 1 GB does not change it. Hosted CI keeps both steps.
-  The Vulkan adapter itself is still built and tested on the native server by `thorvg-linux`.
+- **MonoGame's Vulkan steps** (`MonoGamePlatform=DesktopVK`: the Vulkan catalog smoke, the
+  swapchain smoke, and the `vulkaninfo --summary` probe) are skipped on the fleet. MonoGame's
+  desktop Vulkan backend aborts on llvmpipe over Xvfb with
+  `Fatal : VkResult is c4653214 in vulkan/MGG_Vulkan.cpp:2226` and dies with `SIGSEGV`
+  (exit 139); raising `/dev/shm` to 1 GB does not change it. The probe is skipped with them
+  because it intermittently fails to open the same X display (`XCB failed to connect`,
+  `AppCreateXcbSurface failed to establish connection`), which failed the leg after every test
+  passed. Hosted CI keeps all three steps. The Vulkan adapter itself is still built and tested
+  on the native server by `thorvg-linux`.
 - **Byte-exact font binaries**: the committed `tests/Assets/Fonts/*.xnb` files are compared only on
   hosted CI. The bytes follow the font build stack, not the architecture: a native x64 Linux build
   already differs from the committed file at byte 6 (the size field). The fleet sets
