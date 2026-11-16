@@ -1498,6 +1498,21 @@ references:
   commentId: Overload:Forma.AccessibilityTree.Diff
   fullName: Forma.AccessibilityTree.Diff
   nameWithType: AccessibilityTree.Diff
+- uid: Forma.AccessibilityTree.FindControl(Forma.UIContext,System.Int32)
+  name: FindControl(UIContext, int)
+  href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_FindControl_Forma_UIContext_System_Int32_
+  commentId: M:Forma.AccessibilityTree.FindControl(Forma.UIContext,System.Int32)
+  name.vb: FindControl(UIContext, Integer)
+  fullName: Forma.AccessibilityTree.FindControl(Forma.UIContext, int)
+  fullName.vb: Forma.AccessibilityTree.FindControl(Forma.UIContext, Integer)
+  nameWithType: AccessibilityTree.FindControl(UIContext, int)
+  nameWithType.vb: AccessibilityTree.FindControl(UIContext, Integer)
+- uid: Forma.AccessibilityTree.FindControl*
+  name: FindControl
+  href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_FindControl_
+  commentId: Overload:Forma.AccessibilityTree.FindControl
+  fullName: Forma.AccessibilityTree.FindControl
+  nameWithType: AccessibilityTree.FindControl
 - uid: Forma.AccessibilityTree.TryPerformAction(Forma.UIContext,System.Int32,Forma.AccessibilityActions,System.Object)
   name: TryPerformAction(UIContext, int, AccessibilityActions, object)
   href: api/Forma.AccessibilityTree.html#Forma_AccessibilityTree_TryPerformAction_Forma_UIContext_System_Int32_Forma_AccessibilityActions_System_Object_
@@ -63820,6 +63835,18 @@ references:
   commentId: Overload:Forma.UIContext.SystemCulture
   fullName: Forma.UIContext.SystemCulture
   nameWithType: UIContext.SystemCulture
+- uid: Forma.UIContext.TakePointerRouteTrace
+  name: TakePointerRouteTrace()
+  href: api/Forma.UIContext.html#Forma_UIContext_TakePointerRouteTrace
+  commentId: M:Forma.UIContext.TakePointerRouteTrace
+  fullName: Forma.UIContext.TakePointerRouteTrace()
+  nameWithType: UIContext.TakePointerRouteTrace()
+- uid: Forma.UIContext.TakePointerRouteTrace*
+  name: TakePointerRouteTrace
+  href: api/Forma.UIContext.html#Forma_UIContext_TakePointerRouteTrace_
+  commentId: Overload:Forma.UIContext.TakePointerRouteTrace
+  fullName: Forma.UIContext.TakePointerRouteTrace
+  nameWithType: UIContext.TakePointerRouteTrace
 - uid: Forma.UIContext.TextComposition(System.String,System.Int32,System.Int32)
   name: TextComposition(string, int, int)
   href: api/Forma.UIContext.html#Forma_UIContext_TextComposition_System_String_System_Int32_System_Int32_
@@ -64027,6 +64054,18 @@ references:
   commentId: Overload:Forma.UIContext.TouchscreenAvailable
   fullName: Forma.UIContext.TouchscreenAvailable
   nameWithType: UIContext.TouchscreenAvailable
+- uid: Forma.UIContext.TracePointerRoutes
+  name: TracePointerRoutes
+  href: api/Forma.UIContext.html#Forma_UIContext_TracePointerRoutes
+  commentId: P:Forma.UIContext.TracePointerRoutes
+  fullName: Forma.UIContext.TracePointerRoutes
+  nameWithType: UIContext.TracePointerRoutes
+- uid: Forma.UIContext.TracePointerRoutes*
+  name: TracePointerRoutes
+  href: api/Forma.UIContext.html#Forma_UIContext_TracePointerRoutes_
+  commentId: Overload:Forma.UIContext.TracePointerRoutes
+  fullName: Forma.UIContext.TracePointerRoutes
+  nameWithType: UIContext.TracePointerRoutes
 - uid: Forma.UIContext.Update(Microsoft.Xna.Framework.GameTime)
   name: Update(GameTime)
   href: api/Forma.UIContext.html#Forma_UIContext_Update_Microsoft_Xna_Framework_GameTime_

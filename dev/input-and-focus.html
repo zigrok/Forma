@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/docs/input-and-focus.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/docs/input-and-focus.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -128,7 +128,19 @@ internal static class QuickStartView
         return root;
     }
 }
-</code></pre><h2 id="system-cursors">System cursors</h2>
+</code></pre><h3 id="diagnosing-pointer-routing">Diagnosing pointer routing</h3>
+<p>When a click reaches the wrong handler, the dispatch chain explains it. Set <code>FORMA_UI_EVENTS=1</code> in the
+process environment to copy a route trace to standard error, or turn <code>UIContext.TracePointerRoutes</code> on
+and read <code>UIContext.TakePointerRouteTrace()</code> after one dispatch (the method clears what it returns).
+Each line names the hit target, every control the event bubbled through, its <code>MouseFilter</code>, whether it
+consumes a press, and which <code>ListBox</code> received the event when a row stopped the bubble:</p>
+<pre><code class="lang-text">[pointer] press at (140, 45) target=Button#map.delete &quot;Delete&quot;
+  Label &quot;Delete&quot; filter=Pass consumesPress=no accepted=no
+  Button#map.delete &quot;Delete&quot; filter=Stop consumesPress=yes accepted=no
+  -&gt; stopped at Button#map.delete &quot;Delete&quot;; it consumes the press, so the row owner is not consulted
+</code></pre>
+<p>A press that reads as row content instead reports <code>row owner ListBox &quot;MapList&quot; also receives the event</code>. The trace is off by default and allocates nothing while off; it is a diagnostic, not a log.</p>
+<h2 id="system-cursors">System cursors</h2>
 <p><code>UIComponent</code> routes <code>Control.EffectiveCursor</code> to the runtime's system cursor. <code>LineEdit</code> and
 <code>TextEdit</code> default to <code>Cursor.IBeam</code>, including selectable read-only text. Set <code>Cursor</code> explicitly
 to override that default, or set <code>Cursor.Inherited</code> to use the parent's cursor. Other controls
@@ -223,7 +235,7 @@ shows keyboard-reachable fields, toggles, and sliders in a complete application 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/docs/input-and-focus.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/docs/input-and-focus.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -240,7 +252,7 @@ shows keyboard-reachable fields, toggles, and sliders in a complete application 
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 1be38b6c2b00 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · f4319df84cb5 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

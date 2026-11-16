@@ -1292,8 +1292,10 @@ Override <a class="xref" href="Forma.SyntaxHighlighter.html#Forma_SyntaxHighligh
     </dl>
     <dl class="jumplist">
       <dt><a class="xref" href="Forma.UIContext.html">UIContext</a></dt>
-      <dd><p>Owns a UI tree's input state, focus and rendering. Add it to a Game's update/draw loop, or use
-<a class="xref" href="Forma.UIComponent.html">UIComponent</a> for the usual game component integration.</p>
+      <dd><p>Records where a pointer press, release or wheel event travelled: the hit target, every control it
+bubbled through, whether each one filtered or accepted it, and which ListBox received it when a row
+stopped the bubble. Off by default; set <code>FORMA_UI_EVENTS=1</code> in the process environment, or turn
+<a class="xref" href="Forma.UIContext.html#Forma_UIContext_TracePointerRoutes">TracePointerRoutes</a> on for one dispatch, to collect it.</p>
 </dd>
     </dl>
     <dl class="jumplist">
@@ -2225,7 +2227,7 @@ Delegates
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 1be38b6c2b00 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · f4319df84cb5 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

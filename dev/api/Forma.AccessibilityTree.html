@@ -75,7 +75,7 @@
 
 
   <h1 id="Forma_AccessibilityTree" data-uid="Forma.AccessibilityTree" class="text-break">
-Class AccessibilityTree  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+Class AccessibilityTree  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -149,7 +149,7 @@ on.
 
   <h3 id="Forma_AccessibilityTree_Capture_Forma_UIContext_" data-uid="Forma.AccessibilityTree.Capture(Forma.UIContext)">
   Capture(UIContext)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Captures the currently visible tree. Layout is settled first, so bounds are real.</p>
@@ -186,7 +186,7 @@ on.
 
   <h3 id="Forma_AccessibilityTree_Diff_Forma_AccessibilityTreeSnapshot_Forma_AccessibilityTreeSnapshot_" data-uid="Forma.AccessibilityTree.Diff(Forma.AccessibilityTreeSnapshot,Forma.AccessibilityTreeSnapshot)">
   Diff(AccessibilityTreeSnapshot, AccessibilityTreeSnapshot)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Compares two snapshots. A node counts as updated only when something the snapshot
@@ -223,11 +223,56 @@ produces an empty delta rather than a spurious push.</p>
 
 
 
+  <a id="Forma_AccessibilityTree_FindControl_" data-uid="Forma.AccessibilityTree.FindControl*"></a>
+
+  <h3 id="Forma_AccessibilityTree_FindControl_Forma_UIContext_System_Int32_" data-uid="Forma.AccessibilityTree.FindControl(Forma.UIContext,System.Int32)">
+  FindControl(UIContext, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The live control behind an accessibility node id, or null when the node is a virtual peer
+(a virtualized list row or a menu entry) and has no control of its own.</p>
+<p>
+A snapshot is a value; pointer input needs the control to hit-test against. Template content —
+the buttons inside a list row, say — is not reachable by walking <a class="xref" href="Forma.Control.html#Forma_Control_Children">Children</a>,
+so a caller that resolves a node and then wants to click it should use this rather than its own walk.
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Control FindControl(UIContext context, int nodeId)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>context</code> <a class="xref" href="Forma.UIContext.html">UIContext</a></dt>
+    <dd></dd>
+    <dt><code>nodeId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Forma.Control.html">Control</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="Forma_AccessibilityTree_TryPerformAction_" data-uid="Forma.AccessibilityTree.TryPerformAction*"></a>
 
   <h3 id="Forma_AccessibilityTree_TryPerformAction_Forma_UIContext_System_Int32_Forma_AccessibilityActions_System_Object_" data-uid="Forma.AccessibilityTree.TryPerformAction(Forma.UIContext,System.Int32,Forma.AccessibilityActions,System.Object)">
   TryPerformAction(UIContext, int, AccessibilityActions, object)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/src/Forma/AccessibilityTree.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Walks the same controls <a class="xref" href="Forma.AccessibilityTree.html#Forma_AccessibilityTree_Capture_Forma_UIContext_">Capture(UIContext)</a> would, without building a snapshot.</p>
@@ -283,7 +328,7 @@ tree is supposed to rule out.
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/src/Forma/AccessibilityTree.cs" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/src/Forma/AccessibilityTree.cs" class="edit-link">Edit this page</a>
         </div>
 
 
@@ -299,7 +344,7 @@ tree is supposed to rule out.
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 1be38b6c2b00 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · f4319df84cb5 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

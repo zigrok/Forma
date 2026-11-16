@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/docs/headless-testing.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/docs/headless-testing.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -96,6 +96,12 @@ input.Advance(TimeSpan.FromMilliseconds(100));   // run a frame (animations, tim
 <li>For game-level tests, drive the same context the game's screens read, and make the game's own input (for example a
 mouse snapshot) come from one source, or a test can pass while real input fails.</li>
 <li>Time-based behavior (double-click window) follows <code>UIContext.CurrentTime</code>; use <code>Advance</code> rather than sleeping.</li>
+<li><code>locator.Click()</code> runs the element's accessibility action; <code>locator.ClickPointer()</code> injects move + press + release
+instead. Use the pointer one when dispatch is what you are testing — which control receives the press, bubbling,
+<code>MouseFilter</code>, or a row owner also reacting. A semantic click cannot reproduce a routing bug.</li>
+<li>A row-interaction test asserts both sides: the widget's own action ran <strong>and</strong> the row did not select or
+activate. A one-sided assertion cannot see a press that reached both handlers, which is what a row whose
+content stops bubbling will do. <code>PointerRouteTraceTest</code> and <code>ListBoxRowPointerTest</code> are the reference.</li>
 <li>Rendering (<code>Draw</code>, render targets) still needs a graphics device. A game built on a MonoGame fork with a headless
 backend can run <code>SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy</code> set in the <em>process</em> environment (setting them
 inside the test is too late on Unix).</li>
@@ -108,7 +114,7 @@ tests that do not read back pixels. These tests were not re-enabled.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/zigrok/Forma/blob/1be38b6c2b009d9d762b29fecdb2fa2b0d3d0de0/docs/headless-testing.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/zigrok/Forma/blob/f4319df84cb5741fafdcea2bfc2d71bca74992f1/docs/headless-testing.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
@@ -125,7 +131,7 @@ tests that do not read back pixels. These tests were not re-enabled.</p>
     <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
-          Forma 0.1.0-alpha.2 · Development preview · 1be38b6c2b00 · <a href="/Forma/versions/">All versions</a>
+          Forma 0.1.0-alpha.2 · Development preview · f4319df84cb5 · <a href="/Forma/versions/">All versions</a>
         </div>
       </div>
     </footer>

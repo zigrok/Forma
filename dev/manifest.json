@@ -6091,7 +6091,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Forma.UIContext",
-      "Summary": "<p sourcefile=\"api/Forma.UIContext.yml\" sourcestartlinenumber=\"1\">Owns a UI tree's input state, focus and rendering. Add it to a Game's update/draw loop, or use\n<xref href=\"Forma.UIComponent\" data-throw-if-not-resolved=\"false\"></xref> for the usual game component integration.</p>\n"
+      "Summary": "<p sourcefile=\"api/Forma.UIContext.yml\" sourcestartlinenumber=\"1\">Records where a pointer press, release or wheel event travelled: the hit target, every control it\nbubbled through, whether each one filtered or accepted it, and which ListBox received it when a row\nstopped the bubble. Off by default; set <code>FORMA_UI_EVENTS=1</code> in the process environment, or turn\n<xref href=\"Forma.UIContext.TracePointerRoutes\" data-throw-if-not-resolved=\"false\"></xref> on for one dispatch, to collect it.</p>\n"
     },
     {
       "type": "ManagedReference",
