@@ -332,6 +332,25 @@ namespace Forma
                 (peer.Actions & action) != 0 && peer.Invoke(action, argument);
         }
 
+        /// <summary>
+        /// The live control behind an accessibility node id, or null when the node is a virtual peer
+        /// (a virtualized list row or a menu entry) and has no control of its own.
+        /// <para>
+        /// A snapshot is a value; pointer input needs the control to hit-test against. Template content —
+        /// the buttons inside a list row, say — is not reachable by walking <see cref="Control.Children"/>,
+        /// so a caller that resolves a node and then wants to click it should use this rather than its own walk.
+        /// </para>
+        /// </summary>
+        public static Control FindControl(UIContext context, int nodeId)
+        {
+            if (context == null) throw new ArgumentNullException(nameof(context));
+
+            foreach (var control in EnumerateControls(context))
+                if (control.AccessibilityId == nodeId) return control;
+
+            return null;
+        }
+
         internal static IEnumerable<Control> EnumerateControls(UIContext context)
         {
             var modal = context.GetActiveModalPopup();

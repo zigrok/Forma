@@ -861,15 +861,20 @@ namespace Forma
             return control.MouseFilter != MouseFilter.Ignore && control.ContainsPoint(point) ? control : null;
         }
 
-        private static void DispatchPointerPressed(Control target, Point point)
+        private void DispatchPointerPressed(Control target, Point point)
         {
+            TracePointerTarget("press", target, point);
             for (var control = target; control != null; control = control.VisualParent)
             {
                 control.PointerPressed(point);
-                if (control.ConsumeEventAccepted()) break;
+                var accepted = control.ConsumeEventAccepted();
+                TracePointerStop(control, accepted);
+                if (accepted) break;
                 if (control.MouseFilter != MouseFilter.Pass)
                 {
-                    GetRowOwnerForStoppedPointer(control)?.PointerPressed(point);
+                    var owner = GetRowOwnerForStoppedPointer(control);
+                    TracePointerRowOwner(control, owner);
+                    owner?.PointerPressed(point);
                     break;
                 }
             }
@@ -926,15 +931,19 @@ namespace Forma
             }
         }
 
-        private static void DispatchPointerReleased(Control target, Point point)
+        private void DispatchPointerReleased(Control target, Point point)
         {
+            TracePointerTarget("release", target, point);
             for (var control = target; control != null; control = control.VisualParent)
             {
                 control.PointerReleased(point, control.ContainsPoint(point));
-                if (control.ConsumeEventAccepted()) break;
+                var accepted = control.ConsumeEventAccepted();
+                TracePointerStop(control, accepted);
+                if (accepted) break;
                 if (control.MouseFilter != MouseFilter.Pass)
                 {
                     var owner = GetRowOwnerForStoppedPointer(control);
+                    TracePointerRowOwner(control, owner);
                     owner?.PointerReleased(point, owner.ContainsPoint(point));
                     break;
                 }

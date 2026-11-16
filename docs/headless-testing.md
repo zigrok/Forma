@@ -26,6 +26,12 @@ Notes:
 - For game-level tests, drive the same context the game's screens read, and make the game's own input (for example a
   mouse snapshot) come from one source, or a test can pass while real input fails.
 - Time-based behavior (double-click window) follows `UIContext.CurrentTime`; use `Advance` rather than sleeping.
+- `locator.Click()` runs the element's accessibility action; `locator.ClickPointer()` injects move + press + release
+  instead. Use the pointer one when dispatch is what you are testing — which control receives the press, bubbling,
+  `MouseFilter`, or a row owner also reacting. A semantic click cannot reproduce a routing bug.
+- A row-interaction test asserts both sides: the widget's own action ran **and** the row did not select or
+  activate. A one-sided assertion cannot see a press that reached both handlers, which is what a row whose
+  content stops bubbling will do. `PointerRouteTraceTest` and `ListBoxRowPointerTest` are the reference.
 - Rendering (`Draw`, render targets) still needs a graphics device. A game built on a MonoGame fork with a headless
   backend can run `SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy` set in the *process* environment (setting them
   inside the test is too late on Unix).

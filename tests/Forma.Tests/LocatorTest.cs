@@ -50,6 +50,44 @@ public sealed class LocatorTest
     }
 
     [Test]
+    public void ClickPointerRunsARealPointerSequence()
+    {
+        var (context, save, _) = TwoButtons();
+        using var _context = context;
+        var entered = 0;
+        var pressed = 0;
+        save.MouseEntered += (_, _) => entered++;
+        save.Pressed += (_, _) => pressed++;
+
+        context.ByAutomationId("cmd.save").ClickPointer();
+
+        Assert.That(pressed, Is.EqualTo(1));
+        Assert.That(entered, Is.EqualTo(1), "the pointer moved over the button, which the accessibility action never does");
+        Assert.That(context.FocusedControl, Is.EqualTo(save));
+    }
+
+    [Test]
+    public void AccessibilityTreeFindControlReachesTemplateContent()
+    {
+        var context = CreateContext();
+        using var _context = context;
+        var list = new ListBox
+        {
+            Size = new Vector2(300, 200),
+            ItemTemplate = DataTemplate.Create<string>((_, _) => new Button { Text = "Row action", AutomationId = "row.action" }),
+            ItemsSource = new[] { "row" },
+        };
+        context.Add(list);
+        context.Layout();
+
+        var node = context.ByAutomationId("row.action").Resolve();
+        var control = AccessibilityTree.FindControl(context, node.Id);
+
+        Assert.That(control, Is.Not.Null, "template content is not reachable by walking Control.Children");
+        Assert.That(control.AutomationId, Is.EqualTo("row.action"));
+    }
+
+    [Test]
     public void ByTextMatchesLooselyByDefault()
     {
         var (context, save, _) = TwoButtons();

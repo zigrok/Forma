@@ -31,6 +31,24 @@ status label:
 
 [!code-csharp[](examples/csharp-first-ui.cs)]
 
+### Diagnosing pointer routing
+
+When a click reaches the wrong handler, the dispatch chain explains it. Set `FORMA_UI_EVENTS=1` in the
+process environment to copy a route trace to standard error, or turn `UIContext.TracePointerRoutes` on
+and read `UIContext.TakePointerRouteTrace()` after one dispatch (the method clears what it returns).
+Each line names the hit target, every control the event bubbled through, its `MouseFilter`, whether it
+consumes a press, and which `ListBox` received the event when a row stopped the bubble:
+
+```text
+[pointer] press at (140, 45) target=Button#map.delete "Delete"
+  Label "Delete" filter=Pass consumesPress=no accepted=no
+  Button#map.delete "Delete" filter=Stop consumesPress=yes accepted=no
+  -> stopped at Button#map.delete "Delete"; it consumes the press, so the row owner is not consulted
+```
+
+A press that reads as row content instead reports `row owner ListBox "MapList" also receives the
+event`. The trace is off by default and allocates nothing while off; it is a diagnostic, not a log.
+
 ## System cursors
 
 `UIComponent` routes `Control.EffectiveCursor` to the runtime's system cursor. `LineEdit` and

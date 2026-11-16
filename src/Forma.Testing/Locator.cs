@@ -198,6 +198,25 @@ namespace Forma
         /// </summary>
         public void Click() => Perform(AccessibilityActions.Press, null, "click");
 
+        /// <summary>
+        /// Clicks the element with a real pointer sequence - move, press, release at its centre - instead of
+        /// running its accessibility action.
+        /// <para>
+        /// Use this when the behavior under test is pointer dispatch itself: which control receives the press,
+        /// how it bubbles through <see cref="Control.MouseFilter"/>, and whether a row owner also treats it as
+        /// row content. <see cref="Click"/> runs the semantic action and cannot reproduce a routing bug; a
+        /// widget inside a row can pass that test while both the widget and the row react to a user's click.
+        /// </para>
+        /// </summary>
+        public void ClickPointer(PointerButton button = PointerButton.Left)
+        {
+            var bounds = ResolveActionable().Bounds;
+            var point = new Point(bounds.X + bounds.Width / 2, bounds.Y + bounds.Height / 2);
+            _context.InjectPointerMove(point);
+            _context.InjectPointerPress(point, button);
+            _context.InjectPointerRelease(point, button);
+        }
+
         /// <summary>Gives the element keyboard focus.</summary>
         public void Focus() => Perform(AccessibilityActions.Focus, null, "focus");
 
@@ -235,12 +254,7 @@ namespace Forma
                 throw new LocatorException($"Cannot {verb} {Quote(Description)}: {action} was refused by {node.Role} \"{node.Name}\".");
         }
 
-        private Control FindControl(int id)
-        {
-            foreach (var control in AccessibilityTree.EnumerateControls(_context))
-                if (control.AccessibilityId == id) return control;
-            return null;
-        }
+        private Control FindControl(int id) => AccessibilityTree.FindControl(_context, id);
 
         // --- assertions -------------------------------------------------------------------------
 
