@@ -61,6 +61,8 @@ namespace Forma
             _controlCharacterMenu = new PopupMenu { Visible = false };
             _controlCharacterMenu.IdPressed += (_, id) => MenuOption((LineEditMenuOption)id);
         }
+        // A text field keeps a pointer press even when the author took it out of the Tab order (see Control.ConsumesPointerPress).
+        internal override bool ConsumesPointerPress => true;
         public string Text
         {
             get => _text;

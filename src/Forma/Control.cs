@@ -301,6 +301,12 @@ namespace Forma
         /// <summary>Whether focus may currently land here; content-dependent stops can decline while they have nothing to focus.</summary>
         public bool AcceptsFocus => FocusMode != FocusMode.None && CanTakeFocus;
         internal virtual bool CanTakeFocus => true;
+        /// <summary>
+        /// Whether a pointer press on this control is the control's own interaction, so a list row it sits in must not also
+        /// treat the press as row content and select or activate the row. Widgets answer true even when they are not
+        /// focusable (<c>tabindex="-1"</c>): staying out of the Tab order does not make a button decorative.
+        /// </summary>
+        internal virtual bool ConsumesPointerPress => FocusMode != FocusMode.None;
         /// <summary>Moves between stops inside this control on Tab; returns false when focus should leave it.</summary>
         internal virtual bool MoveFocusWithin(bool backwards) => false;
         internal virtual void EnterFocus(bool backwards) { }

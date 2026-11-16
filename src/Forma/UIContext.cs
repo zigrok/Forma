@@ -877,14 +877,19 @@ namespace Forma
 
         // Row content (a Label, Border, container) defaults to MouseFilter.Stop, so a press on it never bubbles to the
         // ListBox that owns the row. When a non-interactive control stops the event inside a ListBoxItem, the list
-        // still receives it; a focusable control (a Button) keeps the click for itself.
+        // still receives it; a widget (a Button, a LineEdit, anything focusable) keeps the press for itself, and so does
+        // a press anywhere inside such a widget - a button's own border or label must not read as row content either.
         private static ListBox GetRowOwnerForStoppedPointer(Control stoppedAt)
         {
-            if (stoppedAt is ListBox || (stoppedAt.FocusMode != FocusMode.None && stoppedAt is not ListBoxItem)) return null;
+            if (stoppedAt is ListBox) return null;
             for (var control = stoppedAt; control != null; control = control.VisualParent)
             {
                 if (control is ListBox) return null;
-                if (control is not ListBoxItem) continue;
+                if (control is not ListBoxItem)
+                {
+                    if (control.ConsumesPointerPress) return null;
+                    continue;
+                }
                 for (var parent = control.VisualParent; parent != null; parent = parent.VisualParent)
                     if (parent is ListBox list) return list;
                 return null;
